@@ -12,7 +12,7 @@ that show the different functions of pyOpenMS.
 Installation
 =============
 
-Installation is best done through PyPI (the Python package index) where binary
-packages are provided for the release versions of OpenMS, covering
-Linux/Mac/Windows.
+Installation is best done through [PyPI](https://pypi.python.org/pypi/pyopenms)
+(the Python package index) where binary packages are provided for the release
+versions of OpenMS, covering Linux/Mac/Windows.
 
