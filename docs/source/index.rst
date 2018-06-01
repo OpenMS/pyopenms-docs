@@ -3,13 +3,29 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to pyOpenMS's documentation!
-====================================
+Summary
+=======
+
+pyOpenMS are the Python bindings to the OpenMS library.
+
+The pyOpenMS package contains Python bindings for a large part of the OpenMS library (http://www.open-ms.de) for mass spectrometry based proteomics. It thus provides providing facile access to a feature-rich, open-source algorithm library for mass-spectrometry based proteomics analysis. These Python bindings allow raw access to the data-structures and algorithms implemented in OpenMS, specifically those for file access (mzXML, mzML, TraML, mzIdentML among others), basic signal processing (smoothing, filtering, de-isotoping and peak-picking) and complex data analysis (including label-free, SILAC, iTRAQ and SWATH analysis tools).
+
+The pyOpenMS package runs - like OpenMS - on Windows, Linux and OSX.
+
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Installation:
 
+   installation
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Getting started:
+
+   getting_started
+   file_handling
 
 
 Indices and tables
