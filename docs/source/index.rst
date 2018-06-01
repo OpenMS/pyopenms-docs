@@ -22,7 +22,7 @@ The pyOpenMS package runs - like OpenMS - on Windows, Linux and OSX.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Getting started:
+   :caption: First steps:
 
    getting_started
    file_handling
