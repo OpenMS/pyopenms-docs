@@ -51,7 +51,7 @@ underlying wrapped methods, please consult the official OpenMS documentation,
 in this case the `MSExperiment documentation <http://ftp.mi.fu-berlin.de/pub/OpenMS/release-documentation/html/classOpenMS_1_1MSExperiment.html>`_.
 
 
-First look at the data
+First look at data
 **********************
 
 pyOpenMS supports a variety of different files through the implementations in

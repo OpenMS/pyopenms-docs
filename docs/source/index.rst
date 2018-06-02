@@ -26,11 +26,12 @@ The pyOpenMS package runs - like OpenMS - on Windows, Linux and OSX.
 
    getting_started
    file_handling
+   other_file_handling
+   parameter_handling
+   algorithms
 
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

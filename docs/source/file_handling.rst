@@ -11,11 +11,11 @@ spectrometric data is using the ``MzMLFile`` class:
 
     import urllib
     from pyopenms import *
-    urllib.urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML", "tiny.pwiz.1.1.mzML")
+    urllib.urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML", "test.mzML")
     exp = MSExperiment()
-    MzMLFile().load("tiny.pwiz.1.1.mzML", exp)
+    MzMLFile().load("test.mzML", exp)
 
-which will load the content of the "tiny.pwiz.1.1.mzML" file into the ``exp``
+which will load the content of the "test.mzML" file into the ``exp``
 variable of type ``MSExperiment``. We can access the raw data and spectra through:
 
 .. code-block:: python
@@ -49,7 +49,7 @@ Putting this together, a small filtering program would look like this:
     """
     from pyopenms import *
     exp = MSExperiment()
-    MzMLFile().load("tiny.pwiz.1.1.mzML", exp)
+    MzMLFile().load("test.mzML", exp)
 
     spec = []
     for s in exp.getSpectra():
@@ -89,7 +89,7 @@ which can the be used as follows:
 .. code-block:: python
 
     >>> from pyopenms import *
-    >>> filename = "tiny.pwiz.1.1.mzML"
+    >>> filename = "test.mzML"
     >>> consumer = MSCallback()
     >>> MzMLFile().transform(filename, consumer)
     Read a spectrum

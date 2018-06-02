@@ -4,7 +4,7 @@ pyOpenMS Installation
 Binaries
 ********
 
-To install pyOpenMS from the binaries, you can simply type
+To :index:`install` pyOpenMS from the binaries, you can simply type
 
 .. code-block:: bash
 
@@ -18,7 +18,7 @@ We have binary packages for OSX, Linux and Windows (64 bit only).
 Source
 ******
 
-To install pyOpenMS from source, you will first have to compile OpenMS
+To install pyOpenMS from :index:`source`, you will first have to compile OpenMS
 successfully on your platform of choice. Please follow the `official
 documenation <http://ftp.mi.fu-berlin.de/pub/OpenMS/release-documentation/html/index.html>`_
 in order to compile OpenMS for your platform and have a look at the specific
