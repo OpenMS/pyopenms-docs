@@ -60,6 +60,38 @@ Putting this together, a small filtering program would look like this:
 
     MzMLFile().store("filtered.mzML", exp)
 
+indexed mzML files
+******************
+
+With pyOpenMS 2.4, you can open, read and inspect files that use the
+indexedMzML standard. This allows users to read MS data without loading all
+data into memory:
+
+.. code-block:: python
+
+    import pyopenms
+    od_exp = pyopenms.OnDiscMSExperiment()
+    od_exp.openFile("/tmp/test.mzML")
+    meta_data = od_exp.getMetaData()
+    meta_data.getNrChromatograms()
+    od_exp.getNrChromatograms()
+
+    sum(meta_data.getChromatograms()[0].get_peaks()[1]) # no data!
+    sum(od_exp.getChromatograms()[0].get_peaks()[1]) # data is here!
+
+    meta_data.getChromatograms()[0].getNativeID() # fast
+    od_exp.getChromatogram(0).getNativeID() # slow
+
+Note that the ``OnDiscMSExperiment`` allows users to access meta data through
+the ``getMetaData`` function, which allows easy selection and filtering on meta
+data attributes (such as MS level, precursor *m/z*, retention time etc.) in
+order to select spectra and chromatograms for analysis.  Only once selection on
+the meta data has been performed will actual data be loaded into memory using
+the ``getChromatogram`` and ``getSpectrum`` functions. 
+
+This approach is memory efficient in cases where computation should only occur
+on part of the data or the whole data may not fit into memory.
+
 mzML files as streams
 *********************
 
