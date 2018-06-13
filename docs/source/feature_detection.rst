@@ -46,6 +46,8 @@ to find ``Features`` in MS data:
   fh.store("output.featureXML", features)
   print("Found", features.size(), "features")
 
+You can get a sample file for analysis directly from `here <https://raw.githubusercontent.com/OpenMS/OpenMS/develop/src/tests/topp/FeatureFinderCentroided_1_input.mzML>`_.
+
 With a few lines of Python, we are able to run powerful algorithms available in
 OpenMS. The resulting data is held in memory (a ``FeatureMap`` object) and can be
 inspected directly using the ``help(features)`` comment. It reveals that the
@@ -68,8 +70,6 @@ access to the `m/z` and `RT` value from Python. Again, we can lear this by
 inspecting ``help(f)`` or by consulting the Manual.
 
 Note: the output file that we have written (``output.featureXML``) is an
-OpenMS-internal XML format for storing features. You can  learn more about file
-formats in the "Reading MS data formats" section.
-
-
+OpenMS-internal XML format for storing features. You can learn more about file
+formats in the `Reading MS data formats <other_file_handling.html>`_ section.
 

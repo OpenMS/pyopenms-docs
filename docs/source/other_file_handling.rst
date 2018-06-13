@@ -67,10 +67,40 @@ and ``PeptideIdentification`` which also means that conversion between two data
 types is trivial: load data from one data file and use the storage function of
 the other file. 
 
+Quantiative data (featureXML, consensusXML)
+-------------------------------------------------------
+
+OpenMS stores quantitative information in the internal ``featureXML`` and
+``consensusXML`` data formats.  These can be accessed as follows:
+
+.. code-block:: python
+
+    import urllib
+    from pyopenms import *
+    gh = "https://raw.githubusercontent.com/OpenMS/OpenMS/develop"
+    urllib.urlretrieve (gh + "/src/tests/topp/FeatureFinderCentroided_1_output.featureXML", "test.featureXML")
+    features = FeatureMap()
+    FeatureXMLFile().load("test.featureXML", features)
+    FeatureXMLFile().store("test.out.featureXML", features)
+
+and for ``consensusXML``
+
+.. code-block:: python
+
+    import urllib
+    from pyopenms import *
+    gh = "https://raw.githubusercontent.com/OpenMS/OpenMS/develop"
+    urllib.urlretrieve (gh + "/src/tests/class_tests/openms/data/ConsensusXMLFile_1.consensusXML", "test.consensusXML")
+    features = ConsensusMap()
+    ConsensusXMLFile().load("test.consensusXML", features)
+    ConsensusXMLFile().store("test.out.consensusXML", features)
+
 
 Transition data (TraML)
 -------------------------------------------------------
 
+The TraML data format allows you to store transition information for targeted
+experiments (SRM / MRM / PRM / DIA).
 
 .. code-block:: python
 

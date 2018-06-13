@@ -149,3 +149,6 @@ multiple available consumer classes -- this specific class will simply take the
 spectrum ``s`` or chromatogram ``c`` and write it to disk (the location of the
 output file is given by the ``outfile`` variable).
 
+This approach is memory efficient in cases where the whole data data may not
+fit into memory.
+
