@@ -83,10 +83,10 @@ is highly analogous to the ``MSSpectrum`` container, but contains an array of
         chromatogram.push_back(peak)
 
     # Sort the peaks according to ascending retention time
-    spectrum.sortByPosition()
+    chromatogram.sortByPosition()
 
     # Iterate over chromatogram of those peaks
-    for p in spectrum:
+    for p in chromatogram:
         print(p.getRT(), p.getIntensity())
 
     # Access a peak by index

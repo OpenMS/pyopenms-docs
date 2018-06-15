@@ -47,7 +47,7 @@ You can store and load identification data from a TPP `pepXML` file as follows:
     PepXMLFile().store("test.out.pepxml", protein_ids, peptide_ids)
     
 
-You can store and load identification data from a TPP `protXML` file as follows:
+You can load (storing is not supported) identification data from a TPP `protXML` file as follows:
 
 .. code-block:: python
 

@@ -52,7 +52,7 @@ in the next few lines of code.
     wm = EmpiricalFormula(str(water) + str(methanol))
     print(wm)
 
-    isotopes = wm.getIsotopeDistribution(3);
+    isotopes = wm.getIsotopeDistribution(3)
     for iso in isotopes.getContainer():
         print (iso)
 
@@ -119,7 +119,7 @@ ions.
 .. code-block:: python
 
     from pyopenms import *
-    seq = AASequence.fromString("DFPIANGER", True);
+    seq = AASequence.fromString("DFPIANGER", True)
     prefix = seq.getPrefix(4)
     suffix = seq.getSuffix(5)
     concat = seq + seq
@@ -140,7 +140,7 @@ The ``AASequence`` class can also handle modifications:
 .. code-block:: python
 
 		>>> from pyopenms import *
-		>>> seq = AASequence.fromString("PEPTIDESEKUEM(Oxidation)CER", True);
+		>>> seq = AASequence.fromString("PEPTIDESEKUEM(Oxidation)CER", True)
 		>>> print(seq.toString())
 		PEPTIDESEKUEM(Oxidation)CER
 		>>> print(seq.toUnmodifiedString())
@@ -163,19 +163,19 @@ the occurring ions and their intensities.
 
     from pyopenms import *
 
-    tsg = TheoreticalSpectrumGenerator();
+    tsg = TheoreticalSpectrumGenerator()
     spec1 = MSSpectrum()
     spec2 = MSSpectrum()
-    peptide = AASequence.fromString("DFPIANGER", True);
+    peptide = AASequence.fromString("DFPIANGER", True)
     # standard behavior is adding b- and y-ions of charge 1
     p = Param()
-    p.setValue("add_b_ions", "false", "Add peaks of b-ions to the spectrum");
-    tsg.setParameters(p);
-    tsg.getSpectrum(spec1, peptide, 1, 1);
-    p.setValue("add_b_ions", "true", "Add peaks of a-ions to the spectrum");
-    p.setValue("add_metainfo", "true", "");
-    tsg.setParameters(p);
-    tsg.getSpectrum(spec2, peptide, 1, 2);
+    p.setValue("add_b_ions", "false", "Add peaks of b-ions to the spectrum")
+    tsg.setParameters(p)
+    tsg.getSpectrum(spec1, peptide, 1, 1)
+    p.setValue("add_b_ions", "true", "Add peaks of a-ions to the spectrum")
+    p.setValue("add_metainfo", "true", "")
+    tsg.setParameters(p)
+    tsg.getSpectrum(spec2, peptide, 1, 2)
     print("Spectrum 1 has", spec1.size(), "peaks.")
     print("Spectrum 2 has", spec2.size(), "peaks.")
 
