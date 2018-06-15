@@ -69,24 +69,26 @@ data into memory:
 
 .. code-block:: python
 
-    import pyopenms
-    od_exp = pyopenms.OnDiscMSExperiment()
-    od_exp.openFile("/tmp/test.mzML")
+    from pyopenms import *
+    od_exp = OnDiscMSExperiment()
+    od_exp.openFile("test.mzML")
     meta_data = od_exp.getMetaData()
     meta_data.getNrChromatograms()
     od_exp.getNrChromatograms()
 
-    sum(meta_data.getChromatograms()[0].get_peaks()[1]) # no data!
-    sum(od_exp.getChromatograms()[0].get_peaks()[1]) # data is here!
+    # data is not present in meta_data experiment
+    sum(meta_data.getChromatogram(0).get_peaks()[1]) # no data!
+    sum(od_exp.getChromatogram(0).get_peaks()[1]) # data is here!
 
-    meta_data.getChromatograms()[0].getNativeID() # fast
+    # meta data is present and identical in both data structures:
+    meta_data.getChromatogram(0).getNativeID() # fast
     od_exp.getChromatogram(0).getNativeID() # slow
 
 Note that the ``OnDiscMSExperiment`` allows users to access meta data through
 the ``getMetaData`` function, which allows easy selection and filtering on meta
 data attributes (such as MS level, precursor *m/z*, retention time etc.) in
 order to select spectra and chromatograms for analysis.  Only once selection on
-the meta data has been performed will actual data be loaded into memory using
+the meta data has been performed, will actual data be loaded into memory using
 the ``getChromatogram`` and ``getSpectrum`` functions. 
 
 This approach is memory efficient in cases where computation should only occur
@@ -180,4 +182,77 @@ are written to disk using the ``PlainMSDataWritingConsumer`` which is one of
 multiple available consumer classes -- this specific class will simply take the
 spectrum ``s`` or chromatogram ``c`` and write it to disk (the location of the
 output file is given by the ``outfile`` variable).
+
+Note that this approach is memory efficient in cases where computation should
+only occur on part of the data or the whole data may not fit into memory. 
+
+
+cached mzML files 
+*********************
+
+In addition, since pyOpenMS 2.4 the user can efficiently cache mzML files to disk which
+provides very fast access with minimal overhead in memory. Basically the data
+directly mapped into memory when requested. You can use this feature as follows:
+
+.. code-block:: python
+
+    from pyopenms import *
+    import pyopenms
+
+    # First load data and cache to disk
+    exp = MSExperiment()
+    MzMLFile().load("test.mzML", exp)
+    CachedmzML.store("myCache.mzML", exp)
+
+    # Now load data
+    cfile = CachedmzML()
+    CachedmzML.load("myCache.mzML", cfile)
+
+    meta_data = cfile.getMetaData()
+    cfile.getNrChromatograms()
+    cfile.getNrSpectra()
+
+    # data is not present in meta_data experiment
+    sum(meta_data.getChromatogram(0).get_peaks()[1]) # no data!
+    sum(cfile.getChromatogram(0).get_peaks()[1]) # data is here!
+
+    # meta data is present and identical in both data structures:
+    meta_data.getChromatogram(0).getNativeID() # fast
+    cfile.getChromatogram(0).getNativeID() # slow
+
+Note that the ``CachedmzML`` allows users to access meta data through
+the ``getMetaData`` function, which allows easy selection and filtering on meta
+data attributes (such as MS level, precursor *m/z*, retention time etc.) in
+order to select spectra and chromatograms for analysis.  Only once selection on
+the meta data has been performed, will actual data be loaded into memory using
+the ``getChromatogram`` and ``getSpectrum`` functions. 
+
+Note that in the example above all data is loaded into memory first and then
+cached to disk. This is not very efficient and we can use the
+``MSDataCachedConsumer`` to directly cache to disk (without loading any data
+into memory):
+
+.. code-block:: python
+
+    from pyopenms import *
+
+    # First cache to disk
+    # Note: writing meta data to myCache2.mzML is required
+    cacher = MSDataCachedConsumer("myCache2.mzML.cached")
+    exp = MSExperiment()
+    MzMLFile().transform("test.mzML", cacher, exp)
+    CachedMzMLHandler().writeMetadata(exp, "myCache2.mzML")
+    del cacher
+
+    # Now load data
+    cfile = CachedmzML()
+    CachedmzML.load("myCache2.mzML", cfile)
+
+    meta_data = cfile.getMetaData()
+    # data is not present in meta_data experiment
+    sum(meta_data.getChromatogram(0).get_peaks()[1]) # no data!
+    sum(cfile.getChromatogram(0).get_peaks()[1]) # data is here!
+
+This approach is now memory efficient in cases where computation should only occur
+on part of the data or the whole data may not fit into memory. 
 
