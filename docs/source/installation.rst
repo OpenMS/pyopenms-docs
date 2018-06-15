@@ -36,3 +36,8 @@ which will add `pyopenms` as as make target and you can build pyOpenMS with
 
     make pyopenms
 
+Wrap Classes
+************
+
+In order to wrap new classes in pyOpenMS, read the following `guide
+<wrap_classes.html>`_.

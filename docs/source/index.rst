@@ -15,20 +15,39 @@ The pyOpenMS package runs - like OpenMS - on Windows, Linux and OSX.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Installation:
+   :caption: Installation
 
    installation
 
 
 .. toctree::
    :maxdepth: 2
-   :caption: First steps:
+   :caption: First steps
 
    getting_started
+   datastructures
    file_handling
    other_file_handling
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Chemistry:
+
+   chemistry
+
+.. toctree::
+   :maxdepth: 2
+   :caption: OpenMS Algorithms:
+
    parameter_handling
    algorithms
+   feature_detection
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Developers
+
+   wrap_classes
 
 
 Indices and tables
