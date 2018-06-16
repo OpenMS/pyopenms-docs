@@ -34,6 +34,7 @@ The pyOpenMS package runs - like OpenMS - on Windows, Linux and OSX.
    :caption: Chemistry:
 
    chemistry
+   digestion
 
 .. toctree::
    :maxdepth: 2
