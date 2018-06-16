@@ -56,17 +56,21 @@ in the next few lines of code.
     for iso in isotopes.getContainer():
         print (iso)
 
+.. Wait for pyOpenMS 2.4
+.. isotopes = wm.getIsotopeDistribution( CoarseIsotopePatternGenerator(3) )
 .. wm = water + methanol # only in pyOpenMS 2.4
 .. ethanol = EmpiricalFormula(str("CH2") + str(methanol))
+.. wm.getElementalComposition()
 
 which produces
 
 .. code-block:: python
 
-		C1H6O2
-		(50, 0.9838702160434344)
-		(51, 0.012069784261989644)
-		(52, 0.004059999694575987)
+        C1H6O2
+        (50, 0.9838702160434344)
+        (51, 0.012069784261989644)
+        (52, 0.004059999694575987)
+
 
 
 AA Residue
@@ -83,20 +87,20 @@ basicity and pk values are also available.
 
 .. code-block:: python
 
-		>>> from pyopenms import *
-		>>> lys = ResidueDB().getResidue("Lysine")
-		>>> lys.getName()
-		'Lysine'
-		>>> lys.getThreeLetterCode()
-		'LYS'
-		>>> lys.getOneLetterCode()
-		'K'
-		>>> lys.getAverageWeight(Residue.ResidueType.Full)
-		146.18788276708443
-		>>> lys.getMonoWeight(Residue.ResidueType.Full)
-		146.1055284466
-		>>> lys.getPka()
-		2.16
+        >>> from pyopenms import *
+        >>> lys = ResidueDB().getResidue("Lysine")
+        >>> lys.getName()
+        'Lysine'
+        >>> lys.getThreeLetterCode()
+        'LYS'
+        >>> lys.getOneLetterCode()
+        'K'
+        >>> lys.getAverageWeight(Residue.ResidueType.Full)
+        146.18788276708443
+        >>> lys.getMonoWeight(Residue.ResidueType.Full)
+        146.1055284466
+        >>> lys.getPka()
+        2.16
 
 
 AA Sequences
@@ -131,6 +135,35 @@ ions.
     seq.getMonoWeight(Residue.ResidueType.Full, 2) / 2.0
     concat.getMonoWeight(Residue.ResidueType.Full, 0)
 
+We can now combine our knowledge of ``AASequence`` with what we learned above
+about ``EmpiricalFormula`` to get accurate mass and isotope distributions from
+the amino acid sequence:
+
+.. code-block:: python
+    :linenos:
+
+    seq_formula = seq.getFormula(Residue.ResidueType.Full, 0)
+    print(seq_formula)
+
+    isotopes = seq_formula.getIsotopeDistribution(6)
+    for iso in isotopes.getContainer():
+        print (iso)
+
+    suffix = seq.getSuffix(3) # y3 ion
+    y3_formula = suffix.getFormula(Residue.ResidueType.YIon, 2) # y3++ ion
+    suffix.getMonoWeight(Residue.ResidueType.YIon, 2) / 2.0
+    suffix.getMonoWeight(Residue.ResidueType.XIon, 2) / 2.0 # ATTENTION
+    suffix.getMonoWeight(Residue.ResidueType.BIon, 2) / 2.0 # ATTENTION
+    print(y3_formula)
+    print(seq_formula)
+
+.. isotopes = seq_formula.getIsotopeDistribution( CoarseIsotopePatternGenerator(6) )
+
+Note on line 11 and 12 we need to remember that we are dealing with a y ion
+since using any other ion type will produce a different mass to charge ration
+(and while "GER" would also be a valid x3 ion, note that it *cannot* be a valid
+ion from the a/b/c series and therefore the mass on line 12 cannot refer to the
+same input peptide "DFPIANGER" since its b3 ion would "DFP").
 
 Modifications
 ************
@@ -139,16 +172,16 @@ The ``AASequence`` class can also handle modifications:
 
 .. code-block:: python
 
-		>>> from pyopenms import *
-		>>> seq = AASequence.fromString("PEPTIDESEKUEM(Oxidation)CER", True)
-		>>> print(seq.toString())
-		PEPTIDESEKUEM(Oxidation)CER
-		>>> print(seq.toUnmodifiedString())
-		PEPTIDESEKUEMCER
-		>>> print(seq.toBracketString(True, []))
-		PEPTIDESEKUEM[147]CER
-		>>> print(seq.toBracketString(False, []))
-		PEPTIDESEKUEM[147.0354000171]CER
+        >>> from pyopenms import *
+        >>> seq = AASequence.fromString("PEPTIDESEKUEM(Oxidation)CER", True)
+        >>> print(seq.toString())
+        PEPTIDESEKUEM(Oxidation)CER
+        >>> print(seq.toUnmodifiedString())
+        PEPTIDESEKUEMCER
+        >>> print(seq.toBracketString(True, []))
+        PEPTIDESEKUEM[147]CER
+        >>> print(seq.toBracketString(False, []))
+        PEPTIDESEKUEM[147.0354000171]CER
 
 ..    print(seq.toUniModString()) # with 2.4
 
@@ -187,14 +220,14 @@ which outputs:
 
 .. code-block:: python
 
-		Spectrum 1 has 8 peaks.
-		Spectrum 2 has 30 peaks.
+        Spectrum 1 has 8 peaks.
+        Spectrum 2 has 30 peaks.
 
-		y1++ 88.0631146901
-		b2++ 132.05495569
-		y2++ 152.584411802
-		y1+ 175.118952913
-		[...]
+        y1++ 88.0631146901
+        b2++ 132.05495569
+        y2++ 152.584411802
+        y1+ 175.118952913
+        [...]
 
 The example shows how to put peaks of a certain type, y-ions in this case, into
 a spectrum. Spectrum 2 is filled with a complete spectrum of all peaks (a-, b-,

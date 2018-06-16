@@ -41,6 +41,9 @@ file and can be accessed using the ``EnzymesDB``
     e.getRegExDescription()
     e.getRegEx()
 
+.. in 2.4 : 
+    ProteaseDB()
+
 Now that we have learned about the other enzymes available, we can use it to
 cut out protein of interest:
 
@@ -58,6 +61,10 @@ cut out protein of interest:
     dig.digest(bsa, result)
     print(result[4])
     len(result) # 53 peptides
+
+.. in 2.4 : 
+    dig = ProteaseDigestion()
+    dig.digest(bsa, result, 1, 0)
 
 We now get different digested peptides (53 vs 74) and the fourth peptide is now
 ``VASLRETYGDMADCCEK`` instead of ``VASLR`` as with Trypsin (see above).

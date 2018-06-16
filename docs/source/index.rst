@@ -19,7 +19,6 @@ The pyOpenMS package runs - like OpenMS - on Windows, Linux and OSX.
 
    installation
 
-
 .. toctree::
    :maxdepth: 2
    :caption: First steps
