@@ -1,4 +1,4 @@
-Reading MS data formats
+Other MS data formats
 =======================
 
 Identification data (idXML, mzIdentML, pepXML, protXML)

@@ -25,14 +25,14 @@ The pyOpenMS package runs - like OpenMS - on Windows, Linux and OSX.
    :caption: First steps
 
    getting_started
-   datastructures
    file_handling
    other_file_handling
 
 .. toctree::
    :maxdepth: 2
-   :caption: Chemistry:
+   :caption: Mass Spectrometry Concepts:
 
+   datastructures
    chemistry
    digestion
 
