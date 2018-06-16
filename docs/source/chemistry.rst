@@ -18,13 +18,13 @@ elements are stored in OpenMS:
     edb.hasElement("S")
 
     oxygen = edb.getElement("O")
-    oxygen.getName() 
+    oxygen.getName()
     oxygen.getSymbol()
     oxygen.getMonoWeight()
     isotopes = oxygen.getIsotopeDistribution()
 
     sulfur = edb.getElement("S")
-    sulfur.getName() 
+    sulfur.getName()
     sulfur.getSymbol()
     sulfur.getMonoWeight()
     isotopes = sulfur.getIsotopeDistribution()
@@ -49,24 +49,21 @@ in the next few lines of code.
 
     methanol = EmpiricalFormula("CH3OH")
     water = EmpiricalFormula("H2O")
-    wm = EmpiricalFormula(str(water) + str(methanol))
+    wm = water + methanol
     print(wm)
 
     isotopes = wm.getIsotopeDistribution(3)
     for iso in isotopes.getContainer():
         print (iso)
 
-.. wm = water + methanol # only in pyOpenMS 2.4
-.. ethanol = EmpiricalFormula(str("CH2") + str(methanol))
-
 which produces
 
 .. code-block:: python
 
-		C1H6O2
-		(50, 0.9838702160434344)
-		(51, 0.012069784261989644)
-		(52, 0.004059999694575987)
+    C1H6O2
+    (50, 0.9838702160434344)
+    (51, 0.012069784261989644)
+    (52, 0.004059999694575987)
 
 
 AA Residue
@@ -83,20 +80,20 @@ basicity and pk values are also available.
 
 .. code-block:: python
 
-		>>> from pyopenms import *
-		>>> lys = ResidueDB().getResidue("Lysine")
-		>>> lys.getName()
-		'Lysine'
-		>>> lys.getThreeLetterCode()
-		'LYS'
-		>>> lys.getOneLetterCode()
-		'K'
-		>>> lys.getAverageWeight(Residue.ResidueType.Full)
-		146.18788276708443
-		>>> lys.getMonoWeight(Residue.ResidueType.Full)
-		146.1055284466
-		>>> lys.getPka()
-		2.16
+    >>> from pyopenms import *
+    >>> lys = ResidueDB().getResidue("Lysine")
+    >>> lys.getName()
+    'Lysine'
+    >>> lys.getThreeLetterCode()
+    'LYS'
+    >>> lys.getOneLetterCode()
+    'K'
+    >>> lys.getAverageWeight()
+    146.18788276708443
+    >>> lys.getMonoWeight()
+    146.1055284466
+    >>> lys.getPka()
+    2.16
 
 
 AA Sequences
@@ -131,6 +128,8 @@ ions.
     seq.getMonoWeight(Residue.ResidueType.Full, 2) / 2.0
     concat.getMonoWeight(Residue.ResidueType.Full, 0)
 
+.. TODO
+
 
 Modifications
 ************
@@ -139,18 +138,18 @@ The ``AASequence`` class can also handle modifications:
 
 .. code-block:: python
 
-		>>> from pyopenms import *
-		>>> seq = AASequence.fromString("PEPTIDESEKUEM(Oxidation)CER", True)
-		>>> print(seq.toString())
-		PEPTIDESEKUEM(Oxidation)CER
-		>>> print(seq.toUnmodifiedString())
-		PEPTIDESEKUEMCER
-		>>> print(seq.toBracketString(True, []))
-		PEPTIDESEKUEM[147]CER
-		>>> print(seq.toBracketString(False, []))
-		PEPTIDESEKUEM[147.0354000171]CER
-
-..    print(seq.toUniModString()) # with 2.4
+    >>> from pyopenms import *
+    >>> seq = AASequence.fromString("PEPTIDESEKUEM(Oxidation)CER", True)
+    >>> print(seq.toString())
+    PEPTIDESEKUEM(Oxidation)CER
+    >>> print(seq.toUnmodifiedString())
+    PEPTIDESEKUEMCER
+    >>> print(seq.toBracketString())
+    PEPTIDESEKUEM[147]CER
+    >>> print(seq.toBracketString(False, []))
+    PEPTIDESEKUEM[147.0354000171]CER
+    >>> print(seq.toUniModString())
+    PEPTIDESEKUEM(UniMod:35)CER
 
 TheoreticalSpectrumGenerator
 ****************************
@@ -187,14 +186,14 @@ which outputs:
 
 .. code-block:: python
 
-		Spectrum 1 has 8 peaks.
-		Spectrum 2 has 30 peaks.
+    Spectrum 1 has 8 peaks.
+    Spectrum 2 has 30 peaks.
 
-		y1++ 88.0631146901
-		b2++ 132.05495569
-		y2++ 152.584411802
-		y1+ 175.118952913
-		[...]
+    y1++ 88.0631146901
+    b2++ 132.05495569
+    y2++ 152.584411802
+    y1+ 175.118952913
+    [...]
 
 The example shows how to put peaks of a certain type, y-ions in this case, into
 a spectrum. Spectrum 2 is filled with a complete spectrum of all peaks (a-, b-,
