@@ -5,7 +5,7 @@ Elements
 ********
 
 OpenMS has representations for various chemical concepts including molecular
-formulas, isotopes, amino sequences and modifications. First, we look at how
+formulas, isotopes, amino acid sequences and modifications. First, we look at how
 elements are stored in OpenMS:
 
 .. code-block:: python
