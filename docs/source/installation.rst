@@ -17,7 +17,7 @@ Windows, we only support Python 3.5 and 3.6 in their 64 bit versions, therefore
 make sure to download the 64bit Python release. For OSX and Linux, we also
 support Python 2.7 as well as Python 3.4 (Linux only).
 
-You can install Python first from `here <https://www.python.org/downloads/>_`,
+You can install Python first from `here <https://www.python.org/downloads/>`_,
 again make sure to download the 64bit release. You can then open a shell and
 type the two commands above (on Windows you may potentially have to use
 ``C:\Python36\Scripts\pip.exe`` in case ``pip`` is not in your system path).
