@@ -16,3 +16,6 @@ Installation is best done through [PyPI](https://pypi.python.org/pypi/pyopenms)
 (the Python package index) where binary packages are provided for the release
 versions of OpenMS, covering Linux/Mac/Windows.
 
+Documentation
+=============
+The pyOpenMS documentation is also contained in this repository, see [docs/README.md](docs/README.md)
