@@ -18,7 +18,7 @@ analysis.
     feature.setMZ( 500.9 )
     feature.setCharge(2)
     feature.setRT( 1500.1 )
-    feature.setIntensity( 80500 )
+    feature.setIntensity( 30500 )
     feature.setOverallQuality( 10 )
 ..    py 2.4
       masstrace = []
@@ -38,6 +38,7 @@ features can be stored in a ``FeatureMap`` and written to disk.
     feature.setRT(1600.5 )
     feature.setCharge(2)
     feature.setMZ( 600.0 )
+    feature.setIntensity( 80500.0 )
     fm.push_back(feature)
     FeatureXMLFile().store("test.featureXML", fm)
 
@@ -49,6 +50,24 @@ state, *m/z*, RT and other properties:
 
 Note that in this case only 2 features are present, but in a typical LC-MS/MS
 experiments, thousands of features are present.
+
+
+FeatureMap
+************
+
+The resulting ``FeatureMap`` can be used in various ways to extract
+quantitative data directly and it supports direct iteration in Python:
+
+.. code-block:: python
+    :linenos:
+
+    from pyopenms import *
+    fmap = FeatureMap()
+    FeatureXMLFile().load("test.featureXML", fmap)
+    for feature in fmap:
+       print("Feature: ", feature.getIntensity(), feature.getRT(), feature.getMZ())
+
+
 
 ConsensusFeature
 ****************
@@ -68,11 +87,13 @@ represented by a ``ConsensusFeature``
     feature.setIntensity( 80500 )
 
     # Generate ConsensusFeature and features from two maps (with id 1 and 2)
+    ### Feature 1
     f_m1 = ConsensusFeature()
     f_m1.setRT(500)
     f_m1.setMZ(300.01)
     f_m1.setIntensity(200)
     f_m1.ensureUniqueId()
+    ### Feature 2
     f_m2 = ConsensusFeature()
     f_m2.setRT(505)
     f_m2.setMZ(299.99)
@@ -119,4 +140,24 @@ Visualization of the resulting output file reveals a single
 their respective positions in RT and *m/z*:
 
 .. image:: img/consensus.png
+
+ConsensusMap
+************
+
+The resulting ``ConsensusMap`` can be used in various ways to extract
+quantitative data directly and it supports direct iteration in Python:
+
+.. code-block:: python
+    :linenos:
+
+    from pyopenms import *
+    cmap = ConsensusMap()
+    ConsensusXMLFile().load("test.consensusXML", cmap)
+    for cfeature in cmap:
+       cfeature.computeConsensus()
+       print("ConsensusFeature", cfeature.getIntensity(), cfeature.getRT(), cfeature.getMZ())
+       # The two features in map 1 and map 2 represent the same analyte at
+       # slightly different RT and m/z
+       for fh in cfeature.getFeatureList():
+         print(" -- Feature", fh.getMapIndex(), fh.getIntensity(), fh.getRT())
 
