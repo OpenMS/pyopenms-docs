@@ -47,7 +47,9 @@ The pyOpenMS package runs - like OpenMS - on Windows, Linux and OSX.
    :maxdepth: 2
    :caption: Developers
 
+   build_from_source
    wrap_classes
+   
 
 
 Indices and tables
