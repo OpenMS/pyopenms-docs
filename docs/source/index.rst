@@ -34,6 +34,7 @@ The pyOpenMS package runs - like OpenMS - on Windows, Linux and OSX.
    datastructures
    chemistry
    digestion
+   datastructures_quant
 
 .. toctree::
    :maxdepth: 2

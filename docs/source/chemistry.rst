@@ -33,7 +33,16 @@ elements are stored in OpenMS:
 
 As we can see, OpenMS knows common elements like Oxygen and Sulfur as well as
 their isotopic distribution. These values are stored in ``Elements.xml`` in the
-OpenMS share folder and can, in principle, be modified.
+OpenMS share folder and can, in principle, be modified. The above code outputs
+the isotopes of sulfur and their abundance:
+
+.. code-block:: python
+
+    (32, 0.9493)
+    (33, 0.0076)
+    (34, 0.0429)
+    (36, 0.0002)
+
 
 Molecular Formula
 *****************
