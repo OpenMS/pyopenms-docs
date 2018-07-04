@@ -14,12 +14,12 @@ OpenMS has classes for proteolytic digestion which can be used as follows:
 
     dig = EnzymaticDigestion()
     dig.getEnzymeName() # Trypsin
-    bsa = "".join([l.strip() for l in open("bsa.fasta").readlines()[2:]])
+    bsa = "".join([l.strip() for l in open("bsa.fasta").readlines()[1:]])
     bsa = AASequence.fromString(bsa, True)
     result = []
     dig.digest(bsa, result)
     print(result[4])
-    len(result) # 74 peptides
+    len(result) # 82 peptides
 
 
 .. in 2.4 : 
@@ -55,17 +55,17 @@ cut out protein of interest:
 
     dig = EnzymaticDigestion()
     dig.setEnzyme('Lys-C')
-    bsa = "".join([l.strip() for l in open("bsa.fasta").readlines()[2:]])
+    bsa = "".join([l.strip() for l in open("bsa.fasta").readlines()[1:]])
     bsa = AASequence.fromString(bsa, True)
     result = []
     dig.digest(bsa, result)
     print(result[4])
-    len(result) # 53 peptides
+    len(result) # 57 peptides
 
 .. in 2.4 : 
     dig = ProteaseDigestion()
     dig.digest(bsa, result, 1, 0)
 
-We now get different digested peptides (53 vs 74) and the fourth peptide is now
-``VASLRETYGDMADCCEK`` instead of ``VASLR`` as with Trypsin (see above).
+We now get different digested peptides (57 vs 82) and the fourth peptide is now
+``GLVLIAFSQYLQQCPFDEHVK`` instead of ``DTHK`` as with Trypsin (see above).
 
