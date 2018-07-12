@@ -4,16 +4,18 @@ Identification Data
 In OpenMS, identifications of peptides, proteins and small molecules are stored
 in dedicated data structures. These data structures are typically stored to disc
 as idXML or mzIdentML file. The highest-level structure is
-ProteinIdentification. It stores all identified proteins of an identification
+``ProteinIdentification``. It stores all identified proteins of an identification
 run as ProteinHit objects plus additional metadata (search parameters, etc.). Each
 ``ProteinHit`` contains the actual protein accession, an associated score, and
-(optionally) the protein sequence. A ``ProteinIdentification`` object stores the
+(optionally) the protein sequence. 
+
+A ``PeptideIdentification`` object stores the
 data corresponding to a single identified spectrum or feature. It has members
 for the retention time, m/z, and a vector of ``PeptideHit`` objects. Each ``PeptideHit``
-stores the information of a specific peptide-to-spectrum match (e.g., the score
+stores the information of a specific peptide-to-spectrum match or PSM (e.g., the score
 and the peptide sequence). Each ``PeptideHit`` also contains a vector of
-``PeptideEvidence`` objects which store the reference to one (or in the case the
-peptide maps to multiple proteins multiple) proteins and the position therein.
+``PeptideEvidence`` objects which store the reference to one or more (in the case the
+peptide maps to multiple proteins) proteins and the position therein.
 
 ProteinIdentification
 **********************
