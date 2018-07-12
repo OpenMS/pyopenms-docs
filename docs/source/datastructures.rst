@@ -19,7 +19,7 @@ displayed.
 First we create a spectrum and insert peaks with descending mass-to-charge ratios: 
 
 .. code-block:: python
-   :linenos:
+    :linenos:
 
     from pyopenms import *
     spectrum = MSSpectrum()
@@ -34,16 +34,19 @@ First we create a spectrum and insert peaks with descending mass-to-charge ratio
     for p in spectrum:
         print(p.getMZ(), p.getIntensity())
 
-    # More efficient peak access
+    # More efficient peak access with get_peaks()
     for mz, i in zip(*spectrum.get_peaks()):
         print(mz, i)
 
     # Access a peak by index
-    print(spectrum[1].getMZ(), spectrum[1].getIntensity())
+    print(spectrum[2].getMZ(), spectrum[2].getIntensity())
 
-
-Note how lines 11-12 use the direct access to the ``Peak1D`` objects (explicit
-but slow) while lines 15-16 use the faster access through numpy arrays.
+Note how lines 11-12 (as well as line 19) use the direct access to the
+``Peak1D`` objects (explicit iteration through the ``MSSpectrum`` object, which
+is convenient but slow since a new ``Peak1D`` object needs to be created each
+time) while lines 15-16 use the faster access through numpy arrays. Direct
+iteration is only shown for demonstration purposes and should not be used in
+production code.
 
 To discover the full set of functionality of ``MSSpectrum``, we use the
 ``help()`` function. In particular, we find several important sets of meta
@@ -61,6 +64,7 @@ We now set several of these properties in a current MSSpectrum:
     :linenos:
 
     from pyopenms import *
+
     spectrum = MSSpectrum()
     spectrum.setDriftTime(25) # 25 ms
     spectrum.setRT(205.2) # 205.2 s
@@ -73,6 +77,10 @@ We now set several of these properties in a current MSSpectrum:
     p.setCharge(4) # 4+ ion
     spectrum.setPrecursors( [p] )
 
+    # Add raw data to spectrum
+    spectrum.set_peaks( ([401.5], [900]) )
+
+    # Additional data arrays / peak annotations
     fda = FloatDataArray()
     fda.setName("Signal to Noise Array")
     fda.push_back(15)
@@ -81,16 +89,29 @@ We now set several of these properties in a current MSSpectrum:
     sda.push_back("y15++")
     spectrum.setFloatDataArrays( [fda] )
     spectrum.setStringDataArrays( [sda] )
-    spectrum.set_peaks( ([401.5], [900]) )
 
-    # Store as mzML
+    # Add spectrum to MSExperiment
     exp = MSExperiment()
     exp.addSpectrum(spectrum)
-    spectrum = MSSpectrum()
-    spectrum.set_peaks( ([1, 2], [1, 2]) )
-    exp.addSpectrum(spectrum)
+
+    # Add second spectrum and store as mzML file
+    spectrum2 = MSSpectrum()
+    spectrum2.set_peaks( ([1, 2], [1, 2]) )
+    exp.addSpectrum(spectrum2)
+
     MzMLFile().store("testfile.mzML", exp)
 
+We have created a single spectrum on line 3 and add meta information (drift
+time, retention time, MS level, precursor charge, isolation window and
+activation energy) on lines 4-13. We next add actual peaks into the spectrum (a
+single peak at 401.5 *m/z* and 900 intensity) on line 16 and on lines 19-26 add
+further meta information in the form of additional data arrays for each peak
+(e.g. one trace describes "Signal to Noise" for each peak and the second traces
+describes the "Peak annotation", identifying the peak at 401.5 *m/z* as a
+doubly charged y15 ion). Finally, we add the spectrum to a ``MSExperiment``
+container on lines 29-30 and store the container in using the ``MzMLFile``
+class in a file called "testfile.mzML" on line 37.  To ensure our viewer works
+as expected, we add a second spectrum to the file before storing the file.
 
 You can now open the resulting spectrum in a spectrum viewer. We use the OpenMS
 viewer ``TOPPView`` (which you will get when you install OpenMS from the
@@ -101,22 +122,29 @@ official website) and look at our MS3 spectrum:
 TOPPView displays our MS3 spectrum with its single peak at 401.5 *m/z* and it
 also correctly displays its retention time at 205.2 seconds and precursor
 isolation target of 600.0 *m/z*.  Notice how TOPPView displays the information
-about the S/N for the peak (15) and its annotation as ``y15++`` in the status
+about the S/N for the peak (S/N = 15) and its annotation as ``y15++`` in the status
 bar below when the user clicks on the peak at 401.5 *m/z* as shown in the
 screenshot.
 
-Peak Map
-*********
+LC-MS/MS Experiment
+*******************
 
-In OpenMS, LC-MS/MS injections are stored in so-called peak maps, which a
-container of series of ``MSSpectrum`` object. The ``MSExperiment`` object holds
-such peak maps as well as meta-data about the injection. 
+In OpenMS, LC-MS/MS injections are represented as so-called peak maps (using
+the ``MSExperiment`` class), which we have already encountered above. The
+``MSExperiment`` class can hold a list of ``MSSpectrum`` object (as well as a
+list of ``MSChromatogram`` objects, see below). The ``MSExperiment`` object
+holds such peak maps as well as meta-data about the injection. Access to
+individual spectra is performed through ``MSExperiment.getSpectrum`` and
+``MSExperiment.getChromatogram``.
 
-In the following code, we create an ``MSExperiment`` and populate it with several spectra
+In the following code, we create an ``MSExperiment`` and populate it with
+several spectra:
 
 .. code-block:: python
+    :linenos:
 
-    # The following examples creates a MSExperiment containing four MSSpectrum instances.
+    # The following examples creates an MSExperiment which holds six
+    # MSSpectrum instances.
     exp = MSExperiment()
     for i in range(6):
         spectrum = MSSpectrum()
@@ -130,14 +158,31 @@ In the following code, we create an ``MSExperiment`` and populate it with severa
         exp.addSpectrum(spectrum)
 
     # Iterate over spectra
-    for s in exp:
-        for p in s:
-            print (s.getRT(), p.getMZ(), p.getIntensity())
+    for spectrum in exp:
+        for peak in spectrum:
+            print (peak.getRT(), peak.getMZ(), peak.getIntensity())
 
-    # Sum intensity of all spectra between RT 2.0 and 3.0
-    print(sum([p.getIntensity() for s in exp if s.getRT() >= 2.0 and s.getRT() <= 3.0 for p in s]))
 
-We can again store the resulting spectra as mzML using the ``MSExperiment`` object:
+In the above code, we create six instances of ``MSSpectrum`` (line 4), populate
+it with three peaks at 500, 900 and 100 *m/z* and append them to the
+``MSExperiment`` object (line 13).  We can easily iterate over the spectra in
+the whole experiment by using the intuitive iteration on lines 16-18 or we can
+use list comprehensions to sum up intensities of all spectra that fulfill
+certain conditions:
+
+.. code-block:: python
+
+
+		>>> # Sum intensity of all spectra between RT 2.0 and 3.0
+		>>> print(sum([p.getIntensity() for s in exp
+		...              if s.getRT() >= 2.0 and s.getRT() <= 3.0 for p in s]))
+		700.0
+		>>> 87.5 * 8
+		700.0
+		>>> 
+
+We can again store the resulting experiment containing the six spectra as mzML
+using the ``MzMLFile`` object:
 
 .. code-block:: python
 
@@ -145,18 +190,20 @@ We can again store the resulting spectra as mzML using the ``MSExperiment`` obje
     MzMLFile().store("testfile2.mzML", exp)
 
 Again we can visualize the resulting data using ``TOPPView`` using its 3D
-viewer capability, which shows the six scans over retention time:
+viewer capability, which shows the six scans over retention time where the
+traces first increase and then decrease in intensity:
 
 .. image:: img/spectrum2.png
 
 Chromatogram
 ************
 
-An addition container for raw data is the ``MSChromatogram`` container, which
+An additional container for raw data is the ``MSChromatogram`` container, which
 is highly analogous to the ``MSSpectrum`` container, but contains an array of
 ``ChromatogramPeak`` and is derived from ``ChromatogramSettings``:
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
     import numpy as np
@@ -164,7 +211,10 @@ is highly analogous to the ``MSSpectrum`` container, but contains an array of
     def gaussian(x, mu, sig):
         return np.exp(-np.power(x - mu, 2.) / (2 * np.power(sig, 2.)))
 
+    # Create new chromatogram 
     chromatogram = MSChromatogram()
+
+    # Set raw data (RT and intensity)
     rt = range(1500, 500, -100)
     i = [gaussian(rtime, 1000, 150) for rtime in rt]
     chromatogram.set_peaks([rt, i])
@@ -176,14 +226,21 @@ is highly analogous to the ``MSSpectrum`` container, but contains an array of
     for p in chromatogram:
         print(p.getRT(), p.getIntensity())
 
+    # More efficient peak access with get_peaks()
+    for rt, i in zip(*chromatogram.get_peaks()):
+        print(rt, i)
+
     # Access a peak by index
-    print(chromatogram[1].getRT(), chromatogram[1].getIntensity())
+    print(chromatogram[2].getRT(), chromatogram[2].getIntensity())
 
 We now again add meta information to the chromatogram:
 
 .. code-block:: python
+    :linenos:
 
     chromatogram.setNativeID("Trace XIC@405.2")
+
+    # Store a precursor ion for the chromatogram
     p = Precursor()
     p.setIsolationWindowLowerOffset(1.5)
     p.setIsolationWindowUpperOffset(1.5) 
@@ -193,6 +250,8 @@ We now again add meta information to the chromatogram:
     p.setMetaValue("description", chromatogram.getNativeID())
     p.setMetaValue("peptide_sequence", chromatogram.getNativeID())
     chromatogram.setPrecursor(p)
+
+    # Also store a product ion for the chromatogram (e.g. for SRM)
     p = Product()
     p.setMZ(603.4) # transition from 405.2 -> 603.4
     chromatogram.setProduct(p)
@@ -202,11 +261,13 @@ We now again add meta information to the chromatogram:
     exp.addChromatogram(chromatogram)
     MzMLFile().store("testfile3.mzML", exp)
 
+This shows how the ``MSExperiment`` class can hold spectra as well as chromatograms.
+
 Again we can visualize the resulting data using ``TOPPView`` using its chromatographic viewer
 capability, which shows the peak over retention time:
 
 .. image:: img/chromatogram1.png
 
 Note how the annotation using precursor and production mass of our XIC
-chromatogram as is displayed in the viewer.
+chromatogram is displayed in the viewer.
 
