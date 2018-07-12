@@ -19,6 +19,7 @@ in the next few lines, which also calculates the weight of the ``(M)`` and ``(M+
 ions.
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
     seq = AASequence.fromString("DFPIANGER", True)
@@ -47,28 +48,31 @@ the amino acid sequence:
     for iso in isotopes.getContainer():
         print (iso)
 
-    suffix = seq.getSuffix(3) # y3 ion
+    suffix = seq.getSuffix(3) # y3 ion "GER"
+    print(suffix)
     y3_formula = suffix.getFormula(Residue.ResidueType.YIon, 2) # y3++ ion
-    suffix.getMonoWeight(Residue.ResidueType.YIon, 2) / 2.0
-    suffix.getMonoWeight(Residue.ResidueType.XIon, 2) / 2.0 # ATTENTION
-    suffix.getMonoWeight(Residue.ResidueType.BIon, 2) / 2.0 # ATTENTION
+    suffix.getMonoWeight(Residue.ResidueType.YIon, 2) / 2.0 # CORRECT
+    suffix.getMonoWeight(Residue.ResidueType.XIon, 2) / 2.0 # CORRECT
+    suffix.getMonoWeight(Residue.ResidueType.BIon, 2) / 2.0 # INCORRECT
     print(y3_formula)
     print(seq_formula)
 
-.. isotopes = seq_formula.getIsotopeDistribution( CoarseIsotopePatternGenerator(6) )
+..  isotopes = seq_formula.getIsotopeDistribution( CoarseIsotopePatternGenerator(6) )
+    for iso in isotopes.getContainer():
+        print (iso.getMZ(), iso.getIntensity())
 
-Note on line 11 and 12 we need to remember that we are dealing with a y ion
-since using any other ion type will produce a different mass to charge ration
-(and while "GER" would also be a valid x3 ion, note that it *cannot* be a valid
-ion from the a/b/c series and therefore the mass on line 12 cannot refer to the
-same input peptide "DFPIANGER" since its b3 ion would "DFP").
+Note on lines 11 to 13 we need to remember that we are dealing with an ion of
+the x/y/z series since we used a suffix of the original peptide and using any
+other ion type will produce a different mass-to-charge ratio (and while "GER"
+would also be a valid "x3" ion, note that it *cannot* be a valid ion from the
+a/b/c series and therefore the mass on line 13 cannot refer to the same input
+peptide "DFPIANGER" since its "b3" ion would be "DFP" and not "GER").
 
 Modified AA Sequences
 *********************
 
-The ``AASequence`` class can also handle modifications:
-
-Modifications are specified using a unique string identifier present in the
+The ``AASequence`` class can also handle modifications, 
+modifications are specified using a unique string identifier present in the
 ``ModificationsDB`` in round brackets after the modified amino acid or by providing
 the mass of the residue in square brackets. For example
 ``AASequence.fromString(".DFPIAM(Oxidation)GER.", True)`` creates an instance of the
@@ -125,7 +129,7 @@ approach may or may not.
 
 Arbitrary/unknown amino acids (usually due to an unknown modification) can be
 specified using tags preceded by X: "X[weight]". This indicates a new amino
-acid ("X") with the specified weight, e.g. "RX[148.5]T"". Note that this tag
+acid ("X") with the specified weight, e.g. ``"RX[148.5]T"``. Note that this tag
 does not alter the amino acids to the left (R) or right (T). Rather, X
 represents an amino acid on its own. Be careful when converting such AASequence
 objects to an EmpiricalFormula using ``getFormula()``, as tags will not be
