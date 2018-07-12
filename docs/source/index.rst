@@ -46,6 +46,7 @@ of the pyOpenMS API and all wrapped classes.
    chemistry
    aasequences
    digestion
+   datastructures_id
    datastructures_quant
 
 .. toctree::
