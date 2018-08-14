@@ -160,7 +160,7 @@ several spectra:
     # Iterate over spectra
     for spectrum in exp:
         for peak in spectrum:
-            print (peak.getRT(), peak.getMZ(), peak.getIntensity())
+            print (spectrum.getRT(), peak.getMZ(), peak.getIntensity())
 
 
 In the above code, we create six instances of ``MSSpectrum`` (line 4), populate

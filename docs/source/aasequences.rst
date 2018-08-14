@@ -151,8 +151,8 @@ read and stored on disk using a ``FASTAFile``:
         bsa.identifier = "BSA"
         alb = FASTAEntry()
         alb.sequence = "MKWVTFISLLFLFSSAYSRGVFRRDAHKSEVAHRFKDLGE" 
-        alb.description = "ABL Human Albumin (partial sequence)"
-        alb.identifier = "ABL"
+        alb.description = "ALB Human Albumin (partial sequence)"
+        alb.identifier = "ALB"
 
         entries = [bsa, alb]
 
