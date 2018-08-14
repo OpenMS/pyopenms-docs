@@ -6,11 +6,22 @@
 Summary
 =======
 
-pyOpenMS are the Python bindings to the OpenMS library.
+pyOpenMS are the Python bindings to the OpenMS library which are available for
+Windows, Linux and OSX.
 
-The pyOpenMS package contains Python bindings for a large part of the OpenMS library (http://www.open-ms.de) for mass spectrometry based proteomics. It thus provides providing facile access to a feature-rich, open-source algorithm library for mass-spectrometry based proteomics analysis. These Python bindings allow raw access to the data-structures and algorithms implemented in OpenMS, specifically those for file access (mzXML, mzML, TraML, mzIdentML among others), basic signal processing (smoothing, filtering, de-isotoping and peak-picking) and complex data analysis (including label-free, SILAC, iTRAQ and SWATH analysis tools).
+The pyOpenMS package contains Python bindings for a large part of the OpenMS
+library (http://www.open-ms.de) for mass spectrometry based proteomics. It thus
+provides providing facile access to a feature-rich, open-source algorithm
+library for mass-spectrometry based proteomics analysis. These Python bindings
+allow raw access to the data-structures and algorithms implemented in OpenMS,
+specifically those for file access (mzXML, mzML, TraML, mzIdentML among
+others), basic signal processing (smoothing, filtering, de-isotoping and
+peak-picking) and complex data analysis (including label-free, SILAC, iTRAQ and
+SWATH analysis tools).
 
-The pyOpenMS package runs - like OpenMS - on Windows, Linux and OSX.
+Please see the appendix of the official `pyOpenMS Manual
+<http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ for a comeplete documentation
+of the pyOpenMS API and all wrapped classes.
 
 
 .. toctree::
@@ -19,21 +30,24 @@ The pyOpenMS package runs - like OpenMS - on Windows, Linux and OSX.
 
    installation
 
-
 .. toctree::
    :maxdepth: 2
    :caption: First steps
 
    getting_started
-   datastructures
    file_handling
    other_file_handling
 
 .. toctree::
    :maxdepth: 2
-   :caption: Chemistry:
+   :caption: Mass Spectrometry Concepts:
 
+   datastructures
    chemistry
+   aasequences
+   digestion
+   datastructures_id
+   datastructures_quant
 
 .. toctree::
    :maxdepth: 2
@@ -47,7 +61,9 @@ The pyOpenMS package runs - like OpenMS - on Windows, Linux and OSX.
    :maxdepth: 2
    :caption: Developers
 
+   build_from_source
    wrap_classes
+   
 
 
 Indices and tables

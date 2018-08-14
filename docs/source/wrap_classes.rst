@@ -25,12 +25,46 @@ Maintaining existing wrappers: If the C++ API is changed, then pyOpenMS will
 not build any more.  Thus, find the corresponding file in the ``pyOpenMS/pxds/``
 folder and adjust the function declaration accordingly.
 
+How to wrap new methods in existing classes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Lets say you have written a new method for an existing OpenMS class and you
+would like to expose this method to pyOpenMS. First, identify the correct
+``.pxd`` file in the ``src/pyOpenMS/pxds`` folder (for example for
+``Adduct`` that would be `Adduct.pxd
+<https://github.com/OpenMS/OpenMS/blob/develop/src/pyOpenMS/pxds/Adduct.pxd>`_).
+Open it and add your new function *with the correct indentation*:
+
+- Place the full function declaration into the file (indented as the other functions)
+- Check whether you are using any classes that are not yet imported, if so add a corresponding ``cimport`` statement to the top of the file. E.g. if your method is using using ``MSExperiment``, then add ``from MSExerpiment cimport *`` to the top (note its cimport, not import).
+- Remove any qualifiers (e.g. `const`) from the function signature and add `nogil except +` to the end of the signature
+
+  - Ex: ``void setType(Int a);`` becomes ``void setType(Int a) nogil except +`` 
+  - Ex: ``const T& getType() const;`` becomes ``T getType() nogil except +`` 
+- Remove any qualifiers (e.g. `const`) from the argument signatures, but leave reference and pointer indicators
+
+    - Ex: ``const T&`` becomes ``T``, preventing an additional copy operation
+    - Ex: ``T&`` will stay ``T&`` (indicating ``T`` needs to copied back to Python)
+    - Ex: ``T*`` will stay ``T*`` (indicating ``T`` needs to copied back to Python)
+    - One exception is ``OpenMS::String``, you can leave ``const String&`` as-is
+- STL constructs are replaced with Cython constructs: ``std::vector<X>`` becomes ``libcpp_vector[ X ]`` etc. 
+- Most complex STL constructs can be wrapped even if they are nested, however mixing them with user-defined types does not always work, see Limitations_ below. Nested ``std::vector`` constructs work well even with user-defined (OpenMS-defined) types. However, ``std::map<String, X>`` does not work (since ``String`` is user-defined, however a primitive C++ type such as ``std::map<std::string, X>`` would work).
+- Python cannot pass primitive data types by reference (therefore no ``int& res1``)
+- Replace ``boost::shared_ptr<X>`` with ``shared_ptr[X]`` and add ``from smart_ptr cimport shared_ptr`` to the top
+- Public members are simply added with  ``Type member_name``
+- You can inject documentation that will be shown when calling ``help()`` in the function by adding ``wrap-doc:Your documentation`` as a comment after the function:
+
+  - Ex: ``void modifyWidget() nogil except + #wrap-doc:This changes your widget``
+
+See the next section for a SimpleExample_ and a more AdvancedExample_ of a wrapped class with several functions.
+
 How to wrap new classes
 ^^^^^^^^^^^^^^^^^^^^^^^
 
+.. _SimpleExample:
+
 A simple example
 ----------------
-
 
 To wrap a new OpenMS class: Create a new ".pxd" file in the folder ``./pxds``. As
 a small example, look at the `Adduct.pxd 
@@ -49,6 +83,9 @@ to get you started. Start with the following structure:
           ClassName() nogil except +
           ClassName(ClassName) nogil except +
 
+          Int getValue() nogil except + #wrap-doc:Gets value (between 0 and 5)
+          void setValue(Int v) nogil except + #wrap-doc:Sets value (between 0 and 5)
+
 
 - make sure to use ``ClassName:`` instead of ``ClassName(DefaultParamHandler):`` to
   wrap a class that does not inherit from another class and also remove the two
@@ -64,10 +101,13 @@ to get you started. Start with the following structure:
 - Remember to include a copy constructor (even if none was declared in the C++
   header file) since Cython will need it for certain operations. Otherwise you
   might see error messages like ``item2.inst = shared_ptr[_ClassName](new _ClassName(deref(it_terms))) Call with wrong number of arguments``.
+- you can add documentation that will show up in the interactive Python documentation (using ``help()``) using the ``wreap-doc`` qualifier
 
 .. , so there is always
   one if it is not declared, see http://www.cplusplus.com/articles/y8hv0pDG/ "The
   implicit copy constructor does a member-wise copy of the source object.")
+
+.. _AdvancedExample:
 
 A further example
 -----------------
@@ -213,6 +253,9 @@ Note how the manual wrapping of the process functions allows us to
 access the ``inst`` pointer of the argument as well as of the object
 itself, allowing us to call C++ functions on both pointers. This makes it easy
 to generate the required iterators and process the container efficiently.
+
+
+.. _Limitations:
 
 Considerations and limitations
 ------------------------------

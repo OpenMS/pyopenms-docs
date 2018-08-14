@@ -1,6 +1,9 @@
 Getting Started
 ===============
 
+Import pyopenms
+***************
+
 After installation, you should be able to import pyopenms as a package
 
 .. code-block:: python
@@ -52,7 +55,10 @@ in this case the `MSExperiment documentation <http://ftp.mi.fu-berlin.de/pub/Ope
 
 
 First look at data
-**********************
+******************
+
+File reading
+^^^^^^^^^^^^
 
 pyOpenMS supports a variety of different files through the implementations in
 OpenMS. In order to read mass spectrometric data, we can download the `mzML
@@ -101,6 +107,9 @@ and indeed we see that we get information about the underlying MS data. We can
 iterate through the spectra as follows:
 
 
+Iteration
+^^^^^^^^^
+
 .. code-block:: python
 
     >>> for spec in exp:
@@ -119,19 +128,45 @@ This iterates through all available spectra, we can also access spectra through 
     MS Level: 2
 
 Note that ``spec[1]`` will access the *second* spectrum (arrays start at
-``0``). We can access the raw peaks through ``get_peaks``:
+``0``). We can access the raw peaks through ``get_peaks()``:
 
 .. code-block:: python
 
     >>> spec = exp[1]
-    >>> mz, i = spec.get_peaks
+    >>> mz, i = spec.get_peaks()
     >>> sum(i)
     110
 
-Which will store the m/z in the ``mz`` vector and the intensity in the ``i``
-vector. This allows us to calculate a TIC using the following function:
+Which will access the data using a numpy array, storing the *m/z* information
+in the ``mz`` vector and the intensity in the ``i`` vector. Alternatively, we
+can also iterate over individual peak objects as follows (this tends to be
+slower): 
 
 .. code-block:: python
+
+    >>> for peak in spec:
+    ...   print peak.getIntensity()
+    ... 
+    20.0
+    18.0
+    16.0
+    14.0
+    12.0
+    10.0
+    8.0
+    6.0
+    4.0
+    2.0
+
+TIC calculation
+^^^^^^^^^^^^^^^
+
+
+With this information, we can now calculate a total ion current (TIC) using the
+following function:
+
+.. code-block:: python
+   :linenos:
 
     def calcTIC(exp):
         tic = 0
@@ -143,14 +178,13 @@ vector. This allows us to calculate a TIC using the following function:
 
 To calculate a TIC we would now call the function:
 
-
 .. code-block:: python
+   :linenos:
 
     >>> calcTIC(exp)
     240.0
     >>> sum([sum(s.get_peaks()[1]) for s in exp if s.getMSLevel() == 1])
     240.0
 
-Note how one can compute the same property using list comprehensions in Python:
-
+Note how one can compute the same property using list comprehensions in Python (see the third line above).
 

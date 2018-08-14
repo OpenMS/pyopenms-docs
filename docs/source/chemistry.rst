@@ -5,7 +5,7 @@ Elements
 ********
 
 OpenMS has representations for various chemical concepts including molecular
-formulas, isotopes, amino sequences and modifications. First, we look at how
+formulas, isotopes, amino acid sequences and modifications. First, we look at how
 elements are stored in OpenMS:
 
 .. code-block:: python
@@ -29,11 +29,20 @@ elements are stored in OpenMS:
     sulfur.getMonoWeight()
     isotopes = sulfur.getIsotopeDistribution()
     for iso in isotopes.getContainer():
-        print (iso)
+        print (iso.getMZ(), ":", iso.getIntensity())
 
 As we can see, OpenMS knows common elements like Oxygen and Sulfur as well as
 their isotopic distribution. These values are stored in ``Elements.xml`` in the
-OpenMS share folder and can, in principle, be modified.
+OpenMS share folder and can, in principle, be modified. The above code outputs
+the isotopes of sulfur and their abundance:
+
+.. code-block:: python
+
+  31.97207073 : 0.949299991131
+  32.971458 : 0.00760000012815
+  33.967867 : 0.0428999997675
+  35.967081 : 0.000199999994948
+
 
 Molecular Formula
 *****************
@@ -44,26 +53,44 @@ number of operations like addition and subtraction. A simple example is given
 in the next few lines of code.
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
 
     methanol = EmpiricalFormula("CH3OH")
     water = EmpiricalFormula("H2O")
+    ethanol = EmpiricalFormula(str("CH2") + str(methanol))
     wm = water + methanol
     print(wm)
+    print(wm.getElementalComposition())
 
-    isotopes = wm.getIsotopeDistribution(3)
+    isotopes = wm.getIsotopeDistribution( CoarseIsotopePatternGenerator(3) )
     for iso in isotopes.getContainer():
-        print (iso)
+        print (iso.getMZ(), ":", iso.getIntensity())
 
 which produces
 
 .. code-block:: python
 
     C1H6O2
-    (50, 0.9838702160434344)
-    (51, 0.012069784261989644)
-    (52, 0.004059999694575987)
+    {'H': 6, 'C': 1, 'O': 2}
+    50.0367801914 : 0.983870208263
+    51.0401350292 : 0.0120697841048
+    52.043489867 : 0.00405999971554
+
+Note how in lines 5 and 6 we were able to make new molecules by adding existing
+molecules (either  by adding two ``EmpiricalFormula`` objects or by adding
+simple strings). Also, we are able to produce rounded masses if we prefer:
+
+.. code-block:: python
+
+    isotopes = wm.getIsotopeDistribution( CoarseIsotopePatternGenerator(3, True) )
+    for iso in isotopes.getContainer():
+        print (iso.getMZ(), ":", iso.getIntensity())
+
+    50.0 : 0.983870208263
+    51.0 : 0.0120697841048
+    52.0 : 0.00405999971554
 
 
 AA Residue
@@ -94,6 +121,10 @@ basicity and pk values are also available.
     146.1055284466
     >>> lys.getPka()
     2.16
+
+As we can see, OpenMS knows common amino acids like lysine as well as
+some properties of them. These values are stored in ``Residues.xml`` in the
+OpenMS share folder and can, in principle, be modified. 
 
 
 AA Sequences
@@ -130,76 +161,46 @@ ions.
 
 .. TODO
 
-
 Modifications
-************
+*************
 
-The ``AASequence`` class can also handle modifications:
-
-.. code-block:: python
-
-    >>> from pyopenms import *
-    >>> seq = AASequence.fromString("PEPTIDESEKUEM(Oxidation)CER", True)
-    >>> print(seq.toString())
-    PEPTIDESEKUEM(Oxidation)CER
-    >>> print(seq.toUnmodifiedString())
-    PEPTIDESEKUEMCER
-    >>> print(seq.toBracketString())
-    PEPTIDESEKUEM[147]CER
-    >>> print(seq.toBracketString(False, []))
-    PEPTIDESEKUEM[147.0354000171]CER
-    >>> print(seq.toUniModString())
-    PEPTIDESEKUEM(UniMod:35)CER
-
-TheoreticalSpectrumGenerator
-****************************
-
-This class implements a simple generator which generates tandem MS spectra from
-a given peptide charge combination. There are various options which influence
-the occurring ions and their intensities.
+An amino acid residue modification is represented in OpenMS by the class
+``ResidueModification``. The known modifications are stored in the
+``ModificationsDB`` object, which is capable of retrieving specific
+modifications. It contains UniMod as well as PSI modifications.
 
 .. code-block:: python
 
     from pyopenms import *
-
-    tsg = TheoreticalSpectrumGenerator()
-    spec1 = MSSpectrum()
-    spec2 = MSSpectrum()
-    peptide = AASequence.fromString("DFPIANGER", True)
-    # standard behavior is adding b- and y-ions of charge 1
-    p = Param()
-    p.setValue("add_b_ions", "false", "Add peaks of b-ions to the spectrum")
-    tsg.setParameters(p)
-    tsg.getSpectrum(spec1, peptide, 1, 1)
-    p.setValue("add_b_ions", "true", "Add peaks of a-ions to the spectrum")
-    p.setValue("add_metainfo", "true", "")
-    tsg.setParameters(p)
-    tsg.getSpectrum(spec2, peptide, 1, 2)
-    print("Spectrum 1 has", spec1.size(), "peaks.")
-    print("Spectrum 2 has", spec2.size(), "peaks.")
-
-    # Iterate over annotated ions and their masses
-    for ion, peak in zip(spec2.getStringDataArrays()[0], spec2):
-        print(ion, peak.getMZ())
-
-which outputs:
+    ox = ModificationsDB().getModification("Oxidation")
+    print(ox.getUniModAccession())
+    print(ox.getUniModRecordId())
+    print(ox.getDiffMonoMass())
+    print(ox.getId())
+    print(ox.getFullId())
+    print(ox.getFullName())
+    print(ox.getDiffFormula())
 
 .. code-block:: python
 
-    Spectrum 1 has 8 peaks.
-    Spectrum 2 has 30 peaks.
+    UniMod:35
+    35
+    15.994915
+    Oxidation
+    Oxidation (N)
+    Oxidation or Hydroxylation
+    O1
 
-    y1++ 88.0631146901
-    b2++ 132.05495569
-    y2++ 152.584411802
-    y1+ 175.118952913
-    [...]
+thus providing information about the "Oxidation" modification. As above, we can
+investigate the isotopic distribution of the modification (which in this case
+is identical to the one of Oxygen by itself):
 
-The example shows how to put peaks of a certain type, y-ions in this case, into
-a spectrum. Spectrum 2 is filled with a complete spectrum of all peaks (a-, b-,
-y-ions and losses). The ``TheoreticalSpectrumGenerator`` has many parameters
-which have a detailed description located in the class documentation. For the
-first spectrum, no b ions are added. Note how the ``add_metainfo`` parameter
-in the second example populates the ``StringDataArray`` of the output
-spectrum, allowing us to iterate over annotated ions and their masses.
+.. code-block:: python
+
+    isotopes = ox.getDiffFormula().getIsotopeDistribution(CoarseIsotopePatternGenerator(5))
+    for iso in isotopes.getContainer():
+        print (iso.getMZ(), ":", iso.getIntensity())
+
+In the next section, we will look at how to combine amino acids and
+modifications to form amino acid sequences (peptides).
 

@@ -84,6 +84,7 @@ todo_include_todos = False
 #
 html_theme = 'sphinxdoc'
 html_theme = 'alabaster'
+html_theme = 'haiku'
 html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
@@ -156,3 +157,5 @@ texinfo_documents = [
 
 
 
+def setup(app):
+  app.add_stylesheet('custom.css')
