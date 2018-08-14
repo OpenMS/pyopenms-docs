@@ -1,5 +1,5 @@
-Peptides
-========
+Peptides and Proteins
+=====================
 
 AA Sequences
 ************
@@ -135,6 +135,42 @@ represents an amino acid on its own. Be careful when converting such AASequence
 objects to an EmpiricalFormula using ``getFormula()``, as tags will not be
 considered in this case (there exists no formula for them). However, they have
 an influence on ``getMonoWeight()`` and ``getAverageWeight()``! 
+
+Proteins
+********
+
+Protein sequences can be accessed through the ``FASTAEntry`` object and can be
+read and stored on disk using a ``FASTAFile``:
+
+.. code-block:: python
+
+        from pyopenms import *
+        bsa = FASTAEntry()
+        bsa.sequence = "MKWVTFISLLLLFSSAYSRGVFRRDTHKSEIAHRFKDLGE"
+        bsa.description = "BSA Bovine Albumin (partial sequence)"
+        bsa.identifier = "BSA"
+        alb = FASTAEntry()
+        alb.sequence = "MKWVTFISLLFLFSSAYSRGVFRRDAHKSEVAHRFKDLGE" 
+        alb.description = "ABL Human Albumin (partial sequence)"
+        alb.identifier = "ABL"
+
+        entries = [bsa, alb]
+
+        f = pyopenms.FASTAFile()
+        f.store("example.fasta", entries)
+
+Afterwards, the protein sequences can be read again using:
+
+.. code-block:: python
+
+        from pyopenms import *
+        entries = []
+        f = FASTAFile()
+        f.load("example.fasta", entries)
+        print( len(entries) )
+        for e in entries:
+          print (e.identifier, e.sequence)
+
 
 TheoreticalSpectrumGenerator
 ****************************
