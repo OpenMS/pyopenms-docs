@@ -36,9 +36,10 @@ to find ``Features`` in MS data:
   ff.setLogType(LogType.CMD)
 
   # Run the feature finder
+  name = "centroided"
   features = FeatureMap() 
   seeds = FeatureMap()
-  params = FeatureFinder().getParameters("centroided")
+  params = FeatureFinder().getParameters(name)
   ff.run(name, input_map, features, params, seeds)
 
   features.setUniqueIds()
