@@ -126,41 +126,6 @@ As we can see, OpenMS knows common amino acids like lysine as well as
 some properties of them. These values are stored in ``Residues.xml`` in the
 OpenMS share folder and can, in principle, be modified. 
 
-
-AA Sequences
-************
-
-The ``AASequence`` class handles amino acid sequences in OpenMS. A string of
-amino acid residues can be turned into a instance of ``AASequence`` to provide
-some commonly used operations and data. The implementation supports
-mathematical operations like addition or subtraction. Also, average and mono
-isotopic weight and isotope distributions are accessible.
-
-Weights, formulas and isotope distribution can be calculated depending on the
-charge state (additional proton count in case of positive ions) and ion type.
-Therefore, the class allows for a flexible handling of amino acid strings.
-
-A very simple example of handling amino acid sequence with AASequence is given
-in the next few lines, which also calculates the weight of the ``(M)`` and ``(M+2H)2+``
-ions.
-
-.. code-block:: python
-
-    from pyopenms import *
-    seq = AASequence.fromString("DFPIANGER", True)
-    prefix = seq.getPrefix(4)
-    suffix = seq.getSuffix(5)
-    concat = seq + seq
-
-    print(seq)
-    print(concat)
-    print(suffix)
-    seq.getMonoWeight(Residue.ResidueType.Full, 0)
-    seq.getMonoWeight(Residue.ResidueType.Full, 2) / 2.0
-    concat.getMonoWeight(Residue.ResidueType.Full, 0)
-
-.. TODO
-
 Modifications
 *************
 

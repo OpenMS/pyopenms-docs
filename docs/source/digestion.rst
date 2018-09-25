@@ -15,7 +15,7 @@ OpenMS has classes for proteolytic digestion which can be used as follows:
     dig = ProteaseDigestion()
     dig.getEnzymeName() # Trypsin
     bsa = "".join([l.strip() for l in open("bsa.fasta").readlines()[1:]])
-    bsa = AASequence.fromString(bsa, True)
+    bsa = AASequence.fromString(bsa)
     result = []
     dig.digest(bsa, result)
     print(result[4])
@@ -50,7 +50,7 @@ cut out protein of interest:
     dig = ProteaseDigestion()
     dig.setEnzyme('Lys-C')
     bsa = "".join([l.strip() for l in open("bsa.fasta").readlines()[1:]])
-    bsa = AASequence.fromString(bsa, True)
+    bsa = AASequence.fromString(bsa)
     result = []
     dig.digest(bsa, result)
     print(result[4])

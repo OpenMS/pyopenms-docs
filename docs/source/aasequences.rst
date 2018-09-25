@@ -22,7 +22,7 @@ ions.
     :linenos:
 
     from pyopenms import *
-    seq = AASequence.fromString("DFPIANGER", True)
+    seq = AASequence.fromString("DFPIANGER")
     prefix = seq.getPrefix(4)
     suffix = seq.getSuffix(5)
     concat = seq + seq
@@ -74,30 +74,28 @@ The ``AASequence`` class can also handle modifications,
 modifications are specified using a unique string identifier present in the
 ``ModificationsDB`` in round brackets after the modified amino acid or by providing
 the mass of the residue in square brackets. For example
-``AASequence.fromString(".DFPIAM(Oxidation)GER.", True)`` creates an instance of the
+``AASequence.fromString(".DFPIAM(Oxidation)GER.")`` creates an instance of the
 peptide "DFPIAMGER" with an oxidized methionine. There are multiple ways to specify modifications, and
-``AASequence.fromString("DFPIAM(UniMod:35)GER", True)``,
-``AASequence.fromString("DFPIAM[+16]GER", True)`` and
-``AASequence.fromString("DFPIAM[147]GER", True)`` are all equivalent). 
+``AASequence.fromString("DFPIAM(UniMod:35)GER")``,
+``AASequence.fromString("DFPIAM[+16]GER")`` and
+``AASequence.fromString("DFPIAM[147]GER")`` are all equivalent). 
 
 
 .. code-block:: python
 
         from pyopenms import *
-        seq = AASequence.fromString("PEPTIDESEKUEM(Oxidation)CER", True)
+        seq = AASequence.fromString("PEPTIDESEKUEM(Oxidation)CER")
         print(seq.toUnmodifiedString())
         print(seq.toString())
         print(seq.toUniModString())
         print(seq.toBracketString())
         print(seq.toBracketString(False))
 
-        print(AASequence.fromString("DFPIAM(UniMod:35)GER", True))
-        print(AASequence.fromString("DFPIAM[+16]GER", True))
-        print(AASequence.fromString("DFPIAM[+15.99]GER", True))
-        print(AASequence.fromString("DFPIAM[147]GER", True))
-        print(AASequence.fromString("DFPIAM[147.035405]GER", True))
-
-.. TODO: use non-permissive "fromString"
+        print(AASequence.fromString("DFPIAM(UniMod:35)GER"))
+        print(AASequence.fromString("DFPIAM[+16]GER"))
+        print(AASequence.fromString("DFPIAM[+15.99]GER"))
+        print(AASequence.fromString("DFPIAM[147]GER"))
+        print(AASequence.fromString("DFPIAM[147.035405]GER"))
 
 The above code outputs:
 
@@ -132,11 +130,11 @@ phosphorylation of the last arginine at its side chain:
 .. code-block:: python
 
         from pyopenms import *
-        s = AASequence.fromString(".(Dimethyl)DFPIAMGER.", True)
+        s = AASequence.fromString(".(Dimethyl)DFPIAMGER.")
         print(str(s), s.hasNTerminalModification())
-        s = AASequence.fromString(".DFPIAMGER.(Label:18O(2))", True)
+        s = AASequence.fromString(".DFPIAMGER.(Label:18O(2))")
         print(str(s), s.hasCTerminalModification())
-        s = AASequence.fromString(".DFPIAMGER(Phospho).", True)
+        s = AASequence.fromString(".DFPIAMGER(Phospho).")
         print(str(s), s.hasCTerminalModification())
 
 Arbitrary/unknown amino acids (usually due to an unknown modification) can be
@@ -198,7 +196,7 @@ the occurring ions and their intensities.
     tsg = TheoreticalSpectrumGenerator()
     spec1 = MSSpectrum()
     spec2 = MSSpectrum()
-    peptide = AASequence.fromString("DFPIANGER", True)
+    peptide = AASequence.fromString("DFPIANGER")
     # standard behavior is adding b- and y-ions of charge 1
     p = Param()
     p.setValue("add_b_ions", "false", "Add peaks of b-ions to the spectrum")
