@@ -23,6 +23,8 @@ Please see the appendix of the official `pyOpenMS Manual
 <http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ for a complete documentation
 of the pyOpenMS API and all wrapped classes.
 
+Note: the current documentation relates to the 2.4.0 release of pyOpenMS.
+
 
 .. toctree::
    :maxdepth: 2
