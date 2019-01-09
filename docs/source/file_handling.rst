@@ -112,10 +112,10 @@ chromatograms as they are read from the disk. A simple implementation could look
             pass
 
         def consumeChromatogram(self, c):
-            print "Read a chromatogram"
+            print ("Read a chromatogram")
             
         def consumeSpectrum(self, s):
-            print "Read a spectrum"
+            print ("Read a spectrum")
 
 
 which can the be used as follows:
