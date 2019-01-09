@@ -66,9 +66,10 @@ example file <http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzM
 
 .. code-block:: python
 
-    import urllib
+    from urllib.request import urlretrieve 
+    # from urllib import urlretrieve  # use this code for Python 2.x
     from pyopenms import *
-    urllib.urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML", "tiny.pwiz.1.1.mzML")
+    urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML", "tiny.pwiz.1.1.mzML")
     exp = MSExperiment()
     MzMLFile().load("tiny.pwiz.1.1.mzML", exp)
 
@@ -113,7 +114,7 @@ Iteration
 .. code-block:: python
 
     >>> for spec in exp:
-    ...   print "MS Level:", spec.getMSLevel()
+    ...   print ("MS Level:", spec.getMSLevel())
     ... 
     MS Level: 1
     MS Level: 2
@@ -124,7 +125,7 @@ This iterates through all available spectra, we can also access spectra through 
 
 .. code-block:: python
 
-    >>> print "MS Level:", exp[1].getMSLevel()
+    >>> print ("MS Level:", exp[1].getMSLevel())
     MS Level: 2
 
 Note that ``spec[1]`` will access the *second* spectrum (arrays start at
@@ -145,7 +146,7 @@ slower):
 .. code-block:: python
 
     >>> for peak in spec:
-    ...   print peak.getIntensity()
+    ...   print (peak.getIntensity())
     ... 
     20.0
     18.0
