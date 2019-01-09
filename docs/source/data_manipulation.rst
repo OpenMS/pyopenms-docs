@@ -2,13 +2,25 @@ Simple Data Manipulation
 =========================
 
 Here we will look at a few simple data manipulation techniques on spectral
-data, such as filtering. First we will download some sample data:
+data, such as filtering. First we will download some sample data.
+
+
+In Python 2.x we will use
 
 .. code-block:: python
 
     import urllib
-    from pyopenms import *
     urllib.urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML",
+                        "test.mzML")
+
+
+
+While for Python 3.x the code is
+
+.. code-block:: python
+
+    import urllib.request
+    urllib.request.urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML",
                         "test.mzML")
 
 
@@ -28,7 +40,7 @@ certain identifier:
 
   e = MSExperiment()
   for s in inp:
-    if s.getNativeID().startswith("scan="):
+    if s.getNativeID().startswith(b"scan="):
       e.addSpectrum(s)
 
   MzMLFile().store("test_filtered.mzML", e)
@@ -60,7 +72,7 @@ filtering by MS level and scan identifier at the same time:
   :linenos:
   :lineno-start: 7
 
-  if s.getMSLevel() > 1 and s.getNativeID().startswith("scan="):
+  if s.getMSLevel() > 1 and s.getNativeID().startswith(b"scan="):
 
 Filtering by scan number
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -146,7 +158,7 @@ use the OnDiscMSExperiment for reading data.
   e = MSExperiment()
   for k in range(od_exp.getNrSpectra()): 
     s = od_exp.getSpectrum(k)
-    if s.getNativeID().startswith("scan="):
+    if s.getNativeID().startswith(b"scan="):
       e.addSpectrum(s)
 
   MzMLFile().store("test_filtered.mzML", e)
@@ -167,7 +179,7 @@ by using
   e = MSExperiment()
   for k in range(od_exp.getNrSpectra()): 
     s = od_exp.getSpectrum(k)
-    if s.getNativeID().startswith("scan="):
+    if s.getNativeID().startswith(b"scan="):
       consumer.consumeSpectrum(s)
 
   del consumer
