@@ -9,9 +9,9 @@ In Python 2.x we will use
 
 .. code-block:: python
 
-    import urllib
-    urllib.urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML",
-                        "test.mzML")
+    from urllib import urlretrieve
+    urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML",
+                 "test.mzML")
 
 
 
@@ -19,9 +19,9 @@ While for Python 3.x the code is
 
 .. code-block:: python
 
-    import urllib.request
-    urllib.request.urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML",
-                        "test.mzML")
+    from urllib.request import urlretrieve
+    urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML",
+                 "test.mzML")
 
 
 Filtering Spectra 
