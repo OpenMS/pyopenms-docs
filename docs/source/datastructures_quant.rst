@@ -121,10 +121,10 @@ the two maps and output the two linked features:
 
     # Generate ConsensusMap and add two maps (with id 1 and 2)
     cmap = ConsensusMap()
-    fds = { 1 : FileDescription(), 2 : FileDescription() }
+    fds = { 1 : ColumnHeader(), 2 : ColumnHeader() }
     fds[1].filename = b"file1"
     fds[2].filename = b"file2"
-    cmap.setFileDescriptions(fds)
+    cmap.setColumnHeaders(fds)
 
     feature.ensureUniqueId()
     cmap.push_back(feature)

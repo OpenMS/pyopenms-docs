@@ -32,5 +32,6 @@ The parameters can then be accessed as
     ['param1', 'param2']
     >>> p.items()
     [('param1', 4.0), ('param2', 4.0)]
-..    >>> p.exists("param1") # TODO: needs to become bool!
+    >>> p.exists("param1")
+    True
 

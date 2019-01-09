@@ -12,19 +12,15 @@ OpenMS has classes for proteolytic digestion which can be used as follows:
     import urllib
     urllib.urlretrieve ("http://www.uniprot.org/uniprot/P02769.fasta", "bsa.fasta")
 
-    dig = EnzymaticDigestion()
+    dig = ProteaseDigestion()
     dig.getEnzymeName() # Trypsin
     bsa = "".join([l.strip() for l in open("bsa.fasta").readlines()[1:]])
-    bsa = AASequence.fromString(bsa, True)
+    bsa = AASequence.fromString(bsa)
     result = []
     dig.digest(bsa, result)
     print(result[4])
     len(result) # 82 peptides
 
-
-.. in 2.4 : 
-    dig = ProteaseDigestion()
-    dig.digest(bsa, result, 1, 0)
 
 Proteolytic Digestion with Lys-C
 ********************************
@@ -35,14 +31,12 @@ file and can be accessed using the ``EnzymesDB``
 .. code-block:: python
 
     names = []
-    EnzymesDB().getAllNames(names)
-    len(names) # 25 by default
-    e = EnzymesDB().getEnzyme('Lys-C')
+    ProteaseDB().getAllNames(names)
+    len(names) # at least 25 by default
+    e = ProteaseDB().getEnzyme('Lys-C')
     e.getRegExDescription()
     e.getRegEx()
 
-.. in 2.4 : 
-    ProteaseDB()
 
 Now that we have learned about the other enzymes available, we can use it to
 cut out protein of interest:
@@ -53,18 +47,14 @@ cut out protein of interest:
     import urllib
     urllib.urlretrieve ("http://www.uniprot.org/uniprot/P02769.fasta", "bsa.fasta")
 
-    dig = EnzymaticDigestion()
+    dig = ProteaseDigestion()
     dig.setEnzyme('Lys-C')
     bsa = "".join([l.strip() for l in open("bsa.fasta").readlines()[1:]])
-    bsa = AASequence.fromString(bsa, True)
+    bsa = AASequence.fromString(bsa)
     result = []
     dig.digest(bsa, result)
     print(result[4])
     len(result) # 57 peptides
-
-.. in 2.4 : 
-    dig = ProteaseDigestion()
-    dig.digest(bsa, result, 1, 0)
 
 We now get different digested peptides (57 vs 82) and the fourth peptide is now
 ``GLVLIAFSQYLQQCPFDEHVK`` instead of ``DTHK`` as with Trypsin (see above).

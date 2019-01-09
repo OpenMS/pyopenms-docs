@@ -98,14 +98,14 @@ corresponding ``PeptideHit`` objects:
   peptide_hit.setScore(1.0)
   peptide_hit.setRank(1)
   peptide_hit.setCharge(2)
-  peptide_hit.setSequence(AASequence.fromString("DLQM(Oxidation)TQSPSSLSVSVGDR", True))
+  peptide_hit.setSequence(AASequence.fromString("DLQM(Oxidation)TQSPSSLSVSVGDR"))
 
   # create a new PeptideHit (second best PSM)
   peptide_hit2 = PeptideHit()
   peptide_hit2.setScore(0.5)
   peptide_hit2.setRank(2)
   peptide_hit2.setCharge(2)
-  peptide_hit2.setSequence(AASequence.fromString("QDLM(Oxidation)TQSPSSLSVSVGDR", True))
+  peptide_hit2.setSequence(AASequence.fromString("QDLM(Oxidation)TQSPSSLSVSVGDR"))
   
   # add PeptideHit to PeptideIdentification
   peptide_id.setHits([peptide_hit, peptide_hit2])

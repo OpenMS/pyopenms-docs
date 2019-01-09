@@ -11,7 +11,7 @@ Windows, Linux and OSX.
 
 The pyOpenMS package contains Python bindings for a large part of the OpenMS
 library (http://www.open-ms.de) for mass spectrometry based proteomics. It thus
-provides providing facile access to a feature-rich, open-source algorithm
+provides facile access to a feature-rich, open-source algorithm
 library for mass-spectrometry based proteomics analysis. These Python bindings
 allow raw access to the data-structures and algorithms implemented in OpenMS,
 specifically those for file access (mzXML, mzML, TraML, mzIdentML among
@@ -20,7 +20,7 @@ peak-picking) and complex data analysis (including label-free, SILAC, iTRAQ and
 SWATH analysis tools).
 
 Please see the appendix of the official `pyOpenMS Manual
-<http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ for a comeplete documentation
+<http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ for a complete documentation
 of the pyOpenMS API and all wrapped classes.
 
 

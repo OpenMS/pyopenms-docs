@@ -18,18 +18,18 @@ elements are stored in OpenMS:
     edb.hasElement("S")
 
     oxygen = edb.getElement("O")
-    oxygen.getName() 
+    oxygen.getName()
     oxygen.getSymbol()
     oxygen.getMonoWeight()
     isotopes = oxygen.getIsotopeDistribution()
 
     sulfur = edb.getElement("S")
-    sulfur.getName() 
+    sulfur.getName()
     sulfur.getSymbol()
     sulfur.getMonoWeight()
     isotopes = sulfur.getIsotopeDistribution()
     for iso in isotopes.getContainer():
-        print (iso)
+        print (iso.getMZ(), ":", iso.getIntensity())
 
 As we can see, OpenMS knows common elements like Oxygen and Sulfur as well as
 their isotopic distribution. These values are stored in ``Elements.xml`` in the
@@ -38,10 +38,10 @@ the isotopes of sulfur and their abundance:
 
 .. code-block:: python
 
-    (32, 0.9493)
-    (33, 0.0076)
-    (34, 0.0429)
-    (36, 0.0002)
+  31.97207073 : 0.949299991131
+  32.971458 : 0.00760000012815
+  33.967867 : 0.0428999997675
+  35.967081 : 0.000199999994948
 
 
 Molecular Formula
@@ -53,37 +53,70 @@ number of operations like addition and subtraction. A simple example is given
 in the next few lines of code.
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
 
     methanol = EmpiricalFormula("CH3OH")
     water = EmpiricalFormula("H2O")
-    wm = EmpiricalFormula(str(water) + str(methanol))
-    print(wm)
-
-    isotopes = wm.getIsotopeDistribution(3)
-    for iso in isotopes.getContainer():
-        print (iso)
-
-.. Wait for pyOpenMS 2.4
-.. isotopes = wm.getIsotopeDistribution( CoarseIsotopePatternGenerator(3) )
-.. wm = water + methanol # only in pyOpenMS 2.4
-.. ethanol = EmpiricalFormula(str("CH2") + str(methanol))
-.. wm.getElementalComposition()
+    ethanol = EmpiricalFormula(b"CH2" + methanol.toString())
+    wm = water + methanol
+    print(wm.toString())
+    print(wm.getElementalComposition())
 
 which produces
 
 .. code-block:: python
 
-        C1H6O2
-        (50, 0.9838702160434344)
-        (51, 0.012069784261989644)
-        (52, 0.004059999694575987)
+    C1H6O2
+    {'H': 6, 'C': 1, 'O': 2}
 
 
+Note how in lines 5 and 6 we were able to make new molecules by adding existing
+molecules (either  by adding two ``EmpiricalFormula`` objects or by adding
+simple strings). 
 
-AA Residue
-**********
+Isotopic Distributions
+**********************
+
+OpenMS can also generate theoretical isotopic distributions from analytes
+represented as ``EmpiricalFormula``:
+
+.. code-block:: python
+    :linenos:
+
+    from pyopenms import *
+
+    wm = EmpiricalFormula("CH3OH") + EmpiricalFormula("H2O")
+
+    isotopes = wm.getIsotopeDistribution( CoarseIsotopePatternGenerator(3) )
+    for iso in isotopes.getContainer():
+        print (iso.getMZ(), ":", iso.getIntensity())
+
+which produces
+
+.. code-block:: python
+
+    50.0367801914 : 0.983870208263
+    51.0401350292 : 0.0120697841048
+    52.043489867 : 0.00405999971554
+
+OpenMS can also produce isotopic distribution with masses rounded to the
+nearest integer if we prefer:
+
+.. code-block:: python
+
+    isotopes = wm.getIsotopeDistribution( CoarseIsotopePatternGenerator(3, True) )
+    for iso in isotopes.getContainer():
+        print (iso.getMZ(), ":", iso.getIntensity())
+
+    50.0 : 0.983870208263
+    51.0 : 0.0120697841048
+    52.0 : 0.00405999971554
+
+
+Amino Acid Residue
+******************
 
 An amino acid residue is represented in OpenMS by the class ``Residue``. It provides a
 container for the amino acids as well as some functionality. The class is able
@@ -96,28 +129,27 @@ basicity and pk values are also available.
 
 .. code-block:: python
 
-        >>> from pyopenms import *
-        >>> lys = ResidueDB().getResidue("Lysine")
-        >>> lys.getName()
-        'Lysine'
-        >>> lys.getThreeLetterCode()
-        'LYS'
-        >>> lys.getOneLetterCode()
-        'K'
-        >>> lys.getAverageWeight(Residue.ResidueType.Full)
-        146.18788276708443
-        >>> lys.getMonoWeight(Residue.ResidueType.Full)
-        146.1055284466
-        >>> lys.getPka()
-        2.16
-
+    >>> from pyopenms import *
+    >>> lys = ResidueDB().getResidue("Lysine")
+    >>> lys.getName()
+    'Lysine'
+    >>> lys.getThreeLetterCode()
+    'LYS'
+    >>> lys.getOneLetterCode()
+    'K'
+    >>> lys.getAverageWeight()
+    146.18788276708443
+    >>> lys.getMonoWeight()
+    146.1055284466
+    >>> lys.getPka()
+    2.16
 
 As we can see, OpenMS knows common amino acids like lysine as well as
 some properties of them. These values are stored in ``Residues.xml`` in the
 OpenMS share folder and can, in principle, be modified. 
 
-Modifications
-*************
+Amino Acid Modifications
+************************
 
 An amino acid residue modification is represented in OpenMS by the class
 ``ResidueModification``. The known modifications are stored in the
@@ -127,18 +159,15 @@ modifications. It contains UniMod as well as PSI modifications.
 .. code-block:: python
 
     from pyopenms import *
-    ts = ResidueModification.TermSpecificity
-    ox = ModificationsDB().getModification("Oxidation", "", ts.ANYWHERE)
+    ox = ModificationsDB().getModification("Oxidation")
     print(ox.getUniModAccession())
     print(ox.getUniModRecordId())
     print(ox.getDiffMonoMass())
     print(ox.getId())
     print(ox.getFullId())
     print(ox.getFullName())
-    print(ox.getDiffFormula())
-.. py24 : simply getModification
+    print(ox.getDiffFormula().toString())
 
-which outputs
 
 .. code-block:: python
 
@@ -156,10 +185,10 @@ is identical to the one of Oxygen by itself):
 
 .. code-block:: python
 
-    isotopes = ox.getDiffFormula().getIsotopeDistribution(5)
+    isotopes = ox.getDiffFormula().getIsotopeDistribution(CoarseIsotopePatternGenerator(5))
     for iso in isotopes.getContainer():
-        print (iso)
-
+        print (iso.getMZ(), ":", iso.getIntensity())
 
 In the next section, we will look at how to combine amino acids and
 modifications to form amino acid sequences (peptides).
+
