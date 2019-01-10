@@ -124,7 +124,7 @@ which can the be used as follows:
 .. code-block:: python
 
     >>> from pyopenms import *
-    >>> filename = "test.mzML"
+    >>> filename = b"test.mzML"
     >>> consumer = MSCallback()
     >>> MzMLFile().transform(filename, consumer)
     Read a spectrum
@@ -140,6 +140,8 @@ spectrum or chromatogram is read from disk, the function ``consumeSpectrum`` or
 use this to implement a simple filtering function for mass spectra:
 
 .. code-block:: python
+
+    from pyopenms import *
 
     class FilteringConsumer():
         """
@@ -166,15 +168,15 @@ use this to implement a simple filtering function for mass spectra:
                 self._internal_consumer.consumeSpectrum(s)
 
     ###################################
-    filter_string = "DECOY"
-    inputfile = "in.mzML"
-    outputfile = "out.mzML"
+    filter_string = b"DECOY"
+    inputfile = b"in.mzML"
+    outputfile = b"out.mzML"
     ###################################
 
-    consumer = pyopenms.PlainMSDataWritingConsumer(outputfile)
+    consumer = PlainMSDataWritingConsumer(outputfile)
     consumer = FilteringConsumer(consumer, filter_string)
 
-    pyopenms.MzMLFile().transform(inputfile, consumer)
+    MzMLFile().transform(inputfile, consumer)
 
 
 where the spectra and chromatograms are filtered by their native ids. It is
@@ -198,7 +200,6 @@ directly mapped into memory when requested. You can use this feature as follows:
 .. code-block:: python
 
     from pyopenms import *
-    import pyopenms
 
     # First load data and cache to disk
     exp = MSExperiment()
@@ -241,7 +242,7 @@ into memory):
     # Note: writing meta data to myCache2.mzML is required
     cacher = MSDataCachedConsumer("myCache2.mzML.cached")
     exp = MSExperiment()
-    MzMLFile().transform("test.mzML", cacher, exp)
+    MzMLFile().transform(b"test.mzML", cacher, exp)
     CachedMzMLHandler().writeMetadata(exp, "myCache2.mzML")
     del cacher
 

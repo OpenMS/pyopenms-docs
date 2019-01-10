@@ -19,7 +19,7 @@ OpenMS has classes for proteolytic digestion which can be used as follows:
     bsa = AASequence.fromString(bsa)
     result = []
     dig.digest(bsa, result)
-    print(result[4])
+    print(result[4].toString())
     len(result) # 82 peptides
 
 
@@ -55,7 +55,7 @@ cut out protein of interest:
     bsa = AASequence.fromString(bsa)
     result = []
     dig.digest(bsa, result)
-    print(result[4])
+    print(result[4].toString())
     len(result) # 57 peptides
 
 We now get different digested peptides (57 vs 82) and the fourth peptide is now

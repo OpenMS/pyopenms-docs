@@ -63,7 +63,7 @@ Python as follows:
 
   f0 = features[0]
   for f in features:
-      print f.getRT(), f.getMZ()
+      print (f.getRT(), f.getMZ())
 
 
 Each entry in the ``FeatureMap`` is a so-called ``Feature`` and allows direct

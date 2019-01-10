@@ -29,7 +29,6 @@ We can create an object of type ``ProteinIdentification``  and populate it with
   :linenos:
 
   from pyopenms import *
-  from __future__ import print_function
 
   # Create new protein identification object corresponding to a single search
   protein_id = ProteinIdentification()
@@ -91,7 +90,7 @@ corresponding ``PeptideHit`` objects:
   peptide_id.setIdentifier("IdentificationRun1")
 
   # define additional meta value for the peptide identification
-  peptide_id.setMetaValue("AdditionalMetaValue", "Value")
+  peptide_id.setMetaValue("AdditionalMetaValue", b"Value")
 
   # create a new PeptideHit (best PSM)
   peptide_hit = PeptideHit()
@@ -120,7 +119,7 @@ corresponding ``PeptideHit`` objects:
     # PeptideHits
     for hit in peptide_id.getHits():
       print(" - Peptide hit rank:", hit.getRank())
-      print(" - Peptide hit sequence:", hit.getSequence())
+      print(" - Peptide hit sequence:", hit.getSequence().toString())
       print(" - Peptide hit score:", hit.getScore())
 
 This allows us to represent single spectra (``PeptideIdentification`` at *m/z*
@@ -150,7 +149,7 @@ which we would do as follows:
   for protein_id in prot_ids:
     for hit in protein_id.getHits():
       print("Protein hit accession:", hit.getAccession())
-      print("Protein hit sequence:", hit.getSequence())
+      print("Protein hit sequence:", hit.getSequence().decode())
       print("Protein hit score:", hit.getScore())
 
   # Iterate over PeptideIdentification
@@ -162,7 +161,7 @@ which we would do as follows:
     # PeptideHits
     for hit in peptide_id.getHits():
       print(" - Peptide hit rank:", hit.getRank())
-      print(" - Peptide hit sequence:", hit.getSequence())
+      print(" - Peptide hit sequence:", hit.getSequence().toString())
       print(" - Peptide hit score:", hit.getScore())
 
 
