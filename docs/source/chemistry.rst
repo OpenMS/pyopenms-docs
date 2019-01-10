@@ -74,7 +74,7 @@ which produces
 
 Note how in lines 5 and 6 we were able to make new molecules by adding existing
 molecules (either  by adding two ``EmpiricalFormula`` objects or by adding
-simple strings). 
+simple strings).
 
 Isotopic Distributions
 **********************
@@ -146,7 +146,7 @@ basicity and pk values are also available.
 
 As we can see, OpenMS knows common amino acids like lysine as well as
 some properties of them. These values are stored in ``Residues.xml`` in the
-OpenMS share folder and can, in principle, be modified. 
+OpenMS share folder and can, in principle, be modified.
 
 Amino Acid Modifications
 ************************

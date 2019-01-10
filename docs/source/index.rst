@@ -71,7 +71,7 @@ Note: the current documentation relates to the 2.4.0 release of pyOpenMS.
 
    build_from_source
    wrap_classes
-   
+
 
 
 Indices and tables

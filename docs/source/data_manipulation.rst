@@ -24,7 +24,7 @@ While for Python 3.x the code is
                  "test.mzML")
 
 
-Filtering Spectra 
+Filtering Spectra
 *******************
 
 
@@ -45,7 +45,7 @@ certain identifier:
 
   MzMLFile().store("test_filtered.mzML", e)
 
-Filtering by MS level 
+Filtering by MS level
 ~~~~~~~~~~~~~~~~~~~~~
 
 Similarly, we can filter the ``test.mzML`` file by MS level:
@@ -142,11 +142,11 @@ Similarly we could change line 13 to only report peaks above a certain
 intensity or to only report the top N peaks in a spectrum.
 
 
-Memory management 
+Memory management
 *****************
 
 On order to save memory, we can avoid loading the whole file into memory and
-use the OnDiscMSExperiment for reading data. 
+use the OnDiscMSExperiment for reading data.
 
 .. code-block:: python
   :linenos:
@@ -156,7 +156,7 @@ use the OnDiscMSExperiment for reading data.
   od_exp.openFile("test.mzML")
 
   e = MSExperiment()
-  for k in range(od_exp.getNrSpectra()): 
+  for k in range(od_exp.getNrSpectra()):
     s = od_exp.getSpectrum(k)
     if s.getNativeID().startswith(b"scan="):
       e.addSpectrum(s)
@@ -177,7 +177,7 @@ by using
   consumer = PlainMSDataWritingConsumer("test_filtered.mzML")
 
   e = MSExperiment()
-  for k in range(od_exp.getNrSpectra()): 
+  for k in range(od_exp.getNrSpectra()):
     s = od_exp.getSpectrum(k)
     if s.getNativeID().startswith(b"scan="):
       consumer.consumeSpectrum(s)

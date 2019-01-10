@@ -26,7 +26,7 @@ Getting help
 
 There are multiple ways to get information about the available functions and
 methods. We can inspect individual pyOpenMS objects through the ``help``
-function: 
+function:
 
 .. code-block:: python
 
@@ -36,9 +36,9 @@ function:
 
     class MSExperiment(__builtin__.object)
      |  Methods defined here:
-     |  
+     |
      |  __copy__(...)
-     |  
+     |
      |  __deepcopy__(...)
      [...]
 
@@ -66,7 +66,7 @@ example file <http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzM
 
 .. code-block:: python
 
-    from urllib.request import urlretrieve 
+    from urllib.request import urlretrieve
     # from urllib import urlretrieve  # use this code for Python 2.x
     from pyopenms import *
     urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML", "tiny.pwiz.1.1.mzML")
@@ -87,12 +87,12 @@ We can now inspect the properties of this object:
      ...
      |  getNrChromatograms(...)
      |      Cython signature: size_t getNrChromatograms()
-     |  
+     |
      |  getNrSpectra(...)
      |      Cython signature: size_t getNrSpectra()
-     |  
+     |
      ...
-  
+
 
 which indicates that the variable ``exp`` has (among others) the functions
 ``getNrSpectra`` and ``getNrChromatograms``. We can now try these functions:
@@ -115,7 +115,7 @@ Iteration
 
     >>> for spec in exp:
     ...   print ("MS Level:", spec.getMSLevel())
-    ... 
+    ...
     MS Level: 1
     MS Level: 2
     MS Level: 1
@@ -141,13 +141,13 @@ Note that ``spec[1]`` will access the *second* spectrum (arrays start at
 Which will access the data using a numpy array, storing the *m/z* information
 in the ``mz`` vector and the intensity in the ``i`` vector. Alternatively, we
 can also iterate over individual peak objects as follows (this tends to be
-slower): 
+slower):
 
 .. code-block:: python
 
     >>> for peak in spec:
     ...   print (peak.getIntensity())
-    ... 
+    ...
     20.0
     18.0
     16.0

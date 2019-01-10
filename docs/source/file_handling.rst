@@ -5,13 +5,14 @@ mzML files in memory
 ********************
 
 As discussed in the last section, the most straight forward way to load mass
-spectrometric data is using the ``MzMLFile`` class: 
+spectrometric data is using the ``MzMLFile`` class:
 
 .. code-block:: python
 
-    import urllib
     from pyopenms import *
-    urllib.urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML", "test.mzML")
+    from urllib.request import urlretrieve
+    # from urllib import urlretrieve  # use this code for Python 2.x
+    urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML", "test.mzML")
     exp = MSExperiment()
     MzMLFile().load("test.mzML", exp)
 
@@ -89,7 +90,7 @@ the ``getMetaData`` function, which allows easy selection and filtering on meta
 data attributes (such as MS level, precursor *m/z*, retention time etc.) in
 order to select spectra and chromatograms for analysis.  Only once selection on
 the meta data has been performed, will actual data be loaded into memory using
-the ``getChromatogram`` and ``getSpectrum`` functions. 
+the ``getChromatogram`` and ``getSpectrum`` functions.
 
 This approach is memory efficient in cases where computation should only occur
 on part of the data or the whole data may not fit into memory.
@@ -113,7 +114,7 @@ chromatograms as they are read from the disk. A simple implementation could look
 
         def consumeChromatogram(self, c):
             print ("Read a chromatogram")
-            
+
         def consumeSpectrum(self, s):
             print ("Read a spectrum")
 
@@ -159,7 +160,7 @@ use this to implement a simple filtering function for mass spectra:
         def consumeChromatogram(self, c):
             if c.getNativeID().find(self.filter_string) != -1:
                 self._internal_consumer.consumeChromatogram(c)
-            
+
         def consumeSpectrum(self, s):
             if s.getNativeID().find(self.filter_string) != -1:
                 self._internal_consumer.consumeSpectrum(s)
@@ -184,10 +185,10 @@ spectrum ``s`` or chromatogram ``c`` and write it to disk (the location of the
 output file is given by the ``outfile`` variable).
 
 Note that this approach is memory efficient in cases where computation should
-only occur on part of the data or the whole data may not fit into memory. 
+only occur on part of the data or the whole data may not fit into memory.
 
 
-cached mzML files 
+cached mzML files
 *********************
 
 In addition, since pyOpenMS 2.4 the user can efficiently cache mzML files to disk which
@@ -225,7 +226,7 @@ the ``getMetaData`` function, which allows easy selection and filtering on meta
 data attributes (such as MS level, precursor *m/z*, retention time etc.) in
 order to select spectra and chromatograms for analysis.  Only once selection on
 the meta data has been performed, will actual data be loaded into memory using
-the ``getChromatogram`` and ``getSpectrum`` functions. 
+the ``getChromatogram`` and ``getSpectrum`` functions.
 
 Note that in the example above all data is loaded into memory first and then
 cached to disk. This is not very efficient and we can use the
@@ -254,5 +255,5 @@ into memory):
     sum(cfile.getChromatogram(0).get_peaks()[1]) # data is here!
 
 This approach is now memory efficient in cases where computation should only occur
-on part of the data or the whole data may not fit into memory. 
+on part of the data or the whole data may not fit into memory.
 
