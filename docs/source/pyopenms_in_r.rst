@@ -41,7 +41,7 @@ Getting help
 
 Using the "reticulate" R package provides a way to access the pyopenms information 
 about the available functions and methods. We can inspect individual pyOpenMS objects 
-through the ``py_help`` function or the autocompletion funcionality of RStudio:
+through the ``py_help`` function:
 
 .. code-block:: R
 
@@ -61,6 +61,10 @@ through the ``py_help`` function or the autocompletion funcionality of RStudio:
     |  load(...)
     |      Cython signature: void load(String filename, libcpp_vector[ProteinIdentification] & protein_ids, libcpp_vector[PeptideIdentification] & peptide_ids)
     [...]
+
+Alternatively, the autocompletion funcionality of RStudio can be used:
+
+.. code-block:: R
 
     idXML=ropenms$IdXMLFile()
     idXML$...load... (autocompletion)
