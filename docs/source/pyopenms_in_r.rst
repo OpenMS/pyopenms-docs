@@ -203,15 +203,14 @@ Therefore we can not directly apply the usual functions such as apply() and have
 
     iterate(spectrum, function(x) {print(paste0("M/z :" , x$getMZ(), " Intensity: ", x$getIntensity()))})
 
-
 or as a way around:
+
+.. code-block:: R
 
     for (i in seq(0,spectrum$size()-1)) {
           print(spectrum[i]$getMZ())
           print(spectrum[i]$getIntensity())
     }
-
-.. code-block:: R
 
     [1] "M/z :1500.0 Intensity: 10.0"
     [1] "M/z :1400.0 Intensity: 209.0"
