@@ -92,32 +92,34 @@ In order to get more information about the wrapped functions, we can also
 consult the `pyOpenMS manual <http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ 
 which references to all wrapped functions.
 
-First look at data
-******************
+An example use case
+*******************
 
-File reading
-^^^^^^^^^^^^
+Reading an mzML File
+^^^^^^^^^^^^^^^^^^^^
 
 pyOpenMS supports a variety of different files through the implementations in
 OpenMS. In order to read mass spectrometric data, we can download the `mzML
 example file <http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML>`_
 
-.. code-block:: python
+.. code-block:: R
 
     from urllib.request import urlretrieve
     # from urllib import urlretrieve  # use this code for Python 2.x
-    from pyopenms import *
+    library(reticulate)
+    ropenms=import("pyopenms", convert = FALSE)
+    mzML=ropenms$mzMLFile()
     urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML", "tiny.pwiz.1.1.mzML")
-    exp = MSExperiment()
-    MzMLFile().load("tiny.pwiz.1.1.mzML", exp)
+    exp = ropenms$MSExperiment()
+    mzML$load("tiny.pwiz.1.1.mzML", exp)
 
 which will load the content of the "tiny.pwiz.1.1.mzML" file into the ``exp``
 variable of type ``MSExperiment``.
 We can now inspect the properties of this object:
 
-.. code-block:: python
+.. code-block:: R
 
-    >>> help(exp)
+    py_help(exp)
     Help on MSExperiment object:
 
     class MSExperiment(__builtin__.object)
@@ -135,95 +137,75 @@ We can now inspect the properties of this object:
 which indicates that the variable ``exp`` has (among others) the functions
 ``getNrSpectra`` and ``getNrChromatograms``. We can now try these functions:
 
-.. code-block:: python
+.. code-block:: R
 
-    >>> exp.getNrSpectra()
+    exp$getNrSpectra()
     4
-    >>> exp.getNrChromatograms()
+    exp$getNrChromatograms()
     2
 
 and indeed we see that we get information about the underlying MS data. We can
 iterate through the spectra as follows:
 
+Visualize spectra
+^^^^^^^^^^^^^^^^^
+
+You can easily visualise ms1 level precursor maps:
+
+.. code-block:: R
+
+    spectra = py_to_r(msexp$getSpectra())
+
+    ms1=sapply(spectra, function(x) x$getMSLevel()==1)
+    peaks=sapply(spectra[ms1], function(x) cbind(do.call("cbind", x$get_peaks()),x$getRT()))
+    peaks=do.call("rbind", peaks)
+    peaks_df=data.frame(peaks)
+    colnames(peaks_df)=c('MZ','Intensity','RT')
+    peaks_df$Intensity=log10(peaks_df$Intensity)
+
+    ggplot(peaks_df, aes(x=RT, y=MZ) ) +
+    geom_point(size=1, aes(colour = Intensity), alpha=0.25) +
+    theme_minimal() +
+    scale_colour_gradient(low = "blue", high = "yellow")
+
+Or visualize a particular ms2 spectrum:
+
+.. code-block:: R
+
+    spectra = py_to_r(msexp$getSpectra())
+
+    ms2=spectra[!ms1][[1]]$get_peaks()
+    peaks_ms2=do.call("cbind", ms2)
+    peaks_ms2=data.frame(peaks_ms2)
+
+    ggplot(peaks_ms2, aes(x=X1, y=X2)) +
+    geom_segment( aes(x=X1, xend=X1, y=0, yend=X2)) +
+    geom_segment( aes(x=X1, xend=X1, y=0, yend=-X2)) + 
+    theme_minimal()
+
+
 
 Iteration
 ^^^^^^^^^
 
-.. code-block:: python
+Iterating over pyopenmsobjects is not equal to iterating over R vectors or lists.
 
-    >>> for spec in exp:
-    ...   print ("MS Level:", spec.getMSLevel())
-    ...
-    MS Level: 1
-    MS Level: 2
-    MS Level: 1
-    MS Level: 1
+Therefore we can not directly apply the usual functions such as apply() and have to use reticulate::iterate() instead:
 
-This iterates through all available spectra, we can also access spectra through the ``[]`` operator:
+.. code-block:: R
 
-.. code-block:: python
+    spectrum = ropenms$MSSpectrum()
+    mz = seq(1500, 500, -100)
+    i = seq(10, 2000, length.out = length(mz))
+    spectrum$set_peaks(list(mz, i))
 
-    >>> print ("MS Level:", exp[1].getMSLevel())
-    MS Level: 2
-
-Note that ``spec[1]`` will access the *second* spectrum (arrays start at
-``0``). We can access the raw peaks through ``get_peaks()``:
-
-.. code-block:: python
-
-    >>> spec = exp[1]
-    >>> mz, i = spec.get_peaks()
-    >>> sum(i)
-    110
-
-Which will access the data using a numpy array, storing the *m/z* information
-in the ``mz`` vector and the intensity in the ``i`` vector. Alternatively, we
-can also iterate over individual peak objects as follows (this tends to be
-slower):
-
-.. code-block:: python
-
-    >>> for peak in spec:
-    ...   print (peak.getIntensity())
-    ...
-    20.0
-    18.0
-    16.0
-    14.0
-    12.0
-    10.0
-    8.0
-    6.0
-    4.0
-    2.0
-
-TIC calculation
-^^^^^^^^^^^^^^^
+    iterate(spectrum, function(x) {print(paste0("M/z :" , x$getMZ(), " Intensity: ", x$getIntensity()))})
 
 
-With this information, we can now calculate a total ion current (TIC) using the
-following function:
+or as a way around:
 
-.. code-block:: python
-   :linenos:
-
-    def calcTIC(exp):
-        tic = 0
-        for spec in exp:
-            if spec.getMSLevel() == 1:
-                mz, i = spec.get_peaks()
-                tic += sum(i)
-        return tic
-
-To calculate a TIC we would now call the function:
-
-.. code-block:: python
-   :linenos:
-
-    >>> calcTIC(exp)
-    240.0
-    >>> sum([sum(s.get_peaks()[1]) for s in exp if s.getMSLevel() == 1])
-    240.0
-
-Note how one can compute the same property using list comprehensions in Python (see the third line above).
+    for (i in seq(0,spectrum$size()-1)) {
+          print(spectrum[i]$getMZ())
+          print(spectrum[i]$getIntensity())
+    }
 
