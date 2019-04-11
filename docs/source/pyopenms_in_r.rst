@@ -168,6 +168,8 @@ You can easily visualise ms1 level precursor maps:
     theme_minimal() +
     scale_colour_gradient(low = "blue", high = "yellow")
 
+    (plot)
+
 Or visualize a particular ms2 spectrum:
 
 .. code-block:: R
@@ -183,7 +185,7 @@ Or visualize a particular ms2 spectrum:
     geom_segment( aes(x=X1, xend=X1, y=0, yend=-X2)) + 
     theme_minimal()
 
-
+    (plot)
 
 Iteration
 ^^^^^^^^^
@@ -209,3 +211,16 @@ or as a way around:
           print(spectrum[i]$getIntensity())
     }
 
+.. code-block:: R
+
+    [1] "M/z :1500.0 Intensity: 10.0"
+    [1] "M/z :1400.0 Intensity: 209.0"
+    [1] "M/z :1300.0 Intensity: 408.0"
+    [1] "M/z :1200.0 Intensity: 607.0"
+    [1] "M/z :1100.0 Intensity: 806.0"
+    [1] "M/z :1000.0 Intensity: 1005.0"
+    [1] "M/z :900.0 Intensity: 1204.0"
+    [1] "M/z :800.0 Intensity: 1403.0"
+    [1] "M/z :700.0 Intensity: 1602.0"
+    [1] "M/z :600.0 Intensity: 1801.0"
+    [1] "M/z :500.0 Intensity: 2000.0"
