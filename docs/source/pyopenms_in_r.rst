@@ -14,11 +14,11 @@ A thorough documentation is available at: https://rstudio.github.io/reticulate/
 
 Installation of pyopenms is a requirement as well and it is necessary to make sure that R is using the same python environment.
 
-In case this not the case try:
+In case this not the case try for example (using miniconda):
 
 .. code-block:: R
 
-   Sys.setenv(RETICULATE_PYTHON = PATH)
+   Sys.setenv(RETICULATE_PYTHON = "/usr/local/miniconda3/envs/py37/bin/python")
 
 Or after loading the "reticulate" library:
 
