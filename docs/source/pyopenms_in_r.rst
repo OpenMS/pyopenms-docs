@@ -1,5 +1,9 @@
-Pyopenms in R
+pyOpenms in R
 ===============
+
+Currently, there are no native wrappers for the OpenMS library in R, however we
+can use the "reticulate" package in order to get access to the full
+functionality of pyOpenMS in the R programming language.
 
 Install the "reticulate" R package
 **********************************
@@ -14,7 +18,7 @@ A thorough documentation is available at: https://rstudio.github.io/reticulate/
 
 Installation of pyopenms is a requirement as well and it is necessary to make sure that R is using the same python environment.
 
-In case this not the case try for example (using miniconda):
+In case R is having trouble to find the correct Python environment, you can set it by hand as in this example (using miniconda, you will have to adjust the file path to your system to make this work):
 
 .. code-block:: R
 
@@ -37,7 +41,7 @@ After loading the "reticulate" library you should be able to import pyopenms int
     library(reticulate)
     import("pyopenms", convert = FALSE)
 
-This should now give you access to all of pyopenms in R. Importantly the convert option
+This should now give you access to all of pyopenms in R. Importantly, the convert option
 has to be set to FALSE, since type conversions such as 64bit integers will cause a problem.
 
 You should now be able to interact with the OpenMS library and, for example, read and write mzML files:
@@ -77,7 +81,7 @@ through the ``py_help`` function:
     |      Cython signature: void load(String filename, libcpp_vector[ProteinIdentification] & protein_ids, libcpp_vector[PeptideIdentification] & peptide_ids)
     [...]
 
-Alternatively, the autocompletion funcionality of RStudio can be used:
+Alternatively, the autocompletion functionality of RStudio can be used:
 
 .. code-block:: R
 
@@ -86,17 +90,19 @@ Alternatively, the autocompletion funcionality of RStudio can be used:
 
     (possibly screenshot)
 
-    Cython signature: void load(String filename, libcpp_vector[ProteinIdentification] & protein_ids, libcpp_vector[PeptideIdentification] & peptide_ids)
+    Cython signature: void load(String filename,
+                                libcpp_vector[ProteinIdentification] & protein_ids,
+                                libcpp_vector[PeptideIdentification] & peptide_ids)
 
-In this case the idXML$load() function requires
+In this case, the help function indicates that the ``idXML$load()`` function requires
 
        - a filename as string
        - an empty vector for pyopenms.ProteinIdentification objects
        - an empty vector for pyopenms.PeptideIdentification objects
 
-Creating an empty R list() unfortunately is not equal to the empty python list []
+Creating an empty R ``list()`` unfortunately is not equal to the empty python ``list []``
 
-Therefore in this case we need to use the reticulate::r_to_py() function:
+Therefore, we need to use the reticulate::r_to_py() function:
 
 .. code-block:: R
 
@@ -208,7 +214,7 @@ Or visualize a particular ms2 spectrum:
 Iteration
 ^^^^^^^^^
 
-Iterating over pyopenmsobjects is not equal to iterating over R vectors or lists.
+Iterating over pyopenms objects is not equal to iterating over R vectors or lists.
 
 Therefore we can not directly apply the usual functions such as apply() and have to use reticulate::iterate() instead:
 
@@ -233,11 +239,13 @@ Therefore we can not directly apply the usual functions such as apply() and have
     [1] "M/z :600.0 Intensity: 1801.0"
     [1] "M/z :500.0 Intensity: 2000.0"
 
-or as a way around:
+or we can use a for-loop (note that we use zero-based indices as custom in Python):
 
 .. code-block:: R
 
-    for (i in seq(0,spectrum$size()-1)) {
+    for (i in seq(0,spectrum$size()-1)) 
+    {
           print(spectrum[i]$getMZ())
           print(spectrum[i]$getIntensity())
     }
+

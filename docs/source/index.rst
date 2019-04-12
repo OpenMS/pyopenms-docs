@@ -67,6 +67,12 @@ Note: the current documentation relates to the 2.4.0 release of pyOpenMS.
 
 .. toctree::
    :maxdepth: 2
+   :caption: R language
+
+   pyopenms_in_r
+
+.. toctree::
+   :maxdepth: 2
    :caption: Developers
 
    build_from_source
