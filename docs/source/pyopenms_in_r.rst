@@ -73,7 +73,8 @@ Alternatively, the autocompletion funcionality of RStudio can be used:
 
     Cython signature: void load(String filename, libcpp_vector[ProteinIdentification] & protein_ids, libcpp_vector[PeptideIdentification] & peptide_ids)
 
-In this case the idXML$load function requires:
+In this case the idXML$load() function requires
+
        - a filename as string
        - an empty vector for pyopenms.ProteinIdentification objects
        - an empty vector for pyopenms.PeptideIdentification objects
