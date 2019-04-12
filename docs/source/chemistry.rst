@@ -59,7 +59,7 @@ in the next few lines of code.
 
     methanol = EmpiricalFormula("CH3OH")
     water = EmpiricalFormula("H2O")
-    ethanol = EmpiricalFormula(b"CH2" + methanol.toString())
+    ethanol = EmpiricalFormula("CH2" + methanol.toString())
     wm = water + methanol
     print(wm.toString())
     print(wm.getElementalComposition())
@@ -80,7 +80,7 @@ Isotopic Distributions
 **********************
 
 OpenMS can also generate theoretical isotopic distributions from analytes
-represented as ``EmpiricalFormula``:
+represented as ``EmpiricalFormula``. Currently there are two algorithms implemented, CoarseIsotopePatternGenerator which produces unit mass isotope patterns and FineIsotopePatternGenerator which is based on the IsoSpec algorithm [1]_ :
 
 .. code-block:: python
     :linenos:
@@ -89,7 +89,13 @@ represented as ``EmpiricalFormula``:
 
     wm = EmpiricalFormula("CH3OH") + EmpiricalFormula("H2O")
 
-    isotopes = wm.getIsotopeDistribution( CoarseIsotopePatternGenerator(3) )
+    print("Coarse Isotope Distribution:")
+    isotopes = wm.getIsotopeDistribution( CoarseIsotopePatternGenerator(5) )
+    for iso in isotopes.getContainer():
+        print (iso.getMZ(), ":", iso.getIntensity())
+
+    print("Fine Isotope Distribution:")
+    isotopes = wm.getIsotopeDistribution( FineIsotopePatternGenerator(1e-7) )
     for iso in isotopes.getContainer():
         print (iso.getMZ(), ":", iso.getIntensity())
 
@@ -97,22 +103,49 @@ which produces
 
 .. code-block:: python
 
-    50.0367801914 : 0.983870208263
-    51.0401350292 : 0.0120697841048
-    52.043489867 : 0.00405999971554
+    Coarse Isotope Distribution:
+    50.0367801914 : 0.983818769454956
+    51.0401350292 : 0.012069152668118477
+    52.043489867  : 0.004059787839651108
+    53.0468447048 : 4.807332152267918e-05
+    54.0501995426 : 4.203372554911766e-06
+
+    Fine Isotope Distribution:
+    50.0367801914 : 0.9838188290596008
+    51.0401351914 : 0.01064071711152792
+    51.0409971914 : 0.0007495236932300031
+    51.0430569395 : 0.0006789130857214332
+    52.0410341914 : 0.004043483175337315
+    52.0443521914 : 8.10664460004773e-06
+    52.0452141914 : 1.4275640580763138e-07
+    52.0464119395 : 7.342939625232248e-06
+    52.0472739395 : 5.172308306100604e-07
+    52.0493336876 : 1.9520996374922106e-07
+    53.0443891914 : 4.3733216443797573e-05
+    53.0452511914 : 1.540266453048389e-06
+    53.0473109395 : 2.7903240606974578e-06
+    54.0452881914 : 4.15466593040037e-06
+
+
+Note how the fine isotope distribution contains the hyperfine isotope structure
+with heavy isotopes of Carbon, Hydrogen and Oxygen clearly distinguished while
+the coarse (unit resolution) isotopic distribution contains summed
+probabilities for each isotopic peak without the hyperfine resolution.  Also note how the differences between the hyperfine peaks can reach more than 60 ppm (52.041 vs 52.044).
 
 OpenMS can also produce isotopic distribution with masses rounded to the
 nearest integer if we prefer:
 
 .. code-block:: python
 
-    isotopes = wm.getIsotopeDistribution( CoarseIsotopePatternGenerator(3, True) )
+    isotopes = wm.getIsotopeDistribution( CoarseIsotopePatternGenerator(5, True) )
     for iso in isotopes.getContainer():
         print (iso.getMZ(), ":", iso.getIntensity())
 
-    50.0 : 0.983870208263
-    51.0 : 0.0120697841048
-    52.0 : 0.00405999971554
+    50.0 : 0.983818769454956
+    51.0 : 0.012069152668118477
+    52.0 : 0.004059787839651108
+    53.0 : 4.807332152267918e-05
+    54.0 : 4.203372554911766e-06
 
 
 Amino Acid Residue
@@ -166,7 +199,7 @@ modifications. It contains UniMod as well as PSI modifications.
     print(ox.getId())
     print(ox.getFullId())
     print(ox.getFullName())
-    print(ox.getDiffFormula().toString())
+    print(ox.getDiffFormula())
 
 
 .. code-block:: python
@@ -192,3 +225,6 @@ is identical to the one of Oxygen by itself):
 In the next section, we will look at how to combine amino acids and
 modifications to form amino acid sequences (peptides).
 
+.. [1] Łącki MK, Startek M, Valkenborg D, Gambin A.
+    IsoSpec: Hyperfast Fine Structure Calculator.
+    Anal Chem. 2017 Mar 21;89(6):3272-3277. `doi: 10.1021/acs.analchem.6b01459. <http://doi.org/10.1021/acs.analchem.6b01459>`_

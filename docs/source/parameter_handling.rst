@@ -19,19 +19,23 @@ interactive session without consulting the documentation.
     p = Param()
     p.setValue("param1", 4.0, "This is value 1")
     p.setValue("param2", 5.0, "This is value 2")
+    print( p["param1"] )
+    p["param1"] += 3 # add three to the parameter value
+    print( p["param1"] )
+
 
 The parameters can then be accessed as 
 
 .. code-block:: python
 
     >>> p.asDict()
-    {'param2': 4.0, 'param1': 4.0}
+    {'param2': 4.0, 'param1': 7.0}
     >>> p.values()
-    [4.0, 4.0]
+    [4.0, 7.0]
     >>> p.keys()
     ['param1', 'param2']
     >>> p.items()
-    [('param1', 4.0), ('param2', 4.0)]
+    [('param1', 7.0), ('param2', 4.0)]
     >>> p.exists("param1")
     True
 

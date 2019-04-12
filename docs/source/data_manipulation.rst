@@ -40,7 +40,7 @@ certain identifier:
 
   e = MSExperiment()
   for s in inp:
-    if s.getNativeID().startswith(b"scan="):
+    if s.getNativeID().startswith("scan="):
       e.addSpectrum(s)
 
   MzMLFile().store("test_filtered.mzML", e)
@@ -72,7 +72,7 @@ filtering by MS level and scan identifier at the same time:
   :linenos:
   :lineno-start: 7
 
-  if s.getMSLevel() > 1 and s.getNativeID().startswith(b"scan="):
+  if s.getMSLevel() > 1 and s.getNativeID().startswith("scan="):
 
 Filtering by scan number
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -158,7 +158,7 @@ use the OnDiscMSExperiment for reading data.
   e = MSExperiment()
   for k in range(od_exp.getNrSpectra()):
     s = od_exp.getSpectrum(k)
-    if s.getNativeID().startswith(b"scan="):
+    if s.getNativeID().startswith("scan="):
       e.addSpectrum(s)
 
   MzMLFile().store("test_filtered.mzML", e)
@@ -179,7 +179,7 @@ by using
   e = MSExperiment()
   for k in range(od_exp.getNrSpectra()):
     s = od_exp.getSpectrum(k)
-    if s.getNativeID().startswith(b"scan="):
+    if s.getNativeID().startswith("scan="):
       consumer.consumeSpectrum(s)
 
   del consumer
