@@ -12,10 +12,25 @@ A thorough documentation is available at: https://rstudio.github.io/reticulate/
 
     install.packages("reticulate")
 
+Installation of pyopenms is a requirement as well and it is necessary to make sure that R is using the same python environment.
+
+In case this not the case try:
+
+.. code-block:: R
+
+   Sys.setenv(RETICULATE_PYTHON = PATH)
+
+Or after loading the "reticulate" library:
+
+.. code-block:: R
+
+   library("reticulate")
+   use_python("/usr/local/miniconda3/envs/py37/bin/python")
+
 Import pyopenms in R
 ********************
 
-Installation of pyopenms is a requirement as well, but after loading the "reticulate" library you should be able to import pyopenms into R
+After loading the "reticulate" library you should be able to import pyopenms into R
 
 .. code-block:: R
 
