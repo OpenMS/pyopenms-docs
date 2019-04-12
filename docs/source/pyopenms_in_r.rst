@@ -73,20 +73,22 @@ Alternatively, the autocompletion funcionality of RStudio can be used:
 
     Cython signature: void load(String filename, libcpp_vector[ProteinIdentification] & protein_ids, libcpp_vector[PeptideIdentification] & peptide_ids)
 
-    In this case the idXML$load function requires:
+In this case the idXML$load function requires:
        - a filename as string
        - an empty vector for pyopenms.ProteinIdentification objects
        - an empty vector for pyopenms.PeptideIdentification objects
 
-    Creating an empty R list() unfortunately is not equal to the empty python list []
+Creating an empty R list() unfortunately is not equal to the empty python list []
 
-    Therefore in this case we need to use the "reticulate" r_to_py() function:
+Therefore in this case we need to use the "reticulate" r_to_py() function:
+
+.. code-block:: R
 
     f="/OpenMS/OpenMS/share/OpenMS/examples/BSA/BSA1_OMSSA.idXML"
     pepids=r_to_py([])
     protids=r_to_py([])
 
-    --> idXML$load(f, pepids, protids)
+    idXML$load(f, pepids, protids)
 
 In order to get more information about the wrapped functions, we can also 
 consult the `pyOpenMS manual <http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ 
