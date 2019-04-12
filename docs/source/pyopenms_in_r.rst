@@ -81,13 +81,13 @@ In this case the idXML$load() function requires
 
 Creating an empty R list() unfortunately is not equal to the empty python list []
 
-Therefore in this case we need to use the "reticulate" r_to_py() function:
+Therefore in this case we need to use the reticulate::r_to_py() function:
 
 .. code-block:: R
 
     f="/OpenMS/OpenMS/share/OpenMS/examples/BSA/BSA1_OMSSA.idXML"
-    pepids=r_to_py([])
-    protids=r_to_py([])
+    pepids=r_to_py(list())
+    protids=r_to_py(list())
 
     idXML$load(f, pepids, protids)
 
