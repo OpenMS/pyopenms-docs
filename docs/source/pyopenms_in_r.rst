@@ -122,12 +122,11 @@ example file <http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzM
 
 .. code-block:: R
 
-    from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
+    download.file("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML", "tiny.pwiz.1.1.mzML")
+
     library(reticulate)
     ropenms=import("pyopenms", convert = FALSE)
     mzML=ropenms$mzMLFile()
-    urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML", "tiny.pwiz.1.1.mzML")
     exp = ropenms$MSExperiment()
     mzML$load("tiny.pwiz.1.1.mzML", exp)
 
@@ -174,10 +173,16 @@ You can easily visualise ms1 level precursor maps:
 
     spectra = py_to_r(msexp$getSpectra())
 
-    ms1=sapply(spectra, function(x) x$getMSLevel()==1)
-    peaks=sapply(spectra[ms1], function(x) cbind(do.call("cbind", x$get_peaks()),x$getRT()))
-    peaks=do.call("rbind", peaks)
-    peaks_df=data.frame(peaks)
+    peaks_df=c()
+    for (i in spectra) {
+      if (i$getMSLevel()==1){
+        peaks=do.call("cbind", i$get_peaks())
+        rt=i$getRT()
+        peaks_df=rbind(peaks_df,cbind(peaks,rt))
+      }
+    }
+
+    peaks_df=data.frame(peaks_df)    
     colnames(peaks_df)=c('MZ','Intensity','RT')
     peaks_df$Intensity=log10(peaks_df$Intensity)
 
@@ -197,10 +202,10 @@ Or visualize a particular ms2 spectrum:
     ms2=spectra[!ms1][[1]]$get_peaks()
     peaks_ms2=do.call("cbind", ms2)
     peaks_ms2=data.frame(peaks_ms2)
+    colnames(peaks_df)=c('MZ','Intensity','RT')
 
-    ggplot(peaks_ms2, aes(x=X1, y=X2)) +
-    geom_segment( aes(x=X1, xend=X1, y=0, yend=X2)) +
-    geom_segment( aes(x=X1, xend=X1, y=0, yend=-X2)) + 
+    ggplot(peaks_ms2, aes(x=MZ, y=Intensity)) +
+    geom_segment( aes(x=MZ, xend=MZ, y=0, yend=Intensity)) +
     theme_minimal()
 
     (plot)
@@ -237,7 +242,7 @@ or as a way around:
 
 .. code-block:: R
 
-    for (i in seq(0,spectrum$size()-1)) {
+    for (i in seq(0,py_to_r(spectrum$size())-1)) {
           print(spectrum[i]$getMZ())
           print(spectrum[i]$getIntensity())
     }
