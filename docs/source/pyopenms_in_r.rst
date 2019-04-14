@@ -185,7 +185,7 @@ You can easily visualise ms1 level precursor maps:
     scale_colour_gradient(low = "blue", high = "yellow")
 
 
-.. image:: img/R_ggplot_precursormap.png
+.. image:: img/R_ggplot_precursor_map.png
 
 Or visualize a particular ms2 spectrum:
 
