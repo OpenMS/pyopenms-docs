@@ -79,14 +79,7 @@ through the ``py_help`` function:
 
 Alternatively, the autocompletion funcionality of RStudio can be used:
 
-.. code-block:: R
-
-    idXML=ropenms$IdXMLFile()
-    idXML$...load... (autocompletion)
-
-    (possibly screenshot)
-
-    Cython signature: void load(String filename, libcpp_vector[ProteinIdentification] & protein_ids, libcpp_vector[PeptideIdentification] & peptide_ids)
+.. image:: img/R_autocompletion.png
 
 In this case the idXML$load() function requires
 
@@ -191,7 +184,8 @@ You can easily visualise ms1 level precursor maps:
     theme_minimal() +
     scale_colour_gradient(low = "blue", high = "yellow")
 
-    (plot)
+
+.. image:: img/R_ggplot_precursormap.png
 
 Or visualize a particular ms2 spectrum:
 
@@ -214,7 +208,8 @@ Or visualize a particular ms2 spectrum:
     geom_segment( aes(x=MZ, xend=MZ, y=0, yend=Intensity)) +
     theme_minimal()
 
-    (plot)
+
+.. image:: img/R_ggplot_ms2.png
 
 Iteration
 ^^^^^^^^^
