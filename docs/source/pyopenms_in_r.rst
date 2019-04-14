@@ -35,7 +35,7 @@ After loading the "reticulate" library you should be able to import pyopenms int
 .. code-block:: R
 
     library(reticulate)
-    import("pyopenms", convert = FALSE)
+    ropenms=import("pyopenms", convert = FALSE)
 
 This should now give you access to all of pyopenms in R. Importantly the convert option
 has to be set to FALSE, since type conversions such as 64bit integers will cause a problem.
@@ -77,7 +77,7 @@ through the ``py_help`` function:
     |      Cython signature: void load(String filename, libcpp_vector[ProteinIdentification] & protein_ids, libcpp_vector[PeptideIdentification] & peptide_ids)
     [...]
 
-Alternatively, the autocompletion funcionality of RStudio can be used:
+Alternatively, the autocompletion functionality of RStudio can be used:
 
 .. image:: img/R_autocompletion.png
 
@@ -87,17 +87,32 @@ In this case the idXML$load() function requires
        - an empty vector for pyopenms.ProteinIdentification objects
        - an empty vector for pyopenms.PeptideIdentification objects
 
+In order to read peptide identification data, we can download the `idXML
+example file <https://github.com/OpenMS/OpenMS/raw/develop/master/OpenMS/examples/BSA/BSA1_OMSSA.idXML.mzML>`
+
 Creating an empty R list() unfortunately is not equal to the empty python list []
 
-Therefore in this case we need to use the reticulate::r_to_py() function:
+Therefore in this case we need to use the reticulate::r_to_py() and reticulate::py_to_r() functions:
 
 .. code-block:: R
 
-    f="/OpenMS/OpenMS/share/OpenMS/examples/BSA/BSA1_OMSSA.idXML"
+    download.file("https://github.com/OpenMS/OpenMS/raw/master/share/OpenMS/examples/BSA/BSA1_OMSSA.idXML", "BSA1_OMSSA.idXML")
+
+    f="BSA1_OMSSA.idXML"
     pepids=r_to_py(list())
     protids=r_to_py(list())
 
     idXML$load(f, pepids, protids)
+
+    pepids=py_to_r(pepids)
+
+    pephits=pepids[[1]]$getHits()
+
+    pepseq=pephits[[1]]$getSequence()
+
+    print(paste0("Sequence: ", pepseq))
+
+    [1] "Sequence: SHC(Carbamidomethyl)IAEVEK"
 
 In order to get more information about the wrapped functions, we can also 
 consult the `pyOpenMS manual <http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ 
@@ -119,7 +134,7 @@ example file <https://github.com/OpenMS/OpenMS/raw/develop/master/OpenMS/example
 
     library(reticulate)
     ropenms=import("pyopenms", convert = FALSE)
-    mzML=ropenms$mzMLFile()
+    mzML=ropenms$MzMLFile()
     exp = ropenms$MSExperiment()
     mzML$load("BSA1.mzML", exp)
 
@@ -145,14 +160,12 @@ We can now inspect the properties of this object:
 
 
 which indicates that the variable ``exp`` has (among others) the functions
-``getNrSpectra`` and ``getNrChromatograms``. We can now try these functions:
+``getNrSpectra`` and ``getNrChromatograms``. We can now try one of these functions:
 
 .. code-block:: R
 
     exp$getNrSpectra()
-    4
-    exp$getNrChromatograms()
-    2
+    1684
 
 and indeed we see that we get information about the underlying MS data. We can
 iterate through the spectra as follows:
@@ -163,6 +176,8 @@ Visualize spectra
 You can easily visualise ms1 level precursor maps:
 
 .. code-block:: R
+
+    library(ggplot2)
 
     spectra = py_to_r(exp$getSpectra())
 
@@ -190,6 +205,8 @@ You can easily visualise ms1 level precursor maps:
 Or visualize a particular ms2 spectrum:
 
 .. code-block:: R
+
+    library(ggplot2)
 
     spectra = py_to_r(exp$getSpectra())
 
