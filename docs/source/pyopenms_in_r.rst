@@ -118,11 +118,11 @@ Reading an mzML File
 
 pyOpenMS supports a variety of different files through the implementations in
 OpenMS. In order to read mass spectrometric data, we can download the `mzML
-example file <http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML>`_
+example file <https://github.com/OpenMS/OpenMS/raw/develop/master/OpenMS/examples/BSA/BSA1.mzML>`_
 
 .. code-block:: R
 
-    download.file("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML", "tiny.pwiz.1.1.mzML")
+    download.file("https://github.com/OpenMS/OpenMS/raw/master/share/OpenMS/examples/BSA/BSA1.mzML", "BSA1.mzML")
 
     library(reticulate)
     ropenms=import("pyopenms", convert = FALSE)
@@ -199,12 +199,18 @@ Or visualize a particular ms2 spectrum:
 
     spectra = py_to_r(msexp$getSpectra())
 
-    ms2=spectra[!ms1][[1]]$get_peaks()
-    peaks_ms2=do.call("cbind", ms2)
-    peaks_ms2=data.frame(peaks_ms2)
-    colnames(peaks_df)=c('MZ','Intensity','RT')
+    peaks_ms2=list()
+    for (i in spectra) {
+      if (i$getMSLevel()==2){
+        peaks=do.call("cbind",i$get_peaks())
+        peaks_ms2[[i$getNativeID()]]=data.frame(peaks)
+      }
+    }
 
-    ggplot(peaks_ms2, aes(x=MZ, y=Intensity)) +
+    ms2_spectrum=peaks_ms2[["spectrum=3529"]]
+    colnames(ms2_spectrum)=c("MZ","Intensity")
+
+    ggplot(ms2_spectrum, aes(x=MZ, y=Intensity)) +
     geom_segment( aes(x=MZ, xend=MZ, y=0, yend=Intensity)) +
     theme_minimal()
 
