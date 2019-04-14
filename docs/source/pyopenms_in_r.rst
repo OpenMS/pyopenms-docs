@@ -14,7 +14,7 @@ A thorough documentation is available at: https://rstudio.github.io/reticulate/
 
 Installation of pyopenms is a requirement as well and it is necessary to make sure that R is using the same python environment.
 
-In case this not the case try for example (using miniconda):
+In case this is not the case, try for example (using miniconda) before loading the "reticulate" library:
 
 .. code-block:: R
 
@@ -128,9 +128,9 @@ example file <https://github.com/OpenMS/OpenMS/raw/develop/master/OpenMS/example
     ropenms=import("pyopenms", convert = FALSE)
     mzML=ropenms$mzMLFile()
     exp = ropenms$MSExperiment()
-    mzML$load("tiny.pwiz.1.1.mzML", exp)
+    mzML$load("BSA1.mzML", exp)
 
-which will load the content of the "tiny.pwiz.1.1.mzML" file into the ``exp``
+which will load the content of the "BSA1.mzML" file into the ``exp``
 variable of type ``MSExperiment``.
 We can now inspect the properties of this object:
 
@@ -171,7 +171,7 @@ You can easily visualise ms1 level precursor maps:
 
 .. code-block:: R
 
-    spectra = py_to_r(msexp$getSpectra())
+    spectra = py_to_r(exp$getSpectra())
 
     peaks_df=c()
     for (i in spectra) {
@@ -197,7 +197,7 @@ Or visualize a particular ms2 spectrum:
 
 .. code-block:: R
 
-    spectra = py_to_r(msexp$getSpectra())
+    spectra = py_to_r(exp$getSpectra())
 
     peaks_ms2=list()
     for (i in spectra) {
