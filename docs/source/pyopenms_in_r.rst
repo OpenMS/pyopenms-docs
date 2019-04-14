@@ -95,6 +95,8 @@ Therefore in this case we need to use the reticulate::r_to_py() and reticulate::
 
 .. code-block:: R
 
+    idXML=ropenms$IdXMLFile()
+
     download.file("https://github.com/OpenMS/OpenMS/raw/master/share/OpenMS/examples/BSA/BSA1_OMSSA.idXML", "BSA1_OMSSA.idXML")
 
     f="BSA1_OMSSA.idXML"
