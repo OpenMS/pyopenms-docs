@@ -87,8 +87,7 @@ In this case the idXML$load() function requires
        - an empty vector for pyopenms.ProteinIdentification objects
        - an empty vector for pyopenms.PeptideIdentification objects
 
-In order to read peptide identification data, we can download the `idXML
-example file <https://github.com/OpenMS/OpenMS/raw/develop/master/OpenMS/examples/BSA/BSA1_OMSSA.idXML.mzML>`
+In order to read peptide identification data, we can download the `idXML example file <https://github.com/OpenMS/OpenMS/raw/develop/master/OpenMS/examples/BSA/BSA1_OMSSA.idXML.mzML>`_
 
 Creating an empty R list() unfortunately is not equal to the empty python list []
 
@@ -102,7 +101,7 @@ Therefore in this case we need to use the reticulate::r_to_py() and reticulate::
     pepids=r_to_py(list())
     protids=r_to_py(list())
 
-    idXML$load(f, pepids, protids)
+    idXML$load(f, protids, pepids)
 
     pepids=py_to_r(pepids)
 
