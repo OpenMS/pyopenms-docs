@@ -1,4 +1,4 @@
-pyOpenms in R
+pyOpenMS in R
 ===============
 
 Currently, there are no native wrappers for the OpenMS library in R, however we
@@ -18,7 +18,7 @@ A thorough documentation is available at: https://rstudio.github.io/reticulate/
 
 Installation of pyopenms is a requirement as well and it is necessary to make sure that R is using the same python environment.
 
-In case R is having trouble to find the correct Python environment, you can set it by hand as in this example (using miniconda, you will have to adjust the file path to your system to make this work):
+In case R is having trouble to find the correct Python environment, you can set it by hand as in this example (using miniconda, you will have to adjust the file path to your system to make this work). You will need to do this before loading the "reticulate" library:
 
 .. code-block:: R
 
@@ -39,7 +39,7 @@ After loading the "reticulate" library you should be able to import pyopenms int
 .. code-block:: R
 
     library(reticulate)
-    import("pyopenms", convert = FALSE)
+    ropenms=import("pyopenms", convert = FALSE)
 
 This should now give you access to all of pyopenms in R. Importantly, the convert option
 has to be set to FALSE, since type conversions such as 64bit integers will cause a problem.
@@ -83,16 +83,7 @@ through the ``py_help`` function:
 
 Alternatively, the autocompletion functionality of RStudio can be used:
 
-.. code-block:: R
-
-    idXML=ropenms$IdXMLFile()
-    idXML$...load... (autocompletion)
-
-    (possibly screenshot)
-
-    Cython signature: void load(String filename,
-                                libcpp_vector[ProteinIdentification] & protein_ids,
-                                libcpp_vector[PeptideIdentification] & peptide_ids)
+.. image:: img/R_autocompletion.png
 
 In this case, the help function indicates that the ``idXML$load()`` function requires
 
@@ -100,17 +91,33 @@ In this case, the help function indicates that the ``idXML$load()`` function req
        - an empty vector for pyopenms.ProteinIdentification objects
        - an empty vector for pyopenms.PeptideIdentification objects
 
-Creating an empty R ``list()`` unfortunately is not equal to the empty python ``list []``
+In order to read peptide identification data, we can download the `idXML example file <https://github.com/OpenMS/OpenMS/raw/develop/master/OpenMS/examples/BSA/BSA1_OMSSA.idXML.mzML>`_
 
-Therefore, we need to use the reticulate::r_to_py() function:
+Creating an empty R ``list()`` unfortunately is not equal to the empty python ``list []``.
+
+Therefore in this case we need to use the ``reticulate::r_to_py()`` and ``reticulate::py_to_r()`` functions:
 
 .. code-block:: R
 
-    f="/OpenMS/OpenMS/share/OpenMS/examples/BSA/BSA1_OMSSA.idXML"
+    idXML=ropenms$IdXMLFile()
+
+    download.file("https://github.com/OpenMS/OpenMS/raw/master/share/OpenMS/examples/BSA/BSA1_OMSSA.idXML", "BSA1_OMSSA.idXML")
+
+    f="BSA1_OMSSA.idXML"
     pepids=r_to_py(list())
     protids=r_to_py(list())
 
-    idXML$load(f, pepids, protids)
+    idXML$load(f, protids, pepids)
+
+    pepids=py_to_r(pepids)
+
+    pephits=pepids[[1]]$getHits()
+
+    pepseq=pephits[[1]]$getSequence()
+
+    print(paste0("Sequence: ", pepseq))
+
+    [1] "Sequence: SHC(Carbamidomethyl)IAEVEK"
 
 In order to get more information about the wrapped functions, we can also 
 consult the `pyOpenMS manual <http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ 
@@ -124,20 +131,19 @@ Reading an mzML File
 
 pyOpenMS supports a variety of different files through the implementations in
 OpenMS. In order to read mass spectrometric data, we can download the `mzML
-example file <http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML>`_
+example file <https://github.com/OpenMS/OpenMS/raw/develop/master/OpenMS/examples/BSA/BSA1.mzML>`_
 
 .. code-block:: R
 
-    from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
+    download.file("https://github.com/OpenMS/OpenMS/raw/master/share/OpenMS/examples/BSA/BSA1.mzML", "BSA1.mzML")
+
     library(reticulate)
     ropenms=import("pyopenms", convert = FALSE)
-    mzML=ropenms$mzMLFile()
-    urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML", "tiny.pwiz.1.1.mzML")
+    mzML=ropenms$MzMLFile()
     exp = ropenms$MSExperiment()
-    mzML$load("tiny.pwiz.1.1.mzML", exp)
+    mzML$load("BSA1.mzML", exp)
 
-which will load the content of the "tiny.pwiz.1.1.mzML" file into the ``exp``
+which will load the content of the "BSA1.mzML" file into the ``exp``
 variable of type ``MSExperiment``.
 We can now inspect the properties of this object:
 
@@ -159,14 +165,12 @@ We can now inspect the properties of this object:
 
 
 which indicates that the variable ``exp`` has (among others) the functions
-``getNrSpectra`` and ``getNrChromatograms``. We can now try these functions:
+``getNrSpectra`` and ``getNrChromatograms``. We can now try one of these functions:
 
 .. code-block:: R
 
     exp$getNrSpectra()
-    4
-    exp$getNrChromatograms()
-    2
+    1684
 
 and indeed we see that we get information about the underlying MS data. We can
 iterate through the spectra as follows:
@@ -178,12 +182,20 @@ You can easily visualise ms1 level precursor maps:
 
 .. code-block:: R
 
-    spectra = py_to_r(msexp$getSpectra())
+    library(ggplot2)
 
-    ms1=sapply(spectra, function(x) x$getMSLevel()==1)
-    peaks=sapply(spectra[ms1], function(x) cbind(do.call("cbind", x$get_peaks()),x$getRT()))
-    peaks=do.call("rbind", peaks)
-    peaks_df=data.frame(peaks)
+    spectra = py_to_r(exp$getSpectra())
+
+    peaks_df=c()
+    for (i in spectra) {
+      if (i$getMSLevel()==1){
+        peaks=do.call("cbind", i$get_peaks())
+        rt=i$getRT()
+        peaks_df=rbind(peaks_df,cbind(peaks,rt))
+      }
+    }
+
+    peaks_df=data.frame(peaks_df)    
     colnames(peaks_df)=c('MZ','Intensity','RT')
     peaks_df$Intensity=log10(peaks_df$Intensity)
 
@@ -192,31 +204,56 @@ You can easily visualise ms1 level precursor maps:
     theme_minimal() +
     scale_colour_gradient(low = "blue", high = "yellow")
 
-    (plot)
+
+.. image:: img/R_ggplot_precursor_map.png
 
 Or visualize a particular ms2 spectrum:
 
 .. code-block:: R
 
-    spectra = py_to_r(msexp$getSpectra())
+    library(ggplot2)
 
-    ms2=spectra[!ms1][[1]]$get_peaks()
-    peaks_ms2=do.call("cbind", ms2)
-    peaks_ms2=data.frame(peaks_ms2)
+    spectra = py_to_r(exp$getSpectra())
 
-    ggplot(peaks_ms2, aes(x=X1, y=X2)) +
-    geom_segment( aes(x=X1, xend=X1, y=0, yend=X2)) +
-    geom_segment( aes(x=X1, xend=X1, y=0, yend=-X2)) + 
+    # Collect all MS2 peak data in a list
+    peaks_ms2=list()
+    for (i in spectra) {
+      if (i$getMSLevel()==2){
+        peaks=do.call("cbind",i$get_peaks())
+        peaks_ms2[[i$getNativeID()]]=data.frame(peaks)
+      }
+    }
+
+    ms2_spectrum=peaks_ms2[["spectrum=3529"]]
+    colnames(ms2_spectrum)=c("MZ","Intensity")
+
+    ggplot(ms2_spectrum, aes(x=MZ, y=Intensity)) +
+    geom_segment( aes(x=MZ, xend=MZ, y=0, yend=Intensity)) +
     theme_minimal()
 
-    (plot)
+
+.. image:: img/R_ggplot_ms2.png
+
+Alternatively, we could also have used ``apply`` to obtain the peak data, which
+is more idiomatic way of doing things for the R programming language:
+
+.. code-block:: R
+
+    ms1 = sapply(spectra, function(x) x$getMSLevel()==1)
+    peaks = sapply(spectra[ms1], function(x) cbind(do.call("cbind", x$get_peaks()),x$getRT()))
+    peaks = data.frame( do.call("rbind", peaks) )
+
+    ms2 = spectra[!ms1][[1]]$get_peaks()
+    ms2_spectrum = data.frame( do.call("cbind", ms2) )
 
 Iteration
 ^^^^^^^^^
 
-Iterating over pyopenms objects is not equal to iterating over R vectors or lists.
+Iterating over pyopenms objects is not equal to iterating over R vectors or
+lists. Note that for many applications, there is a more efficient way to access
+data (such as ``get_peaks`` instead of iterating over individual peaks).
 
-Therefore we can not directly apply the usual functions such as apply() and have to use reticulate::iterate() instead:
+Therefore we can not directly apply the usual functions such as ``apply()`` and have to use ``reticulate::iterate()`` instead:
 
 .. code-block:: R
 
@@ -243,8 +280,7 @@ or we can use a for-loop (note that we use zero-based indices as custom in Pytho
 
 .. code-block:: R
 
-    for (i in seq(0,spectrum$size()-1)) 
-    {
+    for (i in seq(0,py_to_r(spectrum$size())-1)) {
           print(spectrum[i]$getMZ())
           print(spectrum[i]$getIntensity())
     }
