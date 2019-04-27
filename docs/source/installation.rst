@@ -12,10 +12,11 @@ To :index:`install` pyOpenMS from the binaries, you can simply type
   pip install pyopenms
 
 
-We have binary packages for OSX, Linux and Windows (64 bit only). Note that for
-Windows, we only support Python 3.5 and 3.6 in their 64 bit versions, therefore
-make sure to download the 64bit Python release. For OSX and Linux, we also
-support Python 2.7 as well as Python 3.4 (Linux only).
+We have binary packages for OSX, Linux and Windows (64 bit only) available from
+`PyPI <https://pypi.org/project/pyopenms>`_. Note that for Windows, we only
+support Python 3.5, 3.6 and 3.7 in their 64 bit versions, therefore make sure
+to download the 64bit Python release for Windows. For OSX and Linux, we
+additionally also support Python 2.7 as well as Python 3.4 (Linux only).
 
 You can install Python first from `here <https://www.python.org/downloads/>`_,
 again make sure to download the 64bit release. You can then open a shell and
@@ -27,7 +28,7 @@ Source
 
 To install pyOpenMS from :index:`source`, you will first have to compile OpenMS
 successfully on your platform of choice and then follow the `building from
-source <build_from_source.html>`_ instructions.
+source <build_from_source.html>`_ instructions. Note that *this is not recommended*.
 
 Wrap Classes
 ************
