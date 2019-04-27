@@ -38,6 +38,7 @@ Note: the current documentation relates to the 2.5.0 release of pyOpenMS.
 
    getting_started
    file_handling
+   mzMLFileFormat
    other_file_handling
 
 .. toctree::
