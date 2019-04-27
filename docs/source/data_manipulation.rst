@@ -5,24 +5,12 @@ Here we will look at a few simple data manipulation techniques on spectral
 data, such as filtering. First we will download some sample data.
 
 
-In Python 2.x we will use
-
-.. code-block:: python
-
-    from urllib import urlretrieve
-    urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML",
-                 "test.mzML")
-
-
-
-While for Python 3.x the code is
-
 .. code-block:: python
 
     from urllib.request import urlretrieve
+    # from urllib import urlretrieve  # use this code for Python 2.x
     urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML",
                  "test.mzML")
-
 
 Filtering Spectra
 *******************
