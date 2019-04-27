@@ -66,7 +66,7 @@ its dot product is low (0.75). We also see that a peak at 3119 seconds is
 likely correct for ``tr_gr1`` since it matches well with the expected library
 intensities and has a high dot product (0.99).
 
-Note: to get an overview over all available scores in the feature metavalues, you can use
+Note: to get an overview over all available scores for a particular MRM feature ``f``, you can use
 
 .. code-block:: python
 
