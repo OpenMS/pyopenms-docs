@@ -33,6 +33,7 @@ manipulate the spectra in the file for example as follows:
     for s in exp.getSpectra():
         if s.getMSLevel() != 1:
             spec.append(s)
+
     exp.setSpectra(spec)
 
 Which will only keep MS2 spectra in the ``MSExperiment``. We can then store the modified data structure on disk:
@@ -64,7 +65,7 @@ Putting this together, a small filtering program would look like this:
 indexed mzML files
 ******************
 
-With pyOpenMS 2.4, you can open, read and inspect files that use the
+Since pyOpenMS 2.4, you can open, read and inspect files that use the
 indexedMzML standard. This allows users to read MS data without loading all
 data into memory:
 
@@ -168,9 +169,9 @@ use this to implement a simple filtering function for mass spectra:
                 self._internal_consumer.consumeSpectrum(s)
 
     ###################################
-    filter_string = b"DECOY"
-    inputfile = b"in.mzML"
-    outputfile = b"out.mzML"
+    filter_string = "DECOY"
+    inputfile = "in.mzML"
+    outputfile = "out.mzML"
     ###################################
 
     consumer = PlainMSDataWritingConsumer(outputfile)
@@ -257,59 +258,4 @@ into memory):
 
 This approach is now memory efficient in cases where computation should only occur
 on part of the data or the whole data may not fit into memory.
-
-mzML files
-**********
-
-Here, we will investigate the mzML file format in greater detail
-
-.. code-block:: python
-
-    print( open("test.mzML").readlines()[197] )
-    print( "".join( open("test.mzML").readlines()[193:199]) )
-
-    from pyopenms import *
-    exp = MSExperiment()
-    MzMLFile().load("test.mzML", exp)
-
-    print( exp.getSpectrum(1).get_peaks()[0] )
-
-
-.. code-block:: python
-
-    encoded_data = b"AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQ" +\
-        b"AAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA="
-
-    from pyopenms import *
-    Base64().decode(encoded_data, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, out, False)
-    print( out )
-
-    import base64, struct
-    raw_data = base64.decodebytes(encoded_data)
-    out = struct.unpack('<%sd' % (len(raw_data) // 8), raw_data)
-    # struct.unpack('<%sf' % (len(raw_data) // 4), raw_data)
-    print(out)
-
-
-    print( open("test.mzML").readlines()[197] )
-    print( "".join( open("test.mzML").readlines()[193:199]) )
-
-
-
-
-    exp = MSExperiment()
-    MzMLFile().transform(b"test.mzML", cacher, exp)
-    CachedMzMLHandler().writeMetadata(exp, "myCache2.mzML")
-    del cacher
-
-    # Now load data
-    cfile = CachedmzML()
-    CachedmzML.load("myCache2.mzML", cfile)
-
-    meta_data = cfile.getMetaData()
-    # data is not present in meta_data experiment
-    sum(meta_data.getChromatogram(0).get_peaks()[1]) # no data!
-    sum(cfile.getChromatogram(0).get_peaks()[1]) # data is here!
-
-
 
