@@ -65,6 +65,8 @@ Note: the current documentation relates to the 2.5.0 release of pyOpenMS.
    parameter_handling
    algorithms
    feature_detection
+   peptide_search
+   chromatographic_analysis
 
 .. toctree::
    :maxdepth: 2
