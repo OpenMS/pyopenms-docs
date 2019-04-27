@@ -6,7 +6,7 @@ build documentation and to build you can run
 
     sphinx-build source/ build/
 
-On a linux systm, you can also use the provided Makefile and run 
+On a linux system, you can also use the provided Makefile and run 
 
     make html
 
