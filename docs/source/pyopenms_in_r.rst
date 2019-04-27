@@ -1,5 +1,9 @@
-Pyopenms in R
+pyOpenMS in R
 ===============
+
+Currently, there are no native wrappers for the OpenMS library in R, however we
+can use the "reticulate" package in order to get access to the full
+functionality of pyOpenMS in the R programming language.
 
 Install the "reticulate" R package
 **********************************
@@ -14,7 +18,7 @@ A thorough documentation is available at: https://rstudio.github.io/reticulate/
 
 Installation of pyopenms is a requirement as well and it is necessary to make sure that R is using the same python environment.
 
-In case this is not the case, try for example (using miniconda) before loading the "reticulate" library:
+In case R is having trouble to find the correct Python environment, you can set it by hand as in this example (using miniconda, you will have to adjust the file path to your system to make this work). You will need to do this before loading the "reticulate" library:
 
 .. code-block:: R
 
@@ -37,7 +41,7 @@ After loading the "reticulate" library you should be able to import pyopenms int
     library(reticulate)
     ropenms=import("pyopenms", convert = FALSE)
 
-This should now give you access to all of pyopenms in R. Importantly the convert option
+This should now give you access to all of pyopenms in R. Importantly, the convert option
 has to be set to FALSE, since type conversions such as 64bit integers will cause a problem.
 
 You should now be able to interact with the OpenMS library and, for example, read and write mzML files:
@@ -81,7 +85,7 @@ Alternatively, the autocompletion functionality of RStudio can be used:
 
 .. image:: img/R_autocompletion.png
 
-In this case the idXML$load() function requires
+In this case, the help function indicates that the ``idXML$load()`` function requires
 
        - a filename as string
        - an empty vector for pyopenms.ProteinIdentification objects
@@ -89,9 +93,9 @@ In this case the idXML$load() function requires
 
 In order to read peptide identification data, we can download the `idXML example file <https://github.com/OpenMS/OpenMS/raw/develop/master/OpenMS/examples/BSA/BSA1_OMSSA.idXML.mzML>`_
 
-Creating an empty R list() unfortunately is not equal to the empty python list []
+Creating an empty R ``list()`` unfortunately is not equal to the empty python ``list []``.
 
-Therefore in this case we need to use the reticulate::r_to_py() and reticulate::py_to_r() functions:
+Therefore in this case we need to use the ``reticulate::r_to_py()`` and ``reticulate::py_to_r()`` functions:
 
 .. code-block:: R
 
@@ -211,6 +215,7 @@ Or visualize a particular ms2 spectrum:
 
     spectra = py_to_r(exp$getSpectra())
 
+    # Collect all MS2 peak data in a list
     peaks_ms2=list()
     for (i in spectra) {
       if (i$getMSLevel()==2){
@@ -229,12 +234,26 @@ Or visualize a particular ms2 spectrum:
 
 .. image:: img/R_ggplot_ms2.png
 
+Alternatively, we could also have used ``apply`` to obtain the peak data, which
+is more idiomatic way of doing things for the R programming language:
+
+.. code-block:: R
+
+    ms1 = sapply(spectra, function(x) x$getMSLevel()==1)
+    peaks = sapply(spectra[ms1], function(x) cbind(do.call("cbind", x$get_peaks()),x$getRT()))
+    peaks = data.frame( do.call("rbind", peaks) )
+
+    ms2 = spectra[!ms1][[1]]$get_peaks()
+    ms2_spectrum = data.frame( do.call("cbind", ms2) )
+
 Iteration
 ^^^^^^^^^
 
-Iterating over pyopenmsobjects is not equal to iterating over R vectors or lists.
+Iterating over pyopenms objects is not equal to iterating over R vectors or
+lists. Note that for many applications, there is a more efficient way to access
+data (such as ``get_peaks`` instead of iterating over individual peaks).
 
-Therefore we can not directly apply the usual functions such as apply() and have to use reticulate::iterate() instead:
+Therefore we can not directly apply the usual functions such as ``apply()`` and have to use ``reticulate::iterate()`` instead:
 
 .. code-block:: R
 
@@ -257,7 +276,7 @@ Therefore we can not directly apply the usual functions such as apply() and have
     [1] "M/z :600.0 Intensity: 1801.0"
     [1] "M/z :500.0 Intensity: 2000.0"
 
-or as a way around:
+or we can use a for-loop (note that we use zero-based indices as custom in Python):
 
 .. code-block:: R
 
@@ -265,3 +284,4 @@ or as a way around:
           print(spectrum[i]$getMZ())
           print(spectrum[i]$getIntensity())
     }
+
