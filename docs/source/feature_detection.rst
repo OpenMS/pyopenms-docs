@@ -11,10 +11,11 @@ One very common task in Mass Spectrometric research is the detection of 2D featu
   - FeatureFinderMetabo   
   - FeatureFinderSuperHirn
 
-
-One of the most commonly used FeatureFinders is the FeatureFinderCentroided
-which works on (high resolution) centroided data. We can use the following code
-to find ``Features`` in MS data:
+All of the algorithms above are for proteomics data with the exception of
+FeatureFinderMetabo which works on metabolomics data. One of the most commonly
+used FeatureFinders is the FeatureFinderCentroided which works on (high
+resolution) centroided data. We can use the following code to find ``Features``
+in MS data:
 
 .. code-block:: python
 
