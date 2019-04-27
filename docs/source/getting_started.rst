@@ -15,9 +15,9 @@ interact with the OpenMS library and, for example, read and write mzML files:
 
 .. code-block:: python
 
-    import pyopenms
-    exp = pyopenms.MSExperiment()
-    pyopenms.MzMLFile().store("testfile.mzML", exp)
+    from pyopenms import *
+    exp = MSExperiment()
+    MzMLFile().store("testfile.mzML", exp)
 
 which will create an empty mzML file called `testfile.mzML`.
 
@@ -30,16 +30,31 @@ function:
 
 .. code-block:: python
 
-    >>> import pyopenms
-    >>> help(pyopenms.MSExperiment)
+    >>> from pyopenms import *
+    >>> help(MSExperiment)
     Help on class MSExperiment in module pyopenms.pyopenms_2:
 
-    class MSExperiment(__builtin__.object)
+    class MSExperiment(builtins.object)
+     |  Cython implementation of _MSExperiment
+     |  
+     |  In-Memory representation of a mass spectrometry experiment.
+     |  -----
+     |  Contains the data and metadata of an experiment performed with an MS (or
+     |  HPLC and MS). This representation of an MS experiment is organized as list
+     |  of spectra and chromatograms and provides an in-memory representation of
+     |  popular mass-spectrometric file formats such as mzXML or mzML. The
+     |  meta-data associated with an experiment is contained in
+     |  ExperimentalSettings (by inheritance) while the raw data (as well as
+     |  spectra and chromatogram level meta data) is stored in objects of type
+     |  MSSpectrum and MSChromatogram, which are accessible through the getSpectrum
+     |  and getChromatogram functions.
+     |  -----
+     |  Spectra can be accessed by direct iteration or by getSpectrum(),
+     |  while chromatograms are accessed through getChromatogram().
+     |  See help(ExperimentalSettings) for information about meta-data.
+     |  
      |  Methods defined here:
-     |
-     |  __copy__(...)
-     |
-     |  __deepcopy__(...)
+
      [...]
 
 
@@ -83,8 +98,9 @@ We can now inspect the properties of this object:
     Help on MSExperiment object:
 
     class MSExperiment(__builtin__.object)
+     [...]
      |  Methods defined here:
-     ...
+     [...]
      |  getNrChromatograms(...)
      |      Cython signature: size_t getNrChromatograms()
      |
@@ -113,9 +129,9 @@ Iteration
 
 .. code-block:: python
 
-    >>> for spec in exp:
-    ...   print ("MS Level:", spec.getMSLevel())
-    ...
+    for spec in exp:
+      print ("MS Level:", spec.getMSLevel())
+
     MS Level: 1
     MS Level: 2
     MS Level: 1
@@ -134,8 +150,8 @@ Note that ``spec[1]`` will access the *second* spectrum (arrays start at
 .. code-block:: python
 
     >>> spec = exp[1]
-    >>> mz, i = spec.get_peaks()
-    >>> sum(i)
+    >>> mz, intensity = spec.get_peaks()
+    >>> sum(intensity)
     110
 
 Which will access the data using a numpy array, storing the *m/z* information
@@ -162,17 +178,20 @@ slower):
 TIC calculation
 ^^^^^^^^^^^^^^^
 
-
-With this information, we can now calculate a total ion current (TIC) using the
-following function:
+Knowing how to access individual spectra and peak data in those spectra, we can
+now calculate a total ion current (TIC) using the following function:
 
 .. code-block:: python
-   :linenos:
+    :linenos:
 
+    # Calculates total ion chromatogram of an LC-MS/MS experiment
     def calcTIC(exp):
         tic = 0
+        # Iterate through all spectra of the experiment
         for spec in exp:
+            # Only calculate TIC for MS1 spectra
             if spec.getMSLevel() == 1:
+                # Retrieve intensities for spectrum and sum them up
                 mz, i = spec.get_peaks()
                 tic += sum(i)
         return tic
@@ -187,5 +206,6 @@ To calculate a TIC we would now call the function:
     >>> sum([sum(s.get_peaks()[1]) for s in exp if s.getMSLevel() == 1])
     240.0
 
-Note how one can compute the same property using list comprehensions in Python (see the third line above).
+Note how one can compute the same property using list comprehensions in Python
+(see line number 3 in the above code which computes the TIC using filtering properties of Python list comprehensions (``s.getMSLevel() == 1``) and computes the sum over all peaks (right ``sum``) and the sum over all spectra (left ``sum``) to retrieve the TIC).
 
