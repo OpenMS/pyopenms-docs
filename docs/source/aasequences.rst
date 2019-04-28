@@ -66,7 +66,7 @@ the amino acid sequence:
 
     isotopes = seq_formula.getIsotopeDistribution( CoarseIsotopePatternGenerator(6) )
     for iso in isotopes.getContainer():
-            print ("Isotope", iso.getMZ(), ":", iso.getIntensity())
+      print ("Isotope", iso.getMZ(), ":", iso.getIntensity())
 
     suffix = seq.getSuffix(3) # y3 ion "GER"
     print("="*35)
@@ -84,19 +84,19 @@ Which will produce
 
 .. code-block:: python
 
-		Peptide DFPIANGER has molecular formula C44H67N13O15
-		===================================
-		Isotope 1017.48796414 : 0.568165123463
-		Isotope 1018.49131898 : 0.305291324854
-		Isotope 1019.49467381 : 0.0980210453272
-		Isotope 1020.49802865 : 0.0232920628041
-		Isotope 1021.50138349 : 0.00449259625748
-		Isotope 1022.50473833 : 0.000737829308491
-		===================================
-		y3 ion : GER
-		y3 mz : 181.09514385
-		C13H24N6O6
-		C44H67N13O15
+    Peptide DFPIANGER has molecular formula C44H67N13O15
+    ===================================
+    Isotope 1017.48796414 : 0.568165123463
+    Isotope 1018.49131898 : 0.305291324854
+    Isotope 1019.49467381 : 0.0980210453272
+    Isotope 1020.49802865 : 0.0232920628041
+    Isotope 1021.50138349 : 0.00449259625748
+    Isotope 1022.50473833 : 0.000737829308491
+    ===================================
+    y3 ion : GER
+    y3 mz : 181.09514385
+    C13H24N6O6
+    C44H67N13O15
 
 
 Note on lines 13 to 15 we need to remember that we are dealing with an ion of
@@ -257,12 +257,19 @@ which outputs:
 .. code-block:: python
 
         Spectrum 1 has 8 peaks.
-        Spectrum 2 has 30 peaks.
+        Spectrum 2 has 146 peaks.
 
-        y1++ 88.0631146901
-        b2++ 132.05495569
-        y2++ 152.584411802
-        y1+ 175.118952913
+        y1-C1H2N1O1++ 66.056295158171
+        y1-C1H2N2++ 67.05221565817101
+        y1-H3N1++ 79.549840142221
+        y1++ 88.06311469007102
+        a2-H2O1++ 109.05221565817101
+        a2++ 118.05749819007099
+        b2-H2O1++ 123.049673158171
+        y2-C1H2N1O1++ 130.577592269821
+        y1-C1H2N1O1+ 131.10531384957102
+        y2-C1H2N2++ 131.573512769821
+        b2++ 132.05495569007098
         [...]
 
 The example shows how to put peaks of a certain type, y-ions in this case, into

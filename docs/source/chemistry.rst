@@ -80,7 +80,10 @@ Isotopic Distributions
 **********************
 
 OpenMS can also generate theoretical isotopic distributions from analytes
-represented as ``EmpiricalFormula``. Currently there are two algorithms implemented, CoarseIsotopePatternGenerator which produces unit mass isotope patterns and FineIsotopePatternGenerator which is based on the IsoSpec algorithm [1]_ :
+represented as ``EmpiricalFormula``. Currently there are two algorithms
+implemented, CoarseIsotopePatternGenerator which produces unit mass isotope
+patterns and FineIsotopePatternGenerator which is based on the IsoSpec
+algorithm [1]_ :
 
 .. code-block:: python
     :linenos:
@@ -91,11 +94,13 @@ represented as ``EmpiricalFormula``. Currently there are two algorithms implemen
 
     print("Coarse Isotope Distribution:")
     isotopes = wm.getIsotopeDistribution( CoarseIsotopePatternGenerator(5) )
+    print("Covers", sum([iso.getIntensity() for iso in isotopes.getContainer()]), "probability")
     for iso in isotopes.getContainer():
         print (iso.getMZ(), ":", iso.getIntensity())
 
     print("Fine Isotope Distribution:")
-    isotopes = wm.getIsotopeDistribution( FineIsotopePatternGenerator(1e-7) )
+    isotopes = wm.getIsotopeDistribution( FineIsotopePatternGenerator(1e-5) )
+    print("Covers", sum([iso.getIntensity() for iso in isotopes.getContainer()]), "probability")
     for iso in isotopes.getContainer():
         print (iso.getMZ(), ":", iso.getIntensity())
 
@@ -104,6 +109,7 @@ which produces
 .. code-block:: python
 
     Coarse Isotope Distribution:
+    Covers 0.9999999866640792 probability
     50.0367801914 : 0.983818769454956
     51.0401350292 : 0.012069152668118477
     52.043489867  : 0.004059787839651108
@@ -111,29 +117,32 @@ which produces
     54.0501995426 : 4.203372554911766e-06
 
     Fine Isotope Distribution:
+    Covers 0.9999996514133613 probability
     50.0367801914 : 0.9838188290596008
     51.0401351914 : 0.01064071711152792
     51.0409971914 : 0.0007495236932300031
     51.0430569395 : 0.0006789130857214332
     52.0410341914 : 0.004043483175337315
     52.0443521914 : 8.10664460004773e-06
-    52.0452141914 : 1.4275640580763138e-07
     52.0464119395 : 7.342939625232248e-06
     52.0472739395 : 5.172308306100604e-07
-    52.0493336876 : 1.9520996374922106e-07
     53.0443891914 : 4.3733216443797573e-05
     53.0452511914 : 1.540266453048389e-06
     53.0473109395 : 2.7903240606974578e-06
     54.0452881914 : 4.15466593040037e-06
 
 
-Note how the fine isotope distribution contains the hyperfine isotope structure
-with heavy isotopes of Carbon, Hydrogen and Oxygen clearly distinguished while
-the coarse (unit resolution) isotopic distribution contains summed
-probabilities for each isotopic peak without the hyperfine resolution.  Also note how the differences between the hyperfine peaks can reach more than 60 ppm (52.041 vs 52.044).
+Note how the result calculated with the ``FineIsotopePatternGenerator``
+contains the hyperfine isotope structure with heavy isotopes of Carbon,
+Hydrogen and Oxygen clearly distinguished while the coarse (unit resolution)
+isotopic distribution contains summed probabilities for each isotopic peak
+without the hyperfine resolution. Also note how the differences between
+the hyperfine peaks can reach more than 115 ppm (52.041 vs 52.047). Note that
+the FineIsotopePatternGenerator will generate peaks until the total probability
+not covered by the current result reaches 1e-5.
 
 OpenMS can also produce isotopic distribution with masses rounded to the
-nearest integer if we prefer:
+nearest integer:
 
 .. code-block:: python
 
@@ -146,7 +155,6 @@ nearest integer if we prefer:
     52.0 : 0.004059787839651108
     53.0 : 4.807332152267918e-05
     54.0 : 4.203372554911766e-06
-
 
 Amino Acid Residue
 ******************

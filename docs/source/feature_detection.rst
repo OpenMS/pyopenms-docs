@@ -19,6 +19,11 @@ in MS data:
 
 .. code-block:: python
 
+  from urllib.request import urlretrieve
+  # from urllib import urlretrieve  # use this code for Python 2.x
+  gh = "https://raw.githubusercontent.com/OpenMS/OpenMS/develop"
+  urlretrieve (gh +"/src/tests/topp/FeatureFinderCentroided_1_input.mzML", "feature_test.mzML")
+
   from pyopenms import *
 
   # Prepare data loading (save memory by only
@@ -30,7 +35,7 @@ in MS data:
 
   # Load data
   input_map = MSExperiment()
-  fh.load("test.mzML", input_map)
+  fh.load("feature_test.mzML", input_map)
   input_map.updateRanges()
 
   ff = FeatureFinder()
@@ -47,8 +52,6 @@ in MS data:
   fh = FeatureXMLFile()
   fh.store("output.featureXML", features)
   print("Found", features.size(), "features")
-
-You can get a sample file for analysis directly from `here <https://raw.githubusercontent.com/OpenMS/OpenMS/develop/src/tests/topp/FeatureFinderCentroided_1_input.mzML>`_.
 
 With a few lines of Python, we are able to run powerful algorithms available in
 OpenMS. The resulting data is held in memory (a ``FeatureMap`` object) and can be

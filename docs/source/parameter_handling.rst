@@ -12,16 +12,15 @@ methods (the ``exists`` method can be used to check for existence of a key). Usi
 ``getDescription`` method, it is possible to get a help-text for each parameter value in an
 interactive session without consulting the documentation.
 
-
 .. code-block:: python
 
     from pyopenms import *
     p = Param()
     p.setValue("param1", 4.0, "This is value 1")
     p.setValue("param2", 5.0, "This is value 2")
-    print( p["param1"] )
-    p["param1"] += 3 # add three to the parameter value
-    print( p["param1"] )
+    print( p[b"param1"] )
+    p[b"param1"] += 3 # add three to the parameter value
+    print( p[b"param1"] )
 
 
 The parameters can then be accessed as 
