@@ -51,7 +51,7 @@ the wrapped functions, we can also consult the `pyOpenMS manual
 <http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ which references to all
 wrapped functions. For a more complete documentation of the
 underlying wrapped methods, please consult the official OpenMS documentation,
-in this case the `MSExperiment documentation <http://ftp.mi.fu-berlin.de/pub/OpenMS/release-documentation/html/classOpenMS_1_1MSExperiment.html>`_.
+in this case the `MSExperiment documentation <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1MSExperiment.html>`_.
 
 
 First look at data
