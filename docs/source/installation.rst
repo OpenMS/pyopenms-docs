@@ -26,8 +26,10 @@ and pyopenms will be available:
 
 .. image:: img/spyder.png
 
-Note the lower right window with the ``import pyopenms`` command that was
-executed correctly. You can now use pyopenms within the Spyder environment,
+Note the console window (lower right) with the ``import pyopenms`` command,
+which was executed without error. Next, the Python script on the right was
+executed and the output is also shown on the console window.
+You can now use pyopenms within the Spyder environment,
 either `moving on with the pyOpenMS Tutorial <getting_started.html>`_ 
 or familiarize yourself first with the Spyder environment using
 the `Online Spyder Documentation <https://docs.spyder-ide.org/>`_.

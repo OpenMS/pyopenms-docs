@@ -5,7 +5,8 @@ In MS-based proteomics, fragment ion spectra (MS2 spectra) are often
 interpreted by comparing them against a theoretical set of spectra generated
 from a FASTA database. OpenMS contains a (simple) implementation of such a
 "search engine" that compares experimental spectra against theoretical spectra
-generated from a tryptic digest of a proteome. 
+generated from an enzymatic or chemical digest of a proteome (e.g. tryptic
+digest). 
 
 In most proteomics applications, a dedicated search engine (such as Comet,
 Crux, Mascot, MSGFPlus, MSFragger, Myrimatch, OMSSA, SpectraST or XTandem;
@@ -74,7 +75,7 @@ spectrum in the file for a precursor at 775.38 m/z for the sequence
     tsg = TheoreticalSpectrumGenerator()
     thspec = MSSpectrum()
     p = Param()
-    p.setValue("add_metainfo", "true", "")
+    p.setValue("add_metainfo", "true")
     tsg.setParameters(p)
     peptide = AASequence.fromString("RPGADSDIGGFGGLFDLAQAGFR")
     tsg.getSpectrum(thspec, peptide, 1, 1)
@@ -121,5 +122,7 @@ ppm (+/- 2ppm), we expect that we will not find the hit at 775.38 m/z any more:
     print("Found", len(peptide_ids), "peptides")
 
 As we can see, using a smaller precursor mass tolerance leads the algorithm to
-find only one hit instead of two.
+find only one hit instead of two. Similarly, if we use the wrong enzyme for
+the digestion (e.g. ``p[b'enzyme'] = "Formic_acid"``), we find no results.
+
 

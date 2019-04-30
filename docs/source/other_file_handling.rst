@@ -75,7 +75,10 @@ Quantiative data (featureXML, consensusXML)
 -------------------------------------------------------
 
 OpenMS stores quantitative information in the internal ``featureXML`` and
-``consensusXML`` data formats.  These can be accessed as follows:
+``consensusXML`` data formats. The ``featureXML`` format is used to store
+quantitative data from a single LC-MS/MS run while the ``consensusXML`` is used
+to store quantitative data from multiple LC-MS/MS runs. These can be accessed
+as follows:
 
 .. code-block:: python
 
