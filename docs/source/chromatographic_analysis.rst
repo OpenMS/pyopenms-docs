@@ -74,3 +74,22 @@ Note: to get an overview over all available scores for a particular MRM feature 
     f.getKeys(k)
     print (k)
 
+.. TODO : change for 2.5 to something else
+
+
+Now you may want to show the chromatograms to your collaborator, but you notice
+that most software solutions smooth the chromatograms before display. In order
+to provide smooth chromatograms, you can apply a filter using pyOpenMS:
+
+.. code-block:: python
+
+    sg = SavitzkyGolayFilter()
+    sg.filterExperiment(chroms)
+    MzMLFile().store(chroms, "chrom.filter.mzML")
+
+
+Which leads to the following smoothed chromatographic traces:
+
+
+.. image:: img/chroms_filter.png
+
