@@ -32,10 +32,10 @@ function:
 
     >>> from pyopenms import *
     >>> help(MSExperiment)
-    Help on class MSExperiment in module pyopenms.pyopenms_2:
 
     class MSExperiment(builtins.object)
      |  Cython implementation of _MSExperiment
+     |   -- Inherits from ['ExperimentalSettings', 'RangeManager2']
      |  
      |  In-Memory representation of a mass spectrometry experiment.
      |  -----
@@ -58,15 +58,45 @@ function:
      [...]
 
 
-which lists the available functions. This full list indicates that
-``pyopenms.MSExperiment`` has multiple methods, among them ``__copy__``.  The
-command also lists the signature for each function, allowing users to identify
-the function arguments and return types. In order to get more information about
-the wrapped functions, we can also consult the `pyOpenMS manual
-<http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ which references to all
-wrapped functions. For a more complete documentation of the
-underlying wrapped methods, please consult the official OpenMS documentation,
-in this case the `MSExperiment documentation <http://ftp.mi.fu-berlin.de/pub/OpenMS/release-documentation/html/classOpenMS_1_1MSExperiment.html>`_.
+which lists information on the ``pyopenms.MSExperiment`` class, including a
+description of the main purpose of the class and how the class is intended to
+be used. Additional useful information is presented in the ``Inherits from``
+section which points to additional classes that act as base classes to
+``pyopenms.MSExperiment`` and that contain further information.
+The list of available methods is long (but does *not* include methods from the
+base classes) and reveals that the class exposes methods such as
+``getNrSpectra()`` and ``getSpectrum(id)`` where the argument ``id`` indicates
+the spectrum identifer.  The command also lists the signature for each
+function, allowing users to identify the function arguments and return types.
+We can gain further information about exposed methods by investigating the
+documentation of the base classes:
+
+.. code-block:: python
+
+    >>> from pyopenms import *
+    >>> help(ExperimentalSettings)
+    Help on class ExperimentalSettings in module pyopenms.pyopenms_4:
+
+    class ExperimentalSettings(builtins.object)
+     |  Cython implementation of _ExperimentalSettings
+     |   -- Inherits from ['DocumentIdentifier', 'MetaInfoInterface']
+     |  
+     |  Description of the experimental settings, provides meta-information
+     |  about an LC-MS/MS injection.
+     |  
+     |  Methods defined here:
+
+     [...]
+
+We could now continue our investigation by reading the documentation of the
+base classes ``DocumentIdentifier`` and ``MetaInfoInterface``, but we will
+leave this exercise for the interested reader.  In order to get more
+information about the wrapped functions, we can also consult the `pyOpenMS
+manual <http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ which references to
+all wrapped functions. For a more complete documentation of the underlying
+wrapped methods, please consult the official OpenMS documentation, in this case
+the `MSExperiment documentation
+<https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1MSExperiment.html>`_.
 
 
 First look at data
@@ -95,19 +125,26 @@ We can now inspect the properties of this object:
 .. code-block:: python
 
     >>> help(exp)
-    Help on MSExperiment object:
 
-    class MSExperiment(__builtin__.object)
+    class MSExperiment(builtins.object)
+     |  Cython implementation of _MSExperiment
+     |   -- Inherits from ['ExperimentalSettings', 'RangeManager2']
+
+
      [...]
+
      |  Methods defined here:
+
      [...]
+
      |  getNrChromatograms(...)
      |      Cython signature: size_t getNrChromatograms()
      |
      |  getNrSpectra(...)
      |      Cython signature: size_t getNrSpectra()
      |
-     ...
+
+     [...]
 
 
 which indicates that the variable ``exp`` has (among others) the functions
