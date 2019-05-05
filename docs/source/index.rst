@@ -10,16 +10,17 @@ pyOpenMS is an open-source Python library for mass spectrometry, specifically fo
 
 pyOpenMS facilitates the execution of common tasks in protoemics (and other mass spectrometric fields) such as 
 
-- file handling (mzXML, mzML, TraML, fasta, pepxml, protxml, mzIdentML among others)
+- file handling (mzXML, mzML, TraML, mzTab, fasta, pepxml, protxml, mzIdentML among others)
 - chemistry (mass calculation, peptide fragmentation, isotopic abundances)
 - signal processing (smoothing, filtering, de-isotoping, retention time correction and peak-picking) 
-- identification analysis (including peptide search, RNA oligonucleotide search and small molecule search tools)
+- identification analysis (including peptide search, PTM analysis, Cross-linked analytes, FDR control, RNA oligonucleotide search and small molecule search tools)
 - quantitative analysis (including label-free, metabolomics, SILAC, iTRAQ and SWATH/DIA analysis tools)
+- chromatogram analysis (chromatographic peak picking, smoothing, elution profiles and peak scoring for SRM/MRM/PRM/SWATH/DIA data)
 - interaction with common tools in proteomics and metabolomics 
 
   - search engines such as Comet, Crux, Mascot, MSGFPlus, MSFragger, Myrimatch, OMSSA, Sequest, SpectraST, XTandem
   - post-processing tools such as percolator, MSStats, Fido
-  - metabolomics tools such as SIRIUS
+  - metabolomics tools such as SIRIUS, CSI:FingerId
 
 Please see the appendix of the official `pyOpenMS Manual
 <http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ for a complete documentation
