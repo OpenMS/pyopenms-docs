@@ -1,5 +1,5 @@
-Charge and Isotoped Deconvolution 
-=================================
+Charge and Isotope Deconvolution 
+================================
 
 A single mass spectrum contains measurements of one or more analytes and the
 m/z values recorded for these analytes. Most analytes produce multiple signals

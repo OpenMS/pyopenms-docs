@@ -46,7 +46,7 @@ Note: the current documentation relates to the 2.5.0 release of pyOpenMS.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Mass Spectrometry Concepts:
+   :caption: Mass Spectrometry Concepts
 
    datastructures
    chemistry
@@ -57,13 +57,13 @@ Note: the current documentation relates to the 2.5.0 release of pyOpenMS.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Simple Data Manipulation:
+   :caption: Simple Data Manipulation
 
    data_manipulation
 
 .. toctree::
    :maxdepth: 2
-   :caption: OpenMS Algorithms:
+   :caption: OpenMS Algorithms
 
    parameter_handling
    algorithms

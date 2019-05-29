@@ -12,7 +12,9 @@ following software packages
 On Microsoft Windows: you need the 64 bit C++ compiler from Visual Studio 2015
 to compile the newest pyOpenMS for Python 3.5, 3.6 or 3.7. This is important,
 else you get a clib that is different than the one used for building the Python
-executable, and pyOpenMS will crash on import.
+executable, and pyOpenMS will crash on import. The OpenMS wiki has `detailed information 
+<https://github.com/OpenMS/OpenMS/wiki/Build-pyOpenMS-on-Windows>`_ 
+on building pyOpenMS on Windows.
 
 You can install all necessary Python packages on which pyOpenMS
 depends through
@@ -34,7 +36,7 @@ Depending on your systems setup, it may make sense to do this inside a virtual e
     source pyopenms_venv/bin/activate
 
 
-Next, configure OpenMS with pyOpenMS: execute cmake as usual, but with
+Next, configure OpenMS with pyOpenMS: execute ``cmake`` as usual, but with
 parameters ``DPYOPENMS=ON``. Also, if using virtualenv or using a specific
 Python version, add ``-DPYTHON_EXECUTABLE:FILEPATH=/path/to/python`` to ensure
 that the correct Python executable is used. Compiling pyOpenMS can use a lot of
