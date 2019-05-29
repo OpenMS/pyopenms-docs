@@ -10,9 +10,9 @@ in order to compile OpenMS for your platform. Next you will need to install the
 following software packages
 
 On Microsoft Windows: you need the 64 bit C++ compiler from Visual Studio 2015
-to compile the newest pyOpenMS for Python 3.5 or 3.6. This is important, else
-you get a different clib than Python 2.7 is built with, and pyOpenMS will crash
-on import.
+to compile the newest pyOpenMS for Python 3.5, 3.6 or 3.7. This is important,
+else you get a clib that is different than the one used for building the Python
+executable, and pyOpenMS will crash on import.
 
 You can install all necessary Python packages on which pyOpenMS
 depends through

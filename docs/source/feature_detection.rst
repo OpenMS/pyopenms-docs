@@ -1,7 +1,14 @@
 Feature Detection
 =================
 
-One very common task in Mass Spectrometric research is the detection of 2D features in a series of MS1 scans (MS1 feature detection). OpenMS has multiple tools that can achieve these tasks, these tools are called `FeatureFinder`. Currently the following FeatureFinders are available in OpenMS:
+One very common task in mass spectrometry is the detection of 2-dimensional
+patterns in m/z and time (RT) dimension from a series of MS1 scans. These
+patterns are called ``Features`` and they exhibit a chromatographic elution
+profile in the time dimension and an isotopic pattern in the m/z dimension (see 
+`previous section <deisotoping.html>`_ for the 1-dimensional problem).
+OpenMS has multiple tools that can identify these features in 2-dimensional
+data, these tools are called `FeatureFinder`.  Currently the following
+FeatureFinders are available in OpenMS:
 
   - FeatureFinderMultiplex
   - FeatureFinderMRM

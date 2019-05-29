@@ -36,7 +36,8 @@ certain identifier:
 Filtering by MS level
 ~~~~~~~~~~~~~~~~~~~~~
 
-Similarly, we can filter the ``test.mzML`` file by MS level:
+Similarly, we can filter the ``test.mzML`` file by MS level, 
+retaining only spectra that are not MS1 spectra (e.g.\ MS2, MS3 or MSn spectra):
 
 .. code-block:: python
   :linenos:
@@ -65,7 +66,8 @@ filtering by MS level and scan identifier at the same time:
 Filtering by scan number
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Or we could use an external list of scan numbers to filter by scan numbers:
+Or we could use an external list of scan numbers to filter by scan numbers,
+thus only retaining MS scans in which we are interested in:
 
 .. code-block:: python
   :linenos:
@@ -95,9 +97,9 @@ number is on its own line, thus replacing line 4 with:
 Filtering Spectra and Peaks
 ***************************
 
-We can now move on to more advanced filtering, suppose you are interested in
-only a part of all fragment ion spectra.
-m/z. We can easily filter our data accordingly:
+We can now move on to more advanced filtering, suppose we are interested in
+only a part of all fragment ion spectra, such as a specific m/z window.
+We can easily filter our data accordingly:
 
 .. code-block:: python
   :linenos:

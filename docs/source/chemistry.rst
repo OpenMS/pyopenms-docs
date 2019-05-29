@@ -73,7 +73,7 @@ which produces
 
 
 Note how in lines 5 and 6 we were able to make new molecules by adding existing
-molecules (either  by adding two ``EmpiricalFormula`` objects or by adding
+molecules (either by adding two ``EmpiricalFormula`` objects or by adding
 simple strings).
 
 Isotopic Distributions
