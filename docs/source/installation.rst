@@ -34,6 +34,10 @@ either `moving on with the pyOpenMS Tutorial <getting_started.html>`_
 or familiarize yourself first with the Spyder environment using
 the `Online Spyder Documentation <https://docs.spyder-ide.org/>`_.
 
+.. Recommendation: In order to enable interactive plots that allow zooming, we recommend to change the default plotting backend in Spyder. Go to Tools > preferences > IPython console > Graphics > Graphics backend and then change "Backend" to "Automatic".
+.. NOTE: this currently does not work, see https://github.com/spyder-ide/spyder/issues/9227
+.. NOTE: this means currently there is no interactive plotting with Spyder :-(
+
 Command Line
 ------------
 
