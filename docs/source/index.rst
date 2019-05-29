@@ -64,6 +64,7 @@ Note: the current documentation relates to the 2.5.0 release of pyOpenMS.
 
    parameter_handling
    algorithms
+   deisotoping
    feature_detection
    peptide_search
    chromatographic_analysis
