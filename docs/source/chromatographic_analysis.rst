@@ -7,6 +7,9 @@ tools for analysis of chromatograms. Most of them are part of the OpenSWATH
 suite of tools and are also discussed in the `OpenSwath documentation
 <www.openswath.org>`_.
 
+Peak Detection
+**************
+
 Here, we will focus on a simple example where 2 peptides are analyzed. We will
 need 2 input files: the chromatogram files that contains the chromatographic
 raw data (raw SRM traces or extracted ion chromatograms from PRM/DIA data) as
@@ -43,8 +46,13 @@ about the targeted peptides:
 Here we see that for the first group of transitions (``tr_gr1``), a single peak
 at retention time 3119 seconds was found. However, for the second group of
 transitions, two peaks are found at retention times 3119 seconds and at
-3055 seconds. This is also confirmed by visual inspection of the ``chrom.mzML``
-file in the TOPPView software:
+3055 seconds.
+
+Visualization
+*************
+
+We can confirm the above analysis by visual inspection of the ``chrom.mzML``
+file produced above in the TOPPView software:
 
 .. image:: img/chroms.png
 
@@ -76,6 +84,9 @@ Note: to get an overview over all available scores for a particular MRM feature 
 
 .. TODO : change for 2.5 to something else
 
+
+Smoothing
+*********
 
 Now you may want to show the chromatograms to your collaborator, but you notice
 that most software solutions smooth the chromatograms before display. In order

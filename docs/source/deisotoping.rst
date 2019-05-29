@@ -20,6 +20,9 @@ charge_state`` which is often close to 0.5 m/z for doubly charged analytes,
 at least doubly charged, while small molecules often carry a single charge but
 can have adducts other than hydrogen.
 
+Simple example
+**************
+
 .. code-block:: python
 
     from pyopenms import *
@@ -42,6 +45,9 @@ can have adducts other than hydrogen.
       print(p.getMZ(), p.getIntensity() )
 
 .. Deisotoper.deisotopeAndSingleCharge(s, 10, True, "none", 1, 5, True, 2, 10, True, True)
+
+Full spectral de-isotoping
+**************************
 
 In the following code segment, we will use a sample measurement of BSA (Bovine
 Serum Albumin), and apply a simple algorithm in OpenMS for "deisotoping" a
@@ -94,7 +100,12 @@ which produces the following output
 
 As we can see, the algorithm has reduced 140 peaks to 41 deisotoped peaks. It
 also has identified a molecule at 974.45 m/z as the most intense peak in the
-data (basepeak). The reason we see two peaks very close together becomes apparent
+data (basepeak).
+
+Visualization
+*************
+
+The reason we see two peaks very close together becomes apparent
 once we look at the data in TOPPView which indicates that the 974.4572680576728
 peak is derived from a 2+ peak at m/z 487.73 and the peak at 974.4589691256419
 is derived from a 3+ peak at m/z 325.49: the algorithm has identified a single
