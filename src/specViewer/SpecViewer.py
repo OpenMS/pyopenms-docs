@@ -1,26 +1,20 @@
 import sys, os
-
-import pyqtgraph as pg
-
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
         QHBoxLayout, QWidget, QDesktopWidget, QMessageBox, \
-        QListView, QLabel, QAction, QFileDialog, QTableView, \
+        QLabel, QAction, QFileDialog, QTableView, \
         QDialog, QToolButton, QLineEdit, QRadioButton, QGroupBox, \
         QFormLayout, QDialogButtonBox, QAbstractItemView
-
-from PyQt5.QtCore import Qt, QAbstractTableModel, QItemSelectionModel, pyqtSignal, QRectF
-from PyQt5.QtGui import QStandardItemModel, QStandardItem, QPainterPath, QTransform, QPainter, QIcon, QBrush, QColor, QImage, QPen
+from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal
+from PyQt5.QtGui import QStandardItemModel, QStandardItem, QPainter, QIcon, QBrush, QColor, QPen, QPixmap
 
 import pyqtgraph as pg
-from collections import OrderedDict 
 from pyqtgraph import PlotWidget
 import numpy as np
 import pandas as pd
 from collections import namedtuple
 
-import pyopenms
-#import pyopenms.Constants
-
+import pyopenms 
+import pyopenms.Constants
 
 # structure for each input masses
 MassDataStruct = namedtuple('MassDataStruct', "mz_theo_arr \
@@ -32,28 +26,8 @@ pg.setConfigOption('background', 'w')
 SymbolSet = ('o', 's', 't', 't1', 't2', 't3','d', 'p', 'star')
 RGBs = [[0,0,200], [0,128,0], [19,234,201], [195,46,212], [237,177,32],
     [54,55,55], [0,114,189],[217,83,25], [126,47,142], [119,172,48]]
+Symbols = pg.graphicsItems.ScatterPlotItem.Symbols
 
-Symbols = OrderedDict([(name, QPainterPath()) for name in SymbolSet])
-Symbols['o'].addEllipse(QRectF(-0.5, -0.5, 1, 1))
-Symbols['s'].addRect(QRectF(-0.5, -0.5, 1, 1))
-coords = {
-    't': [(-0.5, -0.5), (0, 0.5), (0.5, -0.5)],
-    't1': [(-0.5, 0.5), (0, -0.5), (0.5, 0.5)],
-    't2': [(-0.5, -0.5), (-0.5, 0.5), (0.5, 0)],
-    't3': [(0.5, 0.5), (0.5, -0.5), (-0.5, 0)],
-    'd': [(0., -0.5), (-0.4, 0.), (0, 0.5), (0.4, 0)],
-    'p': [(0, -0.5), (-0.4755, -0.1545), (-0.2939, 0.4045),
-          (0.2939, 0.4045), (0.4755, -0.1545)],
-    'star': [(0, -0.5), (-0.1123, -0.1545), (-0.4755, -0.1545),
-             (-0.1816, 0.059), (-0.2939, 0.4045), (0, 0.1910),
-             (0.2939, 0.4045), (0.1816, 0.059), (0.4755, -0.1545),
-             (0.1123, -0.1545)]
-}
-for k, c in coords.items():
-    Symbols[k].moveTo(*c[0])
-    for x,y in c[1:]:
-        Symbols[k].lineTo(x, y)
-    Symbols[k].closeSubpath()
 
 class MassList():
 
@@ -180,7 +154,7 @@ class SpectrumWidget(PlotWidget):
                 x = exp_p.getMZ()
                 y = exp_p.getIntensity()
                 self.plot([x], [y], symbol=mass_strc.marker, 
-                          symbolBrush=pg.mkBrush(mass_strc.color))
+                          symbolBrush=pg.mkBrush(mass_strc.color), symbolSize=14)
                 label = pg.TextItem(text='+'+str(theo[0]), color=(0,0,0), anchor=(0.5,1))
                 self.addItem(label)
                 label.setPos(x, y)
@@ -240,14 +214,9 @@ class ScanWidget(QWidget):
        self.table_view = QTableView()
        self.table_view.setSelectionMode(QAbstractItemView.SingleSelection)
        self.table_view.setSelectionBehavior(QAbstractItemView.SelectRows)
-
-
        # bind cell click to a method reference
        self.table_view.clicked.connect(self.selectRow)
        self.table_view.setModel(self.table_model)
-       self.table_view.setSelectionModel(QItemSelectionModel(self.table_model))
-       self.table_view.selectionModel().currentChanged.connect(self.onCurrentChanged) # update if keyboard moves to new row
-
        # enable sorting
        # self.table_view.setSortingEnabled(True)
 
@@ -262,11 +231,7 @@ class ScanWidget(QWidget):
     def selectRow(self, index):
         self.curr_spec = Spectrum(self.scanList[index.siblingAtColumn(1).data()])
         self.scanClicked.emit()
-
-    def onCurrentChanged(self, new_index, old_index):
-        self.selectRow(new_index)
-
-
+       
 class ScanTableModel(QAbstractTableModel):
     '''
        keep the method names
@@ -343,12 +308,12 @@ class ControllerWidget(QTableView):
         # set controller widgets
         # self.controller = QTableView()
         self.model = QStandardItemModel(self)
-        self.model.setHorizontalHeaderLabels(["Masses", "Marker"])
+        self.model.setHorizontalHeaderLabels(["Masses"])
         self.model.itemChanged.connect(self.check_check_state)
         for mass, mStruct in self.masses.items():
             self.setListViewWithMass(mass, mStruct)
         self.setModel(self.model)
-        self.setMaximumWidth(400)
+        self.setMaximumWidth(350)
         self.resizeColumnToContents(0)
         self._data_visible = []
 
@@ -365,27 +330,33 @@ class ControllerWidget(QTableView):
         
         self.spectrum.plot_anno(self.masses) # plotting
 
-    def setListViewWithMass(self, mass, mStruct):
-        # qi = QIcon()
-        # qp = QPainter()
-        # qb = QBrush()
+
+    def getSymbolIcon(self, symbol, color):
+
+        px = QPixmap(20, 20)
+        px.fill(Qt.transparent)
+        qp = QPainter(px)
+        qpen = QPen(Qt.black, 0.05)
         qc = QColor()
-        qc.setRgb(mStruct.color[0], mStruct.color[1], mStruct.color[2])
-        # qb.setColor(qc)
+        qc.setRgb(color[0], color[1], color[2])
 
-        # qp.begin(self)
-        # qp.setRenderHint(QPainter.Antialiasing)
-        # qp.setPen(QPen(QColor("black")))
+        qp.setRenderHint(QPainter.Antialiasing)
+        qp.setPen(qpen)
+        qp.setBrush(QBrush(qc))
+        qp.translate(10,10)
+        qp.scale(20,20)
+        qp.drawPath(Symbols[symbol])
+        qp.end()
 
-        # qp.drawPath(Symbols[mStruct.marker])
-        # qp.end()
-        # qi.paint(qp, 1,1,1,1)
-        item = QStandardItem(str(mass)) # QStandardItem(QIcon, str(mass))
-        item.setCheckable(True)
+        return QIcon(px)
+
+    def setListViewWithMass(self, mass, mStruct):
         
-        marker = QStandardItem(mStruct.marker)
-        marker.setBackground(qc)
-        self.model.appendRow([item, marker])
+        icon = self.getSymbolIcon(mStruct.marker, mStruct.color)
+        item = QStandardItem(icon, str(mass))
+        item.setCheckable(True)
+
+        self.model.appendRow([item])
             
     def check_check_state(self, i):
         if not i.isCheckable():  # Skip data columns.
