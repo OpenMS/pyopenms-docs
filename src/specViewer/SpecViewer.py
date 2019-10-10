@@ -1,10 +1,13 @@
 import sys, os
+
+import pyqtgraph as pg
+
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
         QHBoxLayout, QWidget, QDesktopWidget, QMessageBox, \
         QListView, QLabel, QAction, QFileDialog, QTableView, \
         QDialog, QToolButton, QLineEdit, QRadioButton, QGroupBox, \
         QFormLayout, QDialogButtonBox, QAbstractItemView
-from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QRectF
+from PyQt5.QtCore import Qt, QAbstractTableModel, QItemSelectionModel, pyqtSignal, QRectF
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QPainterPath, QTransform, QPainter, QIcon, QBrush, QColor
 
 import pyqtgraph as pg
@@ -14,8 +17,9 @@ import numpy as np
 import pandas as pd
 from collections import namedtuple
 
-import pyopenms 
-import pyopenms.Constants
+import pyopenms
+#import pyopenms.Constants
+
 
 # structure for each input masses
 MassDataStruct = namedtuple('MassDataStruct', "mz_theo_arr \
@@ -252,9 +256,14 @@ class ScanWidget(QWidget):
        self.table_view = QTableView()
        self.table_view.setSelectionMode(QAbstractItemView.SingleSelection)
        self.table_view.setSelectionBehavior(QAbstractItemView.SelectRows)
+
+
        # bind cell click to a method reference
        self.table_view.clicked.connect(self.selectRow)
        self.table_view.setModel(self.table_model)
+       self.table_view.setSelectionModel(QItemSelectionModel(self.table_model))
+       self.table_view.selectionModel().currentChanged.connect(self.onCurrentChanged) # update if keyboard moves to new row
+
        # enable sorting
        # self.table_view.setSortingEnabled(True)
 
@@ -269,7 +278,11 @@ class ScanWidget(QWidget):
     def selectRow(self, index):
         self.curr_spec = Spectrum(self.scanList[index.siblingAtColumn(1).data()])
         self.scanClicked.emit()
-       
+
+    def onCurrentChanged(self, index1, index2):
+        self.selectRow(index1)
+
+
 class ScanTableModel(QAbstractTableModel):
     '''
        keep the method names
