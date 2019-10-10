@@ -279,8 +279,8 @@ class ScanWidget(QWidget):
         self.curr_spec = Spectrum(self.scanList[index.siblingAtColumn(1).data()])
         self.scanClicked.emit()
 
-    def onCurrentChanged(self, index1, index2):
-        self.selectRow(index1)
+    def onCurrentChanged(self, new_index, old_index):
+        self.selectRow(new_index)
 
 
 class ScanTableModel(QAbstractTableModel):
