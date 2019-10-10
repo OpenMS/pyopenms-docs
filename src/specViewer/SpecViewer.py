@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
         QDialog, QToolButton, QLineEdit, QRadioButton, QGroupBox, \
         QFormLayout, QDialogButtonBox, QAbstractItemView
 from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QRectF
-from PyQt5.QtGui import QStandardItemModel, QStandardItem, QPainterPath, QTransform, QPainter, QIcon, QBrush, QColor
+from PyQt5.QtGui import QStandardItemModel, QStandardItem, QPainterPath, QTransform, QPainter, QIcon, QBrush, QColor, QImage, QPen
 
 import pyqtgraph as pg
 from collections import OrderedDict 
@@ -24,11 +24,11 @@ MassDataStruct = namedtuple('MassDataStruct', "mz_theo_arr \
 TOL = 1e-5 # ppm
 #colorset = ('b', 'g', 'r', 'c', 'm', 'y', 'k')
 pg.setConfigOption('background', 'w')
-SymbolSet = ('o','t','t1','t2','t3','s','p','h','star','+','d')
+SymbolSet = ('o', 's', 't', 't1', 't2', 't3','d', 'p', 'star')
 RGBs = [[0,0,200], [0,128,0], [19,234,201], [195,46,212], [237,177,32],
     [54,55,55], [0,114,189],[217,83,25], [126,47,142], [119,172,48]]
 
-Symbols = OrderedDict([(name, QPainterPath()) for name in ['o', 's', 't', 't1', 't2', 't3','d', 'p', 'star']])
+Symbols = OrderedDict([(name, QPainterPath()) for name in SymbolSet])
 Symbols['o'].addEllipse(QRectF(-0.5, -0.5, 1, 1))
 Symbols['s'].addRect(QRectF(-0.5, -0.5, 1, 1))
 coords = {
@@ -64,10 +64,7 @@ class MassList():
         return mds_dict
     
     def getMassDataStructItem(self, index, mass):
-        # markers = Line2D.filled_markers
-        # colors = plt.cm.get_cmap('PuBuGn')(np.linspace(0, 1, len(self.mass_list)))
         marker = SymbolSet[index%len(SymbolSet)]
-        # color = list(np.random.choice(range(256), size=3))
         color = RGBs[index%len(RGBs)]
         theo_mz = self.calculateTheoMzList(mass)
         return MassDataStruct(mz_theo_arr=theo_mz, 
@@ -102,14 +99,6 @@ class Spectrum():
 
     def __init__(self, spec):
         self.spectrum = spec
-       
-    def getMzIntList(self):
-        mz, intensity = [], []
-        for p in self.spectrum:
-            mz.append(p.getMZ())
-            intensity.append(p.getIntensity())
-        
-        return np.array(mz), np.array(intensity)
     
     def findNearestPeakWithTheoPos(self, theo_mz):
         nearest_p = self.spectrum[self.spectrum.findNearest(theo_mz)] # test purpose
@@ -122,30 +111,33 @@ class Spectrum():
 
 class SpectrumWidget(PlotWidget):
     
-    def __init__(self, parent=None, dpi=100): # width=5, height=5, 
-#        fig = Figure(dpi=dpi) #figsize=(width, height), 
-#        self.axes = fig.add_subplot(111)
+    def __init__(self, parent=None, dpi=100):
         PlotWidget.__init__(self)
         self.setLimits(yMin=0, xMin=0)
-#        self.setMouseEnabled(y=False)
+        # self.setMouseEnabled(y=False)
         self.setLabel('bottom', 'm/z')
         self.setLabel('left', 'intensity')
 
         self.getViewBox().sigRangeChangedManually.connect(self.modifyYAxis)
     
     def modifyYAxis(self):
-
         self.currMaxY = self.getMaxYfromX(self.getAxis('bottom').range)
         if self.currMaxY:
             self.setYRange(0, self.currMaxY)
+
+        try:
+            if self._charge_visible:
+                self.annotateChargeLadder(self._charge_visible)
+        except (AttributeError, NameError):
+            return
 
     def plot_func(self, spec):
         # plot spectrum
         self.plot(clear=True)
         self.spec = spec
-        self.mz, self.ints = self.spec.getMzIntList()
+        self.mz, self.ints = self.spec.spectrum.get_peaks()
         self.plot_spectrum(self.mz, self.ints)
-        
+
     def plot_anno(self, masses):
         self.masses = masses
         # annotation        
@@ -153,7 +145,10 @@ class SpectrumWidget(PlotWidget):
         self.annotateChargesOnPeak()
         
         'anno: charge ladder'
-        # self.annotateChargeLadder()
+        self.currMaxY = self.getMaxYfromX(self.getAxis('bottom').range) 
+        self._charge_ladder_lines = dict()
+        self._charge_ladder_labels = dict()
+        self.annotateChargeLadder()
         
     def getMaxYfromX(self, xrange):
         x_index_list = np.where( (self.mz >= xrange[0]) & (self.mz <= xrange[1]) )
@@ -169,8 +164,7 @@ class SpectrumWidget(PlotWidget):
         bargraph = pg.BarGraphItem(x=data_x, height=data_y, width=0.01)
         self.addItem(bargraph)
         
-    def annotateChargesOnPeak(self):
-        
+    def annotateChargesOnPeak(self):        
         for mass, mass_strc in self.masses.items():
             theo_list = mass_strc.mz_theo_arr
             
@@ -181,23 +175,13 @@ class SpectrumWidget(PlotWidget):
                 x = exp_p.getMZ()
                 y = exp_p.getIntensity()
                 self.plot([x], [y], symbol=mass_strc.marker, 
-                          symbolBrush=set(mass_strc.color))
+                          symbolBrush=pg.mkBrush(mass_strc.color))
                 label = pg.TextItem(text='+'+str(theo[0]), color=(0,0,0), anchor=(0.5,1))
                 self.addItem(label)
                 label.setPos(x, y)
 
-    def annotateChargeLadder(self, charge_visible):
+    def annotateChargeLadder(self, charge_visible=[]):
         self._charge_visible = charge_visible
-        # initiation
-        try:
-            self._charge_ladder_lines
-        except (AttributeError, NameError):
-            self._charge_ladder_lines = dict()
-            self._charge_ladder_labels = dict()
-        try:
-            self.currMaxY
-        except (AttributeError, NameError):
-            self.currMaxY = self.getMaxYfromX(self.getAxis('bottom').range) 
 
         for mass, mass_strc in self.masses.items():
             mass = str(mass)
@@ -238,7 +222,6 @@ class SpectrumWidget(PlotWidget):
                         value.clear()
                     for key, value in self._charge_ladder_labels[mass].items():
                         value.setPos(0,0)
-
 
 class ScanWidget(QWidget):
     
@@ -342,8 +325,6 @@ class ControllerWidget(QTableView):
         # data processing
         self.mlc = MassList(mass_path)
         self.masses = self.mlc.getMassStruct()
-        
-        self.spectrum.plot_anno(self.masses)
 
         # set controller widgets
         # self.controller = QTableView()
@@ -368,13 +349,20 @@ class ControllerWidget(QTableView):
         self.massLineEditLayout.addWidget(self.massLineEditButton)
         self.massLineEditButton.clicked.connect(self.addMassToListView)     
         
+        self.spectrum.plot_anno(self.masses) # plotting
+
     def setListViewWithMass(self, mass, mStruct):
         # qi = QIcon()
-        # qp = QPainter(self)
+        # qp = QPainter()
         # qb = QBrush()
         qc = QColor()
         qc.setRgb(mStruct.color[0], mStruct.color[1], mStruct.color[2])
         # qb.setColor(qc)
+
+        # qp.begin(self)
+        # qp.setRenderHint(QPainter.Antialiasing)
+        # qp.setPen(QPen(QColor("black")))
+
         # qp.drawPath(Symbols[mStruct.marker])
         # qp.end()
         # qi.paint(qp, 1,1,1,1)
@@ -460,8 +448,8 @@ class OpenMSWidgets(QWidget):
     def redrawPlot(self):
         self.spectrum.plot_func(self.scan.curr_spec)
         if self.isAnnoOn:
-            self.spectrum.annotateChargesOnPeak()
-            self.spectrum.annotateChargeLadder([])
+            self.spectrum.plot_anno(self.controller.masses)
+            self.spectrum.annotateChargeLadder(self.controller._data_visible) # update with current visibility
 
     def annotation_FLASHDeconv(self, mass_path):
         
@@ -595,10 +583,10 @@ class App(QMainWindow):
         # self.windowLay.addWidget(self.openmsWidget)
         
         ## test purpose
-        # massPath = "/Users/jeek/Documents/A4B_UKE/FIA_Ova/190509_Ova_native_25ngul_R_FD_masses.tsv"
-        # mzmlPath = "/Users/jeek/Documents/A4B_UKE/FIA_Ova/190509_Ova_native_25ngul_R.mzML"
-        # self.openmsWidget.loadFile(mzmlPath)
-        # self.openmsWidget.annotation_FLASHDeconv(massPath)
+        massPath = "/Users/jeek/Documents/A4B_UKE/FIA_Ova/190509_Ova_native_25ngul_R_FD_masses.tsv"
+        mzmlPath = "/Users/jeek/Documents/A4B_UKE/FIA_Ova/190509_Ova_native_25ngul_R.mzML"
+        self.openmsWidget.loadFile(mzmlPath)
+        self.openmsWidget.annotation_FLASHDeconv(massPath)
 
     def setOpenMSWidget(self):
         if self.windowLay.count() > 0 :
