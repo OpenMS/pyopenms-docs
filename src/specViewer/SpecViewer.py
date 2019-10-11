@@ -140,7 +140,7 @@ class SpectrumWidget(PlotWidget):
         return self.ints[ymax_index]
         
     def plot_spectrum(self, data_x, data_y):
-        bargraph = pg.BarGraphItem(x=data_x, height=data_y, width=0.01)
+        bargraph = pg.BarGraphItem(x=data_x, height=data_y, width=0)
         self.addItem(bargraph)
         
     def annotateChargesOnPeak(self):        
