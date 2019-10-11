@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
         QLabel, QAction, QFileDialog, QTableView, \
         QDialog, QToolButton, QLineEdit, QRadioButton, QGroupBox, \
         QFormLayout, QDialogButtonBox, QAbstractItemView
-from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal
+from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QPainter, QIcon, QBrush, QColor, QPen, QPixmap
 
 import pyqtgraph as pg
@@ -217,6 +217,9 @@ class ScanWidget(QWidget):
        # bind cell click to a method reference
        self.table_view.clicked.connect(self.selectRow)
        self.table_view.setModel(self.table_model)
+       self.table_view.setSelectionModel(QItemSelectionModel(self.table_model))
+       self.table_view.selectionModel().currentChanged.connect(self.onCurrentChanged) # update if keyboard moves to new row
+
        # enable sorting
        # self.table_view.setSortingEnabled(True)
 
@@ -231,7 +234,10 @@ class ScanWidget(QWidget):
     def selectRow(self, index):
         self.curr_spec = Spectrum(self.scanList[index.siblingAtColumn(1).data()])
         self.scanClicked.emit()
-       
+    
+    def onCurrentChanged(self, new_index, old_index):
+        self.selectRow(new_index)
+
 class ScanTableModel(QAbstractTableModel):
     '''
        keep the method names
