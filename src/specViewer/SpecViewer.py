@@ -1,7 +1,7 @@
 import sys, os
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
         QHBoxLayout, QWidget, QDesktopWidget, QMessageBox, \
-        QLabel, QAction, QFileDialog, QTableView, \
+        QLabel, QAction, QFileDialog, QTableView, QSplitter, \
         QDialog, QToolButton, QLineEdit, QRadioButton, QGroupBox, \
         QFormLayout, QDialogButtonBox, QAbstractItemView
 from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel
@@ -9,6 +9,7 @@ from PyQt5.QtGui import QStandardItemModel, QStandardItem, QPainter, QIcon, QBru
 
 import pyqtgraph as pg
 from pyqtgraph import PlotWidget
+
 import numpy as np
 import pandas as pd
 from collections import namedtuple
@@ -34,10 +35,15 @@ Symbols = pg.graphicsItems.ScatterPlotItem.Symbols
 class MassList():
 
     def __init__(self, file_path):
-        # file_path = "/Users/jeek/Documents/A4B_UKE/FIA_Ova/190509_Ova_native_25ngul_R_FD_masses.tsv"
-        df = pd.read_csv(file_path, header=0) # data with only one column and header is expected
-        self.mass_list = df.to_numpy().ravel().tolist()
-    
+        df = pd.read_csv(file_path, sep='\t', header=0) # data with only one column and header is expected
+        self.setMassList(df)
+
+    def setMassList(self, df):
+        if 'MonoisotopicMass' in df.columns: # parsing a result file from FLASHDeconv
+            self.mass_list = df['MonoisotopicMass'].to_numpy().ravel().tolist()
+        else :
+            self.mass_list = df.to_numpy().ravel().tolist()
+
     def getMassStruct(self):
         mds_dict = {}
         for mNum, mass in enumerate(self.mass_list):
@@ -54,6 +60,7 @@ class MassList():
     def calculateTheoMzList(self, mass, cs_range=(2,100), mz_range=(0,0)):
         theo_mz_list = []
         for cs in range(cs_range[0], cs_range[1]+1):
+            print(type(mass), "....", mass)
             mz = (mass + cs * pyopenms.Constants.PROTON_MASS_U) / cs
             ''' add if statement for mz_range '''
             theo_mz_list.append((cs,mz))
@@ -302,29 +309,40 @@ class ScanTableModel(QAbstractTableModel):
         elif role == Qt.DisplayRole:
             return value
 
-class ControllerWidget(QTableView):
+class ControllerWidget(QWidget):
 
     def __init__(self, mass_path, plot, *args):
         QWidget.__init__(self, *args)
-
+        hbox = QVBoxLayout()
+        self.setMaximumWidth(350)
         self.spectrum = plot
 
         # data processing
         self.mlc = MassList(mass_path)
         self.masses = self.mlc.getMassStruct()
 
+        self.setMassTableView()
+        self.setMassLineEdit()
+
+        self.spectrum.plot_anno(self.masses) # plotting
+
+        hbox.addWidget(self.massTable)
+        hbox.addLayout(self.massLineEditLayout)
+        self.setLayout(hbox)
+
+    def setMassTableView(self):
         # set controller widgets
-        # self.controller = QTableView()
+        self.massTable = QTableView()
         self.model = QStandardItemModel(self)
         self.model.setHorizontalHeaderLabels(["Masses"])
         self.model.itemChanged.connect(self.check_check_state)
         for mass, mStruct in self.masses.items():
             self.setListViewWithMass(mass, mStruct)
-        self.setModel(self.model)
-        self.setMaximumWidth(350)
-        self.resizeColumnToContents(0)
+        self.massTable.setModel(self.model)
+        self.massTable.resizeColumnToContents(0)
         self._data_visible = []
 
+    def setMassLineEdit(self):
         self.massLineEditLayout = QHBoxLayout()
         self.massLineEdit = QLineEdit()
         self.massLineEditButton = QToolButton()
@@ -335,9 +353,6 @@ class ControllerWidget(QTableView):
         self.massLineEditLayout.addWidget(self.massLineEdit)
         self.massLineEditLayout.addWidget(self.massLineEditButton)
         self.massLineEditButton.clicked.connect(self.addMassToListView)     
-        
-        self.spectrum.plot_anno(self.masses) # plotting
-
 
     def getSymbolIcon(self, symbol, color):
 
@@ -400,17 +415,7 @@ class OpenMSWidgets(QWidget):
 
     def __init__(self, *args, **kwargs):
         QWidget.__init__(self, *args, **kwargs)
-        mainlayout = QHBoxLayout(self)
-        
-        # spectra layout
-        self.specLayout = QVBoxLayout()
-        
-        # controller layout
-        self.controllerLayout = QVBoxLayout()
-        
-        mainlayout.addLayout(self.specLayout)
-        mainlayout.addLayout(self.controllerLayout)
-        
+        self.mainlayout = QHBoxLayout(self)
         self.isAnnoOn = False
     
     def clearLayout(self, layout):
@@ -420,20 +425,19 @@ class OpenMSWidgets(QWidget):
     def loadFile(self, file_path):
         
         self.isAnnoOn = False
-        if self.specLayout.count() > 0:
-            self.clearLayout(self.specLayout)
-        
+        self.msexperimentWidget = QSplitter(Qt.Vertical)
+
         # data processing
         scans = MassSpecData().readMzML(file_path)
         
         # set Widgets
-        pWidget = pg.PlotWidget(name='specPlot') #!!!!!!!!!!!
-        self.spectrum = SpectrumWidget(pWidget)
+        self.spectrum = SpectrumWidget()
         self.scan = ScanWidget(scans)
         self.scan.scanClicked.connect(self.redrawPlot)
-        self.specLayout.addWidget(self.spectrum)
-        self.specLayout.addWidget(self.scan)
-        
+        self.msexperimentWidget.addWidget(self.spectrum)
+        self.msexperimentWidget.addWidget(self.scan)
+        self.mainlayout.addWidget(self.msexperimentWidget)
+
         # default : first row selected.
         self.scan.table_view.selectRow(0)
         self.scan.selectRow(self.scan.table_view.selectedIndexes()[0])
@@ -449,9 +453,11 @@ class OpenMSWidgets(QWidget):
         self.controller = ControllerWidget(mass_path, self.spectrum)
         self.isAnnoOn = True
 
-        self.controllerLayout.addWidget(self.controller)
-        self.controllerLayout.addLayout(self.controller.massLineEditLayout)
-
+        # Adding Splitter
+        self.splitter_spec_contr = QSplitter(Qt.Horizontal)
+        self.splitter_spec_contr.addWidget(self.msexperimentWidget)
+        self.splitter_spec_contr.addWidget(self.controller)
+        self.mainlayout.addWidget(self.splitter_spec_contr)
 
 class FDInputDialog(QDialog):
     def __init__(self):     
@@ -572,11 +578,9 @@ class App(QMainWindow):
         
         # default widget <- per spectrum
         self.setOpenMSWidget()
-        # self.openmsWidget = OpenMSWidgets(self)
-        # self.windowLay.addWidget(self.openmsWidget)
         
         ## test purpose
-        massPath = "/Users/jeek/Documents/A4B_UKE/FIA_Ova/190509_Ova_native_25ngul_R_FD_masses.tsv"
+        massPath = "/Users/jeek/Documents/A4B_UKE/FIA_Ova/190509_Ova_native_25ngul_R.tsv"
         mzmlPath = "/Users/jeek/Documents/A4B_UKE/FIA_Ova/190509_Ova_native_25ngul_R.mzML"
         self.openmsWidget.loadFile(mzmlPath)
         self.openmsWidget.annotation_FLASHDeconv(massPath)
