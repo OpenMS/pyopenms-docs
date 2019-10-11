@@ -22,7 +22,9 @@ MassDataStruct = namedtuple('MassDataStruct', "mz_theo_arr \
 #                            isMono isAvg
 TOL = 1e-5 # ppm
 #colorset = ('b', 'g', 'r', 'c', 'm', 'y', 'k')
-pg.setConfigOption('background', 'w')
+pg.setConfigOption('background', 'w') # white background
+pg.setConfigOption('foreground', 'k') # black peaks
+
 SymbolSet = ('o', 's', 't', 't1', 't2', 't3','d', 'p', 'star')
 RGBs = [[0,0,200], [0,128,0], [19,234,201], [195,46,212], [237,177,32],
     [54,55,55], [0,114,189],[217,83,25], [126,47,142], [119,172,48]]
