@@ -14,8 +14,12 @@ import numpy as np
 import pandas as pd
 from collections import namedtuple
 
+# define Constant locally until bug in pyOpenMS is fixed
+def pyopenms():
+    def Constants():
+        PROTON_MASS_U = 1.0072764667710
 import pyopenms 
-import pyopenms.Constants
+
 
 # structure for each input masses
 MassDataStruct = namedtuple('MassDataStruct', "mz_theo_arr \
@@ -89,7 +93,6 @@ class Spectrum():
     
     def findNearestPeakWithTheoPos(self, theo_mz):
         nearest_p = self.spectrum[self.spectrum.findNearest(theo_mz)] # test purpose
-        
         tol = TOL * theo_mz # ppm
         if abs(theo_mz-nearest_p.getMZ()) > tol:
             return None;
@@ -104,7 +107,6 @@ class SpectrumWidget(PlotWidget):
         # self.setMouseEnabled(y=False)
         self.setLabel('bottom', 'm/z')
         self.setLabel('left', 'intensity')
-
         self.getViewBox().sigRangeChangedManually.connect(self.modifyYAxis)
     
     def modifyYAxis(self):
