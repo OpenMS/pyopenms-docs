@@ -154,18 +154,13 @@ class SpectrumWidget(PlotWidget):
         self.annotateChargesOnPeak()
         
         'anno: charge ladder'
-        self.currMaxY = self.getMaxYfromX(self.getAxis('bottom').range) 
+        self.currMaxY = self.getMaxIntensityInRange(self.getAxis('bottom').range) 
         self.annotateChargeLadder(cur_visible)
         
-    def getMaxYfromX(self, xrange):
-        x_index_list = np.where( (self.mz >= xrange[0]) & (self.mz <= xrange[1]) )
-        if not len(x_index_list[0]):
-            return 0
-
-        x_start_index = x_index_list[0][0]
-        x_end_index = x_index_list[0][-1] + 1
-        ymax_index = x_start_index + self.ints[x_start_index:x_end_index].argmax()
-        return self.ints[ymax_index]
+    def getMaxIntensityInRange(self, xrange):
+        left = np.searchsorted(self.mz, xrange[0], side='left')
+        right = np.searchsorted(self.mz, xrange[1], side='right')
+        return np.amax(self.ints[left:right], initial = 1)        
         
     def plot_spectrum(self, data_x, data_y):
         bargraph = pg.BarGraphItem(x=data_x, height=data_y, width=0)
