@@ -1,11 +1,11 @@
 import sys, os
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
-        QHBoxLayout, QWidget, QDesktopWidget, QMessageBox, \
+        QHBoxLayout, QWidget, QDesktopWidget, QMessageBox, QPushButton, \
         QLabel, QAction, QFileDialog, QTableView, QSplitter, \
         QDialog, QToolButton, QLineEdit, QRadioButton, QGroupBox, \
         QFormLayout, QDialogButtonBox, QAbstractItemView
 from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel
-from PyQt5.QtGui import QStandardItemModel, QStandardItem, QPainter, QIcon, QBrush, QColor, QPen, QPixmap
+from PyQt5.QtGui import QStandardItemModel, QStandardItem, QPainter, QIcon, QBrush, QColor, QPen, QPixmap, QIntValidator
 
 import pyqtgraph as pg
 from pyqtgraph import PlotWidget
@@ -14,8 +14,12 @@ import numpy as np
 import pandas as pd
 from collections import namedtuple
 
+# define Constant locally until bug in pyOpenMS is fixed
+def pyopenms():
+    def Constants():
+        PROTON_MASS_U = 1.0072764667710
 import pyopenms 
-#import pyopenms.Constants
+
 
 # structure for each input masses
 MassDataStruct = namedtuple('MassDataStruct', "mz_theo_arr \
@@ -44,24 +48,23 @@ class MassList():
         else :
             self.mass_list = df.to_numpy().ravel().tolist()
 
-    def getMassStruct(self):
+    def getMassStruct(self, cs_range=[2,100]):
         mds_dict = {}
         for mNum, mass in enumerate(self.mass_list):
-            mds_dict[mass] = self.getMassDataStructItem(mNum, mass)
+            mds_dict[mass] = self.getMassDataStructItem(mNum, mass, cs_range)
         return mds_dict
     
-    def getMassDataStructItem(self, index, mass):
+    def getMassDataStructItem(self, index, mass, cs_range):
         marker = SymbolSet[index%len(SymbolSet)]
         color = RGBs[index%len(RGBs)]
-        theo_mz = self.calculateTheoMzList(mass)
+        theo_mz = self.calculateTheoMzList(mass, cs_range)
         return MassDataStruct(mz_theo_arr=theo_mz, 
                     marker=marker, color=color)
 
-    def calculateTheoMzList(self, mass, cs_range=(2,100), mz_range=(0,0)):
+    def calculateTheoMzList(self, mass, cs_range, mz_range=(0,0)):
         theo_mz_list = []
         for cs in range(cs_range[0], cs_range[1]+1):
-            print(type(mass), "....", mass)
-            mz = (mass + cs * 1.007) / cs
+            mz = (mass + cs * pyopenms.Constants.PROTON_MASS_U) / cs
             ''' add if statement for mz_range '''
             theo_mz_list.append((cs,mz))
         return theo_mz_list
@@ -107,7 +110,6 @@ class SpectrumWidget(PlotWidget):
         self.setLabel('left', 'intensity')
         self.getViewBox().sigRangeChangedManually.connect(self.modifyYAxis)
         self.highlighted_peak_label = None
-        self.proxy = pg.SignalProxy(self.scene().sigMouseMoved, rateLimit=60, slot=self.onMouseMoved)
     
     def modifyYAxis(self):
         self.currMaxY = self.getMaxYfromX(self.getAxis('bottom').range)
@@ -128,6 +130,26 @@ class SpectrumWidget(PlotWidget):
         self.plot_spectrum(self.mz, self.ints)
 
     def plot_anno(self, masses):
+        # initiation
+        try:
+            for p in self._charge_mark_on_peak:
+                p.clear()
+            for l in self._charge_mark_on_peak_label:
+                l.setPos(0,0)
+            for mass in self._charge_ladder_lines:
+                for key, value in self._charge_ladder_lines[mass].items():
+                    value.clear()
+                for key, value in self._charge_ladder_labels[mass].items():
+                    value.setPos(0,0)
+            cur_visible = self._charge_visible
+        except (AttributeError, NameError):
+            cur_visible = []
+
+        self._charge_mark_on_peak = []
+        self._charge_mark_on_peak_label = []
+        self._charge_ladder_lines = dict()
+        self._charge_ladder_labels = dict()
+
         self.masses = masses
         # annotation        
         'anno: on expr. peak'
@@ -135,9 +157,7 @@ class SpectrumWidget(PlotWidget):
         
         'anno: charge ladder'
         self.currMaxY = self.getMaxYfromX(self.getAxis('bottom').range) 
-        self._charge_ladder_lines = dict()
-        self._charge_ladder_labels = dict()
-        self.annotateChargeLadder()
+        self.annotateChargeLadder(cur_visible)
         
     def getMaxYfromX(self, xrange):
         x_index_list = np.where( (self.mz >= xrange[0]) & (self.mz <= xrange[1]) )
@@ -153,7 +173,7 @@ class SpectrumWidget(PlotWidget):
         bargraph = pg.BarGraphItem(x=data_x, height=data_y, width=0)
         self.addItem(bargraph)
         
-    def annotateChargesOnPeak(self):        
+    def annotateChargesOnPeak(self):
         for mass, mass_strc in self.masses.items():
             theo_list = mass_strc.mz_theo_arr
             
@@ -163,11 +183,12 @@ class SpectrumWidget(PlotWidget):
                     continue
                 x = exp_p.getMZ()
                 y = exp_p.getIntensity()
-                self.plot([x], [y], symbol=mass_strc.marker, 
-                          symbolBrush=pg.mkBrush(mass_strc.color), symbolSize=14)
+                self._charge_mark_on_peak.append(self.plot([x], [y], symbol=mass_strc.marker, 
+                          symbolBrush=pg.mkBrush(mass_strc.color), symbolSize=14))
                 label = pg.TextItem(text='+'+str(theo[0]), color=(0,0,0), anchor=(0.5,1))
                 self.addItem(label)
                 label.setPos(x, y)
+                self._charge_mark_on_peak_label.append(label)
 
     def annotateChargeLadder(self, charge_visible=[]):
         self._charge_visible = charge_visible
@@ -211,29 +232,6 @@ class SpectrumWidget(PlotWidget):
                         value.clear()
                     for key, value in self._charge_ladder_labels[mass].items():
                         value.setPos(0,0)
-
-    def onMouseMoved(self, evt):
-        pos = evt[0]  ## using signal proxy turns original arguments into a tuple
-        if self.sceneBoundingRect().contains(pos):
-            mouse_point = self.getViewBox().mapSceneToView(pos)
-            nearest_p = self.spec.findNearestPeakWithTheoPos(mouse_point.x(), 1e12) # TODO: choose largest peak in tolerance range instead of nearest one
-            if nearest_p == None or nearest_p.getIntensity() == 0:
-                return
-
-            if abs(mouse_point.x() - nearest_p.getMZ()) < 10.0:  # TODO: calculate from pixel with
-                x = nearest_p.getMZ()
-                y = nearest_p.getIntensity()
-
-                if self.highlighted_peak_label != None:
-                    self.removeItem(self.highlighted_peak_label)
-
-                self.highlighted_peak_label = pg.TextItem(text='{0:.3f}'.format(x), color=(100,100,100), anchor=(0.5,1))
-                self.highlighted_peak_label.setPos(x, y)
-                self.addItem(self.highlighted_peak_label)
-        else:
-            # mouse moved out of visible area: remove highlighting item
-            if self.highlighted_peak_label != None:
-                self.removeItem(self.highlighted_peak_label)
 
 
 
@@ -351,11 +349,14 @@ class ControllerWidget(QWidget):
 
         self.setMassTableView()
         self.setMassLineEdit()
+        self.setParameterBox()
 
         self.spectrum.plot_anno(self.masses) # plotting
 
         hbox.addWidget(self.massTable)
         hbox.addLayout(self.massLineEditLayout)
+        hbox.addWidget(self.paramBox)
+        # hbox.addWidget(self.paramButton)
         self.setLayout(hbox)
 
     def setMassTableView(self):
@@ -381,6 +382,69 @@ class ControllerWidget(QWidget):
         self.massLineEditLayout.addWidget(self.massLineEdit)
         self.massLineEditLayout.addWidget(self.massLineEditButton)
         self.massLineEditButton.clicked.connect(self.addMassToListView)     
+
+    def setParameterBox(self):
+        self.paramBox = QGroupBox('Parameter')
+        paramLayout = QVBoxLayout(self.paramBox)
+
+        paramLayout.addLayout(self.setChargeRangeLineEdit())
+
+        self.paramButton = QPushButton()
+        self.paramButton.setText('Reload')
+        self.paramButton.clicked.connect(self.reloadSpecWithParam)
+        paramLayout.addWidget(self.paramButton)
+
+    def setChargeRangeLineEdit(self):
+        self.cs_range = [2, 100]
+
+        csRangeEditLayout = QHBoxLayout()
+        self.csMinLineEdit = QLineEdit()
+        self.csMaxLineEdit = QLineEdit()
+        csMinLineEditLabel = QLabel('min')
+        csMaxLineEditLabel = QLabel('max')
+        self.csMinLineEdit.setText('2')
+        self.csMaxLineEdit.setText('100')
+        csMinLineEditLabel.setBuddy(self.csMinLineEdit)
+        csMaxLineEditLabel.setBuddy(self.csMaxLineEdit)
+
+        csRangeEditLabel = QLabel('Charge range:')
+        csRangeEditLabel.setToolTip("Minimum Charge should be equal to or larger than 2")
+        csRangeEditLayout.addWidget(csRangeEditLabel)
+        csRangeEditLayout.addWidget(csMinLineEditLabel)
+        csRangeEditLayout.addWidget(self.csMinLineEdit)
+        csRangeEditLayout.addWidget(csMaxLineEditLabel)
+        csRangeEditLayout.addWidget(self.csMaxLineEdit)
+
+        return csRangeEditLayout
+
+    def setMassListExportButton(self):
+        self.setmassbutton = ''
+
+    def reloadSpecWithParam(self):
+        minCs = self.csMinLineEdit.text()
+        maxCs = self.csMaxLineEdit.text()
+        
+        if self.isError_reloadSpecWithParam(minCs, maxCs):
+            self.csMinLineEdit.setText('2')
+            self.csMaxLineEdit.setText('100')
+            return
+        
+        # redraw
+        self.cs_range = [int(minCs), int(maxCs)]
+        self.masses = self.mlc.getMassStruct(self.cs_range)
+        self.spectrum.plot_anno(self.masses)
+
+
+    def isError_reloadSpecWithParam(self, minCs, maxCs):
+        v = QIntValidator()
+        v.setBottom(2)
+        self.csMinLineEdit.setValidator(v)
+        self.csMaxLineEdit.setValidator(v)
+
+        if int(minCs) > int(maxCs):
+            return True
+
+        return False
 
     def getSymbolIcon(self, symbol, color):
 
@@ -608,10 +672,10 @@ class App(QMainWindow):
         self.setOpenMSWidget()
         
         ## test purpose
-        #massPath = "/Users/jeek/Documents/A4B_UKE/FIA_Ova/190509_Ova_native_25ngul_R.tsv"
-        #mzmlPath = "/Users/jeek/Documents/A4B_UKE/FIA_Ova/190509_Ova_native_25ngul_R.mzML"
-        #self.openmsWidget.loadFile(mzmlPath)
-        #self.openmsWidget.annotation_FLASHDeconv(massPath)
+        # massPath = "/Users/jeek/Documents/A4B_UKE/FIA_Ova/190509_Ova_native_25ngul_R.tsv"
+        # mzmlPath = "/Users/jeek/Documents/A4B_UKE/FIA_Ova/190509_Ova_native_25ngul_R.mzML"
+        # self.openmsWidget.loadFile(mzmlPath)
+        # self.openmsWidget.annotation_FLASHDeconv(massPath)
 
     def setOpenMSWidget(self):
         if self.windowLay.count() > 0 :
