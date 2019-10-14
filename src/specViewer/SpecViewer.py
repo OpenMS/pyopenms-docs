@@ -2,9 +2,9 @@ import sys, os
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
         QHBoxLayout, QWidget, QDesktopWidget, QMessageBox, QPushButton, \
         QLabel, QAction, QFileDialog, QTableView, QSplitter, \
-        QDialog, QToolButton, QLineEdit, QRadioButton, QGroupBox, \
+        QDialog, QToolButton, QLineEdit, QRadioButton, QGroupBox, QMenu,\
         QFormLayout, QDialogButtonBox, QAbstractItemView
-from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel
+from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, QPoint, QRegExp
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QPainter, QIcon, QBrush, QColor, QPen, QPixmap, QIntValidator
 
 import pyqtgraph as pg
@@ -241,24 +241,35 @@ class ScanWidget(QWidget):
 
        self.table_model = ScanTableModel(self, self.scanList, self.header)
        self.table_view = QTableView()
+
+       # register a proxy class for filering and sorting the scan table
+       self.proxy = QSortFilterProxyModel(self)
+       self.proxy.setSourceModel(self.table_model)
+
+       # setup selection model
        self.table_view.setSelectionMode(QAbstractItemView.SingleSelection)
        self.table_view.setSelectionBehavior(QAbstractItemView.SelectRows)
-       # bind cell click to a method reference
-       self.table_view.clicked.connect(self.selectRow)
-       self.table_view.setModel(self.table_model)
-       self.table_view.setSelectionModel(QItemSelectionModel(self.table_model))
-       self.table_view.selectionModel().currentChanged.connect(self.onCurrentChanged) # update if keyboard moves to new row
+       self.table_view.setModel(self.proxy)
+       self.table_view.setSelectionModel(QItemSelectionModel(self.proxy))
+
+       # header
+       self.horizontalHeader = self.table_view.horizontalHeader()
+       self.horizontalHeader.sectionClicked.connect(self.onHeaderClicked)
 
        # enable sorting
-       # self.table_view.setSortingEnabled(True)
+       self.table_view.setSortingEnabled(True)
 
+       # connect signals to slots
+       self.table_view.selectionModel().currentChanged.connect(self.onCurrentChanged) # keyboard moves to new row
+       self.table_view.clicked.connect(self.selectRow) # mouse clicks on row
+       self.horizontalHeader.sectionClicked.connect(self.onHeaderClicked)
+       
        layout = QVBoxLayout(self)
        layout.addWidget(self.table_view)
        self.setLayout(layout)
        
        # default : first row selected.
        self.table_view.selectRow(0)
-       # self.selectRow(self.table_view.selectedIndexes()[0])
        
     def selectRow(self, index):
         self.curr_spec = Spectrum(self.scanList[index.siblingAtColumn(1).data()])
@@ -266,6 +277,54 @@ class ScanWidget(QWidget):
     
     def onCurrentChanged(self, new_index, old_index):
         self.selectRow(new_index)
+
+    def onHeaderClicked(self, logicalIndex):
+        if logicalIndex != 0: return # allow filter on first column only for now
+
+        self.logicalIndex  = logicalIndex
+        self.menuValues = QMenu(self)
+        self.signalMapper = QSignalMapper(self)  
+
+        # get unique values from (unfiltered) model
+        valuesUnique = set([ self.table_model.index(row, self.logicalIndex).data()
+                        for row in range(self.table_model.rowCount(self.table_model.index(-1, self.logicalIndex)))
+                        ])
+
+        if len(valuesUnique) == 1: return # no need to select anything
+
+        actionAll = QAction("Show All", self)
+        actionAll.triggered.connect(self.onShowAllRows)
+        self.menuValues.addAction(actionAll)
+        self.menuValues.addSeparator()
+
+        for actionNumber, actionName in enumerate(sorted(list(set(valuesUnique)))):              
+            action = QAction(actionName, self)
+            self.signalMapper.setMapping(action, actionNumber)  
+            action.triggered.connect(self.signalMapper.map)  
+            self.menuValues.addAction(action)
+
+        self.signalMapper.mapped.connect(self.onSignalMapper)  
+
+        # get screen position of table header and open menu
+        headerPos = self.table_view.mapToGlobal(self.horizontalHeader.pos())        
+        posY = headerPos.y() + self.horizontalHeader.height()
+        posX = headerPos.x() + self.horizontalHeader.sectionPosition(self.logicalIndex)
+        self.menuValues.exec_(QPoint(posX, posY))
+
+    def onShowAllRows(self):
+        filterColumn = self.logicalIndex
+        filterString = QRegExp( "", Qt.CaseInsensitive, QRegExp.RegExp )
+        self.proxy.setFilterRegExp(filterString)
+        self.proxy.setFilterKeyColumn(filterColumn)
+
+    def onSignalMapper(self, i):
+        stringAction = self.signalMapper.mapping(i).text()
+        filterColumn = self.logicalIndex
+        filterString = QRegExp(stringAction, Qt.CaseSensitive, QRegExp.FixedString)
+
+        self.proxy.setFilterRegExp(filterString)
+        self.proxy.setFilterKeyColumn(filterColumn)
+
 
 class ScanTableModel(QAbstractTableModel):
     '''
@@ -279,7 +338,6 @@ class ScanTableModel(QAbstractTableModel):
        
        # create array with MSSpectrum (only MS level=1)
        self.scanRows = self.getScanListAsArray(scanlist) # data type: list
-       self.scanRows = self.getOnlyMS1Spectrum()
 
     def getScanListAsArray(self, scanlist):
         scanArr = []
@@ -288,14 +346,6 @@ class ScanTableModel(QAbstractTableModel):
             RT = spec.getRT()
             scanArr.append([MSlevel, index ,RT])
         return scanArr
-    
-    def getOnlyMS1Spectrum(self):
-        tmpScans = []
-        for spec in self.scanRows:
-            if spec[0] != 'MS1': # only MS1
-                continue
-            tmpScans.append(spec)
-        return tmpScans
         
     def headerData(self, col, orientation, role):
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
