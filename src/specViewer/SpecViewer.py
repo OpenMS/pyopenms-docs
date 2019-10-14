@@ -110,7 +110,7 @@ class SpectrumWidget(PlotWidget):
         self.getViewBox().sigRangeChangedManually.connect(self.modifyYAxis)
     
     def modifyYAxis(self):
-        self.currMaxY = self.getMaxYfromX(self.getAxis('bottom').range)
+        self.currMaxY = self.getMaxIntensityInRange(self.getAxis('bottom').range)
         if self.currMaxY:
             self.setYRange(0, self.currMaxY)
 
