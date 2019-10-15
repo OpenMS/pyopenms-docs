@@ -261,7 +261,7 @@ class ScanWidget(QWidget):
 
        # connect signals to slots
        self.table_view.selectionModel().currentChanged.connect(self.onCurrentChanged) # keyboard moves to new row
-       self.table_view.clicked.connect(self.onSelectRow) # mouse clicks on row
+       self.table_view.clicked.connect(self.onRowClicked)
        self.horizontalHeader.sectionClicked.connect(self.onHeaderClicked)
        
        layout = QVBoxLayout(self)
@@ -271,7 +271,7 @@ class ScanWidget(QWidget):
        # default : first row selected.
        self.table_view.selectRow(0)
        
-    def onSelectRow(self, index):
+    def onRowClicked(self, index):
         if index.siblingAtColumn(1).data() == None: return # prevents crash if row gets filtered out
         self.curr_spec = Spectrum(self.scanList[index.siblingAtColumn(1).data()])
         self.scanClicked.emit()
