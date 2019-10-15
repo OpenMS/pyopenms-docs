@@ -35,7 +35,6 @@ RGBs = [[0,0,200], [0,128,0], [19,234,201], [195,46,212], [237,177,32],
     [54,55,55], [0,114,189],[217,83,25], [126,47,142], [119,172,48]]
 Symbols = pg.graphicsItems.ScatterPlotItem.Symbols
 
-
 class MassList():
 
     def __init__(self, file_path):
@@ -91,10 +90,9 @@ class Spectrum():
     def __init__(self, spec):
         self.spectrum = spec
     
-    def findNearestPeakWithTheoPos(self, theo_mz, tol=-1):
+    def findNearestPeakWithTheoPos(self, theo_mz):
         nearest_p = self.spectrum[self.spectrum.findNearest(theo_mz)] # test purpose
-        if tol == -1:
-            tol = TOL * theo_mz # ppm
+        tol = TOL * theo_mz # ppm
         if abs(theo_mz-nearest_p.getMZ()) > tol:
             return None;
         
@@ -109,7 +107,6 @@ class SpectrumWidget(PlotWidget):
         self.setLabel('bottom', 'm/z')
         self.setLabel('left', 'intensity')
         self.getViewBox().sigRangeChangedManually.connect(self.modifyYAxis)
-        self.highlighted_peak_label = None
     
     def modifyYAxis(self):
         self.currMaxY = self.getMaxYfromX(self.getAxis('bottom').range)
@@ -232,10 +229,6 @@ class SpectrumWidget(PlotWidget):
                         value.clear()
                     for key, value in self._charge_ladder_labels[mass].items():
                         value.setPos(0,0)
-
-
-
-
 
 class ScanWidget(QWidget):
     
