@@ -2,9 +2,9 @@ import sys, os
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
         QHBoxLayout, QWidget, QDesktopWidget, QMessageBox, QPushButton, \
         QLabel, QAction, QFileDialog, QTableView, QSplitter, \
-        QDialog, QToolButton, QLineEdit, QRadioButton, QGroupBox, \
+        QDialog, QToolButton, QLineEdit, QRadioButton, QGroupBox, QMenu,\
         QFormLayout, QDialogButtonBox, QAbstractItemView
-from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel
+from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, QPoint, QRegExp
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QPainter, QIcon, QBrush, QColor, QPen, QPixmap, QIntValidator
 
 import pyqtgraph as pg
@@ -19,7 +19,7 @@ def pyopenms():
     def Constants():
         PROTON_MASS_U = 1.0072764667710
 import pyopenms 
-
+#import pyopenms.Constants
 
 # structure for each input masses
 MassDataStruct = namedtuple('MassDataStruct', "mz_theo_arr \
@@ -63,6 +63,7 @@ class MassList():
     def calculateTheoMzList(self, mass, cs_range, mz_range=(0,0)):
         theo_mz_list = []
         for cs in range(cs_range[0], cs_range[1]+1):
+            print(type(mass), "....", mass)
             mz = (mass + cs * pyopenms.Constants.PROTON_MASS_U) / cs
             ''' add if statement for mz_range '''
             theo_mz_list.append((cs,mz))
@@ -90,9 +91,10 @@ class Spectrum():
     def __init__(self, spec):
         self.spectrum = spec
     
-    def findNearestPeakWithTheoPos(self, theo_mz):
+    def findNearestPeakWithTheoPos(self, theo_mz, tol=-1):
         nearest_p = self.spectrum[self.spectrum.findNearest(theo_mz)] # test purpose
-        tol = TOL * theo_mz # ppm
+        if tol == -1:
+            tol = TOL * theo_mz # ppm
         if abs(theo_mz-nearest_p.getMZ()) > tol:
             return None;
         
@@ -107,9 +109,11 @@ class SpectrumWidget(PlotWidget):
         self.setLabel('bottom', 'm/z')
         self.setLabel('left', 'intensity')
         self.getViewBox().sigRangeChangedManually.connect(self.modifyYAxis)
+        self.highlighted_peak_label = None
+        self.proxy = pg.SignalProxy(self.scene().sigMouseMoved, rateLimit=60, slot=self.onMouseMoved)
     
     def modifyYAxis(self):
-        self.currMaxY = self.getMaxYfromX(self.getAxis('bottom').range)
+        self.currMaxY = self.getMaxIntensityInRange(self.getAxis('bottom').range)
         if self.currMaxY:
             self.setYRange(0, self.currMaxY)
 
@@ -153,18 +157,13 @@ class SpectrumWidget(PlotWidget):
         self.annotateChargesOnPeak()
         
         'anno: charge ladder'
-        self.currMaxY = self.getMaxYfromX(self.getAxis('bottom').range) 
+        self.currMaxY = self.getMaxIntensityInRange(self.getAxis('bottom').range) 
         self.annotateChargeLadder(cur_visible)
         
-    def getMaxYfromX(self, xrange):
-        x_index_list = np.where( (self.mz >= xrange[0]) & (self.mz <= xrange[1]) )
-        if not len(x_index_list[0]):
-            return 0
-
-        x_start_index = x_index_list[0][0]
-        x_end_index = x_index_list[0][-1] + 1
-        ymax_index = x_start_index + self.ints[x_start_index:x_end_index].argmax()
-        return self.ints[ymax_index]
+    def getMaxIntensityInRange(self, xrange):
+        left = np.searchsorted(self.mz, xrange[0], side='left')
+        right = np.searchsorted(self.mz, xrange[1], side='right')
+        return np.amax(self.ints[left:right], initial = 1)        
         
     def plot_spectrum(self, data_x, data_y):
         bargraph = pg.BarGraphItem(x=data_x, height=data_y, width=0)
@@ -230,6 +229,33 @@ class SpectrumWidget(PlotWidget):
                     for key, value in self._charge_ladder_labels[mass].items():
                         value.setPos(0,0)
 
+    def onMouseMoved(self, evt):
+        pos = evt[0]  ## using signal proxy turns original arguments into a tuple
+        if self.sceneBoundingRect().contains(pos):
+            mouse_point = self.getViewBox().mapSceneToView(pos)
+            nearest_p = self.spec.findNearestPeakWithTheoPos(mouse_point.x(), 1e12) # TODO: choose largest peak in tolerance range instead of nearest one
+            if nearest_p == None or nearest_p.getIntensity() == 0:
+                return
+
+            if abs(mouse_point.x() - nearest_p.getMZ()) < 10.0:  # TODO: calculate from pixel with
+                x = nearest_p.getMZ()
+                y = nearest_p.getIntensity()
+
+                if self.highlighted_peak_label != None:
+                    self.removeItem(self.highlighted_peak_label)
+
+                self.highlighted_peak_label = pg.TextItem(text='{0:.3f}'.format(x), color=(100,100,100), anchor=(0.5,1))
+                self.highlighted_peak_label.setPos(x, y)
+                self.addItem(self.highlighted_peak_label)
+        else:
+            # mouse moved out of visible area: remove highlighting item
+            if self.highlighted_peak_label != None:
+                self.removeItem(self.highlighted_peak_label)
+
+
+
+
+
 class ScanWidget(QWidget):
     
     scanClicked = pyqtSignal() # signal to connect SpectrumWidget
@@ -240,31 +266,91 @@ class ScanWidget(QWidget):
 
        self.table_model = ScanTableModel(self, self.scanList, self.header)
        self.table_view = QTableView()
+
+       # register a proxy class for filering and sorting the scan table
+       self.proxy = QSortFilterProxyModel(self)
+       self.proxy.setSourceModel(self.table_model)
+
+       # setup selection model
        self.table_view.setSelectionMode(QAbstractItemView.SingleSelection)
        self.table_view.setSelectionBehavior(QAbstractItemView.SelectRows)
-       # bind cell click to a method reference
-       self.table_view.clicked.connect(self.selectRow)
-       self.table_view.setModel(self.table_model)
-       self.table_view.setSelectionModel(QItemSelectionModel(self.table_model))
-       self.table_view.selectionModel().currentChanged.connect(self.onCurrentChanged) # update if keyboard moves to new row
+       self.table_view.setModel(self.proxy)
+       self.table_view.setSelectionModel(QItemSelectionModel(self.proxy))
+
+       # header
+       self.horizontalHeader = self.table_view.horizontalHeader()
+       self.horizontalHeader.sectionClicked.connect(self.onHeaderClicked)
 
        # enable sorting
-       # self.table_view.setSortingEnabled(True)
+       self.table_view.setSortingEnabled(True)
 
+       # connect signals to slots
+       self.table_view.selectionModel().currentChanged.connect(self.onCurrentChanged) # keyboard moves to new row
+       self.table_view.clicked.connect(self.onRowClicked)
+       self.horizontalHeader.sectionClicked.connect(self.onHeaderClicked)
+       
        layout = QVBoxLayout(self)
        layout.addWidget(self.table_view)
        self.setLayout(layout)
        
        # default : first row selected.
        self.table_view.selectRow(0)
-       # self.selectRow(self.table_view.selectedIndexes()[0])
        
-    def selectRow(self, index):
+    def onRowClicked(self, index):
+        if index.siblingAtColumn(1).data() == None: return # prevents crash if row gets filtered out
         self.curr_spec = Spectrum(self.scanList[index.siblingAtColumn(1).data()])
         self.scanClicked.emit()
     
     def onCurrentChanged(self, new_index, old_index):
         self.selectRow(new_index)
+
+    def onHeaderClicked(self, logicalIndex):
+        if logicalIndex != 0: return # allow filter on first column only for now
+
+        self.logicalIndex  = logicalIndex
+        self.menuValues = QMenu(self)
+        self.signalMapper = QSignalMapper(self)  
+
+        # get unique values from (unfiltered) model
+        valuesUnique = set([ self.table_model.index(row, self.logicalIndex).data()
+                        for row in range(self.table_model.rowCount(self.table_model.index(-1, self.logicalIndex)))
+                        ])
+
+        if len(valuesUnique) == 1: return # no need to select anything
+
+        actionAll = QAction("Show All", self)
+        actionAll.triggered.connect(self.onShowAllRows)
+        self.menuValues.addAction(actionAll)
+        self.menuValues.addSeparator()
+
+        for actionNumber, actionName in enumerate(sorted(list(set(valuesUnique)))):              
+            action = QAction(actionName, self)
+            self.signalMapper.setMapping(action, actionNumber)  
+            action.triggered.connect(self.signalMapper.map)  
+            self.menuValues.addAction(action)
+
+        self.signalMapper.mapped.connect(self.onSignalMapper)  
+
+        # get screen position of table header and open menu
+        headerPos = self.table_view.mapToGlobal(self.horizontalHeader.pos())        
+        posY = headerPos.y() + self.horizontalHeader.height()
+        posX = headerPos.x() + self.horizontalHeader.sectionPosition(self.logicalIndex)
+        self.menuValues.exec_(QPoint(posX, posY))
+
+    def onShowAllRows(self):
+        filterColumn = self.logicalIndex
+        filterString = QRegExp( "", Qt.CaseInsensitive, QRegExp.RegExp )
+        self.proxy.setFilterRegExp(filterString)
+        self.proxy.setFilterKeyColumn(filterColumn)
+
+    def onSignalMapper(self, i):
+        stringAction = self.signalMapper.mapping(i).text()
+        filterColumn = self.logicalIndex
+        filterString = QRegExp(stringAction, Qt.CaseSensitive, QRegExp.FixedString)
+
+        self.proxy.setFilterRegExp(filterString)
+        self.proxy.setFilterKeyColumn(filterColumn)
+
 
 class ScanTableModel(QAbstractTableModel):
     '''
@@ -278,7 +364,6 @@ class ScanTableModel(QAbstractTableModel):
        
        # create array with MSSpectrum (only MS level=1)
        self.scanRows = self.getScanListAsArray(scanlist) # data type: list
-       self.scanRows = self.getOnlyMS1Spectrum()
 
     def getScanListAsArray(self, scanlist):
         scanArr = []
@@ -287,14 +372,6 @@ class ScanTableModel(QAbstractTableModel):
             RT = spec.getRT()
             scanArr.append([MSlevel, index ,RT])
         return scanArr
-    
-    def getOnlyMS1Spectrum(self):
-        tmpScans = []
-        for spec in self.scanRows:
-            if spec[0] != 'MS1': # only MS1
-                continue
-            tmpScans.append(spec)
-        return tmpScans
         
     def headerData(self, col, orientation, role):
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
