@@ -14,6 +14,10 @@ import numpy as np
 import pandas as pd
 from collections import namedtuple
 
+# define Constant locally until bug in pyOpenMS is fixed
+def pyopenms():
+    def Constants():
+        PROTON_MASS_U = 1.0072764667710
 import pyopenms 
 #import pyopenms.Constants
 
