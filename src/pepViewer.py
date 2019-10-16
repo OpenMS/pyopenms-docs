@@ -120,8 +120,8 @@ class observed_peptide(QWidget):
 
 
     def __getFont(self):
-        font = QFont()
-        font.setStyleHint(QFont.Monospace)
+        font = QFont("Courier")
+        font.setStyleHint(QFont.TypeWriter)
         font.setPixelSize(30)
         return font
 
