@@ -286,7 +286,7 @@ class ScanWidget(QWidget):
 
        # connect signals to slots
        self.table_view.selectionModel().currentChanged.connect(self.onCurrentChanged) # keyboard moves to new row
-       self.table_view.clicked.connect(self.onRowClicked)
+       self.table_view.clicked.connect(self.onRowSelected)
        self.horizontalHeader.sectionClicked.connect(self.onHeaderClicked)
        
        layout = QVBoxLayout(self)
@@ -296,13 +296,13 @@ class ScanWidget(QWidget):
        # default : first row selected.
        self.table_view.selectRow(0)
        
-    def onRowClicked(self, index):
+    def onRowSelected(self, index):
         if index.siblingAtColumn(1).data() == None: return # prevents crash if row gets filtered out
         self.curr_spec = Spectrum(self.scanList[index.siblingAtColumn(1).data()])
         self.scanClicked.emit()
     
     def onCurrentChanged(self, new_index, old_index):
-        self.selectRow(new_index)
+        self.onRowSelected(new_index)
 
     def onHeaderClicked(self, logicalIndex):
         if logicalIndex != 0: return # allow filter on first column only for now
@@ -602,7 +602,7 @@ class OpenMSWidgets(QWidget):
 
         # default : first row selected.
         self.scan.table_view.selectRow(0)
-        self.scan.selectRow(self.scan.table_view.selectedIndexes()[0])
+        self.scan.onRowSelected(self.scan.table_view.selectedIndexes()[0])
 
     def redrawPlot(self):
         self.spectrum.plot_func(self.scan.curr_spec)
