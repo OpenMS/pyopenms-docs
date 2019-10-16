@@ -19,7 +19,7 @@ def pyopenms():
     def Constants():
         PROTON_MASS_U = 1.0072764667710
 import pyopenms 
-
+#import pyopenms.Constants
 
 # structure for each input masses
 MassDataStruct = namedtuple('MassDataStruct', "mz_theo_arr \
@@ -64,6 +64,7 @@ class MassList():
     def calculateTheoMzList(self, mass, cs_range, mz_range=(0,0)):
         theo_mz_list = []
         for cs in range(cs_range[0], cs_range[1]+1):
+            print(type(mass), "....", mass)
             mz = (mass + cs * pyopenms.Constants.PROTON_MASS_U) / cs
             ''' add if statement for mz_range '''
             theo_mz_list.append((cs,mz))
@@ -91,9 +92,10 @@ class Spectrum():
     def __init__(self, spec):
         self.spectrum = spec
     
-    def findNearestPeakWithTheoPos(self, theo_mz):
+    def findNearestPeakWithTheoPos(self, theo_mz, tol=-1):
         nearest_p = self.spectrum[self.spectrum.findNearest(theo_mz)] # test purpose
-        tol = TOL * theo_mz # ppm
+        if tol == -1:
+            tol = TOL * theo_mz # ppm
         if abs(theo_mz-nearest_p.getMZ()) > tol:
             return None;
         
@@ -108,6 +110,8 @@ class SpectrumWidget(PlotWidget):
         self.setLabel('bottom', 'm/z')
         self.setLabel('left', 'intensity')
         self.getViewBox().sigRangeChangedManually.connect(self.modifyYAxis)
+        self.highlighted_peak_label = None
+        self.proxy = pg.SignalProxy(self.scene().sigMouseMoved, rateLimit=60, slot=self.onMouseMoved)
     
     def modifyYAxis(self):
         self.currMaxY = self.getMaxIntensityInRange(self.getAxis('bottom').range)
@@ -225,6 +229,33 @@ class SpectrumWidget(PlotWidget):
                         value.clear()
                     for key, value in self._charge_ladder_labels[mass].items():
                         value.setPos(0,0)
+
+    def onMouseMoved(self, evt):
+        pos = evt[0]  ## using signal proxy turns original arguments into a tuple
+        if self.sceneBoundingRect().contains(pos):
+            mouse_point = self.getViewBox().mapSceneToView(pos)
+            nearest_p = self.spec.findNearestPeakWithTheoPos(mouse_point.x(), 1e12) # TODO: choose largest peak in tolerance range instead of nearest one
+            if nearest_p == None or nearest_p.getIntensity() == 0:
+                return
+
+            if abs(mouse_point.x() - nearest_p.getMZ()) < 10.0:  # TODO: calculate from pixel with
+                x = nearest_p.getMZ()
+                y = nearest_p.getIntensity()
+
+                if self.highlighted_peak_label != None:
+                    self.removeItem(self.highlighted_peak_label)
+
+                self.highlighted_peak_label = pg.TextItem(text='{0:.3f}'.format(x), color=(100,100,100), anchor=(0.5,1))
+                self.highlighted_peak_label.setPos(x, y)
+                self.addItem(self.highlighted_peak_label)
+        else:
+            # mouse moved out of visible area: remove highlighting item
+            if self.highlighted_peak_label != None:
+                self.removeItem(self.highlighted_peak_label)
+
+
+
+
 
 class ScanWidget(QWidget):
     
