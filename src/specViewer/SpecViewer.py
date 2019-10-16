@@ -239,8 +239,11 @@ class SpectrumWidget(PlotWidget):
             if (left == right): # none found -> remove text
                 if self.highlighted_peak_label != None:
                     self.highlighted_peak_label.setText("")
-                return            
-            idx_max_int_in_range = np.argmax(self.ints[left:right])    
+                return
+            # get point in range with minimum squared distance
+            dx = np.square(np.subtract(self.mz[left:right], mouse_point.x()))
+            dy = np.square(np.subtract(self.ints[left:right], mouse_point.y()))
+            idx_max_int_in_range = np.argmin(np.add(dx, dy))
             x = self.mz[left + idx_max_int_in_range]
             y = self.ints[left + idx_max_int_in_range]
             if self.highlighted_peak_label == None:
