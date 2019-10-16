@@ -233,28 +233,25 @@ class SpectrumWidget(PlotWidget):
         pos = evt[0]  ## using signal proxy turns original arguments into a tuple
         if self.sceneBoundingRect().contains(pos):
             mouse_point = self.getViewBox().mapSceneToView(pos)
-            nearest_p = self.spec.findNearestPeakWithTheoPos(mouse_point.x(), 1e12) # TODO: choose largest peak in tolerance range instead of nearest one
-            if nearest_p == None or nearest_p.getIntensity() == 0:
-                return
-
-            if abs(mouse_point.x() - nearest_p.getMZ()) < 10.0:  # TODO: calculate from pixel with
-                x = nearest_p.getMZ()
-                y = nearest_p.getIntensity()
-
+            pixel_width = self.getViewBox().viewPixelSize()[0]
+            left = np.searchsorted(self.mz, mouse_point.x() - 4.0 * pixel_width, side='left')
+            right = np.searchsorted(self.mz, mouse_point.x() + 4.0 * pixel_width, side='right')
+            if (left == right): # none found -> remove text
                 if self.highlighted_peak_label != None:
-                    self.removeItem(self.highlighted_peak_label)
-
+                    self.highlighted_peak_label.setText("")
+                return            
+            idx_max_int_in_range = np.argmax(self.ints[left:right])    
+            x = self.mz[left + idx_max_int_in_range]
+            y = self.ints[left + idx_max_int_in_range]
+            if self.highlighted_peak_label == None:
                 self.highlighted_peak_label = pg.TextItem(text='{0:.3f}'.format(x), color=(100,100,100), anchor=(0.5,1))
-                self.highlighted_peak_label.setPos(x, y)
-                self.addItem(self.highlighted_peak_label)
+                self.addItem(self.highlighted_peak_label)            
+            self.highlighted_peak_label.setText('{0:.3f}'.format(x))
+            self.highlighted_peak_label.setPos(x, y)
         else:
             # mouse moved out of visible area: remove highlighting item
             if self.highlighted_peak_label != None:
-                self.removeItem(self.highlighted_peak_label)
-
-
-
-
+                self.highlighted_peak_label.setText("")
 
 class ScanWidget(QWidget):
     
