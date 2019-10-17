@@ -14,12 +14,12 @@ import numpy as np
 import pandas as pd
 from collections import namedtuple
 
-# define Constant locally until bug in pyOpenMS is fixed
-def pyopenms():
-    def Constants():
-        PROTON_MASS_U = 1.0072764667710
+
 import pyopenms 
+
 #import pyopenms.Constants
+# define Constant locally until bug in pyOpenMS is fixed
+PROTON_MASS_U = 1.0072764667710
 
 # structure for each input masses
 MassDataStruct = namedtuple('MassDataStruct', "mz_theo_arr \
@@ -64,7 +64,7 @@ class MassList():
         theo_mz_list = []
         for cs in range(cs_range[0], cs_range[1]+1):
             print(type(mass), "....", mass)
-            mz = (mass + cs * 1.008) / cs
+            mz = (mass + cs * PROTON_MASS_U) / cs
             ''' add if statement for mz_range '''
             theo_mz_list.append((cs,mz))
         return theo_mz_list
@@ -86,22 +86,8 @@ class MassSpecData():
         
         return scan_list
 
-class Spectrum():
-
-    def __init__(self, spec):
-        self.spectrum = spec
-    
-    def findNearestPeakWithTheoPos(self, theo_mz, tol=-1):
-        nearest_p = self.spectrum[self.spectrum.findNearest(theo_mz)] # test purpose
-        if tol == -1:
-            tol = TOL * theo_mz # ppm
-        if abs(theo_mz-nearest_p.getMZ()) > tol:
-            return None;
-        
-        return nearest_p
-
 class SpectrumWidget(PlotWidget):
-    
+
     def __init__(self, parent=None, dpi=100):
         PlotWidget.__init__(self)
         self.setLimits(yMin=0, xMin=0)
@@ -123,7 +109,7 @@ class SpectrumWidget(PlotWidget):
             self.removeItem(self.highlighted_peak_label)     
             self.highlighted_peak_label = None
         self.spec = spectrum
-        self._mzs, self._ints = self.spec.spectrum.get_peaks()
+        self._mzs, self._ints = self.spec.get_peaks()
         self._autoscaleYAxis()
 
     def redrawPlot(self):
@@ -184,7 +170,7 @@ class SpectrumWidget(PlotWidget):
             if self.highlighted_peak_label != None:
                 self.highlighted_peak_label.setText("")
 
-class ScanWidget(QWidget):
+class ScanTableWidget(QWidget):
     
     scanClicked = pyqtSignal() # signal to connect SpectrumWidget
     header = ('MS level', 'Index', 'RT')
@@ -226,7 +212,7 @@ class ScanWidget(QWidget):
        
     def onRowSelected(self, index):
         if index.siblingAtColumn(1).data() == None: return # prevents crash if row gets filtered out
-        self.curr_spec = Spectrum(self.scanList[index.siblingAtColumn(1).data()])
+        self.curr_spec = self.scanList[index.siblingAtColumn(1).data()]
         self.scanClicked.emit()
     
     def onCurrentChanged(self, new_index, old_index):
@@ -525,7 +511,7 @@ class OpenMSWidgets(QWidget):
         
         # set Widgets
         self.spectrum_widget = SpectrumWidget()
-        self.scan_widget = ScanWidget(scans)
+        self.scan_widget = ScanTableWidget(scans)
         self.scan_widget.scanClicked.connect(self.redrawPlot)
         self.msexperimentWidget.addWidget(self.spectrum_widget)
         self.msexperimentWidget.addWidget(self.scan_widget)
