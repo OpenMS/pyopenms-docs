@@ -14,12 +14,12 @@ import numpy as np
 import pandas as pd
 from collections import namedtuple
 
-
-import pyopenms 
-
-#import pyopenms.Constants
 # define Constant locally until bug in pyOpenMS is fixed
-PROTON_MASS_U = 1.0072764667710
+def pyopenms():
+    def Constants():
+        PROTON_MASS_U = 1.0072764667710
+import pyopenms 
+#import pyopenms.Constants
 
 # structure for each input masses
 MassDataStruct = namedtuple('MassDataStruct', "mz_theo_arr \
@@ -64,7 +64,7 @@ class MassList():
         theo_mz_list = []
         for cs in range(cs_range[0], cs_range[1]+1):
             print(type(mass), "....", mass)
-            mz = (mass + cs * PROTON_MASS_U) / cs
+            mz = (mass + cs * pyopenms.Constants.PROTON_MASS_U) / cs
             ''' add if statement for mz_range '''
             theo_mz_list.append((cs,mz))
         return theo_mz_list
@@ -86,91 +86,177 @@ class MassSpecData():
         
         return scan_list
 
-class SpectrumWidget(PlotWidget):
+class Spectrum():
 
+    def __init__(self, spec):
+        self.spectrum = spec
+    
+    def findNearestPeakWithTheoPos(self, theo_mz, tol=-1):
+        nearest_p = self.spectrum[self.spectrum.findNearest(theo_mz)] # test purpose
+        if tol == -1:
+            tol = TOL * theo_mz # ppm
+        if abs(theo_mz-nearest_p.getMZ()) > tol:
+            return None;
+        
+        return nearest_p
+
+class SpectrumWidget(PlotWidget):
+    
     def __init__(self, parent=None, dpi=100):
         PlotWidget.__init__(self)
         self.setLimits(yMin=0, xMin=0)
-        self.setMouseEnabled(y=False)
+        # self.setMouseEnabled(y=False)
         self.setLabel('bottom', 'm/z')
         self.setLabel('left', 'intensity')
+        self.getViewBox().sigRangeChangedManually.connect(self.modifyYAxis)
         self.highlighted_peak_label = None
-        self.peak_annotations = None
-        self.ladder_annotations = None
-         # numpy arrays for fast look-up
-        self._mzs = np.array([])
-        self._ints = np.array([])      
-        self.getViewBox().sigXRangeChanged.connect(self._autoscaleYAxis)  
-        self.proxy = pg.SignalProxy(self.scene().sigMouseMoved, rateLimit=60, slot=self._onMouseMoved)
-
-    def setSpectrum(self, spectrum):
-        # delete old highlighte "hover" peak
-        if self.highlighted_peak_label != None:
-            self.removeItem(self.highlighted_peak_label)     
-            self.highlighted_peak_label = None
-        self.spec = spectrum
-        self._mzs, self._ints = self.spec.get_peaks()
-        self._autoscaleYAxis()
-
-    def redrawPlot(self):
-        self.plot(clear=True)
-        self._plot_spectrum()
-        self._plot_peak_annotations()
-        self._plot_ladder_annotations()
-
-    def _autoscaleYAxis(self):
-        x_range = self.getAxis('bottom').range
-        if x_range == [0, 1]: # workaround for axis sometimes not being set TODO: check if this is resovled
-            x_range = [np.amin(self._mzs), np.amax(self._mzs)]
-        self.currMaxY = self._getMaxIntensityInRange(x_range)
+        self.proxy = pg.SignalProxy(self.scene().sigMouseMoved, rateLimit=60, slot=self.onMouseMoved)
+    
+    def modifyYAxis(self):
+        self.currMaxY = self.getMaxIntensityInRange(self.getAxis('bottom').range)
         if self.currMaxY:
-            self.setYRange(0, self.currMaxY, update=False)
+            self.setYRange(0, self.currMaxY)
 
-    def _plot_peak_annotations(self):
-        #TODO: KIM
-        return
+        try:
+            if self._charge_visible:
+                self.annotateChargeLadder(self._charge_visible)
+        except (AttributeError, NameError):
+            return
+
+    def plot_func(self, spec):
+        # plot spectrum
+        self.plot(clear=True)
+        self.spec = spec
+        self.mz, self.ints = self.spec.spectrum.get_peaks()
+        self.plot_spectrum(self.mz, self.ints)
+
+    def plot_anno(self, masses):
+        # initiation
+        try:
+            for p in self._charge_mark_on_peak:
+                p.clear()
+            for l in self._charge_mark_on_peak_label:
+                l.setPos(0,0)
+            for mass in self._charge_ladder_lines:
+                for key, value in self._charge_ladder_lines[mass].items():
+                    value.clear()
+                for key, value in self._charge_ladder_labels[mass].items():
+                    value.setPos(0,0)
+            cur_visible = self._charge_visible
+        except (AttributeError, NameError):
+            cur_visible = []
+
+        self._charge_mark_on_peak = []
+        self._charge_mark_on_peak_label = []
+        self._charge_ladder_lines = dict()
+        self._charge_ladder_labels = dict()
+
+        self.masses = masses
+        # annotation        
+        'anno: on expr. peak'
+        self.annotateChargesOnPeak()
         
-    def _getMaxIntensityInRange(self, xrange):
-        left = np.searchsorted(self._mzs, xrange[0], side='left')
-        right = np.searchsorted(self._mzs, xrange[1], side='right')
-        return np.amax(self._ints[left:right], initial = 1)        
+        'anno: charge ladder'
+        self.currMaxY = self.getMaxIntensityInRange(self.getAxis('bottom').range) 
+        self.annotateChargeLadder(cur_visible)
         
-    def _plot_spectrum(self):
-        bargraph = pg.BarGraphItem(x=self._mzs, height=self._ints, width=0)
+    def getMaxIntensityInRange(self, xrange):
+        left = np.searchsorted(self.mz, xrange[0], side='left')
+        right = np.searchsorted(self.mz, xrange[1], side='right')
+        return np.amax(self.ints[left:right], initial = 1)        
+        
+    def plot_spectrum(self, data_x, data_y):
+        bargraph = pg.BarGraphItem(x=data_x, height=data_y, width=0)
         self.addItem(bargraph)
         
-    def _plot_ladder_annotations(self):
-        #TODO: KIM
-        return
+    def annotateChargesOnPeak(self):
+        for mass, mass_strc in self.masses.items():
+            theo_list = mass_strc.mz_theo_arr
+            
+            for theo in theo_list:
+                exp_p = self.spec.findNearestPeakWithTheoPos(theo[1])
+                if exp_p==None or exp_p.getIntensity()==0:
+                    continue
+                x = exp_p.getMZ()
+                y = exp_p.getIntensity()
+                self._charge_mark_on_peak.append(self.plot([x], [y], symbol=mass_strc.marker, 
+                          symbolBrush=pg.mkBrush(mass_strc.color), symbolSize=14))
+                label = pg.TextItem(text='+'+str(theo[0]), color=(0,0,0), anchor=(0.5,1))
+                self.addItem(label)
+                label.setPos(x, y)
+                self._charge_mark_on_peak_label.append(label)
 
-    def _onMouseMoved(self, evt):
+    def annotateChargeLadder(self, charge_visible=[]):
+        self._charge_visible = charge_visible
+
+        for mass, mass_strc in self.masses.items():
+            mass = str(mass)
+            if mass in self._charge_visible:
+
+                # calculating charge ladder....
+                theo_list = mass_strc.mz_theo_arr 
+                mzlist = []
+                # xlimit = self.getAxis('bottom').range
+                xlimit = [self.mz[0], self.mz[-1]]
+                for theo in theo_list: # [0]charge [1]mz
+                    if ( (theo[1] <= xlimit[0]) | (theo[1] >= xlimit[1]) ):
+                        continue
+                    mzlist.append(theo)
+
+                if mass not in self._charge_ladder_lines: # should be visible, but not drawn before
+                    pen = pg.mkPen(mass_strc.color, width=2, style=Qt.DotLine)
+                    self._charge_ladder_lines[mass] = {}
+                    self._charge_ladder_labels[mass] = {}
+                    self._charge_ladder_lines[mass]['horizon'] = self.plot([xlimit[0], xlimit[1]],[self.currMaxY, self.currMaxY], pen=pen)
+                    for th in mzlist:
+                        self._charge_ladder_lines[mass][th[0]] = self.plot([th[1], th[1]], [0, self.currMaxY], pen=pen)
+                        label = pg.TextItem(text='+'+str(th[0]), color=mass_strc.color, anchor=(1,-1))
+                        label.setPos(th[1], self.currMaxY)
+                        # self._charge_ladder_lines[mass][th[0]].addItem(label)
+                        label.setParentItem(self._charge_ladder_lines[mass][th[0]])
+                        self._charge_ladder_labels[mass][th[0]] = label
+                    # self.addItem(pg.InfiniteLine(pos=self.currMaxY, angle=0))
+                    # anno_vb.addItem(pg.InfiniteLine(pos=theo[1], angle=90))
+                else:
+                    self._charge_ladder_lines[mass]['horizon'].setData([xlimit[0], xlimit[1]],[self.currMaxY, self.currMaxY])
+                    for th in mzlist:
+                        self._charge_ladder_lines[mass][th[0]].setData([th[1], th[1]], [0, self.currMaxY])
+                        self._charge_ladder_labels[mass][th[0]].setPos(th[1], self.currMaxY)
+            else:
+                if mass in self._charge_ladder_lines:
+                    for key, value in self._charge_ladder_lines[mass].items():
+                        value.clear()
+                    for key, value in self._charge_ladder_labels[mass].items():
+                        value.setPos(0,0)
+
+    def onMouseMoved(self, evt):
         pos = evt[0]  ## using signal proxy turns original arguments into a tuple
         if self.sceneBoundingRect().contains(pos):
             mouse_point = self.getViewBox().mapSceneToView(pos)
-            pixel_width = self.getViewBox().viewPixelSize()[0]
-            left = np.searchsorted(self._mzs, mouse_point.x() - 4.0 * pixel_width, side='left')
-            right = np.searchsorted(self._mzs, mouse_point.x() + 4.0 * pixel_width, side='right')
-            if (left == right): # none found -> remove text
-                if self.highlighted_peak_label != None:
-                    self.highlighted_peak_label.setText("")
+            nearest_p = self.spec.findNearestPeakWithTheoPos(mouse_point.x(), 1e12) # TODO: choose largest peak in tolerance range instead of nearest one
+            if nearest_p == None or nearest_p.getIntensity() == 0:
                 return
-            # get point in range with minimum squared distance
-            dx = np.square(np.subtract(self._mzs[left:right], mouse_point.x()))
-            dy = np.square(np.subtract(self._ints[left:right], mouse_point.y()))
-            idx_max_int_in_range = np.argmin(np.add(dx, dy))
-            x = self._mzs[left + idx_max_int_in_range]
-            y = self._ints[left + idx_max_int_in_range]
-            if self.highlighted_peak_label == None:
+
+            if abs(mouse_point.x() - nearest_p.getMZ()) < 10.0:  # TODO: calculate from pixel with
+                x = nearest_p.getMZ()
+                y = nearest_p.getIntensity()
+
+                if self.highlighted_peak_label != None:
+                    self.removeItem(self.highlighted_peak_label)
+
                 self.highlighted_peak_label = pg.TextItem(text='{0:.3f}'.format(x), color=(100,100,100), anchor=(0.5,1))
-                self.addItem(self.highlighted_peak_label)            
-            self.highlighted_peak_label.setText('{0:.3f}'.format(x))
-            self.highlighted_peak_label.setPos(x, y)
+                self.highlighted_peak_label.setPos(x, y)
+                self.addItem(self.highlighted_peak_label)
         else:
             # mouse moved out of visible area: remove highlighting item
             if self.highlighted_peak_label != None:
-                self.highlighted_peak_label.setText("")
+                self.removeItem(self.highlighted_peak_label)
 
-class ScanTableWidget(QWidget):
+
+
+
+
+class ScanWidget(QWidget):
     
     scanClicked = pyqtSignal() # signal to connect SpectrumWidget
     header = ('MS level', 'Index', 'RT')
@@ -212,7 +298,7 @@ class ScanTableWidget(QWidget):
        
     def onRowSelected(self, index):
         if index.siblingAtColumn(1).data() == None: return # prevents crash if row gets filtered out
-        self.curr_spec = self.scanList[index.siblingAtColumn(1).data()]
+        self.curr_spec = Spectrum(self.scanList[index.siblingAtColumn(1).data()])
         self.scanClicked.emit()
     
     def onCurrentChanged(self, new_index, old_index):
@@ -325,7 +411,7 @@ class ControllerWidget(QWidget):
         QWidget.__init__(self, *args)
         hbox = QVBoxLayout()
         self.setMaximumWidth(350)
-        self.spectrum_widget = plot
+        self.spectrum = plot
 
         # data processing
         self.mlc = MassList(mass_path)
@@ -335,7 +421,7 @@ class ControllerWidget(QWidget):
         self.setMassLineEdit()
         self.setParameterBox()
 
-        self.spectrum_widget.peak_annotations = self.masses
+        self.spectrum.plot_anno(self.masses) # plotting
 
         hbox.addWidget(self.massTable)
         hbox.addLayout(self.massLineEditLayout)
@@ -416,8 +502,7 @@ class ControllerWidget(QWidget):
         # redraw
         self.cs_range = [int(minCs), int(maxCs)]
         self.masses = self.mlc.getMassStruct(self.cs_range)
-        self.spectrum_widget.peak_annotations = self.masses
-        self.spectrum_widget.redrawPlot()
+        self.spectrum.plot_anno(self.masses)
 
 
     def isError_reloadSpecWithParam(self, minCs, maxCs):
@@ -468,11 +553,11 @@ class ControllerWidget(QWidget):
         if mass in self._data_visible:
             if not checked:
                 self._data_visible.remove(mass)
-                self.spectrum_widget.ladder_annotations = self._data_visible
+                self.spectrum.annotateChargeLadder(self._data_visible)
         else:
             if checked:
                 self._data_visible.append(mass)
-                self.spectrum_widget.ladder_annotations = self._data_visible
+                self.spectrum.annotateChargeLadder(self._data_visible)
     
     def addMassToListView(self):
         new_mass = self.massLineEdit.text()
@@ -485,9 +570,7 @@ class ControllerWidget(QWidget):
         self.masses[new_mass] = new_mass_str
 
         # redraw
-        self.spectrum_widget.peak_annotations = self.masses
-        self.spectrum_widget.redrawPlot()
-
+        self.spectrum.plot_anno(self.masses)
         self.setListViewWithMass(new_mass, new_mass_str)
 
 class OpenMSWidgets(QWidget):
@@ -510,26 +593,26 @@ class OpenMSWidgets(QWidget):
         scans = MassSpecData().readMzML(file_path)
         
         # set Widgets
-        self.spectrum_widget = SpectrumWidget()
-        self.scan_widget = ScanTableWidget(scans)
-        self.scan_widget.scanClicked.connect(self.redrawPlot)
-        self.msexperimentWidget.addWidget(self.spectrum_widget)
-        self.msexperimentWidget.addWidget(self.scan_widget)
+        self.spectrum = SpectrumWidget()
+        self.scan = ScanWidget(scans)
+        self.scan.scanClicked.connect(self.redrawPlot)
+        self.msexperimentWidget.addWidget(self.spectrum)
+        self.msexperimentWidget.addWidget(self.scan)
         self.mainlayout.addWidget(self.msexperimentWidget)
 
         # default : first row selected.
-        self.scan_widget.table_view.selectRow(0)
-        self.scan_widget.onRowSelected(self.scan_widget.table_view.selectedIndexes()[0])
+        self.scan.table_view.selectRow(0)
+        self.scan.onRowSelected(self.scan.table_view.selectedIndexes()[0])
 
     def redrawPlot(self):
-        #set new spectrum and redraw
-        self.spectrum_widget.setSpectrum(self.scan_widget.curr_spec)
-        self.spectrum_widget.redrawPlot()
+        self.spectrum.plot_func(self.scan.curr_spec)
+        if self.isAnnoOn:
+            self.spectrum.plot_anno(self.controller.masses)
+            self.spectrum.annotateChargeLadder(self.controller._data_visible) # update with current visibility
 
     def annotation_FLASHDeconv(self, mass_path):
-        self.controller = ControllerWidget(mass_path, self.spectrum_widget)
-        self.spectrum_widget.peak_annotations = self.controller.masses
-        self.spectrum_widget.ladder_annotations = self.controller._data_visible # update with current visibility
+        
+        self.controller = ControllerWidget(mass_path, self.spectrum)
         self.isAnnoOn = True
 
         # Adding Splitter
