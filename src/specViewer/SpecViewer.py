@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
         QHBoxLayout, QWidget, QDesktopWidget, QMessageBox, QPushButton, \
         QLabel, QAction, QFileDialog, QTableView, QSplitter, \
         QDialog, QToolButton, QLineEdit, QRadioButton, QGroupBox, QMenu,\
-        QFormLayout, QDialogButtonBox, QAbstractItemView, QMdiSubWindow
+        QFormLayout, QDialogButtonBox, QAbstractItemView
 from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, QPoint, QRegExp
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QPainter, QIcon, QBrush, QColor, QPen, QPixmap, QIntValidator
 
@@ -384,7 +384,6 @@ class ScanWidget(QWidget):
 
        # connect signals to slots
        self.table_view.selectionModel().currentChanged.connect(self.onCurrentChanged) # keyboard moves to new row
-       self.table_view.clicked.connect(self.onRowSelected)
        self.horizontalHeader.sectionClicked.connect(self.onHeaderClicked)
        
        layout = QVBoxLayout(self)
@@ -751,7 +750,7 @@ class OpenMSWidgets(QWidget):
         if self.isAnnoOn:
             # self.controller.updateMassTableView(self.scan.curr_spec.spectrum.getRT())
             self.spectrum.plot_anno(self.controller.masses)
-            # self.spectrum.annotateChargeLadder(self.controller._data_visible) # update with current visibility
+            self.spectrum.annotateChargeLadder(self.controller._data_visible) # update with current visibility
 
     def annotation_FLASHDeconv(self, ms_file_path, mass_path):
         
