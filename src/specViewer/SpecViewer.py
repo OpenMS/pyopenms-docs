@@ -17,6 +17,8 @@ from matplotlib import cm
 
 # define Constant locally until bug in pyOpenMS is fixed
 PROTON_MASS_U = 1.0072764667710
+C13C12_MASSDIFF_U = 1.0033548378
+
 import pyopenms 
 #import pyopenms.Constants
 
@@ -78,7 +80,8 @@ class MassList():
         for cs in range(cs_range[0], cs_range[1]+1):
             mz = (mass + cs * PROTON_MASS_U) / cs
             ''' add if statement for mz_range '''
-            theo_mz_list.append((cs,mz))
+            iso = [C13C12_MASSDIFF_U/cs*i + mz for i in range(10)]  # 10 should be changed based on the mass, later.
+            theo_mz_list.append((cs,iso))
         return theo_mz_list
     
     def addNewMass(self, new_mass, cs_range):
@@ -165,10 +168,7 @@ class SpectrumWidget(PlotWidget):
             for l in self._charge_mark_on_peak_label:
                 l.setPos(0,0)
             for mass in self._charge_ladder_lines:
-                for key, value in self._charge_ladder_lines[mass].items():
-                    value.clear()
-                for key, value in self._charge_ladder_labels[mass].items():
-                    value.setPos(0,0)
+                self.clearChargeLadders((mass))
             cur_visible = self._charge_visible
         except (AttributeError, NameError):
             cur_visible = []
@@ -201,14 +201,14 @@ class SpectrumWidget(PlotWidget):
             theo_list = mass_strc.mz_theo_arr
             
             for theo in theo_list:
-                exp_p = self.spec.findNearestPeakWithTheoPos(theo[1])
+                exp_p = self.spec.findNearestPeakWithTheoPos(theo[1][0]) # Monoisotopic only
                 if exp_p==None or exp_p.getIntensity()==0:
                     continue
                 x = exp_p.getMZ()
                 y = exp_p.getIntensity()
                 self._charge_mark_on_peak.append(self.plot([x], [y], symbol=mass_strc.marker, 
                           symbolBrush=pg.mkBrush(mass_strc.color), symbolSize=14))
-                label = pg.TextItem(text='+'+str(theo[0]), color=(0,0,0), anchor=(0.5,1))
+                label = pg.TextItem(text='+'+str(theo[0]), color=(0,0,0), anchor=(0.5,1.5))
                 self.addItem(label)
                 label.setPos(x, y)
                 self._charge_mark_on_peak_label.append(label)
@@ -220,41 +220,47 @@ class SpectrumWidget(PlotWidget):
             mass = str(mass)
             if mass in self._charge_visible:
 
-                # calculating charge ladder....
+                # calculating charge ladder
                 theo_list = mass_strc.mz_theo_arr 
                 mzlist = []
                 # xlimit = self.getAxis('bottom').range
                 xlimit = [self.mz[0], self.mz[-1]]
                 for theo in theo_list: # [0]charge [1]mz
-                    if ( (theo[1] <= xlimit[0]) | (theo[1] >= xlimit[1]) ):
+                    if ( (theo[1][0] <= xlimit[0]) | (theo[1][-1] >= xlimit[1]) ):
                         continue
                     mzlist.append(theo)
 
                 if mass not in self._charge_ladder_lines: # should be visible, but not drawn before
                     pen = pg.mkPen(mass_strc.color, width=2, style=Qt.DotLine)
-                    self._charge_ladder_lines[mass] = {}
-                    self._charge_ladder_labels[mass] = {}
-                    self._charge_ladder_lines[mass]['horizon'] = self.plot([xlimit[0], xlimit[1]],[self.currMaxY, self.currMaxY], pen=pen)
+                    self._charge_ladder_lines[mass] = []
+                    self._charge_ladder_labels[mass] = []
+                    self._charge_ladder_lines[mass].append( # horizon line. index 0
+                        self.plot([xlimit[0], xlimit[1]],[self.currMaxY, self.currMaxY], pen=pen))
                     for th in mzlist:
-                        self._charge_ladder_lines[mass][th[0]] = self.plot([th[1], th[1]], [0, self.currMaxY], pen=pen)
-                        label = pg.TextItem(text='+'+str(th[0]), color=mass_strc.color, anchor=(1,-1))
-                        label.setPos(th[1], self.currMaxY)
-                        # self._charge_ladder_lines[mass][th[0]].addItem(label)
-                        label.setParentItem(self._charge_ladder_lines[mass][th[0]])
-                        self._charge_ladder_labels[mass][th[0]] = label
-                    # self.addItem(pg.InfiniteLine(pos=self.currMaxY, angle=0))
-                    # anno_vb.addItem(pg.InfiniteLine(pos=theo[1], angle=90))
+                        for index, mz in enumerate(th[1]):
+                            self._charge_ladder_lines[mass].append(
+                                self.plot([th[1][index], th[1][index]], [0, self.currMaxY], pen=pen))
+                            label = pg.TextItem(text='+%d[%d]' %(th[0], index), color=mass_strc.color, anchor=(1,-1))
+                            label.setPos(th[1][index], self.currMaxY)
+                            label.setParentItem(self._charge_ladder_lines[mass][-1])
+                            self._charge_ladder_labels[mass].append(label)
                 else:
-                    self._charge_ladder_lines[mass]['horizon'].setData([xlimit[0], xlimit[1]],[self.currMaxY, self.currMaxY])
+                    self._charge_ladder_lines[mass][0].setData([xlimit[0], xlimit[1]],[self.currMaxY, self.currMaxY]) # horizon 
+                    cntr = 0
                     for th in mzlist:
-                        self._charge_ladder_lines[mass][th[0]].setData([th[1], th[1]], [0, self.currMaxY])
-                        self._charge_ladder_labels[mass][th[0]].setPos(th[1], self.currMaxY)
+                        for index, mz in enumerate(th[1]):
+                            self._charge_ladder_lines[mass][cntr+1].setData([th[1][index], th[1][index]], [0, self.currMaxY])
+                            self._charge_ladder_labels[mass][cntr].setPos(th[1][index], self.currMaxY) # horizon line doesn't have label
+                            cntr += 1
             else:
                 if mass in self._charge_ladder_lines:
-                    for key, value in self._charge_ladder_lines[mass].items():
-                        value.clear()
-                    for key, value in self._charge_ladder_labels[mass].items():
-                        value.setPos(0,0)
+                    self.clearChargeLadders(mass)
+
+    def clearChargeLadders(self, mass):
+        for p in self._charge_ladder_lines[mass]:
+            p.clear()         
+        for l in self._charge_ladder_labels[mass]:
+            l.setPos(0,0)
 
     def onMouseMoved(self, evt):
         pos = evt[0]  ## using signal proxy turns original arguments into a tuple
