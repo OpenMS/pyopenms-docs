@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
         QHBoxLayout, QWidget, QDesktopWidget, QMessageBox, QPushButton, \
         QLabel, QAction, QFileDialog, QTableView, QSplitter, \
         QDialog, QToolButton, QLineEdit, QRadioButton, QGroupBox, QMenu,\
-        QFormLayout, QDialogButtonBox, QAbstractItemView
+        QFormLayout, QDialogButtonBox, QAbstractItemView, QMdiSubWindow
 from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, QPoint, QRegExp
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QPainter, QIcon, QBrush, QColor, QPen, QPixmap, QIntValidator
 
@@ -13,16 +13,16 @@ from pyqtgraph import PlotWidget
 import numpy as np
 import pandas as pd
 from collections import namedtuple
+from matplotlib import cm
 
 # define Constant locally until bug in pyOpenMS is fixed
-def pyopenms():
-    def Constants():
-        PROTON_MASS_U = 1.0072764667710
+PROTON_MASS_U = 1.0072764667710
 import pyopenms 
 #import pyopenms.Constants
 
 # structure for each input masses
 MassDataStruct = namedtuple('MassDataStruct', "mz_theo_arr \
+                            startRT endRT maxIntensity scanCount \
                             color marker")
 #                            isMono isAvg
 TOL = 1e-5 # ppm
@@ -38,42 +38,68 @@ Symbols = pg.graphicsItems.ScatterPlotItem.Symbols
 class MassList():
 
     def __init__(self, file_path):
-        df = pd.read_csv(file_path, sep='\t', header=0) # data with only one column and header is expected
-        self.setMassList(df)
+        self.data = pd.read_csv(file_path, sep='\t', header=0)
+        self.isFDresult = self.isValidFLASHDeconvFile()
+        self.setRTMassDict()
+        self.setMassList(self.data)
 
     def setMassList(self, df):
-        if 'MonoisotopicMass' in df.columns: # parsing a result file from FLASHDeconv
+        if self.isFDresult: # parsing a result file from FLASHDeconv
             self.mass_list = df['MonoisotopicMass'].to_numpy().ravel().tolist()
         else :
             self.mass_list = df.to_numpy().ravel().tolist()
 
-    def getMassStruct(self, cs_range=[2,100]):
+    def setMassStruct(self, cs_range=[2,100]):
         mds_dict = {}
+
         for mNum, mass in enumerate(self.mass_list):
-            mds_dict[mass] = self.getMassDataStructItem(mNum, mass, cs_range)
+            mds_dict[mass] = self.setMassDataStructItem(mNum, mass, cs_range)
         return mds_dict
-    
-    def getMassDataStructItem(self, index, mass, cs_range):
+
+    def setMassDataStructItem(self, index, mass, cs_range):
         marker = SymbolSet[index%len(SymbolSet)]
         color = RGBs[index%len(RGBs)]
         theo_mz = self.calculateTheoMzList(mass, cs_range)
+        rt_s = 0
+        rt_e = sys.maxsize
+        mi = 0
+        c = 0
+        if mass in self.RTMassDict.keys():
+            rt_s = float(self.RTMassDict[mass]['StartRetentionTime'])
+            rt_e = float(self.RTMassDict[mass]['EndRetentionTime'])
+            mi = float(self.RTMassDict[mass]['MaxIntensity'])
+            c = int(self.RTMassDict[mass]['MassCount'])
         return MassDataStruct(mz_theo_arr=theo_mz, 
+                    startRT=rt_s, endRT=rt_e, maxIntensity=mi, scanCount=c,
                     marker=marker, color=color)
 
     def calculateTheoMzList(self, mass, cs_range, mz_range=(0,0)):
         theo_mz_list = []
         for cs in range(cs_range[0], cs_range[1]+1):
-            print(type(mass), "....", mass)
-            mz = (mass + cs * pyopenms.Constants.PROTON_MASS_U) / cs
+            mz = (mass + cs * PROTON_MASS_U) / cs
             ''' add if statement for mz_range '''
             theo_mz_list.append((cs,mz))
         return theo_mz_list
     
-    def addNewMass(self, new_mass):
+    def addNewMass(self, new_mass, cs_range):
         index = len(self.mass_list)
         self.mass_list.append(new_mass)
-        return self.getMassDataStructItem(index, new_mass)
-        
+        return self.setMassDataStructItem(index, new_mass, cs_range)
+
+    def isValidFLASHDeconvFile(self):
+        col_needed = ['MonoisotopicMass', 'AverageMass', 'StartRetentionTime', 'EndRetentionTime']
+        result = all(elem in list(self.data) for elem in col_needed)
+        if result:
+            return True
+        return False
+
+    def setRTMassDict(self):
+        self.RTMassDict = dict()
+        if self.isFDresult:
+            # self.RTMassDict = dict(zip(self.data.MonoisotopicMass, 
+                # zip(self.data.StartRetentionTime, self.data.EndRetentionTime)))
+            self.RTMassDict = self.data.set_index('MonoisotopicMass').to_dict('index')
+
 class MassSpecData():
 
     def readMzML(self, mzML_path):
@@ -99,6 +125,7 @@ class Spectrum():
             return None;
         
         return nearest_p
+
 
 class SpectrumWidget(PlotWidget):
     
@@ -253,8 +280,79 @@ class SpectrumWidget(PlotWidget):
                 self.removeItem(self.highlighted_peak_label)
 
 
+class FeatureMapPlotWidget(PlotWidget):
+    def __init__(self, mass_data , parent=None, dpi=100):
+       PlotWidget.__init__(self)
+       self.data = mass_data
+       self.setLabel('bottom', 'Retension Time (sec)')
+       self.setLabel('left', 'Mass (Da)')
+       self.setLimits(yMin=0, xMin=0)
+       self.showGrid(True, True)
+       # self.setBackground('k')
+       self.drawPlot()
+       # self.setColorbar()
 
+    # def setColorbar(self):
+    #     self.img = pg.ImageItem()
+    #     self.getPlotItem().addItem(self.img)
+    #     self.img.setLookupTable(self.pg_cmap.getLookupTable)
+    #     self.hist = pg.HistogramLUTItem()
+    #     self.hist.setImageItem(self.img)
+    #     # self.addItem(self.hist)
 
+    def drawPlot(self):
+        cmap = self.getColorMap()  
+
+        for mass, mds in self.data.items():
+            spi = pg.ScatterPlotItem(size=10, # pen=pg.mkPen(None), 
+                brush=pg.mkBrush(cmap.mapToQColor(mds.maxIntensity)))
+            self.addItem(spi)
+            spots = [{'pos': [i, mass]} for i in np.arange(mds.startRT, mds.endRT, 1)]
+            # print([i for i in np.arange(mds.startRT, mds.endRT, 1)])
+            spi.addPoints(spots)
+
+    def getColorMap(self):
+        miList = self.getMassIntensityDict()
+        colormap = cm.get_cmap("plasma")
+        colormap._init()
+        lut = (colormap._lut * 255).view(np.ndarray)[:colormap.N] # Convert matplotlib colormap from 0-1 to 0 -255 for Qt
+        self.pg_cmap = pg.ColorMap(pos=miList, color=lut)
+        return self.pg_cmap
+
+    def getMassIntensityDict(self):
+        # miDict = dict()
+        miList = list()
+        for m, mds in self.data.items():
+            # miDict[m] = mds.maxIntensity
+            miList.append(mds.maxIntensity)
+        return miList
+
+class PlotWindow(QMainWindow):
+    def __init__(self, mlc, mass_data, parent=None):
+        QMainWindow.__init__(self, parent)
+        self.setWindowTitle('Feature map')
+        cWidget = QWidget()
+        self.setCentralWidget(cWidget)
+        self.layout = QHBoxLayout(cWidget)
+
+        fmWidget = FeatureMapPlotWidget(mass_data)
+        self.colormap = fmWidget.pg_cmap
+
+        self.layout.addWidget(fmWidget)
+        # cWidget.addItem(fmWidget.hist)
+
+        # self.addColorBar(mlc)
+
+    def addColorBar(self, mlc):
+        self.img = pg.ColorMapWidget()
+        self.img.setFields([
+            ('MaxIntensity', {})
+            ])
+        self.img.map(mlc.data)
+        # self.img.setLookupTable(self.colormap.getLookupTable)
+        # https://groups.google.com/forum/#!searchin/pyqtgraph/color$20scale$20plotwidget/pyqtgraph/N4ysAIhPBgo/JO36xjz1BwAJ
+        # imgV = pg.ImageView(view=pg.PlotItem())
+        self.layout.addWidget(self.img)
 
 class ScanWidget(QWidget):
     
@@ -351,7 +449,6 @@ class ScanWidget(QWidget):
         self.proxy.setFilterRegExp(filterString)
         self.proxy.setFilterKeyColumn(filterColumn)
 
-
 class ScanTableModel(QAbstractTableModel):
     '''
        keep the method names
@@ -409,25 +506,34 @@ class ControllerWidget(QWidget):
 
     def __init__(self, mass_path, plot, *args):
         QWidget.__init__(self, *args)
+        self.mass_path = mass_path
         hbox = QVBoxLayout()
         self.setMaximumWidth(350)
         self.spectrum = plot
 
         # data processing
-        self.mlc = MassList(mass_path)
-        self.masses = self.mlc.getMassStruct()
+        self.mlc = MassList(self.mass_path)
+        self.total_masses = self.mlc.setMassStruct()
+        self.masses = self.total_masses # initialization
 
+        self.setFeatureMapButton()
         self.setMassTableView()
         self.setMassLineEdit()
         self.setParameterBox()
 
         self.spectrum.plot_anno(self.masses) # plotting
 
+        hbox.addWidget(self.fmButton)
         hbox.addWidget(self.massTable)
         hbox.addLayout(self.massLineEditLayout)
         hbox.addWidget(self.paramBox)
         # hbox.addWidget(self.paramButton)
         self.setLayout(hbox)
+
+    def setFeatureMapButton(self):
+        self.fmButton = QPushButton()
+        self.fmButton.setText('Draw feature map')
+        self.fmButton.clicked.connect(self.loadFeatureMapPlot)
 
     def setMassTableView(self):
         # set controller widgets
@@ -490,6 +596,42 @@ class ControllerWidget(QWidget):
     def setMassListExportButton(self):
         self.setmassbutton = ''
 
+    def loadFeatureMapPlot(self):
+        if not self.mlc.isFDresult:
+            self.errorDlg = QMessageBox()
+            self.errorDlg.setIcon(QMessageBox.Critical)
+            self.errorDlg.setWindowTitle("ERROR")
+            self.errorDlg.setText('Input mass file is not formatted as FLASHDeconv result file.')
+            self.errorDlg.exec_()
+            return 
+        # fm_window = QDialog()
+        # fm_layout = QVBoxLayout(fm_window)
+        # fm_layout.addWidget(FeatureMapPlotWidget(self.masses))
+        self.fm_window = PlotWindow(self.mlc, self.masses)
+        self.fm_window.show()
+
+    def updateMassTableView(self, scan_rt):
+        self.masses = self.getMassStructWithRT(scan_rt)
+        self.model.clear()
+        self.model.setHorizontalHeaderLabels(["Masses"])
+        for mass, mStruct in self.masses.items():
+            self.setListViewWithMass(mass, mStruct)
+
+    def getMassStructWithRT(self, scan_rt):
+        new_dict = dict()
+        for mass, mds in self.masses.items():
+            if scan_rt >= mds.startRT and scan_rt <= mds.endRT:
+                new_dict[mass] = mds
+        return new_dict
+
+    def findMainWindow(self) :
+    # Global function to find the (open) QMainWindow in application
+        app = QApplication.instance()
+        for widget in app.topLevelWidgets():
+            if isinstance(widget, QMainWindow):
+                return widget
+        return None
+
     def reloadSpecWithParam(self):
         minCs = self.csMinLineEdit.text()
         maxCs = self.csMaxLineEdit.text()
@@ -501,7 +643,7 @@ class ControllerWidget(QWidget):
         
         # redraw
         self.cs_range = [int(minCs), int(maxCs)]
-        self.masses = self.mlc.getMassStruct(self.cs_range)
+        self.masses = self.mlc.setMassStruct(self.cs_range)
         self.spectrum.plot_anno(self.masses)
 
 
@@ -566,7 +708,7 @@ class ControllerWidget(QWidget):
             new_mass = float(new_mass)
         except:
             return
-        new_mass_str = self.mlc.addNewMass(new_mass)
+        new_mass_str = self.mlc.addNewMass(new_mass, self.cs_range)
         self.masses[new_mass] = new_mass_str
 
         # redraw
@@ -607,10 +749,11 @@ class OpenMSWidgets(QWidget):
     def redrawPlot(self):
         self.spectrum.plot_func(self.scan.curr_spec)
         if self.isAnnoOn:
+            # self.controller.updateMassTableView(self.scan.curr_spec.spectrum.getRT())
             self.spectrum.plot_anno(self.controller.masses)
-            self.spectrum.annotateChargeLadder(self.controller._data_visible) # update with current visibility
+            # self.spectrum.annotateChargeLadder(self.controller._data_visible) # update with current visibility
 
-    def annotation_FLASHDeconv(self, mass_path):
+    def annotation_FLASHDeconv(self, ms_file_path, mass_path):
         
         self.controller = ControllerWidget(mass_path, self.spectrum)
         self.isAnnoOn = True
@@ -744,8 +887,10 @@ class App(QMainWindow):
         ## test purpose
         # massPath = "/Users/jeek/Documents/A4B_UKE/FIA_Ova/190509_Ova_native_25ngul_R.tsv"
         # mzmlPath = "/Users/jeek/Documents/A4B_UKE/FIA_Ova/190509_Ova_native_25ngul_R.mzML"
+        # massPath = "/Users/jeek/Documents/A4B/FFI_paper/FD_simple_sample_result/190226_Cyto_1_FD_500ng.tsv"
+        # mzmlPath = "/Users/jeek/Dropbox/A4B/UKE_flashdeconv/CytoC/190226_Cyto_1_FD_500ng.mzML"
         # self.openmsWidget.loadFile(mzmlPath)
-        # self.openmsWidget.annotation_FLASHDeconv(massPath)
+        # self.openmsWidget.annotation_FLASHDeconv(mzmlPath, massPath)
 
     def setOpenMSWidget(self):
         if self.windowLay.count() > 0 :
@@ -797,7 +942,7 @@ class App(QMainWindow):
 
             self.setOpenMSWidget()
             self.openmsWidget.loadFile(self.mzmlPath)
-            self.openmsWidget.annotation_FLASHDeconv(self.massPath)
+            self.openmsWidget.annotation_FLASHDeconv(self.mzmlPath, self.massPath)
     
     def clearLayout(self, layout):
         for i in reversed(range(layout.count())): 
