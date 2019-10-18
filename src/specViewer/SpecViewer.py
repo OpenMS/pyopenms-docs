@@ -513,7 +513,7 @@ class ControllerWidget(QWidget):
         # data processing
         self.mlc = MassList(self.mass_path)
         self.total_masses = self.mlc.setMassStruct()
-        self.masses = self.total_masses # initialization
+        self.masses = dict() # initialization
 
         self.setFeatureMapButton()
         self.setMassTableView()
@@ -540,10 +540,10 @@ class ControllerWidget(QWidget):
         self.model = QStandardItemModel(self)
         self.model.setHorizontalHeaderLabels(["Masses"])
         self.model.itemChanged.connect(self.check_check_state)
-        for mass, mStruct in self.masses.items():
-            self.setListViewWithMass(mass, mStruct)
+        # for mass, mStruct in self.masses.items():
+        #     self.setListViewWithMass(mass, mStruct)
         self.massTable.setModel(self.model)
-        self.massTable.resizeColumnToContents(0)
+        self.massTable.setColumnWidth(0, 300)
         self._data_visible = []
 
     def setMassLineEdit(self):
@@ -606,19 +606,20 @@ class ControllerWidget(QWidget):
         # fm_window = QDialog()
         # fm_layout = QVBoxLayout(fm_window)
         # fm_layout.addWidget(FeatureMapPlotWidget(self.masses))
-        self.fm_window = PlotWindow(self.mlc, self.masses)
+        self.fm_window = PlotWindow(self.mlc, self.total_masses)
         self.fm_window.show()
 
     def updateMassTableView(self, scan_rt):
         self.masses = self.getMassStructWithRT(scan_rt)
-        self.model.clear()
+        self.model.removeRows(0, self.model.rowCount())
         self.model.setHorizontalHeaderLabels(["Masses"])
         for mass, mStruct in self.masses.items():
             self.setListViewWithMass(mass, mStruct)
+        self.massTable.setColumnWidth(0, 300)
 
     def getMassStructWithRT(self, scan_rt):
         new_dict = dict()
-        for mass, mds in self.masses.items():
+        for mass, mds in self.total_masses.items():
             if scan_rt >= mds.startRT and scan_rt <= mds.endRT:
                 new_dict[mass] = mds
         return new_dict
@@ -644,7 +645,6 @@ class ControllerWidget(QWidget):
         self.cs_range = [int(minCs), int(maxCs)]
         self.masses = self.mlc.setMassStruct(self.cs_range)
         self.spectrum.plot_anno(self.masses)
-
 
     def isError_reloadSpecWithParam(self, minCs, maxCs):
         v = QIntValidator()
@@ -748,9 +748,9 @@ class OpenMSWidgets(QWidget):
     def redrawPlot(self):
         self.spectrum.plot_func(self.scan.curr_spec)
         if self.isAnnoOn:
-            # self.controller.updateMassTableView(self.scan.curr_spec.spectrum.getRT())
+            self.controller.updateMassTableView(self.scan.curr_spec.spectrum.getRT())
             self.spectrum.plot_anno(self.controller.masses)
-            self.spectrum.annotateChargeLadder(self.controller._data_visible) # update with current visibility
+            # self.spectrum.annotateChargeLadder(self.controller._data_visible) # update with current visibility
 
     def annotation_FLASHDeconv(self, ms_file_path, mass_path):
         
