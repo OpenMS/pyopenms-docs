@@ -2,7 +2,7 @@ import sys
 import pyqtgraph as pg
 import pyopenms
 from PyQt5.QtCore import Qt, QPointF
-from PyQt5.QtGui import QFont, QFontMetricsF, QPainter, QColor, QPen, QBrush
+from PyQt5.QtGui import QFont, QFontMetricsF, QPainter, QColor, QPen, QBrush, QSpacerItem, QSizePolicy
 from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout
 
 
@@ -28,17 +28,22 @@ class peptide_window(QWidget):
         self.pep.setPrefix({1: ["a1", "b1"], 2: ["a2", "b2", "c2"]})
         self.pep.setSuffix({2: ["a2", "b2"], 4: ["a4", "b4", "c4"]})
 
+        self.pep.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        self.pep.setMinimumSize(400,400)
+        self.layout.addItem(QSpacerItem(40,50, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
         self.layout.addWidget(self.pep)
+        self.layout.addItem(QSpacerItem(40,50, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
 
         # resize window to fit peptide size
         self.__resize()
-        self.setFixedSize(peptide_window.WIDTH, peptide_window.HEIGHT)
 
+        #self.setStyleSheet("background-color:white;");
         self.show()
 
     def __resize(self):
         if len(self.pep.sequence) > 15:
             peptide_window.WIDTH += ((len(self.pep.sequence) - 15) * 2*18)
+
 
 class observed_peptide(QWidget):
 
@@ -47,13 +52,11 @@ class observed_peptide(QWidget):
         self.initUI()
         self.resize(self.sizeHint())
 
-
     def initUI(self):
 
         self.sequence = ""
         self.suffix = {}
         self.prefix = {}
-
 
     def setSequence(self, seq):
         self.sequence = seq
@@ -67,7 +70,6 @@ class observed_peptide(QWidget):
 
 
     def paintEvent(self, event):
-
         qp = QPainter()
         qp.begin(self)
         qp.setRenderHint(QPainter.Antialiasing)
@@ -165,7 +167,6 @@ class observed_peptide(QWidget):
 
                 blank += width + SPACE
                 qp.setFont(self.__getFont_Pep())
-
 
 
     def __getFont_Pep(self):
