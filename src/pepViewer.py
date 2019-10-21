@@ -148,7 +148,6 @@ class observed_peptide(QWidget):
                         blank_ion += height_ion
 
                 elif i_rev in self.suffix and i not in self.prefix:
-                    print(i, i_rev)
                     qp.drawLine(pos_start, pos_end)
                     pos_right = QPointF(pos_start.x() + 2*SPACE, pos_start.y())
                     qp.drawLine(pos_start, pos_right)
