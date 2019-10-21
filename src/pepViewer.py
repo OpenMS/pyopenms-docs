@@ -17,7 +17,6 @@ class peptide_window(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setFixedSize(peptide_window.WIDTH, peptide_window.HEIGHT)
         self.setWindowTitle('Peptide Viewer')
 
         self.layout = QHBoxLayout(self)
@@ -31,7 +30,15 @@ class peptide_window(QWidget):
 
         self.layout.addWidget(self.pep)
 
+        # resize window to fit peptide size
+        self.__resize()
+        self.setFixedSize(peptide_window.WIDTH, peptide_window.HEIGHT)
+
         self.show()
+
+    def __resize(self):
+        if len(self.pep.sequence) > 15:
+            peptide_window.WIDTH += ((len(self.pep.sequence) - 15) * 2*18)
 
 class observed_peptide(QWidget):
 
@@ -82,22 +89,17 @@ class observed_peptide(QWidget):
             seq = list(self.sequence)
             dict_seq = {i: seq[i] for i in range(0, len(seq))}
 
-
-            seq_keys = len(dict_seq.keys())
-            dict_seq_last = list(dict_seq.values())[-1]
-
             metrics = QFontMetricsF(self.__getFont_Pep())
 
             blank = 0
             for i, s in dict_seq.items():
-                i_rev = self.__reverseIndex(i, dict_seq)
+                i_rev = self.__getReverseIndex(i, dict_seq)
 
                 width = metrics.boundingRect(s).width()
                 height = metrics.boundingRect(s).height()
 
-                seq_len = metrics.boundingRect(self.sequence).width()
-                start_point = (peptide_window.WIDTH - seq_len - (SPACE * (seq_keys - 1)))/2 + metrics.boundingRect(dict_seq_last).width()/2
-
+                seq_len = len(self.sequence)
+                start_point = (peptide_window.WIDTH - (seq_len * 17 + SPACE * (seq_len - 2)))/2
                 # position of char
                 position = QPointF(start_point + blank, (peptide_window.HEIGHT/2 + height/4))
                 qp.drawText(position, s)
@@ -133,12 +135,12 @@ class observed_peptide(QWidget):
                         blank_ion += height_ion
 
 
-                # for given line of existing prefix, expand with given suffix 
+                # for given line of existing prefix, expand with given suffix
                 if i in self.prefix and i_rev in self.suffix :
                     pos_right = QPointF(pos_start.x() + 2*SPACE, pos_start.y())
                     qp.drawLine(pos_start, pos_right)
 
-                    suffix_ions = sorted(self.suffix[i_rev], reverse = True)
+                    suffix_ions = sorted(self.suffix[i_rev], reverse=True)
                     blank_ion = 5
 
                     for ion in suffix_ions:
@@ -161,9 +163,9 @@ class observed_peptide(QWidget):
                         qp.drawText(pos_ion, ion)
                         blank_ion += height_ion
 
-
                 blank += width + SPACE
                 qp.setFont(self.__getFont_Pep())
+
 
 
     def __getFont_Pep(self):
@@ -184,7 +186,7 @@ class observed_peptide(QWidget):
         pen.setStyle(Qt.DashDotLine)
         return pen
 
-    def __reverseIndex(self, i, dict_seq):
+    def __getReverseIndex(self, i, dict_seq):
         i_rev = 0
         if i != 0:
             i_rev = list(dict_seq.keys())[-i]
