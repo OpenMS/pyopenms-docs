@@ -45,6 +45,10 @@ Symbols = pg.graphicsItems.ScatterPlotItem.Symbols
 class MassList():
 
     def __init__(self, file_path):
+        if not file_path:
+            self.mass_list = []
+            return
+
         self.data = pd.read_csv(file_path, sep='\t', header=0)
         self.isFDresult = self.isValidFLASHDeconvFile()
         self.setRTMassDict()
@@ -518,8 +522,6 @@ class ControllerWidget(QWidget):
         self.setLayout(hbox)
 
     def _updatePlot(self):
-        self.spectrum_widget.setPeakAnnotations(self.getPeakAnnoStruct())
-        self.spectrum_widget.setLadderAnnotations(self.getLadderAnnoStruct())
         # uncheck all checkboxes
         for index in range(self.model.rowCount()):
             item = self.model.item(index)
@@ -530,6 +532,10 @@ class ControllerWidget(QWidget):
         self.csMinLineEdit.setText('2')
         self.csMaxLineEdit.setText('100')
 
+        self._data_visible = []
+        self.spectrum_widget.setPeakAnnotations(self.getPeakAnnoStruct())
+        self.spectrum_widget.setLadderAnnotations(self.getLadderAnnoStruct())
+        
         self.spectrum_widget.redrawPlot()
 
     def setFeatureMapButton(self):
@@ -616,13 +622,15 @@ class ControllerWidget(QWidget):
             self.setListViewWithMass(mass, mStruct)
         self.massTable.setColumnWidth(0, 300)
         # update annotation lists
+        self._data_visible = []
         self.spectrum_widget.setPeakAnnotations(self.getPeakAnnoStruct())
         self.spectrum_widget.setLadderAnnotations(self.getLadderAnnoStruct())
 
     def getMassStructWithRT(self, scan_rt):
         new_dict = dict()
         for mass, mds in self.total_masses.items():
-            if scan_rt >= mds.startRT and scan_rt <= mds.endRT:
+            if (mds.startRT == 0 and  mds.endRT==sys.maxsize) \
+                or (scan_rt >= mds.startRT and scan_rt <= mds.endRT):
                 new_dict[mass] = mds
         return new_dict
 
@@ -902,7 +910,8 @@ class FDInputDialog(QDialog):
             self.errorDlg.exec_()
             return
         
-        if not os.path.exists(self.massFileLineEdit.text()):
+        if self.massFileLineEdit.text() and \
+            not os.path.exists(self.massFileLineEdit.text()):
             self.errorDlg.setText('Input mass file doesn\'t exist.')
             self.errorDlg.exec_()
             return
@@ -936,12 +945,6 @@ class App(QMainWindow):
         # default widget <- per spectrum
         self.setOpenMSWidget()
         
-        ## test purpose
-        # massPath = "/Users/jeek/Documents/A4B_UKE/FIA_Ova/190509_Ova_native_25ngul_R.tsv"
-        # mzmlPath = "/Users/jeek/Documents/A4B_UKE/FIA_Ova/190509_Ova_native_25ngul_R.mzML"
-        # self.openmsWidget.loadFile(mzmlPath)
-        # self.openmsWidget.annotation_FLASHDeconv(massPath)
-
     def setOpenMSWidget(self):
         if self.windowLay.count() > 0 :
             self.clearLayout(self.windowLay)
