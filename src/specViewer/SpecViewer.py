@@ -13,18 +13,25 @@ from pyqtgraph import PlotWidget
 import numpy as np
 import pandas as pd
 from collections import namedtuple
-
+from matplotlib import cm
 
 import pyopenms 
 
 #import pyopenms.Constants
 # define Constant locally until bug in pyOpenMS is fixed
 PROTON_MASS_U = 1.0072764667710
+C13C12_MASSDIFF_U = 1.0033548378
 
 # structure for each input masses
 MassDataStruct = namedtuple('MassDataStruct', "mz_theo_arr \
+                            startRT endRT maxIntensity scanCount \
                             color marker")
 #                            isMono isAvg
+PeakAnnoStruct = namedtuple('PeakAnnoStruct', "mz intensity text_label \
+                            symbol symbol_color")
+LadderAnnoStruct = namedtuple('LadderAnnoStruct', "mz_list \
+                            text_label_list color")
+
 TOL = 1e-5 # ppm
 #colorset = ('b', 'g', 'r', 'c', 'm', 'y', 'k')
 pg.setConfigOption('background', 'w') # white background
@@ -38,53 +45,148 @@ Symbols = pg.graphicsItems.ScatterPlotItem.Symbols
 class MassList():
 
     def __init__(self, file_path):
-        df = pd.read_csv(file_path, sep='\t', header=0) # data with only one column and header is expected
-        self.setMassList(df)
+        self.data = pd.read_csv(file_path, sep='\t', header=0)
+        self.isFDresult = self.isValidFLASHDeconvFile()
+        self.setRTMassDict()
+        self.setMassList(self.data)
 
     def setMassList(self, df):
-        if 'MonoisotopicMass' in df.columns: # parsing a result file from FLASHDeconv
+        if self.isFDresult: # parsing a result file from FLASHDeconv
             self.mass_list = df['MonoisotopicMass'].to_numpy().ravel().tolist()
         else :
             self.mass_list = df.to_numpy().ravel().tolist()
 
-    def getMassStruct(self, cs_range=[2,100]):
+    def setMassStruct(self, cs_range=[2,100]):
         mds_dict = {}
+
         for mNum, mass in enumerate(self.mass_list):
-            mds_dict[mass] = self.getMassDataStructItem(mNum, mass, cs_range)
+            mds_dict[mass] = self.setMassDataStructItem(mNum, mass, cs_range)
         return mds_dict
-    
-    def getMassDataStructItem(self, index, mass, cs_range):
+
+    def getMassStruct(self, masslist, cs_range=[2,100]):
+        mds_dict = {}
+
+        for mass in masslist:
+            mNum = self.mass_list.index(mass)
+            mds_dict[mass] = self.setMassDataStructItem(mNum, mass, cs_range)
+        return mds_dict
+
+    def setMassDataStructItem(self, index, mass, cs_range):
         marker = SymbolSet[index%len(SymbolSet)]
         color = RGBs[index%len(RGBs)]
         theo_mz = self.calculateTheoMzList(mass, cs_range)
+        rt_s = 0
+        rt_e = sys.maxsize
+        mi = 0
+        c = 0
+        if mass in self.RTMassDict.keys():
+            rt_s = float(self.RTMassDict[mass]['StartRetentionTime'])
+            rt_e = float(self.RTMassDict[mass]['EndRetentionTime'])
+            mi = float(self.RTMassDict[mass]['MaxIntensity'])
+            c = int(self.RTMassDict[mass]['MassCount'])
         return MassDataStruct(mz_theo_arr=theo_mz, 
+                    startRT=rt_s, endRT=rt_e, maxIntensity=mi, scanCount=c,
                     marker=marker, color=color)
 
     def calculateTheoMzList(self, mass, cs_range, mz_range=(0,0)):
         theo_mz_list = []
         for cs in range(cs_range[0], cs_range[1]+1):
-            print(type(mass), "....", mass)
             mz = (mass + cs * PROTON_MASS_U) / cs
             ''' add if statement for mz_range '''
-            theo_mz_list.append((cs,mz))
+            iso = [C13C12_MASSDIFF_U/cs*i + mz for i in range(10)]  # 10 should be changed based on the mass, later.
+            theo_mz_list.append((cs,np.array(iso)))
         return theo_mz_list
     
-    def addNewMass(self, new_mass):
+    def addNewMass(self, new_mass, cs_range):
         index = len(self.mass_list)
-        self.mass_list.append(new_mass)
-        return self.getMassDataStructItem(index, new_mass)
-        
-class MassSpecData():
+        return self.setMassDataStructItem(index, new_mass, cs_range)
 
-    def readMzML(self, mzML_path):
-        exp = pyopenms.MSExperiment()
-        pyopenms.MzMLFile().load(mzML_path, exp)
+    def isValidFLASHDeconvFile(self):
+        col_needed = ['MonoisotopicMass', 'AverageMass', 'StartRetentionTime', 'EndRetentionTime']
+        result = all(elem in list(self.data) for elem in col_needed)
+        if result:
+            return True
+        return False
 
-        scan_list = []
-        for spec in exp:
-            scan_list.append(spec)
+    def setRTMassDict(self):
+        self.RTMassDict = dict()
+        if self.isFDresult:
+            self.RTMassDict = self.data.set_index('MonoisotopicMass').to_dict('index')
         
-        return scan_list
+class FeatureMapPlotWidget(PlotWidget):
+    def __init__(self, mass_data , parent=None, dpi=100):
+       PlotWidget.__init__(self)
+       self.data = mass_data
+       self.setLabel('bottom', 'Retension Time (sec)')
+       self.setLabel('left', 'Mass (Da)')
+       self.setLimits(yMin=0, xMin=0)
+       self.showGrid(True, True)
+       # self.setBackground('k')
+       self.drawPlot()
+       # self.setColorbar()
+
+    # def setColorbar(self):
+    #     self.img = pg.ImageItem()
+    #     self.getPlotItem().addItem(self.img)
+    #     self.img.setLookupTable(self.pg_cmap.getLookupTable)
+    #     self.hist = pg.HistogramLUTItem()
+    #     self.hist.setImageItem(self.img)
+    #     # self.addItem(self.hist)
+
+    def drawPlot(self):
+        cmap = self.getColorMap()  
+
+        for mass, mds in self.data.items():
+            spi = pg.ScatterPlotItem(size=10, # pen=pg.mkPen(None), 
+                brush=pg.mkBrush(cmap.mapToQColor(mds.maxIntensity)))
+            self.addItem(spi)
+            spots = [{'pos': [i, mass]} for i in np.arange(mds.startRT, mds.endRT, 1)]
+            # print([i for i in np.arange(mds.startRT, mds.endRT, 1)])
+            spi.addPoints(spots)
+
+    def getColorMap(self):
+        miList = self.getMassIntensityDict()
+        colormap = cm.get_cmap("plasma")
+        colormap._init()
+        lut = (colormap._lut * 255).view(np.ndarray)[:colormap.N] # Convert matplotlib colormap from 0-1 to 0 -255 for Qt
+        self.pg_cmap = pg.ColorMap(pos=miList, color=lut)
+        return self.pg_cmap
+
+    def getMassIntensityDict(self):
+        # miDict = dict()
+        miList = list()
+        for m, mds in self.data.items():
+            # miDict[m] = mds.maxIntensity
+            miList.append(mds.maxIntensity)
+        return miList
+
+class PlotWindow(QMainWindow):
+    def __init__(self, mlc, mass_data, parent=None):
+        QMainWindow.__init__(self, parent)
+        self.setWindowTitle('Feature map')
+        cWidget = QWidget()
+        self.setCentralWidget(cWidget)
+        self.layout = QHBoxLayout(cWidget)
+
+        fmWidget = FeatureMapPlotWidget(mass_data)
+        self.colormap = fmWidget.pg_cmap
+
+        self.layout.addWidget(fmWidget)
+        # cWidget.addItem(fmWidget.hist)
+
+        # self.addColorBar(mlc)
+
+    def addColorBar(self, mlc):
+        self.img = pg.ColorMapWidget()
+        self.img.setFields([
+            ('MaxIntensity', {})
+            ])
+        self.img.map(mlc.data)
+        # self.img.setLookupTable(self.colormap.getLookupTable)
+        # https://groups.google.com/forum/#!searchin/pyqtgraph/color$20scale$20plotwidget/pyqtgraph/N4ysAIhPBgo/JO36xjz1BwAJ
+        # imgV = pg.ImageView(view=pg.PlotItem())
+        self.layout.addWidget(self.img)
+
 
 class SpectrumWidget(PlotWidget):
 
@@ -100,7 +202,7 @@ class SpectrumWidget(PlotWidget):
          # numpy arrays for fast look-up
         self._mzs = np.array([])
         self._ints = np.array([])      
-        self.getViewBox().sigXRangeChanged.connect(self._autoscaleYAxis)  
+        self.getViewBox().sigRangeChangedManually.connect(self._autoscaleYAxis)  # why sigXRangeChanged?
         self.proxy = pg.SignalProxy(self.scene().sigMouseMoved, rateLimit=60, slot=self._onMouseMoved)
 
     def setSpectrum(self, spectrum):
@@ -110,25 +212,56 @@ class SpectrumWidget(PlotWidget):
             self.highlighted_peak_label = None
         self.spec = spectrum
         self._mzs, self._ints = self.spec.get_peaks()
-        self._autoscaleYAxis()
+        # self._autoscaleYAxis() why?
+        # for annotation in ControllerWidget
+        self.minMZ = np.amin(self._mzs)
+        self.maxMZ = np.amax(self._mzs)
+
+    def setPeakAnnotations(self, p_annotations):
+        self.peak_annotation_list = p_annotations
+
+    def setLadderAnnotations(self, ladder_visible=[]):
+        self._ladder_visible = ladder_visible # LadderAnnoStruct
+
+    def clearLadderAnnotation(self, ladder_key_to_clear):
+        try:
+            if ladder_key_to_clear in self._ladder_anno_lines.keys():
+                self._clear_ladder_item(ladder_key_to_clear)
+        except (AttributeError, NameError):
+            return    
 
     def redrawPlot(self):
         self.plot(clear=True)
         self._plot_spectrum()
+        self._clear_annotations()
         self._plot_peak_annotations()
+        self._plot_ladder_annotations()
+
+    def redrawLadderAnnotations(self):
         self._plot_ladder_annotations()
 
     def _autoscaleYAxis(self):
         x_range = self.getAxis('bottom').range
         if x_range == [0, 1]: # workaround for axis sometimes not being set TODO: check if this is resovled
-            x_range = [np.amin(self._mzs), np.amax(self._mzs)]
+            x_range = [self.minMZ, self.maxMZ]
         self.currMaxY = self._getMaxIntensityInRange(x_range)
         if self.currMaxY:
             self.setYRange(0, self.currMaxY, update=False)
+        self._plot_ladder_annotations()
 
     def _plot_peak_annotations(self):
-        #TODO: KIM
-        return
+        try:
+            self.peak_annotation_list
+        except (AttributeError, NameError):
+            return 
+
+        for item in self.peak_annotation_list: # item : PeakAnnoStruct
+            self.plot([item.mz], [item.intensity], symbol=item.symbol,
+                symbolBrush=pg.mkBrush(item.symbol_color), symbolSize=14)
+            if item.text_label:
+                label = pg.TextItem(text=item.text_label, color=(0,0,0), anchor=(0.5,1.5))
+                self.addItem(label)
+                label.setPos(item.mz, item.intensity)
         
     def _getMaxIntensityInRange(self, xrange):
         left = np.searchsorted(self._mzs, xrange[0], side='left')
@@ -140,8 +273,51 @@ class SpectrumWidget(PlotWidget):
         self.addItem(bargraph)
         
     def _plot_ladder_annotations(self):
-        #TODO: KIM
-        return
+        try:
+            self._ladder_visible
+        except (AttributeError, NameError):
+            return
+        try:
+            self.currMaxY
+        except (AttributeError, NameError):
+            self.currMaxY = self._getMaxIntensityInRange(self.getAxis('bottom').range) 
+
+        ### why? np.amin(self._mzs), np.amax(self._mzs)
+        xlimit = [self._mzs[0], self._mzs[-1]]
+        for ladder_key, lastruct in self._ladder_visible.items():
+            if ladder_key in self._ladder_anno_lines.keys(): # update    
+                self._ladder_anno_lines[ladder_key][0].setData([xlimit[0], xlimit[1]],[self.currMaxY, self.currMaxY]) # horizontal line 
+                cntr=0
+                for x in lastruct.mz_list:
+                    self._ladder_anno_lines[ladder_key][cntr+1].setData([x, x], [0, self.currMaxY])
+                    self._ladder_anno_labels[ladder_key][cntr].setPos(x, self.currMaxY) # horizon line doesn't have label
+                    cntr += 1
+            else : # plot
+                pen = pg.mkPen(lastruct.color, width=2, style=Qt.DotLine)
+                self._ladder_anno_lines[ladder_key] = []
+                self._ladder_anno_labels[ladder_key] = []
+
+                self._ladder_anno_lines[ladder_key].append( # horizon line. index 0
+                    self.plot([xlimit[0], xlimit[1]],[self.currMaxY, self.currMaxY], pen=pen))
+                for x, txt_label in zip(lastruct.mz_list, lastruct.text_label_list):
+                    self._ladder_anno_lines[ladder_key].append(self.plot([x, x], [0, self.currMaxY], pen=pen))
+                    label = pg.TextItem(text=txt_label, color=lastruct.color, anchor=(1,-1))
+                    label.setPos(x, self.currMaxY)
+                    label.setParentItem(self._ladder_anno_lines[ladder_key][-1])
+                    self._ladder_anno_labels[ladder_key].append(label)
+
+    def _clear_annotations(self):
+        self._ladder_visible = dict()
+        self._ladder_anno_lines = dict()
+        self._ladder_anno_labels = dict()
+
+    def _clear_ladder_item(self, key):
+        for p in self._ladder_anno_lines[key]:
+            p.clear()         
+        for l in self._ladder_anno_labels[key]:
+            l.setPos(0,0)
+        del self._ladder_anno_lines[key]
+        del self._ladder_anno_labels[key]
 
     def _onMouseMoved(self, evt):
         pos = evt[0]  ## using signal proxy turns original arguments into a tuple
@@ -174,11 +350,11 @@ class ScanTableWidget(QWidget):
     
     scanClicked = pyqtSignal() # signal to connect SpectrumWidget
     header = ('MS level', 'Index', 'RT')
-    def __init__(self, scanList, *args):
+    def __init__(self, ms_experiment, *args):
        QWidget.__init__(self, *args)
-       self.scanList = scanList
+       self.ms_experiment = ms_experiment
 
-       self.table_model = ScanTableModel(self, self.scanList, self.header)
+       self.table_model = ScanTableModel(self, self.ms_experiment, self.header)
        self.table_view = QTableView()
 
        # register a proxy class for filering and sorting the scan table
@@ -200,19 +376,17 @@ class ScanTableWidget(QWidget):
 
        # connect signals to slots
        self.table_view.selectionModel().currentChanged.connect(self.onCurrentChanged) # keyboard moves to new row
-       self.table_view.clicked.connect(self.onRowSelected)
        self.horizontalHeader.sectionClicked.connect(self.onHeaderClicked)
        
        layout = QVBoxLayout(self)
        layout.addWidget(self.table_view)
        self.setLayout(layout)
        
-       # default : first row selected.
-       self.table_view.selectRow(0)
+       # default : first row selected. in OpenMSWidgets
        
     def onRowSelected(self, index):
         if index.siblingAtColumn(1).data() == None: return # prevents crash if row gets filtered out
-        self.curr_spec = self.scanList[index.siblingAtColumn(1).data()]
+        self.curr_spec = self.ms_experiment.getSpectrum(index.siblingAtColumn(1).data())
         self.scanClicked.emit()
     
     def onCurrentChanged(self, new_index, old_index):
@@ -265,23 +439,21 @@ class ScanTableWidget(QWidget):
         self.proxy.setFilterRegExp(filterString)
         self.proxy.setFilterKeyColumn(filterColumn)
 
-
 class ScanTableModel(QAbstractTableModel):
     '''
        keep the method names
        they are an integral part of the model
     '''
-    def __init__(self, parent, scanlist, header, *args):
+    def __init__(self, parent, ms_experiment, header, *args):
        QAbstractTableModel.__init__(self, parent, *args)
-       self.scanlist = scanlist # data type: MSSpectrum
        self.header = header
        
        # create array with MSSpectrum (only MS level=1)
-       self.scanRows = self.getScanListAsArray(scanlist) # data type: list
+       self.scanRows = self.getScanListAsArray(ms_experiment) # data type: list
 
-    def getScanListAsArray(self, scanlist):
+    def getScanListAsArray(self, ms_experiment):
         scanArr = []
-        for index, spec in enumerate(scanlist):
+        for index, spec in enumerate(ms_experiment):
             MSlevel = 'MS' + str(spec.getMSLevel())
             RT = spec.getRT()
             scanArr.append([MSlevel, index ,RT])
@@ -323,25 +495,47 @@ class ControllerWidget(QWidget):
 
     def __init__(self, mass_path, plot, *args):
         QWidget.__init__(self, *args)
+        self.mass_path = mass_path
         hbox = QVBoxLayout()
         self.setMaximumWidth(350)
         self.spectrum_widget = plot
 
         # data processing
         self.mlc = MassList(mass_path)
-        self.masses = self.mlc.getMassStruct()
+        self.total_masses = self.mlc.setMassStruct()
+        self.masses = dict() # initialization
 
+        self.setFeatureMapButton()
         self.setMassTableView()
         self.setMassLineEdit()
         self.setParameterBox()
 
-        self.spectrum_widget.peak_annotations = self.masses
-
+        hbox.addWidget(self.fmButton)
         hbox.addWidget(self.massTable)
         hbox.addLayout(self.massLineEditLayout)
         hbox.addWidget(self.paramBox)
         # hbox.addWidget(self.paramButton)
         self.setLayout(hbox)
+
+    def _updatePlot(self):
+        self.spectrum_widget.setPeakAnnotations(self.getPeakAnnoStruct())
+        self.spectrum_widget.setLadderAnnotations(self.getLadderAnnoStruct())
+        # uncheck all checkboxes
+        for index in range(self.model.rowCount()):
+            item = self.model.item(index)
+            if item.isCheckable():
+                item.setCheckState(Qt.Unchecked)
+
+        # reset parameter default value
+        self.csMinLineEdit.setText('2')
+        self.csMaxLineEdit.setText('100')
+
+        self.spectrum_widget.redrawPlot()
+
+    def setFeatureMapButton(self):
+        self.fmButton = QPushButton()
+        self.fmButton.setText('Draw feature map')
+        self.fmButton.clicked.connect(self.loadFeatureMapPlot)
 
     def setMassTableView(self):
         # set controller widgets
@@ -349,10 +543,8 @@ class ControllerWidget(QWidget):
         self.model = QStandardItemModel(self)
         self.model.setHorizontalHeaderLabels(["Masses"])
         self.model.itemChanged.connect(self.check_check_state)
-        for mass, mStruct in self.masses.items():
-            self.setListViewWithMass(mass, mStruct)
         self.massTable.setModel(self.model)
-        self.massTable.resizeColumnToContents(0)
+        self.massTable.setColumnWidth(0, 300)
         self._data_visible = []
 
     def setMassLineEdit(self):
@@ -375,7 +567,7 @@ class ControllerWidget(QWidget):
 
         self.paramButton = QPushButton()
         self.paramButton.setText('Reload')
-        self.paramButton.clicked.connect(self.reloadSpecWithParam)
+        self.paramButton.clicked.connect(self.redrawAnnotationsWithParam)
         paramLayout.addWidget(self.paramButton)
 
     def setChargeRangeLineEdit(self):
@@ -404,23 +596,51 @@ class ControllerWidget(QWidget):
     def setMassListExportButton(self):
         self.setmassbutton = ''
 
-    def reloadSpecWithParam(self):
+    def loadFeatureMapPlot(self):
+        if not self.mlc.isFDresult:
+            self.errorDlg = QMessageBox()
+            self.errorDlg.setIcon(QMessageBox.Critical)
+            self.errorDlg.setWindowTitle("ERROR")
+            self.errorDlg.setText('Input mass file is not formatted as FLASHDeconv result file.')
+            self.errorDlg.exec_()
+            return 
+        self.fm_window = PlotWindow(self.mlc, self.total_masses)
+        self.fm_window.show()
+
+    def updateMassTableView(self, scan_rt):
+
+        self.masses = self.getMassStructWithRT(scan_rt)
+        self.model.removeRows(0, self.model.rowCount())
+        self.model.setHorizontalHeaderLabels(["Masses"])
+        for mass, mStruct in self.masses.items():
+            self.setListViewWithMass(mass, mStruct)
+        self.massTable.setColumnWidth(0, 300)
+        # update annotation lists
+        self.spectrum_widget.setPeakAnnotations(self.getPeakAnnoStruct())
+        self.spectrum_widget.setLadderAnnotations(self.getLadderAnnoStruct())
+
+    def getMassStructWithRT(self, scan_rt):
+        new_dict = dict()
+        for mass, mds in self.total_masses.items():
+            if scan_rt >= mds.startRT and scan_rt <= mds.endRT:
+                new_dict[mass] = mds
+        return new_dict
+
+    def redrawAnnotationsWithParam(self):
         minCs = self.csMinLineEdit.text()
         maxCs = self.csMaxLineEdit.text()
         
-        if self.isError_reloadSpecWithParam(minCs, maxCs):
+        if self.isError_redrawAnnotationsWithParam(minCs, maxCs):
             self.csMinLineEdit.setText('2')
             self.csMaxLineEdit.setText('100')
             return
         
         # redraw
         self.cs_range = [int(minCs), int(maxCs)]
-        self.masses = self.mlc.getMassStruct(self.cs_range)
-        self.spectrum_widget.peak_annotations = self.masses
-        self.spectrum_widget.redrawPlot()
+        self.masses = self.mlc.getMassStruct(self.masses, self.cs_range)
+        self._updatePlot()
 
-
-    def isError_reloadSpecWithParam(self, minCs, maxCs):
+    def isError_redrawAnnotationsWithParam(self, minCs, maxCs):
         v = QIntValidator()
         v.setBottom(2)
         self.csMinLineEdit.setValidator(v)
@@ -450,6 +670,57 @@ class ControllerWidget(QWidget):
 
         return QIcon(px)
 
+    def getPeakAnnoStruct(self):
+        pStructList = []
+        for mass, mass_strc in self.masses.items():
+            theo_list = mass_strc.mz_theo_arr
+            
+            for theo in theo_list: # theo : [0] cs [1] iso mz list
+                exp_p = self.findNearestPeakWithTheoPos(theo[1][0]) # Monoisotopic only
+                if exp_p==None:
+                    continue
+                pStructList.append(PeakAnnoStruct(mz=exp_p.getMZ(), 
+                    intensity=exp_p.getIntensity(), text_label='+'+str(theo[0]),
+                    symbol=mass_strc.marker, symbol_color=mass_strc.color))
+
+        return pStructList
+
+    def getLadderAnnoStruct(self):
+        lStructDict = dict()
+        xlimit = [self.spectrum_widget.minMZ, self.spectrum_widget.maxMZ]
+
+        for mass, mass_strc in self.masses.items():
+            mass = str(mass)
+            if mass in self._data_visible:
+                # calculating charge ladder
+                theo_list = mass_strc.mz_theo_arr
+                t_mz_list = []
+                txt_list = []
+
+                for theo in theo_list: # theo : [0] cs [1] iso mz list
+                    # plotting only theoretical mz valule within experimental mz range
+                    if ( (theo[1][0] <= xlimit[0]) | (theo[1][-1] >= xlimit[1]) ):
+                        continue
+
+                    for index, mz in enumerate(theo[1]):
+                        t_mz_list.append(mz)
+                        txt_list.append('+%d[%d]' %(theo[0], index))
+                lStructDict[mass] = LadderAnnoStruct(mz_list=np.array(t_mz_list),
+                    text_label_list=np.array(txt_list) ,color=mass_strc.color)
+            else:
+                self.spectrum_widget.clearLadderAnnotation(mass)
+        return lStructDict
+
+    def findNearestPeakWithTheoPos(self, theo_mz, tol=-1):
+        nearest_p = self.spectrum_widget.spec[self.spectrum_widget.spec.findNearest(theo_mz)]
+        if tol == -1:
+            tol = TOL * theo_mz # ppm
+        if abs(theo_mz-nearest_p.getMZ()) > tol:
+            return None;
+        if nearest_p.getIntensity()==0:
+            return None
+        return nearest_p
+
     def setListViewWithMass(self, mass, mStruct):
         
         icon = self.getSymbolIcon(mStruct.marker, mStruct.color)
@@ -467,12 +738,14 @@ class ControllerWidget(QWidget):
 
         if mass in self._data_visible:
             if not checked:
-                self._data_visible.remove(mass)
-                self.spectrum_widget.ladder_annotations = self._data_visible
+                self._data_visible.remove(str(mass))
+                self.spectrum_widget.setLadderAnnotations(self.getLadderAnnoStruct())
+                self.spectrum_widget.redrawLadderAnnotations()
         else:
             if checked:
-                self._data_visible.append(mass)
-                self.spectrum_widget.ladder_annotations = self._data_visible
+                self._data_visible.append(str(mass))
+                self.spectrum_widget.setLadderAnnotations(self.getLadderAnnoStruct())
+                self.spectrum_widget.redrawLadderAnnotations()
     
     def addMassToListView(self):
         new_mass = self.massLineEdit.text()
@@ -481,13 +754,11 @@ class ControllerWidget(QWidget):
             new_mass = float(new_mass)
         except:
             return
-        new_mass_str = self.mlc.addNewMass(new_mass)
+        new_mass_str = self.mlc.addNewMass(new_mass, self.cs_range)
         self.masses[new_mass] = new_mass_str
 
         # redraw
-        self.spectrum_widget.peak_annotations = self.masses
-        self.spectrum_widget.redrawPlot()
-
+        self._updatePlot()
         self.setListViewWithMass(new_mass, new_mass_str)
 
 class OpenMSWidgets(QWidget):
@@ -507,7 +778,7 @@ class OpenMSWidgets(QWidget):
         self.msexperimentWidget = QSplitter(Qt.Vertical)
 
         # data processing
-        scans = MassSpecData().readMzML(file_path)
+        scans = self.readMS(file_path)
         
         # set Widgets
         self.spectrum_widget = SpectrumWidget()
@@ -518,19 +789,26 @@ class OpenMSWidgets(QWidget):
         self.mainlayout.addWidget(self.msexperimentWidget)
 
         # default : first row selected.
-        self.scan_widget.table_view.selectRow(0)
-        self.scan_widget.onRowSelected(self.scan_widget.table_view.selectedIndexes()[0])
+        self.scan_widget.table_view.selectRow(0) 
+
+    def readMS(self, file_path):
+        # Later: process other types of file
+        exp = pyopenms.MSExperiment()
+        pyopenms.MzMLFile().load(file_path, exp)
+        return exp
 
     def redrawPlot(self):
         #set new spectrum and redraw
         self.spectrum_widget.setSpectrum(self.scan_widget.curr_spec)
+        if self.isAnnoOn: # update annotation list
+            self.controller.updateMassTableView(self.scan_widget.curr_spec.getRT())
         self.spectrum_widget.redrawPlot()
 
     def annotation_FLASHDeconv(self, mass_path):
         self.controller = ControllerWidget(mass_path, self.spectrum_widget)
-        self.spectrum_widget.peak_annotations = self.controller.masses
-        self.spectrum_widget.ladder_annotations = self.controller._data_visible # update with current visibility
         self.isAnnoOn = True
+        # annotate first scan
+        self.redrawPlot()
 
         # Adding Splitter
         self.splitter_spec_contr = QSplitter(Qt.Horizontal)
