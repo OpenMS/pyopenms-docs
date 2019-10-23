@@ -583,7 +583,7 @@ class FDInputDialog(QDialog):
         self.accept()
         
 class App_FDV(App):
-        
+
     def setOpenMSWidget(self): # overriding from App
         if self.windowLay.count() > 0 :
             self.clearLayout(self.windowLay)

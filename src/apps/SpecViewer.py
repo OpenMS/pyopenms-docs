@@ -41,7 +41,8 @@ class SpectrumWidget(PlotWidget):
          # numpy arrays for fast look-up
         self._mzs = np.array([])
         self._ints = np.array([])      
-        self.getViewBox().sigRangeChangedManually.connect(self._autoscaleYAxis)  # why sigXRangeChanged?
+        self.getViewBox().sigXRangeChanged.connect(self._autoscaleYAxis)
+        self.getViewBox().sigRangeChangedManually.connect(self.redrawLadderAnnotations)  # redraw anno
         self.proxy = pg.SignalProxy(self.scene().sigMouseMoved, rateLimit=60, slot=self._onMouseMoved)
 
     def setSpectrum(self, spectrum):
@@ -51,7 +52,7 @@ class SpectrumWidget(PlotWidget):
             self.highlighted_peak_label = None
         self.spec = spectrum
         self._mzs, self._ints = self.spec.get_peaks()
-        # self._autoscaleYAxis() why?
+        self._autoscaleYAxis() 
         # for annotation in ControllerWidget
         self.minMZ = np.amin(self._mzs)
         self.maxMZ = np.amax(self._mzs)
@@ -82,11 +83,10 @@ class SpectrumWidget(PlotWidget):
     def _autoscaleYAxis(self):
         x_range = self.getAxis('bottom').range
         if x_range == [0, 1]: # workaround for axis sometimes not being set TODO: check if this is resovled
-            x_range = [self.minMZ, self.maxMZ]
+            x_range = [np.amin(self._mzs), np.amax(self._mzs)]
         self.currMaxY = self._getMaxIntensityInRange(x_range)
         if self.currMaxY:
             self.setYRange(0, self.currMaxY, update=False)
-        self._plot_ladder_annotations()
 
     def _plot_peak_annotations(self):
         try:
@@ -121,7 +121,6 @@ class SpectrumWidget(PlotWidget):
         except (AttributeError, NameError):
             self.currMaxY = self._getMaxIntensityInRange(self.getAxis('bottom').range) 
 
-        ### why? np.amin(self._mzs), np.amax(self._mzs)
         xlimit = [self._mzs[0], self._mzs[-1]]
         for ladder_key, lastruct in self._ladder_visible.items():
             if ladder_key in self._ladder_anno_lines.keys(): # update    
