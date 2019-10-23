@@ -83,11 +83,15 @@ class MassList():
         rt_e = sys.maxsize
         mi = 0
         c = 0
-        if mass in self.RTMassDict.keys():
-            rt_s = float(self.RTMassDict[mass]['StartRetentionTime'])
-            rt_e = float(self.RTMassDict[mass]['EndRetentionTime'])
-            mi = float(self.RTMassDict[mass]['MaxIntensity'])
-            c = int(self.RTMassDict[mass]['MassCount'])
+        try:
+            if mass in self.RTMassDict.keys():
+                rt_s = float(self.RTMassDict[mass]['StartRetentionTime'])
+                rt_e = float(self.RTMassDict[mass]['EndRetentionTime'])
+                mi = float(self.RTMassDict[mass]['MaxIntensity'])
+                c = int(self.RTMassDict[mass]['MassCount'])
+        except (AttributeError, NameError): # no input mass file
+            pass 
+        
         return MassDataStruct(mz_theo_arr=theo_mz, 
                     startRT=rt_s, endRT=rt_e, maxIntensity=mi, scanCount=c,
                     marker=marker, color=color)
@@ -101,8 +105,7 @@ class MassList():
             theo_mz_list.append((cs,np.array(iso)))
         return theo_mz_list
     
-    def addNewMass(self, new_mass, cs_range):
-        index = len(self.mass_list)
+    def addNewMass(self, new_mass, index, cs_range):
         return self.setMassDataStructItem(index, new_mass, cs_range)
 
     def isValidFLASHDeconvFile(self):
@@ -762,7 +765,7 @@ class ControllerWidget(QWidget):
             new_mass = float(new_mass)
         except:
             return
-        new_mass_str = self.mlc.addNewMass(new_mass, self.cs_range)
+        new_mass_str = self.mlc.addNewMass(new_mass, len(self.masses), self.cs_range)
         self.masses[new_mass] = new_mass_str
 
         # redraw
