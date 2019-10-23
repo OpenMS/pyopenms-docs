@@ -35,7 +35,7 @@ class MS1MapWidget(PlotWidget):
         bilip.setMapping_0(0.0, 0.0, rows-1, msexperiment.getMaxRT())
         bilip.setMapping_1(0.0, 0.0, cols-1, msexperiment.getMaxMZ())
                 
-        img = pg.ImageItem()
+        img = pg.ImageItem(autoDownsample=True)
         self.addItem(img)
 
         for spec in msexperiment:
