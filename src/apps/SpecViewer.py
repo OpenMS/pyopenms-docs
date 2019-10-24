@@ -26,7 +26,7 @@ LadderAnnoStruct = namedtuple('LadderAnnoStruct', "mz_list \
 pg.setConfigOption('background', 'w') # white background
 pg.setConfigOption('foreground', 'k') # black peaks
 
-class OpenMSWidgets(QWidget):
+class ScanBrowserWidget(QWidget):
 
     def __init__(self, *args, **kwargs):
         QWidget.__init__(self, *args, **kwargs)
@@ -37,8 +37,7 @@ class OpenMSWidgets(QWidget):
         for i in reversed(range(layout.count())): 
             layout.itemAt(i).widget().setParent(None)
 
-    def loadFile(self, file_path):
-        
+    def loadFile(self, file_path):        
         self.isAnnoOn = False
         self.msexperimentWidget = QSplitter(Qt.Vertical)
 
@@ -92,13 +91,13 @@ class App(QMainWindow):
         self.windowLay = QVBoxLayout(self.centerWidget)
         
         # default widget <- per spectrum
-        self.setOpenMSWidget()
+        self.setScanBrowserWidget()
         
-    def setOpenMSWidget(self):
+    def setScanBrowserWidget(self):
         if self.windowLay.count() > 0 :
             self.clearLayout(self.windowLay)
-        self.openmsWidget = OpenMSWidgets(self)
-        self.windowLay.addWidget(self.openmsWidget)
+        self.scanbrowser = ScanBrowserWidget(self)
+        self.windowLay.addWidget(self.scanbrowser)
 
     def setMainMenu(self):
         mainMenu = self.menuBar()
@@ -137,8 +136,8 @@ class App(QMainWindow):
                                 "Open File ", "", "mzML Files (*.mzML)")
         if fileName:
             print('opening...', fileName)
-            self.setOpenMSWidget()
-            self.openmsWidget.loadFile(fileName)
+            self.setScanBrowserWidget()
+            self.scanbrowser.loadFile(fileName)
 
     def center(self):        
         qr = self.frameGeometry()
