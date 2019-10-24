@@ -15,6 +15,7 @@ import pandas as pd
 from collections import namedtuple
 from matplotlib import cm
 
+sys.path.insert(0, '../view')
 from SpecViewer import ScanBrowserWidget, App
 
 #import pyopenms.Constants
