@@ -15,7 +15,7 @@ import pandas as pd
 from collections import namedtuple
 from matplotlib import cm
 
-from SpecViewer import OpenMSWidgets, App
+from SpecViewer import ScanBrowserWidget, App
 
 #import pyopenms.Constants
 # define Constant locally until bug in pyOpenMS is fixed
@@ -464,9 +464,9 @@ class ControllerWidget(QWidget):
         self._updatePlot()
         self.setListViewWithMass(new_mass, new_mass_str)
 
-class OpenMSWidgets_FDV(OpenMSWidgets):
+class ScanBrowserWidget_FDV(ScanBrowserWidget):
 
-    def updateController(self): # overriding from OpenMSWidgets
+    def updateController(self): # overriding from ScanBrowserWidget
         self.controller.updateMassTableView(self.scan_widget.curr_spec.getRT())
 
     def annotation_FLASHDeconv(self, mass_path):
@@ -587,8 +587,8 @@ class App_FDV(App):
     def setOpenMSWidget(self): # overriding from App
         if self.windowLay.count() > 0 :
             self.clearLayout(self.windowLay)
-        self.openmsWidget = OpenMSWidgets_FDV(self)
-        self.windowLay.addWidget(self.openmsWidget)
+        self.scanbrowser = ScanBrowserWidget_FDV(self)
+        self.windowLay.addWidget(self.scanbrowser)
 
     def setToolMenu(self): # overriding from App
         # FLASHDeconv Viewer
@@ -609,8 +609,8 @@ class App_FDV(App):
                 print("Calculate with AVG mass")
 
             self.setOpenMSWidget()
-            self.openmsWidget.loadFile(self.mzmlPath)
-            self.openmsWidget.annotation_FLASHDeconv(self.massPath)
+            self.scanbrowser.loadFile(self.mzmlPath)
+            self.scanbrowser.annotation_FLASHDeconv(self.massPath)
         
 if __name__ == '__main__':
     app = QApplication(sys.argv)

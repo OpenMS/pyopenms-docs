@@ -51,6 +51,7 @@ class SpectrumWidget(PlotWidget):
         # for annotation in ControllerWidget
         self.minMZ = np.amin(self._mzs)
         self.maxMZ = np.amax(self._mzs)
+        self.redrawPlot()
 
     def setPeakAnnotations(self, p_annotations):
         self.peak_annotation_list = p_annotations

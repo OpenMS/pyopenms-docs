@@ -7,19 +7,10 @@ from pyqtgraph import PlotWidget
 import numpy as np
 
 import time
-MODULE_PATH = "/media/sachsenb/Samsung_T5/OpenMS/pyOpenMS/pyopenms/__init__.py"
-MODULE_NAME = "pyopenms"
-import importlib
-import sys
-spec = importlib.util.spec_from_file_location(MODULE_NAME, MODULE_PATH)
-print(spec)
-pyopenms = importlib.util.module_from_spec(spec)
-sys.modules[spec.name] = pyopenms
-spec.loader.exec_module(pyopenms)
-
+import pyopenms
 
 sys.path.insert(0, '../view')
-from MS1MapWidget import *
+from ScanTableWidget import *
 
 pg.setConfigOption('background', 'w') # white background
 pg.setConfigOption('foreground', 'k') # black peaks
@@ -36,12 +27,12 @@ class App(QMainWindow):
         self.centerWidget = QWidget(self)
         self.setCentralWidget(self.centerWidget)
         self.layout = QVBoxLayout(self.centerWidget)
+
+        # load spectra and display first spectrum
         exp = pyopenms.MSExperiment()
         pyopenms.MzMLFile().load("../data/190509_Ova_native_25ngul_R.mzML", exp)
-        self.ms1mapwidget = MS1MapWidget(self)
-
-        self.ms1mapwidget.setSpectra(exp)
-        self.layout.addWidget(self.ms1mapwidget)
+        self.widget = ScanTableWidget(exp)
+        self.layout.addWidget(self.widget)
         self._setMainMenu()
         self._setExitButton()
 
