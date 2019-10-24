@@ -172,7 +172,7 @@ class SpectrumWidget(PlotWidget):
             y = self._ints[left + idx_max_int_in_range]
             if self.highlighted_peak_label == None:
                 self.highlighted_peak_label = pg.TextItem(text='{0:.3f}'.format(x), color=(100,100,100), anchor=(0.5,1))
-                self.addItem(self.highlighted_peak_label)            
+                self.addItem(self.highlighted_peak_label, ignoreBounds=True) # ignore bounds to prevent rescaling of axis if the text item touches the border
             self.highlighted_peak_label.setText('{0:.3f}'.format(x))
             self.highlighted_peak_label.setPos(x, y)
         else:
