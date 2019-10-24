@@ -5,20 +5,7 @@ import pyqtgraph as pg
 from pyqtgraph import PlotWidget
 
 import numpy as np
-
-import time
-
-MODULE_PATH = "/media/sachsenb/Samsung_T5/OpenMS/pyOpenMS/pyopenms/__init__.py"
-MODULE_NAME = "pyopenms"
-import importlib
-import sys
-spec = importlib.util.spec_from_file_location(MODULE_NAME, MODULE_PATH)
-print(spec)
-pyopenms = importlib.util.module_from_spec(spec)
-sys.modules[spec.name] = pyopenms
-spec.loader.exec_module(pyopenms)
-
-#import pyopenms
+import pyopenms 
 
 class MS1MapWidget(PlotWidget):
 
@@ -40,15 +27,34 @@ class MS1MapWidget(PlotWidget):
 
         # create regular spaced data to turn spectra into an image
         max_intensity = msexperiment.getMaxInt()
+        bilip = pyopenms.BilinearInterpolation()
+        tmp = bilip.getData()
+        tmp.resize(int(rows), int(cols), float())
+        bilip.setData(tmp)
+ 
+        bilip.setMapping_0(0.0, 0.0, rows-1, msexperiment.getMaxRT())
+        bilip.setMapping_1(0.0, 0.0, cols-1, msexperiment.getMaxMZ())
+                
+        img = pg.ImageItem(autoDownsample=True)
+        self.addItem(img)
+
+        for spec in msexperiment:
+            if spec.getMSLevel() == 1:
+                mzs, ints = spec.get_peaks()
+                rt = spec.getRT()
+                for i in range(0, len(mzs)):
+                    bilip.addValue(rt, mzs[i], ints[i]) # slow
+
+        data = np.ndarray(shape=(int(cols), int(rows)), dtype=np.float64)
+        grid_data = bilip.getData()
+        for i in range(int(rows)):
+            for j in range(int(cols)):
+                data[j][i] = grid_data.getValue(i,j) # slow
 
         ## Set a custom color map
         pos = np.array([0., 0.01, 0.05, 0.1, 1.])
         color = np.array([(255,255,255,0), (255,255,0,255), (255, 0, 0, 255), (0, 0, 255, 255), (0, 0, 0, 255)], dtype=np.ubyte)
         cmap = pg.ColorMap(pos, color)
-        img = pg.ImageItem(autoDownsample=True)
-        self.addItem(img)
-
-        img.setLookupTable(cmap.getLookupTable(0.0, 1.0, 256))
-        print(dir(msexperiment.getGriddedData(200, 200,0.0, 200.0, 0.0, 3000.0)))
-        img.setImage(msexperiment.getGriddedData(200, 200,0.0, 200.0, 0.0, 3000.0).get_matrix())
+        img.setLookupTable(cmap.getLookupTable(0.0, 1.0, 256))        
+        img.setImage(data)
 
