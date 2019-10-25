@@ -1,5 +1,5 @@
 import sys, os
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QAction
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QAction
 
 import pyqtgraph as pg
 from pyqtgraph import PlotWidget
@@ -20,7 +20,7 @@ class GUI_EXAMPLE_BASE(QMainWindow):
         self._initUI()
 
     def _initUI(self):
-        self.setWindowTitle('MS1MapWidget')
+        self.setWindowTitle('Example Widget Viewer')
         self.centerWidget = QWidget(self)
         self.setCentralWidget(self.centerWidget)
         self.layout = QVBoxLayout(self.centerWidget)
@@ -50,6 +50,6 @@ class GUI_EXAMPLE_BASE(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = App()
+    ex = GUI_EXAMPLE_BASE()
     ex.show()
     sys.exit(app.exec_())

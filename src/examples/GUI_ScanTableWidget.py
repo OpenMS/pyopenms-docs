@@ -1,11 +1,11 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QAction
+from PyQt5.QtWidgets import QApplication
 
 import pyopenms
 
-from GUI_EXAMPLE_BASE import *
+from GUI_EXAMPLE_BASE import GUI_EXAMPLE_BASE
 sys.path.insert(0, '../view')
-from ScanTableWidget import *
+from ScanTableWidget import ScanTableWidget
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
