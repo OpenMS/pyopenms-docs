@@ -3,7 +3,7 @@ import pyqtgraph as pg
 import pyopenms
 from PyQt5.QtCore import Qt, QPointF
 from PyQt5.QtGui import QFont, QFontMetricsF, QPainter, QColor, QPen, QBrush, QSpacerItem, QSizePolicy
-from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QFrame
+from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout
 
 
 class peptide_window(QWidget):
@@ -27,7 +27,7 @@ class peptide_window(QWidget):
         self.pep.setSequence("PEPTIDE")
         # self.pep.setPrefix({i: ["a%s"% (str(i))] for i in range(1, len(self.pep.sequence))}) #test sequence
         self.pep.setPrefix({1: ["a1", "b1", "c1"], 3: ["a2", "b2", "c2"]})
-        self.pep.setSuffix({1: ["a1"], 2: ["a2", "b2"], 4: ["a4", "b4", "c4", "d4", "e4"]})
+        self.pep.setSuffix({1: ["x1"], 2: ["x2", "y2"], 4: ["x4", "y4", "z4", "d4", "e4"]})
 
         # resize window to fit peptide size
         self.__resize()
@@ -38,7 +38,7 @@ class peptide_window(QWidget):
         self.layout.addWidget(self.pep)
         self.layout.addItem(QSpacerItem(40, peptide_window.HEIGHT, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
 
-        # self.setFixedHeight(peptide_window.HEIGHT)
+        self.setFixedHeight(peptide_window.HEIGHT)
         self.setStyleSheet("background-color:white;")
         self.show()
 
@@ -51,6 +51,7 @@ class peptide_window(QWidget):
         prefix = self.pep.prefix
         suffix = self.pep.suffix
 
+        # get max ion number
         max_ion_pre = len(prefix[max(prefix, key=lambda key: len(prefix[key]))])
         max_ion_suff = len(suffix[max(suffix, key=lambda key: len(suffix[key]))])
 
@@ -60,7 +61,7 @@ class peptide_window(QWidget):
         metrics_ion = QFontMetricsF(self.pep.getFont_Ion())
         height_ion = metrics_ion.height()
 
-        # height calculated with the sum of max prefix and suffix
+        # height calculated with the sum of max prefix and suffix height
         height_ion_pre = (height_ion * max_ion_pre + 15)
         peptide_window.SUFFIX_HEIGHT = (height_ion * max_ion_suff + 5)
         peptide_window.HEIGHT = height_pep + height_ion_pre + peptide_window.SUFFIX_HEIGHT
@@ -90,6 +91,8 @@ class observed_peptide(QWidget):
     def paintEvent(self, event):
         qp = QPainter()
         qp.begin(self)
+        qp.setRenderHint(QPainter.Antialiasing)
+        qp.fillRect(event.rect(), QBrush(Qt.white))
         self.__drawPeptide(qp)
         qp.end()
 
