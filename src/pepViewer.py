@@ -3,13 +3,13 @@ import pyqtgraph as pg
 import pyopenms
 from PyQt5.QtCore import Qt, QPointF
 from PyQt5.QtGui import QFont, QFontMetricsF, QPainter, QColor, QPen, QBrush, QSpacerItem, QSizePolicy
-from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QFrame
 
 
 class peptide_window(QWidget):
-
     HEIGHT = 0
     WIDTH = 0
+    SUFFIX_HEIGHT = 0
 
     def __init__(self):
         super().__init__()
@@ -18,15 +18,16 @@ class peptide_window(QWidget):
 
     def initUI(self):
         self.setWindowTitle('Peptide Viewer')
-
         self.layout = QHBoxLayout(self)
+        # change default setting of 11 px
+        self.layout.setContentsMargins(0, 0, 0, 0)
         self.pep = observed_peptide()
 
         # array starting with 1 and ends with len(seq)
         self.pep.setSequence("PEPTIDE")
-        #self.pep.setPrefix({i: ["a%s"% (str(i))] for i in range(1, len(self.pep.sequence))}) #test sequence
-        self.pep.setPrefix({1: ["a1", "b1", "c1"], 2: ["a2", "b2", "c2"]})
-        self.pep.setSuffix({1: ["a1"], 2: ["a2", "b2"], 4: ["a4", "b4", "c4"]})
+        # self.pep.setPrefix({i: ["a%s"% (str(i))] for i in range(1, len(self.pep.sequence))}) #test sequence
+        self.pep.setPrefix({1: ["a1", "b1", "c1"], 3: ["a2", "b2", "c2"]})
+        self.pep.setSuffix({1: ["a1"], 2: ["a2", "b2"], 4: ["a4", "b4", "c4", "d4", "e4"]})
 
         # resize window to fit peptide size
         self.__resize()
@@ -37,6 +38,7 @@ class peptide_window(QWidget):
         self.layout.addWidget(self.pep)
         self.layout.addItem(QSpacerItem(40, peptide_window.HEIGHT, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
 
+        # self.setFixedHeight(peptide_window.HEIGHT)
         self.setStyleSheet("background-color:white;")
         self.show()
 
@@ -45,13 +47,12 @@ class peptide_window(QWidget):
         peptide_window.WIDTH = ((len(self.pep.sequence) * 17) + (len(self.pep.sequence) - 1.5) * 8)
         self.__calculateHeight()
 
-
     def __calculateHeight(self):
         prefix = self.pep.prefix
         suffix = self.pep.suffix
 
-        max_ion_pre = len(prefix[max(prefix, key=prefix.get)])
-        max_ion_suff = len(suffix[max(suffix, key=suffix.get)])
+        max_ion_pre = len(prefix[max(prefix, key=lambda key: len(prefix[key]))])
+        max_ion_suff = len(suffix[max(suffix, key=lambda key: len(suffix[key]))])
 
         metrics_pep = QFontMetricsF(self.pep.getFont_Pep())
         height_pep = metrics_pep.height()
@@ -59,10 +60,10 @@ class peptide_window(QWidget):
         metrics_ion = QFontMetricsF(self.pep.getFont_Ion())
         height_ion = metrics_ion.height()
 
-
-        peptide_window.HEIGHT = (height_pep + (height_ion * max_ion_pre + (max_ion_pre - 2) * 5)
-                                 + (height_ion * max_ion_suff + (max_ion_suff - 2) * 5))
-
+        # height calculated with the sum of max prefix and suffix
+        height_ion_pre = (height_ion * max_ion_pre + 15)
+        peptide_window.SUFFIX_HEIGHT = (height_ion * max_ion_suff + 5)
+        peptide_window.HEIGHT = height_pep + height_ion_pre + peptide_window.SUFFIX_HEIGHT
 
 
 class observed_peptide(QWidget):
@@ -80,19 +81,15 @@ class observed_peptide(QWidget):
     def setSequence(self, seq):
         self.sequence = seq
 
-
     def setSuffix(self, lst):
         self.suffix = lst
 
     def setPrefix(self, lst):
         self.prefix = lst
 
-
     def paintEvent(self, event):
         qp = QPainter()
         qp.begin(self)
-        qp.setRenderHint(QPainter.Antialiasing)
-        qp.fillRect(event.rect(), QBrush(Qt.white))
         self.__drawPeptide(qp)
         qp.end()
 
@@ -100,7 +97,6 @@ class observed_peptide(QWidget):
         qp.setWindow(0, 0, peptide_window.WIDTH, peptide_window.HEIGHT)
         qp.setPen(QColor(168, 34, 3))
         qp.setFont(self.getFont_Pep())
-
         self.__fragmentPeptide(qp)
 
     def __fragmentPeptide(self, qp):
@@ -122,27 +118,26 @@ class observed_peptide(QWidget):
                 start_point = 0
 
                 # position of char
-                position = QPointF(start_point + blank, (peptide_window.HEIGHT/2 + height/4))
+                position = QPointF(start_point + blank, peptide_window.SUFFIX_HEIGHT + height)
                 qp.drawText(position, s)
 
                 # position lines
-                center = (peptide_window.HEIGHT / 2)
+                center = ((peptide_window.SUFFIX_HEIGHT + height) - height / 4) - 1
 
                 if s == "I":
-                    pos_start = QPointF(start_point + blank - SPACE/2 + 2, center - height/2 - 2.5)
+                    pos_start = QPointF(start_point + blank - SPACE / 2 + 2, center - height / 2 - 2.5)
                 else:
-                    pos_start = QPointF(start_point + blank - SPACE/2, center - height/2 - 2.5)
+                    pos_start = QPointF(start_point + blank - SPACE / 2, center - height / 2 - 2.5)
 
-                pos_end = QPointF(pos_start.x(), center + height/2 + 2.5)
+                pos_end = QPointF(pos_start.x(), center + height / 2 + 2.5)
 
                 qp.setPen(self.__getPen())
                 qp.setFont(self.getFont_Ion())
                 metrics_ion = QFontMetricsF(self.getFont_Ion())
 
-
                 if i in self.prefix:
                     qp.drawLine(pos_start, pos_end)
-                    pos_left = QPointF(pos_end.x() - 2*SPACE, pos_end.y())
+                    pos_left = QPointF(pos_end.x() - 2 * SPACE, pos_end.y())
                     qp.drawLine(pos_end, pos_left)
 
                     prefix_ions = sorted(self.prefix[i])
@@ -155,10 +150,9 @@ class observed_peptide(QWidget):
                         qp.drawText(pos_ion, ion)
                         blank_ion += height_ion
 
-
                 # for given line of existing prefix, expand with given suffix
-                if i in self.prefix and i_rev in self.suffix :
-                    pos_right = QPointF(pos_start.x() + 2*SPACE, pos_start.y())
+                if i in self.prefix and i_rev in self.suffix:
+                    pos_right = QPointF(pos_start.x() + 2 * SPACE, pos_start.y())
                     qp.drawLine(pos_start, pos_right)
 
                     suffix_ions = sorted(self.suffix[i_rev], reverse=True)
@@ -166,13 +160,13 @@ class observed_peptide(QWidget):
 
                     for ion in suffix_ions:
                         height_ion = metrics_ion.boundingRect(ion).height()
-                        pos_ion = QPointF(pos_end.x() + 2.5, pos_right.y() + 1 - blank_ion)
+                        pos_ion = QPointF(pos_end.x() + 2.5, pos_right.y() - blank_ion)
                         qp.drawText(pos_ion, ion)
                         blank_ion += height_ion
 
                 elif i_rev in self.suffix and i not in self.prefix:
                     qp.drawLine(pos_start, pos_end)
-                    pos_right = QPointF(pos_start.x() + 2*SPACE, pos_start.y())
+                    pos_right = QPointF(pos_start.x() + 2 * SPACE, pos_start.y())
                     qp.drawLine(pos_start, pos_right)
 
                     suffix_ions = sorted(self.suffix[i_rev], reverse=True)
@@ -180,13 +174,12 @@ class observed_peptide(QWidget):
 
                     for ion in suffix_ions:
                         height_ion = metrics_ion.boundingRect(ion).height()
-                        pos_ion = QPointF(pos_end.x() + 2.5, pos_right.y() + 1 - blank_ion)
+                        pos_ion = QPointF(pos_end.x() + 2.5, pos_right.y() - blank_ion)
                         qp.drawText(pos_ion, ion)
                         blank_ion += height_ion
 
                 blank += width + SPACE
                 qp.setFont(self.getFont_Pep())
-
 
     def getFont_Pep(self):
         font = QFont("Courier")
