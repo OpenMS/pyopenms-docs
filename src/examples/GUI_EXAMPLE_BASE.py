@@ -41,8 +41,7 @@ class GUI_EXAMPLE_BASE(QMainWindow):
         self.titleMenu.addAction(exitButton)
         
     def closeEvent(self, event):
-        self.close
-        sys.exit(0)
+        event.accept()
 
     def setExampleWidget(self, widget):
         self.widget = widget

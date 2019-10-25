@@ -18,4 +18,3 @@ if __name__ == '__main__':
     ex.setExampleWidget(example_widget)
     ex.show()
     sys.exit(app.exec_())
-

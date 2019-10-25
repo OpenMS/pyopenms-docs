@@ -52,5 +52,3 @@ class ScanBrowserWidget(QWidget):
     def updateController(self):
         # for overrriding
         return
-        
-
