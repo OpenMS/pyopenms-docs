@@ -8,8 +8,8 @@ from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout
 
 class peptide_window(QWidget):
 
-    HEIGHT = 200
-    WIDTH = 400
+    HEIGHT = 0
+    WIDTH = 0
 
     def __init__(self):
         super().__init__()
@@ -25,24 +25,44 @@ class peptide_window(QWidget):
         # array starting with 1 and ends with len(seq)
         self.pep.setSequence("PEPTIDE")
         #self.pep.setPrefix({i: ["a%s"% (str(i))] for i in range(1, len(self.pep.sequence))}) #test sequence
-        self.pep.setPrefix({1: ["a1", "b1"], 2: ["a2", "b2", "c2"]})
-        self.pep.setSuffix({2: ["a2", "b2"], 4: ["a4", "b4", "c4"]})
-
-        self.pep.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
-        self.pep.setMinimumSize(400,400)
-        self.layout.addItem(QSpacerItem(40,50, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
-        self.layout.addWidget(self.pep)
-        self.layout.addItem(QSpacerItem(40,50, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
+        self.pep.setPrefix({1: ["a1", "b1", "c1"], 2: ["a2", "b2", "c2"]})
+        self.pep.setSuffix({1: ["a1"], 2: ["a2", "b2"], 4: ["a4", "b4", "c4"]})
 
         # resize window to fit peptide size
         self.__resize()
 
-        #self.setStyleSheet("background-color:white;");
+        self.pep.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        self.pep.setMinimumSize(peptide_window.WIDTH, peptide_window.HEIGHT)
+        self.layout.addItem(QSpacerItem(40, peptide_window.HEIGHT, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
+        self.layout.addWidget(self.pep)
+        self.layout.addItem(QSpacerItem(40, peptide_window.HEIGHT, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
+
+        self.setStyleSheet("background-color:white;")
         self.show()
 
     def __resize(self):
-        if len(self.pep.sequence) > 15:
-            peptide_window.WIDTH += ((len(self.pep.sequence) - 15) * 2*18)
+        # 8 is the space between the characters, 17 the mean of the monospace chars
+        peptide_window.WIDTH = ((len(self.pep.sequence) * 17) + (len(self.pep.sequence) - 1.5) * 8)
+        self.__calculateHeight()
+
+
+    def __calculateHeight(self):
+        prefix = self.pep.prefix
+        suffix = self.pep.suffix
+
+        max_ion_pre = len(prefix[max(prefix, key=prefix.get)])
+        max_ion_suff = len(suffix[max(suffix, key=suffix.get)])
+
+        metrics_pep = QFontMetricsF(self.pep.getFont_Pep())
+        height_pep = metrics_pep.height()
+
+        metrics_ion = QFontMetricsF(self.pep.getFont_Ion())
+        height_ion = metrics_ion.height()
+
+
+        peptide_window.HEIGHT = (height_pep + (height_ion * max_ion_pre + (max_ion_pre - 2) * 5)
+                                 + (height_ion * max_ion_suff + (max_ion_suff - 2) * 5))
+
 
 
 class observed_peptide(QWidget):
@@ -50,7 +70,6 @@ class observed_peptide(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
-        self.resize(self.sizeHint())
 
     def initUI(self):
 
@@ -80,7 +99,7 @@ class observed_peptide(QWidget):
     def __drawPeptide(self, qp):
         qp.setWindow(0, 0, peptide_window.WIDTH, peptide_window.HEIGHT)
         qp.setPen(QColor(168, 34, 3))
-        qp.setFont(self.__getFont_Pep())
+        qp.setFont(self.getFont_Pep())
 
         self.__fragmentPeptide(qp)
 
@@ -91,7 +110,7 @@ class observed_peptide(QWidget):
             seq = list(self.sequence)
             dict_seq = {i: seq[i] for i in range(0, len(seq))}
 
-            metrics = QFontMetricsF(self.__getFont_Pep())
+            metrics = QFontMetricsF(self.getFont_Pep())
 
             blank = 0
             for i, s in dict_seq.items():
@@ -100,8 +119,8 @@ class observed_peptide(QWidget):
                 width = metrics.boundingRect(s).width()
                 height = metrics.boundingRect(s).height()
 
-                seq_len = len(self.sequence)
-                start_point = (peptide_window.WIDTH - (seq_len * 17 + SPACE * (seq_len - 2)))/2
+                start_point = 0
+
                 # position of char
                 position = QPointF(start_point + blank, (peptide_window.HEIGHT/2 + height/4))
                 qp.drawText(position, s)
@@ -114,11 +133,11 @@ class observed_peptide(QWidget):
                 else:
                     pos_start = QPointF(start_point + blank - SPACE/2, center - height/2 - 2.5)
 
-                pos_end = QPointF(pos_start.x(), center + height/2)
+                pos_end = QPointF(pos_start.x(), center + height/2 + 2.5)
 
                 qp.setPen(self.__getPen())
-                qp.setFont(self.__getFont_Ion())
-                metrics_ion = QFontMetricsF(self.__getFont_Ion())
+                qp.setFont(self.getFont_Ion())
+                metrics_ion = QFontMetricsF(self.getFont_Ion())
 
 
                 if i in self.prefix:
@@ -147,7 +166,7 @@ class observed_peptide(QWidget):
 
                     for ion in suffix_ions:
                         height_ion = metrics_ion.boundingRect(ion).height()
-                        pos_ion = QPointF(pos_end.x() + 2.5, pos_right.y() - blank_ion)
+                        pos_ion = QPointF(pos_end.x() + 2.5, pos_right.y() + 1 - blank_ion)
                         qp.drawText(pos_ion, ion)
                         blank_ion += height_ion
 
@@ -161,21 +180,21 @@ class observed_peptide(QWidget):
 
                     for ion in suffix_ions:
                         height_ion = metrics_ion.boundingRect(ion).height()
-                        pos_ion = QPointF(pos_end.x() + 2.5, pos_right.y() - blank_ion)
+                        pos_ion = QPointF(pos_end.x() + 2.5, pos_right.y() + 1 - blank_ion)
                         qp.drawText(pos_ion, ion)
                         blank_ion += height_ion
 
                 blank += width + SPACE
-                qp.setFont(self.__getFont_Pep())
+                qp.setFont(self.getFont_Pep())
 
 
-    def __getFont_Pep(self):
+    def getFont_Pep(self):
         font = QFont("Courier")
         font.setStyleHint(QFont.TypeWriter)
         font.setPixelSize(30)
         return font
 
-    def __getFont_Ion(self):
+    def getFont_Ion(self):
         font = QFont("Courier")
         font.setStyleHint(QFont.TypeWriter)
         font.setPixelSize(10)
