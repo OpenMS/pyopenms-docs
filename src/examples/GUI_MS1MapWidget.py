@@ -1,59 +1,22 @@
-import sys, os
+import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QAction
 
-import pyqtgraph as pg
-from pyqtgraph import PlotWidget
+import pyopenms
 
-import numpy as np
-import pyopenms 
-
-import time
-
+from GUI_EXAMPLE_BASE import *
 sys.path.insert(0, '../view')
 from MS1MapWidget import *
 
-pg.setConfigOption('background', 'w') # white background
-pg.setConfigOption('foreground', 'k') # black peaks
-
-class App(QMainWindow):
-
-    def __init__(self):
-        QMainWindow.__init__(self)
-        self.resize(800, 600) 
-        self._initUI()
-
-    def _initUI(self):
-        self.setWindowTitle('MS1MapWidget')
-        self.centerWidget = QWidget(self)
-        self.setCentralWidget(self.centerWidget)
-        self.layout = QVBoxLayout(self.centerWidget)
-        self.ms1mapwidget = MS1MapWidget(self)
-
-        exp = pyopenms.MSExperiment()
-        pyopenms.MzMLFile().load("../data/190509_Ova_native_25ngul_R.mzML", exp)
-        self.ms1mapwidget.setSpectra(exp)
-        self.layout.addWidget(self.ms1mapwidget)
-        self._setMainMenu()
-        self._setExitButton()
-
-    def _setMainMenu(self):
-        mainMenu = self.menuBar()
-        mainMenu.setNativeMenuBar(False)
-        self.titleMenu = mainMenu.addMenu('PyOpenMS')
-
-    def _setExitButton(self):
-        exitButton = QAction('Exit', self)
-        exitButton.setShortcut('Ctrl+Q')
-        exitButton.setStatusTip('Exit application')
-        exitButton.triggered.connect(self.close)
-        self.titleMenu.addAction(exitButton)
-        
-    def closeEvent(self, event):
-        self.close
-        sys.exit(0)
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = App()
+    ex = GUI_EXAMPLE_BASE() # plain QMainWindow with basic layout and menu bar
+
+    # load spectra and add example widget to window
+    exp = pyopenms.MSExperiment()
+    pyopenms.MzMLFile().load("../data/190509_Ova_native_25ngul_R.mzML", exp)
+    example_widget = MS1MapWidget(ex)
+    example_widget.setSpectra(exp)
+    ex.setExampleWidget(example_widget)
     ex.show()
     sys.exit(app.exec_())
+
