@@ -1,4 +1,5 @@
-import sys, os
+import sys
+
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QAction
 
 import pyqtgraph as pg
