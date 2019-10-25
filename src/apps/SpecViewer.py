@@ -14,7 +14,7 @@ from collections import namedtuple
 import pyopenms
 
 sys.path.insert(0, '../view')
-from ScanBrowserWidget import *
+from ScanBrowserWidget import ScanBrowserWidget
 
 # structure for annotation (here for reference)
 PeakAnnoStruct = namedtuple('PeakAnnoStruct', "mz intensity text_label \
@@ -106,8 +106,7 @@ class App(QMainWindow):
         self.titleMenu.addAction(exitButton)
         
     def closeEvent(self, event):
-        self.close
-        sys.exit(0)
+        event.accept()
 
         
 if __name__ == '__main__':

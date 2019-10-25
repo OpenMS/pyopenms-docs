@@ -1,4 +1,5 @@
-import sys, os
+import sys
+import os
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
         QHBoxLayout, QWidget, QMessageBox, QPushButton, \
         QLabel, QAction, QFileDialog, QTableView, QSplitter, \
@@ -420,7 +421,7 @@ class ControllerWidget(QWidget):
         if tol == -1:
             tol = TOL * theo_mz # ppm
         if abs(theo_mz-nearest_p.getMZ()) > tol:
-            return None;
+            return None
         if nearest_p.getIntensity()==0:
             return None
         return nearest_p
