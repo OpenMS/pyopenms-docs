@@ -98,7 +98,6 @@ class MassList():
         theo_mz_list = []
         for cs in range(cs_range[0], cs_range[1]+1):
             mz = (mass + cs * PROTON_MASS_U) / cs
-            ''' add if statement for mz_range '''
             iso = [C13C12_MASSDIFF_U/cs*i + mz for i in range(10)]  # 10 should be changed based on the mass, later.
             theo_mz_list.append((cs,np.array(iso)))
         return theo_mz_list
@@ -382,7 +381,7 @@ class ControllerWidget(QWidget):
             
             for theo in theo_list: # theo : [0] cs [1] iso mz list
                 exp_p = self.findNearestPeakWithTheoPos(theo[1][0]) # Monoisotopic only
-                if exp_p==None:
+                if exp_p is None:
                     continue
                 pStructList.append(PeakAnnoStruct(mz=exp_p.getMZ(), 
                     intensity=exp_p.getIntensity(), text_label='+'+str(theo[0]),
@@ -457,7 +456,7 @@ class ControllerWidget(QWidget):
         self.massLineEdit.clear()
         try:
             new_mass = float(new_mass)
-        except:
+        except Exception:
             return
         new_mass_str = self.mlc.addNewMass(new_mass, len(self.masses), self.cs_range)
         self.masses[new_mass] = new_mass_str
@@ -577,7 +576,7 @@ class FDInputDialog(QDialog):
 
         try:
             float(self.tolerance.text())
-        except:
+        except Exception:
             self.errorDlg.setText('Tolerance is not a number.')
             self.errorDlg.exec_()
             return
