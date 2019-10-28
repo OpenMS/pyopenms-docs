@@ -8,7 +8,7 @@ from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionMode
 class ScanTableWidget(QWidget):
     
     scanClicked = pyqtSignal() # signal to connect SpectrumWidget
-    header = ('MS level', 'Index', 'RT')
+    header = ('MS level', 'Index', 'RT', 'precursor m/z', 'charge', 'ID')
     def __init__(self, ms_experiment, *args):
        QWidget.__init__(self, *args)
        self.ms_experiment = ms_experiment
@@ -100,8 +100,7 @@ class ScanTableWidget(QWidget):
 
 class ScanTableModel(QAbstractTableModel):
     '''
-       keep the method names
-       they are an integral part of the model
+        TODO: directly read model data from MSExperiment to remove copies
     '''
     def __init__(self, parent, ms_experiment, header, *args):
        QAbstractTableModel.__init__(self, parent, *args)
@@ -115,7 +114,14 @@ class ScanTableModel(QAbstractTableModel):
         for index, spec in enumerate(ms_experiment):
             MSlevel = 'MS' + str(spec.getMSLevel())
             RT = spec.getRT()
-            scanArr.append([MSlevel, index ,RT])
+            prec_mz = "-"
+            charge = "-"
+            native_id = spec.getNativeID().decode()
+            if len(spec.getPrecursors()) == 1:
+                prec_mz = spec.getPrecursors()[0].getMZ()
+                charge = spec.getPrecursors()[0].getCharge()
+
+            scanArr.append([MSlevel, index , RT, prec_mz, charge, native_id])
         return scanArr
         
     def headerData(self, col, orientation, role):
