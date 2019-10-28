@@ -226,5 +226,3 @@ class observed_peptide(QWidget):
         if i != 0:
             i_rev = list(dict_seq.keys())[-i]
         return i_rev
-
-
