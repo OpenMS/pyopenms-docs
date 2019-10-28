@@ -1,18 +1,17 @@
-import sys
 import pyqtgraph as pg
 import pyopenms
 from PyQt5.QtCore import Qt, QPointF
 from PyQt5.QtGui import QFont, QFontMetricsF, QPainter, QColor, QPen, QBrush, QSpacerItem, QSizePolicy
-from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QHBoxLayout
 
 
-class peptide_window(QWidget):
+class SequenceIonsWidget(QWidget):
     HEIGHT = 0
     WIDTH = 0
     SUFFIX_HEIGHT = 0
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args):
+        QWidget.__init__(self, *args)
 
         self.initUI()
 
@@ -23,29 +22,30 @@ class peptide_window(QWidget):
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.pep = observed_peptide()
 
-        # array starting with 1 and ends with len(seq)
+        # default setting
         self.pep.setSequence("PEPTIDE")
-        # self.pep.setPrefix({i: ["a%s"% (str(i))] for i in range(1, len(self.pep.sequence))}) #test sequence
-        self.pep.setPrefix({1: ["a1", "b1", "c1"], 3: ["a2", "b2", "c2"]})
-        self.pep.setSuffix({1: ["x1"], 2: ["x2", "y2"], 4: ["x4", "y4", "z4", "d4", "e4"]})
+        self.pep.setPrefix({1: ["a1", "b1", "c1"]})
+        self.pep.setSuffix({1: ["x1", "y1", "z1"]})
 
         # resize window to fit peptide size
         self.__resize()
 
         self.pep.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
-        self.pep.setMinimumSize(peptide_window.WIDTH, peptide_window.HEIGHT)
-        self.layout.addItem(QSpacerItem(40, peptide_window.HEIGHT, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
+        self.pep.setMinimumSize(SequenceIonsWidget.WIDTH, SequenceIonsWidget.HEIGHT)
+        self.layout.addItem(QSpacerItem(40, SequenceIonsWidget.HEIGHT, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
         self.layout.addWidget(self.pep)
-        self.layout.addItem(QSpacerItem(40, peptide_window.HEIGHT, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
+        self.layout.addItem(QSpacerItem(40, SequenceIonsWidget.HEIGHT, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
 
-        self.setFixedHeight(peptide_window.HEIGHT)
+        self.setFixedHeight(SequenceIonsWidget.HEIGHT)
         self.setStyleSheet("background-color:white;")
         self.show()
 
+
     def __resize(self):
         # 8 is the space between the characters, 17 the mean of the monospace chars
-        peptide_window.WIDTH = ((len(self.pep.sequence) * 17) + (len(self.pep.sequence) - 1.5) * 8)
+        SequenceIonsWidget.WIDTH = ((len(self.pep.sequence) * 17) + (len(self.pep.sequence) - 1.5) * 8)
         self.__calculateHeight()
+
 
     def __calculateHeight(self):
         prefix = self.pep.prefix
@@ -63,14 +63,33 @@ class peptide_window(QWidget):
 
         # height calculated with the sum of max prefix and suffix height
         height_ion_pre = (height_ion * max_ion_pre + 15)
-        peptide_window.SUFFIX_HEIGHT = (height_ion * max_ion_suff + 5)
-        peptide_window.HEIGHT = height_pep + height_ion_pre + peptide_window.SUFFIX_HEIGHT
+        SequenceIonsWidget.SUFFIX_HEIGHT = (height_ion * max_ion_suff + 5)
+        SequenceIonsWidget.HEIGHT = height_pep + height_ion_pre + SequenceIonsWidget.SUFFIX_HEIGHT
+
+    def setPeptide(self, seq):
+        self.pep.setSequence(seq)
+        self.__update()
+
+
+    def setSuffix(self, suff):
+        self.pep.setSuffix(suff)
+        self.__update()
+
+
+    def setPrefix(self, pre):
+        self.pep.setPrefix(pre)
+        self.__update()
+
+    def __update(self):
+        self.__resize()
+        self.pep.setMinimumSize(SequenceIonsWidget.WIDTH, SequenceIonsWidget.HEIGHT)
+
 
 
 class observed_peptide(QWidget):
 
     def __init__(self):
-        super().__init__()
+        QWidget.__init__(self)
         self.initUI()
 
     def initUI(self):
@@ -97,7 +116,7 @@ class observed_peptide(QWidget):
         qp.end()
 
     def __drawPeptide(self, qp):
-        qp.setWindow(0, 0, peptide_window.WIDTH, peptide_window.HEIGHT)
+        qp.setWindow(0, 0, SequenceIonsWidget.WIDTH, SequenceIonsWidget.HEIGHT)
         qp.setPen(QColor(168, 34, 3))
         qp.setFont(self.getFont_Pep())
         self.__fragmentPeptide(qp)
@@ -121,11 +140,11 @@ class observed_peptide(QWidget):
                 start_point = 0
 
                 # position of char
-                position = QPointF(start_point + blank, peptide_window.SUFFIX_HEIGHT + height)
+                position = QPointF(start_point + blank, SequenceIonsWidget.SUFFIX_HEIGHT + height)
                 qp.drawText(position, s)
 
                 # position lines
-                center = ((peptide_window.SUFFIX_HEIGHT + height) - height / 4) - 1
+                center = ((SequenceIonsWidget.SUFFIX_HEIGHT + height) - height / 4) - 1
 
                 if s == "I":
                     pos_start = QPointF(start_point + blank - SPACE / 2 + 2, center - height / 2 - 2.5)
@@ -209,7 +228,3 @@ class observed_peptide(QWidget):
         return i_rev
 
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = peptide_window()
-    sys.exit(app.exec_())
