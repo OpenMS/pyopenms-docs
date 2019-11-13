@@ -13,8 +13,12 @@ if __name__ == '__main__':
 
     # add example widget to window
     example_widget = ErrorWidget(ex)
-    example_widget.setMassErrors(np.array([5, 3, 2]), np.array([10, 40, -12]), {"green":  (0, 255, 0), "purple": (128, 0, 255)})
-    example_widget.setColor("green")
+    x = np.array([1,2,3,4,5,6,7,8,9,10])
+    y = np.array([-2,3,-8,-4,3,12, -15,10, 5, -12])
+    green = (0, 255, 0)
+    purple = (128, 0, 255)
+    c = np.array([green, purple, green,purple, green, purple, green, purple, green, green])
+    example_widget.setMassErrors(x, y, c)
     ex.setExampleWidget(example_widget)
     ex.show()
     sys.exit(app.exec_())
