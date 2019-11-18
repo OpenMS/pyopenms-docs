@@ -15,7 +15,7 @@ if __name__ == '__main__':
     exp = pyopenms.MSExperiment()
     pyopenms.MzMLFile().load("../data/190509_Ova_native_25ngul_R.mzML", exp)
     example_widget = TICWidget(ex)
-    example_widget.setSpectrum(exp.getSpectrum(0))
+    example_widget.setTIC(exp.getTIC())
     ex.setExampleWidget(example_widget)
     ex.show()
     sys.exit(app.exec_())

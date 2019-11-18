@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
     QAction, QFileDialog, QTableView, QSplitter, \
     QMenu, QAbstractItemView
 from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, \
-    QPoint, QRegExp
+    QPoint, QRegExp, QRectF
 
 import pyqtgraph as pg
 from pyqtgraph import PlotWidget
@@ -29,54 +29,63 @@ class TICWidget(PlotWidget):
         self.setMouseEnabled(y=False)
         self.setLabel('bottom', 'RT')
         self.setLabel('left', 'intensity')
-        self.highlighted_peak_label = None
-        self.peak_labels = None
-        self.peak_annotations = None
+        self._peak_labels = {}
         # numpy arrays for fast look-up
-        self._mzs = np.array([])
+        self._rts = np.array([])
         self._ints = np.array([])
         self.getViewBox().sigXRangeChanged.connect(self._autoscaleYAxis)
-        self.getViewBox().sigXRangeChanged.connect(self._redrawPeaks)
-        #self.proxy = pg.SignalProxy(self.scene().sigMouseMoved, rateLimit=60, slot=self._onMouseMoved)
+        self.getViewBox().sigXRangeChanged.connect(self._redrawLabels)
 
-    def setSpectrum(self, spectrum):
+    def setTIC(self, chromatogram):
         # delete old highlighte "hover" peak
-        if self.highlighted_peak_label != None:
-            self.removeItem(self.highlighted_peak_label)
-            self.highlighted_peak_label = None
-        self.spec = spectrum
-        self._mzs, self._ints = self.spec.get_peaks()
+        if self._peak_labels != {}:
+            self.removeItem(self._peak_labels)
+            self._peak_labels = {}
+        self.chrom = chromatogram
+        self._rts, self._ints = self.chrom.get_peaks()
         self._autoscaleYAxis()
         # for annotation in ControllerWidget
-        self.minMZ = np.amin(self._mzs)
-        self.maxMZ = np.amax(self._mzs)
+        self.minRT = np.amin(self._rts)
+        self.maxRT = np.amax(self._rts)
 
-        self.redrawPlot()
+        self._redrawPlot()
 
 
-    def redrawPlot(self):
+    def _redrawPlot(self):
         self.plot(clear=True)
         self._plot_tic()
         self._plot_peak_label()
 
 
+
     def _autoscaleYAxis(self):
         x_range = self.getAxis('bottom').range
         if x_range == [0, 1]:  # workaround for axis sometimes not being set TODO: check if this is resovled
-            x_range = [np.amin(self._mzs), np.amax(self._mzs)]
+            x_range = [np.amin(self._rts), np.amax(self._rts)]
         self.currMaxY = self._getMaxIntensityInRange(x_range)
         if self.currMaxY:
             self.setYRange(0, self.currMaxY, update=False)
 
 
     def _getMaxIntensityInRange(self, xrange):
-        left = np.searchsorted(self._mzs, xrange[0], side='left')
-        right = np.searchsorted(self._mzs, xrange[1], side='right')
+        left = np.searchsorted(self._rts, xrange[0], side='left')
+        right = np.searchsorted(self._rts, xrange[1], side='right')
         return np.amax(self._ints[left:right], initial=1)
 
     def _plot_tic(self):
-        plotgraph = pg.PlotDataItem(self._mzs,self._ints)
+        plotgraph = pg.PlotDataItem(self._rts,self._ints)
         self.addItem(plotgraph)
+
+
+    def _currentIntensitiesInRange(self):
+        x_range = self.getAxis('bottom').range
+        #print(x_range, "\n", self._rts)
+        left = np.searchsorted(self._rts, x_range[0], side='left')
+        right = np.searchsorted(self._rts, x_range[1], side='right')
+        #print(left, right, self._rts[left], self._rts[right - 1])
+        current_ints = self._ints[left:right+1]
+        return current_ints
+
 
     def _find_Peak(self):
         array = self._ints
@@ -100,58 +109,102 @@ class TICWidget(PlotWidget):
 
         return maxIndex
 
+    def _add_label(self, label_id, label_text, pos_x, pos_y):
+
+        label = pg.TextItem(anchor=(0.5, 1))
+        label.setText(text='{0:.3f}'.format(label_text), color=(100, 100, 100))
+        label.setPos(pos_x, pos_y)
+        self._peak_labels[label_id] = {'label': label}
+
+        if self._label_clashes(label_id):
+            self.addItem(label)
+        else:
+            del self._peak_labels[label_id]
+
+
+
+    def _remove_label(self, label_id):
+        if label_id in self._peak_labels:
+            self.removeItem(self._peak_labels[label_id]['label'])
+            del self._peak_labels[label_id]
 
 
     # TODO:
     # 1) search for the labels without intersections.
     # 2) use a prioritized function remove the lesser prioritized labels (only maxima remain)
 
+    def _label_priorities(self, label_id):
+        #print(self._peak_labels)
+        rect1 = self.getViewBox().itemBoundingRect(self._peak_labels[label_id]['label'])
+
+        for item in list(self._peak_labels):
+            if item != label_id:
+                rect2 = self.getViewBox().itemBoundingRect(self._peak_labels[item]['label'])
+                if rect1.intersects(rect2):
+                    self._remove_label(item)
+
+
+
+    def _label_clashes(self, label_id):
+        new_label = label_id
+        # TODO change distance with real intersections of labels
+        # overlapping of labels -> will not be added
+        limit_distance = 10
+        noclash = False
+
+        if self._peak_labels == {}:
+            noclash = True
+
+        else:
+            if self._peak_labels != {}:
+                for ex_label in list(self._peak_labels):
+                    if ex_label != new_label:
+                        new_label_X = self._peak_labels[new_label]['label'].x()
+                        ex_label_X = self._peak_labels[ex_label]['label'].x()
+
+                        distance = abs(new_label_X - ex_label_X)
+
+                        if distance < limit_distance:
+                            noclash = False
+                            break
+                        elif distance > limit_distance:
+                            noclash = True
+                    else:
+                        if len(self._peak_labels) == 1 and ex_label == new_label:
+                            noclash = True
+
+        return noclash
+
+
+
     def _plot_peak_label(self):
         # alternative finding peak with scipy
-        peakIndex = find_peaks(self._ints, distance=100)[0]
+        #peak_index = find_peaks(self._ints, distance=10)[0]
 
         # alternative with finding the local maxima (slower)
-        #peakIndex = self._find_Peak()
+        peak_index = self._find_Peak()
 
+        if self._peak_labels == {}:
+            for index in peak_index:
+                if self._ints[index] in self._currentIntensitiesInRange():
+                    self._add_label(index, self._ints[index], self._rts[index], self._ints[index])
 
-        for i in peakIndex:
-            self.peak_labels = pg.TextItem(text='{0:.3f}'.format(self._mzs[i]), color=(100, 100, 100), anchor=(0.5, 1))
-            self.peak_labels.setPos(self._mzs[i], self._ints[i])
-            self.addItem(self.peak_labels, ignoreBounds=True)  # ignore bounds to prevent rescaling of axis if the text item touches the border
-
-
-
-    def _redrawPeaks(self):
-        # TODO: clear the previous annotations for every zoom
-        self._plot_peak_label()
-
-
-
-    def _onMouseMoved(self, evt):
-        pos = evt[0]  ## using signal proxy turns original arguments into a tuple
-        if self.sceneBoundingRect().contains(pos):
-            mouse_point = self.getViewBox().mapSceneToView(pos)
-            pixel_width = self.getViewBox().viewPixelSize()[0]
-            left = np.searchsorted(self._mzs, mouse_point.x() - 4.0 * pixel_width, side='left')
-            right = np.searchsorted(self._mzs, mouse_point.x() + 4.0 * pixel_width, side='right')
-            if (left == right):  # none found -> remove text
-                if self.highlighted_peak_label != None:
-                    self.highlighted_peak_label.setText("")
-                return
-            # get point in range with minimum squared distance
-            dx = np.square(np.subtract(self._mzs[left:right], mouse_point.x()))
-            dy = np.square(np.subtract(self._ints[left:right], mouse_point.y()))
-            idx_max_int_in_range = np.argmin(np.add(dx, dy))
-            x = self._mzs[left + idx_max_int_in_range]
-            y = self._ints[left + idx_max_int_in_range]
-            if self.highlighted_peak_label == None:
-                self.highlighted_peak_label = pg.TextItem(text='{0:.3f}'.format(x), color=(100, 100, 100),
-                                                          anchor=(0.5, 1))
-                self.addItem(self.highlighted_peak_label,
-                             ignoreBounds=True)  # ignore bounds to prevent rescaling of axis if the text item touches the border
-            self.highlighted_peak_label.setText('{0:.3f}'.format(x))
-            self.highlighted_peak_label.setPos(x, y)
         else:
-            # mouse moved out of visible area: remove highlighting item
-            if self.highlighted_peak_label != None:
-                self.highlighted_peak_label.setText("")
+            if self._peak_labels != {}:
+                # check existing labels within x_range
+                for id in list(self._peak_labels):
+                    if self._ints[id] in self._currentIntensitiesInRange():
+                        pass
+                    else:
+                        self._remove_label(id)
+
+            # re-add labels zooming out
+            for index in peak_index:
+                if index not in self._peak_labels:
+                    if self._ints[index] in self._currentIntensitiesInRange():
+                        self._add_label(index, self._ints[index], self._rts[index], self._ints[index])
+
+
+
+    def _redrawLabels(self):
+        self._plot_peak_label()
