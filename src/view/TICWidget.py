@@ -28,7 +28,7 @@ class TICWidget(PlotWidget):
         self.setLimits(yMin=0, xMin=0)
         self.setMouseEnabled(y=False)
         self.setLabel('bottom', 'RT')
-        self.setLabel('left', 'intensity')
+        self.setLabel('left', 'Intensity')
         self._peak_labels = {}
         # numpy arrays for fast look-up
         self._rts = np.array([])
@@ -56,8 +56,6 @@ class TICWidget(PlotWidget):
         self._plot_tic()
         self._plot_peak_label()
 
-
-
     def _autoscaleYAxis(self):
         x_range = self.getAxis('bottom').range
         if x_range == [0, 1]:  # workaround for axis sometimes not being set TODO: check if this is resovled
@@ -65,6 +63,11 @@ class TICWidget(PlotWidget):
         self.currMaxY = self._getMaxIntensityInRange(x_range)
         if self.currMaxY:
             self.setYRange(0, self.currMaxY, update=False)
+        
+        print("------------------------------")
+        for key, f in self._peak_labels.items():
+            print(f["label"].pos())
+            print(f["label"].mapRectToDevice(f["label"].boundingRect()))
 
 
     def _getMaxIntensityInRange(self, xrange):
@@ -107,10 +110,12 @@ class TICWidget(PlotWidget):
             peakValue = array[i]
         maxIndex = np.where(maxIndex)[0]
 
+       # sort indices of high points from largest intensity to smallest
+        maxIndex = sorted(maxIndex, key=lambda x: self._ints[x], reverse=True)
+
         return maxIndex
 
     def _add_label(self, label_id, label_text, pos_x, pos_y):
-
         label = pg.TextItem(anchor=(0.5, 1))
         label.setText(text='{0:.3f}'.format(label_text), color=(100, 100, 100))
         label.setPos(pos_x, pos_y)
@@ -123,10 +128,17 @@ class TICWidget(PlotWidget):
 
 
 
+
+
     def _remove_label(self, label_id):
         if label_id in self._peak_labels:
             self.removeItem(self._peak_labels[label_id]['label'])
             del self._peak_labels[label_id]
+    
+    def _clear_labels(self):
+        for label_id in self._peak_labels:
+            self.removeItem(self._peak_labels[label_id]['label'])
+        self._peak_labels = {}
 
 
     # TODO:
@@ -149,29 +161,31 @@ class TICWidget(PlotWidget):
         new_label = label_id
         # TODO change distance with real intersections of labels
         # overlapping of labels -> will not be added
-        limit_distance = 10
+        pixel_width = self.getViewBox().viewPixelSize()[0]
+
+        limit_distance = 50.0 * pixel_width
         noclash = False
 
         if self._peak_labels == {}:
-            noclash = True
+            return True
 
-        else:
-            if self._peak_labels != {}:
-                for ex_label in list(self._peak_labels):
-                    if ex_label != new_label:
-                        new_label_X = self._peak_labels[new_label]['label'].x()
-                        ex_label_X = self._peak_labels[ex_label]['label'].x()
+        #pixel_coordinate = self.getViewBox().mapSceneToView(pos)
 
-                        distance = abs(new_label_X - ex_label_X)
+        for ex_label in list(self._peak_labels):
+            if ex_label != new_label:
+                new_label_X = self._peak_labels[new_label]['label'].x()
+                ex_label_X = self._peak_labels[ex_label]['label'].x()
 
-                        if distance < limit_distance:
-                            noclash = False
-                            break
-                        elif distance > limit_distance:
-                            noclash = True
-                    else:
-                        if len(self._peak_labels) == 1 and ex_label == new_label:
-                            noclash = True
+                distance = abs(new_label_X - ex_label_X)
+
+                if distance < limit_distance:
+                    noclash = False
+                    break
+                elif distance > limit_distance:
+                    noclash = True
+            else:
+                if len(self._peak_labels) == 1 and ex_label == new_label:
+                    noclash = True
 
         return noclash
 
@@ -183,6 +197,7 @@ class TICWidget(PlotWidget):
 
         # alternative with finding the local maxima (slower)
         peak_index = self._find_Peak()
+    
 
         if self._peak_labels == {}:
             for index in peak_index:
