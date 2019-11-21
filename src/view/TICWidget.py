@@ -34,7 +34,8 @@ class TICWidget(PlotWidget):
         self._ints = np.array([])
         self._peak_indices = np.array([])
         self.getViewBox().sigXRangeChanged.connect(self._autoscaleYAxis)
-        self.getViewBox().sigXRangeChanged.connect(self._redrawLabels)
+        self.getViewBox().sigRangeChangedManually.connect(self._redrawLabels)
+
 
     def setTIC(self, chromatogram):
         # delete old highlighte "hover" peak
@@ -113,14 +114,14 @@ class TICWidget(PlotWidget):
             self._remove_label(label_id)
 
     def _remove_label(self, label_id):
-        if label_id in self._peak_labels:
-            self.removeItem(self._peak_labels[label_id]['label'])
-            del self._peak_labels[label_id]
+        self.removeItem(self._peak_labels[label_id]['label'])
+        del self._peak_labels[label_id]
 
 
     def _clear_labels(self):
         if self._peak_labels != {}:
-            for label_id in list(self._peak_labels):
+            peak_labels = list(self._peak_labels)
+            for label_id in peak_labels:
                 self.removeItem(self._peak_labels[label_id]['label'])
                 del self._peak_labels[label_id]
             self._peak_labels = {}
@@ -151,7 +152,7 @@ class TICWidget(PlotWidget):
                     new_label_X = self._peak_labels[new_label]['label'].x()
 
                     distance = abs(new_label_X - exist_label_X)
-                    
+
                     if distance < limit_distance:
                         clash = True
                         break
