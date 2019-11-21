@@ -16,7 +16,6 @@ from scipy.signal import find_peaks
 
 import pyopenms
 
-
 pg.setConfigOption('background', 'w')  # white background
 pg.setConfigOption('foreground', 'k')  # black peaks
 
@@ -33,6 +32,7 @@ class TICWidget(PlotWidget):
         # numpy arrays for fast look-up
         self._rts = np.array([])
         self._ints = np.array([])
+        self._peak_indices = np.array([])
         self.getViewBox().sigXRangeChanged.connect(self._autoscaleYAxis)
         self.getViewBox().sigXRangeChanged.connect(self._redrawLabels)
 
@@ -43,13 +43,9 @@ class TICWidget(PlotWidget):
             self._peak_labels = {}
         self.chrom = chromatogram
         self._rts, self._ints = self.chrom.get_peaks()
+        self._peak_indices = self._find_Peak()
         self._autoscaleYAxis()
-        # for annotation in ControllerWidget
-        self.minRT = np.amin(self._rts)
-        self.maxRT = np.amax(self._rts)
-
         self._redrawPlot()
-
 
     def _redrawPlot(self):
         self.plot(clear=True)
@@ -63,12 +59,11 @@ class TICWidget(PlotWidget):
         self.currMaxY = self._getMaxIntensityInRange(x_range)
         if self.currMaxY:
             self.setYRange(0, self.currMaxY, update=False)
-        
-        print("------------------------------")
-        for key, f in self._peak_labels.items():
-            print(f["label"].pos())
-            print(f["label"].mapRectToDevice(f["label"].boundingRect()))
 
+        #print("------------------------------")
+        #for key, f in self._peak_labels.items():
+        #    print(f["label"].pos())
+        #    print(f["label"].mapRectToDevice(f["label"].boundingRect()))
 
     def _getMaxIntensityInRange(self, xrange):
         left = np.searchsorted(self._rts, xrange[0], side='left')
@@ -76,19 +71,15 @@ class TICWidget(PlotWidget):
         return np.amax(self._ints[left:right], initial=1)
 
     def _plot_tic(self):
-        plotgraph = pg.PlotDataItem(self._rts,self._ints)
+        plotgraph = pg.PlotDataItem(self._rts, self._ints)
         self.addItem(plotgraph)
-
 
     def _currentIntensitiesInRange(self):
         x_range = self.getAxis('bottom').range
-        #print(x_range, "\n", self._rts)
         left = np.searchsorted(self._rts, x_range[0], side='left')
         right = np.searchsorted(self._rts, x_range[1], side='right')
-        #print(left, right, self._rts[left], self._rts[right - 1])
-        current_ints = self._ints[left:right+1]
+        current_ints = self._ints[left:right]
         return current_ints
-
 
     def _find_Peak(self):
         array = self._ints
@@ -110,8 +101,8 @@ class TICWidget(PlotWidget):
             peakValue = array[i]
         maxIndex = np.where(maxIndex)[0]
 
-       # sort indices of high points from largest intensity to smallest
-        maxIndex = sorted(maxIndex, key=lambda x: self._ints[x], reverse=True)
+        # sort indices of high points from largest intensity to smallest
+        maxIndex = sorted(maxIndex, key=lambda x: array[x], reverse=True)
 
         return maxIndex
 
@@ -120,106 +111,78 @@ class TICWidget(PlotWidget):
         label.setText(text='{0:.3f}'.format(label_text), color=(100, 100, 100))
         label.setPos(pos_x, pos_y)
         self._peak_labels[label_id] = {'label': label}
+        self.addItem(label)
 
         if self._label_clashes(label_id):
-            self.addItem(label)
-        else:
-            del self._peak_labels[label_id]
-
-
-
-
+            self._remove_label(label_id)
 
     def _remove_label(self, label_id):
         if label_id in self._peak_labels:
             self.removeItem(self._peak_labels[label_id]['label'])
             del self._peak_labels[label_id]
-    
+
+
     def _clear_labels(self):
-        for label_id in self._peak_labels:
+        for label_id in list(self._peak_labels):
             self.removeItem(self._peak_labels[label_id]['label'])
+            del self._peak_labels[label_id]
         self._peak_labels = {}
-
-
-    # TODO:
-    # 1) search for the labels without intersections.
-    # 2) use a prioritized function remove the lesser prioritized labels (only maxima remain)
-
-    def _label_priorities(self, label_id):
-        #print(self._peak_labels)
-        rect1 = self.getViewBox().itemBoundingRect(self._peak_labels[label_id]['label'])
-
-        for item in list(self._peak_labels):
-            if item != label_id:
-                rect2 = self.getViewBox().itemBoundingRect(self._peak_labels[item]['label'])
-                if rect1.intersects(rect2):
-                    self._remove_label(item)
-
 
 
     def _label_clashes(self, label_id):
         new_label = label_id
-        # TODO change distance with real intersections of labels
-        # overlapping of labels -> will not be added
-        pixel_width = self.getViewBox().viewPixelSize()[0]
 
+        # scaling the distance with the correct pixel size
+        pixel_width = self.getViewBox().viewPixelSize()[0]
         limit_distance = 50.0 * pixel_width
-        noclash = False
+
+        clash = False
 
         if self._peak_labels == {}:
-            return True
+            return False
 
-        #pixel_coordinate = self.getViewBox().mapSceneToView(pos)
-
-        for ex_label in list(self._peak_labels):
-            if ex_label != new_label:
+        # pixel_coordinate = self.getViewBox().mapSceneToView(pos)
+        for exist_label in list(self._peak_labels):
+            if exist_label != new_label:
+                exist_label_X = self._peak_labels[exist_label]['label'].x()
                 new_label_X = self._peak_labels[new_label]['label'].x()
-                ex_label_X = self._peak_labels[ex_label]['label'].x()
 
-                distance = abs(new_label_X - ex_label_X)
+                distance = abs(new_label_X - exist_label_X)
 
-                if distance < limit_distance:
-                    noclash = False
+                if distance > limit_distance:
+
+                    new_label_rect = self._peak_labels[new_label]["label"].mapRectToDevice(
+                        self._peak_labels[new_label]["label"].boundingRect())
+                    exist_label_rect = self._peak_labels[exist_label]["label"].mapRectToDevice(
+                        self._peak_labels[exist_label]["label"].boundingRect())
+
+                    if new_label_rect.intersects(exist_label_rect):
+                        clash = True
+                        break
+                    else:
+                        clash = False
+
+                elif distance < limit_distance:
+                    clash = True
                     break
-                elif distance > limit_distance:
-                    noclash = True
-            else:
-                if len(self._peak_labels) == 1 and ex_label == new_label:
-                    noclash = True
-
-        return noclash
+                else:
+                    if len(self._peak_labels) == 1 and exist_label == new_label_X:
+                        clash = False
+        return clash
 
 
 
     def _plot_peak_label(self):
         # alternative finding peak with scipy
-        #peak_index = find_peaks(self._ints, distance=10)[0]
-
-        # alternative with finding the local maxima (slower)
-        peak_index = self._find_Peak()
-    
-
+        # peak_index = find_peaks(self._ints, distance=10)[0]
+        
         if self._peak_labels == {}:
-            for index in peak_index:
+            for index in self._peak_indices:
                 if self._ints[index] in self._currentIntensitiesInRange():
                     self._add_label(index, self._ints[index], self._rts[index], self._ints[index])
-
-        else:
-            if self._peak_labels != {}:
-                # check existing labels within x_range
-                for id in list(self._peak_labels):
-                    if self._ints[id] in self._currentIntensitiesInRange():
-                        pass
-                    else:
-                        self._remove_label(id)
-
-            # re-add labels zooming out
-            for index in peak_index:
-                if index not in self._peak_labels:
-                    if self._ints[index] in self._currentIntensitiesInRange():
-                        self._add_label(index, self._ints[index], self._rts[index], self._ints[index])
 
 
 
     def _redrawLabels(self):
+        self._clear_labels()
         self._plot_peak_label()
