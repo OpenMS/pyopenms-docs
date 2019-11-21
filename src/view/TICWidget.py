@@ -10,9 +10,7 @@ import pyqtgraph as pg
 from pyqtgraph import PlotWidget
 
 import numpy as np
-from collections import namedtuple
 
-from scipy.signal import find_peaks
 
 import pyopenms
 
@@ -26,8 +24,8 @@ class TICWidget(PlotWidget):
         PlotWidget.__init__(self)
         self.setLimits(yMin=0, xMin=0)
         self.setMouseEnabled(y=False)
-        self.setLabel('bottom', 'RT')
-        self.setLabel('left', 'Intensity')
+        self.setLabel('bottom', 'RT (min)')
+        self.setLabel('left', 'relative intensity (%)')
         self._peak_labels = {}
         # numpy arrays for fast look-up
         self._rts = np.array([])
@@ -36,17 +34,26 @@ class TICWidget(PlotWidget):
         self.getViewBox().sigXRangeChanged.connect(self._autoscaleYAxis)
 
     def setTIC(self, chromatogram):
-        # delete old highlighte "hover" peak
+        # delete old labels
         if self._peak_labels != {}:
-            self.removeItem(self._peak_labels)
+            self._clear_labels()
             self._peak_labels = {}
         self.chrom = chromatogram
         self._rts, self._ints = self.chrom.get_peaks()
+        self._rts_in_min()
+        self._relative_ints()
         self._peak_indices = self._find_Peak()
         self._autoscaleYAxis()
         self.redrawPlot()
 
-    def redrawPlot(self):        
+    def _rts_in_min(self):
+        self._rts = np.array([x/60 for x in self._rts])
+
+    def _relative_ints(self):
+        maxInt = np.amax(self._ints)
+        self._ints = np.array([((x/maxInt)*100) for x in self._ints])
+
+    def redrawPlot(self):
         self.plot(clear=True)
         self._plot_tic()
         self._plot_peak_label()
@@ -77,33 +84,33 @@ class TICWidget(PlotWidget):
         return current_ints
 
     def _find_Peak(self):
-        array = self._ints
-        maxIndex = np.zeros_like(array)
+        data = self._ints
+        maxIndex = np.zeros_like(data)
         peakValue = -np.inf
-        for i in range(0, len(array), 1):
-            if peakValue < array[i]:
-                peakValue = array[i]
-                for j in range(i, len(array)):
-                    if peakValue < array[j]:
+        for i in range(0, len(data), 1):
+            if peakValue < data[i]:
+                peakValue = data[i]
+                for j in range(i, len(data)):
+                    if peakValue < data[j]:
                         break
-                    elif peakValue == array[j]:
+                    elif peakValue == data[j]:
                         continue
-                    elif peakValue > array[j]:
+                    elif peakValue > data[j]:
                         peakIndex = i + np.floor(abs(i - j) / 2)
                         maxIndex[peakIndex.astype(int)] = 1
                         i = j
                         break
-            peakValue = array[i]
+            peakValue = data[i]
         maxIndex = np.where(maxIndex)[0]
 
         # sort indices of high points from largest intensity to smallest
-        maxIndex = sorted(maxIndex, key=lambda x: array[x], reverse=True)
+        maxIndex = sorted(maxIndex, key=lambda x: data[x], reverse=True)
 
         return maxIndex
 
     def _add_label(self, label_id, label_text, pos_x, pos_y):
         label = pg.TextItem(anchor=(0.5, 1))
-        label.setText(text='{0:.3f}'.format(label_text), color=(100, 100, 100))
+        label.setText(text='{0:.2f}'.format(label_text), color=(100, 100, 100))
         label.setPos(pos_x, pos_y)
         self._peak_labels[label_id] = {'label': label}
         self.addItem(label, ignoreBounds=True)
@@ -123,12 +130,11 @@ class TICWidget(PlotWidget):
 
     def _label_clashes(self, label_id):
         new_label = label_id
+        clash = False
 
         # scaling the distance with the correct pixel size
         pixel_width = self.getViewBox().viewPixelSize()[0]
         limit_distance = 20.0 * pixel_width
-
-        clash = False
 
         if self._peak_labels == {}:
             return False
@@ -160,17 +166,11 @@ class TICWidget(PlotWidget):
                     clash = False
         return clash
 
-
-
     def _plot_peak_label(self):
-        # alternative finding peak with scipy
-        # peak_index = find_peaks(self._ints, distance=10)[0]
-        count = 0
         if self._peak_labels == {}:
             for index in self._peak_indices:
                 if self._ints[index] in self._currentIntensitiesInRange():
-                    self._add_label(index, self._ints[index], self._rts[index], self._ints[index])
-                    count += 1
+                    self._add_label(index, self._rts[index], self._rts[index], self._ints[index])
 
     def _redrawLabels(self):
         self._clear_labels()
