@@ -31,6 +31,7 @@ class TICWidget(PlotWidget):
         self._rts = np.array([])
         self._ints = np.array([])
         self._peak_indices = np.array([])
+        self._currentIntensitiesInRange = np.array([])
         self.getViewBox().sigXRangeChanged.connect(self._autoscaleYAxis)
 
     def setTIC(self, chromatogram):
@@ -38,13 +39,13 @@ class TICWidget(PlotWidget):
         if self._peak_labels != {}:
             self._clear_labels()
             self._peak_labels = {}
-        self.chrom = chromatogram
-        self._rts, self._ints = self.chrom.get_peaks()
+        self._chrom = chromatogram
+        self._rts, self._ints = self._chrom.get_peaks()
         self._rts_in_min()
         self._relative_ints()
         self._peak_indices = self._find_Peak()
         self._autoscaleYAxis()
-        self.redrawPlot()
+        self._redrawPlot()
 
     def _rts_in_min(self):
         self._rts = np.array([x/60 for x in self._rts])
@@ -53,14 +54,14 @@ class TICWidget(PlotWidget):
         maxInt = np.amax(self._ints)
         self._ints = np.array([((x/maxInt)*100) for x in self._ints])
 
-    def redrawPlot(self):
+    def _redrawPlot(self):
         self.plot(clear=True)
         self._plot_tic()
         self._plot_peak_label()
 
     def _autoscaleYAxis(self):
         x_range = self.getAxis('bottom').range
-        if x_range == [0, 1]:  # workaround for axis sometimes not being set TODO: check if this is resovled
+        if x_range == [0, 1]:  # workaround for axis sometimes not being set
             x_range = [np.amin(self._rts), np.amax(self._rts)]
         self.currMaxY = self._getMaxIntensityInRange(x_range)
         if self.currMaxY:
@@ -70,18 +71,12 @@ class TICWidget(PlotWidget):
     def _getMaxIntensityInRange(self, xrange):
         left = np.searchsorted(self._rts, xrange[0], side='left')
         right = np.searchsorted(self._rts, xrange[1], side='right')
+        self._currentIntensitiesInRange = self._ints[left:right]
         return np.amax(self._ints[left:right], initial=1)
 
     def _plot_tic(self):
         plotgraph = pg.PlotDataItem(self._rts, self._ints)
         self.addItem(plotgraph)
-
-    def _currentIntensitiesInRange(self):
-        x_range = self.getAxis('bottom').range
-        left = np.searchsorted(self._rts, x_range[0], side='left')
-        right = np.searchsorted(self._rts, x_range[1], side='right')
-        current_ints = self._ints[left:right]
-        return current_ints
 
     def _find_Peak(self):
         data = self._ints
@@ -169,7 +164,7 @@ class TICWidget(PlotWidget):
     def _plot_peak_label(self):
         if self._peak_labels == {}:
             for index in self._peak_indices:
-                if self._ints[index] in self._currentIntensitiesInRange():
+                if self._ints[index] in self._currentIntensitiesInRange:
                     self._add_label(index, self._rts[index], self._rts[index], self._ints[index])
 
     def _redrawLabels(self):
