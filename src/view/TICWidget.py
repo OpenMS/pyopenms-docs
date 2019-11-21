@@ -34,8 +34,6 @@ class TICWidget(PlotWidget):
         self._ints = np.array([])
         self._peak_indices = np.array([])
         self.getViewBox().sigXRangeChanged.connect(self._autoscaleYAxis)
-        self.getViewBox().sigRangeChangedManually.connect(self._redrawLabels)
-
 
     def setTIC(self, chromatogram):
         # delete old highlighte "hover" peak
@@ -46,24 +44,21 @@ class TICWidget(PlotWidget):
         self._rts, self._ints = self.chrom.get_peaks()
         self._peak_indices = self._find_Peak()
         self._autoscaleYAxis()
-        self._redrawPlot()
+        self.redrawPlot()
 
-    def _redrawPlot(self):
+    def redrawPlot(self):        
         self.plot(clear=True)
         self._plot_tic()
         self._plot_peak_label()
 
     def _autoscaleYAxis(self):
         x_range = self.getAxis('bottom').range
-        print(x_range)
         if x_range == [0, 1]:  # workaround for axis sometimes not being set TODO: check if this is resovled
             x_range = [np.amin(self._rts), np.amax(self._rts)]
         self.currMaxY = self._getMaxIntensityInRange(x_range)
         if self.currMaxY:
             self.setYRange(0, self.currMaxY, update=False)
-
-        print('scaling')
-
+            self._redrawLabels()
 
     def _getMaxIntensityInRange(self, xrange):
         left = np.searchsorted(self._rts, xrange[0], side='left')
@@ -111,7 +106,7 @@ class TICWidget(PlotWidget):
         label.setText(text='{0:.3f}'.format(label_text), color=(100, 100, 100))
         label.setPos(pos_x, pos_y)
         self._peak_labels[label_id] = {'label': label}
-        self.addItem(label)
+        self.addItem(label, ignoreBounds=True)
 
         if self._label_clashes(label_id):
             self._remove_label(label_id)
@@ -122,14 +117,9 @@ class TICWidget(PlotWidget):
 
 
     def _clear_labels(self):
-        if self._peak_labels != {}:
-            peak_labels = list(self._peak_labels)
-            for label_id in peak_labels:
-                self.removeItem(self._peak_labels[label_id]['label'])
-                del self._peak_labels[label_id]
-            self._peak_labels = {}
-
-
+        for label_id in self._peak_labels.keys():
+            self.removeItem(self._peak_labels[label_id]['label'])
+        self._peak_labels = {}
 
     def _label_clashes(self, label_id):
         new_label = label_id
@@ -181,8 +171,6 @@ class TICWidget(PlotWidget):
                 if self._ints[index] in self._currentIntensitiesInRange():
                     self._add_label(index, self._ints[index], self._rts[index], self._ints[index])
                     count += 1
-        print('finished labels', count)
-
 
     def _redrawLabels(self):
         self._clear_labels()
