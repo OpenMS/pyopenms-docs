@@ -60,10 +60,6 @@ class TICWidget(PlotWidget):
         if self.currMaxY:
             self.setYRange(0, self.currMaxY, update=False)
 
-        #print("------------------------------")
-        #for key, f in self._peak_labels.items():
-        #    print(f["label"].pos())
-        #    print(f["label"].mapRectToDevice(f["label"].boundingRect()))
 
     def _getMaxIntensityInRange(self, xrange):
         left = np.searchsorted(self._rts, xrange[0], side='left')
@@ -123,10 +119,12 @@ class TICWidget(PlotWidget):
 
 
     def _clear_labels(self):
-        for label_id in list(self._peak_labels):
-            self.removeItem(self._peak_labels[label_id]['label'])
-            del self._peak_labels[label_id]
-        self._peak_labels = {}
+        if self._peak_labels != {}:
+            for label_id in list(self._peak_labels):
+                self.removeItem(self._peak_labels[label_id]['label'])
+                del self._peak_labels[label_id]
+            self._peak_labels = {}
+
 
 
     def _label_clashes(self, label_id):
@@ -134,40 +132,38 @@ class TICWidget(PlotWidget):
 
         # scaling the distance with the correct pixel size
         pixel_width = self.getViewBox().viewPixelSize()[0]
-        limit_distance = 50.0 * pixel_width
+        limit_distance = 25.0 * pixel_width
 
         clash = False
 
         if self._peak_labels == {}:
             return False
 
-        # pixel_coordinate = self.getViewBox().mapSceneToView(pos)
         for exist_label in list(self._peak_labels):
             if exist_label != new_label:
-                exist_label_X = self._peak_labels[exist_label]['label'].x()
-                new_label_X = self._peak_labels[new_label]['label'].x()
+                new_label_rect = self._peak_labels[new_label]["label"].mapRectToDevice(
+                    self._peak_labels[new_label]["label"].boundingRect())
+                exist_label_rect = self._peak_labels[exist_label]["label"].mapRectToDevice(
+                    self._peak_labels[exist_label]["label"].boundingRect())
 
-                distance = abs(new_label_X - exist_label_X)
+                if not new_label_rect.intersects(exist_label_rect):
+                    exist_label_X = self._peak_labels[exist_label]['label'].x()
+                    new_label_X = self._peak_labels[new_label]['label'].x()
 
-                if distance > limit_distance:
-
-                    new_label_rect = self._peak_labels[new_label]["label"].mapRectToDevice(
-                        self._peak_labels[new_label]["label"].boundingRect())
-                    exist_label_rect = self._peak_labels[exist_label]["label"].mapRectToDevice(
-                        self._peak_labels[exist_label]["label"].boundingRect())
-
-                    if new_label_rect.intersects(exist_label_rect):
+                    distance = abs(new_label_X - exist_label_X)
+                    
+                    if distance < limit_distance:
                         clash = True
                         break
                     else:
                         clash = False
 
-                elif distance < limit_distance:
+                elif new_label_rect.intersects(exist_label_rect):
                     clash = True
                     break
-                else:
-                    if len(self._peak_labels) == 1 and exist_label == new_label_X:
-                        clash = False
+            else:
+                if len(self._peak_labels) == 1 and exist_label == new_label:
+                    clash = False
         return clash
 
 
@@ -175,7 +171,7 @@ class TICWidget(PlotWidget):
     def _plot_peak_label(self):
         # alternative finding peak with scipy
         # peak_index = find_peaks(self._ints, distance=10)[0]
-        
+
         if self._peak_labels == {}:
             for index in self._peak_indices:
                 if self._ints[index] in self._currentIntensitiesInRange():
