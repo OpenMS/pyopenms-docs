@@ -55,11 +55,14 @@ class TICWidget(PlotWidget):
 
     def _autoscaleYAxis(self):
         x_range = self.getAxis('bottom').range
+        print(x_range)
         if x_range == [0, 1]:  # workaround for axis sometimes not being set TODO: check if this is resovled
             x_range = [np.amin(self._rts), np.amax(self._rts)]
         self.currMaxY = self._getMaxIntensityInRange(x_range)
         if self.currMaxY:
             self.setYRange(0, self.currMaxY, update=False)
+
+        print('scaling')
 
 
     def _getMaxIntensityInRange(self, xrange):
@@ -133,7 +136,7 @@ class TICWidget(PlotWidget):
 
         # scaling the distance with the correct pixel size
         pixel_width = self.getViewBox().viewPixelSize()[0]
-        limit_distance = 25.0 * pixel_width
+        limit_distance = 20.0 * pixel_width
 
         clash = False
 
@@ -172,12 +175,13 @@ class TICWidget(PlotWidget):
     def _plot_peak_label(self):
         # alternative finding peak with scipy
         # peak_index = find_peaks(self._ints, distance=10)[0]
-
+        count = 0
         if self._peak_labels == {}:
             for index in self._peak_indices:
                 if self._ints[index] in self._currentIntensitiesInRange():
                     self._add_label(index, self._ints[index], self._rts[index], self._ints[index])
-
+                    count += 1
+        print('finished labels', count)
 
 
     def _redrawLabels(self):
