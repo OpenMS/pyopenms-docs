@@ -33,6 +33,9 @@ class TICWidget(PlotWidget):
         self._peak_indices = np.array([])
         self._currentIntensitiesInRange = np.array([])
         self.getViewBox().sigXRangeChanged.connect(self._autoscaleYAxis)
+        self.scene().sigMouseClicked.connect(self.onclick)
+
+
 
     def setTIC(self, chromatogram):
         # delete old labels
@@ -46,6 +49,7 @@ class TICWidget(PlotWidget):
         self._peak_indices = self._find_Peak()
         self._autoscaleYAxis()
         self._redrawPlot()
+
 
     def _rts_in_min(self):
         self._rts = np.array([x/60 for x in self._rts])
@@ -112,6 +116,8 @@ class TICWidget(PlotWidget):
 
         if self._label_clashes(label_id):
             self._remove_label(label_id)
+        else:
+            print(label_id, pos_x, pos_y)
 
     def _remove_label(self, label_id):
         self.removeItem(self._peak_labels[label_id]['label'])
@@ -170,3 +176,8 @@ class TICWidget(PlotWidget):
     def _redrawLabels(self):
         self._clear_labels()
         self._plot_peak_label()
+
+    def onclick(self, event):
+        items = self.scene().items(event.scenePos())
+        clicked_label = np.array([x.pos() for x in items if isinstance(x, pg.TextItem)])
+        print("clicked_label:", clicked_label)
