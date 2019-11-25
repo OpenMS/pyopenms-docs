@@ -16,7 +16,7 @@ class ErrorWidget(PlotWidget):
 
         self.setLimits(xMin=0)
         self.setLabel('bottom', 'm/z')
-        self.setLabel('left', 'Intensity')
+        self.setLabel('left', 'ppm')
         self._mz = np.array([])
         self._intensity = np.array([])
         self._brushColor = None
