@@ -1,8 +1,11 @@
 import sys
+
+from PyQt5 import QtCore, QtGui
+from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
     QHBoxLayout, QWidget, QDesktopWidget, \
     QAction, QFileDialog, QTableView, QSplitter, \
-    QMenu, QAbstractItemView
+    QMenu, QAbstractItemView, QShortcut
 from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, \
     QPoint, QRegExp, QRectF
 
@@ -32,10 +35,13 @@ class TICWidget(PlotWidget):
         self._ints = np.array([])
         self._peak_indices = np.array([])
         self._currentIntensitiesInRange = np.array([])
+        self._region = None
         self.getViewBox().sigXRangeChanged.connect(self._autoscaleYAxis)
-        self.scene().sigMouseClicked.connect(self.onclick)
+        self.scene().sigMouseClicked.connect(self._clickedLabel)
 
-
+        # to init the region
+        self.shortcut = QShortcut(QKeySequence("Ctrl+r"), self)
+        self.shortcut.activated.connect(self.on_open)
 
     def setTIC(self, chromatogram):
         # delete old labels
@@ -116,8 +122,6 @@ class TICWidget(PlotWidget):
 
         if self._label_clashes(label_id):
             self._remove_label(label_id)
-        else:
-            print(label_id, pos_x, pos_y)
 
     def _remove_label(self, label_id):
         self.removeItem(self._peak_labels[label_id]['label'])
@@ -177,7 +181,42 @@ class TICWidget(PlotWidget):
         self._clear_labels()
         self._plot_peak_label()
 
-    def onclick(self, event):
+    def _clickedLabel(self, event):
         items = self.scene().items(event.scenePos())
         clicked_label = np.array([x.pos() for x in items if isinstance(x, pg.TextItem)])
-        print("clicked_label:", clicked_label)
+        print('clicked label rt/int', clicked_label)
+
+    def mouseDoubleClickEvent(self, event):
+        super(TICWidget, self).mouseDoubleClickEvent(event)
+
+        rgn_start = self.getViewBox().mapSceneToView(event.pos()).x()
+
+        if self._region == None:
+            region = pg.LinearRegionItem()
+            region.setRegion((rgn_start, rgn_start))
+            self._region = region
+            self.addItem(region, ignoreBounds=True)
+
+        # delete the region when hovering over the region per doubleClk
+        self._delete_region()
+
+    def _delete_region(self):
+        if self._region.mouseHovering:
+            self.removeItem(self._region)
+            self._region = None
+
+    def on_open(self):
+        # click region, with following shortcut -> create region
+        rgn_start = self.getViewBox().mapSceneToView(self.lastMousePos)
+
+        if self._region == None:
+            region = pg.LinearRegionItem()
+            region.setRegion((rgn_start, rgn_start))
+            self._region = region
+            self.addItem(region, ignoreBounds=True)
+
+
+
+
+
+
