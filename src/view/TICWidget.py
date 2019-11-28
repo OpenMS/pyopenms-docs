@@ -40,8 +40,12 @@ class TICWidget(PlotWidget):
         self.scene().sigMouseClicked.connect(self._clickedLabel)
 
         # to init the region
-        self.shortcut = QShortcut(QKeySequence("Ctrl+r"), self)
-        self.shortcut.activated.connect(self.on_open)
+        self.shortcut1 = QShortcut(QKeySequence("Ctrl+r"), self)
+        self.shortcut1.activated.connect(self._rgn_shortcut)
+
+        # shortcut for mouseDrag
+        self.shortcut2 = QShortcut(QKeySequence("right"), self)
+        self.shortcut2.activated.connect(self._rgnDrag_shortcut)
 
     def setTIC(self, chromatogram):
         # delete old labels
@@ -188,7 +192,6 @@ class TICWidget(PlotWidget):
 
     def mouseDoubleClickEvent(self, event):
         super(TICWidget, self).mouseDoubleClickEvent(event)
-
         rgn_start = self.getViewBox().mapSceneToView(event.pos()).x()
 
         if self._region == None:
@@ -205,7 +208,7 @@ class TICWidget(PlotWidget):
             self.removeItem(self._region)
             self._region = None
 
-    def on_open(self):
+    def _rgn_shortcut(self):
         # click region, with following shortcut -> create region
         rgn_start = self.getViewBox().mapSceneToView(self.lastMousePos)
 
@@ -215,7 +218,8 @@ class TICWidget(PlotWidget):
             self._region = region
             self.addItem(region, ignoreBounds=True)
 
-
+    def _rgnDrag_shortcut(self):
+        print('work on it')
 
 
 
