@@ -22,6 +22,8 @@ pg.setConfigOption('foreground', 'k')  # black peaks
 
 
 class TICWidget(PlotWidget):
+    sigRTClicked = QtCore.pyqtSignal(float, name='sigRTClicked')
+    #sigRTSelectionChanged = QtCore.pyqtSignal(float, float, name='sigRTSelectionChanged')
 
     def __init__(self, parent=None, dpi=100):
         PlotWidget.__init__(self)
@@ -37,11 +39,14 @@ class TICWidget(PlotWidget):
         self._currentIntensitiesInRange = np.array([])
         self._region = None
         self.getViewBox().sigXRangeChanged.connect(self._autoscaleYAxis)
-        self.scene().sigMouseClicked.connect(self._clickedLabel)
+
+        # define signal
+        self.scene().sigMouseClicked.connect(self._clicked) # emits rt_clicked
 
         # to init the region
         self.shortcut = QShortcut(QKeySequence("Ctrl+r"), self)
         self.shortcut.activated.connect(self.on_open)
+
 
     def setTIC(self, chromatogram):
         # delete old labels
@@ -181,10 +186,20 @@ class TICWidget(PlotWidget):
         self._clear_labels()
         self._plot_peak_label()
 
-    def _clickedLabel(self, event):
-        items = self.scene().items(event.scenePos())
-        clicked_label = np.array([x.pos() for x in items if isinstance(x, pg.TextItem)])
-        print('clicked label rt/int', clicked_label)
+    def _clicked(self, event):
+        pos = event.scenePos()
+        if self.sceneBoundingRect().contains(pos):
+            mouse_point = self.getViewBox().mapSceneToView(pos)
+            larger_idx = np.searchsorted(self._rts, mouse_point.x(), side='left')
+            smaller_idx = 0
+            if larger_idx > 0:
+                smaller_idx = larger_idx - 1
+            if abs(self._rts[larger_idx] - mouse_point.x()) < abs(self._rts[smaller_idx] - mouse_point.x()):
+                closest_datapoint_idx = larger_idx
+            else:
+                closest_datapoint_idx = smaller_idx
+            self.sigRTClicked.emit(self._rts[closest_datapoint_idx]) # notify observers
+
 
     def mouseDoubleClickEvent(self, event):
         super(TICWidget, self).mouseDoubleClickEvent(event)
