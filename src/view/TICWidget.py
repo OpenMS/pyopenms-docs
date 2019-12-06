@@ -23,7 +23,7 @@ pg.setConfigOption('foreground', 'k')  # black peaks
 
 class TICWidget(PlotWidget):
     sigRTClicked = QtCore.pyqtSignal(float, name='sigRTClicked')
-    #sigRTSelectionChanged = QtCore.pyqtSignal(float, float, name='sigRTSelectionChanged')
+    sigRTRegionChangeFinished = QtCore.pyqtSignal(float, float, name='sigRTRegionChangeFinished')
 
     def __init__(self, parent=None, dpi=100):
         PlotWidget.__init__(self)
@@ -46,10 +46,6 @@ class TICWidget(PlotWidget):
         # to init the region
         self.shortcut1 = QShortcut(QKeySequence("Ctrl+r"), self)
         self.shortcut1.activated.connect(self._rgn_shortcut)
-
-        # shortcut for mouseDrag
-        self.shortcut2 = QShortcut(QKeySequence("right"), self)
-        self.shortcut2.activated.connect(self._rgnDrag_shortcut)
 
 
     def setTIC(self, chromatogram):
@@ -194,20 +190,18 @@ class TICWidget(PlotWidget):
         pos = event.scenePos()
         if self.sceneBoundingRect().contains(pos):
             mouse_point = self.getViewBox().mapSceneToView(pos)
-            larger_idx = np.searchsorted(self._rts, mouse_point.x(), side='left')
-            smaller_idx = 0
-            if larger_idx > 0:
-                smaller_idx = larger_idx - 1
-            if abs(self._rts[larger_idx] - mouse_point.x()) < abs(self._rts[smaller_idx] - mouse_point.x()):
-                closest_datapoint_idx = larger_idx
-            else:
-                closest_datapoint_idx = smaller_idx
+            closest_datapoint_idx = self._calculate_closest_datapoint(mouse_point.x())
             self.sigRTClicked.emit(self._rts[closest_datapoint_idx]) # notify observers
 
+        # check the selected rt region and return the bounds
+        if self._region != None:
+            self._region.sigRegionChangeFinished.connect(self._rtRegionBounds)
 
     def mouseDoubleClickEvent(self, event):
         super(TICWidget, self).mouseDoubleClickEvent(event)
-        rgn_start = self.getViewBox().mapSceneToView(event.pos()).x()
+        mouse_point = self.getViewBox().mapSceneToView(event.pos())
+        closest_datapoint_idx = self._calculate_closest_datapoint(mouse_point.x())
+        rgn_start = self._rts[closest_datapoint_idx]
 
         if self._region == None:
             region = pg.LinearRegionItem()
@@ -217,6 +211,32 @@ class TICWidget(PlotWidget):
 
         # delete the region when hovering over the region per doubleClk
         self._delete_region()
+
+    def _calculate_closest_datapoint(self, point_x):
+        larger_idx = np.searchsorted(self._rts, point_x, side='left')
+        smaller_idx = 0
+        if larger_idx >= self._rts.size: # to avoid array out of bounds
+            larger_idx -= 1
+        if larger_idx > 0:
+            smaller_idx = larger_idx - 1
+        if abs(self._rts[larger_idx] - point_x) < abs(self._rts[smaller_idx] - point_x):
+            closest_datapoint_idx = larger_idx
+
+        else:
+            closest_datapoint_idx = smaller_idx
+
+        return closest_datapoint_idx
+
+    def _rtRegionBounds(self):
+        region_bounds = self._region.getRegion()
+        start_rg_idx = self._calculate_closest_datapoint(region_bounds[0])
+        start_rg = self._rts[start_rg_idx]
+
+        stop_rg_idx = self._calculate_closest_datapoint(region_bounds[1])
+        stop_rg = self._rts[stop_rg_idx]
+
+        self.sigRTRegionChangeFinished.emit(start_rg, stop_rg) # notify observers
+
 
     def _delete_region(self):
         if self._region.mouseHovering:
@@ -233,8 +253,6 @@ class TICWidget(PlotWidget):
             self._region = region
             self.addItem(region, ignoreBounds=True)
 
-    def _rgnDrag_shortcut(self):
-        print('work on it')
 
 
 

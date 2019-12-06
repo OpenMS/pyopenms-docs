@@ -16,6 +16,9 @@ class TestMouseClick(QObject):
     def printRT(self, rt):
         print("Mouse clicked at RT=" + str(rt))
 
+    def printRTBounds(self, start_rt, stop_rt):
+        print("RT Bounds: ", start_rt, stop_rt)
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = GUI_EXAMPLE_BASE() # plain QMainWindow with basic layout and menu bar
@@ -27,6 +30,7 @@ if __name__ == '__main__':
     example_widget.setTIC(exp.getTIC())
     mouse_click_test = TestMouseClick()
     example_widget.sigRTClicked.connect(mouse_click_test.printRT)
+    example_widget.sigRTRegionChangeFinished.connect(mouse_click_test.printRTBounds)
     ex.setExampleWidget(example_widget)
     ex.show()
     sys.exit(app.exec_())
