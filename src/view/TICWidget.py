@@ -23,7 +23,7 @@ pg.setConfigOption('foreground', 'k')  # black peaks
 
 class TICWidget(PlotWidget):
     sigRTClicked = QtCore.pyqtSignal(float, name='sigRTClicked')
-    sigRTRegionChangeFinished = QtCore.pyqtSignal(float, float, name='sigRTRegionChangeFinished')
+    sigSeleRTRegionChangeFinished = QtCore.pyqtSignal(float, float, name='sigRTRegionChangeFinished')
 
     def __init__(self, parent=None, dpi=100):
         PlotWidget.__init__(self)
@@ -235,7 +235,7 @@ class TICWidget(PlotWidget):
         stop_rg_idx = self._calculate_closest_datapoint(region_bounds[1])
         stop_rg = self._rts[stop_rg_idx]
 
-        self.sigRTRegionChangeFinished.emit(start_rg, stop_rg) # notify observers
+        self.sigSeleRTRegionChangeFinished.emit(start_rg, stop_rg) # notify observers
 
 
     def _delete_region(self):
