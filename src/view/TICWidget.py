@@ -194,7 +194,7 @@ class TICWidget(PlotWidget):
             self.sigRTClicked.emit(self._rts[closest_datapoint_idx]) # notify observers
 
         # check the selected rt region and return the bounds
-        if self._region != None:
+        if self._region is not None:
             self._region.sigRegionChangeFinished.connect(self._rtRegionBounds)
 
     def mouseDoubleClickEvent(self, event):
@@ -203,7 +203,7 @@ class TICWidget(PlotWidget):
         closest_datapoint_idx = self._calculate_closest_datapoint(mouse_point.x())
         rgn_start = self._rts[closest_datapoint_idx]
 
-        if self._region == None:
+        if self._region is None:
             region = pg.LinearRegionItem()
             region.setRegion((rgn_start, rgn_start))
             self._region = region
@@ -228,6 +228,7 @@ class TICWidget(PlotWidget):
         return closest_datapoint_idx
 
 
+
     def _rtRegionBounds(self):
         region_bounds = self._region.getRegion()
         start_rg = region_bounds[0]
@@ -249,7 +250,7 @@ class TICWidget(PlotWidget):
         # click region, with following shortcut -> create region
         rgn_start = self.getViewBox().mapSceneToView(self.lastMousePos)
 
-        if self._region == None:
+        if self._region is None:
             region = pg.LinearRegionItem()
             region.setRegion((rgn_start, rgn_start))
             self._region = region
