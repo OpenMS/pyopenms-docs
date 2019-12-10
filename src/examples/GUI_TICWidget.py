@@ -10,6 +10,8 @@ from TICWidget import TICWidget
 
 # mock object to test the mouse click signal by TICWidget
 class TestMouseClick(QObject):
+    old_variable = (0,0)
+
     def __init__(self):
         QObject.__init__(self)
 
@@ -17,7 +19,15 @@ class TestMouseClick(QObject):
         print("Mouse clicked at RT=" + str(rt))
 
     def printRTBounds(self, start_rt, stop_rt):
-        print("RT Bounds: ", start_rt, stop_rt)
+        if TestMouseClick.old_variable != (start_rt, stop_rt):
+
+            print("RT Bounds: ", start_rt, stop_rt)
+
+        TestMouseClick.old_variable = (start_rt, stop_rt)
+
+
+
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
