@@ -229,14 +229,16 @@ class TICWidget(PlotWidget):
 
     def _rtRegionBounds(self):
         region_bounds = self._region.getRegion()
-        start_rg_idx = self._calculate_closest_datapoint(region_bounds[0])
-        start_rg = self._rts[start_rg_idx]
+        start_rg = region_bounds[0]
 
         stop_rg_idx = self._calculate_closest_datapoint(region_bounds[1])
         stop_rg = self._rts[stop_rg_idx]
 
-        self.sigSeleRTRegionChangeFinished.emit(start_rg, stop_rg) # notify observers
+        # set the new region of interest
+        self._region.setRegion((start_rg, stop_rg))
+        self._region.update()
 
+        self.sigSeleRTRegionChangeFinished.emit(start_rg, stop_rg)  # notify observers
 
     def _delete_region(self):
         if self._region.mouseHovering:
