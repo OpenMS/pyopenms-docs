@@ -26,9 +26,6 @@ class TestMouseClick(QObject):
         TestMouseClick.old_variable = (start_rt, stop_rt)
 
 
-
-
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = GUI_EXAMPLE_BASE() # plain QMainWindow with basic layout and menu bar
@@ -44,3 +41,4 @@ if __name__ == '__main__':
     ex.setExampleWidget(example_widget)
     ex.show()
     sys.exit(app.exec_())
+    
