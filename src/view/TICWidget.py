@@ -227,6 +227,8 @@ class TICWidget(PlotWidget):
 
         return closest_datapoint_idx
 
+
+
     def _rtRegionBounds(self):
         region_bounds = self._region.getRegion()
         start_rg = region_bounds[0]
@@ -236,7 +238,6 @@ class TICWidget(PlotWidget):
 
         # set the new region of interest
         self._region.setRegion((start_rg, stop_rg))
-        self._region.update()
 
         self.sigSeleRTRegionChangeFinished.emit(start_rg, stop_rg)  # notify observers
 
