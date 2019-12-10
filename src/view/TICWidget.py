@@ -228,7 +228,6 @@ class TICWidget(PlotWidget):
         return closest_datapoint_idx
 
 
-
     def _rtRegionBounds(self):
         region_bounds = self._region.getRegion()
         start_rg = region_bounds[0]
@@ -255,8 +254,3 @@ class TICWidget(PlotWidget):
             region.setRegion((rgn_start, rgn_start))
             self._region = region
             self.addItem(region, ignoreBounds=True)
-
-
-
-
-
