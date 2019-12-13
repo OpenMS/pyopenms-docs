@@ -2,7 +2,7 @@ import pyqtgraph as pg
 import pyopenms
 from PyQt5.QtCore import Qt, QPointF
 from PyQt5.QtGui import QFont, QFontMetricsF, QPainter, QColor, QPen, QBrush, QSpacerItem, QSizePolicy
-from PyQt5.QtWidgets import QWidget, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QHBoxLayout, QSplitter
 
 
 class SequenceIonsWidget(QWidget):
@@ -16,7 +16,7 @@ class SequenceIonsWidget(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('Peptide Viewer')
+        self.setWindowTitle('SequenceIons Viewer')
         self.layout = QHBoxLayout(self)
         # change default setting of 11 px
         self.layout.setContentsMargins(0, 0, 0, 0)
@@ -28,7 +28,7 @@ class SequenceIonsWidget(QWidget):
         self.pep.setSuffix({1: ["x1", "y1", "z1"]})
 
         # resize window to fit peptide size
-        self.__resize()
+        self._resize()
 
         self.pep.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
         self.pep.setMinimumSize(SequenceIonsWidget.WIDTH, SequenceIonsWidget.HEIGHT)
@@ -37,17 +37,17 @@ class SequenceIonsWidget(QWidget):
         self.layout.addItem(QSpacerItem(40, SequenceIonsWidget.HEIGHT, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
 
         self.setFixedHeight(SequenceIonsWidget.HEIGHT)
-        self.setStyleSheet("background-color:white;")
+        #self.setStyleSheet("background-color:transparent;")
         self.show()
 
 
-    def __resize(self):
+    def _resize(self):
         # 8 is the space between the characters, 17 the mean of the monospace chars
         SequenceIonsWidget.WIDTH = ((len(self.pep.sequence) * 17) + (len(self.pep.sequence) - 1.5) * 8)
-        self.__calculateHeight()
+        self._calculateHeight()
 
 
-    def __calculateHeight(self):
+    def _calculateHeight(self):
         prefix = self.pep.prefix
         suffix = self.pep.suffix
 
@@ -68,22 +68,19 @@ class SequenceIonsWidget(QWidget):
 
     def setPeptide(self, seq):
         self.pep.setSequence(seq)
-        self.__update()
-
+        self._update()
 
     def setSuffix(self, suff):
         self.pep.setSuffix(suff)
-        self.__update()
-
+        self._update()
 
     def setPrefix(self, pre):
         self.pep.setPrefix(pre)
-        self.__update()
+        self._update()
 
-    def __update(self):
-        self.__resize()
+    def _update(self):
+        self._resize()
         self.pep.setMinimumSize(SequenceIonsWidget.WIDTH, SequenceIonsWidget.HEIGHT)
-
 
 
 class observed_peptide(QWidget):
@@ -97,6 +94,7 @@ class observed_peptide(QWidget):
         self.sequence = ""
         self.suffix = {}
         self.prefix = {}
+        self.color = QColor(0, 0, 0) # black pen
 
     def setSequence(self, seq):
         self.sequence = seq
@@ -111,17 +109,17 @@ class observed_peptide(QWidget):
         qp = QPainter()
         qp.begin(self)
         qp.setRenderHint(QPainter.Antialiasing)
-        qp.fillRect(event.rect(), QBrush(Qt.white))
-        self.__drawPeptide(qp)
+        qp.fillRect(event.rect(), QBrush(Qt.white)) # or changed to Qt.white
+        self._drawPeptide(qp)
         qp.end()
 
-    def __drawPeptide(self, qp):
+    def _drawPeptide(self, qp):
         qp.setWindow(0, 0, SequenceIonsWidget.WIDTH, SequenceIonsWidget.HEIGHT)
-        qp.setPen(QColor(168, 34, 3))
+        qp.setPen(self.color)
         qp.setFont(self.getFont_Pep())
-        self.__fragmentPeptide(qp)
+        self._fragmentPeptide(qp)
 
-    def __fragmentPeptide(self, qp):
+    def _fragmentPeptide(self, qp):
         SPACE = 8
 
         if self.sequence != "":
@@ -132,7 +130,7 @@ class observed_peptide(QWidget):
 
             blank = 0
             for i, s in dict_seq.items():
-                i_rev = self.__getReverseIndex(i, dict_seq)
+                i_rev = self._getReverseIndex(i, dict_seq)
 
                 width = metrics.boundingRect(s).width()
                 height = metrics.boundingRect(s).height()
@@ -153,7 +151,7 @@ class observed_peptide(QWidget):
 
                 pos_end = QPointF(pos_start.x(), center + height / 2 + 2.5)
 
-                qp.setPen(self.__getPen())
+                qp.setPen(self._getPen())
                 qp.setFont(self.getFont_Ion())
                 metrics_ion = QFontMetricsF(self.getFont_Ion())
 
@@ -215,13 +213,13 @@ class observed_peptide(QWidget):
         font.setPixelSize(10)
         return font
 
-    def __getPen(self):
+    def _getPen(self):
         # style settings for the lines
-        pen = QPen(QColor(168, 34, 3), 0.75, Qt.SolidLine)
+        pen = QPen(self.color, 0.75, Qt.SolidLine)
         pen.setStyle(Qt.DashDotLine)
         return pen
 
-    def __getReverseIndex(self, i, dict_seq):
+    def _getReverseIndex(self, i, dict_seq):
         i_rev = 0
         if i != 0:
             i_rev = list(dict_seq.keys())[-i]

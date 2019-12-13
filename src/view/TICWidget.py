@@ -55,12 +55,14 @@ class TICWidget(PlotWidget):
             self._peak_labels = {}
         self._chrom = chromatogram
         self._rts, self._ints = self._chrom.get_peaks()
-        self._rts_in_min()
-        self._relative_ints()
-        self._peak_indices = self._find_Peak()
-        self._autoscaleYAxis()
-        self._redrawPlot()
-
+        try:
+            self._rts_in_min()
+            self._relative_ints()
+            self._peak_indices = self._find_Peak()
+            self._autoscaleYAxis()
+            self.redrawPlot()
+        except:
+            print('No TIC values')
 
     def _rts_in_min(self):
         self._rts = np.array([x/60 for x in self._rts])
@@ -69,7 +71,7 @@ class TICWidget(PlotWidget):
         maxInt = np.amax(self._ints)
         self._ints = np.array([((x/maxInt)*100) for x in self._ints])
 
-    def _redrawPlot(self):
+    def redrawPlot(self):
         self.plot(clear=True)
         self._plot_tic()
         self._plot_peak_label()
@@ -187,30 +189,37 @@ class TICWidget(PlotWidget):
         self._plot_peak_label()
 
     def _clicked(self, event):
-        pos = event.scenePos()
-        if self.sceneBoundingRect().contains(pos):
-            mouse_point = self.getViewBox().mapSceneToView(pos)
-            closest_datapoint_idx = self._calculate_closest_datapoint(mouse_point.x())
-            self.sigRTClicked.emit(self._rts[closest_datapoint_idx]) # notify observers
+        try:
+            pos = event.scenePos()
+            if self.sceneBoundingRect().contains(pos):
+                mouse_point = self.getViewBox().mapSceneToView(pos)
+                closest_datapoint_idx = self._calculate_closest_datapoint(mouse_point.x())
+                self.sigRTClicked.emit(self._rts[closest_datapoint_idx]) # notify observers
 
-        # check the selected rt region and return the bounds
-        if self._region is not None:
-            self._region.sigRegionChangeFinished.connect(self._rtRegionBounds)
+            # check the selected rt region and return the bounds
+            if self._region is not None:
+                self._region.sigRegionChangeFinished.connect(self._rtRegionBounds)
+
+        except:
+            print('No Values to click')
 
     def mouseDoubleClickEvent(self, event):
         super(TICWidget, self).mouseDoubleClickEvent(event)
-        mouse_point = self.getViewBox().mapSceneToView(event.pos())
-        closest_datapoint_idx = self._calculate_closest_datapoint(mouse_point.x())
-        rgn_start = self._rts[closest_datapoint_idx]
+        try:
+            mouse_point = self.getViewBox().mapSceneToView(event.pos())
+            closest_datapoint_idx = self._calculate_closest_datapoint(mouse_point.x())
+            rgn_start = self._rts[closest_datapoint_idx]
 
-        if self._region is None:
-            region = pg.LinearRegionItem()
-            region.setRegion((rgn_start, rgn_start))
-            self._region = region
-            self.addItem(region, ignoreBounds=True)
+            if self._region is None:
+                region = pg.LinearRegionItem()
+                region.setRegion((rgn_start, rgn_start))
+                self._region = region
+                self.addItem(region, ignoreBounds=True)
 
-        # delete the region when hovering over the region per doubleClk
-        self._delete_region()
+            # delete the region when hovering over the region per doubleClk
+            self._delete_region()
+        except:
+            print('No Values to click')
 
     def _calculate_closest_datapoint(self, point_x):
         larger_idx = np.searchsorted(self._rts, point_x, side='left')
@@ -226,8 +235,6 @@ class TICWidget(PlotWidget):
             closest_datapoint_idx = smaller_idx
 
         return closest_datapoint_idx
-
-
 
     def _rtRegionBounds(self):
         region_bounds = self._region.getRegion()
