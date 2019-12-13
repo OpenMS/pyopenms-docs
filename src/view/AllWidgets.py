@@ -11,6 +11,7 @@ from SequenceIonsWidget import SequenceIonsWidget
 from TICWidget import TICWidget
 from ErrorWidget import ErrorWidget
 
+import pyopenms
 
 class AllWidgets(QWidget):
 
@@ -23,7 +24,7 @@ class AllWidgets(QWidget):
         for i in reversed(range(layout.count())):
             layout.itemAt(i).widget().setParent(None)
 
-    def loadFile(self, file_path):
+    def loadFileMzML(self, file_path):
         self.isAnnoOn = False
         self.msexperimentWidget = QSplitter(Qt.Vertical)
 
@@ -48,6 +49,28 @@ class AllWidgets(QWidget):
 
         # default : first row selected.
         self.scan_widget.table_view.selectRow(0)
+
+    def loadFileIdXML(self, file_path):
+        prot_ids = []; pep_ids = []
+        pyopenms.IdXMLFile().load(file_path, prot_ids, pep_ids)
+        # Iterate over PeptideIdentification
+        for peptide_id in pep_ids:
+            # Peptide identification values
+            print ("Peptide ID m/z:", peptide_id.getMZ())
+            print ("Peptide ID rt:", peptide_id.getRT())
+            print ("Peptide ID score type:", peptide_id.getScoreType())
+            # PeptideHits
+            for hit in peptide_id.getHits():
+                print(" - Peptide hit rank:", hit.getRank())
+                print(" - Peptide hit sequence:", hit.getSequence().toString())
+                print(" - Peptide hit score:", hit.getScore())
+                print(" - Mapping to proteins:", [ev.getProteinAccession() for ev in hit.getPeptideEvidences() ] )
+                print(" - Fragment annotations:")
+                for anno in hit.getPeakAnnotations():
+                    print("Charge: " + str(anno.charge))
+                    print("m/z:" + str(anno.mz))
+                    print("intensity:" + str(anno.intensity))
+                    print("label:" + anno.annotation.decode())
 
     def readMS(self, file_path):
         # Later: process other types of file
