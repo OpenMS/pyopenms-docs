@@ -1,4 +1,5 @@
 import sys
+import os
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
     QHBoxLayout, QWidget, QDesktopWidget, \
     QAction, QFileDialog, QTableView, QSplitter, \
@@ -89,11 +90,12 @@ class App(QMainWindow):
 
     def openFileDialog(self):
         fileName, _ = QFileDialog.getOpenFileName(self,
-                                                  "Open File ", "", "mzML Files (*.mzML)")
+                                                  "Open File ", "", "idXML Files (*.idXML)")
         if fileName:
             print('opening...', fileName)
             self.setWidgets()
-            self.widgets.loadFile(fileName)
+            self.widgets.loadFileMzML(os.path.splitext(fileName)[0]+".mzML") 
+            self.widgets.loadFileIdXML(fileName)
 
 
     def center(self):

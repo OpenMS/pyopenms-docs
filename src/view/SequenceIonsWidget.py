@@ -109,7 +109,7 @@ class observed_peptide(QWidget):
         qp = QPainter()
         qp.begin(self)
         qp.setRenderHint(QPainter.Antialiasing)
-        qp.fillRect(event.rect(), QBrush(Qt.transparent)) # or changed to Qt.white
+        qp.fillRect(event.rect(), QBrush(Qt.white)) # or changed to Qt.white
         self._drawPeptide(qp)
         qp.end()
 
