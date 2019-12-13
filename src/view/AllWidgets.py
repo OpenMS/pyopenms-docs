@@ -39,8 +39,8 @@ class AllWidgets(QWidget):
         self.drawTic(scans)
 
         self.scan_widget.scanClicked.connect(self.redrawPlot)
-        self.msexperimentWidget.addWidget(self.seqIons_widget)
         self.msexperimentWidget.addWidget(self.tic_widget)
+        self.msexperimentWidget.addWidget(self.seqIons_widget)
         self.msexperimentWidget.addWidget(self.spectrum_widget)
         self.msexperimentWidget.addWidget(self.error_widget)
         self.msexperimentWidget.addWidget(self.scan_widget)
