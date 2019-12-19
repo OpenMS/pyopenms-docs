@@ -37,7 +37,7 @@ class App(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('pyOpenMSViewer')
+        self.setWindowTitle('pyOpenMS ID Viewer')
         self.center()
 
         # layout

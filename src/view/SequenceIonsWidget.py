@@ -16,8 +16,13 @@ class SequenceIonsWidget(QWidget):
         self.initUI()
 
     def initUI(self):
+        self.vlayout = QHBoxLayout(self)
+        self.vlayout.setContentsMargins(0, 0, 0, 0)
+        self.container = QWidget(self)
+        self.container.setStyleSheet("background-color:white;")
+
         self.setWindowTitle('SequenceIons Viewer')
-        self.layout = QHBoxLayout(self)
+        self.layout = QHBoxLayout(self.container)
         # change default setting of 11 px
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.pep = observed_peptide()
@@ -35,7 +40,7 @@ class SequenceIonsWidget(QWidget):
         self.layout.addItem(QSpacerItem(40, SequenceIonsWidget.HEIGHT, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
 
         self.setFixedHeight(SequenceIonsWidget.HEIGHT)
-        self.setStyleSheet("background-color:white;")
+        self.vlayout.addWidget(self.container)
         self.show()
 
 

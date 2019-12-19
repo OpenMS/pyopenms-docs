@@ -1,4 +1,5 @@
 import sys
+import re
 
 from PyQt5.QtGui import QColor, QStandardItem
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
@@ -143,7 +144,7 @@ class AllWidgets(QWidget): # mergingWidgets
         self.tic_widget.setTIC(scans.getTIC())
 
     def ticToTable(self, rt): # connect Tic info to table, and select specific row
-        self.clickedRT = round(rt * 60, 1)
+        self.clickedRT = round(rt, 3)
         if self.clickedRT != self.seleTableRT:
             try:
                 self.scan_widget.table_view.selectRow(self.findClickedRT())
@@ -154,7 +155,7 @@ class AllWidgets(QWidget): # mergingWidgets
         rows = self.scan_widget.table_model.rowCount(self.scan_widget)
 
         for row in range(0, rows - 1):
-            if self.clickedRT == round(self.scan_widget.table_model.index(row, 2).data(), 1):
+            if self.clickedRT == round(self.scan_widget.table_model.index(row, 2).data(), 3):
                 index = self.scan_widget.table_model.index(row, 2)
                 self.curr_table_index = self.scan_widget.proxy.mapFromSource(index) # use proxy to get from filtered model index
                 return self.curr_table_index.row()
@@ -173,6 +174,10 @@ class AllWidgets(QWidget): # mergingWidgets
     def redrawPlot(self):
         # set new spectrum and redraw
         self.spectrum_widget.setSpectrum(self.scan_widget.curr_spec)
+
+#TODO update error plot (if MS2 spectrum, empty if MS1 spectrum)
+#TODO update sequenceion plot (empty if MS2 spectrum)
+
         if self.isAnnoOn:  # update annotation list
             self.updateController()
         self.spectrum_widget.redrawPlot()
@@ -194,6 +199,7 @@ class AllWidgets(QWidget): # mergingWidgets
                 self.scan_widget.table_model.setData(index_ions, str(self.scanIDDict[tableRT]['PepIons']), Qt.DisplayRole) # data needs to be a string, but reversible
 
     def drawSeqIons(self, seq, ions): # generate provided peptide sequence
+        seq = re.sub(r'\([^)]*\)', '', seq)
         self.seqIons_widget.setPeptide(seq)
         # transform back to dict
         if ions != "-":
