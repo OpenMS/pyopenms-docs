@@ -13,7 +13,7 @@ class ScanTableWidget(QWidget):
     scanClickedRT = pyqtSignal(int, name='scanClickedRT') # signal to connect with TICWidget in ...
     scanClickedSeqIons = pyqtSignal(str, str, name='scanClickedSeqIons')
 
-    header = ['MS level', 'Index', 'RT (sec)', 'precursor m/z', 'charge', 'ID', 'PeptideSeq', 'PeptideIons']
+    header = ['MS level', 'Index', 'RT (min)', 'precursor m/z', 'charge', 'ID', 'PeptideSeq', 'PeptideIons']
     def __init__(self, ms_experiment, *args):
        QWidget.__init__(self, *args)
        self.ms_experiment = ms_experiment
@@ -24,6 +24,8 @@ class ScanTableWidget(QWidget):
        # register a proxy class for filering and sorting the scan table
        self.proxy = QSortFilterProxyModel(self)
        self.proxy.setSourceModel(self.table_model)
+
+       self.table_view.sortByColumn(1, Qt.AscendingOrder);
 
        # setup selection model
        self.table_view.setSelectionMode(QAbstractItemView.SingleSelection)
@@ -122,7 +124,7 @@ class ScanTableModel(QAbstractTableModel):
         scanArr = []
         for index, spec in enumerate(ms_experiment):
             MSlevel = 'MS' + str(spec.getMSLevel())
-            RT = spec.getRT()
+            RT = 1.0 / 60.0 * spec.getRT()
             prec_mz = "-"
             charge = "-"
             native_id = spec.getNativeID().decode()
