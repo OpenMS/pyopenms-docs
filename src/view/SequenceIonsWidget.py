@@ -23,9 +23,7 @@ class SequenceIonsWidget(QWidget):
         self.pep = observed_peptide()
 
         # default setting
-        self.pep.setSequence("PEPTIDE")
-        self.pep.setPrefix({1: ["a1", "b1", "c1"]})
-        self.pep.setSuffix({1: ["x1", "y1", "z1"]})
+        self.pep.setSequence("NO PEPTIDE")
 
         # resize window to fit peptide size
         self._resize()
@@ -37,7 +35,7 @@ class SequenceIonsWidget(QWidget):
         self.layout.addItem(QSpacerItem(40, SequenceIonsWidget.HEIGHT, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
 
         self.setFixedHeight(SequenceIonsWidget.HEIGHT)
-        #self.setStyleSheet("background-color:transparent;")
+        self.setStyleSheet("background-color:white;")
         self.show()
 
 
@@ -51,9 +49,15 @@ class SequenceIonsWidget(QWidget):
         prefix = self.pep.prefix
         suffix = self.pep.suffix
 
-        # get max ion number
-        max_ion_pre = len(prefix[max(prefix, key=lambda key: len(prefix[key]))])
-        max_ion_suff = len(suffix[max(suffix, key=lambda key: len(suffix[key]))])
+        if suffix == {}:
+            max_ion_suff = 1
+        else:
+            max_ion_suff = len(suffix[max(suffix, key=lambda key: len(suffix[key]))])
+
+        if prefix == {}:
+            max_ion_pre = 1
+        else:
+            max_ion_pre = len(prefix[max(prefix, key=lambda key: len(prefix[key]))])
 
         metrics_pep = QFontMetricsF(self.pep.getFont_Pep())
         height_pep = metrics_pep.height()

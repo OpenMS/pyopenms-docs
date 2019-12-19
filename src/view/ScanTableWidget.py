@@ -3,12 +3,17 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
         QHBoxLayout, QWidget, QDesktopWidget, \
         QAction, QFileDialog, QTableView, QSplitter, \
         QMenu, QAbstractItemView
-from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, QPoint, QRegExp
+from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, \
+    QPoint, QRegExp, QModelIndex
+
 
 class ScanTableWidget(QWidget):
     
     scanClicked = pyqtSignal() # signal to connect SpectrumWidget
-    header = ('MS level', 'Index', 'RT', 'precursor m/z', 'charge', 'ID')
+    scanClickedRT = pyqtSignal(int, name='scanClickedRT') # signal to connect with TICWidget in ...
+    scanClickedSeqIons = pyqtSignal(str, str, name='scanClickedSeqIons')
+
+    header = ['MS level', 'Index', 'RT (sec)', 'precursor m/z', 'charge', 'ID', 'PeptideSeq', 'PeptideIons']
     def __init__(self, ms_experiment, *args):
        QWidget.__init__(self, *args)
        self.ms_experiment = ms_experiment
@@ -40,14 +45,17 @@ class ScanTableWidget(QWidget):
        layout = QVBoxLayout(self)
        layout.addWidget(self.table_view)
        self.setLayout(layout)
-       
+
        # default : first row selected. in OpenMSWidgets
+
        
     def onRowSelected(self, index):
         if index.siblingAtColumn(1).data() == None: return # prevents crash if row gets filtered out
         self.curr_spec = self.ms_experiment.getSpectrum(index.siblingAtColumn(1).data())
         self.scanClicked.emit()
-    
+        self.scanClickedRT.emit(index.siblingAtColumn(2).data())
+        self.scanClickedSeqIons.emit(index.siblingAtColumn(6).data(), index.siblingAtColumn(7).data())
+
     def onCurrentChanged(self, new_index, old_index):
         self.onRowSelected(new_index)
 
@@ -59,7 +67,7 @@ class ScanTableWidget(QWidget):
         self.signalMapper = QSignalMapper(self)  
 
         # get unique values from (unfiltered) model
-        valuesUnique = set([ self.table_model.index(row, self.logicalIndex).data()
+        valuesUnique = set([self.table_model.index(row, self.logicalIndex).data()
                         for row in range(self.table_model.rowCount(self.table_model.index(-1, self.logicalIndex)))
                         ])
 
@@ -70,7 +78,7 @@ class ScanTableWidget(QWidget):
         self.menuValues.addAction(actionAll)
         self.menuValues.addSeparator()
 
-        for actionNumber, actionName in enumerate(sorted(list(set(valuesUnique)))):              
+        for actionNumber, actionName in enumerate(sorted(list(set(valuesUnique)))):
             action = QAction(actionName, self)
             self.signalMapper.setMapping(action, actionNumber)  
             action.triggered.connect(self.signalMapper.map)  
@@ -86,7 +94,8 @@ class ScanTableWidget(QWidget):
 
     def onShowAllRows(self):
         filterColumn = self.logicalIndex
-        filterString = QRegExp( "", Qt.CaseInsensitive, QRegExp.RegExp )
+        filterString = QRegExp("", Qt.CaseInsensitive, QRegExp.RegExp)
+
         self.proxy.setFilterRegExp(filterString)
         self.proxy.setFilterKeyColumn(filterColumn)
 
@@ -106,7 +115,7 @@ class ScanTableModel(QAbstractTableModel):
        QAbstractTableModel.__init__(self, parent, *args)
        self.header = header
        
-       # create array with MSSpectrum (only MS level=1)
+       # create array with MSSpectrum
        self.scanRows = self.getScanListAsArray(ms_experiment) # data type: list
 
     def getScanListAsArray(self, ms_experiment):
@@ -120,14 +129,28 @@ class ScanTableModel(QAbstractTableModel):
             if len(spec.getPrecursors()) == 1:
                 prec_mz = spec.getPrecursors()[0].getMZ()
                 charge = spec.getPrecursors()[0].getCharge()
+            PeptideSeq = "-"
+            PeptideIons = "-"
 
-            scanArr.append([MSlevel, index , RT, prec_mz, charge, native_id])
+            scanArr.append([MSlevel, index, RT, prec_mz, charge, native_id, PeptideSeq, PeptideIons])
         return scanArr
         
     def headerData(self, col, orientation, role):
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
            return self.header[col]
         return None
+
+    def addHeaderData(self, orientation, newHeader):
+        if orientation is Qt.Horizontal:
+            self.header.append(newHeader)
+            #self.scanRows.append(newHeader)
+
+    def setHeaderData(self,col, orientation, newName, role=None):
+        if orientation is Qt.Horizontal:
+            self.header[col] = newName
+            self.headerDataChanged.emit(orientation, 0, len(self.header))
+            return True
+        return False
     
     def rowCount(self, parent):
         return len(self.scanRows)
@@ -135,18 +158,20 @@ class ScanTableModel(QAbstractTableModel):
     def columnCount(self, parent):
         return len(self.header)
     
-    def setData(self, index, value, role):
-        if not index.isValid():
-           return False
-       
-        self.dataChanged.emit(index, index)
-        return True
-    
+    def setData(self, index, value, role=Qt.DisplayRole):
+        if index.isValid() and role == Qt.DisplayRole:
+            self.scanRows[index.row()][index.column()] = value
+            self.dataChanged.emit(index, index, {Qt.DisplayRole, Qt.EditRole})
+            return value
+        else:
+            return None
+
     def flags(self, index):
         if not index.isValid():
            return None
         return Qt.ItemIsEnabled | Qt.ItemIsSelectable
-        
+
+
     def data(self, index, role):
         if not index.isValid():
            return None
@@ -155,4 +180,20 @@ class ScanTableModel(QAbstractTableModel):
             return value
         elif role == Qt.DisplayRole:
             return value
+
+    def insertColumns(self, columnPos, headerName):
+        column = columnPos
+        index = self.index(0, column)
+
+        self.beginInsertColumns(index, column, column)
+        self.endInsertColumns()
+
+        #self.addHeaderData(Qt.Horizontal, 'Test')
+        #self.setHeaderData(column, Qt.Horizontal, headerName)
+
+
+
+
+
+
 

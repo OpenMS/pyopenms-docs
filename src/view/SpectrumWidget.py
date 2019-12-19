@@ -23,6 +23,7 @@ pg.setConfigOption('background', 'w') # white background
 pg.setConfigOption('foreground', 'k') # black peaks
 
 class SpectrumWidget(PlotWidget):
+    sigSpectrumMZs = pyqtSignal(np.ndarray, name='sigSpectrumData')
 
     def __init__(self, parent=None, dpi=100):
         PlotWidget.__init__(self)
@@ -47,6 +48,7 @@ class SpectrumWidget(PlotWidget):
             self.highlighted_peak_label = None
         self.spec = spectrum
         self._mzs, self._ints = self.spec.get_peaks()
+        self.sigSpectrumMZs.emit(self._mzs)
         self._autoscaleYAxis() 
         # for annotation in ControllerWidget
         self.minMZ = np.amin(self._mzs)
