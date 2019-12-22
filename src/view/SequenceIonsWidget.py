@@ -39,6 +39,7 @@ class SequenceIonsWidget(QWidget):
         self.seqIons_layout.addWidget(self._pep)
         self.seqIons_layout.addItem(QSpacerItem(40, SequenceIonsWidget.HEIGHT, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
 
+        self.setFixedHeight(SequenceIonsWidget.HEIGHT)
         self.mainlayout.addWidget(self.container)
         self.show()
 
