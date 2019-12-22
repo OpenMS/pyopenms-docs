@@ -1,17 +1,47 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
-        QHBoxLayout, QWidget, QDesktopWidget, \
-        QAction, QFileDialog, QTableView, QSplitter, \
-        QMenu, QAbstractItemView
+from PyQt5.QtGui import QPen, QPainter
+from PyQt5.QtWidgets import QVBoxLayout, QWidget, QAction, QTableView, QMenu, QAbstractItemView, QItemDelegate
 from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, \
     QPoint, QRegExp, QModelIndex
 
 
+class RTUnitDelegate(QItemDelegate):
+    """
+    Displays the minute values of the RT besides the RT values given in seconds. Through the delegate the RT values in
+    the table are not changed, only difference is the display of the data in table_view. s
+
+    """
+    def __init__(self, parent, *args):
+        super(RTUnitDelegate, self).__init__(parent, *args)
+
+    def paint(self, painter, option, index):
+        painter.save()
+        painter.setPen(QPen(Qt.black))
+        if index.isValid():
+            rt_min = round(index.siblingAtColumn(2).data() * 1.0 / 60, 3)
+            text = "  " + str(round(index.siblingAtColumn(2).data(), 3)) + "    [" + str(rt_min) + " Min" + "]"
+            painter.setRenderHint(QPainter.Antialiasing)
+            # adjust text into cell
+            cell = option.rect
+            cell.adjust(0, 5, 0, 5)
+            painter.drawText(cell, Qt.AlignLeft, text)
+
+            painter.restore()
+
+
 class ScanTableWidget(QWidget):
+    """
+    Used for displaying information in a table.
+
+    ===============================  =============================================================================
+    **Signals:**
+    sigScanClicked                   Emitted when the user has clicked on a row of the table and returns the
+                                     current index. This index contains information about the current rows column
+                                     data.
+
+    ===============================  =============================================================================
+    """
     
-    scanClicked = pyqtSignal() # signal to connect SpectrumWidget
-    scanClickedRT = pyqtSignal(int, name='scanClickedRT') # signal to connect with TICWidget in ...
-    scanClickedSeqIons = pyqtSignal(str, str, name='scanClickedSeqIons')
+    sigScanClicked = pyqtSignal(QModelIndex, name='scanClicked')
 
     header = ['MS level', 'Index', 'RT (min)', 'precursor m/z', 'charge', 'ID', 'PeptideSeq', 'PeptideIons']
     def __init__(self, ms_experiment, *args):
@@ -48,15 +78,19 @@ class ScanTableWidget(QWidget):
        layout.addWidget(self.table_view)
        self.setLayout(layout)
 
+       # hide column 7 with the PepIon data, intern information usage
+       self.table_view.setColumnHidden(7, True)
+
+       # Add rt in minutes for better TIC interaction
+       self.table_view.setItemDelegateForColumn(2, RTUnitDelegate(self))
+       self.table_view.setColumnWidth(2, 160)
+
        # default : first row selected. in OpenMSWidgets
 
-       
     def onRowSelected(self, index):
         if index.siblingAtColumn(1).data() == None: return # prevents crash if row gets filtered out
         self.curr_spec = self.ms_experiment.getSpectrum(index.siblingAtColumn(1).data())
-        self.scanClicked.emit()
-        self.scanClickedRT.emit(index.siblingAtColumn(2).data())
-        self.scanClickedSeqIons.emit(index.siblingAtColumn(6).data(), index.siblingAtColumn(7).data())
+        self.scanClicked.emit(index)
 
     def onCurrentChanged(self, new_index, old_index):
         self.onRowSelected(new_index)
@@ -64,16 +98,16 @@ class ScanTableWidget(QWidget):
     def onHeaderClicked(self, logicalIndex):
         if logicalIndex != 0: return # allow filter on first column only for now
 
-        self.logicalIndex  = logicalIndex
+        self.logicalIndex = logicalIndex
         self.menuValues = QMenu(self)
-        self.signalMapper = QSignalMapper(self)  
+        self.signalMapper = QSignalMapper(self)
 
         # get unique values from (unfiltered) model
         valuesUnique = set([self.table_model.index(row, self.logicalIndex).data()
-                        for row in range(self.table_model.rowCount(self.table_model.index(-1, self.logicalIndex)))
-                        ])
+                            for row in range(self.table_model.rowCount(self.table_model.index(-1, self.logicalIndex)))
+                            ])
 
-        if len(valuesUnique) == 1: return # no need to select anything
+        if len(valuesUnique) == 1: return  # no need to select anything
 
         actionAll = QAction("Show All", self)
         actionAll.triggered.connect(self.onShowAllRows)
@@ -82,14 +116,14 @@ class ScanTableWidget(QWidget):
 
         for actionNumber, actionName in enumerate(sorted(list(set(valuesUnique)))):
             action = QAction(actionName, self)
-            self.signalMapper.setMapping(action, actionNumber)  
-            action.triggered.connect(self.signalMapper.map)  
+            self.signalMapper.setMapping(action, actionNumber)
+            action.triggered.connect(self.signalMapper.map)
             self.menuValues.addAction(action)
 
-        self.signalMapper.mapped.connect(self.onSignalMapper)  
+        self.signalMapper.mapped.connect(self.onSignalMapper)
 
         # get screen position of table header and open menu
-        headerPos = self.table_view.mapToGlobal(self.horizontalHeader.pos())        
+        headerPos = self.table_view.mapToGlobal(self.horizontalHeader.pos())
         posY = headerPos.y() + self.horizontalHeader.height()
         posX = headerPos.x() + self.horizontalHeader.sectionPosition(self.logicalIndex)
         self.menuValues.exec_(QPoint(posX, posY))
@@ -124,7 +158,7 @@ class ScanTableModel(QAbstractTableModel):
         scanArr = []
         for index, spec in enumerate(ms_experiment):
             MSlevel = 'MS' + str(spec.getMSLevel())
-            RT = 1.0 / 60.0 * spec.getRT()
+            RT = spec.getRT()
             prec_mz = "-"
             charge = "-"
             native_id = spec.getNativeID().decode()
@@ -142,25 +176,13 @@ class ScanTableModel(QAbstractTableModel):
            return self.header[col]
         return None
 
-    def addHeaderData(self, orientation, newHeader):
-        if orientation is Qt.Horizontal:
-            self.header.append(newHeader)
-            #self.scanRows.append(newHeader)
-
-    def setHeaderData(self,col, orientation, newName, role=None):
-        if orientation is Qt.Horizontal:
-            self.header[col] = newName
-            self.headerDataChanged.emit(orientation, 0, len(self.header))
-            return True
-        return False
-    
     def rowCount(self, parent):
         return len(self.scanRows)
     
     def columnCount(self, parent):
         return len(self.header)
     
-    def setData(self, index, value, role=Qt.DisplayRole):
+    def setData(self, index, value, role):
         if index.isValid() and role == Qt.DisplayRole:
             self.scanRows[index.row()][index.column()] = value
             self.dataChanged.emit(index, index, {Qt.DisplayRole, Qt.EditRole})
@@ -173,7 +195,6 @@ class ScanTableModel(QAbstractTableModel):
            return None
         return Qt.ItemIsEnabled | Qt.ItemIsSelectable
 
-
     def data(self, index, role):
         if not index.isValid():
            return None
@@ -183,15 +204,6 @@ class ScanTableModel(QAbstractTableModel):
         elif role == Qt.DisplayRole:
             return value
 
-    def insertColumns(self, columnPos, headerName):
-        column = columnPos
-        index = self.index(0, column)
-
-        self.beginInsertColumns(index, column, column)
-        self.endInsertColumns()
-
-        #self.addHeaderData(Qt.Horizontal, 'Test')
-        #self.setHeaderData(column, Qt.Horizontal, headerName)
 
 
 

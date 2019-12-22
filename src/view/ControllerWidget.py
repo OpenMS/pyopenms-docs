@@ -1,0 +1,233 @@
+from PyQt5.QtWidgets import QHBoxLayout, QWidget, QSplitter
+from PyQt5.QtCore import Qt
+
+from SpectrumWidget import SpectrumWidget
+from ScanTableWidget import ScanTableWidget, ScanTableModel
+from SequenceIonsWidget import SequenceIonsWidget
+from TICWidget import TICWidget
+from ErrorWidget import ErrorWidget
+
+import pyopenms
+import re
+import numpy as np
+
+class ControllerWidget(QWidget):
+    """
+    Used to merge spectrum, table, TIC, error plot and sequenceIons widget together.
+
+    """
+
+    def __init__(self, *args, **kwargs):
+        QWidget.__init__(self, *args, **kwargs)
+        self.mainlayout = QHBoxLayout(self)
+        self.isAnnoOn = False
+        self.clickedRT = None
+        self.seleTableRT = None
+        self.mzs = np.array([])
+        self.ppm = np.array([])
+        self.colors = np.array([])
+        self.scanIDDict = {}
+        self.curr_table_index = None
+
+    def clearLayout(self, layout):
+        for i in reversed(range(layout.count())):
+            layout.itemAt(i).widget().setParent(None)
+
+    def loadFileMzML(self, file_path):
+        self.isAnnoOn = False
+        self.msexperimentWidget = QSplitter(Qt.Vertical)
+
+        # data processing
+        scans = self.readMS(file_path)
+
+        # set Widgets
+        self.spectrum_widget = SpectrumWidget()
+        self.scan_widget = ScanTableWidget(scans)
+        self.seqIons_widget = SequenceIonsWidget()
+        self.error_widget = ErrorWidget()
+        self.tic_widget = TICWidget()
+        self.drawTic(scans)
+
+        # connected signals
+        self.scan_widget.sigScanClicked.connect(self.updateWidgetDataFromRow)
+        self.tic_widget.sigRTClicked.connect(self.ticToTable)
+
+        self.msexperimentWidget.addWidget(self.tic_widget)
+        self.msexperimentWidget.addWidget(self.seqIons_widget)
+        self.msexperimentWidget.addWidget(self.spectrum_widget)
+        self.msexperimentWidget.addWidget(self.error_widget)
+        self.msexperimentWidget.addWidget(self.scan_widget)
+        self.mainlayout.addWidget(self.msexperimentWidget)
+
+        # set widget sizes, where error plot is set smaller
+        widget_height = self.msexperimentWidget.sizeHint().height()
+        size_list = [widget_height, widget_height, widget_height, widget_height * 0.5, widget_height]
+        self.msexperimentWidget.setSizes(size_list)
+
+        # default : first row selected.
+        self.scan_widget.table_view.selectRow(0)
+
+    def loadFileIdXML(self, file_path):
+        prot_ids = []; pep_ids = []
+        pyopenms.IdXMLFile().load(file_path, prot_ids, pep_ids)
+        Ions = {}
+
+        # extract ID data from file
+        for peptide_id in pep_ids:
+            pep_mz = peptide_id.getMZ()
+            pep_rt = peptide_id.getRT()
+
+            for hit in peptide_id.getHits():
+                pep_seq = str(hit.getSequence().toString())
+                if "." in pep_seq:
+                    pep_seq = pep_seq[3:-1]
+                else:
+                    pep_seq = pep_seq[2:-1]
+
+                for anno in hit.getPeakAnnotations():
+                    ion_charge = anno.charge
+                    ion_mz = anno.mz
+                    ion_label = anno.annotation.decode()
+
+                    Ions[ion_label] = [ion_mz, ion_charge]
+
+                self.scanIDDict[round(pep_rt, 3)] = {'m/z': pep_mz, 'PepSeq': pep_seq, 'PepIons': Ions}
+                Ions = {}
+
+        self.saveIdData()
+
+    def saveIdData(self): # save ID data in table (correct rows) for later usage
+        rows = self.scan_widget.table_model.rowCount(self.scan_widget)
+
+        for row in range(0, rows - 1):
+            tableRT = round(self.scan_widget.table_model.index(row, 2).data(), 3)
+            if tableRT in self.scanIDDict:
+                index_seq = self.scan_widget.table_model.index(row, 6)
+                self.scan_widget.table_model.setData(index_seq, self.scanIDDict[tableRT]['PepSeq'], Qt.DisplayRole)
+
+                index_ions = self.scan_widget.table_model.index(row, 7)
+                self.scan_widget.table_model.setData(index_ions, str(self.scanIDDict[tableRT]['PepIons']), Qt.DisplayRole) # data needs to be a string, but reversible
+
+
+    def readMS(self, file_path):
+        # read MzML files
+        exp = pyopenms.MSExperiment()
+        pyopenms.MzMLFile().load(file_path, exp)
+        return exp
+
+
+    def drawTic(self, scans):
+        self.tic_widget.setTIC(scans.getTIC())
+
+
+    def ticToTable(self, rt): # connect Tic info to table, and select specific row
+        self.clickedRT = round(rt * 60, 3)
+        if self.clickedRT != self.seleTableRT:
+            try:
+                self.scan_widget.table_view.selectRow(self.findClickedRT())
+            except:
+                print(self.findClickedRT())
+
+
+    def findClickedRT(self): # find clicked RT in the scan table
+        rows = self.scan_widget.table_model.rowCount(self.scan_widget)
+
+        for row in range(0, rows - 1):
+            if self.clickedRT == round(self.scan_widget.table_model.index(row, 2).data(), 3):
+                index = self.scan_widget.table_model.index(row, 2)
+                self.curr_table_index = self.scan_widget.proxy.mapFromSource(index) # use proxy to get from filtered model index
+                return self.curr_table_index.row()
+
+
+    # TODO calculate ppm and add it to the table
+    def errorData(self, ions_data):
+        if ions_data not in "-":
+            ions_data_dict = eval(ions_data)
+            if ions_data_dict != {}:
+                self.colors, self.mzs = self.filterColorsSuffPref(ions_data_dict)
+                mzs_size = len(self.mzs)
+                self.ppm = np.random.randint(0, 3, size=mzs_size)
+                self.error_widget.setMassErrors(self.mzs, self.ppm, self.colors)  # works for a static np.array
+            else:
+                self.error_widget.clear()
+        else:
+            self.error_widget.clear()
+
+
+    def filterColorsSuffPref(self, ions_data_dict): # create color array by distinguishing between prefix & suffix ions
+        colors = []
+        mzs = []
+        col_red = (255, 0, 0) # suffix
+        col_blue = (0, 0, 255) # prefix
+
+        for key in ions_data_dict.keys():
+            if self.suffix != {}:
+                if [key[:2]] in np.concatenate(list(self.suffix.values())): # allow ion stack searching (a1 b1 c1)
+                    colors.append(col_red)
+                    mzs.append(ions_data_dict[key][0])
+            if self.prefix != {}:
+                if [key[:2]] in np.concatenate(list(self.prefix.values())): # allow ion stack searching  (a1 b1 c1)
+                    colors.append(col_blue)
+                    mzs.append(ions_data_dict[key][0])
+
+        return np.array(colors), np.array(mzs)
+
+
+    def updateWidgetDataFromRow(self, index):
+        # current row RT value
+        self.seleTableRT = round(index.siblingAtColumn(2).data(), 3)
+
+        # set new spectrum and redraw
+        self.spectrum_widget.setSpectrum(self.scan_widget.curr_spec)
+        if self.isAnnoOn:  # update annotation list
+            self.updateController()
+        self.spectrum_widget.redrawPlot()
+
+        # only draw sequence with given ions for MS2 and error plot
+        if index.siblingAtColumn(0).data() == 'MS2':
+            self.drawSeqIons(index.siblingAtColumn(6).data(), index.siblingAtColumn(7).data())
+            self.errorData(index.siblingAtColumn(7).data())
+
+        # otherwise delete old data
+        elif index.siblingAtColumn(0).data() == 'MS1':
+            self.seqIons_widget.clear()
+            self.error_widget.clear()
+
+
+    def updateController(self):
+        # for overrriding
+        return
+
+
+    def drawSeqIons(self, seq, ions): # generate provided peptide sequence
+        seq = re.sub(r'\([^)]*\)', '', seq)
+        if seq not in "-" and ions not in "-":
+            self.seqIons_widget.setPeptide(seq)
+
+            ions_dict = eval(ions)  # transform string data back to a dict
+            self.suffix, self.prefix = self.filterIonsPrefixSuffix(ions_dict)
+            self.seqIons_widget.setPrefix(self.prefix)
+            self.seqIons_widget.setSuffix(self.suffix)
+        else:
+            self.seqIons_widget.clear()
+
+
+    def filterIonsPrefixSuffix(self, ions): # filter data and return suffix and prefix dicts
+        suffix = {}
+        prefix = {}
+        ions_anno = list(ions.keys())
+
+        for anno in ions_anno:
+            index = anno[1]
+            if index.isdigit():
+                if index in suffix or index in prefix:
+                    if anno[0] in "yxz":
+                        suffix[int(index)].append(anno[:2])
+                    elif anno[0] in "abc":
+                        prefix[int(index)].append(anno[:2])
+                elif anno[0] in "yxz":
+                    suffix[int(index)] = [anno[:2]]
+                elif anno[0] in "abc":
+                    prefix[int(index)] = [anno[:2]]
+        return suffix, prefix
+

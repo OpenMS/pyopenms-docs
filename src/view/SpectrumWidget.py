@@ -1,9 +1,4 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
-        QHBoxLayout, QWidget, QDesktopWidget, \
-        QAction, QFileDialog, QTableView, QSplitter, \
-        QMenu, QAbstractItemView
-from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, QPoint, QRegExp
+from PyQt5.QtCore import Qt
 
 import pyqtgraph as pg
 from pyqtgraph import PlotWidget
@@ -11,7 +6,6 @@ from pyqtgraph import PlotWidget
 import numpy as np
 from collections import namedtuple
 
-import pyopenms
 
 # structure for annotation (here for reference)
 PeakAnnoStruct = namedtuple('PeakAnnoStruct', "mz intensity text_label \
@@ -23,7 +17,6 @@ pg.setConfigOption('background', 'w') # white background
 pg.setConfigOption('foreground', 'k') # black peaks
 
 class SpectrumWidget(PlotWidget):
-    sigSpectrumMZs = pyqtSignal(np.ndarray, name='sigSpectrumData')
 
     def __init__(self, parent=None, dpi=100):
         PlotWidget.__init__(self)
@@ -48,8 +41,7 @@ class SpectrumWidget(PlotWidget):
             self.highlighted_peak_label = None
         self.spec = spectrum
         self._mzs, self._ints = self.spec.get_peaks()
-        self.sigSpectrumMZs.emit(self._mzs)
-        self._autoscaleYAxis() 
+        self._autoscaleYAxis()
         # for annotation in ControllerWidget
         self.minMZ = np.amin(self._mzs)
         self.maxMZ = np.amax(self._mzs)
@@ -181,5 +173,3 @@ class SpectrumWidget(PlotWidget):
             # mouse moved out of visible area: remove highlighting item
             if self.highlighted_peak_label != None:
                 self.highlighted_peak_label.setText("")
-
-

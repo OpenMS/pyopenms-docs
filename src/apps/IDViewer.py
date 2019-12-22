@@ -1,22 +1,16 @@
 import sys
 import os
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
-    QHBoxLayout, QWidget, QDesktopWidget, \
-    QAction, QFileDialog, QTableView, QSplitter, \
-    QMenu, QAbstractItemView
-from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, \
-    QPoint, QRegExp
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QDesktopWidget, \
+    QAction, QFileDialog
+
 
 import pyqtgraph as pg
 from pyqtgraph import PlotWidget
 
-import numpy as np
 from collections import namedtuple
 
-import pyopenms
-
 sys.path.insert(0, '../view')
-from AllWidgets import AllWidgets
+from ControllerWidget import ControllerWidget
 
 
 # structure for annotation (here for reference)
@@ -52,7 +46,7 @@ class App(QMainWindow):
     def setWidgets(self):
         if self.windowLay.count() > 0:
             self.clearLayout(self.windowLay)
-        self.widgets = AllWidgets(self)
+        self.widgets = ControllerWidget(self)
         self.windowLay.addWidget(self.widgets)
 
 
@@ -113,7 +107,6 @@ class App(QMainWindow):
 
     def closeEvent(self, event):
         event.accept()
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
