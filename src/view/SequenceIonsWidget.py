@@ -30,7 +30,6 @@ class SequenceIonsWidget(QWidget):
         # change default setting of 11 px
         self.seqIons_layout.setContentsMargins(0, 0, 0, 0)
         self._pep = observed_peptide()
-
         # resize window to fit peptide size
         self.resize()
 
@@ -40,21 +39,20 @@ class SequenceIonsWidget(QWidget):
         self.seqIons_layout.addWidget(self._pep)
         self.seqIons_layout.addItem(QSpacerItem(40, SequenceIonsWidget.HEIGHT, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum))
 
-        self.setFixedHeight(SequenceIonsWidget.HEIGHT)
         self.mainlayout.addWidget(self.container)
         self.show()
 
 
     def resize(self):
         """
-        The integer 8 represents the additional space needed for the in addition drawn lines. The 17 represents the
+        The integer 8 represents the additional space needed for the in addition drawn lines. The 18 represents the
         monospace width.
 
         """
         if len(self._pep.sequence) == 0:
             SequenceIonsWidget.WIDTH = 0
         else:
-            SequenceIonsWidget.WIDTH = ((len(self._pep.sequence) * 17) + (len(self._pep.sequence) - 1) * 8)
+            SequenceIonsWidget.WIDTH = ((len(self._pep.sequence) * 18) + (len(self._pep.sequence) - 1) * 8)
         self.calculateHeight()
 
     def calculateHeight(self):
@@ -102,6 +100,7 @@ class SequenceIonsWidget(QWidget):
     def updateWindow(self):
         self.resize()
         self._pep.setMinimumSize(SequenceIonsWidget.WIDTH, SequenceIonsWidget.HEIGHT)
+        self.setFixedHeight(SequenceIonsWidget.HEIGHT)
         self.update()
 
     def clear(self):
@@ -121,7 +120,6 @@ class observed_peptide(QWidget):
     def __init__(self):
         QWidget.__init__(self)
         self.initUI()
-
 
     def initUI(self):
         self.sequence = ""
@@ -178,6 +176,7 @@ class observed_peptide(QWidget):
         SPACE = 8
 
         if self.sequence != "":
+
             seq = list(self.sequence)
             dict_seq = {i: seq[i] for i in range(0, len(seq))}
 
@@ -221,6 +220,7 @@ class observed_peptide(QWidget):
                 blank += width + SPACE
                 qp.setPen(self._getPen(self.colors["black"]))
                 qp.setFont(self.getFont_Pep())
+
 
     def _drawPrefixIon(self, qp, index, metrics_ion, pos_left):
         qp.setPen(self._getPen(self.colors["blue"]))

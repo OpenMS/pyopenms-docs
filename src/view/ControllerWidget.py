@@ -1,3 +1,5 @@
+from collections import namedtuple
+
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QSplitter
 from PyQt5.QtCore import Qt
 
@@ -10,6 +12,11 @@ from ErrorWidget import ErrorWidget
 import pyopenms
 import re
 import numpy as np
+
+PeakAnnoStruct = namedtuple('PeakAnnoStruct', "mz intensity text_label \
+                            symbol symbol_color")
+LadderAnnoStruct = namedtuple('LadderAnnoStruct', "mz_list \
+                            text_label_list color")
 
 class ControllerWidget(QWidget):
     """
@@ -28,6 +35,7 @@ class ControllerWidget(QWidget):
         self.colors = np.array([])
         self.scanIDDict = {}
         self.curr_table_index = None
+        self.filteredIonFragments = []
 
     def clearLayout(self, layout):
         for i in reversed(range(layout.count())):
@@ -144,7 +152,7 @@ class ControllerWidget(QWidget):
         if ions_data not in "-":
             ions_data_dict = eval(ions_data)
             if ions_data_dict != {}:
-                self.colors, self.mzs = self.filterColorsSuffPref(ions_data_dict)
+                self.colors, self.mzs = self.filterColorsMZIons(ions_data_dict)
                 mzs_size = len(self.mzs)
                 self.ppm = np.random.randint(0, 3, size=mzs_size)
                 self.error_widget.setMassErrors(self.mzs, self.ppm, self.colors)  # works for a static np.array
@@ -154,22 +162,19 @@ class ControllerWidget(QWidget):
             self.error_widget.clear()
 
 
-    def filterColorsSuffPref(self, ions_data_dict): # create color array by distinguishing between prefix & suffix ions
+    def filterColorsMZIons(self, ions_data_dict): # create color/mz array by distinguishing between prefix & suffix ions
         colors = []
         mzs = []
         col_red = (255, 0, 0) # suffix
         col_blue = (0, 0, 255) # prefix
 
-        for key in ions_data_dict.keys():
-            if self.suffix != {}:
-                if [key[:2]] in np.concatenate(list(self.suffix.values())): # allow ion stack searching (a1 b1 c1)
-                    colors.append(col_red)
-                    mzs.append(ions_data_dict[key][0])
-            if self.prefix != {}:
-                if [key[:2]] in np.concatenate(list(self.prefix.values())): # allow ion stack searching  (a1 b1 c1)
-                    colors.append(col_blue)
-                    mzs.append(ions_data_dict[key][0])
-
+        for anno in self.filteredIonFragments:
+            if anno[0] in "abc":
+                colors.append(col_blue)
+                mzs.append(ions_data_dict[anno][0])
+            elif anno[0] in "xyz":
+                colors.append(col_red)
+                mzs.append(ions_data_dict[anno][0])
         return np.array(colors), np.array(mzs)
 
 
@@ -201,33 +206,42 @@ class ControllerWidget(QWidget):
 
     def drawSeqIons(self, seq, ions): # generate provided peptide sequence
         seq = re.sub(r'\([^)]*\)', '', seq)
+
         if seq not in "-" and ions not in "-":
             self.seqIons_widget.setPeptide(seq)
-
             ions_dict = eval(ions)  # transform string data back to a dict
-            self.suffix, self.prefix = self.filterIonsPrefixSuffix(ions_dict)
-            self.seqIons_widget.setPrefix(self.prefix)
-            self.seqIons_widget.setSuffix(self.suffix)
+            if ions_dict != {}:
+                self.suffix, self.prefix = self.filterIonsPrefixSuffixData(ions_dict)
+                self.seqIons_widget.setPrefix(self.prefix)
+                self.seqIons_widget.setSuffix(self.suffix)
+            else: # no ions data
+                self.prefix, self.suffix = {}, {}
+                self.seqIons_widget.setPrefix(self.prefix)
+                self.seqIons_widget.setSuffix(self.suffix)
         else:
             self.seqIons_widget.clear()
 
-
-    def filterIonsPrefixSuffix(self, ions): # filter data and return suffix and prefix dicts
+    def filterIonsPrefixSuffixData(self, ions): # filter data and return suffix and prefix dicts
         suffix = {}
         prefix = {}
         ions_anno = list(ions.keys())
+        self.filteredIonFragments = []
 
         for anno in ions_anno:
-            index = anno[1]
-            if index.isdigit():
-                if index in suffix or index in prefix:
-                    if anno[0] in "yxz":
-                        suffix[int(index)].append(anno[:2])
-                    elif anno[0] in "abc":
-                        prefix[int(index)].append(anno[:2])
+            if anno[1].isdigit() and anno[0] in "abcyxz":
+                index, anno_short = self.filterAnnotationIon(anno)
+                if (index in suffix) and (anno[0] in "yxz") and (anno_short not in suffix[index]):  #avoid double annos e.g. y14
+                    suffix[index].append(anno_short)
+                elif (index in prefix) and (anno[0] in "abc") and (anno_short not in prefix[index]):
+                    prefix[index].append(anno_short)
                 elif anno[0] in "yxz":
-                    suffix[int(index)] = [anno[:2]]
+                    suffix[index] = [anno_short]
                 elif anno[0] in "abc":
-                    prefix[int(index)] = [anno[:2]]
+                    prefix[index] = [anno_short]
         return suffix, prefix
 
+    def filterAnnotationIon(self, fragment_anno):
+        index = [s for s in re.findall(r'-?\d+\.?\d*', fragment_anno)][0]
+        anno = fragment_anno.split(index)[0] + index
+        self.filteredIonFragments.append(fragment_anno)
+        return int(index), anno

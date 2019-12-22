@@ -18,7 +18,7 @@ class RTUnitDelegate(QItemDelegate):
         painter.setPen(QPen(Qt.black))
         if index.isValid():
             rt_min = round(index.siblingAtColumn(2).data() * 1.0 / 60, 3)
-            text = "  " + str(round(index.siblingAtColumn(2).data(), 3)) + "    [" + str(rt_min) + " Min" + "]"
+            text = "  " + str(round(index.siblingAtColumn(2).data(), 3)) + "\t [" + str(rt_min) + " Min" + "]"
             painter.setRenderHint(QPainter.Antialiasing)
             # adjust text into cell
             cell = option.rect
