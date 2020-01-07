@@ -187,8 +187,7 @@ class ScanTableModel(QAbstractTableModel):
             self.scanRows[index.row()][index.column()] = value
             self.dataChanged.emit(index, index, {Qt.DisplayRole, Qt.EditRole})
             return value
-        else:
-            return None
+        return None
 
     def flags(self, index):
         if not index.isValid():
