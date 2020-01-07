@@ -12,6 +12,7 @@ from ErrorWidget import ErrorWidget
 import pyopenms
 import re
 import numpy as np
+import json
 
 PeakAnnoStruct = namedtuple('PeakAnnoStruct', "mz intensity text_label \
                             symbol symbol_color")
@@ -116,9 +117,10 @@ class ControllerWidget(QWidget):
                 self.scan_widget.table_model.setData(index_seq, self.scanIDDict[tableRT]['PepSeq'], Qt.DisplayRole)
 
                 index_ions = self.scan_widget.table_model.index(row, 7)
-                self.scan_widget.table_model.setData(index_ions, str(self.scanIDDict[tableRT]['PepIons']), Qt.DisplayRole) # data needs to be a string, but reversible
-
-
+                # data needs to be a string, but reversible -> using json.dumps()
+                self.scan_widget.table_model.setData(index_ions, json.dumps(self.scanIDDict[tableRT]['PepIons']), Qt.DisplayRole)
+                
+                
     def readMS(self, file_path):
         # read MzML files
         exp = pyopenms.MSExperiment()
@@ -232,7 +234,7 @@ class ControllerWidget(QWidget):
         # only draw sequence for M2 with peptide and ion data
         if seq not in "-" and ions not in "-":
             self.seqIons_widget.setPeptide(seq)
-            ions_dict = eval(ions)  # transform string data back to a dict
+            ions_dict = json.loads(ions)  # transform string data back to a dict
             if ions_dict != {}:
                 self.suffix, self.prefix = self.filterIonsPrefixSuffixData(ions_dict)
                 self.seqIons_widget.setPrefix(self.prefix)
