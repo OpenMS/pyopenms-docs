@@ -149,7 +149,7 @@ class ControllerWidget(QWidget):
                 return self.curr_table_index.row()
 
 
-    # TODO calculate ppm and add it to the table
+    # for the future calculate ppm and add it to the table
     def errorData(self, ions_data):
         if ions_data not in "-":
             ions_data_dict = eval(ions_data)
