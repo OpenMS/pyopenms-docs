@@ -213,7 +213,7 @@ class ControllerWidget(QWidget):
 
     def createPeakAnnotation(self):
         pStructList = []
-        # TODO for the future -> check clashes like in the TIC widget and then add labels (should be done in SpectrumWidget)
+        # for the future -> check clashes like in the TIC widget and then add labels (should be done in SpectrumWidget)
         for anno, data in self.peakAnnoData.items():
             mz, anno_color = data[0], data[1]
             index = self.find_nearest_Index(self.spectrum_widget._mzs, mz)
