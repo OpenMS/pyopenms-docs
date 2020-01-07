@@ -55,7 +55,7 @@ class ScanTableWidget(QWidget):
        self.proxy = QSortFilterProxyModel(self)
        self.proxy.setSourceModel(self.table_model)
 
-       self.table_view.sortByColumn(1, Qt.AscendingOrder);
+       self.table_view.sortByColumn(1, Qt.AscendingOrder)
 
        # setup selection model
        self.table_view.setSelectionMode(QAbstractItemView.SingleSelection)
