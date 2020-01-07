@@ -40,7 +40,7 @@ file and can be accessed using the ``EnzymesDB``
 
 
 Now that we have learned about the other enzymes available, we can use it to
-cut out protein of interest:
+cut our protein of interest:
 
 .. code-block:: python
 

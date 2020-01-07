@@ -16,7 +16,7 @@ A thorough documentation is available at: https://rstudio.github.io/reticulate/
 
     install.packages("reticulate")
 
-Installation of pyopenms is a requirement as well and it is necessary to make sure that R is using the same python environment.
+Installation of pyopenms is a requirement as well and it is necessary to make sure that R is using the same Python environment.
 
 In case R is having trouble to find the correct Python environment, you can set it by hand as in this example (using miniconda, you will have to adjust the file path to your system to make this work). You will need to do this before loading the "reticulate" library:
 
