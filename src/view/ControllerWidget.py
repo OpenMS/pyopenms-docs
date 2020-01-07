@@ -77,7 +77,8 @@ class ControllerWidget(QWidget):
         self.scan_widget.table_view.selectRow(0)
 
     def loadFileIdXML(self, file_path):
-        prot_ids = []; pep_ids = []
+        prot_ids = []
+        pep_ids = []
         pyopenms.IdXMLFile().load(file_path, prot_ids, pep_ids)
         Ions = {}
 
