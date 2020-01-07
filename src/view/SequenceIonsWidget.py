@@ -254,7 +254,7 @@ class observed_peptide(QWidget):
             qp.drawLine(pos_end, pos_left)
             return pos_left
 
-        elif order == "suffix":
+        if order == "suffix":
             qp.drawLine(pos_start, pos_end)
             pos_right = QPointF(pos_start.x() + 2 * SPACE, pos_start.y())
             qp.drawLine(pos_start, pos_right)
