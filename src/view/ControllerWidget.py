@@ -133,11 +133,7 @@ class ControllerWidget(QWidget):
     def ticToTable(self, rt): # connect Tic info to table, and select specific row
         self.clickedRT = round(rt * 60, 3)
         if self.clickedRT != self.seleTableRT:
-            try:
-                self.scan_widget.table_view.selectRow(self.findClickedRT())
-            except:
-                print(self.findClickedRT())
-
+            self.scan_widget.table_view.selectRow(self.findClickedRT())
 
     def findClickedRT(self): # find clicked RT in the scan table
         rows = self.scan_widget.table_model.rowCount(self.scan_widget)
@@ -145,9 +141,11 @@ class ControllerWidget(QWidget):
         for row in range(0, rows - 1):
             if self.clickedRT == round(self.scan_widget.table_model.index(row, 2).data(), 3):
                 index = self.scan_widget.table_model.index(row, 2)
-                self.curr_table_index = self.scan_widget.proxy.mapFromSource(index) # use proxy to get from filtered model index
-                return self.curr_table_index.row()
-
+                try: 
+                  self.curr_table_index = self.scan_widget.proxy.mapFromSource(index) # use proxy to get from filtered model index
+                  return self.curr_table_index.row()
+                except ValueError:
+                  print('could not found ModelIndex of row')
 
     # for the future calculate ppm and add it to the table
     def errorData(self, ions_data):
