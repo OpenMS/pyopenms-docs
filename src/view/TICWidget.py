@@ -67,8 +67,8 @@ class TICWidget(PlotWidget):
             self._peak_indices = self._find_Peak()
             self._autoscaleYAxis()
             self.redrawPlot()
-        except:
-            print('No TIC values')
+        except ValueError:
+            print('No TIC values in spectrum')
 
 
     def _rts_in_min(self):
@@ -248,8 +248,8 @@ class TICWidget(PlotWidget):
             if self._region is not None:
                 self._region.sigRegionChangeFinished.connect(self._rtRegionBounds)
 
-        except:
-            print('No Values to click')
+        except ValueError:
+            print('No TIC values to click on')
 
 
     def mouseDoubleClickEvent(self, event):
@@ -267,8 +267,8 @@ class TICWidget(PlotWidget):
 
             # delete the region when hovering over the region per doubleClk
             self._delete_region()
-        except:
-            print('No Values to click')
+        except ValueError:
+            print('No TIC values to click on')
 
 
     def _calculate_closest_datapoint(self, point_x):
