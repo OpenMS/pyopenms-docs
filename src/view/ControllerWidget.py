@@ -152,7 +152,7 @@ class ControllerWidget(QWidget):
     # for the future calculate ppm and add it to the table
     def errorData(self, ions_data):
         if ions_data not in "-":
-            ions_data_dict = eval(ions_data)
+            ions_data_dict = json.loads(ions_data) # transform string data back to a dict
             if ions_data_dict != {}:
                 self.colors, self.mzs = self.filterColorsMZIons(ions_data_dict)
                 mzs_size = len(self.mzs)
