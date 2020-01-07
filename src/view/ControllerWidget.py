@@ -20,14 +20,14 @@ LadderAnnoStruct = namedtuple('LadderAnnoStruct', "mz_list \
 
 class ControllerWidget(QWidget):
     """
-    Used to merge spectrum, table, TIC, error plot and sequenceIons widget together.
+    Used to merge spectrum, table, TIC, error plot and sequenceIons widgets together.
 
     """
 
     def __init__(self, *args, **kwargs):
         QWidget.__init__(self, *args, **kwargs)
         self.mainlayout = QHBoxLayout(self)
-        self.isAnnoOn = False
+        self.isAnnoOn = True
         self.clickedRT = None
         self.seleTableRT = None
         self.mzs = np.array([])
@@ -36,6 +36,7 @@ class ControllerWidget(QWidget):
         self.scanIDDict = {}
         self.curr_table_index = None
         self.filteredIonFragments = []
+        self.peakAnnoData = None
 
     def clearLayout(self, layout):
         for i in reversed(range(layout.count())):
@@ -163,50 +164,73 @@ class ControllerWidget(QWidget):
 
 
     def filterColorsMZIons(self, ions_data_dict): # create color/mz array by distinguishing between prefix & suffix ions
+        self.peakAnnoData = {}  # key is ion annotation (e.g. b2): [mz, color distinguishing prefix, suffix]
         colors = []
         mzs = []
         col_red = (255, 0, 0) # suffix
         col_blue = (0, 0, 255) # prefix
 
-        for anno in self.filteredIonFragments:
+        for fragData in self.filteredIonFragments:
+            anno = fragData[0]
             if anno[0] in "abc":
                 colors.append(col_blue)
                 mzs.append(ions_data_dict[anno][0])
+                self.peakAnnoData[fragData[1]] = [ions_data_dict[anno][0], col_blue]
             elif anno[0] in "xyz":
                 colors.append(col_red)
                 mzs.append(ions_data_dict[anno][0])
+                self.peakAnnoData[fragData[1]] = [ions_data_dict[anno][0], col_red]
         return np.array(colors), np.array(mzs)
 
 
-    def updateWidgetDataFromRow(self, index):
+    def updateWidgetDataFromRow(self, index): #after clicking on a new row, update spectrum, error plot, peptideSeq
         # current row RT value
         self.seleTableRT = round(index.siblingAtColumn(2).data(), 3)
 
         # set new spectrum and redraw
         self.spectrum_widget.setSpectrum(self.scan_widget.curr_spec)
-        if self.isAnnoOn:  # update annotation list
-            self.updateController()
         self.spectrum_widget.redrawPlot()
 
         # only draw sequence with given ions for MS2 and error plot
         if index.siblingAtColumn(0).data() == 'MS2':
             self.drawSeqIons(index.siblingAtColumn(6).data(), index.siblingAtColumn(7).data())
             self.errorData(index.siblingAtColumn(7).data())
+            if self.peakAnnoData is not None: # peakAnnoData created with existing ions in errorData (bc of coloring)
+                self.spectrum_widget.setPeakAnnotations(self.createPeakAnnotation())
+                self.spectrum_widget.redrawPlot()
+            else:
+                self.spectrum_widget._clear_peak_annotations()
+                self.spectrum_widget.redrawPlot()
 
         # otherwise delete old data
         elif index.siblingAtColumn(0).data() == 'MS1':
             self.seqIons_widget.clear()
             self.error_widget.clear()
+            self.peakAnnoData = None
+            self.spectrum_widget._clear_peak_annotations()
+            self.spectrum_widget.redrawPlot()
+
+    def createPeakAnnotation(self):
+        pStructList = []
+        # TODO for the future -> check clashes like in the TIC widget and then add labels (should be done in SpectrumWidget)
+        for anno, data in self.peakAnnoData.items():
+            mz, anno_color = data[0], data[1]
+            index = self.find_nearest_Index(self.spectrum_widget._mzs, mz)
+            pStructList.append(PeakAnnoStruct(mz=self.spectrum_widget._mzs[index], intensity=self.spectrum_widget._ints[index],
+                                              text_label=anno, symbol=None, symbol_color=anno_color))
+        return pStructList
 
 
-    def updateController(self):
-        # for overrriding
-        return
+    def find_nearest_Index(self, array, value):
+        array = np.asarray(array)
+        idx = (np.abs(array - value)).argmin()
+        return idx
 
 
     def drawSeqIons(self, seq, ions): # generate provided peptide sequence
-        seq = re.sub(r'\([^)]*\)', '', seq)
+        seq = re.sub(r'\([^)]*\)', '', seq) # remove content in brackets -> easier usage
 
+        # only draw sequence for M2 with peptide and ion data
         if seq not in "-" and ions not in "-":
             self.seqIons_widget.setPeptide(seq)
             ions_dict = eval(ions)  # transform string data back to a dict
@@ -218,14 +242,18 @@ class ControllerWidget(QWidget):
                 self.prefix, self.suffix = {}, {}
                 self.seqIons_widget.setPrefix(self.prefix)
                 self.seqIons_widget.setSuffix(self.suffix)
+                self.peakAnnoData = None
         else:
             self.seqIons_widget.clear()
+            self.peakAnnoData = None
 
-    def filterIonsPrefixSuffixData(self, ions): # filter data and return suffix and prefix dicts
+
+    def filterIonsPrefixSuffixData(self, ions): # filter raw ion data and return suffix and prefix dicts
         suffix = {}
         prefix = {}
+
         ions_anno = list(ions.keys())
-        self.filteredIonFragments = []
+        self.filteredIonFragments = [] # annotation(s) of raw ion data (used as key(s))
 
         for anno in ions_anno:
             if anno[1].isdigit() and anno[0] in "abcyxz":
@@ -234,14 +262,16 @@ class ControllerWidget(QWidget):
                     suffix[index].append(anno_short)
                 elif (index in prefix) and (anno[0] in "abc") and (anno_short not in prefix[index]):
                     prefix[index].append(anno_short)
-                elif anno[0] in "yxz":
+                elif anno[0] in "yxz": # non existing keys
                     suffix[index] = [anno_short]
-                elif anno[0] in "abc":
+                elif anno[0] in "abc":  # non existing keys
                     prefix[index] = [anno_short]
         return suffix, prefix
 
+
     def filterAnnotationIon(self, fragment_anno):
+        # filter from raw ion data annotation index and filtered annotation name (e.g. y2)
         index = [s for s in re.findall(r'-?\d+\.?\d*', fragment_anno)][0]
-        anno = fragment_anno.split(index)[0] + index
-        self.filteredIonFragments.append(fragment_anno)
-        return int(index), anno
+        ion_anno = fragment_anno.split(index)[0] + index
+        self.filteredIonFragments.append((fragment_anno, ion_anno))
+        return int(index), ion_anno
