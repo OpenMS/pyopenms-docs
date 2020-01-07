@@ -1,9 +1,4 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
-        QHBoxLayout, QWidget, QDesktopWidget, \
-        QAction, QFileDialog, QTableView, QSplitter, \
-        QMenu, QAbstractItemView
-from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, QPoint, QRegExp
+from PyQt5.QtCore import Qt
 
 import pyqtgraph as pg
 from pyqtgraph import PlotWidget
@@ -11,7 +6,6 @@ from pyqtgraph import PlotWidget
 import numpy as np
 from collections import namedtuple
 
-import pyopenms
 
 # structure for annotation (here for reference)
 PeakAnnoStruct = namedtuple('PeakAnnoStruct', "mz intensity text_label \
@@ -47,7 +41,7 @@ class SpectrumWidget(PlotWidget):
             self.highlighted_peak_label = None
         self.spec = spectrum
         self._mzs, self._ints = self.spec.get_peaks()
-        self._autoscaleYAxis() 
+        self._autoscaleYAxis()
         # for annotation in ControllerWidget
         self.minMZ = np.amin(self._mzs)
         self.maxMZ = np.amax(self._mzs)
@@ -90,13 +84,14 @@ class SpectrumWidget(PlotWidget):
         except (AttributeError, NameError):
             return 
 
-        for item in self.peak_annotation_list: # item : PeakAnnoStruct
-            self.plot([item.mz], [item.intensity], symbol=item.symbol,
-                symbolBrush=pg.mkBrush(item.symbol_color), symbolSize=14)
-            if item.text_label:
-                label = pg.TextItem(text=item.text_label, color=(0,0,0), anchor=(0.5,1.5))
-                self.addItem(label)
-                label.setPos(item.mz, item.intensity)
+        if self.peak_annotation_list is not None:
+            for item in self.peak_annotation_list:  # item : PeakAnnoStruct
+                self.plot([item.mz], [item.intensity], symbol=item.symbol,
+                          symbolBrush=pg.mkBrush(item.symbol_color), symbolSize=14)
+                if item.text_label:
+                    label = pg.TextItem(text=item.text_label, color=item.symbol_color, anchor=(0.5, 1))
+                    self.addItem(label)
+                    label.setPos(item.mz, item.intensity)
         
     def _getMaxIntensityInRange(self, xrange):
         left = np.searchsorted(self._mzs, xrange[0], side='left')
@@ -145,6 +140,9 @@ class SpectrumWidget(PlotWidget):
         self._ladder_anno_lines = dict()
         self._ladder_anno_labels = dict()
 
+    def _clear_peak_annotations(self):
+        self.peak_annotation_list = None
+
     def _clear_ladder_item(self, key):
         for p in self._ladder_anno_lines[key]:
             p.clear()         
@@ -171,7 +169,7 @@ class SpectrumWidget(PlotWidget):
             x = self._mzs[left + idx_max_int_in_range]
             y = self._ints[left + idx_max_int_in_range]
             if self.highlighted_peak_label == None:
-                self.highlighted_peak_label = pg.TextItem(text='{0:.3f}'.format(x), color=(100,100,100), anchor=(0.5,1))
+                self.highlighted_peak_label = pg.TextItem(text='{0:.3f}'.format(x), color=(100,100,100), anchor=(0.5, 1.5))
                 self.addItem(self.highlighted_peak_label, ignoreBounds=True) # ignore bounds to prevent rescaling of axis if the text item touches the border
             self.highlighted_peak_label.setText('{0:.3f}'.format(x))
             self.highlighted_peak_label.setPos(x, y)
@@ -179,5 +177,3 @@ class SpectrumWidget(PlotWidget):
             # mouse moved out of visible area: remove highlighting item
             if self.highlighted_peak_label != None:
                 self.highlighted_peak_label.setText("")
-
-
