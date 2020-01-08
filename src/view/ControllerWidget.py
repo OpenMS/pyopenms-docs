@@ -187,7 +187,7 @@ class ControllerWidget(QWidget):
         # current row RT value
         self.seleTableRT = round(index.siblingAtColumn(2).data(), 3)
 
-        # set new spectrum with setting that all peaks should be displayed 
+        # set new spectrum with setting that all peaks should be displayed
         self.spectrum_widget.setSpectrum(self.scan_widget.curr_spec, zoomToFullRange=True)
 
         # only draw sequence with given ions for MS2 and error plot
