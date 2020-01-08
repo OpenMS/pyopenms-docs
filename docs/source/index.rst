@@ -6,8 +6,7 @@
 Summary
 =======
 
-pyOpenMS are the Python bindings to the OpenMS library which are available for
-Windows, Linux and OSX.
+pyOpenMS is an open-source Python library for mass spectrometry, specifically for the analysis of proteomics and metabolomics data in Python. pyOpenMS implements a set of Python bindings to the OpenMS library for computational mass spectrometry and is available for Windows, Linux and OSX.
 
 PyOpenMS provides functionality that is commonly used in computational mass
 spectrometry.  The pyOpenMS package contains Python bindings for a large part of the OpenMS
@@ -15,12 +14,19 @@ library (http://www.open-ms.de) for mass spectrometry based proteomics. It thus
 provides facile access to a feature-rich, open-source algorithm
 library for mass-spectrometry based proteomics analysis. 
 
-These Python bindings
-allow raw access to the data-structures and algorithms implemented in OpenMS,
-specifically those for file access (mzXML, mzML, TraML, mzIdentML among
-others), basic signal processing (smoothing, filtering, de-isotoping and
-peak-picking) and complex data analysis (including label-free, SILAC, iTRAQ and
-SWATH analysis tools).
+pyOpenMS facilitates the execution of common tasks in protoemics (and other mass spectrometric fields) such as 
+
+- file handling (mzXML, mzML, TraML, mzTab, fasta, pepxml, protxml, mzIdentML among others)
+- chemistry (mass calculation, peptide fragmentation, isotopic abundances)
+- signal processing (smoothing, filtering, de-isotoping, retention time correction and peak-picking) 
+- identification analysis (including peptide search, PTM analysis, Cross-linked analytes, FDR control, RNA oligonucleotide search and small molecule search tools)
+- quantitative analysis (including label-free, metabolomics, SILAC, iTRAQ and SWATH/DIA analysis tools)
+- chromatogram analysis (chromatographic peak picking, smoothing, elution profiles and peak scoring for SRM/MRM/PRM/SWATH/DIA data)
+- interaction with common tools in proteomics and metabolomics 
+
+  - search engines such as Comet, Crux, Mascot, MSGFPlus, MSFragger, Myrimatch, OMSSA, Sequest, SpectraST, XTandem
+  - post-processing tools such as percolator, MSStats, Fido
+  - metabolomics tools such as SIRIUS, CSI:FingerId
 
 Please see the appendix of the official `pyOpenMS Manual
 <http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ for a complete documentation

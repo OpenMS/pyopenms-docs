@@ -36,13 +36,14 @@ We can create an object of type ``ProteinIdentification``  and populate it with
 
   # Each ProteinIdentification object stores a vector of protein hits
   protein_hit = ProteinHit()
-  protein_hit.setAccession("MyAccession")
-  protein_hit.setSequence("PEPTIDEPEPTIDEPEPTIDEPEPTIDER")
+  protein_hit.setAccession("sp|MyAccession")
+  protein_hit.setSequence("PEPTIDERDLQMTQSPSSLSVSVGDRPEPTIDE")
   protein_hit.setScore(1.0)
+  protein_hit.setMetaValue("target_decoy", b"target") # its a target protein
 
   protein_id.setHits([protein_hit])
 
-We have now added a single ``ProteinHit`` with the accession ``MyAccession`` to
+We have now added a single ``ProteinHit`` with the accession ``sp|MyAccession`` to
 the ``ProteinIdentification`` object (note how on line 14 we directly added a
 list of size 1).  We can continue to add meta-data for the whole identification
 run (such as search parameters):
@@ -92,23 +93,39 @@ corresponding ``PeptideHit`` objects:
   # define additional meta value for the peptide identification
   peptide_id.setMetaValue("AdditionalMetaValue", "Value")
 
-  # create a new PeptideHit (best PSM)
+  # create a new PeptideHit (best PSM, best score)
   peptide_hit = PeptideHit()
   peptide_hit.setScore(1.0)
   peptide_hit.setRank(1)
   peptide_hit.setCharge(2)
   peptide_hit.setSequence(AASequence.fromString("DLQM(Oxidation)TQSPSSLSVSVGDR"))
+  
+  ev = PeptideEvidence()
+  ev.setProteinAccession("sp|MyAccession")
+  ev.setAABefore(b"R")
+  ev.setAAAfter(b"P")
+  peptide_hit.setPeptideEvidences([ev])
 
-  # create a new PeptideHit (second best PSM)
+  # create a new PeptideHit (second best PSM, lower score)
   peptide_hit2 = PeptideHit()
   peptide_hit2.setScore(0.5)
   peptide_hit2.setRank(2)
   peptide_hit2.setCharge(2)
-  peptide_hit2.setSequence(AASequence.fromString("QDLM(Oxidation)TQSPSSLSVSVGDR"))
+  peptide_hit2.setSequence(AASequence.fromString("QDLMTQSPSSLSVSVGDR"))
+  peptide_hit2.setPeptideEvidences([ev])
   
   # add PeptideHit to PeptideIdentification
   peptide_id.setHits([peptide_hit, peptide_hit2])
   
+This allows us to represent single spectra (``PeptideIdentification`` at *m/z*
+440.0 and *rt* 1234.56) with possible identifications that are ranked by score.
+In this case, apparently two possible peptides match the spectrum which have
+the first three amino acids in a different order "DLQ" vs "QDL").
+
+We can now display the peptides we just stored:
+
+.. code-block:: python
+
   # Iterate over PeptideIdentification
   peptide_ids = [peptide_id]
   for peptide_id in peptide_ids:
@@ -121,11 +138,10 @@ corresponding ``PeptideHit`` objects:
       print(" - Peptide hit rank:", hit.getRank())
       print(" - Peptide hit sequence:", hit.getSequence())
       print(" - Peptide hit score:", hit.getScore())
+      print(" - Mapping to proteins:", [ev.getProteinAccession() 
+                                          for ev in hit.getPeptideEvidences() ] )
 
-This allows us to represent single spectra (``PeptideIdentification`` at *m/z*
-440.0 and *rt* 1234.56) with possible identifications that are ranked by score.
-In this case, apparently two possible peptides match the spectrum which have
-the first three amino acids in a different order "DLQ" vs "QDL").
+
 
 Storage on disk
 ***************
@@ -151,6 +167,7 @@ which we would do as follows:
       print("Protein hit accession:", hit.getAccession())
       print("Protein hit sequence:", hit.getSequence())
       print("Protein hit score:", hit.getScore())
+      print("Protein hit target/decoy:", hit.getMetaValue("target_decoy"))
 
   # Iterate over PeptideIdentification
   for peptide_id in pep_ids:
@@ -163,6 +180,8 @@ which we would do as follows:
       print(" - Peptide hit rank:", hit.getRank())
       print(" - Peptide hit sequence:", hit.getSequence())
       print(" - Peptide hit score:", hit.getScore())
+      print(" - Mapping to proteins:", [ev.getProteinAccession() for ev in hit.getPeptideEvidences() ] )
 
+You can inspect the ``out.idXML`` XML file produced here, and you will find a ``<ProteinHit>`` entry for the protein that we stored and two ``<PeptideHit>`` entries for the two peptides stored on disk.
 
 
