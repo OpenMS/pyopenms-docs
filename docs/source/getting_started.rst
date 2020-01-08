@@ -162,30 +162,38 @@ slower):
 TIC calculation
 ^^^^^^^^^^^^^^^
 
+Here, we will apply what we have learned to perform a common function in mass
+spectrometry: calculating the total ion current. While some mzML files already
+contain a pre-computed TIC, we will show you how to calculate the TIC for MS1
+and MS2 spectra separately (generally only MS1 TIC is provided).
 
-With this information, we can now calculate a total ion current (TIC) using the
-following function:
+With this information, we can write a function that calculates the total ion
+current (TIC) for a given ms level: 
 
 .. code-block:: python
    :linenos:
 
-    def calcTIC(exp):
-        tic = 0
-        for spec in exp:
-            if spec.getMSLevel() == 1:
-                mz, i = spec.get_peaks()
-                tic += sum(i)
-        return tic
+   def calcTIC(exp, mslevel):
+       tic = 0
+       for spec in exp:
+           if spec.getMSLevel() == mslevel:
+               mz, i = spec.get_peaks()
+               tic += sum(i)
+       return tic
 
 To calculate a TIC we would now call the function:
 
 .. code-block:: python
    :linenos:
 
-    >>> calcTIC(exp)
+    >>> calcTIC(exp, 1)
     240.0
     >>> sum([sum(s.get_peaks()[1]) for s in exp if s.getMSLevel() == 1])
     240.0
 
-Note how one can compute the same property using list comprehensions in Python (see the third line above).
+    >>> calcTIC(exp, 2)
+    110.0
+
+Note how one can compute the same property using list comprehensions in Python
+(see line 3 above).
 
