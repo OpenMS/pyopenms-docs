@@ -58,6 +58,7 @@ Note: the current documentation relates to the 2.5.0 release of pyOpenMS.
    chemistry
    aasequences
    digestion
+   mass_decomposition
    datastructures_id
    datastructures_quant
 
