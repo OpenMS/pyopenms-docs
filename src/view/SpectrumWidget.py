@@ -34,7 +34,9 @@ class SpectrumWidget(PlotWidget):
         self.getViewBox().sigRangeChangedManually.connect(self.redrawLadderAnnotations)  # redraw anno
         self.proxy = pg.SignalProxy(self.scene().sigMouseMoved, rateLimit=60, slot=self._onMouseMoved)
 
-    def setSpectrum(self, spectrum):
+    def setSpectrum(self, spectrum, zoomToFullRange=False): # add a default value for displaying all peaks
+        self.plot(clear=True)
+        self.zoomToFullRange = zoomToFullRange # relevant in redrawPlot()
         # delete old highlighte "hover" peak
         if self.highlighted_peak_label != None:
             self.removeItem(self.highlighted_peak_label)     
@@ -62,6 +64,8 @@ class SpectrumWidget(PlotWidget):
 
     def redrawPlot(self):
         self.plot(clear=True)
+        if self.zoomToFullRange:
+            self.setXRange(self.minMZ, self.maxMZ)
         self._plot_spectrum()
         self._clear_annotations()
         self._plot_peak_annotations()
