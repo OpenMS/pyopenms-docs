@@ -184,6 +184,8 @@ basicity and pk values are also available.
     146.1055284466
     >>> lys.getPka()
     2.16
+    >>> lys.getFormula().toString()
+    u'C6H14N2O2'
 
 As we can see, OpenMS knows common amino acids like lysine as well as
 some properties of them. These values are stored in ``Residues.xml`` in the
@@ -232,6 +234,37 @@ is identical to the one of Oxygen by itself):
 
 In the next section, we will look at how to combine amino acids and
 modifications to form amino acid sequences (peptides).
+
+Ribonucleotide
+***************
+
+A ribonucleotide describes one of the building blocks of DNA and RNA. In
+OpenMS, a ribonucleotide in its modified or unmodified form is represented by
+the ``Ribonucleotide`` class in OpenMS.  The class is able to provide
+information such as the isotope distribution of the residue, the average and
+monoisotopic weight. The residues can be identified by their full name, their
+three letter abbreviation or the single letter abbreviation. Modified
+ribonucleotides are represented by the same class. Currently, support for RNA
+is implemented.
+
+.. code-block:: python
+
+    >>> from pyopenms import *
+    >>> uridine = RibonucleotideDB().getRibonucleotide("U")
+    >>> uridine.getName()
+    'uridine'
+    >>> uridine.getCode()
+    'U'
+    >>> uridine.getAvgMass()
+    244.2043
+    >>> uridine.getMonoMass()
+    244.0695
+    >>> uridine.getFormula().toString()
+    u'C9H12N2O6'
+    >>> uridine.isModified()
+    False
+
+
 
 .. [1] Łącki MK, Startek M, Valkenborg D, Gambin A.
     IsoSpec: Hyperfast Fine Structure Calculator.

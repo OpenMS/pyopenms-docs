@@ -58,7 +58,6 @@ Note: the current documentation relates to the 2.5.0 release of pyOpenMS.
    chemistry
    aasequences
    digestion
-   mass_decomposition
    datastructures_id
    datastructures_quant
 
@@ -74,6 +73,7 @@ Note: the current documentation relates to the 2.5.0 release of pyOpenMS.
 
    parameter_handling
    algorithms
+   mass_decomposition
    deisotoping
    feature_detection
    peptide_search
