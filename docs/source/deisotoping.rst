@@ -20,14 +20,14 @@ charge_state`` which is often close to 0.5 m/z for doubly charged analytes,
 at least doubly charged, while small molecules often carry a single charge but
 can have adducts other than hydrogen.
 
-Simple example
-**************
+Single peak example
+*******************
 
 .. code-block:: python
 
     from pyopenms import *
 
-    charge = 4
+    charge = 2
     seq = AASequence.fromString("DFPIANGER")
     seq_formula = seq.getFormula() + EmpiricalFormula("H" + str(charge))
     isotopes = seq_formula.getIsotopeDistribution( CoarseIsotopePatternGenerator(6) )
@@ -40,11 +40,51 @@ Simple example
       s.push_back(iso)
       print ("Isotope", iso.getMZ(), ":", iso.getIntensity())
 
-    Deisotoper.deisotopeAndSingleCharge(s, 10, True, 1, charge, True, 2, 10, True, True)
+    Deisotoper.deisotopeAndSingleChargeDefault(s, 10, True)
+
+    for p in s:
+      print(p.getMZ(), p.getIntensity() )
+
+
+Note that the algorithm presented here as some heuristics built into it, such
+as assuming that the isotopic peaks will decrease after the first isotopic
+peak. This heuristic can be tuned by changing the parameter
+``use_decreasing_model`` and ``start_intensity_check``. In this case, the
+second isotopic peak is the highest in intensity and the
+``start_intensity_check`` parameter needs to be set to 3. 
+
+.. code-block:: python
+
+
+    from pyopenms import *
+
+    charge = 4
+    seq = AASequence.fromString("DFPIANGERDFPIANGERDFPIANGERDFPIANGER")
+    seq_formula = seq.getFormula() + EmpiricalFormula("H" + str(charge))
+    isotopes = seq_formula.getIsotopeDistribution( CoarseIsotopePatternGenerator(8) )
+    print("[M+H]+ weight:", seq.getMonoWeight(Residue.ResidueType.Full, 1))
+
+    # Append isotopic distribution to spectrum
+    s = MSSpectrum()
+    for iso in isotopes.getContainer():
+      iso.setMZ( iso.getMZ() / charge )
+      s.push_back(iso)
+      print ("Isotope", iso.getMZ(), ":", iso.getIntensity())
+
+    min_charge = 1
+    min_isotopes = 2
+    max_isotopes = 10
+    use_decreasing_model = True
+    start_intensity_check = 3
+    Deisotoper.deisotopeAndSingleCharge(s, 10, True, min_charge, charge, True, 
+                                        min_isotopes, max_isotopes, 
+                                        True, True, True, 
+                                        use_decreasing_model, start_intensity_check, False)
     for p in s:
       print(p.getMZ(), p.getIntensity() )
 
 .. Deisotoper.deisotopeAndSingleCharge(s, 10, True, "none", 1, 5, True, 2, 10, True, True)
+
 
 Full spectral de-isotoping
 **************************
@@ -121,10 +161,6 @@ bottom in blue. Note how hovering over a peak in the deisotoped spectrum
 indicates the charge state:
 
 .. image:: img/deisotoped.png
-
-Note that the algorithm presented here as several limitations, it is only tuned
-for low-mass peptides, only considers carbon isotopes and can only deal with
-isotopic envelopes that are decreasing in intensity. 
 
 In the next section, we will look at 2-dimensional deisotoping where instead of
 a single spectrum, multiple spectra from a LC-MS experiments are analyzed
