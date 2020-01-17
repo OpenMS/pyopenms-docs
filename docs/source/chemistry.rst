@@ -250,7 +250,7 @@ is implemented.
 .. code-block:: python
 
     >>> from pyopenms import *
-    >>> uridine = RibonucleotideDB().getRibonucleotide("U")
+    >>> uridine = RibonucleotideDB().getRibonucleotide(b"U")
     >>> uridine.getName()
     'uridine'
     >>> uridine.getCode()
@@ -260,10 +260,15 @@ is implemented.
     >>> uridine.getMonoMass()
     244.0695
     >>> uridine.getFormula().toString()
-    u'C9H12N2O6'
+    'C9H12N2O6'
     >>> uridine.isModified()
     False
-
+    >>>
+    >>> methyladenosine = RibonucleotideDB().getRibonucleotide(b"m1A")
+    >>> methyladenosine.getName()
+    '1-methyladenosine'
+    >>> methyladenosine.isModified()
+    True
 
 
 .. [1] Łącki MK, Startek M, Valkenborg D, Gambin A.
