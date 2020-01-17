@@ -18,23 +18,58 @@ OpenMS also supports the representation of RNA oligonucleotides using the
     print(oligo)
     print(prefix)
     print(suffix)
+    print()
 
-    oligo.size()
-    oligo.getMonoWeight()
-
-    oligo.getMonoWeight(NASequence.NASFragmentType.YIon, 1)
+    print("Oligo length", oligo.size())
+    print("Total precursor mass", oligo.getMonoWeight())
+    print("y1+ ion mass of", str(prefix), ":", prefix.getMonoWeight(NASequence.NASFragmentType.YIon, 1))
+    print()
 
     seq_formula = oligo.getFormula()
     print("RNA Oligo", oligo, "has molecular formula", seq_formula)
     print("="*35)
-    print("\nAll ribonucleotides:")
-    for ribo in oligo:
-      print(ribo.getName())
+    print()
 
     isotopes = seq_formula.getIsotopeDistribution( CoarseIsotopePatternGenerator(6) )
     for iso in isotopes.getContainer():
       print ("Isotope", iso.getMZ(), ":", iso.getIntensity())
 
+
+Which will output
+
+.. code-block:: python
+
+
+    AAUGCAAUGG
+    AAUG
+    AUGG
+
+    Oligo length 10
+    Total precursor mass 3206.4885302061
+    y1+ ion mass of AAUG : 1248.2298440331
+
+    RNA Oligo AAUGCAAUGG has molecular formula C97H119N42O66P9
+    ===================================
+
+    Isotope 3206.4885302061 : 0.25567981600761414
+    Isotope 3207.4918850439003 : 0.31783154606819153
+    Isotope 3208.4952398817004 : 0.23069815337657928
+    Isotope 3209.4985947195 : 0.12306403368711472
+    Isotope 3210.5019495573 : 0.053163252770900726
+    Isotope 3211.5053043951 : 0.01956319250166416
+
+
+
+The ``NASequence`` object also allows iterations directly in Python:
+
+.. code-block:: python
+    :linenos:
+
+    from pyopenms import *
+    oligo = NASequence.fromString("AAUGCAAUGG")
+    print("The oligonucleotide", str(oligo), "consists of the following nucleotides:")
+    for ribo in oligo:
+      print(ribo.getName())
 
 Fragment ions
 ~~~~~~~~~~~~~
