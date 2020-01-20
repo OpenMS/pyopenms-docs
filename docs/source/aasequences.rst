@@ -30,21 +30,33 @@ ions.
     print(seq)
     print(concat)
     print(suffix)
-    seq.getMonoWeight() # weight of M
-    seq.getMonoWeight(Residue.ResidueType.Full, 2) # weight of M+2H
+    mfull = seq.getMonoWeight() # weight of M
+    mprecursor = seq.getMonoWeight(Residue.ResidueType.Full, 2) # weight of M+2H
     mz = seq.getMonoWeight(Residue.ResidueType.Full, 2) / 2.0 # m/z of M+2H
-    concat.getMonoWeight()
     
-    print("Monoisotopic m/z of (M+2H)2+ is", mz)
+    print()
+    print("Monoisotopic mass of peptide [M] is", mfull)
+    print("Monoisotopic mass of peptide precursor [M+2H]2+ is", mprecursor)
+    print("Monoisotopic m/z of [M+2H]2+ is", mz)
     
-Which will produce
+Which prints the amino acid sequence on line 7 as well as the result of
+concatenating two sequences or taking the suffix of a sequence (lines 8 and 9).
+On line 10 we compute the mass of the full peptide (``[M]``), on line 11 we
+compute the mass of the peptide precursor (``[M+2H]2+``) while on line 12 we
+compute the ``m/z`` value of the peptide precursor (``[M+2H]2+``). The mass of
+the peptide precursor is shifted by two protons that are now attached to the
+molecules as charge carriers (note that the proton mass of 1.007276 u is
+slightly different from the mass of an uncharged hydrogen atom at 1.007825 u).
 
 .. code-block:: python
 
     DFPIANGER
     DFPIANGERDFPIANGER
     ANGER
-    Monoisotopic m/z of (M+2H)2+ is 509.751258535
+
+    Monoisotopic mass of peptide [M] is 1017.4879641373001
+    Monoisotopic mass of peptide precursor [M+2H]2+ is 1019.5025170708421
+    Monoisotopic m/z of [M+2H]2+ is 509.7512585354211
 
 
 The ``AASequence`` object also allows iterations directly in Python:
@@ -95,19 +107,18 @@ the amino acid sequence:
 
     isotopes = seq_formula.getIsotopeDistribution( CoarseIsotopePatternGenerator(6) )
     for iso in isotopes.getContainer():
-      print ("Isotope", iso.getMZ(), ":", iso.getIntensity())
+      print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
 
     suffix = seq.getSuffix(3) # y3 ion "GER"
     print("="*35)
-    print("y3 ion :", suffix)
+    print("y3 ion sequence:", suffix)
     y3_formula = suffix.getFormula(Residue.ResidueType.YIon, 2) # y3++ ion
     suffix.getMonoWeight(Residue.ResidueType.YIon, 2) / 2.0 # CORRECT
     suffix.getMonoWeight(Residue.ResidueType.XIon, 2) / 2.0 # CORRECT
     suffix.getMonoWeight(Residue.ResidueType.BIon, 2) / 2.0 # INCORRECT
 
-    print("y3 mz :", suffix.getMonoWeight(Residue.ResidueType.YIon, 2) / 2.0 )
-    print(y3_formula)
-    print(seq_formula)
+    print("y3 mz:", suffix.getMonoWeight(Residue.ResidueType.YIon, 2) / 2.0 )
+    print("y3 molecular formula:", y3_formula)
 
 Which will produce
 
@@ -115,24 +126,23 @@ Which will produce
 
     Peptide DFPIANGER has molecular formula C44H67N13O15
     ===================================
-    Isotope 1017.48796414 : 0.568165123463
-    Isotope 1018.49131898 : 0.305291324854
-    Isotope 1019.49467381 : 0.0980210453272
-    Isotope 1020.49802865 : 0.0232920628041
-    Isotope 1021.50138349 : 0.00449259625748
-    Isotope 1022.50473833 : 0.000737829308491
+    Isotope 1017.4879641373 has abundance 56.81651830673218 %
+    Isotope 1018.4913189751 has abundance 30.52912950515747 %
+    Isotope 1019.4946738129 has abundance 9.802105277776718 %
+    Isotope 1020.4980286507 has abundance 2.3292064666748047 %
+    Isotope 1021.5013834885 has abundance 0.4492596257477999 %
+    Isotope 1022.5047383263 has abundance 0.07378293084912002 %
     ===================================
-    y3 ion : GER
-    y3 mz : 181.09514385
-    C13H24N6O6
-    C44H67N13O15
+    y3 ion sequence: GER
+    y3 mz: 181.09514385
+    y3 molecular formula: C13H24N6O6
 
 
-Note on lines 13 to 15 we need to remember that we are dealing with an ion of
+Note on lines 15 to 17 we need to remember that we are dealing with an ion of
 the x/y/z series since we used a suffix of the original peptide and using any
 other ion type will produce a different mass-to-charge ratio (and while "GER"
 would also be a valid "x3" ion, note that it *cannot* be a valid ion from the
-a/b/c series and therefore the mass on line 15 cannot refer to the same input
+a/b/c series and therefore the mass on line 17 cannot refer to the same input
 peptide "DFPIANGER" since its "b3" ion would be "DFP" and not "GER"). 
 
 Modified Sequences
@@ -187,7 +197,7 @@ Note there is a subtle difference between
 find the first modification matching to a mass difference of 16 +/- 0.5, the
 latter will try to find the closest matching modification to the exact mass.
 The exact mass approach usually gives the intended results while the first
-approach may or may not.
+approach may or may not. In all instances, it is better to use an exact description of the desired modification, such as UniMod, instead of mass differences.
 
 N- and C-terminal modifications are represented by brackets to the right of the dots
 terminating the sequence. For example, ``".(Dimethyl)DFPIAMGER."`` and
@@ -237,7 +247,7 @@ read and stored on disk using a ``FASTAFile``:
         f = FASTAFile()
         f.store("example.fasta", entries)
 
-Afterwards, the protein sequences can be read again using:
+Afterwards, the ``example.fasta`` file can be read again from disk:
 
 .. code-block:: python
 
@@ -249,65 +259,4 @@ Afterwards, the protein sequences can be read again using:
         for e in entries:
           print (e.identifier, e.sequence)
 
-
-TheoreticalSpectrumGenerator
-****************************
-
-This class implements a simple generator which generates tandem MS spectra from
-a given peptide charge combination. There are various options which influence
-the occurring ions and their intensities.
-
-.. code-block:: python
-
-    from pyopenms import *
-
-    tsg = TheoreticalSpectrumGenerator()
-    spec1 = MSSpectrum()
-    spec2 = MSSpectrum()
-    peptide = AASequence.fromString("DFPIANGER")
-    # standard behavior is adding b- and y-ions of charge 1
-    p = Param()
-    p.setValue("add_b_ions", "false")
-    tsg.setParameters(p)
-    tsg.getSpectrum(spec1, peptide, 1, 1)
-    p.setValue("add_b_ions", "true")
-    p.setValue("add_a_ions", "true")
-    p.setValue("add_losses", "true")
-    p.setValue("add_metainfo", "true")
-    tsg.setParameters(p)
-    tsg.getSpectrum(spec2, peptide, 1, 2)
-    print("Spectrum 1 has", spec1.size(), "peaks.")
-    print("Spectrum 2 has", spec2.size(), "peaks.")
-
-    # Iterate over annotated ions and their masses
-    for ion, peak in zip(spec2.getStringDataArrays()[0], spec2):
-        print(ion, peak.getMZ())
-
-which outputs:
-
-.. code-block:: python
-
-        Spectrum 1 has 8 peaks.
-        Spectrum 2 has 146 peaks.
-
-        y1-C1H2N1O1++ 66.056295158171
-        y1-C1H2N2++ 67.05221565817101
-        y1-H3N1++ 79.549840142221
-        y1++ 88.06311469007102
-        a2-H2O1++ 109.05221565817101
-        a2++ 118.05749819007099
-        b2-H2O1++ 123.049673158171
-        y2-C1H2N1O1++ 130.577592269821
-        y1-C1H2N1O1+ 131.10531384957102
-        y2-C1H2N2++ 131.573512769821
-        b2++ 132.05495569007098
-        [...]
-
-The example shows how to put peaks of a certain type, y-ions in this case, into
-a spectrum. Spectrum 2 is filled with a complete spectrum of all peaks (a-, b-,
-y-ions and losses). The ``TheoreticalSpectrumGenerator`` has many parameters
-which have a detailed description located in the class documentation. For the
-first spectrum, no b ions are added. Note how the ``add_metainfo`` parameter
-in the second example populates the ``StringDataArray`` of the output
-spectrum, allowing us to iterate over annotated ions and their masses.
 
