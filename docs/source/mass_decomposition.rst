@@ -112,3 +112,38 @@ on the reported results, for example for ``1.0`` tolerance, the algorithm will
 produce 80 463 results while for a ``0.001`` tolerance, only 911 results are
 expected.
 
+Spectrum Tagger
+**************
+
+.. code-block:: python
+    :linenos:
+
+    from pyopenms import *
+
+    tsg = TheoreticalSpectrumGenerator()
+    param = tsg.getParameters()
+    param.setValue("add_metainfo", "false")
+    param.setValue("add_first_prefix_ion", "true")
+    param.setValue("add_a_ions", "true")
+    param.setValue("add_losses", "true")
+    param.setValue("add_precursor_peaks", "true")
+    tsg.setParameters(param)
+
+    # spectrum with charges +1 and +2
+    test_sequence = AASequence.fromString("PEPTIDETESTTHISTAGGER")
+    spec = MSSpectrum()
+    tsg.getSpectrum(spec, test_sequence, 1, 2)
+    
+    print(spec.size()) # should be 357
+
+    # tagger searching only for charge +1
+    tags = []
+    tagger = Tagger(2, 10.0, 5, 1, 1, [], [])
+    tagger.getTag(spec, tags)
+    
+    print(len(tags)) # should be 890
+
+    b"EPTID" in tags  # True
+    b"PTIDE" in tags  # True
+    b"PTIDEF" in tags # False
+

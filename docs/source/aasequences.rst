@@ -46,10 +46,39 @@ Which will produce
     ANGER
     Monoisotopic m/z of (M+2H)2+ is 509.751258535
 
-Molecular Formula
-~~~~~~~~~~~~~~~~~
 
-Note howe we can easily calculate the charged weight of a ``(M+2H)2+`` ion on line 11
+The ``AASequence`` object also allows iterations directly in Python:
+
+.. code-block:: python
+    :linenos:
+
+    from pyopenms import *
+    seq = AASequence.fromString("DFPIANGER")
+
+    print("The peptide", str(seq), "consists of the following amino acids:")
+    for aa in seq:
+      print(aa.getName(), ":", aa.getMonoWeight())
+    
+Which will print
+
+.. code-block:: python
+
+    The peptide DFPIANGER consists of the following amino acids:
+    Aspartate : 133.0375092233
+    Phenylalanine : 165.0789793509
+    Proline : 115.0633292871
+    Isoleucine : 131.0946294147
+    Alanine : 89.04767922330001
+    Asparagine : 132.0534932552
+    Glycine : 75.0320291595
+    Glutamate : 147.05315928710002
+    Arginine : 174.1116764466
+
+
+Fragment ions
+~~~~~~~~~~~~~
+
+Note how we can easily calculate the charged weight of a ``(M+2H)2+`` ion on line 11
 and compute *m/z* on line 12 -- simply dividing by the charge.
 We can now combine our knowledge of ``AASequence`` with what we learned above
 about ``EmpiricalFormula`` to get accurate mass and isotope distributions from
