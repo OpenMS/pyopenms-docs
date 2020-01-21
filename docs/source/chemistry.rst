@@ -22,6 +22,8 @@ elements are stored in OpenMS:
     oxygen.getSymbol()
     oxygen.getMonoWeight()
     isotopes = oxygen.getIsotopeDistribution()
+    for iso in isotopes.getContainer():
+        print ("Oxygen isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
 
     sulfur = edb.getElement("S")
     sulfur.getName()
@@ -29,19 +31,25 @@ elements are stored in OpenMS:
     sulfur.getMonoWeight()
     isotopes = sulfur.getIsotopeDistribution()
     for iso in isotopes.getContainer():
-        print (iso.getMZ(), ":", iso.getIntensity())
+        print ("Sulfur isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
 
 As we can see, OpenMS knows common elements like Oxygen and Sulfur as well as
 their isotopic distribution. These values are stored in ``Elements.xml`` in the
-OpenMS share folder and can, in principle, be modified. The above code outputs
-the isotopes of sulfur and their abundance:
+OpenMS share folder and can, in principle, be modified. The current values in
+the file are average abundances found in nature. The above code outputs the
+isotopes of oxygen and sulfur as well as their abundance:
 
 .. code-block:: python
 
-  31.97207073 : 0.949299991131
-  32.971458 : 0.00760000012815
-  33.967867 : 0.0428999997675
-  35.967081 : 0.000199999994948
+		Oxygen isotope 15.994915 has abundance 99.75699782371521 %
+		Oxygen isotope 16.999132 has abundance 0.03800000122282654 %
+		Oxygen isotope 17.999169 has abundance 0.20500000100582838 %
+
+		Sulfur isotope 31.97207073 has abundance 94.92999911308289 %
+		Sulfur isotope 32.971458 has abundance 0.7600000128149986 %
+		Sulfur isotope 33.967867 has abundance 4.2899999767541885 %
+		Sulfur isotope 35.967081 has abundance 0.019999999494757503 %
+
 
 
 Molecular Formula
@@ -59,22 +67,22 @@ in the next few lines of code.
 
     methanol = EmpiricalFormula("CH3OH")
     water = EmpiricalFormula("H2O")
-    ethanol = EmpiricalFormula("CH2" + methanol.toString())
-    wm = water + methanol
-    print(wm.toString())
-    print(wm.getElementalComposition())
+    ethanol = EmpiricalFormula("CH2") + methanol
+    print("Ethanol chemical formula:", ethanol.toString())
+    print("Ethanol composition:", ethanol.getElementalComposition())
+    print("Ethanol has", ethanol.getElementalComposition()[b"H"], "hydrogen atoms")
 
 which produces
 
 .. code-block:: python
 
-    C1H6O2
-    {'H': 6, 'C': 1, 'O': 2}
+    Ethanol chemical formula: C2H6O1
+    Ethanol composition: {b'C': 2, b'H': 6, b'O': 1}
+    Ethanol has 6 hydrogen atoms
 
 
-Note how in lines 5 and 6 we were able to make new molecules by adding existing
-molecules (either by adding two ``EmpiricalFormula`` objects or by adding
-simple strings).
+Note how in line 5 we were able to make a new molecule by adding existing
+molecules (for example by adding two ``EmpiricalFormula`` objects). 
 
 Isotopic Distributions
 **********************
@@ -86,75 +94,121 @@ patterns and FineIsotopePatternGenerator which is based on the IsoSpec
 algorithm [1]_ :
 
 .. code-block:: python
-    :linenos:
 
     from pyopenms import *
 
-    wm = EmpiricalFormula("CH3OH") + EmpiricalFormula("H2O")
+    methanol = EmpiricalFormula("CH3OH")
+    ethanol = EmpiricalFormula("CH2") + methanol
 
     print("Coarse Isotope Distribution:")
-    isotopes = wm.getIsotopeDistribution( CoarseIsotopePatternGenerator(5) )
-    print("Covers", sum([iso.getIntensity() for iso in isotopes.getContainer()]), "probability")
+    isotopes = ethanol.getIsotopeDistribution( CoarseIsotopePatternGenerator(4) )
+    prob_sum = sum([iso.getIntensity() for iso in isotopes.getContainer()])
+    print("This covers", prob_sum, "probability")
     for iso in isotopes.getContainer():
-        print (iso.getMZ(), ":", iso.getIntensity())
+        print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
 
     print("Fine Isotope Distribution:")
-    isotopes = wm.getIsotopeDistribution( FineIsotopePatternGenerator(1e-5) )
-    print("Covers", sum([iso.getIntensity() for iso in isotopes.getContainer()]), "probability")
+    isotopes = ethanol.getIsotopeDistribution( FineIsotopePatternGenerator(1e-3) )
+    prob_sum = sum([iso.getIntensity() for iso in isotopes.getContainer()])
+    print("This covers", prob_sum, "probability")
     for iso in isotopes.getContainer():
-        print (iso.getMZ(), ":", iso.getIntensity())
+        print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
 
 which produces
 
 .. code-block:: python
 
     Coarse Isotope Distribution:
-    Covers 0.9999999866640792 probability
-    50.0367801914 : 0.983818769454956
-    51.0401350292 : 0.012069152668118477
-    52.043489867  : 0.004059787839651108
-    53.0468447048 : 4.807332152267918e-05
-    54.0501995426 : 4.203372554911766e-06
+    This covers 0.9999999753596569 probability
+    Isotope 46.0418651914 has abundance 97.56630063056946 %
+    Isotope 47.045220029199996 has abundance 2.21499539911747 %
+    Isotope 48.048574867 has abundance 0.2142168115824461 %
+    Isotope 49.0519297048 has abundance 0.004488634294830263 %
 
     Fine Isotope Distribution:
-    Covers 0.9999996514133613 probability
-    50.0367801914 : 0.9838188290596008
-    51.0401351914 : 0.01064071711152792
-    51.0409971914 : 0.0007495236932300031
-    51.0430569395 : 0.0006789130857214332
-    52.0410341914 : 0.004043483175337315
-    52.0443521914 : 8.10664460004773e-06
-    52.0464119395 : 7.342939625232248e-06
-    52.0472739395 : 5.172308306100604e-07
-    53.0443891914 : 4.3733216443797573e-05
-    53.0452511914 : 1.540266453048389e-06
-    53.0473109395 : 2.7903240606974578e-06
-    54.0452881914 : 4.15466593040037e-06
+    This covers 0.9994461630121805 probability
+    Isotope 46.0418651914 has abundance 97.5662887096405 %
+    Isotope 47.0452201914 has abundance 2.110501006245613 %
+    Isotope 47.0481419395 has abundance 0.06732848123647273 %
+    Isotope 48.046119191399995 has abundance 0.20049810409545898 %
 
 
-Note how the result calculated with the ``FineIsotopePatternGenerator``
-contains the hyperfine isotope structure with heavy isotopes of Carbon,
-Hydrogen and Oxygen clearly distinguished while the coarse (unit resolution)
+The result calculated with the ``FineIsotopePatternGenerator``
+contains the hyperfine isotope structure with heavy isotopes of Carbon and 
+Hydrogen clearly distinguished while the coarse (unit resolution)
 isotopic distribution contains summed probabilities for each isotopic peak
-without the hyperfine resolution. Also note how the differences between
-the hyperfine peaks can reach more than 115 ppm (52.041 vs 52.047). Note that
-the FineIsotopePatternGenerator will generate peaks until the total probability
-not covered by the current result reaches 1e-5.
+without the hyperfine resolution.  The hyperfine algorithm will for example
+compute two peaks for the nominal mass of 47: one at 47.045 for the
+incorporation of one heavy C13 with a delta mass of 1.003355 and one at 47.048
+for the incorporation of one heavy deuterium with a delta mass of 1.006277.
+These two peaks also have two different abundances (the heavy carbon one has
+2.1% abundance and the deuterium one has 0.07% abundance). This makes sense
+given that there are 2 carbon atoms and the natural abundance of C13 is about
+1.1% and the molecule has six hydrogen atoms and the natural abundance of
+deuterium is about 0.02%. The fine isotopic generator will not generate the
+peak at nominal mass 49 since we specified our cutoff at 0.1% total abundance
+and the four peaks above cover 99.9% of the
+isotopic abundance.
+
+We can also decrease our cutoff and ask for more isotopes to be calculated: 
+
+.. code-block:: python
+
+    from pyopenms import *
+
+    methanol = EmpiricalFormula("CH3OH")
+    ethanol = EmpiricalFormula("CH2") + methanol
+
+    print("Fine Isotope Distribution:")
+    isotopes = ethanol.getIsotopeDistribution( FineIsotopePatternGenerator(1e-6) )
+    prob_sum = sum([iso.getIntensity() for iso in isotopes.getContainer()])
+    print("This covers", prob_sum, "probability")
+    for iso in isotopes.getContainer():
+        print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+
+which produces
+
+.. code-block:: python
+
+  Fine Isotope Distribution:
+  This covers 0.9999993089130612 probability
+  Isotope 46.0418651914 has abundance 97.5662887096405 %
+  Isotope 47.0452201914 has abundance 2.110501006245613 %
+  Isotope 47.046082191400004 has abundance 0.03716550418175757 %
+  Isotope 47.0481419395 has abundance 0.06732848123647273 %
+  Isotope 48.046119191399995 has abundance 0.20049810409545898 %
+  Isotope 48.0485751914 has abundance 0.011413302854634821 %
+  Isotope 48.0494371914 has abundance 0.0008039440217544325 %
+  Isotope 48.0514969395 has abundance 0.0014564131561201066 %
+  Isotope 49.049474191399995 has abundance 0.004337066275184043 %
+  Isotope 49.0523959395 has abundance 0.00013835959862262825 %
+
+Here we can observe more peaks and now also see the heavy oxygen peak at
+47.04608 with a delta mass of 1.004217 (difference between O16 and O17) at an
+abundance of 0.04%, which is what we would expect for a single oxygen atom.
+Even though the natural abundance of deuterium (0.02%) is lower than O17
+(0.04%), since there are six hydrogen atoms in the molecule and only one
+oxygen, it is more likely that we will see a deuterium peak than a heavy oxygen
+peak. Also, even for a small molecule like ethanol, the differences in mass
+between the hyperfine peaks can reach more than 110 ppm (48.046 vs 48.051).
+Note that the FineIsotopePatternGenerator will generate peaks until the total
+error has decreased to 1e-6, allowing us to cover 0.999999 of the probability.
 
 OpenMS can also produce isotopic distribution with masses rounded to the
 nearest integer:
 
 .. code-block:: python
 
-    isotopes = wm.getIsotopeDistribution( CoarseIsotopePatternGenerator(5, True) )
+    isotopes = ethanol.getIsotopeDistribution( CoarseIsotopePatternGenerator(5, True) )
     for iso in isotopes.getContainer():
-        print (iso.getMZ(), ":", iso.getIntensity())
+        print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
 
-    50.0 : 0.983818769454956
-    51.0 : 0.012069152668118477
-    52.0 : 0.004059787839651108
-    53.0 : 4.807332152267918e-05
-    54.0 : 4.203372554911766e-06
+    Isotope 46.0 has abundance 97.56627082824707 %
+    Isotope 47.0 has abundance 2.214994840323925 %
+    Isotope 48.0 has abundance 0.214216741733253 %
+    Isotope 49.0 has abundance 0.0044886332034366205 %
+    Isotope 50.0 has abundance 2.64924580051229e-05 %
+
 
 Amino Acid Residue
 ******************
@@ -232,8 +286,14 @@ is identical to the one of Oxygen by itself):
     for iso in isotopes.getContainer():
         print (iso.getMZ(), ":", iso.getIntensity())
 
-In the next section, we will look at how to combine amino acids and
-modifications to form amino acid sequences (peptides).
+Which will print the isotopic pattern of the modification (Oxygen):
+
+.. code-block:: python
+
+  15.994915 : 0.9975699782371521
+  16.998269837800002 : 0.0003800000122282654
+  18.0016246756 : 0.002050000010058284
+
 
 Ribonucleotide
 ***************
@@ -269,6 +329,9 @@ is implemented.
     '1-methyladenosine'
     >>> methyladenosine.isModified()
     True
+
+.. We could also showcase the "get alternatives" method
+.. for alt in RibonucleotideDB().getRibonucleotideAlternatives(b"mmA?"):  print(alt.getName())
 
 
 .. [1] Łącki MK, Startek M, Valkenborg D, Gambin A.
