@@ -29,7 +29,8 @@ then zoom into a given mass range using Ctrl-G and select 4030 to 4045:
 
 .. image:: img/smoothing.png
 
-From the data above it becomes clear that smoothing does clean up noise in the
-data significantly and will prepare the data for downstream processing, such as
+In the screenshot above we see the original data (red) and the smoothed data
+(black), indicating that the smoothing does clean up noise in the data
+significantly and will prepare the data for downstream processing, such as
 peak-picking.
 
