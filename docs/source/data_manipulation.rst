@@ -5,24 +5,12 @@ Here we will look at a few simple data manipulation techniques on spectral
 data, such as filtering. First we will download some sample data.
 
 
-In Python 2.x we will use
-
-.. code-block:: python
-
-    from urllib import urlretrieve
-    urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML",
-                 "test.mzML")
-
-
-
-While for Python 3.x the code is
-
 .. code-block:: python
 
     from urllib.request import urlretrieve
+    # from urllib import urlretrieve  # use this code for Python 2.x
     urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML",
                  "test.mzML")
-
 
 Filtering Spectra
 *******************
@@ -40,7 +28,7 @@ certain identifier:
 
   e = MSExperiment()
   for s in inp:
-    if s.getNativeID().startswith(b"scan="):
+    if s.getNativeID().startswith("scan="):
       e.addSpectrum(s)
 
   MzMLFile().store("test_filtered.mzML", e)
@@ -48,7 +36,8 @@ certain identifier:
 Filtering by MS level
 ~~~~~~~~~~~~~~~~~~~~~
 
-Similarly, we can filter the ``test.mzML`` file by MS level:
+Similarly, we can filter the ``test.mzML`` file by MS level, 
+retaining only spectra that are not MS1 spectra (e.g.\ MS2, MS3 or MSn spectra):
 
 .. code-block:: python
   :linenos:
@@ -72,12 +61,13 @@ filtering by MS level and scan identifier at the same time:
   :linenos:
   :lineno-start: 7
 
-  if s.getMSLevel() > 1 and s.getNativeID().startswith(b"scan="):
+  if s.getMSLevel() > 1 and s.getNativeID().startswith("scan="):
 
 Filtering by scan number
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Or we could use an external list of scan numbers to filter by scan numbers:
+Or we could use an external list of scan numbers to filter by scan numbers,
+thus only retaining MS scans in which we are interested in:
 
 .. code-block:: python
   :linenos:
@@ -107,9 +97,9 @@ number is on its own line, thus replacing line 4 with:
 Filtering Spectra and Peaks
 ***************************
 
-We can now move on to more advanced filtering, suppose you are interested in
-only a part of all fragment ion spectra.
-m/z. We can easily filter our data accordingly:
+We can now move on to more advanced filtering, suppose we are interested in
+only a part of all fragment ion spectra, such as a specific m/z window.
+We can easily filter our data accordingly:
 
 .. code-block:: python
   :linenos:
@@ -158,7 +148,7 @@ use the OnDiscMSExperiment for reading data.
   e = MSExperiment()
   for k in range(od_exp.getNrSpectra()):
     s = od_exp.getSpectrum(k)
-    if s.getNativeID().startswith(b"scan="):
+    if s.getNativeID().startswith("scan="):
       e.addSpectrum(s)
 
   MzMLFile().store("test_filtered.mzML", e)
@@ -179,7 +169,7 @@ by using
   e = MSExperiment()
   for k in range(od_exp.getNrSpectra()):
     s = od_exp.getSpectrum(k)
-    if s.getNativeID().startswith(b"scan="):
+    if s.getNativeID().startswith("scan="):
       consumer.consumeSpectrum(s)
 
   del consumer

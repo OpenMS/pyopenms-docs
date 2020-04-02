@@ -1,7 +1,14 @@
 Feature Detection
 =================
 
-One very common task in Mass Spectrometric research is the detection of 2D features in a series of MS1 scans (MS1 feature detection). OpenMS has multiple tools that can achieve these tasks, these tools are called `FeatureFinder`. Currently the following FeatureFinders are available in OpenMS:
+One very common task in mass spectrometry is the detection of 2-dimensional
+patterns in m/z and time (RT) dimension from a series of MS1 scans. These
+patterns are called ``Features`` and they exhibit a chromatographic elution
+profile in the time dimension and an isotopic pattern in the m/z dimension (see 
+`previous section <deisotoping.html>`_ for the 1-dimensional problem).
+OpenMS has multiple tools that can identify these features in 2-dimensional
+data, these tools are called `FeatureFinder`.  Currently the following
+FeatureFinders are available in OpenMS:
 
   - FeatureFinderMultiplex
   - FeatureFinderMRM
@@ -11,12 +18,18 @@ One very common task in Mass Spectrometric research is the detection of 2D featu
   - FeatureFinderMetabo   
   - FeatureFinderSuperHirn
 
-
-One of the most commonly used FeatureFinders is the FeatureFinderCentroided
-which works on (high resolution) centroided data. We can use the following code
-to find ``Features`` in MS data:
+All of the algorithms above are for proteomics data with the exception of
+FeatureFinderMetabo which works on metabolomics data. One of the most commonly
+used FeatureFinders is the FeatureFinderCentroided which works on (high
+resolution) centroided data. We can use the following code to find ``Features``
+in MS data:
 
 .. code-block:: python
+
+  from urllib.request import urlretrieve
+  # from urllib import urlretrieve  # use this code for Python 2.x
+  gh = "https://raw.githubusercontent.com/OpenMS/OpenMS/develop"
+  urlretrieve (gh +"/src/tests/topp/FeatureFinderCentroided_1_input.mzML", "feature_test.mzML")
 
   from pyopenms import *
 
@@ -29,7 +42,7 @@ to find ``Features`` in MS data:
 
   # Load data
   input_map = MSExperiment()
-  fh.load("test.mzML", input_map)
+  fh.load("feature_test.mzML", input_map)
   input_map.updateRanges()
 
   ff = FeatureFinder()
@@ -46,8 +59,6 @@ to find ``Features`` in MS data:
   fh = FeatureXMLFile()
   fh.store("output.featureXML", features)
   print("Found", features.size(), "features")
-
-You can get a sample file for analysis directly from `here <https://raw.githubusercontent.com/OpenMS/OpenMS/develop/src/tests/topp/FeatureFinderCentroided_1_input.mzML>`_.
 
 With a few lines of Python, we are able to run powerful algorithms available in
 OpenMS. The resulting data is held in memory (a ``FeatureMap`` object) and can be

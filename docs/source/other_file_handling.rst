@@ -75,7 +75,10 @@ Quantiative data (featureXML, consensusXML)
 -------------------------------------------------------
 
 OpenMS stores quantitative information in the internal ``featureXML`` and
-``consensusXML`` data formats.  These can be accessed as follows:
+``consensusXML`` data formats. The ``featureXML`` format is used to store
+quantitative data from a single LC-MS/MS run while the ``consensusXML`` is used
+to store quantitative data from multiple LC-MS/MS runs. These can be accessed
+as follows:
 
 .. code-block:: python
 
@@ -97,11 +100,21 @@ and for ``consensusXML``
     from pyopenms import *
     gh = "https://raw.githubusercontent.com/OpenMS/OpenMS/develop"
     urlretrieve (gh + "/src/tests/class_tests/openms/data/ConsensusXMLFile_1.consensusXML", "test.consensusXML")
-    features = ConsensusMap()
-    ConsensusXMLFile().load("test.consensusXML", features)
-    ConsensusXMLFile().store("test.out.consensusXML", features)
+    consensus_features = ConsensusMap()
+    ConsensusXMLFile().load("test.consensusXML", consensus_features)
+    ConsensusXMLFile().store("test.out.consensusXML", consensus_features)
 
 
+.. PyOpenMS also also supports mzQuantML, however this format is currently work in
+.. progress and should not be considered stable.
+.. 
+.. .. code-block:: python
+.. 
+..     from pyopenms import *
+..     msquant = MSQuantifications()
+..     msquant.addConsensusMap(consensus_features)
+..     MzQuantMLFile().store("file.mzquant", msquant)
+.. 
 Transition data (TraML)
 -------------------------------------------------------
 

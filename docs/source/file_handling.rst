@@ -33,6 +33,7 @@ manipulate the spectra in the file for example as follows:
     for s in exp.getSpectra():
         if s.getMSLevel() != 1:
             spec.append(s)
+
     exp.setSpectra(spec)
 
 Which will only keep MS2 spectra in the ``MSExperiment``. We can then store the modified data structure on disk:
@@ -64,7 +65,7 @@ Putting this together, a small filtering program would look like this:
 indexed mzML files
 ******************
 
-With pyOpenMS 2.4, you can open, read and inspect files that use the
+Since pyOpenMS 2.4, you can open, read and inspect files that use the
 indexedMzML standard. This allows users to read MS data without loading all
 data into memory:
 
@@ -168,9 +169,9 @@ use this to implement a simple filtering function for mass spectra:
                 self._internal_consumer.consumeSpectrum(s)
 
     ###################################
-    filter_string = b"DECOY"
-    inputfile = b"in.mzML"
-    outputfile = b"out.mzML"
+    filter_string = "DECOY"
+    inputfile = "in.mzML"
+    outputfile = "out.mzML"
     ###################################
 
     consumer = PlainMSDataWritingConsumer(outputfile)

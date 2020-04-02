@@ -8,6 +8,12 @@ Summary
 
 pyOpenMS is an open-source Python library for mass spectrometry, specifically for the analysis of proteomics and metabolomics data in Python. pyOpenMS implements a set of Python bindings to the OpenMS library for computational mass spectrometry and is available for Windows, Linux and OSX.
 
+PyOpenMS provides functionality that is commonly used in computational mass
+spectrometry.  The pyOpenMS package contains Python bindings for a large part of the OpenMS
+library (http://www.open-ms.de) for mass spectrometry based proteomics. It thus
+provides facile access to a feature-rich, open-source algorithm
+library for mass-spectrometry based proteomics analysis. 
+
 pyOpenMS facilitates the execution of common tasks in protoemics (and other mass spectrometric fields) such as 
 
 - file handling (mzXML, mzML, TraML, mzTab, fasta, pepxml, protxml, mzIdentML among others)
@@ -26,7 +32,7 @@ Please see the appendix of the official `pyOpenMS Manual
 <http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ for a complete documentation
 of the pyOpenMS API and all wrapped classes.
 
-Note: the current documentation relates to the 2.4.0 release of pyOpenMS.
+Note: the current documentation relates to the 2.5.0 release of pyOpenMS.
 
 
 .. toctree::
@@ -41,33 +47,40 @@ Note: the current documentation relates to the 2.4.0 release of pyOpenMS.
 
    getting_started
    file_handling
+   mzMLFileFormat
    other_file_handling
 
 .. toctree::
    :maxdepth: 2
-   :caption: Mass Spectrometry Concepts:
+   :caption: Mass Spectrometry Concepts
 
    datastructures
    chemistry
    aasequences
+   nasequences
+   theoreticalspectrumgenerator
    digestion
-   mass_decomposition
    datastructures_id
    datastructures_quant
 
 .. toctree::
    :maxdepth: 2
-   :caption: Simple Data Manipulation:
+   :caption: Simple Data Manipulation
 
    data_manipulation
 
 .. toctree::
    :maxdepth: 2
-   :caption: OpenMS Algorithms:
+   :caption: OpenMS Algorithms
 
    parameter_handling
    algorithms
+   smoothing
+   mass_decomposition
+   deisotoping
    feature_detection
+   peptide_search
+   chromatographic_analysis
 
 .. toctree::
    :maxdepth: 2
