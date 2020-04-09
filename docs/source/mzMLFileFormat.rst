@@ -1,11 +1,12 @@
 mzML files
 ==========
 
-ADVANCED SECTION:
+.. NOTE::
 
-In this section, we will investigate the mzML file format in greater detail.
-The intricacies of the mzML file format are all handled by pyOpenMS internally
-and this section is only intended for the interested reader
+    This is an advanced section that dives deep into the mzML format and we
+    will investigate the file format in greater detail.  The intricacies of the
+    mzML file format are all handled by pyOpenMS internally
+    and this section is only intended for the interested reader
 
 Specifically, we will look at mzML stores raw spectral data and how this data
 is encoded in the XML format. The mzML standard is developed by the HUPO-PSI
@@ -18,7 +19,7 @@ encode all meta data and stores the raw data using `Base64 encoding
 Binary encoding
 ---------------
 
-To proceed, we will download an example file:
+:index:`To proceed <Binary encoding (mzML)>`, we will download an example file:
 
 .. code-block:: python
 
@@ -71,8 +72,9 @@ this is a synthetic dataset).
 Base64 encoding
 ---------------
 
-From the mzML standard, we know that the array is base64 encoded and we can now
-try to decode this data ourselves. We will first use pure Python functions :
+From the mzML standard, we know that the array is :index:`base64 <Base64
+encoding>` encoded and we can now try to decode this data ourselves. We will
+first use pure Python functions :
 
 .. code-block:: python
     :linenos:
@@ -147,7 +149,7 @@ shorter still.
 numpress encoding
 -----------------
 
-We can do even better, using the numpress compression. The numpress algorithm
+We can do even better, using the :index:`numpress <numpress>` compression. The numpress algorithm
 uses lossy compression, similar to jpeg compression, which is capable of
 compressing data even further but at the cost of not being able to recover the
 original input data exactly:
