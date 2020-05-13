@@ -15,6 +15,14 @@ Philipp Baltik, Till Englert, Sevvalli Thavapalan, Fabian Wurth
 
 2. Zeigt anhand von ein paar Screenshots dass ihr die graphischen Komponenten in pyopenms-extra/tree/master/src/examples ausführen könnt.
    - Example Screenshots:
+##### Error Widget  
+![alt text](Screenshots/GUI_ErrorWidget.png "Errorwidget")
+
+##### MS1Map Widget
+![alt text](Screenshots/Gui_MS1MapWidget.png "MS1Mapwidget")
+
+##### Spectrum Widget
+![alt text](Screenshots/Gui_spectrumWidget.png "Spectrumwidget")
    -
 3. Erstellt eine github.io page für diese und die folgenden Wochen und erstellt einen kurzen Report der uns nachverfolgen lässt dass ihr die einzelnen Aufgaben erfüllt habt. Fügt hier auch die Screenshots ein. ✔️
 4. Wir wollen in Zukunft mit Hilfe von Continuous Integration (CI) bei der Arbeit im Team sicherstellen dass gewisse Konventionen und Codingstandards eingehalten werden. Lest euch in https://realpython.com/python-continuous-integration/ ein. Fügt einen Flake8 Test hinzu der automatisch neu geöffnete Pull Requests auf Codingstandards analysiert. 
