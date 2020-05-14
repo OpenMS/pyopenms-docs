@@ -17,7 +17,8 @@ Philipp Baltik, Till Englert, Sevvalli Thavapalan, Fabian Wurth
    - Example Screenshots:
    -
 3. Erstellt eine github.io page für diese und die folgenden Wochen und erstellt einen kurzen Report der uns nachverfolgen lässt dass ihr die einzelnen Aufgaben erfüllt habt. Fügt hier auch die Screenshots ein. ✔️
-4. Wir wollen in Zukunft mit Hilfe von Continuous Integration (CI) bei der Arbeit im Team sicherstellen dass gewisse Konventionen und Codingstandards eingehalten werden. Lest euch in https://realpython.com/python-continuous-integration/ ein. Fügt einen Flake8 Test hinzu der automatisch neu geöffnete Pull Requests auf Codingstandards analysiert. 
+4. Wir wollen in Zukunft mit Hilfe von Continuous Integration (CI) bei der Arbeit im Team sicherstellen dass gewisse Konventionen und Codingstandards eingehalten werden. Lest euch in https://realpython.com/python-continuous-integration/ ein. Fügt einen Flake8 Test hinzu der automatisch neu geöffnete Pull Requests auf Codingstandards analysiert. ✔️
+
 5. Zum Test der CI Funktionalität sollte jedes Mitglied eines Teams auf einem eigenen Branch eine kleine Änderung an einem Beispiel aus pyopenms-extra/tree/master/src/examples vornehmen und einen Pull Request auf euer Team Repository öffnen.
 
 pyOpenMS Extra
