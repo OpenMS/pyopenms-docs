@@ -40,7 +40,7 @@ class ScanTableWidget(QWidget):
 
     ===============================  =============================================================================
     """
-    
+
     sigScanClicked = pyqtSignal(QModelIndex, name='scanClicked')
 
     header = ['MS level', 'Index', 'RT (min)', 'precursor m/z', 'charge', 'ID', 'PeptideSeq', 'PeptideIons']
@@ -73,7 +73,7 @@ class ScanTableWidget(QWidget):
        # connect signals to slots
        self.table_view.selectionModel().currentChanged.connect(self.onCurrentChanged) # keyboard moves to new row
        self.horizontalHeader.sectionClicked.connect(self.onHeaderClicked)
-       
+
        layout = QVBoxLayout(self)
        layout.addWidget(self.table_view)
        self.setLayout(layout)
@@ -150,7 +150,7 @@ class ScanTableModel(QAbstractTableModel):
     def __init__(self, parent, ms_experiment, header, *args):
        QAbstractTableModel.__init__(self, parent, *args)
        self.header = header
-       
+
        # create array with MSSpectrum
        self.scanRows = self.getScanListAsArray(ms_experiment) # data type: list
 
@@ -161,7 +161,7 @@ class ScanTableModel(QAbstractTableModel):
             RT = spec.getRT()
             prec_mz = "-"
             charge = "-"
-            native_id = spec.getNativeID().decode()
+            native_id = spec.getNativeID()
             if len(spec.getPrecursors()) == 1:
                 prec_mz = spec.getPrecursors()[0].getMZ()
                 charge = spec.getPrecursors()[0].getCharge()
@@ -170,7 +170,7 @@ class ScanTableModel(QAbstractTableModel):
 
             scanArr.append([MSlevel, index, RT, prec_mz, charge, native_id, PeptideSeq, PeptideIons])
         return scanArr
-        
+
     def headerData(self, col, orientation, role):
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
            return self.header[col]
@@ -178,10 +178,10 @@ class ScanTableModel(QAbstractTableModel):
 
     def rowCount(self, parent):
         return len(self.scanRows)
-    
+
     def columnCount(self, parent):
         return len(self.header)
-    
+
     def setData(self, index, value, role):
         if index.isValid() and role == Qt.DisplayRole:
             self.scanRows[index.row()][index.column()] = value
@@ -202,11 +202,3 @@ class ScanTableModel(QAbstractTableModel):
             return value
         elif role == Qt.DisplayRole:
             return value
-
-
-
-
-
-
-
-
