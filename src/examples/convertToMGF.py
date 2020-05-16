@@ -35,7 +35,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # Read input
 import pyopenms, sys
 if len(sys.argv) <= 2:
-    print "Usage: convertToMGF.py inputfile outputfile"
+    print("Usage: convertToMGF.py inputfile outputfile")
     sys.exit()
 
 msdata = pyopenms.MSExperiment()
