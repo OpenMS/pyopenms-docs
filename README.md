@@ -29,7 +29,7 @@ Philipp Baltik, Till Englert, Sevvalli Thavapalan, Fabian Wurth
  ![alt text](Screenshots/ScanBrowser.png "ScanBrowser")
  ![alt text](Screenshots/ScanTable.png "ScanTable")
 
-<<<<<<< HEAD
+
 
 ###### Lösung 
 - ./src/view/ScanTableWidget.py: In Zeile 164 .decode() musste entfernt werden
