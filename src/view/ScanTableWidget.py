@@ -161,7 +161,7 @@ class ScanTableModel(QAbstractTableModel):
             RT = spec.getRT()
             prec_mz = "-"
             charge = "-"
-            native_id = spec.getNativeID().decode()
+            native_id = spec.getNativeID()
             if len(spec.getPrecursors()) == 1:
                 prec_mz = spec.getPrecursors()[0].getMZ()
                 charge = spec.getPrecursors()[0].getCharge()

@@ -29,6 +29,19 @@ Philipp Baltik, Till Englert, Sevvalli Thavapalan, Fabian Wurth
  ![alt text](Screenshots/ScanBrowser.png "ScanBrowser")
  ![alt text](Screenshots/ScanTable.png "ScanTable")
 
+<<<<<<< HEAD
+
+###### Lösung 
+- ./src/view/ScanTableWidget.py: In Zeile 164 .decode() musste entfernt werden
+- ./src/view/ScanBrowserWidget.py: pyopenms musste importiert werden
+
+![alt text](Screenshots/ScanBrowserfix.png "ScanBrowser")
+![alt text](Screenshots/ScanTablefix.png "ScanTable")
+
+
+
+=======
+>>>>>>> master
 
 3. Erstellt eine github.io page für diese und die folgenden Wochen und erstellt einen kurzen Report der uns nachverfolgen lässt dass ihr die einzelnen Aufgaben erfüllt habt. Fügt hier auch die Screenshots ein. ✔️
 4. Wir wollen in Zukunft mit Hilfe von Continuous Integration (CI) bei der Arbeit im Team sicherstellen dass gewisse Konventionen und Codingstandards eingehalten werden. Lest euch in https://realpython.com/python-continuous-integration/ ein. Fügt einen Flake8 Test hinzu der automatisch neu geöffnete Pull Requests auf Codingstandards analysiert. ✔️
