@@ -52,12 +52,12 @@ def convertToMSSpectrum(input_):
 """
 Two phospho scorers, the interface is available through the "score" function:
 
-- Input: 
+- Input:
   - PeptideHit (pyopenms.PeptideHit)
   - Spectrum (pyopenms.MSSpectrum)
   - [Scorer massDelta]
 
-- Output: 
+- Output:
     [ Score, NewSequence ]
 """
 
@@ -114,7 +114,7 @@ class PhosphoScorerSimple:
 
     def compare_binnedSpectra(self, sp1, sp2):
         """Compare two binned spectra, return a similarity score
-        
+
         The two binned spectra should be created by a call to binSpectrum."""
 
         start = max(min(sp1.keys()), min(sp2.keys()))
@@ -125,8 +125,8 @@ class PhosphoScorerSimple:
         magnitude1 = math.sqrt( sum([v*v for v in sp1.values()] ) )
         magnitude2 = math.sqrt( sum([v*v for v in sp2.values()] ) )
 
-        sp1_norm = dict( [(k, v/magnitude1) for k,v in sp1.iteritems()] ) 
-        sp2_norm = dict( [(k, v/magnitude2) for k,v in sp2.iteritems()] ) 
+        sp1_norm = dict( [(k, v/magnitude1) for k,v in sp1.iteritems()] )
+        sp2_norm = dict( [(k, v/magnitude2) for k,v in sp2.iteritems()] )
 
         # Compute similarity score
         score = 0
@@ -148,5 +148,4 @@ class PhosphoScorerSimple:
         return bins
 
 if __name__ == "__main__":
-    print "This file is intended as library and not as Python executable, please do not execute it directly."
-
+    print ("This file is intended as library and not as Python executable, please do not execute it directly.")
