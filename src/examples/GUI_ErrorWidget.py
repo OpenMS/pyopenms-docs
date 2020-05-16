@@ -13,6 +13,7 @@ if __name__ == '__main__':
 
     # add example widget to window
     example_widget = ErrorWidget(ex)
+    ex.setWindowTitle('Error Widget')
     x = np.array([1,2,3,4,5,6,7,8,9,10])
     y = np.array([-2,3,-8,-4,3,12, -15,10, 5, -12])
     green = (0, 255, 0)
