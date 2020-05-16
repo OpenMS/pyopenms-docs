@@ -17,7 +17,7 @@ class GUI_EXAMPLE_BASE(QMainWindow):
 
     def __init__(self):
         QMainWindow.__init__(self)
-        self.resize(800, 600) 
+        self.resize(800, 601)
         self._initUI()
 
     def _initUI(self):
