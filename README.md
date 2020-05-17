@@ -1,6 +1,6 @@
 github.io Page
 =============
-Our github.io page can be found under:
+Our github.io page can be found under: <br>
 https://fabian1567.github.io/Teamprojekt-SS20-Laura-Yannik-Fabian/
 
 pyOpenMS Extra
