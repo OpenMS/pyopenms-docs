@@ -40,7 +40,7 @@ Der Zeitaufwand bis es irgendwann gelöst war lag locker bei sieben Stunden. Fru
 Die entsprechenden Fehlermeldung hier:
 
 **Fehlermeldungen durch veraltete Libraries**
-![alt text](Screenshots/loading PpyOpenMS libraries Fehler.png)
+![alt text](Screenshots/loading-PpyOpenMS-libraries-Fehler.png)
 
 
 
