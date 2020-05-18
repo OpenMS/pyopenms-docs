@@ -10,6 +10,7 @@ class RTUnitDelegate(QItemDelegate):
     the table are not changed, only difference is the display of the data in table_view. s
 
     """
+
     def __init__(self, parent, *args):
         super(RTUnitDelegate, self).__init__(parent, *args)
 
@@ -40,55 +41,56 @@ class ScanTableWidget(QWidget):
 
     ===============================  =============================================================================
     """
-    
+
     sigScanClicked = pyqtSignal(QModelIndex, name='scanClicked')
 
     header = ['MS level', 'Index', 'RT (min)', 'precursor m/z', 'charge', 'ID', 'PeptideSeq', 'PeptideIons']
+
     def __init__(self, ms_experiment, *args):
-       QWidget.__init__(self, *args)
-       self.ms_experiment = ms_experiment
+        QWidget.__init__(self, *args)
+        self.ms_experiment = ms_experiment
 
-       self.table_model = ScanTableModel(self, self.ms_experiment, self.header)
-       self.table_view = QTableView()
+        self.table_model = ScanTableModel(self, self.ms_experiment, self.header)
+        self.table_view = QTableView()
 
-       # register a proxy class for filering and sorting the scan table
-       self.proxy = QSortFilterProxyModel(self)
-       self.proxy.setSourceModel(self.table_model)
+        # register a proxy class for filering and sorting the scan table
+        self.proxy = QSortFilterProxyModel(self)
+        self.proxy.setSourceModel(self.table_model)
 
-       self.table_view.sortByColumn(1, Qt.AscendingOrder)
+        self.table_view.sortByColumn(1, Qt.AscendingOrder)
 
-       # setup selection model
-       self.table_view.setSelectionMode(QAbstractItemView.SingleSelection)
-       self.table_view.setSelectionBehavior(QAbstractItemView.SelectRows)
-       self.table_view.setModel(self.proxy)
-       self.table_view.setSelectionModel(QItemSelectionModel(self.proxy))
+        # setup selection model
+        self.table_view.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.table_view.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.table_view.setModel(self.proxy)
+        self.table_view.setSelectionModel(QItemSelectionModel(self.proxy))
 
-       # header
-       self.horizontalHeader = self.table_view.horizontalHeader()
-       self.horizontalHeader.sectionClicked.connect(self.onHeaderClicked)
+        # header
+        self.horizontalHeader = self.table_view.horizontalHeader()
+        self.horizontalHeader.sectionClicked.connect(self.onHeaderClicked)
 
-       # enable sorting
-       self.table_view.setSortingEnabled(True)
+        # enable sorting
+        self.table_view.setSortingEnabled(True)
 
-       # connect signals to slots
-       self.table_view.selectionModel().currentChanged.connect(self.onCurrentChanged) # keyboard moves to new row
-       self.horizontalHeader.sectionClicked.connect(self.onHeaderClicked)
-       
-       layout = QVBoxLayout(self)
-       layout.addWidget(self.table_view)
-       self.setLayout(layout)
+        # connect signals to slots
+        self.table_view.selectionModel().currentChanged.connect(self.onCurrentChanged)  # keyboard moves to new row
+        self.horizontalHeader.sectionClicked.connect(self.onHeaderClicked)
 
-       # hide column 7 with the PepIon data, intern information usage
-       self.table_view.setColumnHidden(7, True)
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.table_view)
+        self.setLayout(layout)
 
-       # Add rt in minutes for better TIC interaction
-       self.table_view.setItemDelegateForColumn(2, RTUnitDelegate(self))
-       self.table_view.setColumnWidth(2, 160)
+        # hide column 7 with the PepIon data, intern information usage
+        self.table_view.setColumnHidden(7, True)
 
-       # default : first row selected. in OpenMSWidgets
+        # Add rt in minutes for better TIC interaction
+        self.table_view.setItemDelegateForColumn(2, RTUnitDelegate(self))
+        self.table_view.setColumnWidth(2, 160)
+
+        # default : first row selected. in OpenMSWidgets
 
     def onRowSelected(self, index):
-        if index.siblingAtColumn(1).data() == None: return # prevents crash if row gets filtered out
+        if index.siblingAtColumn(1).data() == None: return  # prevents crash if row gets filtered out
         self.curr_spec = self.ms_experiment.getSpectrum(index.siblingAtColumn(1).data())
         self.scanClicked.emit(index)
 
@@ -96,7 +98,7 @@ class ScanTableWidget(QWidget):
         self.onRowSelected(new_index)
 
     def onHeaderClicked(self, logicalIndex):
-        if logicalIndex != 0: return # allow filter on first column only for now
+        if logicalIndex != 0: return  # allow filter on first column only for now
 
         self.logicalIndex = logicalIndex
         self.menuValues = QMenu(self)
@@ -143,16 +145,18 @@ class ScanTableWidget(QWidget):
         self.proxy.setFilterRegExp(filterString)
         self.proxy.setFilterKeyColumn(filterColumn)
 
+
 class ScanTableModel(QAbstractTableModel):
     '''
         TODO: directly read model data from MSExperiment to remove copies
     '''
+
     def __init__(self, parent, ms_experiment, header, *args):
-       QAbstractTableModel.__init__(self, parent, *args)
-       self.header = header
-       
-       # create array with MSSpectrum
-       self.scanRows = self.getScanListAsArray(ms_experiment) # data type: list
+        QAbstractTableModel.__init__(self, parent, *args)
+        self.header = header
+
+        # create array with MSSpectrum
+        self.scanRows = self.getScanListAsArray(ms_experiment)  # data type: list
 
     def getScanListAsArray(self, ms_experiment):
         scanArr = []
@@ -161,7 +165,7 @@ class ScanTableModel(QAbstractTableModel):
             RT = spec.getRT()
             prec_mz = "-"
             charge = "-"
-            native_id = spec.getNativeID().decode()
+            native_id = spec.getNativeID()
             if len(spec.getPrecursors()) == 1:
                 prec_mz = spec.getPrecursors()[0].getMZ()
                 charge = spec.getPrecursors()[0].getCharge()
@@ -170,18 +174,18 @@ class ScanTableModel(QAbstractTableModel):
 
             scanArr.append([MSlevel, index, RT, prec_mz, charge, native_id, PeptideSeq, PeptideIons])
         return scanArr
-        
+
     def headerData(self, col, orientation, role):
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
-           return self.header[col]
+            return self.header[col]
         return None
 
     def rowCount(self, parent):
         return len(self.scanRows)
-    
+
     def columnCount(self, parent):
         return len(self.header)
-    
+
     def setData(self, index, value, role):
         if index.isValid() and role == Qt.DisplayRole:
             self.scanRows[index.row()][index.column()] = value
@@ -191,22 +195,14 @@ class ScanTableModel(QAbstractTableModel):
 
     def flags(self, index):
         if not index.isValid():
-           return None
+            return None
         return Qt.ItemIsEnabled | Qt.ItemIsSelectable
 
     def data(self, index, role):
         if not index.isValid():
-           return None
+            return None
         value = self.scanRows[index.row()][index.column()]
         if role == Qt.EditRole:
             return value
         elif role == Qt.DisplayRole:
             return value
-
-
-
-
-
-
-
-
