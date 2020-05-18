@@ -1,4 +1,6 @@
 import sys
+
+import pyopenms
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
         QHBoxLayout, QWidget, QDesktopWidget, \
         QAction, QFileDialog, QTableView, QSplitter, \
