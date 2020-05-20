@@ -73,4 +73,5 @@ for spectrum in msdata:
     outfile.write("END IONS\n")
 
 if nr_ms2_spectra == 0:
-    print("Did not find any MS2 spectra in your input, thus the output file is empty!")
+    print("Did not find any MS2 spectra in your input,"
+          " thus the output file is empty!")
