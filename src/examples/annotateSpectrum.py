@@ -4,7 +4,7 @@ from pyopenms import *
 exp = MSExperiment()
 
 # Load file into experiment container
-MzMLFile().load('../data/YIC(Carbamidomethyl)DNQDTISSK.mzML', exp)
+MzMLFile().load("../data/YIC(Carbamidomethyl)DNQDTISSK.mzML", exp)
 
 # Get first spectrum
 spectra = exp.getSpectra()
@@ -17,23 +17,31 @@ p = tsg.getParameters()
 p.setValue(b"add_b_ions", b"true", b"Add peaks of b-ions to the spectrum")
 p.setValue(b"add_metainfo", b"true", "")
 tsg.setParameters(p)
-tsg.getSpectrum(theo_spectrum, AASequence.fromString("YIC(Carbamidomethyl)DNQDTISSK"), 1, 2)
+tsg.getSpectrum(
+    theo_spectrum, AASequence.fromString("YIC(Carbamidomethyl)DNQDTISSK"), 1, 2
+)
 
 # Compute PSM
 alignment = []
-spa = SpectrumAlignment() 
+spa = SpectrumAlignment()
 p = spa.getParameters()
 p.setValue(b"tolerance", 0.5)
-p.setValue(b"is_relative_tolerance", b"false") # 0.5 Da tolerance
+p.setValue(b"is_relative_tolerance", b"false")  # 0.5 Da tolerance
 spa.setParameters(p)
-spa.getSpectrumAlignment(alignment, theo_spectrum, spectrum) 
+spa.getSpectrumAlignment(alignment, theo_spectrum, spectrum)
 
 # Print matching ions and mz from theoretical spectrum
 print("Matched peaks: " + str(len(alignment)))
 print("ion\ttheo. m/z\tobserved m/z")
 
 for theo_idx, obs_idx in alignment:
-    print(theo_spectrum.getStringDataArrays()[0][theo_idx].decode() + "\t" + str(theo_spectrum[theo_idx].getMZ()) + "\t" + str(spectrum[obs_idx].getMZ()))
+    print(
+        theo_spectrum.getStringDataArrays()[0][theo_idx].decode()
+        + "\t"
+        + str(theo_spectrum[theo_idx].getMZ())
+        + "\t"
+        + str(spectrum[obs_idx].getMZ())
+    )
 
 # Matched peaks: 16
 # ion     theo. m/z       observed m/z

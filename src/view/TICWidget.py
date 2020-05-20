@@ -8,8 +8,8 @@ from pyqtgraph import PlotWidget
 import numpy as np
 
 
-pg.setConfigOption('background', 'w')  # white background
-pg.setConfigOption('foreground', 'k')  # black peaks
+pg.setConfigOption("background", "w")  # white background
+pg.setConfigOption("foreground", "k")  # black peaks
 
 
 class TICWidget(PlotWidget):
@@ -25,15 +25,18 @@ class TICWidget(PlotWidget):
                                      RT values within the region.
     ===============================  =============================================================================
     """
-    sigRTClicked = pyqtSignal(float, name='sigRTClicked')
-    sigSeleRTRegionChangeFinished = pyqtSignal(float, float, name='sigRTRegionChangeFinished')
+
+    sigRTClicked = pyqtSignal(float, name="sigRTClicked")
+    sigSeleRTRegionChangeFinished = pyqtSignal(
+        float, float, name="sigRTRegionChangeFinished"
+    )
 
     def __init__(self, parent=None, dpi=100):
         PlotWidget.__init__(self)
         self.setLimits(yMin=0, xMin=0)
         self.setMouseEnabled(y=False)
-        self.setLabel('bottom', 'RT (min)')
-        self.setLabel('left', 'relative intensity (%)')
+        self.setLabel("bottom", "RT (min)")
+        self.setLabel("left", "relative intensity (%)")
         self._peak_labels = {}
         # numpy arrays for fast look-up
         self._rts = np.array([])
@@ -43,12 +46,11 @@ class TICWidget(PlotWidget):
         self._region = None
         self.getViewBox().sigXRangeChanged.connect(self._autoscaleYAxis)
 
-        self.scene().sigMouseClicked.connect(self._clicked) # emits rt_clicked
+        self.scene().sigMouseClicked.connect(self._clicked)  # emits rt_clicked
 
         # shortcut to init region
         self.shortcut1 = QShortcut(QKeySequence("Ctrl+r"), self)
         self.shortcut1.activated.connect(self._rgn_shortcut)
-
 
     def setTIC(self, chromatogram):
         """
@@ -68,23 +70,19 @@ class TICWidget(PlotWidget):
             self._autoscaleYAxis()
             self.redrawPlot()
         except ValueError:
-            print('No TIC values in spectrum')
-
+            print("No TIC values in spectrum")
 
     def _rts_in_min(self):
-        self._rts = np.array([x/60 for x in self._rts])
-
+        self._rts = np.array([x / 60 for x in self._rts])
 
     def _relative_ints(self):
         maxInt = np.amax(self._ints)
-        self._ints = np.array([((x/maxInt)*100) for x in self._ints])
-
+        self._ints = np.array([((x / maxInt) * 100) for x in self._ints])
 
     def redrawPlot(self):
         self.plot(clear=True)
         self._plot_tic()
         self._draw_peak_label()
-
 
     def _autoscaleYAxis(self):
         """
@@ -92,7 +90,7 @@ class TICWidget(PlotWidget):
         depending on the current displayed RT values.
 
         """
-        x_range = self.getAxis('bottom').range
+        x_range = self.getAxis("bottom").range
         if x_range == [0, 1]:  # workaround for axis sometimes not being set
             x_range = [np.amin(self._rts), np.amax(self._rts)]
         self.currMaxY = self._getMaxIntensityInRange(x_range)
@@ -100,23 +98,20 @@ class TICWidget(PlotWidget):
             self.setYRange(0, self.currMaxY, update=False)
             self._redrawLabels()
 
-
     def _getMaxIntensityInRange(self, xrange):
         """
         :param xrange: A list of [min, max] bounding RT values.
         :return: An float value representing the maximal intensity current x range.
         """
-        left = np.searchsorted(self._rts, xrange[0], side='left')
-        right = np.searchsorted(self._rts, xrange[1], side='right')
+        left = np.searchsorted(self._rts, xrange[0], side="left")
+        right = np.searchsorted(self._rts, xrange[1], side="right")
         self._currentIntensitiesInRange = self._ints[left:right]
 
         return np.amax(self._ints[left:right], initial=1)
 
-
     def _plot_tic(self):
         plotgraph = pg.PlotDataItem(self._rts, self._ints)
         self.addItem(plotgraph)
-
 
     def _find_Peak(self):
         """
@@ -138,7 +133,8 @@ class TICWidget(PlotWidget):
                         continue
                     elif peakValue > data[j]:
                         peakIndex = indx + np.floor(abs(indx - j) / 2)
-                        maxIndices[peakIndex.astype(int)] = 1 # marking found index
+                        # marking found index
+                        maxIndices[peakIndex.astype(int)] = 1
                         indx = j
                         break
             peakValue = data[indx]
@@ -149,29 +145,24 @@ class TICWidget(PlotWidget):
 
         return maxIndices
 
-
-
     def _add_label(self, label_id, label_text, pos_x, pos_y):
         label = pg.TextItem(anchor=(0.5, 1))
-        label.setText(text='{0:.2f}'.format(label_text), color=(0, 0, 0))
+        label.setText(text="{0:.2f}".format(label_text), color=(0, 0, 0))
         label.setPos(pos_x, pos_y)
-        self._peak_labels[label_id] = {'label': label}
+        self._peak_labels[label_id] = {"label": label}
         self.addItem(label, ignoreBounds=True)
 
         if self._label_clashes(label_id):
             self._remove_label(label_id)
 
-
     def _remove_label(self, label_id):
-        self.removeItem(self._peak_labels[label_id]['label'])
+        self.removeItem(self._peak_labels[label_id]["label"])
         del self._peak_labels[label_id]
-
 
     def _clear_labels(self):
         for label_id in self._peak_labels.keys():
-            self.removeItem(self._peak_labels[label_id]['label'])
+            self.removeItem(self._peak_labels[label_id]["label"])
         self._peak_labels = {}
-
 
     def _label_clashes(self, label_id):
         """
@@ -194,13 +185,17 @@ class TICWidget(PlotWidget):
         for exist_label in list(self._peak_labels):
             if exist_label != new_label:
                 new_label_rect = self._peak_labels[new_label]["label"].mapRectToDevice(
-                    self._peak_labels[new_label]["label"].boundingRect())
-                exist_label_rect = self._peak_labels[exist_label]["label"].mapRectToDevice(
-                    self._peak_labels[exist_label]["label"].boundingRect())
+                    self._peak_labels[new_label]["label"].boundingRect()
+                )
+                exist_label_rect = self._peak_labels[exist_label][
+                    "label"
+                ].mapRectToDevice(
+                    self._peak_labels[exist_label]["label"].boundingRect()
+                )
 
                 if not new_label_rect.intersects(exist_label_rect):
-                    exist_label_X = self._peak_labels[exist_label]['label'].x()
-                    new_label_X = self._peak_labels[new_label]['label'].x()
+                    exist_label_X = self._peak_labels[exist_label]["label"].x()
+                    new_label_X = self._peak_labels[new_label]["label"].x()
 
                     distance = abs(new_label_X - exist_label_X)
 
@@ -218,7 +213,6 @@ class TICWidget(PlotWidget):
                     clash = False
         return clash
 
-
     def _draw_peak_label(self):
         """
         Function draws peak labels, starting with the maximal peak to the minimal peak. In each addition possible
@@ -228,35 +222,40 @@ class TICWidget(PlotWidget):
         if self._peak_labels == {}:
             for index in self._peak_indices:
                 if self._ints[index] in self._currentIntensitiesInRange:
-                    self._add_label(index, self._rts[index], self._rts[index], self._ints[index])
-
+                    self._add_label(
+                        index, self._rts[index], self._rts[index], self._ints[index]
+                    )
 
     def _redrawLabels(self):
         self._clear_labels()
         self._draw_peak_label()
-
 
     def _clicked(self, event):
         try:
             pos = event.scenePos()
             if self.sceneBoundingRect().contains(pos):
                 mouse_point = self.getViewBox().mapSceneToView(pos)
-                closest_datapoint_idx = self._calculate_closest_datapoint(mouse_point.x())
-                self.sigRTClicked.emit(self._rts[closest_datapoint_idx]) # notify observers
+                closest_datapoint_idx = self._calculate_closest_datapoint(
+                    mouse_point.x()
+                )
+                self.sigRTClicked.emit(
+                    self._rts[closest_datapoint_idx]
+                )  # notify observers
 
             # check the selected rt region and return the bounds
             if self._region is not None:
-                self._region.sigRegionChangeFinished.connect(self._rtRegionBounds)
+                self._region.sigRegionChangeFinished.connect(
+                    self._rtRegionBounds)
 
         except ValueError:
-            print('No TIC values to click on')
-
+            print("No TIC values to click on")
 
     def mouseDoubleClickEvent(self, event):
         super(TICWidget, self).mouseDoubleClickEvent(event)
         try:
             mouse_point = self.getViewBox().mapSceneToView(event.pos())
-            closest_datapoint_idx = self._calculate_closest_datapoint(mouse_point.x())
+            closest_datapoint_idx = self._calculate_closest_datapoint(
+                mouse_point.x())
             rgn_start = self._rts[closest_datapoint_idx]
 
             if self._region is None:
@@ -268,8 +267,7 @@ class TICWidget(PlotWidget):
             # delete the region when hovering over the region per doubleClk
             self._delete_region()
         except ValueError:
-            print('No TIC values to click on')
-
+            print("No TIC values to click on")
 
     def _calculate_closest_datapoint(self, point_x):
         """
@@ -277,9 +275,9 @@ class TICWidget(PlotWidget):
         :return: closest data point near a peak
 
         """
-        larger_idx = np.searchsorted(self._rts, point_x, side='left')
+        larger_idx = np.searchsorted(self._rts, point_x, side="left")
         smaller_idx = 0
-        if larger_idx >= self._rts.size: # to avoid array out of bounds
+        if larger_idx >= self._rts.size:  # to avoid array out of bounds
             larger_idx -= 1
         if larger_idx > 0:
             smaller_idx = larger_idx - 1
@@ -291,7 +289,6 @@ class TICWidget(PlotWidget):
 
         return closest_datapoint_idx
 
-
     def _rtRegionBounds(self):
         region_bounds = self._region.getRegion()
         start_rg = region_bounds[0]
@@ -302,14 +299,13 @@ class TICWidget(PlotWidget):
         # set the new region of interest
         self._region.setRegion((start_rg, stop_rg))
 
-        self.sigSeleRTRegionChangeFinished.emit(start_rg, stop_rg)  # notify observers
-
+        self.sigSeleRTRegionChangeFinished.emit(
+            start_rg, stop_rg)  # notify observers
 
     def _delete_region(self):
         if self._region.mouseHovering:
             self.removeItem(self._region)
             self._region = None
-
 
     def _rgn_shortcut(self):
         # click region, with following shortcut -> create region

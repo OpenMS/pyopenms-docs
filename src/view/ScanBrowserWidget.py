@@ -1,32 +1,51 @@
 import sys
 
 import pyopenms
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
-        QHBoxLayout, QWidget, QDesktopWidget, \
-        QAction, QFileDialog, QTableView, QSplitter, \
-        QMenu, QAbstractItemView
-from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, QPoint, QRegExp
+from PyQt5.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QVBoxLayout,
+    QHBoxLayout,
+    QWidget,
+    QDesktopWidget,
+    QAction,
+    QFileDialog,
+    QTableView,
+    QSplitter,
+    QMenu,
+    QAbstractItemView,
+)
+from PyQt5.QtCore import (
+    Qt,
+    QAbstractTableModel,
+    pyqtSignal,
+    QItemSelectionModel,
+    QSortFilterProxyModel,
+    QSignalMapper,
+    QPoint,
+    QRegExp,
+)
 from SpectrumWidget import *
 from ScanTableWidget import ScanTableWidget, ScanTableModel
 
-class ScanBrowserWidget(QWidget):
 
+class ScanBrowserWidget(QWidget):
     def __init__(self, *args, **kwargs):
         QWidget.__init__(self, *args, **kwargs)
         self.mainlayout = QHBoxLayout(self)
         self.isAnnoOn = False
-    
+
     def clearLayout(self, layout):
-        for i in reversed(range(layout.count())): 
+        for i in reversed(range(layout.count())):
             layout.itemAt(i).widget().setParent(None)
 
-    def loadFile(self, file_path):        
+    def loadFile(self, file_path):
         self.isAnnoOn = False
         self.msexperimentWidget = QSplitter(Qt.Vertical)
 
         # data processing
         scans = self.readMS(file_path)
-        
+
         # set Widgets
         self.spectrum_widget = SpectrumWidget()
         self.scan_widget = ScanTableWidget(scans)
@@ -36,7 +55,7 @@ class ScanBrowserWidget(QWidget):
         self.mainlayout.addWidget(self.msexperimentWidget)
 
         # default : first row selected.
-        self.scan_widget.table_view.selectRow(0) 
+        self.scan_widget.table_view.selectRow(0)
 
     def readMS(self, file_path):
         # Later: process other types of file
@@ -45,9 +64,9 @@ class ScanBrowserWidget(QWidget):
         return exp
 
     def redrawPlot(self):
-        #set new spectrum and redraw
+        # set new spectrum and redraw
         self.spectrum_widget.setSpectrum(self.scan_widget.curr_spec)
-        if self.isAnnoOn: # update annotation list
+        if self.isAnnoOn:  # update annotation list
             self.updateController()
         self.spectrum_widget.redrawPlot()
 

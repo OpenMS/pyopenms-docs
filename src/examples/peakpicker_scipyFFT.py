@@ -29,13 +29,15 @@ OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 ###########################################################################
-## Create peak-picking figure
+# Create peak-picking figure
 ###########################################################################
 
 import scipy
 import pyopenms
 import pylab
+
 filename = "data/NoiseFilterSGolay_1_input.mzML"
+
 
 def fft_filter_spec(spec, fft_low_cutoff, fft_high_cutoff):
     # get raw data
@@ -44,7 +46,7 @@ def fft_filter_spec(spec, fft_low_cutoff, fft_high_cutoff):
 
     # fft filter on intensities
     fft = scipy.fft(intensities)
-    fft[:fft_low_cutoff+1] = 0
+    fft[: fft_low_cutoff + 1] = 0
     fft[fft_high_cutoff:] = 0
     filtered_intensities = scipy.ifft(fft).real
     peaks[:, 1] = filtered_intensities
@@ -79,7 +81,7 @@ def plot_spec_and_picked_spec(spectrum, picked_spectrum):
     # scale y-axis max by 1.1
     axis = pylab.gca()
     ymin, ymax = axis.get_ylim()
-    axis.set_ylim([0,ymax * 1.1])
+    axis.set_ylim([0, ymax * 1.1])
 
     picked_peaks = picked_spectrum.get_peaks()
     picked_mz_values, picked_intensities = picked_peaks.T
