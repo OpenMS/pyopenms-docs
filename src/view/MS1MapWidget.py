@@ -22,7 +22,8 @@ class MS1MapWidget(PlotWidget):
         rows = 1.0 / rt_res * msexperiment.getMaxRT()
 
         # create regular spaced data to turn spectra into an image
-        max_intensity = msexperiment.getMaxInt()
+        """se_comment: max_intensity was never used"""
+        """max_intensity = msexperiment.getMaxInt()"""
         bilip = pyopenms.BilinearInterpolation()
         tmp = bilip.getData()
         tmp.resize(int(rows), int(cols), float())

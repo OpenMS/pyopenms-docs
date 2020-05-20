@@ -9,8 +9,8 @@ pg.setConfigOption("foreground", "k")  # black peaks
 
 class ErrorWidget(PlotWidget):
     """
-    Used to plot a error plot to display the derivation between exact mass and theoretical mass.
-
+    Used to plot a error plot to display the derivation
+        between exact mass and theoretical mass.
     """
 
     def __init__(self, *args):
@@ -27,12 +27,15 @@ class ErrorWidget(PlotWidget):
 
     def setMassErrors(self, mz, ppm, colors):
         """
-        Used for creating new error plot with the m/z of the peptides fragments.
-
-        :param mz: An numpy array of m/z (mass divided by charge number) of the ions (starting with xyz or abc)
-        :param ppm: An numpy array of random numbers, ppm needs to be calculated
-        :param colors: An numpy array of colors consisting of red and blue (representing prefix -> blue and suffix
-        -> red ions)
+        Used for creating new error plot
+            with the m/z of the peptides fragments.
+        :param mz: An numpy array of m/z
+            (mass divided by charge number) of the ions
+            (starting with xyz or abc)
+        :param ppm: An numpy array of random numbers,
+            ppm needs to be calculated
+        :param colors: An numpy array of colors consisting of red and blue
+            (representing prefix -> blue and suffix -> red ions)
 
         """
         self._mzs = mz

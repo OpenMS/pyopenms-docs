@@ -26,7 +26,8 @@ LadderAnnoStruct = namedtuple(
 
 class ControllerWidget(QWidget):
     """
-    Used to merge spectrum, table, TIC, error plot and sequenceIons widgets together.
+    Used to merge spectrum, table, TIC,
+    error plot and sequenceIons widgets together.
 
     """
 
@@ -122,7 +123,8 @@ class ControllerWidget(QWidget):
 
         self.saveIdData()
 
-    def saveIdData(self):  # save ID data in table (correct rows) for later usage
+    def saveIdData(self):
+        # save ID data in table (correct rows) for later usage
         rows = self.scan_widget.table_model.rowCount(self.scan_widget)
 
         for row in range(0, rows - 1):
@@ -131,11 +133,13 @@ class ControllerWidget(QWidget):
             if tableRT in self.scanIDDict:
                 index_seq = self.scan_widget.table_model.index(row, 6)
                 self.scan_widget.table_model.setData(
-                    index_seq, self.scanIDDict[tableRT]["PepSeq"], Qt.DisplayRole
+                    index_seq, self.scanIDDict[tableRT]["PepSeq"],
+                    Qt.DisplayRole
                 )
 
                 index_ions = self.scan_widget.table_model.index(row, 7)
-                # data needs to be a string, but reversible -> using json.dumps()
+                # data needs to be a string, but reversible ->
+                # using json.dumps()
                 self.scan_widget.table_model.setData(
                     index_ions,
                     json.dumps(self.scanIDDict[tableRT]["PepIons"]),
@@ -151,7 +155,8 @@ class ControllerWidget(QWidget):
     def drawTic(self, scans):
         self.tic_widget.setTIC(scans.getTIC())
 
-    def ticToTable(self, rt):  # connect Tic info to table, and select specific row
+    def ticToTable(self, rt):
+        # connect Tic info to table, and select specific row
         self.clickedRT = round(rt * 60, 3)
         if self.clickedRT != self.seleTableRT:
             self.scan_widget.table_view.selectRow(self.findClickedRT())
@@ -165,9 +170,9 @@ class ControllerWidget(QWidget):
             ):
                 index = self.scan_widget.table_model.index(row, 2)
                 try:
-                    self.curr_table_index = self.scan_widget.proxy.mapFromSource(
-                        index
-                    )  # use proxy to get from filtered model index
+                    self.curr_table_index \
+                        = self.scan_widget.proxy.mapFromSource(index)
+                    # use proxy to get from filtered model index
                     return self.curr_table_index.row()
                 except ValueError:
                     print("could not found ModelIndex of row")
@@ -193,7 +198,8 @@ class ControllerWidget(QWidget):
     ):  # create color/mz array by distinguishing between prefix & suffix ions
         self.peakAnnoData = (
             {}
-        )  # key is ion annotation (e.g. b2): [mz, color distinguishing prefix, suffix]
+        )  # key is ion annotation (e.g. b2):
+        # [mz, color distinguishing prefix, suffix]
         colors = []
         mzs = []
         col_red = (255, 0, 0)  # suffix
@@ -233,7 +239,8 @@ class ControllerWidget(QWidget):
             self.errorData(index.siblingAtColumn(7).data())
             if (
                     self.peakAnnoData is not None
-            ):  # peakAnnoData created with existing ions in errorData (bc of coloring)
+            ):  # peakAnnoData created with existing ions in errorData
+                # (bc of coloring)
                 self.spectrum_widget.setPeakAnnotations(
                     self.createPeakAnnotation())
                 self.spectrum_widget.redrawPlot()
@@ -251,7 +258,9 @@ class ControllerWidget(QWidget):
 
     def createPeakAnnotation(self):
         pStructList = []
-        # for the future -> check clashes like in the TIC widget and then add labels (should be done in SpectrumWidget)
+        # for the future ->
+        # check clashes like in the TIC widget and then add labels
+        # (should be done in SpectrumWidget)
         for anno, data in self.peakAnnoData.items():
             mz, anno_color = data[0], data[1]
             index = self.find_nearest_Index(self.spectrum_widget._mzs, mz)
@@ -309,15 +318,15 @@ class ControllerWidget(QWidget):
             if anno[1].isdigit() and anno[0] in "abcyxz":
                 index, anno_short = self.filterAnnotationIon(anno)
                 if (
-                        (index in suffix)
-                        and (anno[0] in "yxz")
-                        and (anno_short not in suffix[index])
+                        (index in suffix) and
+                        (anno[0] in "yxz") and
+                        (anno_short not in suffix[index])
                 ):  # avoid double annos e.g. y14
                     suffix[index].append(anno_short)
                 elif (
-                        (index in prefix)
-                        and (anno[0] in "abc")
-                        and (anno_short not in prefix[index])
+                        (index in prefix) and
+                        (anno[0] in "abc") and
+                        (anno_short not in prefix[index])
                 ):
                     prefix[index].append(anno_short)
                 elif anno[0] in "yxz":  # non existing keys
@@ -327,7 +336,8 @@ class ControllerWidget(QWidget):
         return suffix, prefix
 
     def filterAnnotationIon(self, fragment_anno):
-        # filter from raw ion data annotation index and filtered annotation name (e.g. y2)
+        # filter from raw ion data annotation index
+        # and filtered annotation name (e.g. y2)
         index = [s for s in re.findall(r"-?\d+\.?\d*", fragment_anno)][0]
         ion_anno = fragment_anno.split(index)[0] + index
         self.filteredIonFragments.append((fragment_anno, ion_anno))
