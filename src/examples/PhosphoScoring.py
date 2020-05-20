@@ -61,7 +61,7 @@ Two phospho scorers, the interface is available through the "score" function:
   - Spectrum (pyopenms.MSSpectrum)
   - [Scorer massDelta]
 
-- Output: 
+- Output:
     [ Score, NewSequence ]
 """
 
@@ -123,7 +123,7 @@ class PhosphoScorerSimple:
             comp_score = self.compare_binnedSpectra(spectrum_b, theor_b)
             possibilities.append([comp_score, new_aaseq])
 
-        # Sort the result by score, return the best scoring result
+# Sort the result by score, return the best scoring result
         possibilities.sort(lambda x, y: -cmp(x[0], y[0]))
         return possibilities[0]
 
@@ -165,4 +165,5 @@ class PhosphoScorerSimple:
 
 if __name__ == "__main__":
     print
-    "This file is intended as library and not as Python executable, please do not execute it directly."
+    "This file is intended as library and not as Python executable,"
+    "please do not execute it directly."
