@@ -1,7 +1,11 @@
 import sys
 
 import pyqtgraph as pg
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QAction
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QVBoxLayout
+from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QAction
 
 pg.setConfigOption("background", "w")  # white background
 pg.setConfigOption("foreground", "k")  # black peaks

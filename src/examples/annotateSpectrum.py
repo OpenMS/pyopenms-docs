@@ -1,6 +1,13 @@
-from pyopenms import *
+
 
 # Initialize Experiment
+from pyopenms.pyopenms_1 import TheoreticalSpectrumGenerator
+from pyopenms.pyopenms_2 import MSExperiment
+from pyopenms.pyopenms_3 import SpectrumAlignment
+from pyopenms.pyopenms_4 import MzMLFile
+from pyopenms.pyopenms_5 import AASequence
+from pyopenms.pyopenms_7 import MSSpectrum
+
 exp = MSExperiment()
 
 # Load file into experiment container
@@ -36,11 +43,11 @@ print("ion\ttheo. m/z\tobserved m/z")
 
 for theo_idx, obs_idx in alignment:
     print(
-        theo_spectrum.getStringDataArrays()[0][theo_idx].decode()
-        + "\t"
-        + str(theo_spectrum[theo_idx].getMZ())
-        + "\t"
-        + str(spectrum[obs_idx].getMZ())
+        theo_spectrum.getStringDataArrays()[0][theo_idx].decode() +
+        "\t" +
+        str(theo_spectrum[theo_idx].getMZ()) +
+        "\t" +
+        str(spectrum[obs_idx].getMZ())
     )
 
 # Matched peaks: 16

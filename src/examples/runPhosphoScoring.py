@@ -45,11 +45,11 @@ def mapPeptideIdsToSpectra(peptide_ids, exp, matching_mass_tol=1.0):
         corresponding_spectras = rt_bins[int(rt)]
         for corresponding_spectrum in corresponding_spectras:
             if (
-                    abs(corresponding_spectrum.getPrecursors()[0].getMZ() - mz)
-                    < matching_mass_tol
+                    abs(corresponding_spectrum.getPrecursors()[0].getMZ() - mz) <
+                    matching_mass_tol
             ):
                 hit_mapping[i] = corresponding_spectrum
-        if not hit_mapping.has_key(i):
+        if not hit_mapping.hasKey(i):
             print
             "Could not map hit at RT %s and MZ %s" % (rt, mz)
     return hit_mapping
@@ -58,9 +58,10 @@ def mapPeptideIdsToSpectra(peptide_ids, exp, matching_mass_tol=1.0):
 #
 # Filter the search results and create the mapping of search results to spectra
 #
-filtered_ids = [p for p in peptide_ids if p.getHits()[0].getScore()
-                > cutoff_score]
-# For teaching purposes, only ids betwen 1200 and 1600 s in RT are kept (also the spectra are filtered)
+filtered_ids = [p for p in peptide_ids if p.getHits()[0].getScore() >
+                cutoff_score]
+# For teaching purposes, only ids betwen 1200 and 1600 s in RT are kept
+# (also the spectra are filtered)
 filtered_ids = [
     p
     for p in filtered_ids
@@ -83,7 +84,8 @@ hit_mapping = mapPeptideIdsToSpectra(filtered_ids, exp)
 
 # Writer CSV header
 print
-"Will print the original, search-engine sequence, the AScore sequence and the PhosphoScorerSimple sequence"
+"Will print the original, search-engine sequence," \
+    " the AScore sequence and the PhosphoScorerSimple sequence"
 writer.writerow(
     [
         "Search-Engine Score",

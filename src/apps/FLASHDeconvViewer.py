@@ -214,9 +214,9 @@ class FeatureMapPlotWidget(PlotWidget):
         miList = self.getMassIntensityDict()
         colormap = cm.get_cmap("plasma")
         colormap._init()
-        lut = (colormap._lut * 255).view(np.ndarray)[
-              : colormap.N
-              ]  # Convert matplotlib colormap from 0-1 to 0 -255 for Qt
+        lut = \
+            (colormap._lut * 255).view(np.ndarray)[: colormap.N]
+        # Convert matplotlib colormap from 0-1 to 0 -255 for Qt
         self.pg_cmap = pg.ColorMap(pos=miList, color=lut)
         return self.pg_cmap
 
@@ -477,7 +477,8 @@ class ControllerWidget(QWidget):
                 txt_list = []
 
                 for theo in theo_list:  # theo : [0] cs [1] iso mz list
-                    # plotting only theoretical mz valule within experimental mz range
+                    # plotting only theoretical mz valule
+                    # within experimental mz range
                     if (theo[1][0] <= xlimit[0]) | (theo[1][-1] >= xlimit[1]):
                         continue
 
