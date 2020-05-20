@@ -96,7 +96,8 @@ class PhosphoScorerSimple:
         charge = 1
         # Iterate over all possible phosphosites
         for m in re.finditer("[STY]", seq):
-            new_sequence = seq[: m.start() + 1] + "(Phospho)" + seq[m.start() - 1:]
+            new_sequence = \
+                seq[: m.start() + 1] + "(Phospho)" + seq[m.start() - 1:]
             new_aaseq = pyopenms.AASequence(new_sequence)
             # Generate theoretical spectrum
             spectrum_generator = pyopenms.TheoreticalSpectrumGenerator()
