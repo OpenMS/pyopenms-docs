@@ -14,7 +14,8 @@ from PyQt5.QtWidgets import QWidget, QHBoxLayout
 
 class SequenceIonsWidget(QWidget):
     """
-    Used for creates a window for a peptide sequence with its given ions, which is adjusted to the sequence size.
+    Used for creates a window for a peptide sequence with its given ions,
+    which is adjusted to the sequence size.
     To avoid contortions of the window, spaceritems are added.
 
     """
@@ -70,21 +71,23 @@ class SequenceIonsWidget(QWidget):
 
     def resize(self):
         """
-        The integer 8 represents the additional space needed for the in addition drawn lines. The 18 represents the
+        The integer 8 represents the additional space needed
+        for the in addition drawn lines. The 18 represents the
         monospace width.
 
         """
         if len(self._pep.sequence) == 0:
             SequenceIonsWidget.WIDTH = 0
         else:
-            SequenceIonsWidget.WIDTH = (len(self._pep.sequence) * 18) + (
-                    len(self._pep.sequence) - 1
-            ) * 8
+            SequenceIonsWidget.WIDTH = \
+                (len(self._pep.sequence) * 18) + \
+                (len(self._pep.sequence) - 1) * 8
         self.calculateHeight()
 
     def calculateHeight(self):
         """
-        Calculate window height adjusting to sequence height with possible ions and set default setting in case of no
+        Calculate window height adjusting to sequence height
+        with possible ions and set default setting in case of no
         ions.
 
         """
@@ -112,9 +115,10 @@ class SequenceIonsWidget(QWidget):
         # window height calculated with the sum of max prefix and suffix height
         height_ion_pre = height_ion * max_ion_pre + 15
         SequenceIonsWidget.SUFFIX_HEIGHT = height_ion * max_ion_suff + 5
-        SequenceIonsWidget.HEIGHT = (
+        SequenceIonsWidget.HEIGHT = \
+            (
                 height_pep + height_ion_pre + SequenceIonsWidget.SUFFIX_HEIGHT
-        )
+            )
 
     def setPeptide(self, seq):
         self._pep.setSequence(seq)
@@ -144,8 +148,10 @@ class SequenceIonsWidget(QWidget):
 
 class observed_peptide(QWidget):
     """
-    Used for creates a peptide sequence with its given ions. The ions can be stacked above each other, e.g. in case for
-    a1, b1. Each amino letter is also separated by a line and prefixes are colored blue, otherwise suffixes are colored
+    Used for creates a peptide sequence with its given ions.
+    The ions can be stacked above each other, e.g. in case for
+    a1, b1. Each amino letter is also separated by a line
+    and prefixes are colored blue, otherwise suffixes are colored
     red.
 
     """
@@ -189,24 +195,34 @@ class observed_peptide(QWidget):
 
     def _fragmentPeptide(self, qp):
         """
-        In this function the sequence will be created stepwise. Each char of the sequence is drawn separately to add the
+        In this function the sequence will be created stepwise.
+        Each char of the sequence is drawn separately to add the
         lines between and the ions.
 
-        1. Check if sequence is given, if so then transform seq into a dictionary (with the indices representing the
-        positions of the chars).
+        1. Check if sequence is given, if so
+        then transform seq into a dictionary
+        (with the indices representing the positions of the chars).
         2. For each char in the sequence:
-            First, calculate start position of char (be aware that the char rect is created at the left bottom corner of
-            the char, meaning we have to add the height of the Font & possible suffixes to the starting height position
+            First, calculate start position of char
+            (be aware that the char rect is created
+            at the left bottom corner of
+            the char, meaning we have to add the height of the Font
+            & possible suffixes to the starting height position
             to move it into the center of the window).
 
-            Secound, calculate the center point for the vertical Line. The Line consists of a point start and point end.
-            The starting line xPos yield in the start_point + blank - (SPACE/2), where blank represents the additional
+            Secound, calculate the center point for the vertical Line.
+            The Line consists of a point start and point end.
+            The starting line xPos yield in the
+            start_point + blank - (SPACE/2),
+            where blank represents the additional
             space from the starting point after each new char.
 
-            Third, if prefix or suffix ions are given, then distinguish between suffix and prefix to draw the vertical
+            Third, if prefix or suffix ions are given,
+            then distinguish between suffix and prefix to draw the vertical
             line with either left or right line or both.
 
-            Because of changing the fonts for the ions, the fonts needs to be reset.
+            Because of changing the fonts for the ions,
+            the fonts needs to be reset.
 
         """
         SPACE = 8
@@ -229,18 +245,21 @@ class observed_peptide(QWidget):
 
                 # position of char with center indent
                 position = QPointF(
-                    start_point + blank, SequenceIonsWidget.SUFFIX_HEIGHT + height
+                    start_point + blank,
+                    SequenceIonsWidget.SUFFIX_HEIGHT + height
                 )
                 qp.drawText(position, s)
 
                 # position lines for possible ions
-                centerOfLine = (
-                                       (SequenceIonsWidget.SUFFIX_HEIGHT + height) - height / 4
-                               ) - 1
+                centerOfLine = \
+                    (
+                        (SequenceIonsWidget.SUFFIX_HEIGHT + height) -
+                        height / 4
+                    ) - 1
 
                 start_linePos = QPointF(
-                    start_point + blank -
-                    (SPACE / 2), centerOfLine - height / 2 - 2.5
+                    start_point + blank - (SPACE / 2),
+                    centerOfLine - height / 2 - 2.5
                 )
                 end_linePos = QPointF(
                     start_linePos.x(), centerOfLine + height / 2 + 2.5
@@ -287,7 +306,13 @@ class observed_peptide(QWidget):
             qp.drawText(pos_ion, ion)
             blank_ion += height_ion
 
-    def _drawSuffixIon(self, qp, index_reverse, metrics_ion, pos_end, pos_right):
+    def _drawSuffixIon(
+            self,
+            qp,
+            index_reverse,
+            metrics_ion,
+            pos_end,
+            pos_right):
         qp.setPen(self._getPen(self.colors["red"]))
         suffix_ions = sorted(self.suffix[index_reverse], reverse=True)
         blank_ion = 5
