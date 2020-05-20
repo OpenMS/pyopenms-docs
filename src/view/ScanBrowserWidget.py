@@ -1,32 +1,14 @@
-import sys
-
 import pyopenms
-from PyQt5.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QVBoxLayout,
-    QHBoxLayout,
-    QWidget,
-    QDesktopWidget,
-    QAction,
-    QFileDialog,
-    QTableView,
-    QSplitter,
-    QMenu,
-    QAbstractItemView,
-)
 from PyQt5.QtCore import (
     Qt,
-    QAbstractTableModel,
-    pyqtSignal,
-    QItemSelectionModel,
-    QSortFilterProxyModel,
-    QSignalMapper,
-    QPoint,
-    QRegExp,
 )
+from PyQt5.QtWidgets import (
+    QHBoxLayout,
+    QWidget,
+    QSplitter,
+)
+from ScanTableWidget import ScanTableWidget
 from SpectrumWidget import *
-from ScanTableWidget import ScanTableWidget, ScanTableModel
 
 
 class ScanBrowserWidget(QWidget):

@@ -32,9 +32,10 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # Example script to filter mzML files by native ids
 ###########################################################################
 
+import sys
+
 # Read input
 import pyopenms
-import sys
 
 if len(sys.argv) <= 3:
     print("Usage: filter.py inputfile outputfile filter_string")

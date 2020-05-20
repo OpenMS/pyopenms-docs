@@ -1,40 +1,20 @@
-
 import sys
+from collections import namedtuple
+
+import pyqtgraph as pg
 from PyQt5.QtWidgets import (
     QApplication,
     QMainWindow,
     QVBoxLayout,
-    QHBoxLayout,
     QWidget,
     QDesktopWidget,
     QAction,
     QFileDialog,
-    QTableView,
-    QSplitter,
-    QMenu,
-    QAbstractItemView,
 )
-from PyQt5.QtCore import (
-    Qt,
-    QAbstractTableModel,
-    pyqtSignal,
-    QItemSelectionModel,
-    QSortFilterProxyModel,
-    QSignalMapper,
-    QPoint,
-    QRegExp,
-)
-
-import pyqtgraph as pg
-from pyqtgraph import PlotWidget
-
-import numpy as np
-from collections import namedtuple
-
-import pyopenms
 
 sys.path.insert(0, "../view")
 from ScanBrowserWidget import ScanBrowserWidget
+
 # structure for annotation (here for reference)
 PeakAnnoStruct = namedtuple(
     "PeakAnnoStruct",

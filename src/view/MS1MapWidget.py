@@ -1,19 +1,7 @@
-import sys
-import os
-from PyQt5.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QVBoxLayout,
-    QHBoxLayout,
-    QWidget,
-    QAction,
-)
-
-import pyqtgraph as pg
-from pyqtgraph import PlotWidget
-
 import numpy as np
 import pyopenms
+import pyqtgraph as pg
+from pyqtgraph import PlotWidget
 
 
 class MS1MapWidget(PlotWidget):

@@ -38,7 +38,6 @@ pepxml_file = "data/4D8B.pepXML"
 
 
 def get_peptides_protein_seq():
-
     # Read in PepXML
     protein_ids = []
     peptide_ids = []

@@ -1,11 +1,9 @@
-from PyQt5.QtCore import Qt
-
-import pyqtgraph as pg
-from pyqtgraph import PlotWidget
-
-import numpy as np
 from collections import namedtuple
 
+import numpy as np
+import pyqtgraph as pg
+from PyQt5.QtCore import Qt
+from pyqtgraph import PlotWidget
 
 # structure for annotation (here for reference)
 PeakAnnoStruct = namedtuple(
@@ -45,7 +43,7 @@ class SpectrumWidget(PlotWidget):
         )
 
     def setSpectrum(
-        self, spectrum, zoomToFullRange=False
+            self, spectrum, zoomToFullRange=False
     ):  # add a default value for displaying all peaks
         self.plot(clear=True)
         self.zoomToFullRange = zoomToFullRange  # relevant in redrawPlot()

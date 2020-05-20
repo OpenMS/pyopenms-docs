@@ -78,7 +78,7 @@ class SequenceIonsWidget(QWidget):
             SequenceIonsWidget.WIDTH = 0
         else:
             SequenceIonsWidget.WIDTH = (len(self._pep.sequence) * 18) + (
-                len(self._pep.sequence) - 1
+                    len(self._pep.sequence) - 1
             ) * 8
         self.calculateHeight()
 
@@ -113,7 +113,7 @@ class SequenceIonsWidget(QWidget):
         height_ion_pre = height_ion * max_ion_pre + 15
         SequenceIonsWidget.SUFFIX_HEIGHT = height_ion * max_ion_suff + 5
         SequenceIonsWidget.HEIGHT = (
-            height_pep + height_ion_pre + SequenceIonsWidget.SUFFIX_HEIGHT
+                height_pep + height_ion_pre + SequenceIonsWidget.SUFFIX_HEIGHT
         )
 
     def setPeptide(self, seq):
@@ -235,8 +235,8 @@ class observed_peptide(QWidget):
 
                 # position lines for possible ions
                 centerOfLine = (
-                    (SequenceIonsWidget.SUFFIX_HEIGHT + height) - height / 4
-                ) - 1
+                                       (SequenceIonsWidget.SUFFIX_HEIGHT + height) - height / 4
+                               ) - 1
 
                 start_linePos = QPointF(
                     start_point + blank -

@@ -28,8 +28,9 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
 OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
-import pyopenms
 import re
+
+import pyopenms
 
 
 def convertToRichMSSpectrum(input_):
@@ -96,7 +97,7 @@ class PhosphoScorerSimple:
         # Iterate over all possible phosphosites
         for m in re.finditer("[STY]", seq):
             new_sequence = seq[: m.start() + 1] + \
-                "(Phospho)" + seq[m.start() - 1:]
+                           "(Phospho)" + seq[m.start() - 1:]
             new_aaseq = pyopenms.AASequence(new_sequence)
             # Generate theoretical spectrum
             spectrum_generator = pyopenms.TheoreticalSpectrumGenerator()
@@ -163,4 +164,5 @@ class PhosphoScorerSimple:
 
 
 if __name__ == "__main__":
-    print "This file is intended as library and not as Python executable, please do not execute it directly."
+    print
+    "This file is intended as library and not as Python executable, please do not execute it directly."

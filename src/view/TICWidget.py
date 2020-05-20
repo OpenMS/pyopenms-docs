@@ -1,12 +1,9 @@
+import numpy as np
+import pyqtgraph as pg
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QShortcut
-from PyQt5.QtCore import pyqtSignal
-
-import pyqtgraph as pg
 from pyqtgraph import PlotWidget
-
-import numpy as np
-
 
 pg.setConfigOption("background", "w")  # white background
 pg.setConfigOption("foreground", "k")  # black peaks

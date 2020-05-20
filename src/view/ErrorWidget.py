@@ -1,8 +1,7 @@
-from PyQt5.QtCore import QPointF
-import pyqtgraph as pg
-from pyqtgraph import PlotWidget
-
 import numpy as np
+import pyqtgraph as pg
+from PyQt5.QtCore import QPointF
+from pyqtgraph import PlotWidget
 
 pg.setConfigOption("background", "w")  # white background
 pg.setConfigOption("foreground", "k")  # black peaks

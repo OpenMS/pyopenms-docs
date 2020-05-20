@@ -32,9 +32,10 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # Example script to convert any file to MGF
 ###########################################################################
 
+import sys
+
 # Read input
 import pyopenms
-import sys
 
 if len(sys.argv) <= 2:
     print("Usage: convertToMGF.py inputfile outputfile")

@@ -1,14 +1,7 @@
 import sys
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QAction
-
 import pyqtgraph as pg
-from pyqtgraph import PlotWidget
-
-import numpy as np
-
-import time
-import pyopenms
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QAction
 
 pg.setConfigOption("background", "w")  # white background
 pg.setConfigOption("foreground", "k")  # black peaks

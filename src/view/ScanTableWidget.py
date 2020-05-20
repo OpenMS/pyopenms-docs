@@ -1,13 +1,3 @@
-from PyQt5.QtGui import QPen, QPainter
-from PyQt5.QtWidgets import (
-    QVBoxLayout,
-    QWidget,
-    QAction,
-    QTableView,
-    QMenu,
-    QAbstractItemView,
-    QItemDelegate,
-)
 from PyQt5.QtCore import (
     Qt,
     QAbstractTableModel,
@@ -18,6 +8,16 @@ from PyQt5.QtCore import (
     QPoint,
     QRegExp,
     QModelIndex,
+)
+from PyQt5.QtGui import QPen, QPainter
+from PyQt5.QtWidgets import (
+    QVBoxLayout,
+    QWidget,
+    QAction,
+    QTableView,
+    QMenu,
+    QAbstractItemView,
+    QItemDelegate,
 )
 
 
@@ -37,12 +37,12 @@ class RTUnitDelegate(QItemDelegate):
         if index.isValid():
             rt_min = round(index.siblingAtColumn(2).data() * 1.0 / 60, 3)
             text = (
-                "  "
-                + str(round(index.siblingAtColumn(2).data(), 3))
-                + "\t ["
-                + str(rt_min)
-                + " Min"
-                + "]"
+                    "  "
+                    + str(round(index.siblingAtColumn(2).data(), 3))
+                    + "\t ["
+                    + str(rt_min)
+                    + " Min"
+                    + "]"
             )
             painter.setRenderHint(QPainter.Antialiasing)
             # adjust text into cell
@@ -148,10 +148,10 @@ class ScanTableWidget(QWidget):
             [
                 self.table_model.index(row, self.logicalIndex).data()
                 for row in range(
-                    self.table_model.rowCount(
-                        self.table_model.index(-1, self.logicalIndex)
-                    )
+                self.table_model.rowCount(
+                    self.table_model.index(-1, self.logicalIndex)
                 )
+            )
             ]
         )
 

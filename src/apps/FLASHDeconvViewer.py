@@ -1,6 +1,22 @@
-
-import sys
 import os
+import sys
+from collections import namedtuple
+
+import numpy as np
+import pandas as pd
+import pyqtgraph as pg
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import (
+    QStandardItemModel,
+    QStandardItem,
+    QPainter,
+    QIcon,
+    QBrush,
+    QColor,
+    QPen,
+    QPixmap,
+    QIntValidator,
+)
 from PyQt5.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -22,29 +38,12 @@ from PyQt5.QtWidgets import (
     QFormLayout,
     QDialogButtonBox,
 )
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import (
-    QStandardItemModel,
-    QStandardItem,
-    QPainter,
-    QIcon,
-    QBrush,
-    QColor,
-    QPen,
-    QPixmap,
-    QIntValidator,
-)
-
-import pyqtgraph as pg
-from pyqtgraph import PlotWidget
-
-import numpy as np
-import pandas as pd
-from collections import namedtuple
 from matplotlib import cm
+from pyqtgraph import PlotWidget
 
 sys.path.insert(0, "../view")
 from SpecViewer import ScanBrowserWidget, App
+
 # import pyopenms.Constants
 # define Constant locally until bug in pyOpenMS is fixed
 PROTON_MASS_U = 1.0072764667710
@@ -216,8 +215,8 @@ class FeatureMapPlotWidget(PlotWidget):
         colormap = cm.get_cmap("plasma")
         colormap._init()
         lut = (colormap._lut * 255).view(np.ndarray)[
-            : colormap.N
-        ]  # Convert matplotlib colormap from 0-1 to 0 -255 for Qt
+              : colormap.N
+              ]  # Convert matplotlib colormap from 0-1 to 0 -255 for Qt
         self.pg_cmap = pg.ColorMap(pos=miList, color=lut)
         return self.pg_cmap
 
@@ -394,7 +393,7 @@ class ControllerWidget(QWidget):
         new_dict = dict()
         for mass, mds in self.total_masses.items():
             if (mds.startRT == 0 and mds.endRT == sys.maxsize) or (
-                scan_rt >= mds.startRT and scan_rt <= mds.endRT
+                    scan_rt >= mds.startRT and scan_rt <= mds.endRT
             ):
                 new_dict[mass] = mds
         return new_dict
@@ -657,7 +656,7 @@ class FDInputDialog(QDialog):
             return
 
         if self.massFileLineEdit.text() and not os.path.exists(
-            self.massFileLineEdit.text()
+                self.massFileLineEdit.text()
         ):
             self.errorDlg.setText("Input mass file doesn't exist.")
             self.errorDlg.exec_()

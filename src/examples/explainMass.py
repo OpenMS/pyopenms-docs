@@ -1,6 +1,6 @@
-import pyopenms
-from pyopenms import *
 import sys
+
+from pyopenms import *
 
 # Example for mass decomposition (mass explanation)
 # Internal residue masses (as observed e.g. as mass shifts in tandem mass spectra)

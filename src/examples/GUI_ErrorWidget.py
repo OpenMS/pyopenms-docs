@@ -1,13 +1,12 @@
-
 import sys
-from PyQt5.QtWidgets import QApplication
+
 import numpy as np
-
-
 from GUI_EXAMPLE_BASE import GUI_EXAMPLE_BASE
+from PyQt5.QtWidgets import QApplication
 
 sys.path.insert(0, "../view")
 from ErrorWidget import ErrorWidget
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     ex = GUI_EXAMPLE_BASE()  # plain QMainWindow with basic layout and menu bar

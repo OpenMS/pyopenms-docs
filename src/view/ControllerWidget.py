@@ -1,18 +1,16 @@
+import json
+import re
 from collections import namedtuple
 
-from PyQt5.QtWidgets import QHBoxLayout, QWidget, QSplitter
-from PyQt5.QtCore import Qt
-
-from SpectrumWidget import SpectrumWidget
-from ScanTableWidget import ScanTableWidget, ScanTableModel
-from SequenceIonsWidget import SequenceIonsWidget
-from TICWidget import TICWidget
-from ErrorWidget import ErrorWidget
-
-import pyopenms
-import re
 import numpy as np
-import json
+import pyopenms
+from ErrorWidget import ErrorWidget
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QHBoxLayout, QWidget, QSplitter
+from ScanTableWidget import ScanTableWidget
+from SequenceIonsWidget import SequenceIonsWidget
+from SpectrumWidget import SpectrumWidget
+from TICWidget import TICWidget
 
 PeakAnnoStruct = namedtuple(
     "PeakAnnoStruct",
@@ -163,7 +161,7 @@ class ControllerWidget(QWidget):
 
         for row in range(0, rows - 1):
             if self.clickedRT == round(
-                self.scan_widget.table_model.index(row, 2).data(), 3
+                    self.scan_widget.table_model.index(row, 2).data(), 3
             ):
                 index = self.scan_widget.table_model.index(row, 2)
                 try:
@@ -191,7 +189,7 @@ class ControllerWidget(QWidget):
             self.error_widget.clear()
 
     def filterColorsMZIons(
-        self, ions_data_dict
+            self, ions_data_dict
     ):  # create color/mz array by distinguishing between prefix & suffix ions
         self.peakAnnoData = (
             {}
@@ -216,7 +214,7 @@ class ControllerWidget(QWidget):
         return np.array(colors), np.array(mzs)
 
     def updateWidgetDataFromRow(
-        self, index
+            self, index
     ):  # after clicking on a new row, update spectrum, error plot, peptideSeq
         # current row RT value
         self.seleTableRT = round(index.siblingAtColumn(2).data(), 3)
@@ -234,7 +232,7 @@ class ControllerWidget(QWidget):
             )
             self.errorData(index.siblingAtColumn(7).data())
             if (
-                self.peakAnnoData is not None
+                    self.peakAnnoData is not None
             ):  # peakAnnoData created with existing ions in errorData (bc of coloring)
                 self.spectrum_widget.setPeakAnnotations(
                     self.createPeakAnnotation())
@@ -298,7 +296,7 @@ class ControllerWidget(QWidget):
             self.peakAnnoData = None
 
     def filterIonsPrefixSuffixData(
-        self, ions
+            self, ions
     ):  # filter raw ion data and return suffix and prefix dicts
         suffix = {}
         prefix = {}
@@ -311,15 +309,15 @@ class ControllerWidget(QWidget):
             if anno[1].isdigit() and anno[0] in "abcyxz":
                 index, anno_short = self.filterAnnotationIon(anno)
                 if (
-                    (index in suffix)
-                    and (anno[0] in "yxz")
-                    and (anno_short not in suffix[index])
+                        (index in suffix)
+                        and (anno[0] in "yxz")
+                        and (anno_short not in suffix[index])
                 ):  # avoid double annos e.g. y14
                     suffix[index].append(anno_short)
                 elif (
-                    (index in prefix)
-                    and (anno[0] in "abc")
-                    and (anno_short not in prefix[index])
+                        (index in prefix)
+                        and (anno[0] in "abc")
+                        and (anno_short not in prefix[index])
                 ):
                     prefix[index].append(anno_short)
                 elif anno[0] in "yxz":  # non existing keys
