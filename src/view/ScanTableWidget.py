@@ -181,7 +181,7 @@ class ScanTableWidget(QWidget):
         headerPos = self.table_view.mapToGlobal(self.horizontalHeader.pos())
         posY = headerPos.y() + self.horizontalHeader.height()
         posX = headerPos.x() + \
-               self.horizontalHeader.sectionPosition(self.logicalIndex)
+            self.horizontalHeader.sectionPosition(self.logicalIndex)
         self.menuValues.exec_(QPoint(posX, posY))
 
     def onShowAllRows(self):

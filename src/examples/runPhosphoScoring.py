@@ -45,7 +45,9 @@ def mapPeptideIdsToSpectra(peptide_ids, exp, matching_mass_tol=1.0):
         corresponding_spectras = rt_bins[int(rt)]
         for corresponding_spectrum in corresponding_spectras:
             if (
-                    abs(corresponding_spectrum.getPrecursors()[0].getMZ() - mz) <
+                    abs(
+                        corresponding_spectrum.getPrecursors()[0].getMZ() - mz
+                        ) <
                     matching_mass_tol
             ):
                 hit_mapping[i] = corresponding_spectrum

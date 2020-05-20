@@ -194,7 +194,7 @@ class TICWidget(PlotWidget):
                 new_label_rect =\
                     self._peak_labels[new_label]["label"].mapRectToDevice(
                         self._peak_labels[new_label]["label"].boundingRect()
-                )
+                    )
                 exist_label_rect = self._peak_labels[exist_label][
                     "label"
                 ].mapRectToDevice(
