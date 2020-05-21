@@ -1,0 +1,478 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mzML files &mdash; pyOpenMS 2.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Other MS data formats" href="other_file_handling.html" />
+    <link rel="prev" title="Reading Raw MS data" href="file_handling.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyOpenMS
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">pyOpenMS Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">First steps</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_handling.html">Reading Raw MS data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">mzML files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#binary-encoding">Binary encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Base64 encoding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#numpress-encoding">numpress encoding</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="other_file_handling.html">Other MS data formats</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Mass Spectrometry Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="datastructures.html">MS Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemistry.html">Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aasequences.html">Peptides and Proteins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nasequences.html">Oligonucleotides: RNA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theoreticalspectrumgenerator.html">TheoreticalSpectrumGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="digestion.html">Digestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_id.html">Identification Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_quant.html">Quantitative Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Simple Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="data_manipulation.html">Simple Data Manipulation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OpenMS Algorithms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="parameter_handling.html">Parameter Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smoothing.html">Smoothing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mass_decomposition.html">Mass Decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deisotoping.html">Charge and Isotope Deconvolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feature_detection.html">Feature Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peptide_search.html">Peptide Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chromatographic_analysis.html">Chromagraphic Analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R language</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyopenms_in_r.html">pyOpenMS in R</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build_from_source.html">Build from source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrap_classes.html">Wrapping Workflow and wrapping new Classes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyOpenMS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>mzML files</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/mzMLFileFormat.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mzml-files">
+<h1>mzML files<a class="headerlink" href="#mzml-files" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is an advanced section that dives deep into the mzML format and we
+will investigate the file format in greater detail.  The intricacies of the
+mzML file format are all handled by pyOpenMS internally
+and this section is only intended for the interested reader</p>
+</div>
+<p>Specifically, we will look at mzML stores raw spectral data and how this data
+is encoded in the XML format. The mzML standard is developed by the HUPO-PSI
+committee and can be read on the <a class="reference external" href="http://www.psidev.info/mzML">official mzML website</a>. It describes how to store the meta data and
+the raw data for spectra and chromatograms. In short, the standard uses XML to
+encode all meta data and stores the raw data using <a class="reference external" href="https://en.wikipedia.org/wiki/Base64">Base64 encoding</a>.</p>
+<div class="section" id="binary-encoding">
+<h2>Binary encoding<a class="headerlink" href="#binary-encoding" title="Permalink to this headline">¶</a></h2>
+<p><span class="target" id="index-0"></span>To proceed, we will download an example file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="c1"># from urllib import urlretrieve  # use this code for Python 2.x</span>
+<span class="n">urlretrieve</span> <span class="p">(</span><span class="s2">&quot;http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML&quot;</span><span class="p">,</span> <span class="s2">&quot;test.mzML&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Let’s investigate the file <code class="docutils literal notranslate"><span class="pre">test.mzML</span></code> and look at line 197:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;test.mzML&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()[</span><span class="mi">197</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="p">)</span>
+<span class="go">&lt;binary&gt;AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQAAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA=&lt;/binary&gt;</span>
+</pre></div>
+</div>
+<p>We see that line 197 in the <code class="docutils literal notranslate"><span class="pre">test.mzML</span></code> file contains the <code class="docutils literal notranslate"><span class="pre">binary</span></code> XML tag
+that contains a long datastring that starts with <code class="docutils literal notranslate"><span class="pre">AAAAA</span></code> and ends with
+<code class="docutils literal notranslate"><span class="pre">AAMkA=</span></code>. This is the raw spectrum data encoded using
+<a class="reference external" href="https://en.wikipedia.org/wiki/Base64">Base64</a>. We can confirm this
+by looking at some more context (lines 193 to 199 of the file):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;test.mzML&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()[</span><span class="mi">193</span><span class="p">:</span><span class="mi">199</span><span class="p">])</span> <span class="p">)</span>
+<span class="go">&lt;binaryDataArray encodedLength=&quot;108&quot; dataProcessingRef=&quot;CompassXtract_x0020_processing&quot;&gt;</span>
+<span class="go">  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000523&quot; name=&quot;64-bit float&quot; value=&quot;&quot;/&gt;</span>
+<span class="go">  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000576&quot; name=&quot;no compression&quot; value=&quot;&quot;/&gt;</span>
+<span class="go">  &lt;cvParam cvRef=&quot;MS&quot; accession=&quot;MS:1000514&quot; name=&quot;m/z array&quot; value=&quot;&quot; unitCvRef=&quot;MS&quot; unitAccession=&quot;MS:1000040&quot; unitName=&quot;m/z&quot;/&gt;</span>
+<span class="go">  &lt;binary&gt;AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQAAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA=&lt;/binary&gt;</span>
+<span class="go">&lt;/binaryDataArray&gt;</span>
+</pre></div>
+</div>
+<p>We can now see that the surrounding XML tags describe how to decode the data,
+namely we see that the data is describes the m/z array and is uncompressed 64
+bit data. We can now open the file with pyOpenMS and print the corresponding
+array which is from the second spectrum in the file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">MSExperiment</span><span class="p">()</span>
+<span class="n">MzMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;test.mzML&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span> <span class="n">exp</span><span class="o">.</span><span class="n">getSpectrum</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">get_peaks</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="p">)</span>
+<span class="c1"># [ 0.  2.  4.  6.  8. 10. 12. 14. 16. 18.]</span>
+</pre></div>
+</div>
+<p>We now see that the data encoded describes 10 m/z data points that are equally
+spaced in intervals of two, starting from 0 m/z and ending at 18 m/z (note:
+this is a synthetic dataset).</p>
+</div>
+<div class="section" id="id1">
+<h2>Base64 encoding<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>From the mzML standard, we know that the array is <span class="target" id="index-1"></span>base64 encoded and we can now try to decode this data ourselves. We will
+first use pure Python functions :</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">encoded_data</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQ&quot;</span> <span class="o">+</span>\
+    <span class="sa">b</span><span class="s2">&quot;AAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA=&quot;</span>
+
+<span class="kn">import</span> <span class="nn">base64</span><span class="o">,</span> <span class="nn">struct</span>
+<span class="n">raw_data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">decodebytes</span><span class="p">(</span><span class="n">encoded_data</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&lt;</span><span class="si">%s</span><span class="s1">d&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">raw_data</span><span class="p">)</span> <span class="o">//</span> <span class="mi">8</span><span class="p">),</span> <span class="n">raw_data</span><span class="p">)</span>
+<span class="c1"># struct.unpack(&#39;&lt;%sf&#39; % (len(raw_data) // 4), raw_data) # for 32 bit data</span>
+<span class="k">print</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+<span class="c1"># (0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The code above uses the <code class="docutils literal notranslate"><span class="pre">base64</span></code> package on line 5 to decode the encoded data
+to raw binary data. On line 6, we use the <code class="docutils literal notranslate"><span class="pre">struct</span></code> package to transform the
+raw binary data to 64-bit floating point values. Note that <code class="docutils literal notranslate"><span class="pre">&lt;%sd</span></code> is used for
+64 bit data and <code class="docutils literal notranslate"><span class="pre">&lt;%sf</span></code> for 32 bit data.</p>
+<p>Alternatively, we could also use pyOpenMS to decode the same data:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">encoded_data</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQ&quot;</span> <span class="o">+</span>\
+    <span class="sa">b</span><span class="s2">&quot;AAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA=&quot;</span>
+
+<span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">Base64</span><span class="p">()</span><span class="o">.</span><span class="n">decode64</span><span class="p">(</span><span class="n">encoded_data</span><span class="p">,</span> <span class="n">Base64</span><span class="o">.</span><span class="n">ByteOrder</span><span class="o">.</span><span class="n">BYTEORDER_LITTLEENDIAN</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span> <span class="n">out</span> <span class="p">)</span>
+<span class="c1"># [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0]</span>
+</pre></div>
+</td></tr></table></div>
+<p>This allows us thus to manually decode the data. We can use pyOpenMS to encode and decode 32 and 64 bit values:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">encoded_data</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQ&quot;</span> <span class="o">+</span>\
+    <span class="sa">b</span><span class="s2">&quot;AAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA=&quot;</span>
+
+<span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">Base64</span><span class="p">()</span><span class="o">.</span><span class="n">decode64</span><span class="p">(</span><span class="n">encoded_data</span><span class="p">,</span> <span class="n">Base64</span><span class="o">.</span><span class="n">ByteOrder</span><span class="o">.</span><span class="n">BYTEORDER_LITTLEENDIAN</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span> <span class="n">out</span> <span class="p">)</span>
+<span class="c1"># [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0]</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">String</span><span class="p">()</span>
+<span class="n">Base64</span><span class="p">()</span><span class="o">.</span><span class="n">encode64</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">Base64</span><span class="o">.</span><span class="n">ByteOrder</span><span class="o">.</span><span class="n">BYTEORDER_LITTLEENDIAN</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="c1"># b&#39;AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQAAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA=&#39;</span>
+<span class="n">Base64</span><span class="p">()</span><span class="o">.</span><span class="n">encode64</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">Base64</span><span class="o">.</span><span class="n">ByteOrder</span><span class="o">.</span><span class="n">BYTEORDER_LITTLEENDIAN</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="c1"># b&#39;eJxjYEABDhBKAEpLQGkFKK0CpTWgtA6UNoDSRg4AZlQDYw==&#39;</span>
+
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">String</span><span class="p">()</span>
+<span class="n">Base64</span><span class="p">()</span><span class="o">.</span><span class="n">encode32</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">Base64</span><span class="o">.</span><span class="n">ByteOrder</span><span class="o">.</span><span class="n">BYTEORDER_LITTLEENDIAN</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="c1"># b&#39;AAAAAAAAAEAAAIBAAADAQAAAAEEAACBBAABAQQAAYEEAAIBBAACQQQ==&#39;</span>
+<span class="n">Base64</span><span class="p">()</span><span class="o">.</span><span class="n">encode32</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">Base64</span><span class="o">.</span><span class="n">ByteOrder</span><span class="o">.</span><span class="n">BYTEORDER_LITTLEENDIAN</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="c1"># b&#39;eJxjYAADBwaGBiA+AMQMjgwMCkDsAMQJQNwAxBMcAVbKBVc=&#39;</span>
+</pre></div>
+</td></tr></table></div>
+<p>Note how encoding the data with 64 bit precision results in an output string of
+length 108 characters that is about twice as long compared to encoding the data
+with 32 bit precision which is of length 56 characters.  However, this
+difference disappears when zlib compression is used and the resulting string is
+shorter still.</p>
+</div>
+<div class="section" id="numpress-encoding">
+<h2>numpress encoding<a class="headerlink" href="#numpress-encoding" title="Permalink to this headline">¶</a></h2>
+<p>We can do even better, using the <span class="target" id="index-2"></span>numpress compression. The numpress algorithm
+uses lossy compression, similar to jpeg compression, which is capable of
+compressing data even further but at the cost of not being able to recover the
+original input data exactly:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">14.0</span><span class="p">,</span> <span class="mf">16.0</span><span class="p">,</span> <span class="mf">18.0</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="c1"># [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.00000001]</span>
+<span class="n">r</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">NumpressConfig</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">np_compression</span> <span class="o">=</span> <span class="n">MSNumpressCoder</span><span class="o">.</span><span class="n">NumpressCompression</span><span class="o">.</span><span class="n">LINEAR</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">String</span><span class="p">()</span>
+<span class="n">MSNumpressCoder</span><span class="p">()</span><span class="o">.</span><span class="n">encodeNP</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<span class="c1"># b&#39;Qc////+AAAAAAAAA/v//f4iIiIew&#39;</span>
+<span class="n">MSNumpressCoder</span><span class="p">()</span><span class="o">.</span><span class="n">decodeNP</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="c1"># [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.00000001024455]</span>
+
+
+<span class="n">c</span><span class="o">.</span><span class="n">np_compression</span> <span class="o">=</span> <span class="n">MSNumpressCoder</span><span class="o">.</span><span class="n">NumpressCompression</span><span class="o">.</span><span class="n">PIC</span>
+<span class="n">MSNumpressCoder</span><span class="p">()</span><span class="o">.</span><span class="n">encodeNP</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<span class="c1"># b&#39;hydHZ4enx+YBYhA=&#39;</span>
+<span class="n">MSNumpressCoder</span><span class="p">()</span><span class="o">.</span><span class="n">decodeNP</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="c1"># [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0]</span>
+</pre></div>
+</td></tr></table></div>
+<p>Note how the lossy numpress compression leads to even shorter data, with 16
+characters for PIC compression and 28 characters for linear compression. This
+makes the encoding much more efficient than lossless encoding that we have
+discussed above, however this is at the price of accuracy.</p>
+<p>Different numpress compression schemes result in different accuracy, the LINEAR
+compression scheme introduced an inaccuracy of 10e-10 while the PIC (positive
+integer compression) can only store positive integers and results in greater
+loss of accuracy.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="other_file_handling.html" class="btn btn-neutral float-right" title="Other MS data formats" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="file_handling.html" class="btn btn-neutral float-left" title="Reading Raw MS data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, OpenMS Team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,500 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyOpenMS in R &mdash; pyOpenMS 2.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Build from source" href="build_from_source.html" />
+    <link rel="prev" title="Chromagraphic Analysis" href="chromatographic_analysis.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyOpenMS
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">pyOpenMS Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">First steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_handling.html">Reading Raw MS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mzMLFileFormat.html">mzML files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other_file_handling.html">Other MS data formats</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Mass Spectrometry Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="datastructures.html">MS Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemistry.html">Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aasequences.html">Peptides and Proteins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nasequences.html">Oligonucleotides: RNA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theoreticalspectrumgenerator.html">TheoreticalSpectrumGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="digestion.html">Digestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_id.html">Identification Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_quant.html">Quantitative Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Simple Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="data_manipulation.html">Simple Data Manipulation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OpenMS Algorithms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="parameter_handling.html">Parameter Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smoothing.html">Smoothing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mass_decomposition.html">Mass Decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deisotoping.html">Charge and Isotope Deconvolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feature_detection.html">Feature Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peptide_search.html">Peptide Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chromatographic_analysis.html">Chromagraphic Analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R language</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyOpenMS in R</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#install-the-reticulate-r-package">Install the “reticulate” R package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#import-pyopenms-in-r">Import pyopenms in R</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-help">Getting help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#an-example-use-case">An example use case</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#reading-an-mzml-file">Reading an mzML File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualize-spectra">Visualize spectra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iteration">Iteration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build_from_source.html">Build from source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrap_classes.html">Wrapping Workflow and wrapping new Classes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyOpenMS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>pyOpenMS in R</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/pyopenms_in_r.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pyopenms-in-r">
+<h1>pyOpenMS in R<a class="headerlink" href="#pyopenms-in-r" title="Permalink to this headline">¶</a></h1>
+<p>Currently, there are no native wrappers for the OpenMS library in R, however we
+can use the “reticulate” package in order to get access to the full
+functionality of pyOpenMS in the R programming language.</p>
+<div class="section" id="install-the-reticulate-r-package">
+<h2>Install the “reticulate” R package<a class="headerlink" href="#install-the-reticulate-r-package" title="Permalink to this headline">¶</a></h2>
+<p>In order to use all pyopenms functionalities in R, we suggest to use the “reticulate” R package.</p>
+<p>A thorough documentation is available at: <a class="reference external" href="https://rstudio.github.io/reticulate/">https://rstudio.github.io/reticulate/</a></p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">install.packages</span><span class="p">(</span><span class="s">&quot;reticulate&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Installation of pyopenms is a requirement as well and it is necessary to make sure that R is using the same Python environment.</p>
+<p>In case R is having trouble to find the correct Python environment, you can set it by hand as in this example (using miniconda, you will have to adjust the file path to your system to make this work). You will need to do this before loading the “reticulate” library:</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">Sys.setenv</span><span class="p">(</span><span class="n">RETICULATE_PYTHON</span> <span class="o">=</span> <span class="s">&quot;/usr/local/miniconda3/envs/py37/bin/python&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or after loading the “reticulate” library:</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="s">&quot;reticulate&quot;</span><span class="p">)</span>
+<span class="nf">use_python</span><span class="p">(</span><span class="s">&quot;/usr/local/miniconda3/envs/py37/bin/python&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="import-pyopenms-in-r">
+<h2>Import pyopenms in R<a class="headerlink" href="#import-pyopenms-in-r" title="Permalink to this headline">¶</a></h2>
+<p>After loading the “reticulate” library you should be able to import pyopenms into R</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">reticulate</span><span class="p">)</span>
+<span class="n">ropenms</span><span class="o">=</span><span class="nf">import</span><span class="p">(</span><span class="s">&quot;pyopenms&quot;</span><span class="p">,</span> <span class="n">convert</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This should now give you access to all of pyopenms in R. Importantly, the convert option
+has to be set to FALSE, since type conversions such as 64bit integers will cause a problem.</p>
+<p>You should now be able to interact with the OpenMS library and, for example, read and write mzML files:</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">reticulate</span><span class="p">)</span>
+<span class="n">ropenms</span><span class="o">=</span><span class="nf">import</span><span class="p">(</span><span class="s">&quot;pyopenms&quot;</span><span class="p">,</span> <span class="n">convert</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">ropenms</span><span class="o">$</span><span class="nf">MSExperiment</span><span class="p">()</span>
+<span class="n">ropenms</span><span class="o">$</span><span class="nf">MzMLFile</span><span class="p">()</span><span class="o">$</span><span class="nf">store</span><span class="p">(</span><span class="s">&quot;testfile.mzML&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>which will create an empty mzML file called <cite>testfile.mzML</cite>.</p>
+</div>
+<div class="section" id="getting-help">
+<h2>Getting help<a class="headerlink" href="#getting-help" title="Permalink to this headline">¶</a></h2>
+<p>Using the “reticulate” R package provides a way to access the pyopenms information
+about the available functions and methods. We can inspect individual pyOpenMS objects
+through the <code class="docutils literal notranslate"><span class="pre">py_help</span></code> function:</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span> <span class="nf">library</span><span class="p">(</span><span class="n">reticulate</span><span class="p">)</span>
+ <span class="n">ropenms</span><span class="o">=</span><span class="nf">import</span><span class="p">(</span><span class="s">&quot;pyopenms&quot;</span><span class="p">,</span> <span class="n">convert</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+ <span class="n">idXML</span><span class="o">=</span><span class="n">ropenms</span><span class="o">$</span><span class="n">IdXMLFile</span>
+ <span class="nf">py_help</span><span class="p">(</span><span class="n">idXML</span><span class="p">)</span>
+
+ <span class="n">Help</span> <span class="n">on</span> <span class="n">class</span> <span class="n">IdXMLFile</span> <span class="n">in</span> <span class="n">module</span> <span class="n">pyopenms.pyopenms_4</span><span class="o">:</span>
+
+<span class="n">class</span> <span class="nf">IdXMLFile</span><span class="p">(</span><span class="n">__builtin__.object</span><span class="p">)</span>
+ <span class="o">|</span>  <span class="n">Methods</span> <span class="n">defined</span> <span class="n">here</span><span class="o">:</span>
+ <span class="o">|</span>
+ <span class="o">|</span>  <span class="nf">__init__</span><span class="p">(</span><span class="kc">...</span><span class="p">)</span>
+ <span class="o">|</span>      <span class="n">Cython</span> <span class="n">signature</span><span class="o">:</span> <span class="n">void</span> <span class="nf">IdXMLFile</span><span class="p">()</span>
+ <span class="o">|</span>
+ <span class="o">|</span>  <span class="nf">load</span><span class="p">(</span><span class="kc">...</span><span class="p">)</span>
+ <span class="o">|</span>      <span class="n">Cython</span> <span class="n">signature</span><span class="o">:</span> <span class="n">void</span> <span class="nf">load</span><span class="p">(</span><span class="n">String</span> <span class="n">filename</span><span class="p">,</span> <span class="n">libcpp_vector[ProteinIdentification]</span> <span class="o">&amp;</span> <span class="n">protein_ids</span><span class="p">,</span> <span class="n">libcpp_vector[PeptideIdentification]</span> <span class="o">&amp;</span> <span class="n">peptide_ids</span><span class="p">)</span>
+ <span class="n">[...]</span>
+</pre></div>
+</div>
+<p>Alternatively, the autocompletion functionality of RStudio can be used:</p>
+<img alt="_images/R_autocompletion.png" src="_images/R_autocompletion.png" />
+<p>In this case, the help function indicates that the <code class="docutils literal notranslate"><span class="pre">idXML$load()</span></code> function requires</p>
+<blockquote>
+<div><ul class="simple">
+<li>a filename as string</li>
+<li>an empty vector for pyopenms.ProteinIdentification objects</li>
+<li>an empty vector for pyopenms.PeptideIdentification objects</li>
+</ul>
+</div></blockquote>
+<p>In order to read peptide identification data, we can download the <a class="reference external" href="https://github.com/OpenMS/OpenMS/raw/develop/master/OpenMS/examples/BSA/BSA1_OMSSA.idXML.mzML">idXML example file</a></p>
+<p>Creating an empty R <code class="docutils literal notranslate"><span class="pre">list()</span></code> unfortunately is not equal to the empty python <code class="docutils literal notranslate"><span class="pre">list</span> <span class="pre">[]</span></code>.</p>
+<p>Therefore in this case we need to use the <code class="docutils literal notranslate"><span class="pre">reticulate::r_to_py()</span></code> and <code class="docutils literal notranslate"><span class="pre">reticulate::py_to_r()</span></code> functions:</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">idXML</span><span class="o">=</span><span class="n">ropenms</span><span class="o">$</span><span class="nf">IdXMLFile</span><span class="p">()</span>
+
+<span class="nf">download.file</span><span class="p">(</span><span class="s">&quot;https://github.com/OpenMS/OpenMS/raw/master/share/OpenMS/examples/BSA/BSA1_OMSSA.idXML&quot;</span><span class="p">,</span> <span class="s">&quot;BSA1_OMSSA.idXML&quot;</span><span class="p">)</span>
+
+<span class="n">f</span><span class="o">=</span><span class="s">&quot;BSA1_OMSSA.idXML&quot;</span>
+<span class="n">pepids</span><span class="o">=</span><span class="nf">r_to_py</span><span class="p">(</span><span class="nf">list</span><span class="p">())</span>
+<span class="n">protids</span><span class="o">=</span><span class="nf">r_to_py</span><span class="p">(</span><span class="nf">list</span><span class="p">())</span>
+
+<span class="n">idXML</span><span class="o">$</span><span class="nf">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">protids</span><span class="p">,</span> <span class="n">pepids</span><span class="p">)</span>
+
+<span class="n">pepids</span><span class="o">=</span><span class="nf">py_to_r</span><span class="p">(</span><span class="n">pepids</span><span class="p">)</span>
+
+<span class="n">pephits</span><span class="o">=</span><span class="n">pepids[[1]]</span><span class="o">$</span><span class="nf">getHits</span><span class="p">()</span>
+
+<span class="n">pepseq</span><span class="o">=</span><span class="n">pephits[[1]]</span><span class="o">$</span><span class="nf">getSequence</span><span class="p">()</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;Sequence: &quot;</span><span class="p">,</span> <span class="n">pepseq</span><span class="p">))</span>
+
+<span class="n">[1]</span> <span class="s">&quot;Sequence: SHC(Carbamidomethyl)IAEVEK&quot;</span>
+</pre></div>
+</div>
+<p>In order to get more information about the wrapped functions, we can also
+consult the <a class="reference external" href="http://proteomics.ethz.ch/pyOpenMS_Manual.pdf">pyOpenMS manual</a>
+which references to all wrapped functions.</p>
+</div>
+<div class="section" id="an-example-use-case">
+<h2>An example use case<a class="headerlink" href="#an-example-use-case" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="reading-an-mzml-file">
+<h3>Reading an mzML File<a class="headerlink" href="#reading-an-mzml-file" title="Permalink to this headline">¶</a></h3>
+<p>pyOpenMS supports a variety of different files through the implementations in
+OpenMS. In order to read mass spectrometric data, we can download the <a class="reference external" href="https://github.com/OpenMS/OpenMS/raw/develop/master/OpenMS/examples/BSA/BSA1.mzML">mzML
+example file</a></p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">download.file</span><span class="p">(</span><span class="s">&quot;https://github.com/OpenMS/OpenMS/raw/master/share/OpenMS/examples/BSA/BSA1.mzML&quot;</span><span class="p">,</span> <span class="s">&quot;BSA1.mzML&quot;</span><span class="p">)</span>
+
+<span class="nf">library</span><span class="p">(</span><span class="n">reticulate</span><span class="p">)</span>
+<span class="n">ropenms</span><span class="o">=</span><span class="nf">import</span><span class="p">(</span><span class="s">&quot;pyopenms&quot;</span><span class="p">,</span> <span class="n">convert</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+<span class="n">mzML</span><span class="o">=</span><span class="n">ropenms</span><span class="o">$</span><span class="nf">MzMLFile</span><span class="p">()</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">ropenms</span><span class="o">$</span><span class="nf">MSExperiment</span><span class="p">()</span>
+<span class="n">mzML</span><span class="o">$</span><span class="nf">load</span><span class="p">(</span><span class="s">&quot;BSA1.mzML&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>which will load the content of the “BSA1.mzML” file into the <code class="docutils literal notranslate"><span class="pre">exp</span></code>
+variable of type <code class="docutils literal notranslate"><span class="pre">MSExperiment</span></code>.
+We can now inspect the properties of this object:</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">py_help</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+<span class="n">Help</span> <span class="n">on</span> <span class="n">MSExperiment</span> <span class="n">object</span><span class="o">:</span>
+
+<span class="n">class</span> <span class="nf">MSExperiment</span><span class="p">(</span><span class="n">__builtin__.object</span><span class="p">)</span>
+ <span class="o">|</span>  <span class="n">Methods</span> <span class="n">defined</span> <span class="n">here</span><span class="o">:</span>
+ <span class="kc">...</span>
+ <span class="o">|</span>  <span class="nf">getNrChromatograms</span><span class="p">(</span><span class="kc">...</span><span class="p">)</span>
+ <span class="o">|</span>      <span class="n">Cython</span> <span class="n">signature</span><span class="o">:</span> <span class="n">size_t</span> <span class="nf">getNrChromatograms</span><span class="p">()</span>
+ <span class="o">|</span>
+ <span class="o">|</span>  <span class="nf">getNrSpectra</span><span class="p">(</span><span class="kc">...</span><span class="p">)</span>
+ <span class="o">|</span>      <span class="n">Cython</span> <span class="n">signature</span><span class="o">:</span> <span class="n">size_t</span> <span class="nf">getNrSpectra</span><span class="p">()</span>
+ <span class="o">|</span>
+ <span class="kc">...</span>
+</pre></div>
+</div>
+<p>which indicates that the variable <code class="docutils literal notranslate"><span class="pre">exp</span></code> has (among others) the functions
+<code class="docutils literal notranslate"><span class="pre">getNrSpectra</span></code> and <code class="docutils literal notranslate"><span class="pre">getNrChromatograms</span></code>. We can now try one of these functions:</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="o">$</span><span class="nf">getNrSpectra</span><span class="p">()</span>
+<span class="m">1684</span>
+</pre></div>
+</div>
+<p>and indeed we see that we get information about the underlying MS data. We can
+iterate through the spectra as follows:</p>
+</div>
+<div class="section" id="visualize-spectra">
+<h3>Visualize spectra<a class="headerlink" href="#visualize-spectra" title="Permalink to this headline">¶</a></h3>
+<p>You can easily visualise ms1 level precursor maps:</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+
+<span class="n">spectra</span> <span class="o">=</span> <span class="nf">py_to_r</span><span class="p">(</span><span class="n">exp</span><span class="o">$</span><span class="nf">getSpectra</span><span class="p">())</span>
+
+<span class="n">peaks_df</span><span class="o">=</span><span class="nf">c</span><span class="p">()</span>
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="n">spectra</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nf">if </span><span class="p">(</span><span class="n">i</span><span class="o">$</span><span class="nf">getMSLevel</span><span class="p">()</span><span class="o">==</span><span class="m">1</span><span class="p">){</span>
+    <span class="n">peaks</span><span class="o">=</span><span class="nf">do.call</span><span class="p">(</span><span class="s">&quot;cbind&quot;</span><span class="p">,</span> <span class="n">i</span><span class="o">$</span><span class="nf">get_peaks</span><span class="p">())</span>
+    <span class="n">rt</span><span class="o">=</span><span class="n">i</span><span class="o">$</span><span class="nf">getRT</span><span class="p">()</span>
+    <span class="n">peaks_df</span><span class="o">=</span><span class="nf">rbind</span><span class="p">(</span><span class="n">peaks_df</span><span class="p">,</span><span class="nf">cbind</span><span class="p">(</span><span class="n">peaks</span><span class="p">,</span><span class="n">rt</span><span class="p">))</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">peaks_df</span><span class="o">=</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">peaks_df</span><span class="p">)</span>
+<span class="nf">colnames</span><span class="p">(</span><span class="n">peaks_df</span><span class="p">)</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&#39;MZ&#39;</span><span class="p">,</span><span class="s">&#39;Intensity&#39;</span><span class="p">,</span><span class="s">&#39;RT&#39;</span><span class="p">)</span>
+<span class="n">peaks_df</span><span class="o">$</span><span class="n">Intensity</span><span class="o">=</span><span class="nf">log10</span><span class="p">(</span><span class="n">peaks_df</span><span class="o">$</span><span class="n">Intensity</span><span class="p">)</span>
+
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">peaks_df</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">RT</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">MZ</span><span class="p">)</span> <span class="p">)</span> <span class="o">+</span>
+<span class="nf">geom_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">colour</span> <span class="o">=</span> <span class="n">Intensity</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="m">0.25</span><span class="p">)</span> <span class="o">+</span>
+<span class="nf">theme_minimal</span><span class="p">()</span> <span class="o">+</span>
+<span class="nf">scale_colour_gradient</span><span class="p">(</span><span class="n">low</span> <span class="o">=</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="s">&quot;yellow&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/R_ggplot_precursor_map.png" src="_images/R_ggplot_precursor_map.png" />
+<p>Or visualize a particular ms2 spectrum:</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+
+<span class="n">spectra</span> <span class="o">=</span> <span class="nf">py_to_r</span><span class="p">(</span><span class="n">exp</span><span class="o">$</span><span class="nf">getSpectra</span><span class="p">())</span>
+
+<span class="c1"># Collect all MS2 peak data in a list</span>
+<span class="n">peaks_ms2</span><span class="o">=</span><span class="nf">list</span><span class="p">()</span>
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="n">spectra</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nf">if </span><span class="p">(</span><span class="n">i</span><span class="o">$</span><span class="nf">getMSLevel</span><span class="p">()</span><span class="o">==</span><span class="m">2</span><span class="p">){</span>
+    <span class="n">peaks</span><span class="o">=</span><span class="nf">do.call</span><span class="p">(</span><span class="s">&quot;cbind&quot;</span><span class="p">,</span><span class="n">i</span><span class="o">$</span><span class="nf">get_peaks</span><span class="p">())</span>
+    <span class="n">peaks_ms2[[i</span><span class="o">$</span><span class="nf">getNativeID</span><span class="p">()</span><span class="n">]]</span><span class="o">=</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">peaks</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">ms2_spectrum</span><span class="o">=</span><span class="n">peaks_ms2[[</span><span class="s">&quot;spectrum=3529&quot;</span><span class="n">]]</span>
+<span class="nf">colnames</span><span class="p">(</span><span class="n">ms2_spectrum</span><span class="p">)</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;MZ&quot;</span><span class="p">,</span><span class="s">&quot;Intensity&quot;</span><span class="p">)</span>
+
+<span class="nf">ggplot</span><span class="p">(</span><span class="n">ms2_spectrum</span><span class="p">,</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">MZ</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">Intensity</span><span class="p">))</span> <span class="o">+</span>
+<span class="nf">geom_segment</span><span class="p">(</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">MZ</span><span class="p">,</span> <span class="n">xend</span><span class="o">=</span><span class="n">MZ</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="m">0</span><span class="p">,</span> <span class="n">yend</span><span class="o">=</span><span class="n">Intensity</span><span class="p">))</span> <span class="o">+</span>
+<span class="nf">theme_minimal</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/R_ggplot_ms2.png" src="_images/R_ggplot_ms2.png" />
+<p>Alternatively, we could also have used <code class="docutils literal notranslate"><span class="pre">apply</span></code> to obtain the peak data, which
+is more idiomatic way of doing things for the R programming language:</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">ms1</span> <span class="o">=</span> <span class="nf">sapply</span><span class="p">(</span><span class="n">spectra</span><span class="p">,</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="n">x</span><span class="o">$</span><span class="nf">getMSLevel</span><span class="p">()</span><span class="o">==</span><span class="m">1</span><span class="p">)</span>
+<span class="n">peaks</span> <span class="o">=</span> <span class="nf">sapply</span><span class="p">(</span><span class="n">spectra[ms1]</span><span class="p">,</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="nf">cbind</span><span class="p">(</span><span class="nf">do.call</span><span class="p">(</span><span class="s">&quot;cbind&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">$</span><span class="nf">get_peaks</span><span class="p">()),</span><span class="n">x</span><span class="o">$</span><span class="nf">getRT</span><span class="p">()))</span>
+<span class="n">peaks</span> <span class="o">=</span> <span class="nf">data.frame</span><span class="p">(</span> <span class="nf">do.call</span><span class="p">(</span><span class="s">&quot;rbind&quot;</span><span class="p">,</span> <span class="n">peaks</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="n">ms2</span> <span class="o">=</span> <span class="n">spectra[</span><span class="o">!</span><span class="n">ms1][[1]]</span><span class="o">$</span><span class="nf">get_peaks</span><span class="p">()</span>
+<span class="n">ms2_spectrum</span> <span class="o">=</span> <span class="nf">data.frame</span><span class="p">(</span> <span class="nf">do.call</span><span class="p">(</span><span class="s">&quot;cbind&quot;</span><span class="p">,</span> <span class="n">ms2</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="iteration">
+<h3>Iteration<a class="headerlink" href="#iteration" title="Permalink to this headline">¶</a></h3>
+<p>Iterating over pyopenms objects is not equal to iterating over R vectors or
+lists. Note that for many applications, there is a more efficient way to access
+data (such as <code class="docutils literal notranslate"><span class="pre">get_peaks</span></code> instead of iterating over individual peaks).</p>
+<p>Therefore we can not directly apply the usual functions such as <code class="docutils literal notranslate"><span class="pre">apply()</span></code> and have to use <code class="docutils literal notranslate"><span class="pre">reticulate::iterate()</span></code> instead:</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">spectrum</span> <span class="o">=</span> <span class="n">ropenms</span><span class="o">$</span><span class="nf">MSSpectrum</span><span class="p">()</span>
+<span class="n">mz</span> <span class="o">=</span> <span class="nf">seq</span><span class="p">(</span><span class="m">1500</span><span class="p">,</span> <span class="m">500</span><span class="p">,</span> <span class="m">-100</span><span class="p">)</span>
+<span class="n">i</span> <span class="o">=</span> <span class="nf">seq</span><span class="p">(</span><span class="m">10</span><span class="p">,</span> <span class="m">2000</span><span class="p">,</span> <span class="n">length.out</span> <span class="o">=</span> <span class="nf">length</span><span class="p">(</span><span class="n">mz</span><span class="p">))</span>
+<span class="n">spectrum</span><span class="o">$</span><span class="nf">set_peaks</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="n">mz</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+
+<span class="nf">iterate</span><span class="p">(</span><span class="n">spectrum</span><span class="p">,</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span><span class="nf">print</span><span class="p">(</span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;M/z :&quot;</span> <span class="p">,</span> <span class="n">x</span><span class="o">$</span><span class="nf">getMZ</span><span class="p">(),</span> <span class="s">&quot; Intensity: &quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">$</span><span class="nf">getIntensity</span><span class="p">()))})</span>
+
+<span class="n">[1]</span> <span class="s">&quot;M/z :1500.0 Intensity: 10.0&quot;</span>
+<span class="n">[1]</span> <span class="s">&quot;M/z :1400.0 Intensity: 209.0&quot;</span>
+<span class="n">[1]</span> <span class="s">&quot;M/z :1300.0 Intensity: 408.0&quot;</span>
+<span class="n">[1]</span> <span class="s">&quot;M/z :1200.0 Intensity: 607.0&quot;</span>
+<span class="n">[1]</span> <span class="s">&quot;M/z :1100.0 Intensity: 806.0&quot;</span>
+<span class="n">[1]</span> <span class="s">&quot;M/z :1000.0 Intensity: 1005.0&quot;</span>
+<span class="n">[1]</span> <span class="s">&quot;M/z :900.0 Intensity: 1204.0&quot;</span>
+<span class="n">[1]</span> <span class="s">&quot;M/z :800.0 Intensity: 1403.0&quot;</span>
+<span class="n">[1]</span> <span class="s">&quot;M/z :700.0 Intensity: 1602.0&quot;</span>
+<span class="n">[1]</span> <span class="s">&quot;M/z :600.0 Intensity: 1801.0&quot;</span>
+<span class="n">[1]</span> <span class="s">&quot;M/z :500.0 Intensity: 2000.0&quot;</span>
+</pre></div>
+</div>
+<p>or we can use a for-loop (note that we use zero-based indices as custom in Python):</p>
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="nf">seq</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="nf">py_to_r</span><span class="p">(</span><span class="n">spectrum</span><span class="o">$</span><span class="nf">size</span><span class="p">())</span><span class="m">-1</span><span class="p">))</span> <span class="p">{</span>
+      <span class="nf">print</span><span class="p">(</span><span class="n">spectrum[i]</span><span class="o">$</span><span class="nf">getMZ</span><span class="p">())</span>
+      <span class="nf">print</span><span class="p">(</span><span class="n">spectrum[i]</span><span class="o">$</span><span class="nf">getIntensity</span><span class="p">())</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="build_from_source.html" class="btn btn-neutral float-right" title="Build from source" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="chromatographic_analysis.html" class="btn btn-neutral float-left" title="Chromagraphic Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, OpenMS Team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

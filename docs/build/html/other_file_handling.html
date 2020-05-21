@@ -1,0 +1,354 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Other MS data formats &mdash; pyOpenMS 2.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="MS Data" href="datastructures.html" />
+    <link rel="prev" title="mzML files" href="mzMLFileFormat.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyOpenMS
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">pyOpenMS Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">First steps</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_handling.html">Reading Raw MS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mzMLFileFormat.html">mzML files</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Other MS data formats</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#identification-data-idxml-mzidentml-pepxml-protxml">Identification data (idXML, mzIdentML, pepXML, protXML)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quantiative-data-featurexml-consensusxml">Quantiative data (featureXML, consensusXML)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#transition-data-traml">Transition data (TraML)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Mass Spectrometry Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="datastructures.html">MS Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemistry.html">Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aasequences.html">Peptides and Proteins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nasequences.html">Oligonucleotides: RNA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theoreticalspectrumgenerator.html">TheoreticalSpectrumGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="digestion.html">Digestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_id.html">Identification Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_quant.html">Quantitative Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Simple Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="data_manipulation.html">Simple Data Manipulation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OpenMS Algorithms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="parameter_handling.html">Parameter Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smoothing.html">Smoothing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mass_decomposition.html">Mass Decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deisotoping.html">Charge and Isotope Deconvolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feature_detection.html">Feature Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peptide_search.html">Peptide Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chromatographic_analysis.html">Chromagraphic Analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R language</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyopenms_in_r.html">pyOpenMS in R</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build_from_source.html">Build from source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrap_classes.html">Wrapping Workflow and wrapping new Classes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyOpenMS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Other MS data formats</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/other_file_handling.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="other-ms-data-formats">
+<h1>Other MS data formats<a class="headerlink" href="#other-ms-data-formats" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="identification-data-idxml-mzidentml-pepxml-protxml">
+<h2>Identification data (idXML, mzIdentML, pepXML, protXML)<a class="headerlink" href="#identification-data-idxml-mzidentml-pepxml-protxml" title="Permalink to this headline">¶</a></h2>
+<p>You can store and load identification data from an <cite>idXML</cite> file as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="c1"># from urllib import urlretrieve  # use this code for Python 2.x</span>
+<span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">gh</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/OpenMS/OpenMS/develop&quot;</span>
+<span class="n">urlretrieve</span> <span class="p">(</span><span class="n">gh</span> <span class="o">+</span><span class="s2">&quot;/src/tests/class_tests/openms/data/IdXMLFile_whole.idXML&quot;</span><span class="p">,</span> <span class="s2">&quot;test.idXML&quot;</span><span class="p">)</span>
+<span class="n">protein_ids</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">peptide_ids</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">IdXMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;test.idXML&quot;</span><span class="p">,</span> <span class="n">protein_ids</span><span class="p">,</span> <span class="n">peptide_ids</span><span class="p">)</span>
+<span class="n">IdXMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="s2">&quot;test.out.idXML&quot;</span><span class="p">,</span> <span class="n">protein_ids</span><span class="p">,</span> <span class="n">peptide_ids</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can store and load identification data from an <cite>mzIdentML</cite> file as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="c1"># from urllib import urlretrieve  # use this code for Python 2.x</span>
+<span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">gh</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/OpenMS/OpenMS/develop&quot;</span>
+<span class="n">urlretrieve</span> <span class="p">(</span><span class="n">gh</span> <span class="o">+</span> <span class="s2">&quot;/src/tests/class_tests/openms/data/MzIdentML_3runs.mzid&quot;</span><span class="p">,</span> <span class="s2">&quot;test.mzid&quot;</span><span class="p">)</span>
+<span class="n">protein_ids</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">peptide_ids</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">MzIdentMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;test.mzid&quot;</span><span class="p">,</span> <span class="n">protein_ids</span><span class="p">,</span> <span class="n">peptide_ids</span><span class="p">)</span>
+<span class="n">MzIdentMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="s2">&quot;test.out.mzid&quot;</span><span class="p">,</span> <span class="n">protein_ids</span><span class="p">,</span> <span class="n">peptide_ids</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can store and load identification data from a TPP <cite>pepXML</cite> file as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="c1"># from urllib import urlretrieve  # use this code for Python 2.x</span>
+<span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">gh</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/OpenMS/OpenMS/develop&quot;</span>
+<span class="n">urlretrieve</span> <span class="p">(</span><span class="n">gh</span> <span class="o">+</span> <span class="s2">&quot;/src/tests/class_tests/openms/data/PepXMLFile_test.pepxml&quot;</span><span class="p">,</span> <span class="s2">&quot;test.pepxml&quot;</span><span class="p">)</span>
+<span class="n">protein_ids</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">peptide_ids</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">PepXMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;test.pepxml&quot;</span><span class="p">,</span> <span class="n">protein_ids</span><span class="p">,</span> <span class="n">peptide_ids</span><span class="p">)</span>
+<span class="n">PepXMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="s2">&quot;test.out.pepxml&quot;</span><span class="p">,</span> <span class="n">protein_ids</span><span class="p">,</span> <span class="n">peptide_ids</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can load (storing is not supported) identification data from a TPP <cite>protXML</cite> file as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="c1"># from urllib import urlretrieve  # use this code for Python 2.x</span>
+<span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">gh</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/OpenMS/OpenMS/develop&quot;</span>
+<span class="n">urlretrieve</span> <span class="p">(</span><span class="n">gh</span> <span class="o">+</span> <span class="s2">&quot;/src/tests/class_tests/openms/data/ProtXMLFile_input_1.protXML&quot;</span><span class="p">,</span> <span class="s2">&quot;test.protXML&quot;</span><span class="p">)</span>
+<span class="n">protein_ids</span> <span class="o">=</span> <span class="n">ProteinIdentification</span><span class="p">()</span>
+<span class="n">peptide_ids</span> <span class="o">=</span> <span class="n">PeptideIdentification</span><span class="p">()</span>
+<span class="n">ProtXMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;test.protXML&quot;</span><span class="p">,</span> <span class="n">protein_ids</span><span class="p">,</span> <span class="n">peptide_ids</span><span class="p">)</span>
+<span class="c1"># storing protein XML file is not yet supported</span>
+</pre></div>
+</div>
+<p>note how each data file produces two vectors of type <code class="docutils literal notranslate"><span class="pre">ProteinIdentification</span></code>
+and <code class="docutils literal notranslate"><span class="pre">PeptideIdentification</span></code> which also means that conversion between two data
+types is trivial: load data from one data file and use the storage function of
+the other file.</p>
+</div>
+<div class="section" id="quantiative-data-featurexml-consensusxml">
+<h2>Quantiative data (featureXML, consensusXML)<a class="headerlink" href="#quantiative-data-featurexml-consensusxml" title="Permalink to this headline">¶</a></h2>
+<p>OpenMS stores quantitative information in the internal <code class="docutils literal notranslate"><span class="pre">featureXML</span></code> and
+<code class="docutils literal notranslate"><span class="pre">consensusXML</span></code> data formats. The <code class="docutils literal notranslate"><span class="pre">featureXML</span></code> format is used to store
+quantitative data from a single LC-MS/MS run while the <code class="docutils literal notranslate"><span class="pre">consensusXML</span></code> is used
+to store quantitative data from multiple LC-MS/MS runs. These can be accessed
+as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="c1"># from urllib import urlretrieve  # use this code for Python 2.x</span>
+<span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">gh</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/OpenMS/OpenMS/develop&quot;</span>
+<span class="n">urlretrieve</span> <span class="p">(</span><span class="n">gh</span> <span class="o">+</span> <span class="s2">&quot;/src/tests/topp/FeatureFinderCentroided_1_output.featureXML&quot;</span><span class="p">,</span> <span class="s2">&quot;test.featureXML&quot;</span><span class="p">)</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">FeatureMap</span><span class="p">()</span>
+<span class="n">FeatureXMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;test.featureXML&quot;</span><span class="p">,</span> <span class="n">features</span><span class="p">)</span>
+<span class="n">FeatureXMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="s2">&quot;test.out.featureXML&quot;</span><span class="p">,</span> <span class="n">features</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and for <code class="docutils literal notranslate"><span class="pre">consensusXML</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="c1"># from urllib import urlretrieve  # use this code for Python 2.x</span>
+<span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">gh</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/OpenMS/OpenMS/develop&quot;</span>
+<span class="n">urlretrieve</span> <span class="p">(</span><span class="n">gh</span> <span class="o">+</span> <span class="s2">&quot;/src/tests/class_tests/openms/data/ConsensusXMLFile_1.consensusXML&quot;</span><span class="p">,</span> <span class="s2">&quot;test.consensusXML&quot;</span><span class="p">)</span>
+<span class="n">consensus_features</span> <span class="o">=</span> <span class="n">ConsensusMap</span><span class="p">()</span>
+<span class="n">ConsensusXMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;test.consensusXML&quot;</span><span class="p">,</span> <span class="n">consensus_features</span><span class="p">)</span>
+<span class="n">ConsensusXMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="s2">&quot;test.out.consensusXML&quot;</span><span class="p">,</span> <span class="n">consensus_features</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="transition-data-traml">
+<h2>Transition data (TraML)<a class="headerlink" href="#transition-data-traml" title="Permalink to this headline">¶</a></h2>
+<p>The TraML data format allows you to store transition information for targeted
+experiments (SRM / MRM / PRM / DIA).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="c1"># from urllib import urlretrieve  # use this code for Python 2.x</span>
+<span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">gh</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/OpenMS/OpenMS/develop&quot;</span>
+<span class="n">urlretrieve</span> <span class="p">(</span><span class="n">gh</span> <span class="o">+</span> <span class="s2">&quot;/src/tests/topp/ConvertTSVToTraML_output.TraML&quot;</span><span class="p">,</span> <span class="s2">&quot;test.TraML&quot;</span><span class="p">)</span>
+<span class="n">targeted_exp</span> <span class="o">=</span> <span class="n">TargetedExperiment</span><span class="p">()</span>
+<span class="n">TraMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;test.TraML&quot;</span><span class="p">,</span> <span class="n">targeted_exp</span><span class="p">)</span>
+<span class="n">TraMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="s2">&quot;test.out.TraML&quot;</span><span class="p">,</span> <span class="n">targeted_exp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="datastructures.html" class="btn btn-neutral float-right" title="MS Data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="mzMLFileFormat.html" class="btn btn-neutral float-left" title="mzML files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, OpenMS Team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
