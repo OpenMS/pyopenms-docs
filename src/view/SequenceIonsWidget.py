@@ -202,7 +202,7 @@ class observed_peptide(QWidget):
 
                 # position of char with center indent
                 position = QPointF(start_point + blank,
-                                   SequenceIonsWidget.SUFFIX_HEIGHT + height)
+                                    SequenceIonsWidget.SUFFIX_HEIGHT + height)
                 qp.drawText(position, s)
 
                 # position lines for possible ions

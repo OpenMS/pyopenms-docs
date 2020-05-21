@@ -92,8 +92,8 @@ class MassList():
             pass
 
         return MassDataStruct(mz_theo_arr=theo_mz,
-                              startRT=rt_s, endRT=rt_e, maxIntensity=mi, scanCount=c,
-                              marker=marker, color=color)
+                            startRT=rt_s, endRT=rt_e, maxIntensity=mi, scanCount=c,
+                            marker=marker, color=color)
 
     def calculateTheoMzList(self, mass, cs_range, mz_range=(0, 0)):
         theo_mz_list = []
@@ -109,7 +109,7 @@ class MassList():
 
     def isValidFLASHDeconvFile(self):
         col_needed = ['MonoisotopicMass', 'AverageMass',
-                      'StartRetentionTime', 'EndRetentionTime']
+                    'StartRetentionTime', 'EndRetentionTime']
         result = all(elem in list(self.data) for elem in col_needed)
         if result:
             return True
@@ -147,10 +147,10 @@ class FeatureMapPlotWidget(PlotWidget):
 
         for mass, mds in self.data.items():
             spi = pg.ScatterPlotItem(size=10,  # pen=pg.mkPen(None),
-                                     brush=pg.mkBrush(cmap.mapToQColor(mds.maxIntensity)))
+                                    brush=pg.mkBrush(cmap.mapToQColor(mds.maxIntensity)))
             self.addItem(spi)
             spots = [{'pos': [i, mass]}
-                     for i in np.arange(mds.startRT, mds.endRT, 1)]
+                    for i in np.arange(mds.startRT, mds.endRT, 1)]
             # print([i for i in np.arange(mds.startRT, mds.endRT, 1)])
             spi.addPoints(spots)
 
@@ -396,8 +396,8 @@ class ControllerWidget(QWidget):
                 if exp_p is None:
                     continue
                 pStructList.append(PeakAnnoStruct(mz=exp_p.getMZ(),
-                                                  intensity=exp_p.getIntensity(), text_label='+'+str(theo[0]),
-                                                  symbol=mass_strc.marker, symbol_color=mass_strc.color))
+                                                intensity=exp_p.getIntensity(), text_label='+'+str(theo[0]),
+                                                symbol=mass_strc.marker, symbol_color=mass_strc.color))
 
         return pStructList
 
@@ -422,7 +422,7 @@ class ControllerWidget(QWidget):
                         t_mz_list.append(mz)
                         txt_list.append('+%d[%d]' % (theo[0], index))
                 lStructDict[mass] = LadderAnnoStruct(mz_list=np.array(t_mz_list),
-                                                     text_label_list=np.array(txt_list), color=mass_strc.color)
+                                                    text_label_list=np.array(txt_list), color=mass_strc.color)
             else:
                 self.spectrum_widget.clearLadderAnnotation(mass)
         return lStructDict
@@ -565,7 +565,7 @@ class FDInputDialog(QDialog):
 
     def openMzMLFileDialog(self):
         fileName, _ = QFileDialog.getOpenFileName(self,
-                                                  "Open File ", "", "mzML Files (*.mzML)")
+                                                "Open File ", "", "mzML Files (*.mzML)")
         if fileName:
             self.mzmlFileLineEdit.setText(fileName)
 

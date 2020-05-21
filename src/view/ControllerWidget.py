@@ -124,7 +124,7 @@ class ControllerWidget(QWidget):
                 index_ions = self.scan_widget.table_model.index(row, 7)
                 # data needs to be a string, but reversible -> using json.dumps()
                 self.scan_widget.table_model.setData(index_ions, json.dumps(self.scanIDDict[tableRT]['PepIons']),
-                                                     Qt.DisplayRole)
+                                                    Qt.DisplayRole)
 
     def readMS(self, file_path):
         # read MzML files
@@ -169,8 +169,7 @@ class ControllerWidget(QWidget):
         else:
             self.error_widget.clear()
 
-    def filterColorsMZIons(self,
-                           ions_data_dict):  # create color/mz array by distinguishing between prefix & suffix ions
+    def filterColorsMZIons(self, ions_data_dict):  # create color/mz array by distinguishing between prefix & suffix ions
         # key is ion annotation (e.g. b2): [mz, color distinguishing prefix, suffix]
         self.peakAnnoData = {}
         colors = []
@@ -204,7 +203,7 @@ class ControllerWidget(QWidget):
         # only draw sequence with given ions for MS2 and error plot
         if index.siblingAtColumn(0).data() == 'MS2':
             self.drawSeqIons(index.siblingAtColumn(6).data(),
-                             index.siblingAtColumn(7).data())
+                            index.siblingAtColumn(7).data())
             self.errorData(index.siblingAtColumn(7).data())
             # peakAnnoData created with existing ions in errorData (bc of coloring)
             if self.peakAnnoData is not None:
@@ -231,7 +230,7 @@ class ControllerWidget(QWidget):
             index = self.find_nearest_Index(self.spectrum_widget._mzs, mz)
             pStructList.append(
                 PeakAnnoStruct(mz=self.spectrum_widget._mzs[index], intensity=self.spectrum_widget._ints[index],
-                               text_label=anno, symbol=None, symbol_color=anno_color))
+                                text_label=anno, symbol=None, symbol_color=anno_color))
         return pStructList
 
     def find_nearest_Index(self, array, value):

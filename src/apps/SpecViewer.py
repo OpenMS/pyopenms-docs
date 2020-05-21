@@ -85,8 +85,7 @@ class App(QMainWindow):
             layout.itemAt(i).widget().setParent(None)
 
     def openFileDialog(self):
-        fileName, _ = QFileDialog.getOpenFileName(self,
-                                                  "Open File ", "", "mzML Files (*.mzML)")
+        fileName, _ = QFileDialog.getOpenFileName(self, "Open File ", "", "mzML Files (*.mzML)")
         if fileName:
             print('opening...', fileName)
             self.setScanBrowserWidget()

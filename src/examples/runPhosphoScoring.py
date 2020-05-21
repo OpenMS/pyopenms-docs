@@ -73,7 +73,7 @@ hit_mapping = mapPeptideIdsToSpectra(filtered_ids, exp)
 # Writer CSV header
 print "Will print the original, search-engine sequence, the AScore sequence and the PhosphoScorerSimple sequence"
 writer.writerow(["Search-Engine Score", "AScore", "AScore sequence",
-                 "Simple Scorer sequence", "Old Sequence", "# Sites"])
+                "Simple Scorer sequence", "Old Sequence", "# Sites"])
 for i in range(len(filtered_ids)):
     # Retrieve the input data:
     #  - the peptide hit from the search engine (we take the first hit here)
@@ -92,8 +92,8 @@ for i in range(len(filtered_ids)):
 
     # Store the resulting hit in our CSV file
     row = [phit.getScore(), ascore_result[0], ascore_result[1].toString(),
-           simple_result[1].toString(), phit.getSequence().toString(),
-           nr_sites]
+            simple_result[1].toString(), phit.getSequence().toString(),
+            nr_sites]
     writer.writerow(row)
 
 fh.close()

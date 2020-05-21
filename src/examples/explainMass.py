@@ -12,7 +12,7 @@ residues = ResidueDB().getResidues(b"Natural19WithoutI")
 print("Trying to decompose " + str(mass) + " into sums of residues:")
 for r in residues:
     print(r.getOneLetterCode().decode() + "\t" +
-          str(r.getMonoWeight(Residue.ResidueType.Internal)))
+            str(r.getMonoWeight(Residue.ResidueType.Internal)))
 
 print("Mass explanations by fast algorithm:")
 # fast algorithm based on integer mass decomposition

@@ -82,8 +82,7 @@ class App(QMainWindow):
             layout.itemAt(i).widget().setParent(None)
 
     def openFileDialog(self):
-        fileName, _ = QFileDialog.getOpenFileName(self,
-                                                  "Open File ", "", "idXML Files (*.idXML)")
+        fileName, _ = QFileDialog.getOpenFileName(self, "Open File ", "", "idXML Files (*.idXML)")
         if fileName:
             print('opening...', fileName)
             self.setWidgets()

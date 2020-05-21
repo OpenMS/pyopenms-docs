@@ -20,7 +20,7 @@ class RTUnitDelegate(QItemDelegate):
         if index.isValid():
             rt_min = round(index.siblingAtColumn(2).data() * 1.0 / 60, 3)
             text = "  " + str(round(index.siblingAtColumn(2).data(), 3)
-                              ) + "\t [" + str(rt_min) + " Min" + "]"
+                                ) + "\t [" + str(rt_min) + " Min" + "]"
             painter.setRenderHint(QPainter.Antialiasing)
             # adjust text into cell
             cell = option.rect
@@ -37,8 +37,8 @@ class ScanTableWidget(QWidget):
     ===============================  =============================================================================
     **Signals:**
     sigScanClicked                   Emitted when the user has clicked on a row of the table and returns the
-                                     current index. This index contains information about the current rows column
-                                     data.
+                                        current index. This index contains information about the current rows column
+                                        data.
 
     ===============================  =============================================================================
     """
@@ -46,7 +46,7 @@ class ScanTableWidget(QWidget):
     sigScanClicked = pyqtSignal(QModelIndex, name='scanClicked')
 
     header = ['MS level', 'Index',
-              'RT (min)', 'precursor m/z', 'charge', 'ID', 'PeptideSeq', 'PeptideIons']
+                'RT (min)', 'precursor m/z', 'charge', 'ID', 'PeptideSeq', 'PeptideIons']
 
     def __init__(self, ms_experiment, *args):
         QWidget.__init__(self, *args)

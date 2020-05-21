@@ -21,8 +21,8 @@ class TICWidget(PlotWidget):
     sigRTClicked                     Emitted when the user has clicked on TIC plot and returns the clicked RT value.
 
     sigSeleRTRegionChangeFinished    Emitted while the user is double clicking on a region in TIC plot and creates a
-                                     region by dragging a horizontal line. The signal returns the start and end
-                                     RT values within the region.
+                                        region by dragging a horizontal line. The signal returns the start and end
+                                        RT values within the region.
     ===============================  =============================================================================
     """
     sigRTClicked = pyqtSignal(float, name='sigRTClicked')

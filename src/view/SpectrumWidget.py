@@ -96,7 +96,7 @@ class SpectrumWidget(PlotWidget):
         if self.peak_annotation_list is not None:
             for item in self.peak_annotation_list:  # item : PeakAnnoStruct
                 self.plot([item.mz], [item.intensity], symbol=item.symbol,
-                          symbolBrush=pg.mkBrush(item.symbol_color), symbolSize=14)
+                            symbolBrush=pg.mkBrush(item.symbol_color), symbolSize=14)
                 if item.text_label:
                     label = pg.TextItem(
                         text=item.text_label, color=item.symbol_color, anchor=(0.5, 1))
