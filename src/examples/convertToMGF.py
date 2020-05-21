@@ -36,7 +36,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import pyopenms
 import sys
 if len(sys.argv) <= 2:
-    print "Usage: convertToMGF.py inputfile outputfile"
+    print("Usage: convertToMGF.py inputfile outputfile")
     sys.exit()
 
 msdata = pyopenms.MSExperiment()
@@ -71,4 +71,5 @@ for spectrum in msdata:
     outfile.write("END IONS\n")
 
 if nr_ms2_spectra == 0:
-    print("Did not find any MS2 spectra in your input, thus the output file is empty!")
+    print("Did not find any MS2 spectra in your input," +
+          "thus the output file is empty!")

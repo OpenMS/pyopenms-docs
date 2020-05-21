@@ -158,4 +158,5 @@ class PhosphoScorerSimple:
 
 
 if __name__ == "__main__":
-    print "This file is intended as library and not as Python executable, please do not execute it directly."
+    print("This file is intended as library and not as Python executable,"
+          + "please do not execute it directly.")

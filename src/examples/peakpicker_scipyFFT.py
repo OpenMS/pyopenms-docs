@@ -1,6 +1,6 @@
 """
 --------------------------------------------------------------------------
-                  OpenMS -- Open-Source Mass Spectrometry
+                OpenMS -- Open-Source Mass Spectrometry
 --------------------------------------------------------------------------
 Copyright The OpenMS Team -- Eberhard Karls University Tuebingen,
 ETH Zurich, and Freie Universitaet Berlin 2002-2013.

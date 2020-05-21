@@ -35,7 +35,8 @@ print("ion\ttheo. m/z\tobserved m/z")
 
 for theo_idx, obs_idx in alignment:
     print(theo_spectrum.getStringDataArrays()[0][theo_idx].decode(
-    ) + "\t" + str(theo_spectrum[theo_idx].getMZ()) + "\t" + str(spectrum[obs_idx].getMZ()))
+        ) + "\t" + str(theo_spectrum[theo_idx].getMZ()) + "\t"
+          + str(spectrum[obs_idx].getMZ()))
 
 # Matched peaks: 16
 # ion     theo. m/z       observed m/z

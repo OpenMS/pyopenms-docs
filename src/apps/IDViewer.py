@@ -1,12 +1,12 @@
 from ControllerWidget import ControllerWidget
 import sys
 import os
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QDesktopWidget, \
-    QAction, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, \
+    QVBoxLayout, QWidget, QDesktopWidget, QAction, QFileDialog
 
 
 import pyqtgraph as pg
-from pyqtgraph import PlotWidget
+# unused: from pyqtgraph import PlotWidget
 
 from collections import namedtuple
 
@@ -82,7 +82,9 @@ class App(QMainWindow):
             layout.itemAt(i).widget().setParent(None)
 
     def openFileDialog(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open File ", "", "idXML Files (*.idXML)")
+        fileName, _ = QFileDialog.getOpenFileName(self,
+                                                  "Open File ", "",
+                                                  "idXML Files (*.idXML)")
         if fileName:
             print('opening...', fileName)
             self.setWidgets()

@@ -7,7 +7,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
     QDialog, QToolButton, QLineEdit, QRadioButton, QGroupBox,\
     QFormLayout, QDialogButtonBox
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QStandardItemModel, QStandardItem, QPainter, QIcon, QBrush, QColor, QPen, QPixmap, QIntValidator
+from PyQt5.QtGui import QStandardItemModel, QStandardItem, QPainter, \
+    QIcon, QBrush, QColor, QPen, QPixmap, QIntValidator
 
 import pyqtgraph as pg
 from pyqtgraph import PlotWidget
@@ -19,7 +20,7 @@ from matplotlib import cm
 
 sys.path.insert(0, '../view')
 
-#import pyopenms.Constants
+# import pyopenms.Constants
 # define Constant locally until bug in pyOpenMS is fixed
 PROTON_MASS_U = 1.0072764667710
 C13C12_MASSDIFF_U = 1.0033548378
@@ -36,8 +37,10 @@ LadderAnnoStruct = namedtuple('LadderAnnoStruct', "mz_list \
 TOL = 1e-5  # ppm
 
 SymbolSet = ('o', 's', 't', 't1', 't2', 't3', 'd', 'p', 'star')
-RGBs = [[0, 0, 200], [0, 128, 0], [19, 234, 201], [195, 46, 212], [237, 177, 32],
-        [54, 55, 55], [0, 114, 189], [217, 83, 25], [126, 47, 142], [119, 172, 48]]
+RGBs = [[0, 0, 200], [0, 128, 0], [19, 234, 201],
+        [195, 46, 212], [237, 177, 32], [54, 55, 55],
+        [0, 114, 189], [217, 83, 25], [126, 47, 142],
+        [119, 172, 48]]
 Symbols = pg.graphicsItems.ScatterPlotItem.Symbols
 
 
@@ -92,8 +95,9 @@ class MassList():
             pass
 
         return MassDataStruct(mz_theo_arr=theo_mz,
-                            startRT=rt_s, endRT=rt_e, maxIntensity=mi, scanCount=c,
-                            marker=marker, color=color)
+                              startRT=rt_s, endRT=rt_e,
+                              maxIntensity=mi, scanCount=c,
+                              marker=marker, color=color)
 
     def calculateTheoMzList(self, mass, cs_range, mz_range=(0, 0)):
         theo_mz_list = []
@@ -109,7 +113,7 @@ class MassList():
 
     def isValidFLASHDeconvFile(self):
         col_needed = ['MonoisotopicMass', 'AverageMass',
-                    'StartRetentionTime', 'EndRetentionTime']
+                      'StartRetentionTime', 'EndRetentionTime']
         result = all(elem in list(self.data) for elem in col_needed)
         if result:
             return True
@@ -147,10 +151,12 @@ class FeatureMapPlotWidget(PlotWidget):
 
         for mass, mds in self.data.items():
             spi = pg.ScatterPlotItem(size=10,  # pen=pg.mkPen(None),
-                                    brush=pg.mkBrush(cmap.mapToQColor(mds.maxIntensity)))
+                                     brush=pg.mkBrush(
+                                         cmap.mapToQColor(mds.maxIntensity)))
             self.addItem(spi)
             spots = [{'pos': [i, mass]}
-                    for i in np.arange(mds.startRT, mds.endRT, 1)]
+                     for i in np.arange(mds.startRT, mds.endRT, 1)]
+
             # print([i for i in np.arange(mds.startRT, mds.endRT, 1)])
             spi.addPoints(spots)
 
@@ -395,9 +401,12 @@ class ControllerWidget(QWidget):
                     theo[1][0])  # Monoisotopic only
                 if exp_p is None:
                     continue
-                pStructList.append(PeakAnnoStruct(mz=exp_p.getMZ(),
-                                                intensity=exp_p.getIntensity(), text_label='+'+str(theo[0]),
-                                                symbol=mass_strc.marker, symbol_color=mass_strc.color))
+                pStructList.append(PeakAnnoStruct(
+                    mz=exp_p.getMZ(),
+                    intensity=exp_p.getIntensity(),
+                    text_label='+'+str(theo[0]),
+                    symbol=mass_strc.marker,
+                    symbol_color=mass_strc.color))
 
         return pStructList
 
@@ -414,22 +423,25 @@ class ControllerWidget(QWidget):
                 txt_list = []
 
                 for theo in theo_list:  # theo : [0] cs [1] iso mz list
-                    # plotting only theoretical mz valule within experimental mz range
-                    if ((theo[1][0] <= xlimit[0]) | (theo[1][-1] >= xlimit[1])):
+                    # plotting only theoretical mz value
+                    # within experimental mz range
+                    if ((theo[1][0] <= xlimit[0]) |
+                            (theo[1][-1] >= xlimit[1])):
                         continue
 
                     for index, mz in enumerate(theo[1]):
                         t_mz_list.append(mz)
                         txt_list.append('+%d[%d]' % (theo[0], index))
-                lStructDict[mass] = LadderAnnoStruct(mz_list=np.array(t_mz_list),
-                                                    text_label_list=np.array(txt_list), color=mass_strc.color)
+                lStructDict[mass] = LadderAnnoStruct(
+                    mz_list=np.array(t_mz_list),
+                    text_label_list=np.array(txt_list), color=mass_strc.color)
             else:
                 self.spectrum_widget.clearLadderAnnotation(mass)
         return lStructDict
 
     def findNearestPeakWithTheoPos(self, theo_mz, tol=-1):
-        nearest_p = self.spectrum_widget.spec[self.spectrum_widget.spec.findNearest(
-            theo_mz)]
+        nearest_p = self.spectrum_widget.spec[
+            self.spectrum_widget.spec.findNearest(theo_mz)]
         if tol == -1:
             tol = TOL * theo_mz  # ppm
         if abs(theo_mz-nearest_p.getMZ()) > tol:
@@ -565,13 +577,15 @@ class FDInputDialog(QDialog):
 
     def openMzMLFileDialog(self):
         fileName, _ = QFileDialog.getOpenFileName(self,
-                                                "Open File ", "", "mzML Files (*.mzML)")
+                                                  "Open File ", "",
+                                                  "mzML Files (*.mzML)")
         if fileName:
             self.mzmlFileLineEdit.setText(fileName)
 
     def openMassFileDialog(self):
         fileName, _ = QFileDialog.getOpenFileName(self,
-                                                  "Open File ", "", "Text Files (*.csv, *tsv)")
+                                                  "Open File ", "",
+                                                  "Text Files (*.csv, *tsv)")
         if fileName:
             self.massFileLineEdit.setText(fileName)
 

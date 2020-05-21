@@ -36,7 +36,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import pyopenms
 import sys
 if len(sys.argv) <= 3:
-    print "Usage: filter.py inputfile outputfile filter_string"
+    print("Usage: filter.py inputfile outputfile filter_string")
     sys.exit()
 
 infile = sys.argv[1]
