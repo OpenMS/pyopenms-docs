@@ -72,7 +72,8 @@ class ControllerWidget(QWidget):
 
         # set widget sizes, where error plot is set smaller
         widget_height = self.msexperimentWidget.sizeHint().height()
-        size_list = [widget_height, widget_height, widget_height, widget_height * 0.5, widget_height]
+        size_list = [widget_height, widget_height,
+                     widget_height, widget_height * 0.5, widget_height]
         self.msexperimentWidget.setSizes(size_list)
 
         # default : first row selected.
@@ -103,7 +104,8 @@ class ControllerWidget(QWidget):
 
                     Ions[ion_label] = [ion_mz, ion_charge]
 
-                self.scanIDDict[round(pep_rt, 3)] = {'m/z': pep_mz, 'PepSeq': pep_seq, 'PepIons': Ions}
+                self.scanIDDict[round(pep_rt, 3)] = {
+                    'm/z': pep_mz, 'PepSeq': pep_seq, 'PepIons': Ions}
                 Ions = {}
 
         self.saveIdData()
@@ -112,10 +114,12 @@ class ControllerWidget(QWidget):
         rows = self.scan_widget.table_model.rowCount(self.scan_widget)
 
         for row in range(0, rows - 1):
-            tableRT = round(self.scan_widget.table_model.index(row, 2).data(), 3)
+            tableRT = round(
+                self.scan_widget.table_model.index(row, 2).data(), 3)
             if tableRT in self.scanIDDict:
                 index_seq = self.scan_widget.table_model.index(row, 6)
-                self.scan_widget.table_model.setData(index_seq, self.scanIDDict[tableRT]['PepSeq'], Qt.DisplayRole)
+                self.scan_widget.table_model.setData(
+                    index_seq, self.scanIDDict[tableRT]['PepSeq'], Qt.DisplayRole)
 
                 index_ions = self.scan_widget.table_model.index(row, 7)
                 # data needs to be a string, but reversible -> using json.dumps()
@@ -157,7 +161,9 @@ class ControllerWidget(QWidget):
                 self.colors, self.mzs = self.filterColorsMZIons(ions_data_dict)
                 mzs_size = len(self.mzs)
                 self.ppm = np.random.randint(0, 3, size=mzs_size)
-                self.error_widget.setMassErrors(self.mzs, self.ppm, self.colors)  # works for a static np.array
+                # works for a static np.array
+                self.error_widget.setMassErrors(
+                    self.mzs, self.ppm, self.colors)
             else:
                 self.error_widget.clear()
         else:
@@ -165,7 +171,8 @@ class ControllerWidget(QWidget):
 
     def filterColorsMZIons(self,
                            ions_data_dict):  # create color/mz array by distinguishing between prefix & suffix ions
-        self.peakAnnoData = {}  # key is ion annotation (e.g. b2): [mz, color distinguishing prefix, suffix]
+        # key is ion annotation (e.g. b2): [mz, color distinguishing prefix, suffix]
+        self.peakAnnoData = {}
         colors = []
         mzs = []
         col_red = (255, 0, 0)  # suffix
@@ -176,26 +183,33 @@ class ControllerWidget(QWidget):
             if anno[0] in "abc":
                 colors.append(col_blue)
                 mzs.append(ions_data_dict[anno][0])
-                self.peakAnnoData[fragData[1]] = [ions_data_dict[anno][0], col_blue]
+                self.peakAnnoData[fragData[1]] = [
+                    ions_data_dict[anno][0], col_blue]
             elif anno[0] in "xyz":
                 colors.append(col_red)
                 mzs.append(ions_data_dict[anno][0])
-                self.peakAnnoData[fragData[1]] = [ions_data_dict[anno][0], col_red]
+                self.peakAnnoData[fragData[1]] = [
+                    ions_data_dict[anno][0], col_red]
         return np.array(colors), np.array(mzs)
 
-    def updateWidgetDataFromRow(self, index):  # after clicking on a new row, update spectrum, error plot, peptideSeq
+    # after clicking on a new row, update spectrum, error plot, peptideSeq
+    def updateWidgetDataFromRow(self, index):
         # current row RT value
         self.seleTableRT = round(index.siblingAtColumn(2).data(), 3)
 
         # set new spectrum with setting that all peaks should be displayed
-        self.spectrum_widget.setSpectrum(self.scan_widget.curr_spec, zoomToFullRange=True)
+        self.spectrum_widget.setSpectrum(
+            self.scan_widget.curr_spec, zoomToFullRange=True)
 
         # only draw sequence with given ions for MS2 and error plot
         if index.siblingAtColumn(0).data() == 'MS2':
-            self.drawSeqIons(index.siblingAtColumn(6).data(), index.siblingAtColumn(7).data())
+            self.drawSeqIons(index.siblingAtColumn(6).data(),
+                             index.siblingAtColumn(7).data())
             self.errorData(index.siblingAtColumn(7).data())
-            if self.peakAnnoData is not None:  # peakAnnoData created with existing ions in errorData (bc of coloring)
-                self.spectrum_widget.setPeakAnnotations(self.createPeakAnnotation())
+            # peakAnnoData created with existing ions in errorData (bc of coloring)
+            if self.peakAnnoData is not None:
+                self.spectrum_widget.setPeakAnnotations(
+                    self.createPeakAnnotation())
                 self.spectrum_widget.redrawPlot()
             else:
                 self.spectrum_widget._clear_peak_annotations()
@@ -226,14 +240,17 @@ class ControllerWidget(QWidget):
         return idx
 
     def drawSeqIons(self, seq, ions):  # generate provided peptide sequence
-        seq = re.sub(r'\([^)]*\)', '', seq)  # remove content in brackets -> easier usage
+        # remove content in brackets -> easier usage
+        seq = re.sub(r'\([^)]*\)', '', seq)
 
         # only draw sequence for M2 with peptide and ion data
         if seq not in "-" and ions not in "-":
             self.seqIons_widget.setPeptide(seq)
-            ions_dict = json.loads(ions)  # transform string data back to a dict
+            # transform string data back to a dict
+            ions_dict = json.loads(ions)
             if ions_dict != {}:
-                self.suffix, self.prefix = self.filterIonsPrefixSuffixData(ions_dict)
+                self.suffix, self.prefix = self.filterIonsPrefixSuffixData(
+                    ions_dict)
                 self.seqIons_widget.setPrefix(self.prefix)
                 self.seqIons_widget.setSuffix(self.suffix)
             else:  # no ions data
@@ -245,12 +262,14 @@ class ControllerWidget(QWidget):
             self.seqIons_widget.clear()
             self.peakAnnoData = None
 
-    def filterIonsPrefixSuffixData(self, ions):  # filter raw ion data and return suffix and prefix dicts
+    # filter raw ion data and return suffix and prefix dicts
+    def filterIonsPrefixSuffixData(self, ions):
         suffix = {}
         prefix = {}
 
         ions_anno = list(ions.keys())
-        self.filteredIonFragments = []  # annotation(s) of raw ion data (used as key(s))
+        # annotation(s) of raw ion data (used as key(s))
+        self.filteredIonFragments = []
 
         for anno in ions_anno:
             if anno[1].isdigit() and anno[0] in "abcyxz":
