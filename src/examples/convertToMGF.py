@@ -1,19 +1,19 @@
 """
 --------------------------------------------------------------------------
-                  OpenMS -- Open-Source Mass Spectrometry
+                    OpenMS -- Open-Source Mass Spectrometry
 --------------------------------------------------------------------------
 Copyright The OpenMS Team -- Eberhard Karls University Tuebingen,
 ETH Zurich, and Freie Universitaet Berlin 2002-2013.
 
 This software is released under a three-clause BSD license:
  * Redistributions of source code must retain the above copyright
-   notice, this list of conditions and the following disclaimer.
+    notice, this list of conditions and the following disclaimer.
  * Redistributions in binary form must reproduce the above copyright
-   notice, this list of conditions and the following disclaimer in the
-   documentation and/or other materials provided with the distribution.
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
  * Neither the name of any author or any participating institution
-   may be used to endorse or promote products derived from this software
-   without specific prior written permission.
+    may be used to endorse or promote products derived from this software
+    without specific prior written permission.
 For a full list of authors, refer to the file AUTHORS.
 --------------------------------------------------------------------------
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -36,7 +36,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import pyopenms
 import sys
 if len(sys.argv) <= 2:
-    print "Usage: convertToMGF.py inputfile outputfile"
+    print("Usage: convertToMGF.py inputfile outputfile")
     sys.exit()
 
 msdata = pyopenms.MSExperiment()
@@ -71,4 +71,5 @@ for spectrum in msdata:
     outfile.write("END IONS\n")
 
 if nr_ms2_spectra == 0:
-    print("Did not find any MS2 spectra in your input, thus the output file is empty!")
+    print("Did not find any MS2 spectra in your input," +
+          "thus the output file is empty!")

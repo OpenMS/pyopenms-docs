@@ -1,12 +1,14 @@
 from ScanBrowserWidget import ScanBrowserWidget
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
-    QHBoxLayout, QWidget, QDesktopWidget, \
-    QAction, QFileDialog, QTableView, QSplitter, \
-    QMenu, QAbstractItemView
-from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, QPoint, QRegExp
+    QWidget, QDesktopWidget, QAction, QFileDialog, \
+    QHBoxLayout, QTableView, QSplitter, QMenu, QAbstractItemView
+
+from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, \
+    QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, QPoint, QRegExp
 
 import pyqtgraph as pg
+
 from pyqtgraph import PlotWidget
 
 import numpy as np
@@ -86,7 +88,8 @@ class App(QMainWindow):
 
     def openFileDialog(self):
         fileName, _ = QFileDialog.getOpenFileName(self,
-                                                  "Open File ", "", "mzML Files (*.mzML)")
+                                                  "Open File ", "",
+                                                  "mzML Files (*.mzML)")
         if fileName:
             print('opening...', fileName)
             self.setScanBrowserWidget()

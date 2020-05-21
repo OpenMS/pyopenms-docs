@@ -42,7 +42,7 @@ class SpectrumWidget(PlotWidget):
         self.plot(clear=True)
         self.zoomToFullRange = zoomToFullRange  # relevant in redrawPlot()
         # delete old highlighte "hover" peak
-        if self.highlighted_peak_label != None:
+        if self.highlighted_peak_label is not None:
             self.removeItem(self.highlighted_peak_label)
             self.highlighted_peak_label = None
         self.spec = spectrum
@@ -80,7 +80,8 @@ class SpectrumWidget(PlotWidget):
 
     def _autoscaleYAxis(self):
         x_range = self.getAxis('bottom').range
-        # workaround for axis sometimes not being set TODO: check if this is resovled
+        # workaround for axis sometimes not being set
+        # TODO: check if this is resovled
         if x_range == [0, 1]:
             x_range = [np.amin(self._mzs), np.amax(self._mzs)]
         self.currMaxY = self._getMaxIntensityInRange(x_range)
@@ -96,10 +97,12 @@ class SpectrumWidget(PlotWidget):
         if self.peak_annotation_list is not None:
             for item in self.peak_annotation_list:  # item : PeakAnnoStruct
                 self.plot([item.mz], [item.intensity], symbol=item.symbol,
-                          symbolBrush=pg.mkBrush(item.symbol_color), symbolSize=14)
+                          symbolBrush=pg.mkBrush(item.symbol_color),
+                          symbolSize=14)
                 if item.text_label:
                     label = pg.TextItem(
-                        text=item.text_label, color=item.symbol_color, anchor=(0.5, 1))
+                        text=item.text_label, color=item.symbol_color,
+                        anchor=(0.5, 1))
                     self.addItem(label)
                     label.setPos(item.mz, item.intensity)
 
@@ -127,11 +130,11 @@ class SpectrumWidget(PlotWidget):
         for ladder_key, lastruct in self._ladder_visible.items():
             if ladder_key in self._ladder_anno_lines.keys():  # update
                 self._ladder_anno_lines[ladder_key][0].setData(
-                    [xlimit[0], xlimit[1]], [self.currMaxY, self.currMaxY])  # horizontal line
+                    [xlimit[0], xlimit[1]], [self.currMaxY, self.currMaxY])
                 cntr = 0
                 for x in lastruct.mz_list:
-                    self._ladder_anno_lines[ladder_key][cntr +
-                                                        1].setData([x, x], [0, self.currMaxY])
+                    self._ladder_anno_lines[ladder_key][cntr + 1].setData(
+                                                    [x, x], [0, self.currMaxY])
                     self._ladder_anno_labels[ladder_key][cntr].setPos(
                         x, self.currMaxY)  # horizon line doesn't have label
                     cntr += 1
@@ -140,9 +143,12 @@ class SpectrumWidget(PlotWidget):
                 self._ladder_anno_lines[ladder_key] = []
                 self._ladder_anno_labels[ladder_key] = []
 
-                self._ladder_anno_lines[ladder_key].append(  # horizon line. index 0
-                    self.plot([xlimit[0], xlimit[1]], [self.currMaxY, self.currMaxY], pen=pen))
-                for x, txt_label in zip(lastruct.mz_list, lastruct.text_label_list):
+                self._ladder_anno_lines[ladder_key].append(
+                    # horizon line. index 0
+                    self.plot([xlimit[0], xlimit[1]],
+                              [self.currMaxY, self.currMaxY], pen=pen))
+                for x, txt_label in zip(
+                        lastruct.mz_list, lastruct.text_label_list):
                     self._ladder_anno_lines[ladder_key].append(
                         self.plot([x, x], [0, self.currMaxY], pen=pen))
                     label = pg.TextItem(
@@ -163,13 +169,14 @@ class SpectrumWidget(PlotWidget):
     def _clear_ladder_item(self, key):
         for p in self._ladder_anno_lines[key]:
             p.clear()
-        for l in self._ladder_anno_labels[key]:
-            l.setPos(0, 0)
+        for lad in self._ladder_anno_labels[key]:
+            lad.setPos(0, 0)
         del self._ladder_anno_lines[key]
         del self._ladder_anno_labels[key]
 
     def _onMouseMoved(self, evt):
-        pos = evt[0]  # using signal proxy turns original arguments into a tuple
+        pos = evt[0]
+        # using signal proxy turns original arguments into a tuple
         if self.sceneBoundingRect().contains(pos):
             mouse_point = self.getViewBox().mapSceneToView(pos)
             pixel_width = self.getViewBox().viewPixelSize()[0]
@@ -178,7 +185,7 @@ class SpectrumWidget(PlotWidget):
             right = np.searchsorted(
                 self._mzs, mouse_point.x() + 4.0 * pixel_width, side='right')
             if (left == right):  # none found -> remove text
-                if self.highlighted_peak_label != None:
+                if self.highlighted_peak_label is not None:
                     self.highlighted_peak_label.setText("")
                 return
             # get point in range with minimum squared distance
@@ -188,14 +195,16 @@ class SpectrumWidget(PlotWidget):
             idx_max_int_in_range = np.argmin(np.add(dx, dy))
             x = self._mzs[left + idx_max_int_in_range]
             y = self._ints[left + idx_max_int_in_range]
-            if self.highlighted_peak_label == None:
+            if self.highlighted_peak_label is None:
                 self.highlighted_peak_label = pg.TextItem(
-                    text='{0:.3f}'.format(x), color=(100, 100, 100), anchor=(0.5, 1.5))
-                # ignore bounds to prevent rescaling of axis if the text item touches the border
+                    text='{0:.3f}'.format(x),
+                    color=(100, 100, 100), anchor=(0.5, 1.5))
+                # ignore bounds to prevent rescaling of axis
+                # if the text item touches the border
                 self.addItem(self.highlighted_peak_label, ignoreBounds=True)
             self.highlighted_peak_label.setText('{0:.3f}'.format(x))
             self.highlighted_peak_label.setPos(x, y)
         else:
             # mouse moved out of visible area: remove highlighting item
-            if self.highlighted_peak_label != None:
+            if self.highlighted_peak_label is not None:
                 self.highlighted_peak_label.setText("")

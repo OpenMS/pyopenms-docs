@@ -1,14 +1,16 @@
 from PyQt5.QtGui import QPen, QPainter
-from PyQt5.QtWidgets import QVBoxLayout, QWidget, QAction, QTableView, QMenu, QAbstractItemView, QItemDelegate
-from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, \
+from PyQt5.QtWidgets import QVBoxLayout, QWidget, QAction, \
+    QTableView, QMenu, QAbstractItemView, QItemDelegate
+from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, \
+    QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, \
     QPoint, QRegExp, QModelIndex
 
 
 class RTUnitDelegate(QItemDelegate):
     """
-    Displays the minute values of the RT besides the RT values given in seconds. Through the delegate the RT values in
-    the table are not changed, only difference is the display of the data in table_view. s
-
+    Displays the minute values of the RT besides the RT values given in
+    seconds. Through the delegate the RT values in the table are not changed,
+    only difference is the display of the data in table_view.
     """
 
     def __init__(self, parent, *args):
@@ -34,19 +36,22 @@ class ScanTableWidget(QWidget):
     """
     Used for displaying information in a table.
 
-    ===============================  =============================================================================
+    ==============================================================================
     **Signals:**
-    sigScanClicked                   Emitted when the user has clicked on a row of the table and returns the
-                                     current index. This index contains information about the current rows column
-                                     data.
+    sigScanClicked                   Emitted when the user has clicked on a row
+                                        of the table and returns the
+                                        current index. This index contains
+                                        information about the current rows
+                                        column data.
 
-    ===============================  =============================================================================
+    ==============================================================================
     """
 
     sigScanClicked = pyqtSignal(QModelIndex, name='scanClicked')
 
     header = ['MS level', 'Index',
-              'RT (min)', 'precursor m/z', 'charge', 'ID', 'PeptideSeq', 'PeptideIons']
+              'RT (min)', 'precursor m/z', 'charge', 'ID',
+              'PeptideSeq', 'PeptideIons']
 
     def __init__(self, ms_experiment, *args):
         QWidget.__init__(self, *args)
@@ -94,7 +99,7 @@ class ScanTableWidget(QWidget):
         # default : first row selected. in OpenMSWidgets
 
     def onRowSelected(self, index):
-        if index.siblingAtColumn(1).data() == None:
+        if index.siblingAtColumn(1).data() is None:
             return  # prevents crash if row gets filtered out
         self.curr_spec = self.ms_experiment.getSpectrum(
             index.siblingAtColumn(1).data())
@@ -112,8 +117,10 @@ class ScanTableWidget(QWidget):
         self.signalMapper = QSignalMapper(self)
 
         # get unique values from (unfiltered) model
-        valuesUnique = set([self.table_model.index(row, self.logicalIndex).data()
-                            for row in range(self.table_model.rowCount(self.table_model.index(-1, self.logicalIndex)))
+        valuesUnique = set([self.table_model.index(
+                                row, self.logicalIndex).data()
+                            for row in range(self.table_model.rowCount(
+                                self.table_model.index(-1, self.logicalIndex)))
                             ])
 
         if len(valuesUnique) == 1:
@@ -124,7 +131,8 @@ class ScanTableWidget(QWidget):
         self.menuValues.addAction(actionAll)
         self.menuValues.addSeparator()
 
-        for actionNumber, actionName in enumerate(sorted(list(set(valuesUnique)))):
+        for actionNumber, actionName in enumerate(
+                sorted(list(set(valuesUnique)))):
             action = QAction(actionName, self)
             self.signalMapper.setMapping(action, actionNumber)
             action.triggered.connect(self.signalMapper.map)
@@ -135,7 +143,8 @@ class ScanTableWidget(QWidget):
         # get screen position of table header and open menu
         headerPos = self.table_view.mapToGlobal(self.horizontalHeader.pos())
         posY = headerPos.y() + self.horizontalHeader.height()
-        posX = headerPos.x() + self.horizontalHeader.sectionPosition(self.logicalIndex)
+        posX = headerPos.x() + self.horizontalHeader.sectionPosition(
+            self.logicalIndex)
         self.menuValues.exec_(QPoint(posX, posY))
 
     def onShowAllRows(self):
@@ -217,4 +226,3 @@ class ScanTableModel(QAbstractTableModel):
             return value
         elif role == Qt.DisplayRole:
             return value
-

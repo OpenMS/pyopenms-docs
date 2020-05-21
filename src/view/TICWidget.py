@@ -14,16 +14,22 @@ pg.setConfigOption('foreground', 'k')  # black peaks
 
 class TICWidget(PlotWidget):
     """
-    Used for creating a TIC plot with dynamic zooming to avoid label collisions.
+    Used for creating a TIC plot with dynamic zooming
+    to avoid label collisions.
 
-    ===============================  =============================================================================
+    =================================================================
     **Signals:**
-    sigRTClicked                     Emitted when the user has clicked on TIC plot and returns the clicked RT value.
+    sigRTClicked                     Emitted when the user has
+                                        clicked on TIC plot and
+                                        returns the clicked RT value.
 
-    sigSeleRTRegionChangeFinished    Emitted while the user is double clicking on a region in TIC plot and creates a
-                                     region by dragging a horizontal line. The signal returns the start and end
-                                     RT values within the region.
-    ===============================  =============================================================================
+    sigSeleRTRegionChangeFinished    Emitted while the user is double
+                                        clicking on a region in TIC
+                                        plot and creates a region by
+                                        dragging a horizontal line.
+                                        The signal returns the start
+                                        and end RT values within the region.
+    =================================================================
     """
     sigRTClicked = pyqtSignal(float, name='sigRTClicked')
     sigSeleRTRegionChangeFinished = pyqtSignal(
@@ -84,7 +90,8 @@ class TICWidget(PlotWidget):
 
     def _autoscaleYAxis(self):
         """
-        Used to adjust y axis with the maximal y value from the current RT values. Also, redraws peak labels
+        Used to adjust y axis with the maximal y value from the
+        current RT values. Also, redraws peak labels
         depending on the current displayed RT values.
 
         """
@@ -99,7 +106,8 @@ class TICWidget(PlotWidget):
     def _getMaxIntensityInRange(self, xrange):
         """
         :param xrange: A list of [min, max] bounding RT values.
-        :return: An float value representing the maximal intensity current x range.
+        :return: An float value representing the maximal intensity
+        current x range.
         """
         left = np.searchsorted(self._rts, xrange[0], side='left')
         right = np.searchsorted(self._rts, xrange[1], side='right')
@@ -113,10 +121,13 @@ class TICWidget(PlotWidget):
 
     def _find_Peak(self):
         """
-        Calculates all indices from the intensity values to locate peaks. This function operates on the principle that
-        it compares peak values against each other until it founds a maximal turning point.
+        Calculates all indices from the intensity values to
+        locate peaks. This function operates on the principle
+        that it compares peak values against each other until
+        it founds a maximal turning point.
 
-        :return: A numpy array containing all peak indices, sorted descending (max first -> min last).
+        :return: A numpy array containing all peak indices,
+            sorted descending (max first -> min last).
         """
         data = self._ints
         maxIndices = np.zeros_like(data)
@@ -143,7 +154,6 @@ class TICWidget(PlotWidget):
 
         return maxIndices
 
-
     def _add_label(self, label_id, label_text, pos_x, pos_y):
         label = pg.TextItem(anchor=(0.5, 1))
         label.setText(text='{0:.2f}'.format(label_text), color=(0, 0, 0))
@@ -165,8 +175,9 @@ class TICWidget(PlotWidget):
 
     def _label_clashes(self, label_id):
         """
-        Calculates possible clash of new added label to other existing labels. The clash is measured by the
-        collision of the label boundingRects, which are representing displayed scene positions.
+        Calculates possible clash of new added label to other existing labels.
+        The clash is measured by the collision of the label boundingRects,
+        which are representing displayed scene positions.
 
         :param label_id: Represents index of peak position in peak_indices.
         :return: A boolean indicating if there is a clash or not.
@@ -183,9 +194,11 @@ class TICWidget(PlotWidget):
 
         for exist_label in list(self._peak_labels):
             if exist_label != new_label:
-                new_label_rect = self._peak_labels[new_label]["label"].mapRectToDevice(
+                new_label_rect = self._peak_labels[
+                        new_label]["label"].mapRectToDevice(
                     self._peak_labels[new_label]["label"].boundingRect())
-                exist_label_rect = self._peak_labels[exist_label]["label"].mapRectToDevice(
+                exist_label_rect = self._peak_labels[
+                        exist_label]["label"].mapRectToDevice(
                     self._peak_labels[exist_label]["label"].boundingRect())
 
                 if not new_label_rect.intersects(exist_label_rect):
@@ -210,7 +223,8 @@ class TICWidget(PlotWidget):
 
     def _draw_peak_label(self):
         """
-        Function draws peak labels, starting with the maximal peak to the minimal peak. In each addition possible
+        Function draws peak labels, starting with the maximal peak
+        to the minimal peak. In each addition possible
         label clashes will be calculated, if so then delete label.
 
         """
@@ -218,7 +232,8 @@ class TICWidget(PlotWidget):
             for index in self._peak_indices:
                 if self._ints[index] in self._currentIntensitiesInRange:
                     self._add_label(
-                        index, self._rts[index], self._rts[index], self._ints[index])
+                        index, self._rts[index],
+                        self._rts[index], self._ints[index])
 
     def _redrawLabels(self):
         self._clear_labels()
@@ -273,7 +288,8 @@ class TICWidget(PlotWidget):
             larger_idx -= 1
         if larger_idx > 0:
             smaller_idx = larger_idx - 1
-        if abs(self._rts[larger_idx] - point_x) < abs(self._rts[smaller_idx] - point_x):
+        if abs(self._rts[larger_idx] - point_x) < abs(
+                self._rts[smaller_idx] - point_x):
             closest_datapoint_idx = larger_idx
 
         else:
