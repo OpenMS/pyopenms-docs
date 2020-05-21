@@ -1,19 +1,19 @@
 """
 --------------------------------------------------------------------------
-                  OpenMS -- Open-Source Mass Spectrometry
+                OpenMS -- Open-Source Mass Spectrometry
 --------------------------------------------------------------------------
 Copyright The OpenMS Team -- Eberhard Karls University Tuebingen,
 ETH Zurich, and Freie Universitaet Berlin 2002-2013.
 
 This software is released under a three-clause BSD license:
  * Redistributions of source code must retain the above copyright
-   notice, this list of conditions and the following disclaimer.
+    notice, this list of conditions and the following disclaimer.
  * Redistributions in binary form must reproduce the above copyright
-   notice, this list of conditions and the following disclaimer in the
-   documentation and/or other materials provided with the distribution.
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
  * Neither the name of any author or any participating institution
-   may be used to endorse or promote products derived from this software
-   without specific prior written permission.
+    may be used to endorse or promote products derived from this software
+    without specific prior written permission.
 For a full list of authors, refer to the file AUTHORS.
 --------------------------------------------------------------------------
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -28,7 +28,9 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
 OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
-import pyopenms, re
+import pyopenms
+import re
+
 
 def convertToRichMSSpectrum(input_):
     rs = pyopenms.RichMSSpectrum()
@@ -38,6 +40,7 @@ def convertToRichMSSpectrum(input_):
         rp.setIntensity(p.getIntensity())
         rs.push_back(rp)
     return rs
+
 
 def convertToMSSpectrum(input_):
     spectrum = pyopenms.MSSpectrum()
@@ -52,14 +55,15 @@ def convertToMSSpectrum(input_):
 """
 Two phospho scorers, the interface is available through the "score" function:
 
-- Input: 
-  - PeptideHit (pyopenms.PeptideHit)
-  - Spectrum (pyopenms.MSSpectrum)
-  - [Scorer massDelta]
+- Input:
+    - PeptideHit (pyopenms.PeptideHit)
+    - Spectrum (pyopenms.MSSpectrum)
+    - [Scorer massDelta]
 
-- Output: 
+- Output:
     [ Score, NewSequence ]
 """
+
 
 class PhosphoScorerAScore:
     def score(self, phit, spectrum, massDelta=0.5):
@@ -67,6 +71,7 @@ class PhosphoScorerAScore:
         rs = convertToRichMSSpectrum(spectrum)
         newhit = pyopenms.AScore().compute(phit, rs, massDelta, nr_sites)
         return [newhit.getScore(), newhit.getSequence()]
+
 
 class PhosphoScorerSimple:
     def score(self, phit, spectrum):
@@ -90,31 +95,35 @@ class PhosphoScorerSimple:
         charge = 1
         # Iterate over all possible phosphosites
         for m in re.finditer("[STY]", seq):
-          new_sequence = seq[:m.start()+1]+ "(Phospho)" + seq[m.start()-1:]
-          new_aaseq = pyopenms.AASequence(new_sequence)
-          # Generate theoretical spectrum
-          spectrum_generator = pyopenms.TheoreticalSpectrumGenerator()
-          rs = pyopenms.RichMSSpectrum()
-          try:
-            spectrum_generator.addPeaks(rs, new_aaseq, pyopenms.Residue.ResidueType.YIon, charge)
-            spectrum_generator.addPeaks(rs, new_aaseq, pyopenms.Residue.ResidueType.BIon, charge)
-          except AttributeError:
-              # 1.11
-            spectrum_generator.addPeaks(rs, new_aaseq, pyopenms.ResidueType.YIon, charge)
-            spectrum_generator.addPeaks(rs, new_aaseq, pyopenms.ResidueType.BIon, charge)
-          theor = convertToMSSpectrum(rs)
-          theor_b = self.binSpectrum(theor)
-          # Compare theoretical spectrum to experimental spectrum
-          comp_score = self.compare_binnedSpectra(spectrum_b, theor_b)
-          possibilities.append([comp_score, new_aaseq])
+            new_sequence = seq[:m.start()+1] + "(Phospho)" + seq[m.start()-1:]
+            new_aaseq = pyopenms.AASequence(new_sequence)
+            # Generate theoretical spectrum
+            spectrum_generator = pyopenms.TheoreticalSpectrumGenerator()
+            rs = pyopenms.RichMSSpectrum()
+            try:
+                spectrum_generator.addPeaks(
+                    rs, new_aaseq, pyopenms.Residue.ResidueType.YIon, charge)
+                spectrum_generator.addPeaks(
+                    rs, new_aaseq, pyopenms.Residue.ResidueType.BIon, charge)
+            except AttributeError:
+                # 1.11
+                spectrum_generator.addPeaks(
+                    rs, new_aaseq, pyopenms.ResidueType.YIon, charge)
+                spectrum_generator.addPeaks(
+                    rs, new_aaseq, pyopenms.ResidueType.BIon, charge)
+            theor = convertToMSSpectrum(rs)
+            theor_b = self.binSpectrum(theor)
+            # Compare theoretical spectrum to experimental spectrum
+            comp_score = self.compare_binnedSpectra(spectrum_b, theor_b)
+            possibilities.append([comp_score, new_aaseq])
 
         # Sort the result by score, return the best scoring result
-        possibilities.sort(lambda x,y: -cmp(x[0], y[0]))
+        possibilities.sort(lambda x, y: -cmp(x[0], y[0]))
         return possibilities[0]
 
     def compare_binnedSpectra(self, sp1, sp2):
         """Compare two binned spectra, return a similarity score
-        
+
         The two binned spectra should be created by a call to binSpectrum."""
 
         start = max(min(sp1.keys()), min(sp2.keys()))
@@ -122,15 +131,15 @@ class PhosphoScorerSimple:
 
         # Normalize input
         import math
-        magnitude1 = math.sqrt( sum([v*v for v in sp1.values()] ) )
-        magnitude2 = math.sqrt( sum([v*v for v in sp2.values()] ) )
+        magnitude1 = math.sqrt(sum([v*v for v in sp1.values()]))
+        magnitude2 = math.sqrt(sum([v*v for v in sp2.values()]))
 
-        sp1_norm = dict( [(k, v/magnitude1) for k,v in sp1.iteritems()] ) 
-        sp2_norm = dict( [(k, v/magnitude2) for k,v in sp2.iteritems()] ) 
+        sp1_norm = dict([(k, v/magnitude1) for k, v in sp1.iteritems()])
+        sp2_norm = dict([(k, v/magnitude2) for k, v in sp2.iteritems()])
 
         # Compute similarity score
         score = 0
-        for i in range(start,end):
+        for i in range(start, end):
             score += sp1_norm[i] * sp2_norm[i]
         return score
 
@@ -138,15 +147,16 @@ class PhosphoScorerSimple:
         """Bin a spectrum into single, 1 m/z wide bins"""
         assert sp.isSorted()
         peaks = sp.get_peaks()
-        mz = sp.get_peaks()[:,0]
+        mz = sp.get_peaks()[:, 0]
         bins = {}
         start = int(min(mz))
         end = int(max(mz))+1
-        for i in range(start,end):
+        for i in range(start, end):
             bins[i] =  \
-              sum([p[1] for p in peaks if int(p[0]) == i ])
+                sum([p[1] for p in peaks if int(p[0]) == i])
         return bins
 
-if __name__ == "__main__":
-    print "This file is intended as library and not as Python executable, please do not execute it directly."
 
+if __name__ == "__main__":
+    print("This file is intended as library and not as Python executable,"
+          + "please do not execute it directly.")

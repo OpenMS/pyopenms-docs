@@ -1,19 +1,19 @@
 """
 --------------------------------------------------------------------------
-                  OpenMS -- Open-Source Mass Spectrometry
+                OpenMS -- Open-Source Mass Spectrometry
 --------------------------------------------------------------------------
 Copyright The OpenMS Team -- Eberhard Karls University Tuebingen,
 ETH Zurich, and Freie Universitaet Berlin 2002-2013.
 
 This software is released under a three-clause BSD license:
  * Redistributions of source code must retain the above copyright
-   notice, this list of conditions and the following disclaimer.
+    notice, this list of conditions and the following disclaimer.
  * Redistributions in binary form must reproduce the above copyright
-   notice, this list of conditions and the following disclaimer in the
-   documentation and/or other materials provided with the distribution.
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
  * Neither the name of any author or any participating institution
-   may be used to endorse or promote products derived from this software
-   without specific prior written permission.
+    may be used to endorse or promote products derived from this software
+    without specific prior written permission.
 For a full list of authors, refer to the file AUTHORS.
 --------------------------------------------------------------------------
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
@@ -29,13 +29,14 @@ OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 ###########################################################################
-## Create peak-picking figure
+# Create peak-picking figure
 ###########################################################################
 
 import scipy
 import pyopenms
 import pylab
 filename = "data/NoiseFilterSGolay_1_input.mzML"
+
 
 def fft_filter_spec(spec, fft_low_cutoff, fft_high_cutoff):
     # get raw data
@@ -79,7 +80,7 @@ def plot_spec_and_picked_spec(spectrum, picked_spectrum):
     # scale y-axis max by 1.1
     axis = pylab.gca()
     ymin, ymax = axis.get_ylim()
-    axis.set_ylim([0,ymax * 1.1])
+    axis.set_ylim([0, ymax * 1.1])
 
     picked_peaks = picked_spectrum.get_peaks()
     picked_mz_values, picked_intensities = picked_peaks.T
