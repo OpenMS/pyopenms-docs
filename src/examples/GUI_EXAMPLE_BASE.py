@@ -10,14 +10,15 @@ import numpy as np
 import time
 import pyopenms
 
-pg.setConfigOption('background', 'w') # white background
-pg.setConfigOption('foreground', 'k') # black peaks
+pg.setConfigOption('background', 'w')  # white background
+pg.setConfigOption('foreground', 'k')  # black peaks
+
 
 class GUI_EXAMPLE_BASE(QMainWindow):
 
     def __init__(self):
         QMainWindow.__init__(self)
-        self.resize(800, 600) 
+        self.resize(800, 600)
         self._initUI()
 
     def _initUI(self):
@@ -40,7 +41,7 @@ class GUI_EXAMPLE_BASE(QMainWindow):
         exitButton.setStatusTip('Exit application')
         exitButton.triggered.connect(self.close)
         self.titleMenu.addAction(exitButton)
-        
+
     def closeEvent(self, event):
         event.accept()
 
