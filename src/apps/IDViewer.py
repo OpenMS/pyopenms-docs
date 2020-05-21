@@ -1,4 +1,3 @@
-from ControllerWidget import ControllerWidget
 import sys
 import os
 from PyQt5.QtWidgets import QApplication, QMainWindow, \
@@ -6,12 +5,13 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, \
 
 
 import pyqtgraph as pg
-# unused: from pyqtgraph import PlotWidget
+from pyqtgraph import PlotWidget
 
 from collections import namedtuple
 
 sys.path.insert(0, '../view')
 
+from ControllerWidget import ControllerWidget
 
 # structure for annotation (here for reference)
 PeakAnnoStruct = namedtuple('PeakAnnoStruct', "mz intensity text_label \

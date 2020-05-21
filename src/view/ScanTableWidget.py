@@ -38,7 +38,9 @@ class ScanTableWidget(QWidget):
 
     ==============================================================================
     **Signals:**
-    sigScanClicked                   Emitted when the user has clicked on a row
+    sigSference is the display of the data in table_view.
+
+    decanClicked                   Emitted when the user has clicked on a row
                                         of the table and returns the
                                         current index. This index contains
                                         information about the current rows
