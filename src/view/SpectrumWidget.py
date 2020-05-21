@@ -130,6 +130,7 @@ class SpectrumWidget(PlotWidget):
         for ladder_key, lastruct in self._ladder_visible.items():
             if ladder_key in self._ladder_anno_lines.keys():  # update
                 self._ladder_anno_lines[ladder_key][0].setData(
+                    #horizontal line
                     [xlimit[0], xlimit[1]], [self.currMaxY, self.currMaxY])
                 cntr = 0
                 for x in lastruct.mz_list:
