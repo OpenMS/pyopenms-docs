@@ -2,4 +2,4 @@
 
 <!--[README](/docs/README.md)-->
 
-[Woche 2](week2.md)
+[Woche 2](/docs/pages/week2.md)
