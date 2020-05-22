@@ -19,6 +19,7 @@ if __name__ == '__main__':
     purple = (128, 0, 255)
     c = np.array([green, purple, green,purple, green, purple, green, purple, green, green])
     example_widget.setMassErrors(x, y, c)
+    ex.setWindowTitle('Example Error Widget')
     ex.setExampleWidget(example_widget)
     ex.show()
     sys.exit(app.exec_())
