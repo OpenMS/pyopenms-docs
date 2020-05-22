@@ -1,0 +1,19 @@
+Metadata-Version: 2.1
+Name: pyopenms-tewb
+Version: 0.0.1
+Summary: Package for pyopenms-tewb
+Home-page: https://github.com/wrthfl/pyopenms-tewb
+Author: Sevvalli Thavapalan, Till Englert, Fabian Würth, Philipp Baltik
+Author-email: sevvalli.thavapalan@student.uni-tuebingen.de
+License: UNKNOWN
+Description: # README
+        - Alles nötige wird erstellt um aus unserem Projekt ein Python wheel zu generieren.
+        - Anleitung : https://packaging.python.org/tutorials/packaging-projects/
+        
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
