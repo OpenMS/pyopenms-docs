@@ -1,0 +1,491 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Getting Started &mdash; pyOpenMS 2.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Reading Raw MS data" href="file_handling.html" />
+    <link rel="prev" title="pyOpenMS Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyOpenMS
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">pyOpenMS Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">First steps</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#import-pyopenms">Import pyopenms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-help">Getting help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#first-look-at-data">First look at data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#file-reading">File reading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iteration">Iteration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tic-calculation">TIC calculation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="file_handling.html">Reading Raw MS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mzMLFileFormat.html">mzML files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other_file_handling.html">Other MS data formats</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Mass Spectrometry Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="datastructures.html">MS Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemistry.html">Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aasequences.html">Peptides and Proteins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nasequences.html">Oligonucleotides: RNA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theoreticalspectrumgenerator.html">TheoreticalSpectrumGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="digestion.html">Digestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_id.html">Identification Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_quant.html">Quantitative Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Simple Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="data_manipulation.html">Simple Data Manipulation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OpenMS Algorithms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="parameter_handling.html">Parameter Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smoothing.html">Smoothing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mass_decomposition.html">Mass Decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deisotoping.html">Charge and Isotope Deconvolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feature_detection.html">Feature Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peptide_search.html">Peptide Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chromatographic_analysis.html">Chromagraphic Analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R language</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyopenms_in_r.html">pyOpenMS in R</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build_from_source.html">Build from source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrap_classes.html">Wrapping Workflow and wrapping new Classes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyOpenMS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Getting Started</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/getting_started.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="import-pyopenms">
+<h2>Import pyopenms<a class="headerlink" href="#import-pyopenms" title="Permalink to this headline">¶</a></h2>
+<p>After installation, you should be able to import pyopenms as a package</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyopenms</span>
+</pre></div>
+</div>
+<p>which should now give you access to all of pyopenms. You should now be able to
+interact with the OpenMS library and, for example, read and write mzML files:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">MSExperiment</span><span class="p">()</span>
+<span class="n">MzMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="s2">&quot;testfile.mzML&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>which will create an empty mzML file called <cite>testfile.mzML</cite>.</p>
+</div>
+<div class="section" id="getting-help">
+<h2>Getting help<a class="headerlink" href="#getting-help" title="Permalink to this headline">¶</a></h2>
+<p>There are multiple ways to get information about the available functions and
+methods. We can inspect individual pyOpenMS objects through the <code class="docutils literal notranslate"><span class="pre">help</span></code>
+function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">MSExperiment</span><span class="p">)</span>
+
+<span class="go">class MSExperiment(builtins.object)</span>
+<span class="go"> |  Cython implementation of _MSExperiment</span>
+<span class="go"> |   -- Inherits from [&#39;ExperimentalSettings&#39;, &#39;RangeManager2&#39;]</span>
+<span class="go"> |</span>
+<span class="go"> |  In-Memory representation of a mass spectrometry experiment.</span>
+<span class="go"> |  -----</span>
+<span class="go"> |  Contains the data and metadata of an experiment performed with an MS (or</span>
+<span class="go"> |  HPLC and MS). This representation of an MS experiment is organized as list</span>
+<span class="go"> |  of spectra and chromatograms and provides an in-memory representation of</span>
+<span class="go"> |  popular mass-spectrometric file formats such as mzXML or mzML. The</span>
+<span class="go"> |  meta-data associated with an experiment is contained in</span>
+<span class="go"> |  ExperimentalSettings (by inheritance) while the raw data (as well as</span>
+<span class="go"> |  spectra and chromatogram level meta data) is stored in objects of type</span>
+<span class="go"> |  MSSpectrum and MSChromatogram, which are accessible through the getSpectrum</span>
+<span class="go"> |  and getChromatogram functions.</span>
+<span class="go"> |  -----</span>
+<span class="go"> |  Spectra can be accessed by direct iteration or by getSpectrum(),</span>
+<span class="go"> |  while chromatograms are accessed through getChromatogram().</span>
+<span class="go"> |  See help(ExperimentalSettings) for information about meta-data.</span>
+<span class="go"> |</span>
+<span class="go"> |  Methods defined here:</span>
+
+<span class="go"> [...]</span>
+</pre></div>
+</div>
+<p>which lists information on the <code class="docutils literal notranslate"><span class="pre">pyopenms.MSExperiment</span></code> class, including a
+description of the main purpose of the class and how the class is intended to
+be used. Additional useful information is presented in the <code class="docutils literal notranslate"><span class="pre">Inherits</span> <span class="pre">from</span></code>
+section which points to additional classes that act as base classes to
+<code class="docutils literal notranslate"><span class="pre">pyopenms.MSExperiment</span></code> and that contain further information.
+The list of available methods is long (but does <em>not</em> include methods from the
+base classes) and reveals that the class exposes methods such as
+<code class="docutils literal notranslate"><span class="pre">getNrSpectra()</span></code> and <code class="docutils literal notranslate"><span class="pre">getSpectrum(id)</span></code> where the argument <code class="docutils literal notranslate"><span class="pre">id</span></code> indicates
+the spectrum identifer.  The command also lists the signature for each
+function, allowing users to identify the function arguments and return types.
+We can gain further information about exposed methods by investigating the
+documentation of the base classes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">ExperimentalSettings</span><span class="p">)</span>
+<span class="go">Help on class ExperimentalSettings in module pyopenms.pyopenms_4:</span>
+
+<span class="go">class ExperimentalSettings(builtins.object)</span>
+<span class="go"> |  Cython implementation of _ExperimentalSettings</span>
+<span class="go"> |   -- Inherits from [&#39;DocumentIdentifier&#39;, &#39;MetaInfoInterface&#39;]</span>
+<span class="go"> |</span>
+<span class="go"> |  Description of the experimental settings, provides meta-information</span>
+<span class="go"> |  about an LC-MS/MS injection.</span>
+<span class="go"> |</span>
+<span class="go"> |  Methods defined here:</span>
+
+<span class="go"> [...]</span>
+</pre></div>
+</div>
+<p>We could now continue our investigation by reading the documentation of the
+base classes <code class="docutils literal notranslate"><span class="pre">DocumentIdentifier</span></code> and <code class="docutils literal notranslate"><span class="pre">MetaInfoInterface</span></code>, but we will
+leave this exercise for the interested reader.  In order to get more
+information about the wrapped functions, we can also consult the <a class="reference external" href="http://proteomics.ethz.ch/pyOpenMS_Manual.pdf">pyOpenMS
+manual</a> which references to
+all wrapped functions. For a more complete documentation of the underlying
+wrapped methods, please consult the official OpenMS documentation, in this case
+the <a class="reference external" href="https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1MSExperiment.html">MSExperiment documentation</a>.</p>
+</div>
+<div class="section" id="first-look-at-data">
+<h2>First look at data<a class="headerlink" href="#first-look-at-data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="file-reading">
+<h3>File reading<a class="headerlink" href="#file-reading" title="Permalink to this headline">¶</a></h3>
+<p>pyOpenMS supports a variety of different files through the implementations in
+OpenMS. In order to read mass spectrometric data, we can download the <a class="reference external" href="http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML">mzML
+example file</a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="c1"># from urllib import urlretrieve  # use this code for Python 2.x</span>
+<span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">urlretrieve</span> <span class="p">(</span><span class="s2">&quot;http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML&quot;</span><span class="p">,</span> <span class="s2">&quot;tiny.pwiz.1.1.mzML&quot;</span><span class="p">)</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">MSExperiment</span><span class="p">()</span>
+<span class="n">MzMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;tiny.pwiz.1.1.mzML&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>which will load the content of the “tiny.pwiz.1.1.mzML” file into the <code class="docutils literal notranslate"><span class="pre">exp</span></code>
+variable of type <code class="docutils literal notranslate"><span class="pre">MSExperiment</span></code>.
+We can now inspect the properties of this object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+
+<span class="go">class MSExperiment(builtins.object)</span>
+<span class="go"> |  Cython implementation of _MSExperiment</span>
+<span class="go"> |   -- Inherits from [&#39;ExperimentalSettings&#39;, &#39;RangeManager2&#39;]</span>
+
+
+<span class="go"> [...]</span>
+
+<span class="go"> |  Methods defined here:</span>
+
+<span class="go"> [...]</span>
+
+<span class="go"> |  getNrChromatograms(...)</span>
+<span class="go"> |      Cython signature: size_t getNrChromatograms()</span>
+<span class="go"> |</span>
+<span class="go"> |  getNrSpectra(...)</span>
+<span class="go"> |      Cython signature: size_t getNrSpectra()</span>
+<span class="go"> |</span>
+
+<span class="go"> [...]</span>
+</pre></div>
+</div>
+<p>which indicates that the variable <code class="docutils literal notranslate"><span class="pre">exp</span></code> has (among others) the functions
+<code class="docutils literal notranslate"><span class="pre">getNrSpectra</span></code> and <code class="docutils literal notranslate"><span class="pre">getNrChromatograms</span></code>. We can now try these functions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">exp</span><span class="o">.</span><span class="n">getNrSpectra</span><span class="p">()</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exp</span><span class="o">.</span><span class="n">getNrChromatograms</span><span class="p">()</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<p>and indeed we see that we get information about the underlying MS data. We can
+iterate through the spectra as follows:</p>
+</div>
+<div class="section" id="iteration">
+<h3>Iteration<a class="headerlink" href="#iteration" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">exp</span><span class="p">:</span>
+  <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;MS Level:&quot;</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">getMSLevel</span><span class="p">())</span>
+
+<span class="n">MS</span> <span class="n">Level</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">MS</span> <span class="n">Level</span><span class="p">:</span> <span class="mi">2</span>
+<span class="n">MS</span> <span class="n">Level</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">MS</span> <span class="n">Level</span><span class="p">:</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>This iterates through all available spectra, we can also access spectra through the <code class="docutils literal notranslate"><span class="pre">[]</span></code> operator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="p">(</span><span class="s2">&quot;MS Level:&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">getMSLevel</span><span class="p">())</span>
+<span class="go">MS Level: 2</span>
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">spec[1]</span></code> will access the <em>second</em> spectrum (arrays start at
+<code class="docutils literal notranslate"><span class="pre">0</span></code>). We can access the raw peaks through <code class="docutils literal notranslate"><span class="pre">get_peaks()</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span> <span class="o">=</span> <span class="n">exp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mz</span><span class="p">,</span> <span class="n">intensity</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">get_peaks</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sum</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span>
+<span class="go">110</span>
+</pre></div>
+</div>
+<p>Which will access the data using a numpy array, storing the <em>m/z</em> information
+in the <code class="docutils literal notranslate"><span class="pre">mz</span></code> vector and the intensity in the <code class="docutils literal notranslate"><span class="pre">i</span></code> vector. Alternatively, we
+can also iterate over individual peak objects as follows (this tends to be
+slower):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">peak</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">:</span>
+<span class="gp">... </span>  <span class="k">print</span> <span class="p">(</span><span class="n">peak</span><span class="o">.</span><span class="n">getIntensity</span><span class="p">())</span>
+<span class="gp">...</span>
+<span class="go">20.0</span>
+<span class="go">18.0</span>
+<span class="go">16.0</span>
+<span class="go">14.0</span>
+<span class="go">12.0</span>
+<span class="go">10.0</span>
+<span class="go">8.0</span>
+<span class="go">6.0</span>
+<span class="go">4.0</span>
+<span class="go">2.0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tic-calculation">
+<h3>TIC calculation<a class="headerlink" href="#tic-calculation" title="Permalink to this headline">¶</a></h3>
+<p>Here, we will apply what we have learned to perform a common function in mass
+spectrometry: calculating the total ion current. While some mzML files already
+contain a pre-computed TIC, we will show you how to calculate the TIC for MS1
+and MS2 spectra separately (generally only MS1 TIC is provided).</p>
+<p>With this information, we can write a function that calculates the total ion
+current (TIC) for a given ms level:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Calculates total ion chromatogram of an LC-MS/MS experiment</span>
+<span class="k">def</span> <span class="nf">calcTIC</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="n">mslevel</span><span class="p">):</span>
+    <span class="n">tic</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># Iterate through all spectra of the experiment</span>
+    <span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">exp</span><span class="p">:</span>
+        <span class="c1"># Only calculate TIC for matching (MS1) spectra</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">getMSLevel</span><span class="p">()</span> <span class="o">==</span> <span class="n">mslevel</span><span class="p">:</span>
+            <span class="n">mz</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">get_peaks</span><span class="p">()</span>
+            <span class="n">tic</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tic</span>
+</pre></div>
+</td></tr></table></div>
+<p>To calculate a TIC we would now call the function:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="o">&gt;&gt;&gt;</span> <span class="n">calcTIC</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+ <span class="mf">240.0</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">sum</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">get_peaks</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">exp</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">getMSLevel</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">])</span>
+ <span class="mf">240.0</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">calcTIC</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+ <span class="mf">110.0</span>
+</pre></div>
+</td></tr></table></div>
+<p>Note how one can compute the same property using list comprehensions in Python
+(see line number 3 in the above code which computes the TIC using filtering
+properties of Python list comprehensions (<code class="docutils literal notranslate"><span class="pre">s.getMSLevel()</span> <span class="pre">==</span> <span class="pre">1</span></code>) and computes
+the sum over all peaks (right <code class="docutils literal notranslate"><span class="pre">sum</span></code>) and the sum over all spectra (left
+<code class="docutils literal notranslate"><span class="pre">sum</span></code>) to retrieve the TIC).</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="file_handling.html" class="btn btn-neutral float-right" title="Reading Raw MS data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral float-left" title="pyOpenMS Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, OpenMS Team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

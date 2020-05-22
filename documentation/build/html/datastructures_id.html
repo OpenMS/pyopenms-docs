@@ -1,0 +1,504 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Identification Data &mdash; pyOpenMS 2.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Quantitative Data" href="datastructures_quant.html" />
+    <link rel="prev" title="Digestion" href="digestion.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyOpenMS
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">pyOpenMS Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">First steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_handling.html">Reading Raw MS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mzMLFileFormat.html">mzML files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other_file_handling.html">Other MS data formats</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Mass Spectrometry Concepts</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="datastructures.html">MS Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemistry.html">Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aasequences.html">Peptides and Proteins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nasequences.html">Oligonucleotides: RNA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theoreticalspectrumgenerator.html">TheoreticalSpectrumGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="digestion.html">Digestion</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Identification Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#proteinidentification">ProteinIdentification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#peptideidentification">PeptideIdentification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#storage-on-disk">Storage on disk</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_quant.html">Quantitative Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Simple Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="data_manipulation.html">Simple Data Manipulation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OpenMS Algorithms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="parameter_handling.html">Parameter Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smoothing.html">Smoothing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mass_decomposition.html">Mass Decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deisotoping.html">Charge and Isotope Deconvolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feature_detection.html">Feature Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peptide_search.html">Peptide Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chromatographic_analysis.html">Chromagraphic Analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R language</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyopenms_in_r.html">pyOpenMS in R</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build_from_source.html">Build from source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrap_classes.html">Wrapping Workflow and wrapping new Classes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyOpenMS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Identification Data</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/datastructures_id.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="identification-data">
+<h1>Identification Data<a class="headerlink" href="#identification-data" title="Permalink to this headline">¶</a></h1>
+<p>In OpenMS, identifications of peptides, proteins and small molecules are stored
+in dedicated data structures. These data structures are typically stored to disc
+as idXML or mzIdentML file. The highest-level structure is
+<code class="docutils literal notranslate"><span class="pre">ProteinIdentification</span></code>. It stores all identified proteins of an identification
+run as ProteinHit objects plus additional metadata (search parameters, etc.). Each
+<code class="docutils literal notranslate"><span class="pre">ProteinHit</span></code> contains the actual protein accession, an associated score, and
+(optionally) the protein sequence.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">PeptideIdentification</span></code> object stores the
+data corresponding to a single identified spectrum or feature. It has members
+for the retention time, m/z, and a vector of <code class="docutils literal notranslate"><span class="pre">PeptideHit</span></code> objects. Each <code class="docutils literal notranslate"><span class="pre">PeptideHit</span></code>
+stores the information of a specific peptide-to-spectrum match or PSM (e.g., the score
+and the peptide sequence). Each <code class="docutils literal notranslate"><span class="pre">PeptideHit</span></code> also contains a vector of
+<code class="docutils literal notranslate"><span class="pre">PeptideEvidence</span></code> objects which store the reference to one or more (in the case the
+peptide maps to multiple proteins) proteins and the position therein.</p>
+<div class="section" id="proteinidentification">
+<h2>ProteinIdentification<a class="headerlink" href="#proteinidentification" title="Permalink to this headline">¶</a></h2>
+<p>We can create an object of type <code class="docutils literal notranslate"><span class="pre">ProteinIdentification</span></code>  and populate it with
+<code class="docutils literal notranslate"><span class="pre">ProteinHit</span></code> objects as follows:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># Create new protein identification object corresponding to a single search</span>
+<span class="n">protein_id</span> <span class="o">=</span> <span class="n">ProteinIdentification</span><span class="p">()</span>
+<span class="n">protein_id</span><span class="o">.</span><span class="n">setIdentifier</span><span class="p">(</span><span class="s2">&quot;IdentificationRun1&quot;</span><span class="p">)</span>
+
+<span class="c1"># Each ProteinIdentification object stores a vector of protein hits</span>
+<span class="n">protein_hit</span> <span class="o">=</span> <span class="n">ProteinHit</span><span class="p">()</span>
+<span class="n">protein_hit</span><span class="o">.</span><span class="n">setAccession</span><span class="p">(</span><span class="s2">&quot;sp|MyAccession&quot;</span><span class="p">)</span>
+<span class="n">protein_hit</span><span class="o">.</span><span class="n">setSequence</span><span class="p">(</span><span class="s2">&quot;PEPTIDERDLQMTQSPSSLSVSVGDRPEPTIDE&quot;</span><span class="p">)</span>
+<span class="n">protein_hit</span><span class="o">.</span><span class="n">setScore</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">protein_hit</span><span class="o">.</span><span class="n">setMetaValue</span><span class="p">(</span><span class="s2">&quot;target_decoy&quot;</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;target&quot;</span><span class="p">)</span> <span class="c1"># its a target protein</span>
+
+<span class="n">protein_id</span><span class="o">.</span><span class="n">setHits</span><span class="p">([</span><span class="n">protein_hit</span><span class="p">])</span>
+</pre></div>
+</td></tr></table></div>
+<p>We have now added a single <code class="docutils literal notranslate"><span class="pre">ProteinHit</span></code> with the accession <code class="docutils literal notranslate"><span class="pre">sp|MyAccession</span></code> to
+the <code class="docutils literal notranslate"><span class="pre">ProteinIdentification</span></code> object (note how on line 14 we directly added a
+list of size 1).  We can continue to add meta-data for the whole identification
+run (such as search parameters):</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">now</span> <span class="o">=</span> <span class="n">DateTime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="n">date_string</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">getDate</span><span class="p">()</span>
+<span class="n">protein_id</span><span class="o">.</span><span class="n">setDateTime</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
+
+<span class="c1"># Example of possible search parameters</span>
+<span class="n">search_parameters</span> <span class="o">=</span> <span class="n">SearchParameters</span><span class="p">()</span> <span class="c1"># ProteinIdentification::SearchParameters</span>
+<span class="n">search_parameters</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="s2">&quot;database&quot;</span>
+<span class="n">search_parameters</span><span class="o">.</span><span class="n">charges</span> <span class="o">=</span> <span class="s2">&quot;+2&quot;</span>
+<span class="n">protein_id</span><span class="o">.</span><span class="n">setSearchParameters</span><span class="p">(</span><span class="n">search_parameters</span><span class="p">)</span>
+
+<span class="c1"># Some search engine meta data</span>
+<span class="n">protein_id</span><span class="o">.</span><span class="n">setSearchEngineVersion</span><span class="p">(</span><span class="s2">&quot;v1.0.0&quot;</span><span class="p">)</span>
+<span class="n">protein_id</span><span class="o">.</span><span class="n">setSearchEngine</span><span class="p">(</span><span class="s2">&quot;SearchEngine&quot;</span><span class="p">)</span>
+<span class="n">protein_id</span><span class="o">.</span><span class="n">setScoreType</span><span class="p">(</span><span class="s2">&quot;HyperScore&quot;</span><span class="p">)</span>
+
+<span class="c1"># Iterate over all protein hits</span>
+<span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">protein_id</span><span class="o">.</span><span class="n">getHits</span><span class="p">():</span>
+  <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Protein hit accession:&quot;</span><span class="p">,</span> <span class="n">hit</span><span class="o">.</span><span class="n">getAccession</span><span class="p">())</span>
+  <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Protein hit sequence:&quot;</span><span class="p">,</span> <span class="n">hit</span><span class="o">.</span><span class="n">getSequence</span><span class="p">())</span>
+  <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Protein hit score:&quot;</span><span class="p">,</span> <span class="n">hit</span><span class="o">.</span><span class="n">getScore</span><span class="p">())</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="peptideidentification">
+<h2>PeptideIdentification<a class="headerlink" href="#peptideidentification" title="Permalink to this headline">¶</a></h2>
+<p>Next, we can also create a <code class="docutils literal notranslate"><span class="pre">PeptideIdentification</span></code> object and add
+corresponding <code class="docutils literal notranslate"><span class="pre">PeptideHit</span></code> objects:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">peptide_id</span> <span class="o">=</span> <span class="n">PeptideIdentification</span><span class="p">()</span>
+
+<span class="n">peptide_id</span><span class="o">.</span><span class="n">setRT</span><span class="p">(</span><span class="mf">1243.56</span><span class="p">)</span>
+<span class="n">peptide_id</span><span class="o">.</span><span class="n">setMZ</span><span class="p">(</span><span class="mf">440.0</span><span class="p">)</span>
+<span class="n">peptide_id</span><span class="o">.</span><span class="n">setScoreType</span><span class="p">(</span><span class="s2">&quot;ScoreType&quot;</span><span class="p">)</span>
+<span class="n">peptide_id</span><span class="o">.</span><span class="n">setHigherScoreBetter</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">peptide_id</span><span class="o">.</span><span class="n">setIdentifier</span><span class="p">(</span><span class="s2">&quot;IdentificationRun1&quot;</span><span class="p">)</span>
+
+<span class="c1"># define additional meta value for the peptide identification</span>
+<span class="n">peptide_id</span><span class="o">.</span><span class="n">setMetaValue</span><span class="p">(</span><span class="s2">&quot;AdditionalMetaValue&quot;</span><span class="p">,</span> <span class="s2">&quot;Value&quot;</span><span class="p">)</span>
+
+<span class="c1"># create a new PeptideHit (best PSM, best score)</span>
+<span class="n">peptide_hit</span> <span class="o">=</span> <span class="n">PeptideHit</span><span class="p">()</span>
+<span class="n">peptide_hit</span><span class="o">.</span><span class="n">setScore</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">peptide_hit</span><span class="o">.</span><span class="n">setRank</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">peptide_hit</span><span class="o">.</span><span class="n">setCharge</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">peptide_hit</span><span class="o">.</span><span class="n">setSequence</span><span class="p">(</span><span class="n">AASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;DLQM(Oxidation)TQSPSSLSVSVGDR&quot;</span><span class="p">))</span>
+
+<span class="n">ev</span> <span class="o">=</span> <span class="n">PeptideEvidence</span><span class="p">()</span>
+<span class="n">ev</span><span class="o">.</span><span class="n">setProteinAccession</span><span class="p">(</span><span class="s2">&quot;sp|MyAccession&quot;</span><span class="p">)</span>
+<span class="n">ev</span><span class="o">.</span><span class="n">setAABefore</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;R&quot;</span><span class="p">)</span>
+<span class="n">ev</span><span class="o">.</span><span class="n">setAAAfter</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;P&quot;</span><span class="p">)</span>
+<span class="n">peptide_hit</span><span class="o">.</span><span class="n">setPeptideEvidences</span><span class="p">([</span><span class="n">ev</span><span class="p">])</span>
+
+<span class="c1"># create a new PeptideHit (second best PSM, lower score)</span>
+<span class="n">peptide_hit2</span> <span class="o">=</span> <span class="n">PeptideHit</span><span class="p">()</span>
+<span class="n">peptide_hit2</span><span class="o">.</span><span class="n">setScore</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">peptide_hit2</span><span class="o">.</span><span class="n">setRank</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">peptide_hit2</span><span class="o">.</span><span class="n">setCharge</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">peptide_hit2</span><span class="o">.</span><span class="n">setSequence</span><span class="p">(</span><span class="n">AASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;QDLMTQSPSSLSVSVGDR&quot;</span><span class="p">))</span>
+<span class="n">peptide_hit2</span><span class="o">.</span><span class="n">setPeptideEvidences</span><span class="p">([</span><span class="n">ev</span><span class="p">])</span>
+
+<span class="c1"># add PeptideHit to PeptideIdentification</span>
+<span class="n">peptide_id</span><span class="o">.</span><span class="n">setHits</span><span class="p">([</span><span class="n">peptide_hit</span><span class="p">,</span> <span class="n">peptide_hit2</span><span class="p">])</span>
+</pre></div>
+</td></tr></table></div>
+<p>This allows us to represent single spectra (<code class="docutils literal notranslate"><span class="pre">PeptideIdentification</span></code> at <em>m/z</em>
+440.0 and <em>rt</em> 1234.56) with possible identifications that are ranked by score.
+In this case, apparently two possible peptides match the spectrum which have
+the first three amino acids in a different order “DLQ” vs “QDL”).</p>
+<p>We can now display the peptides we just stored:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Iterate over PeptideIdentification</span>
+<span class="n">peptide_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">peptide_id</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">peptide_id</span> <span class="ow">in</span> <span class="n">peptide_ids</span><span class="p">:</span>
+  <span class="c1"># Peptide identification values</span>
+  <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;Peptide ID m/z:&quot;</span><span class="p">,</span> <span class="n">peptide_id</span><span class="o">.</span><span class="n">getMZ</span><span class="p">())</span>
+  <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;Peptide ID rt:&quot;</span><span class="p">,</span> <span class="n">peptide_id</span><span class="o">.</span><span class="n">getRT</span><span class="p">())</span>
+  <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;Peptide ID score type:&quot;</span><span class="p">,</span> <span class="n">peptide_id</span><span class="o">.</span><span class="n">getScoreType</span><span class="p">())</span>
+  <span class="c1"># PeptideHits</span>
+  <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">peptide_id</span><span class="o">.</span><span class="n">getHits</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot; - Peptide hit rank:&quot;</span><span class="p">,</span> <span class="n">hit</span><span class="o">.</span><span class="n">getRank</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot; - Peptide hit sequence:&quot;</span><span class="p">,</span> <span class="n">hit</span><span class="o">.</span><span class="n">getSequence</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot; - Peptide hit score:&quot;</span><span class="p">,</span> <span class="n">hit</span><span class="o">.</span><span class="n">getScore</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot; - Mapping to proteins:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">ev</span><span class="o">.</span><span class="n">getProteinAccession</span><span class="p">()</span>
+                                        <span class="k">for</span> <span class="n">ev</span> <span class="ow">in</span> <span class="n">hit</span><span class="o">.</span><span class="n">getPeptideEvidences</span><span class="p">()</span> <span class="p">]</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="storage-on-disk">
+<h2>Storage on disk<a class="headerlink" href="#storage-on-disk" title="Permalink to this headline">¶</a></h2>
+<p>Finally, we can store the peptide and protein identification data in a
+<code class="docutils literal notranslate"><span class="pre">idXML</span></code> file (a OpenMS internal file format which we have previously
+discussed <a class="reference external" href="other_file_handling.html#identification-data-idxml-mzidentml-pepxml-protxml">here</a>)
+which we would do as follows:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Store the identification data in an idXML file</span>
+<span class="n">IdXMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="s2">&quot;out.idXML&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">protein_id</span><span class="p">],</span> <span class="n">peptide_ids</span><span class="p">)</span>
+<span class="c1"># and load it back into memory</span>
+<span class="n">prot_ids</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">pep_ids</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">IdXMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;out.idXML&quot;</span><span class="p">,</span> <span class="n">prot_ids</span><span class="p">,</span> <span class="n">pep_ids</span><span class="p">)</span>
+
+<span class="c1"># Iterate over all protein hits</span>
+<span class="k">for</span> <span class="n">protein_id</span> <span class="ow">in</span> <span class="n">prot_ids</span><span class="p">:</span>
+  <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">protein_id</span><span class="o">.</span><span class="n">getHits</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Protein hit accession:&quot;</span><span class="p">,</span> <span class="n">hit</span><span class="o">.</span><span class="n">getAccession</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Protein hit sequence:&quot;</span><span class="p">,</span> <span class="n">hit</span><span class="o">.</span><span class="n">getSequence</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Protein hit score:&quot;</span><span class="p">,</span> <span class="n">hit</span><span class="o">.</span><span class="n">getScore</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Protein hit target/decoy:&quot;</span><span class="p">,</span> <span class="n">hit</span><span class="o">.</span><span class="n">getMetaValue</span><span class="p">(</span><span class="s2">&quot;target_decoy&quot;</span><span class="p">))</span>
+
+<span class="c1"># Iterate over PeptideIdentification</span>
+<span class="k">for</span> <span class="n">peptide_id</span> <span class="ow">in</span> <span class="n">pep_ids</span><span class="p">:</span>
+  <span class="c1"># Peptide identification values</span>
+  <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;Peptide ID m/z:&quot;</span><span class="p">,</span> <span class="n">peptide_id</span><span class="o">.</span><span class="n">getMZ</span><span class="p">())</span>
+  <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;Peptide ID rt:&quot;</span><span class="p">,</span> <span class="n">peptide_id</span><span class="o">.</span><span class="n">getRT</span><span class="p">())</span>
+  <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;Peptide ID score type:&quot;</span><span class="p">,</span> <span class="n">peptide_id</span><span class="o">.</span><span class="n">getScoreType</span><span class="p">())</span>
+  <span class="c1"># PeptideHits</span>
+  <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">peptide_id</span><span class="o">.</span><span class="n">getHits</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot; - Peptide hit rank:&quot;</span><span class="p">,</span> <span class="n">hit</span><span class="o">.</span><span class="n">getRank</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot; - Peptide hit sequence:&quot;</span><span class="p">,</span> <span class="n">hit</span><span class="o">.</span><span class="n">getSequence</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot; - Peptide hit score:&quot;</span><span class="p">,</span> <span class="n">hit</span><span class="o">.</span><span class="n">getScore</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot; - Mapping to proteins:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">ev</span><span class="o">.</span><span class="n">getProteinAccession</span><span class="p">()</span> <span class="k">for</span> <span class="n">ev</span> <span class="ow">in</span> <span class="n">hit</span><span class="o">.</span><span class="n">getPeptideEvidences</span><span class="p">()</span> <span class="p">]</span> <span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>You can inspect the <code class="docutils literal notranslate"><span class="pre">out.idXML</span></code> XML file produced here, and you will find a <code class="docutils literal notranslate"><span class="pre">&lt;ProteinHit&gt;</span></code> entry for the protein that we stored and two <code class="docutils literal notranslate"><span class="pre">&lt;PeptideHit&gt;</span></code> entries for the two peptides stored on disk.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="datastructures_quant.html" class="btn btn-neutral float-right" title="Quantitative Data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="digestion.html" class="btn btn-neutral float-left" title="Digestion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, OpenMS Team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

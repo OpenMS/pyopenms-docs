@@ -1,0 +1,470 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Oligonucleotides: RNA &mdash; pyOpenMS 2.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="TheoreticalSpectrumGenerator" href="theoreticalspectrumgenerator.html" />
+    <link rel="prev" title="Peptides and Proteins" href="aasequences.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyOpenMS
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">pyOpenMS Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">First steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_handling.html">Reading Raw MS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mzMLFileFormat.html">mzML files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other_file_handling.html">Other MS data formats</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Mass Spectrometry Concepts</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="datastructures.html">MS Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemistry.html">Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aasequences.html">Peptides and Proteins</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Oligonucleotides: RNA</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#nucleic-acid-sequences">Nucleic Acid Sequences</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fragment-ions">Fragment ions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#modified-oligonucleotides">Modified oligonucleotides</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dna-rna-and-protein">DNA, RNA and Protein</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="theoreticalspectrumgenerator.html">TheoreticalSpectrumGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="digestion.html">Digestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_id.html">Identification Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_quant.html">Quantitative Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Simple Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="data_manipulation.html">Simple Data Manipulation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OpenMS Algorithms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="parameter_handling.html">Parameter Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smoothing.html">Smoothing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mass_decomposition.html">Mass Decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deisotoping.html">Charge and Isotope Deconvolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feature_detection.html">Feature Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peptide_search.html">Peptide Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chromatographic_analysis.html">Chromagraphic Analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R language</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyopenms_in_r.html">pyOpenMS in R</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build_from_source.html">Build from source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrap_classes.html">Wrapping Workflow and wrapping new Classes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyOpenMS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Oligonucleotides: RNA</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/nasequences.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="oligonucleotides-rna">
+<h1>Oligonucleotides: RNA<a class="headerlink" href="#oligonucleotides-rna" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="nucleic-acid-sequences">
+<h2>Nucleic Acid Sequences<a class="headerlink" href="#nucleic-acid-sequences" title="Permalink to this headline">¶</a></h2>
+<p>OpenMS also supports the representation of RNA oligonucleotides using the
+<code class="docutils literal notranslate"><span class="pre">NASequence</span></code> class:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">oligo</span> <span class="o">=</span> <span class="n">NASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;AAUGCAAUGG&quot;</span><span class="p">)</span>
+<span class="n">prefix</span> <span class="o">=</span> <span class="n">oligo</span><span class="o">.</span><span class="n">getPrefix</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">suffix</span> <span class="o">=</span> <span class="n">oligo</span><span class="o">.</span><span class="n">getSuffix</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">oligo</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span>
+<span class="k">print</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Oligo length&quot;</span><span class="p">,</span> <span class="n">oligo</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Total precursor mass&quot;</span><span class="p">,</span> <span class="n">oligo</span><span class="o">.</span><span class="n">getMonoWeight</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;y1+ ion mass of&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">prefix</span><span class="p">),</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">.</span><span class="n">getMonoWeight</span><span class="p">(</span><span class="n">NASequence</span><span class="o">.</span><span class="n">NASFragmentType</span><span class="o">.</span><span class="n">YIon</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="k">print</span><span class="p">()</span>
+
+<span class="n">seq_formula</span> <span class="o">=</span> <span class="n">oligo</span><span class="o">.</span><span class="n">getFormula</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;RNA Oligo&quot;</span><span class="p">,</span> <span class="n">oligo</span><span class="p">,</span> <span class="s2">&quot;has molecular formula&quot;</span><span class="p">,</span> <span class="n">seq_formula</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">35</span><span class="p">)</span>
+<span class="k">print</span><span class="p">()</span>
+
+<span class="n">isotopes</span> <span class="o">=</span> <span class="n">seq_formula</span><span class="o">.</span><span class="n">getIsotopeDistribution</span><span class="p">(</span> <span class="n">CoarseIsotopePatternGenerator</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="p">)</span>
+<span class="k">for</span> <span class="n">iso</span> <span class="ow">in</span> <span class="n">isotopes</span><span class="o">.</span><span class="n">getContainer</span><span class="p">():</span>
+  <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;Isotope&quot;</span><span class="p">,</span> <span class="n">iso</span><span class="o">.</span><span class="n">getMZ</span><span class="p">(),</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">iso</span><span class="o">.</span><span class="n">getIntensity</span><span class="p">())</span>
+</pre></div>
+</td></tr></table></div>
+<p>Which will output</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">AAUGCAAUGG</span>
+<span class="n">AAUG</span>
+<span class="n">AUGG</span>
+
+<span class="n">Oligo</span> <span class="n">length</span> <span class="mi">10</span>
+<span class="n">Total</span> <span class="n">precursor</span> <span class="n">mass</span> <span class="mf">3206.4885302061</span>
+<span class="n">y1</span><span class="o">+</span> <span class="n">ion</span> <span class="n">mass</span> <span class="n">of</span> <span class="n">AAUG</span> <span class="p">:</span> <span class="mf">1248.2298440331</span>
+
+<span class="n">RNA</span> <span class="n">Oligo</span> <span class="n">AAUGCAAUGG</span> <span class="n">has</span> <span class="n">molecular</span> <span class="n">formula</span> <span class="n">C97H119N42O66P9</span>
+<span class="o">===================================</span>
+
+<span class="n">Isotope</span> <span class="mf">3206.4885302061</span> <span class="p">:</span> <span class="mf">0.25567981600761414</span>
+<span class="n">Isotope</span> <span class="mf">3207.4918850439003</span> <span class="p">:</span> <span class="mf">0.31783154606819153</span>
+<span class="n">Isotope</span> <span class="mf">3208.4952398817004</span> <span class="p">:</span> <span class="mf">0.23069815337657928</span>
+<span class="n">Isotope</span> <span class="mf">3209.4985947195</span> <span class="p">:</span> <span class="mf">0.12306403368711472</span>
+<span class="n">Isotope</span> <span class="mf">3210.5019495573</span> <span class="p">:</span> <span class="mf">0.053163252770900726</span>
+<span class="n">Isotope</span> <span class="mf">3211.5053043951</span> <span class="p">:</span> <span class="mf">0.01956319250166416</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">NASequence</span></code> object also allows iterations directly in Python:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">oligo</span> <span class="o">=</span> <span class="n">NASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;AAUGCAAUGG&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;The oligonucleotide&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">oligo</span><span class="p">),</span> <span class="s2">&quot;consists of the following nucleotides:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ribo</span> <span class="ow">in</span> <span class="n">oligo</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">ribo</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span>
+</pre></div>
+</td></tr></table></div>
+<div class="section" id="fragment-ions">
+<h3>Fragment ions<a class="headerlink" href="#fragment-ions" title="Permalink to this headline">¶</a></h3>
+<p>Similarly to before for amino acid sequences, we can also generate internal fragment ions:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">oligo</span> <span class="o">=</span> <span class="n">NASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;AAUGCAAUGG&quot;</span><span class="p">)</span>
+<span class="n">suffix</span> <span class="o">=</span> <span class="n">oligo</span><span class="o">.</span><span class="n">getSuffix</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">oligo</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="n">oligo</span><span class="o">.</span><span class="n">getMonoWeight</span><span class="p">()</span>
+
+<span class="n">charge</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">mass</span> <span class="o">=</span> <span class="n">suffix</span><span class="o">.</span><span class="n">getMonoWeight</span><span class="p">(</span><span class="n">NASequence</span><span class="o">.</span><span class="n">NASFragmentType</span><span class="o">.</span><span class="n">WIon</span><span class="p">,</span> <span class="n">charge</span><span class="p">)</span>
+<span class="n">w4_formula</span> <span class="o">=</span> <span class="n">suffix</span><span class="o">.</span><span class="n">getFormula</span><span class="p">(</span><span class="n">NASequence</span><span class="o">.</span><span class="n">NASFragmentType</span><span class="o">.</span><span class="n">WIon</span><span class="p">,</span> <span class="n">charge</span><span class="p">)</span>
+<span class="n">mz</span> <span class="o">=</span> <span class="n">mass</span> <span class="o">/</span> <span class="n">charge</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">35</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;RNA Oligo w4++ ion&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="s2">&quot;has mz&quot;</span><span class="p">,</span> <span class="n">mz</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;RNA Oligo w4++ ion&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="s2">&quot;has molecular formula&quot;</span><span class="p">,</span> <span class="n">w4_formula</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+<div class="section" id="modified-oligonucleotides">
+<h2>Modified oligonucleotides<a class="headerlink" href="#modified-oligonucleotides" title="Permalink to this headline">¶</a></h2>
+<p>Modified nucleotides can also represented by the <code class="docutils literal notranslate"><span class="pre">Ribonucleotide</span></code> class and
+are specified using a unique string identifier present in the
+<code class="docutils literal notranslate"><span class="pre">RibonucleotideDB</span></code> in square brackets. For example, <code class="docutils literal notranslate"><span class="pre">[m1A]</span></code> represents
+1-methyladenosine. We can create a <code class="docutils literal notranslate"><span class="pre">NASequence</span></code> object by parsing a modified
+sequence as follows:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">oligo_mod</span> <span class="o">=</span> <span class="n">NASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;A[m1A][Gm]A&quot;</span><span class="p">)</span>
+<span class="n">seq_formula</span> <span class="o">=</span> <span class="n">oligo_mod</span><span class="o">.</span><span class="n">getFormula</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;RNA Oligo&quot;</span><span class="p">,</span> <span class="n">oligo_mod</span><span class="p">,</span> <span class="s2">&quot;has molecular formula&quot;</span><span class="p">,</span>
+  <span class="n">seq_formula</span><span class="p">,</span> <span class="s2">&quot;and length&quot;</span><span class="p">,</span> <span class="n">oligo_mod</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">35</span><span class="p">)</span>
+
+<span class="n">oligo_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">oligo_mod</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">getOrigin</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">oligo_mod</span><span class="o">.</span><span class="n">size</span><span class="p">())]</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;RNA Oligo&quot;</span><span class="p">,</span> <span class="n">oligo_mod</span><span class="o">.</span><span class="n">toString</span><span class="p">(),</span> <span class="s2">&quot;has unmodified sequence&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">oligo_list</span><span class="p">))</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">oligo_mod</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">r</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span>
+<span class="n">r</span><span class="o">.</span><span class="n">getHTMLCode</span><span class="p">()</span>
+<span class="n">r</span><span class="o">.</span><span class="n">getOrigin</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">oligo_mod</span><span class="o">.</span><span class="n">size</span><span class="p">()):</span>
+  <span class="k">print</span> <span class="p">(</span><span class="n">oligo_mod</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">isModified</span><span class="p">())</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="dna-rna-and-protein">
+<h2>DNA, RNA and Protein<a class="headerlink" href="#dna-rna-and-protein" title="Permalink to this headline">¶</a></h2>
+<p>We can also work with DNA and RNA sequences in combination with the BioPython
+library (you can install BioPython with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">biopython</span></code>):</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">Bio.Seq</span> <span class="kn">import</span> <span class="n">Seq</span>
+<span class="kn">from</span> <span class="nn">Bio.Alphabet</span> <span class="kn">import</span> <span class="n">IUPAC</span>
+<span class="n">bsa</span> <span class="o">=</span> <span class="n">FASTAEntry</span><span class="p">()</span>
+<span class="n">bsa</span><span class="o">.</span><span class="n">sequence</span> <span class="o">=</span> <span class="s1">&#39;ATGAAGTGGGTGACTTTTATTTCTCTTCTCCTTCTCTTCAGCTCTGCTTATTCCAGGGGTGTGTTTCGT&#39;</span>
+<span class="n">bsa</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;BSA Bovine Albumin (partial sequence)&quot;</span>
+<span class="n">bsa</span><span class="o">.</span><span class="n">identifier</span> <span class="o">=</span> <span class="s2">&quot;BSA&quot;</span>
+
+<span class="n">entries</span> <span class="o">=</span> <span class="p">[</span><span class="n">bsa</span><span class="p">]</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">FASTAFile</span><span class="p">()</span>
+<span class="n">f</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="s2">&quot;example_dna.fasta&quot;</span><span class="p">,</span> <span class="n">entries</span><span class="p">)</span>
+
+<span class="n">coding_dna</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span><span class="n">bsa</span><span class="o">.</span><span class="n">sequence</span><span class="p">,</span> <span class="n">IUPAC</span><span class="o">.</span><span class="n">unambiguous_dna</span><span class="p">)</span>
+<span class="n">coding_rna</span> <span class="o">=</span> <span class="n">coding_dna</span><span class="o">.</span><span class="n">transcribe</span><span class="p">()</span>
+<span class="n">protein_seq</span> <span class="o">=</span> <span class="n">coding_rna</span><span class="o">.</span><span class="n">translate</span><span class="p">()</span>
+
+<span class="n">oligo</span> <span class="o">=</span> <span class="n">NASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">coding_rna</span><span class="p">))</span>
+<span class="n">aaseq</span> <span class="o">=</span> <span class="n">AASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">protein_seq</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;The RNA sequence&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">oligo</span><span class="p">),</span> <span class="s2">&quot;has mass&quot;</span><span class="p">,</span> <span class="n">oligo</span><span class="o">.</span><span class="n">getMonoWeight</span><span class="p">(),</span> <span class="s2">&quot;and </span><span class="se">\n</span><span class="s2">&quot;</span>
+  <span class="s2">&quot;translates to the protein sequence&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">aaseq</span><span class="p">),</span> <span class="s2">&quot;which has mass&quot;</span><span class="p">,</span> <span class="n">aaseq</span><span class="o">.</span><span class="n">getMonoWeight</span><span class="p">()</span> <span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="theoreticalspectrumgenerator.html" class="btn btn-neutral float-right" title="TheoreticalSpectrumGenerator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="aasequences.html" class="btn btn-neutral float-left" title="Peptides and Proteins" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, OpenMS Team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
