@@ -58,6 +58,7 @@ class ControllerWidget(QWidget):
         self.seqIons_widget = SequenceIonsWidget()
         self.error_widget = ErrorWidget()
         self.tic_widget = TICWidget()
+        self.newTable = self.newTable()
         self.drawTic(scans)
 
         # connected signals
@@ -69,7 +70,7 @@ class ControllerWidget(QWidget):
         self.msexperimentWidget.addWidget(self.spectrum_widget)
         self.msexperimentWidget.addWidget(self.error_widget)
         self.msexperimentWidget.addWidget(self.scan_widget)
-        self.msexperimentWidget.addWidget(self.newTable())
+        self.msexperimentWidget.addWidget(self.newTable)
         self.mainlayout.addWidget(self.msexperimentWidget)
 
         # set widget sizes, where error plot is set smaller
@@ -90,8 +91,6 @@ class ControllerWidget(QWidget):
             for j in range(self.tableWidget.columnCount()):
                 self.tableWidget.setItem(
                     i, j, QTableWidgetItem("Cell ({}, {})".format(i, j)))
-
-        self.tableWidget.move(0,0)
 
     def loadFileIdXML(self, file_path):
         prot_ids = []
