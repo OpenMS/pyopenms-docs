@@ -1,6 +1,6 @@
 import setuptools
 
-with open("README.md", "r") as fh:
+with open("../src/examples/README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
