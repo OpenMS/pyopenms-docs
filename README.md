@@ -1,6 +1,6 @@
 # PyQt Teamprojekt
 
-[git.io page](https://wrthfl.github.io/pyopenms-tewb/)
+[git.io page](https://wrthfl.github.io/pyopenms-tewb/index.md)
 
 Teammitglieder:
 Philipp Baltik, Till Englert, Sevvalli Thavapalan, Fabian Wurth
