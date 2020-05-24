@@ -6,7 +6,7 @@ import numpy as np
 import pyopenms
 from ErrorWidget import ErrorWidget
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QHBoxLayout, QWidget, QSplitter
+from PyQt5.QtWidgets import QHBoxLayout, QWidget, QSplitter, QTableWidget
 from ScanTableWidget import ScanTableWidget
 from SequenceIonsWidget import SequenceIonsWidget
 from SpectrumWidget import SpectrumWidget
@@ -63,6 +63,7 @@ class ControllerWidget(QWidget):
         self.error_widget = ErrorWidget()
         self.tic_widget = TICWidget()
         self.drawTic(scans)
+        self.scan_widget2 = ScanTableWidget(scans)
 
         # connected signals
         self.scan_widget.sigScanClicked.connect(self.updateWidgetDataFromRow)
@@ -72,6 +73,7 @@ class ControllerWidget(QWidget):
         self.msexperimentWidget.addWidget(self.seqIons_widget)
         self.msexperimentWidget.addWidget(self.spectrum_widget)
         self.msexperimentWidget.addWidget(self.error_widget)
+        self.msexperimentWidget.addWidget(self.scan_widget2)
         self.msexperimentWidget.addWidget(self.scan_widget)
         self.mainlayout.addWidget(self.msexperimentWidget)
 
@@ -83,6 +85,7 @@ class ControllerWidget(QWidget):
             widget_height,
             widget_height * 0.5,
             widget_height,
+            widget_height
         ]
         self.msexperimentWidget.setSizes(size_list)
 
