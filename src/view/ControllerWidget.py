@@ -110,7 +110,7 @@ class ControllerWidget(QWidget):
                 for anno in hit.getPeakAnnotations():
                     ion_charge = anno.charge
                     ion_mz = anno.mz
-                    ion_label = anno.annotation.decode()
+                    ion_label = anno.annotation
 
                     Ions[ion_label] = [ion_mz, ion_charge]
 
