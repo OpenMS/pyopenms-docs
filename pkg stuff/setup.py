@@ -4,7 +4,7 @@ with open("../src/examples/README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="pyopenms-extra-Fabian1567", # Replace with your own username
+    name="pyopenms-extra-Fabian1567",
     version="0.0.1",
     author="Fabian Rosner",
     author_email="fabian@rosner.email",
