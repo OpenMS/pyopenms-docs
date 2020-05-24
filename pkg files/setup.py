@@ -1,10 +1,10 @@
 import setuptools
 
-with open("../src/examples/README.md", "r") as fh:
+with open("../README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="pyopenms-extra-Fabian1567",
+    name="pyopenms-extra-Fabian_Yannik-Laura",  # Replace with your own username
     version="0.0.1",
     author="Fabian Rosner",
     author_email="fabian@rosner.email",
