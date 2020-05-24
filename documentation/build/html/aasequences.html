@@ -1,0 +1,522 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Peptides and Proteins &mdash; pyOpenMS 2.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Oligonucleotides: RNA" href="nasequences.html" />
+    <link rel="prev" title="Chemistry" href="chemistry.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyOpenMS
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">pyOpenMS Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">First steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_handling.html">Reading Raw MS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mzMLFileFormat.html">mzML files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other_file_handling.html">Other MS data formats</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Mass Spectrometry Concepts</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="datastructures.html">MS Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemistry.html">Chemistry</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Peptides and Proteins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#amino-acid-sequences">Amino Acid Sequences</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fragment-ions">Fragment ions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#modified-sequences">Modified Sequences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#proteins">Proteins</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nasequences.html">Oligonucleotides: RNA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theoreticalspectrumgenerator.html">TheoreticalSpectrumGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="digestion.html">Digestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_id.html">Identification Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_quant.html">Quantitative Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Simple Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="data_manipulation.html">Simple Data Manipulation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OpenMS Algorithms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="parameter_handling.html">Parameter Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smoothing.html">Smoothing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mass_decomposition.html">Mass Decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deisotoping.html">Charge and Isotope Deconvolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feature_detection.html">Feature Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peptide_search.html">Peptide Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chromatographic_analysis.html">Chromagraphic Analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R language</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyopenms_in_r.html">pyOpenMS in R</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build_from_source.html">Build from source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrap_classes.html">Wrapping Workflow and wrapping new Classes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyOpenMS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Peptides and Proteins</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/aasequences.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="peptides-and-proteins">
+<h1>Peptides and Proteins<a class="headerlink" href="#peptides-and-proteins" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="amino-acid-sequences">
+<h2>Amino Acid Sequences<a class="headerlink" href="#amino-acid-sequences" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">AASequence</span></code> class handles amino acid sequences in OpenMS. A string of
+amino acid residues can be turned into a instance of <code class="docutils literal notranslate"><span class="pre">AASequence</span></code> to provide
+some commonly used operations and data. The implementation supports
+mathematical operations like addition or subtraction. Also, average and mono
+isotopic weight and isotope distributions are accessible.</p>
+<p>Weights, formulas and isotope distribution can be calculated depending on the
+charge state (additional proton count in case of positive ions) and ion type.
+Therefore, the class allows for a flexible handling of amino acid strings.</p>
+<p>A very simple example of handling amino acid sequence with AASequence is given
+in the next few lines, which also calculates the weight of the <code class="docutils literal notranslate"><span class="pre">(M)</span></code> and <code class="docutils literal notranslate"><span class="pre">(M+2H)2+</span></code>
+ions.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">seq</span> <span class="o">=</span> <span class="n">AASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;DFPIANGER&quot;</span><span class="p">)</span>
+<span class="n">prefix</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">getPrefix</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">suffix</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">getSuffix</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">concat</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">+</span> <span class="n">seq</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">concat</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span>
+<span class="n">mfull</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">getMonoWeight</span><span class="p">()</span> <span class="c1"># weight of M</span>
+<span class="n">mprecursor</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">getMonoWeight</span><span class="p">(</span><span class="n">Residue</span><span class="o">.</span><span class="n">ResidueType</span><span class="o">.</span><span class="n">Full</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># weight of M+2H</span>
+<span class="n">mz</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">getMonoWeight</span><span class="p">(</span><span class="n">Residue</span><span class="o">.</span><span class="n">ResidueType</span><span class="o">.</span><span class="n">Full</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="c1"># m/z of M+2H</span>
+
+<span class="k">print</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Monoisotopic mass of peptide [M] is&quot;</span><span class="p">,</span> <span class="n">mfull</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Monoisotopic mass of peptide precursor [M+2H]2+ is&quot;</span><span class="p">,</span> <span class="n">mprecursor</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Monoisotopic m/z of [M+2H]2+ is&quot;</span><span class="p">,</span> <span class="n">mz</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Which prints the amino acid sequence on line 7 as well as the result of
+concatenating two sequences or taking the suffix of a sequence (lines 8 and 9).
+On line 10 we compute the mass of the full peptide (<code class="docutils literal notranslate"><span class="pre">[M]</span></code>), on line 11 we
+compute the mass of the peptide precursor (<code class="docutils literal notranslate"><span class="pre">[M+2H]2+</span></code>) while on line 12 we
+compute the <code class="docutils literal notranslate"><span class="pre">m/z</span></code> value of the peptide precursor (<code class="docutils literal notranslate"><span class="pre">[M+2H]2+</span></code>). The mass of
+the peptide precursor is shifted by two protons that are now attached to the
+molecules as charge carriers (note that the proton mass of 1.007276 u is
+slightly different from the mass of an uncharged hydrogen atom at 1.007825 u).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DFPIANGER</span>
+<span class="n">DFPIANGERDFPIANGER</span>
+<span class="n">ANGER</span>
+
+<span class="n">Monoisotopic</span> <span class="n">mass</span> <span class="n">of</span> <span class="n">peptide</span> <span class="p">[</span><span class="n">M</span><span class="p">]</span> <span class="ow">is</span> <span class="mf">1017.4879641373001</span>
+<span class="n">Monoisotopic</span> <span class="n">mass</span> <span class="n">of</span> <span class="n">peptide</span> <span class="n">precursor</span> <span class="p">[</span><span class="n">M</span><span class="o">+</span><span class="mi">2</span><span class="n">H</span><span class="p">]</span><span class="mi">2</span><span class="o">+</span> <span class="ow">is</span> <span class="mf">1019.5025170708421</span>
+<span class="n">Monoisotopic</span> <span class="n">m</span><span class="o">/</span><span class="n">z</span> <span class="n">of</span> <span class="p">[</span><span class="n">M</span><span class="o">+</span><span class="mi">2</span><span class="n">H</span><span class="p">]</span><span class="mi">2</span><span class="o">+</span> <span class="ow">is</span> <span class="mf">509.7512585354211</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">AASequence</span></code> object also allows iterations directly in Python:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">seq</span> <span class="o">=</span> <span class="n">AASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;DFPIANGER&quot;</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;The peptide&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">seq</span><span class="p">),</span> <span class="s2">&quot;consists of the following amino acids:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">aa</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">aa</span><span class="o">.</span><span class="n">getName</span><span class="p">(),</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">aa</span><span class="o">.</span><span class="n">getMonoWeight</span><span class="p">())</span>
+</pre></div>
+</td></tr></table></div>
+<p>Which will print</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">peptide</span> <span class="n">DFPIANGER</span> <span class="n">consists</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">amino</span> <span class="n">acids</span><span class="p">:</span>
+<span class="n">Aspartate</span> <span class="p">:</span> <span class="mf">133.0375092233</span>
+<span class="n">Phenylalanine</span> <span class="p">:</span> <span class="mf">165.0789793509</span>
+<span class="n">Proline</span> <span class="p">:</span> <span class="mf">115.0633292871</span>
+<span class="n">Isoleucine</span> <span class="p">:</span> <span class="mf">131.0946294147</span>
+<span class="n">Alanine</span> <span class="p">:</span> <span class="mf">89.04767922330001</span>
+<span class="n">Asparagine</span> <span class="p">:</span> <span class="mf">132.0534932552</span>
+<span class="n">Glycine</span> <span class="p">:</span> <span class="mf">75.0320291595</span>
+<span class="n">Glutamate</span> <span class="p">:</span> <span class="mf">147.05315928710002</span>
+<span class="n">Arginine</span> <span class="p">:</span> <span class="mf">174.1116764466</span>
+</pre></div>
+</div>
+<div class="section" id="fragment-ions">
+<h3>Fragment ions<a class="headerlink" href="#fragment-ions" title="Permalink to this headline">¶</a></h3>
+<p>Note how we can easily calculate the charged weight of a <code class="docutils literal notranslate"><span class="pre">(M+2H)2+</span></code> ion on line 11
+and compute <em>m/z</em> on line 12 – simply dividing by the charge.
+We can now combine our knowledge of <code class="docutils literal notranslate"><span class="pre">AASequence</span></code> with what we learned above
+about <code class="docutils literal notranslate"><span class="pre">EmpiricalFormula</span></code> to get accurate mass and isotope distributions from
+the amino acid sequence:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">seq</span> <span class="o">=</span> <span class="n">AASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;DFPIANGER&quot;</span><span class="p">)</span>
+<span class="n">seq_formula</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">getFormula</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Peptide&quot;</span><span class="p">,</span> <span class="n">seq</span><span class="p">,</span> <span class="s2">&quot;has molecular formula&quot;</span><span class="p">,</span> <span class="n">seq_formula</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">35</span><span class="p">)</span>
+
+<span class="n">isotopes</span> <span class="o">=</span> <span class="n">seq_formula</span><span class="o">.</span><span class="n">getIsotopeDistribution</span><span class="p">(</span> <span class="n">CoarseIsotopePatternGenerator</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="p">)</span>
+<span class="k">for</span> <span class="n">iso</span> <span class="ow">in</span> <span class="n">isotopes</span><span class="o">.</span><span class="n">getContainer</span><span class="p">():</span>
+  <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;Isotope&quot;</span><span class="p">,</span> <span class="n">iso</span><span class="o">.</span><span class="n">getMZ</span><span class="p">(),</span> <span class="s2">&quot;has abundance&quot;</span><span class="p">,</span> <span class="n">iso</span><span class="o">.</span><span class="n">getIntensity</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;%&quot;</span><span class="p">)</span>
+
+<span class="n">suffix</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">getSuffix</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># y3 ion &quot;GER&quot;</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">35</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;y3 ion sequence:&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span>
+<span class="n">y3_formula</span> <span class="o">=</span> <span class="n">suffix</span><span class="o">.</span><span class="n">getFormula</span><span class="p">(</span><span class="n">Residue</span><span class="o">.</span><span class="n">ResidueType</span><span class="o">.</span><span class="n">YIon</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># y3++ ion</span>
+<span class="n">suffix</span><span class="o">.</span><span class="n">getMonoWeight</span><span class="p">(</span><span class="n">Residue</span><span class="o">.</span><span class="n">ResidueType</span><span class="o">.</span><span class="n">YIon</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="c1"># CORRECT</span>
+<span class="n">suffix</span><span class="o">.</span><span class="n">getMonoWeight</span><span class="p">(</span><span class="n">Residue</span><span class="o">.</span><span class="n">ResidueType</span><span class="o">.</span><span class="n">XIon</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="c1"># CORRECT</span>
+<span class="n">suffix</span><span class="o">.</span><span class="n">getMonoWeight</span><span class="p">(</span><span class="n">Residue</span><span class="o">.</span><span class="n">ResidueType</span><span class="o">.</span><span class="n">BIon</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="c1"># INCORRECT</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;y3 mz:&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">.</span><span class="n">getMonoWeight</span><span class="p">(</span><span class="n">Residue</span><span class="o">.</span><span class="n">ResidueType</span><span class="o">.</span><span class="n">YIon</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;y3 molecular formula:&quot;</span><span class="p">,</span> <span class="n">y3_formula</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Which will produce</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Peptide</span> <span class="n">DFPIANGER</span> <span class="n">has</span> <span class="n">molecular</span> <span class="n">formula</span> <span class="n">C44H67N13O15</span>
+<span class="o">===================================</span>
+<span class="n">Isotope</span> <span class="mf">1017.4879641373</span> <span class="n">has</span> <span class="n">abundance</span> <span class="mf">56.81651830673218</span> <span class="o">%</span>
+<span class="n">Isotope</span> <span class="mf">1018.4913189751</span> <span class="n">has</span> <span class="n">abundance</span> <span class="mf">30.52912950515747</span> <span class="o">%</span>
+<span class="n">Isotope</span> <span class="mf">1019.4946738129</span> <span class="n">has</span> <span class="n">abundance</span> <span class="mf">9.802105277776718</span> <span class="o">%</span>
+<span class="n">Isotope</span> <span class="mf">1020.4980286507</span> <span class="n">has</span> <span class="n">abundance</span> <span class="mf">2.3292064666748047</span> <span class="o">%</span>
+<span class="n">Isotope</span> <span class="mf">1021.5013834885</span> <span class="n">has</span> <span class="n">abundance</span> <span class="mf">0.4492596257477999</span> <span class="o">%</span>
+<span class="n">Isotope</span> <span class="mf">1022.5047383263</span> <span class="n">has</span> <span class="n">abundance</span> <span class="mf">0.07378293084912002</span> <span class="o">%</span>
+<span class="o">===================================</span>
+<span class="n">y3</span> <span class="n">ion</span> <span class="n">sequence</span><span class="p">:</span> <span class="n">GER</span>
+<span class="n">y3</span> <span class="n">mz</span><span class="p">:</span> <span class="mf">181.09514385</span>
+<span class="n">y3</span> <span class="n">molecular</span> <span class="n">formula</span><span class="p">:</span> <span class="n">C13H24N6O6</span>
+</pre></div>
+</div>
+<p>Note on lines 15 to 17 we need to remember that we are dealing with an ion of
+the x/y/z series since we used a suffix of the original peptide and using any
+other ion type will produce a different mass-to-charge ratio (and while “GER”
+would also be a valid “x3” ion, note that it <em>cannot</em> be a valid ion from the
+a/b/c series and therefore the mass on line 17 cannot refer to the same input
+peptide “DFPIANGER” since its “b3” ion would be “DFP” and not “GER”).</p>
+</div>
+</div>
+<div class="section" id="modified-sequences">
+<h2>Modified Sequences<a class="headerlink" href="#modified-sequences" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">AASequence</span></code> class can also handle modifications,
+modifications are specified using a unique string identifier present in the
+<code class="docutils literal notranslate"><span class="pre">ModificationsDB</span></code> in round brackets after the modified amino acid or by providing
+the mass of the residue in square brackets. For example
+<code class="docutils literal notranslate"><span class="pre">AASequence.fromString(&quot;.DFPIAM(Oxidation)GER.&quot;)</span></code> creates an instance of the
+peptide “DFPIAMGER” with an oxidized methionine. There are multiple ways to specify modifications, and
+<code class="docutils literal notranslate"><span class="pre">AASequence.fromString(&quot;DFPIAM(UniMod:35)GER&quot;)</span></code>,
+<code class="docutils literal notranslate"><span class="pre">AASequence.fromString(&quot;DFPIAM[+16]GER&quot;)</span></code> and
+<code class="docutils literal notranslate"><span class="pre">AASequence.fromString(&quot;DFPIAM[147]GER&quot;)</span></code> are all equivalent).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">seq</span> <span class="o">=</span> <span class="n">AASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;PEPTIDESEKUEM(Oxidation)CER&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">seq</span><span class="o">.</span><span class="n">toUnmodifiedString</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">seq</span><span class="o">.</span><span class="n">toString</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">seq</span><span class="o">.</span><span class="n">toUniModString</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">seq</span><span class="o">.</span><span class="n">toBracketString</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">seq</span><span class="o">.</span><span class="n">toBracketString</span><span class="p">(</span><span class="bp">False</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">AASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;DFPIAM(UniMod:35)GER&quot;</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">AASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;DFPIAM[+16]GER&quot;</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">AASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;DFPIAM[+15.99]GER&quot;</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">AASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;DFPIAM[147]GER&quot;</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">AASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;DFPIAM[147.035405]GER&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The above code outputs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">PEPTIDESEKUEMCER</span>
+<span class="n">PEPTIDESEKUEM</span><span class="p">(</span><span class="n">Oxidation</span><span class="p">)</span><span class="n">CER</span>
+<span class="n">PEPTIDESEKUEM</span><span class="p">(</span><span class="n">UniMod</span><span class="p">:</span><span class="mi">35</span><span class="p">)</span><span class="n">CER</span>
+<span class="n">PEPTIDESEKUEM</span><span class="p">[</span><span class="mi">147</span><span class="p">]</span><span class="n">CER</span>
+<span class="n">PEPTIDESEKUEM</span><span class="p">[</span><span class="mf">147.0354000171</span><span class="p">]</span><span class="n">CER</span>
+
+<span class="n">DFPIAM</span><span class="p">(</span><span class="n">Oxidation</span><span class="p">)</span><span class="n">GER</span>
+<span class="n">DFPIAM</span><span class="p">(</span><span class="n">Oxidation</span><span class="p">)</span><span class="n">GER</span>
+<span class="n">DFPIAM</span><span class="p">(</span><span class="n">Oxidation</span><span class="p">)</span><span class="n">GER</span>
+<span class="n">DFPIAM</span><span class="p">(</span><span class="n">Oxidation</span><span class="p">)</span><span class="n">GER</span>
+<span class="n">DFPIAM</span><span class="p">(</span><span class="n">Oxidation</span><span class="p">)</span><span class="n">GER</span>
+</pre></div>
+</div>
+<p>Note there is a subtle difference between
+<code class="docutils literal notranslate"><span class="pre">AASequence.fromString(&quot;.DFPIAM[+16]GER.&quot;)</span></code> and
+<code class="docutils literal notranslate"><span class="pre">AASequence.fromString(&quot;.DFPIAM[+15.9949]GER.&quot;)</span></code> - while the former will try to
+find the first modification matching to a mass difference of 16 +/- 0.5, the
+latter will try to find the closest matching modification to the exact mass.
+The exact mass approach usually gives the intended results while the first
+approach may or may not. In all instances, it is better to use an exact description of the desired modification, such as UniMod, instead of mass differences.</p>
+<p>N- and C-terminal modifications are represented by brackets to the right of the dots
+terminating the sequence. For example, <code class="docutils literal notranslate"><span class="pre">&quot;.(Dimethyl)DFPIAMGER.&quot;</span></code> and
+<code class="docutils literal notranslate"><span class="pre">&quot;.DFPIAMGER.(Label:18O(2))&quot;</span></code> represent the labelling of the N- and C-terminus
+respectively, but <code class="docutils literal notranslate"><span class="pre">&quot;.DFPIAMGER(Phospho).&quot;</span></code> will be interpreted as a
+phosphorylation of the last arginine at its side chain:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">AASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;.(Dimethyl)DFPIAMGER.&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">hasNTerminalModification</span><span class="p">())</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">AASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;.DFPIAMGER.(Label:18O(2))&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">hasCTerminalModification</span><span class="p">())</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">AASequence</span><span class="o">.</span><span class="n">fromString</span><span class="p">(</span><span class="s2">&quot;.DFPIAMGER(Phospho).&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">hasCTerminalModification</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Arbitrary/unknown amino acids (usually due to an unknown modification) can be
+specified using tags preceded by X: “X[weight]”. This indicates a new amino
+acid (“X”) with the specified weight, e.g. <code class="docutils literal notranslate"><span class="pre">&quot;RX[148.5]T&quot;</span></code>. Note that this tag
+does not alter the amino acids to the left (R) or right (T). Rather, X
+represents an amino acid on its own. Be careful when converting such AASequence
+objects to an EmpiricalFormula using <code class="docutils literal notranslate"><span class="pre">getFormula()</span></code>, as tags will not be
+considered in this case (there exists no formula for them). However, they have
+an influence on <code class="docutils literal notranslate"><span class="pre">getMonoWeight()</span></code> and <code class="docutils literal notranslate"><span class="pre">getAverageWeight()</span></code>!</p>
+</div>
+<div class="section" id="proteins">
+<h2>Proteins<a class="headerlink" href="#proteins" title="Permalink to this headline">¶</a></h2>
+<p>Protein sequences can be accessed through the <code class="docutils literal notranslate"><span class="pre">FASTAEntry</span></code> object and can be
+read and stored on disk using a <code class="docutils literal notranslate"><span class="pre">FASTAFile</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">bsa</span> <span class="o">=</span> <span class="n">FASTAEntry</span><span class="p">()</span>
+<span class="n">bsa</span><span class="o">.</span><span class="n">sequence</span> <span class="o">=</span> <span class="s2">&quot;MKWVTFISLLLLFSSAYSRGVFRRDTHKSEIAHRFKDLGE&quot;</span>
+<span class="n">bsa</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;BSA Bovine Albumin (partial sequence)&quot;</span>
+<span class="n">bsa</span><span class="o">.</span><span class="n">identifier</span> <span class="o">=</span> <span class="s2">&quot;BSA&quot;</span>
+<span class="n">alb</span> <span class="o">=</span> <span class="n">FASTAEntry</span><span class="p">()</span>
+<span class="n">alb</span><span class="o">.</span><span class="n">sequence</span> <span class="o">=</span> <span class="s2">&quot;MKWVTFISLLFLFSSAYSRGVFRRDAHKSEVAHRFKDLGE&quot;</span>
+<span class="n">alb</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;ALB Human Albumin (partial sequence)&quot;</span>
+<span class="n">alb</span><span class="o">.</span><span class="n">identifier</span> <span class="o">=</span> <span class="s2">&quot;ALB&quot;</span>
+
+<span class="n">entries</span> <span class="o">=</span> <span class="p">[</span><span class="n">bsa</span><span class="p">,</span> <span class="n">alb</span><span class="p">]</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">FASTAFile</span><span class="p">()</span>
+<span class="n">f</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="s2">&quot;example.fasta&quot;</span><span class="p">,</span> <span class="n">entries</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Afterwards, the <code class="docutils literal notranslate"><span class="pre">example.fasta</span></code> file can be read again from disk:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">entries</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">FASTAFile</span><span class="p">()</span>
+<span class="n">f</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;example.fasta&quot;</span><span class="p">,</span> <span class="n">entries</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span> <span class="nb">len</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span> <span class="p">)</span>
+<span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">:</span>
+  <span class="k">print</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">sequence</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="nasequences.html" class="btn btn-neutral float-right" title="Oligonucleotides: RNA" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="chemistry.html" class="btn btn-neutral float-left" title="Chemistry" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, OpenMS Team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,337 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Chromagraphic Analysis &mdash; pyOpenMS 2.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pyOpenMS in R" href="pyopenms_in_r.html" />
+    <link rel="prev" title="Peptide Search" href="peptide_search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyOpenMS
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">pyOpenMS Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">First steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_handling.html">Reading Raw MS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mzMLFileFormat.html">mzML files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other_file_handling.html">Other MS data formats</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Mass Spectrometry Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="datastructures.html">MS Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chemistry.html">Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aasequences.html">Peptides and Proteins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nasequences.html">Oligonucleotides: RNA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theoreticalspectrumgenerator.html">TheoreticalSpectrumGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="digestion.html">Digestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_id.html">Identification Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_quant.html">Quantitative Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Simple Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="data_manipulation.html">Simple Data Manipulation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OpenMS Algorithms</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="parameter_handling.html">Parameter Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smoothing.html">Smoothing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mass_decomposition.html">Mass Decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deisotoping.html">Charge and Isotope Deconvolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feature_detection.html">Feature Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peptide_search.html">Peptide Search</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chromagraphic Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#peak-detection">Peak Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visualization">Visualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#smoothing">Smoothing</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">R language</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyopenms_in_r.html">pyOpenMS in R</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build_from_source.html">Build from source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrap_classes.html">Wrapping Workflow and wrapping new Classes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyOpenMS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Chromagraphic Analysis</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/chromatographic_analysis.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="chromagraphic-analysis">
+<h1>Chromagraphic Analysis<a class="headerlink" href="#chromagraphic-analysis" title="Permalink to this headline">¶</a></h1>
+<p>In targeted proteomics, such as SRM / MRM / PRM / DIA applications, groups of
+chromatograms need to be analyzed frequently. OpenMS provides several powerful
+tools for analysis of chromatograms. Most of them are part of the OpenSWATH
+suite of tools and are also discussed in the <a class="reference external" href="www.openswath.org">OpenSwath documentation</a>.</p>
+<div class="section" id="peak-detection">
+<h2>Peak Detection<a class="headerlink" href="#peak-detection" title="Permalink to this headline">¶</a></h2>
+<p>Here, we will focus on a simple example where 2 peptides are analyzed. We will
+need 2 input files: the chromatogram files that contains the chromatographic
+raw data (raw SRM traces or extracted ion chromatograms from PRM/DIA data) as
+well as the library file used to generated the data which contains information
+about the targeted peptides:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="c1"># from urllib import urlretrieve  # use this code for Python 2.x</span>
+<span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">gh</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/OpenMS/OpenMS/develop&quot;</span>
+<span class="n">urlretrieve</span> <span class="p">(</span><span class="n">gh</span> <span class="o">+</span><span class="s2">&quot;/src/tests/topp/OpenSwathAnalyzer_1_input_chrom.mzML&quot;</span><span class="p">,</span> <span class="s2">&quot;chrom.mzML&quot;</span><span class="p">)</span>
+<span class="n">urlretrieve</span> <span class="p">(</span><span class="n">gh</span> <span class="o">+</span><span class="s2">&quot;/src/tests/topp/OpenSwathAnalyzer_1_input.TraML&quot;</span><span class="p">,</span> <span class="s2">&quot;transitions.TraML&quot;</span><span class="p">)</span>
+
+<span class="n">chroms</span> <span class="o">=</span> <span class="n">MSExperiment</span><span class="p">()</span>
+<span class="n">library</span> <span class="o">=</span> <span class="n">TargetedExperiment</span><span class="p">()</span>
+<span class="n">MzMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;chrom.mzML&quot;</span><span class="p">,</span> <span class="n">chroms</span><span class="p">)</span>
+<span class="n">TraMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;transitions.TraML&quot;</span><span class="p">,</span> <span class="n">library</span><span class="p">)</span>
+
+<span class="c1"># Investigate library</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">library</span><span class="o">.</span><span class="n">getTransitions</span><span class="p">():</span>
+   <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;Transition&quot;</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">getNativeID</span><span class="p">(),</span> <span class="s2">&quot;belongs to peptide group&quot;</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">getPeptideRef</span><span class="p">())</span>
+
+<span class="k">print</span> <span class="p">(</span><span class="s2">&quot;Input contains&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">library</span><span class="o">.</span><span class="n">getTransitions</span><span class="p">()),</span> <span class="s2">&quot;transitions and&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">chroms</span><span class="o">.</span><span class="n">getChromatograms</span><span class="p">()),</span> <span class="s2">&quot;chromatograms.&quot;</span><span class="p">)</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">FeatureMap</span><span class="p">()</span>
+<span class="n">dummy_trafo</span> <span class="o">=</span> <span class="n">TransformationDescription</span><span class="p">()</span>
+<span class="n">dummy_exp</span> <span class="o">=</span> <span class="n">MSExperiment</span><span class="p">()</span>
+<span class="n">MRMFeatureFinderScoring</span><span class="p">()</span><span class="o">.</span><span class="n">pickExperiment</span><span class="p">(</span><span class="n">chroms</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">library</span><span class="p">,</span> <span class="n">dummy_trafo</span><span class="p">,</span> <span class="n">dummy_exp</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
+  <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;Feature for group&quot;</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">getMetaValue</span><span class="p">(</span><span class="s2">&quot;PeptideRef&quot;</span><span class="p">),</span> <span class="s2">&quot;with precursor m/z&quot;</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">getMetaValue</span><span class="p">(</span><span class="s2">&quot;PrecursorMZ&quot;</span><span class="p">))</span>
+  <span class="k">print</span> <span class="p">(</span><span class="s2">&quot;  Feature found at RT =&quot;</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">getRT</span><span class="p">(),</span> <span class="s2">&quot;with library dot product&quot;</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">getMetaValue</span><span class="p">(</span><span class="s2">&quot;var_library_dotprod&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Here we see that for the first group of transitions (<code class="docutils literal notranslate"><span class="pre">tr_gr1</span></code>), a single peak
+at retention time 3119 seconds was found. However, for the second group of
+transitions, two peaks are found at retention times 3119 seconds and at
+3055 seconds.</p>
+</div>
+<div class="section" id="visualization">
+<h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h2>
+<p>We can confirm the above analysis by visual inspection of the <code class="docutils literal notranslate"><span class="pre">chrom.mzML</span></code>
+file produced above in the TOPPView software:</p>
+<img alt="_images/chroms.png" src="_images/chroms.png" />
+<p>However, our output above contains more information than only retention time:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Feature <span class="k">for</span> group tr_gr1 with precursor m/z <span class="m">500</span>.0
+  Feature found at <span class="nv">RT</span> <span class="o">=</span> <span class="m">3119</span>.091968219877 with library dot product <span class="m">0</span>.9924204062692046
+Feature <span class="k">for</span> group tr_gr2 with precursor m/z <span class="m">501</span>.0
+  Feature found at <span class="nv">RT</span> <span class="o">=</span> <span class="m">3055</span>.584481870532 with library dot product <span class="m">0</span>.952054383474221
+Feature <span class="k">for</span> group tr_gr2 with precursor m/z <span class="m">501</span>.0
+  Feature found at <span class="nv">RT</span> <span class="o">=</span> <span class="m">3119</span>.0630105310684 with library dot product <span class="m">0</span>.7501676755451506
+</pre></div>
+</div>
+<p>Based on the output above, we can infer that the peak at 3055 seconds is
+likely the correct peak for <code class="docutils literal notranslate"><span class="pre">tr_gr2</span></code> since it has a high library dot product
+(0.95) while the peak at 3119 seconds is likely incorrect for <code class="docutils literal notranslate"><span class="pre">tr_gr2</span></code> since
+its dot product is low (0.75). We also see that a peak at 3119 seconds is
+likely correct for <code class="docutils literal notranslate"><span class="pre">tr_gr1</span></code> since it matches well with the expected library
+intensities and has a high dot product (0.99).</p>
+<p>Note: to get an overview over all available scores for a particular MRM feature <code class="docutils literal notranslate"><span class="pre">f</span></code>, you can use</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">f</span><span class="o">.</span><span class="n">getKeys</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">k</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="smoothing">
+<h2>Smoothing<a class="headerlink" href="#smoothing" title="Permalink to this headline">¶</a></h2>
+<p>Now you may want to show the chromatograms to your collaborator, but you notice
+that most software solutions smooth the chromatograms before display. In order
+to provide smooth chromatograms, you can apply a filter using pyOpenMS:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sg</span> <span class="o">=</span> <span class="n">SavitzkyGolayFilter</span><span class="p">()</span>
+<span class="n">sg</span><span class="o">.</span><span class="n">filterExperiment</span><span class="p">(</span><span class="n">chroms</span><span class="p">)</span>
+<span class="n">MzMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">chroms</span><span class="p">,</span> <span class="s2">&quot;chrom.filter.mzML&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Which leads to the following smoothed chromatographic traces:</p>
+<img alt="_images/chroms_filter.png" src="_images/chroms_filter.png" />
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pyopenms_in_r.html" class="btn btn-neutral float-right" title="pyOpenMS in R" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="peptide_search.html" class="btn btn-neutral float-left" title="Peptide Search" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, OpenMS Team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

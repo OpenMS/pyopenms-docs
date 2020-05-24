@@ -1,0 +1,606 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>MS Data &mdash; pyOpenMS 2.5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chemistry" href="chemistry.html" />
+    <link rel="prev" title="Other MS data formats" href="other_file_handling.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyOpenMS
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">pyOpenMS Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">First steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_handling.html">Reading Raw MS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mzMLFileFormat.html">mzML files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other_file_handling.html">Other MS data formats</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Mass Spectrometry Concepts</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MS Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#spectrum">Spectrum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lc-ms-ms-experiment">LC-MS/MS Experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#chromatogram">Chromatogram</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chemistry.html">Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aasequences.html">Peptides and Proteins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nasequences.html">Oligonucleotides: RNA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="theoreticalspectrumgenerator.html">TheoreticalSpectrumGenerator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="digestion.html">Digestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_id.html">Identification Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datastructures_quant.html">Quantitative Data</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Simple Data Manipulation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="data_manipulation.html">Simple Data Manipulation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">OpenMS Algorithms</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="parameter_handling.html">Parameter Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smoothing.html">Smoothing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mass_decomposition.html">Mass Decomposition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deisotoping.html">Charge and Isotope Deconvolution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="feature_detection.html">Feature Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="peptide_search.html">Peptide Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chromatographic_analysis.html">Chromagraphic Analysis</a></li>
+</ul>
+<p class="caption"><span class="caption-text">R language</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyopenms_in_r.html">pyOpenMS in R</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build_from_source.html">Build from source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrap_classes.html">Wrapping Workflow and wrapping new Classes</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyOpenMS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>MS Data</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/datastructures.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ms-data">
+<h1>MS Data<a class="headerlink" href="#ms-data" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="spectrum">
+<h2>Spectrum<a class="headerlink" href="#spectrum" title="Permalink to this headline">¶</a></h2>
+<p>The most important container for raw data and peaks is <code class="docutils literal notranslate"><span class="pre">MSSpectrum</span></code> which we
+have already worked with in the <a class="reference external" href="getting_started.html">Getting Started</a>
+tutorial.  <code class="docutils literal notranslate"><span class="pre">MSSpectrum</span></code> is a container for 1-dimensional peak data (a
+container of <code class="docutils literal notranslate"><span class="pre">Peak1D</span></code>). You can access these objects directly, however it is
+faster to use the <code class="docutils literal notranslate"><span class="pre">get_peaks()</span></code> and <code class="docutils literal notranslate"><span class="pre">set_peaks</span></code> functions which use Python
+numpy arrays for raw data access. Meta-data is accessible through inheritance
+of the <code class="docutils literal notranslate"><span class="pre">SpectrumSettings</span></code>  objects which handles meta data of a spectrum.</p>
+<p>In the following example program, a MSSpectrum is filled with peaks, sorted
+according to mass-to-charge ratio and a selection of peak positions is
+displayed.</p>
+<p>First we create a spectrum and insert peaks with descending mass-to-charge ratios:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">spectrum</span> <span class="o">=</span> <span class="n">MSSpectrum</span><span class="p">()</span>
+<span class="n">mz</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1500</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">i</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">mass</span> <span class="ow">in</span> <span class="n">mz</span><span class="p">]</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">set_peaks</span><span class="p">([</span><span class="n">mz</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
+
+<span class="c1"># Sort the peaks according to ascending mass-to-charge ratio</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">sortByPosition</span><span class="p">()</span>
+
+<span class="c1"># Iterate over spectrum of those peaks</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">spectrum</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">getMZ</span><span class="p">(),</span> <span class="n">p</span><span class="o">.</span><span class="n">getIntensity</span><span class="p">())</span>
+
+<span class="c1"># More efficient peak access with get_peaks()</span>
+<span class="k">for</span> <span class="n">mz</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">spectrum</span><span class="o">.</span><span class="n">get_peaks</span><span class="p">()):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">mz</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+<span class="c1"># Access a peak by index</span>
+<span class="k">print</span><span class="p">(</span><span class="n">spectrum</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">getMZ</span><span class="p">(),</span> <span class="n">spectrum</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">getIntensity</span><span class="p">())</span>
+</pre></div>
+</td></tr></table></div>
+<p>Note how lines 11-12 (as well as line 19) use the direct access to the
+<code class="docutils literal notranslate"><span class="pre">Peak1D</span></code> objects (explicit iteration through the <code class="docutils literal notranslate"><span class="pre">MSSpectrum</span></code> object, which
+is convenient but slow since a new <code class="docutils literal notranslate"><span class="pre">Peak1D</span></code> object needs to be created each
+time) while lines 15-16 use the faster access through numpy arrays. Direct
+iteration is only shown for demonstration purposes and should not be used in
+production code.</p>
+<p>To discover the full set of functionality of <code class="docutils literal notranslate"><span class="pre">MSSpectrum</span></code>, we use the
+<code class="docutils literal notranslate"><span class="pre">help()</span></code> function. In particular, we find several important sets of meta
+information attached to the spectrum including retention time, the ms level
+(MS1, MS2, …), precursor ion, ion mobility drift time and extra data arrays.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">help</span><span class="p">(</span><span class="n">MSSpectrum</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We now set several of these properties in a current MSSpectrum:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">spectrum</span> <span class="o">=</span> <span class="n">MSSpectrum</span><span class="p">()</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">setDriftTime</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span> <span class="c1"># 25 ms</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">setRT</span><span class="p">(</span><span class="mf">205.2</span><span class="p">)</span> <span class="c1"># 205.2 s</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">setMSLevel</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># MS3</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">Precursor</span><span class="p">()</span>
+<span class="n">p</span><span class="o">.</span><span class="n">setIsolationWindowLowerOffset</span><span class="p">(</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">setIsolationWindowUpperOffset</span><span class="p">(</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">setMZ</span><span class="p">(</span><span class="mi">600</span><span class="p">)</span> <span class="c1"># isolation at 600 +/- 1.5 Th</span>
+<span class="n">p</span><span class="o">.</span><span class="n">setActivationEnergy</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span> <span class="c1"># 40 eV</span>
+<span class="n">p</span><span class="o">.</span><span class="n">setCharge</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># 4+ ion</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">setPrecursors</span><span class="p">(</span> <span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="p">)</span>
+
+<span class="c1"># Add raw data to spectrum</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">set_peaks</span><span class="p">(</span> <span class="p">([</span><span class="mf">401.5</span><span class="p">],</span> <span class="p">[</span><span class="mi">900</span><span class="p">])</span> <span class="p">)</span>
+
+<span class="c1"># Additional data arrays / peak annotations</span>
+<span class="n">fda</span> <span class="o">=</span> <span class="n">FloatDataArray</span><span class="p">()</span>
+<span class="n">fda</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s2">&quot;Signal to Noise Array&quot;</span><span class="p">)</span>
+<span class="n">fda</span><span class="o">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">sda</span> <span class="o">=</span> <span class="n">StringDataArray</span><span class="p">()</span>
+<span class="n">sda</span><span class="o">.</span><span class="n">setName</span><span class="p">(</span><span class="s2">&quot;Peak annotation&quot;</span><span class="p">)</span>
+<span class="n">sda</span><span class="o">.</span><span class="n">push_back</span><span class="p">(</span><span class="s2">&quot;y15++&quot;</span><span class="p">)</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">setFloatDataArrays</span><span class="p">(</span> <span class="p">[</span><span class="n">fda</span><span class="p">]</span> <span class="p">)</span>
+<span class="n">spectrum</span><span class="o">.</span><span class="n">setStringDataArrays</span><span class="p">(</span> <span class="p">[</span><span class="n">sda</span><span class="p">]</span> <span class="p">)</span>
+
+<span class="c1"># Add spectrum to MSExperiment</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">MSExperiment</span><span class="p">()</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">addSpectrum</span><span class="p">(</span><span class="n">spectrum</span><span class="p">)</span>
+
+<span class="c1"># Add second spectrum and store as mzML file</span>
+<span class="n">spectrum2</span> <span class="o">=</span> <span class="n">MSSpectrum</span><span class="p">()</span>
+<span class="n">spectrum2</span><span class="o">.</span><span class="n">set_peaks</span><span class="p">(</span> <span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span> <span class="p">)</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">addSpectrum</span><span class="p">(</span><span class="n">spectrum2</span><span class="p">)</span>
+
+<span class="n">MzMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="s2">&quot;testfile.mzML&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>We have created a single spectrum on line 3 and add meta information (drift
+time, retention time, MS level, precursor charge, isolation window and
+activation energy) on lines 4-13. We next add actual peaks into the spectrum (a
+single peak at 401.5 <em>m/z</em> and 900 intensity) on line 16 and on lines 19-26 add
+further meta information in the form of additional data arrays for each peak
+(e.g. one trace describes “Signal to Noise” for each peak and the second traces
+describes the “Peak annotation”, identifying the peak at 401.5 <em>m/z</em> as a
+doubly charged y15 ion). Finally, we add the spectrum to a <code class="docutils literal notranslate"><span class="pre">MSExperiment</span></code>
+container on lines 29-30 and store the container in using the <code class="docutils literal notranslate"><span class="pre">MzMLFile</span></code>
+class in a file called “testfile.mzML” on line 37.  To ensure our viewer works
+as expected, we add a second spectrum to the file before storing the file.</p>
+<p>You can now open the resulting spectrum in a spectrum viewer. We use the OpenMS
+viewer <code class="docutils literal notranslate"><span class="pre">TOPPView</span></code> (which you will get when you install OpenMS from the
+official website) and look at our MS3 spectrum:</p>
+<img alt="_images/spectrum1.png" src="_images/spectrum1.png" />
+<p>TOPPView displays our MS3 spectrum with its single peak at 401.5 <em>m/z</em> and it
+also correctly displays its retention time at 205.2 seconds and precursor
+isolation target of 600.0 <em>m/z</em>.  Notice how TOPPView displays the information
+about the S/N for the peak (S/N = 15) and its annotation as <code class="docutils literal notranslate"><span class="pre">y15++</span></code> in the status
+bar below when the user clicks on the peak at 401.5 <em>m/z</em> as shown in the
+screenshot.</p>
+</div>
+<div class="section" id="lc-ms-ms-experiment">
+<h2>LC-MS/MS Experiment<a class="headerlink" href="#lc-ms-ms-experiment" title="Permalink to this headline">¶</a></h2>
+<p>In OpenMS, LC-MS/MS injections are represented as so-called peak maps (using
+the <code class="docutils literal notranslate"><span class="pre">MSExperiment</span></code> class), which we have already encountered above. The
+<code class="docutils literal notranslate"><span class="pre">MSExperiment</span></code> class can hold a list of <code class="docutils literal notranslate"><span class="pre">MSSpectrum</span></code> object (as well as a
+list of <code class="docutils literal notranslate"><span class="pre">MSChromatogram</span></code> objects, see below). The <code class="docutils literal notranslate"><span class="pre">MSExperiment</span></code> object
+holds such peak maps as well as meta-data about the injection. Access to
+individual spectra is performed through <code class="docutils literal notranslate"><span class="pre">MSExperiment.getSpectrum</span></code> and
+<code class="docutils literal notranslate"><span class="pre">MSExperiment.getChromatogram</span></code>.</p>
+<p>In the following code, we create an <code class="docutils literal notranslate"><span class="pre">MSExperiment</span></code> and populate it with
+several spectra:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># The following examples creates an MSExperiment which holds six</span>
+<span class="c1"># MSSpectrum instances.</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">MSExperiment</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+    <span class="n">spectrum</span> <span class="o">=</span> <span class="n">MSSpectrum</span><span class="p">()</span>
+    <span class="n">spectrum</span><span class="o">.</span><span class="n">setRT</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">spectrum</span><span class="o">.</span><span class="n">setMSLevel</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">mz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">900</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+      <span class="n">peak</span> <span class="o">=</span> <span class="n">Peak1D</span><span class="p">()</span>
+      <span class="n">peak</span><span class="o">.</span><span class="n">setMZ</span><span class="p">(</span><span class="n">mz</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+      <span class="n">peak</span><span class="o">.</span><span class="n">setIntensity</span><span class="p">(</span><span class="mi">100</span> <span class="o">-</span> <span class="mi">25</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mf">2.5</span><span class="p">)</span> <span class="p">)</span>
+      <span class="n">spectrum</span><span class="o">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">peak</span><span class="p">)</span>
+    <span class="n">exp</span><span class="o">.</span><span class="n">addSpectrum</span><span class="p">(</span><span class="n">spectrum</span><span class="p">)</span>
+
+<span class="c1"># Iterate over spectra</span>
+<span class="k">for</span> <span class="n">spectrum</span> <span class="ow">in</span> <span class="n">exp</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">peak</span> <span class="ow">in</span> <span class="n">spectrum</span><span class="p">:</span>
+        <span class="k">print</span> <span class="p">(</span><span class="n">spectrum</span><span class="o">.</span><span class="n">getRT</span><span class="p">(),</span> <span class="n">peak</span><span class="o">.</span><span class="n">getMZ</span><span class="p">(),</span> <span class="n">peak</span><span class="o">.</span><span class="n">getIntensity</span><span class="p">())</span>
+</pre></div>
+</td></tr></table></div>
+<p>In the above code, we create six instances of <code class="docutils literal notranslate"><span class="pre">MSSpectrum</span></code> (line 4), populate
+it with three peaks at 500, 900 and 100 <em>m/z</em> and append them to the
+<code class="docutils literal notranslate"><span class="pre">MSExperiment</span></code> object (line 13).  We can easily iterate over the spectra in
+the whole experiment by using the intuitive iteration on lines 16-18 or we can
+use list comprehensions to sum up intensities of all spectra that fulfill
+certain conditions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Sum intensity of all spectra between RT 2.0 and 3.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">getIntensity</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">exp</span>
+<span class="gp">... </span>             <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">getRT</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mf">2.0</span> <span class="ow">and</span> <span class="n">s</span><span class="o">.</span><span class="n">getRT</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">3.0</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]))</span>
+<span class="go">700.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mf">87.5</span> <span class="o">*</span> <span class="mi">8</span>
+<span class="go">700.0</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>We can again store the resulting experiment containing the six spectra as mzML
+using the <code class="docutils literal notranslate"><span class="pre">MzMLFile</span></code> object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Store as mzML</span>
+<span class="n">MzMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="s2">&quot;testfile2.mzML&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Again we can visualize the resulting data using <code class="docutils literal notranslate"><span class="pre">TOPPView</span></code> using its 3D
+viewer capability, which shows the six scans over retention time where the
+traces first increase and then decrease in intensity:</p>
+<img alt="_images/spectrum2.png" src="_images/spectrum2.png" />
+</div>
+<div class="section" id="chromatogram">
+<h2>Chromatogram<a class="headerlink" href="#chromatogram" title="Permalink to this headline">¶</a></h2>
+<p>An additional container for raw data is the <code class="docutils literal notranslate"><span class="pre">MSChromatogram</span></code> container, which
+is highly analogous to the <code class="docutils literal notranslate"><span class="pre">MSSpectrum</span></code> container, but contains an array of
+<code class="docutils literal notranslate"><span class="pre">ChromatogramPeak</span></code> and is derived from <code class="docutils literal notranslate"><span class="pre">ChromatogramSettings</span></code>:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyopenms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">gaussian</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mu</span><span class="p">,</span> <span class="mf">2.</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="mf">2.</span><span class="p">)))</span>
+
+<span class="c1"># Create new chromatogram</span>
+<span class="n">chromatogram</span> <span class="o">=</span> <span class="n">MSChromatogram</span><span class="p">()</span>
+
+<span class="c1"># Set raw data (RT and intensity)</span>
+<span class="n">rt</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1500</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">i</span> <span class="o">=</span> <span class="p">[</span><span class="n">gaussian</span><span class="p">(</span><span class="n">rtime</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span> <span class="k">for</span> <span class="n">rtime</span> <span class="ow">in</span> <span class="n">rt</span><span class="p">]</span>
+<span class="n">chromatogram</span><span class="o">.</span><span class="n">set_peaks</span><span class="p">([</span><span class="n">rt</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
+
+<span class="c1"># Sort the peaks according to ascending retention time</span>
+<span class="n">chromatogram</span><span class="o">.</span><span class="n">sortByPosition</span><span class="p">()</span>
+
+<span class="c1"># Iterate over chromatogram of those peaks</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">chromatogram</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">getRT</span><span class="p">(),</span> <span class="n">p</span><span class="o">.</span><span class="n">getIntensity</span><span class="p">())</span>
+
+<span class="c1"># More efficient peak access with get_peaks()</span>
+<span class="k">for</span> <span class="n">rt</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">chromatogram</span><span class="o">.</span><span class="n">get_peaks</span><span class="p">()):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+<span class="c1"># Access a peak by index</span>
+<span class="k">print</span><span class="p">(</span><span class="n">chromatogram</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">getRT</span><span class="p">(),</span> <span class="n">chromatogram</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">getIntensity</span><span class="p">())</span>
+</pre></div>
+</td></tr></table></div>
+<p>We now again add meta information to the chromatogram:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">chromatogram</span><span class="o">.</span><span class="n">setNativeID</span><span class="p">(</span><span class="s2">&quot;Trace XIC@405.2&quot;</span><span class="p">)</span>
+
+<span class="c1"># Store a precursor ion for the chromatogram</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">Precursor</span><span class="p">()</span>
+<span class="n">p</span><span class="o">.</span><span class="n">setIsolationWindowLowerOffset</span><span class="p">(</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">setIsolationWindowUpperOffset</span><span class="p">(</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">setMZ</span><span class="p">(</span><span class="mf">405.2</span><span class="p">)</span> <span class="c1"># isolation at 405.2 +/- 1.5 Th</span>
+<span class="n">p</span><span class="o">.</span><span class="n">setActivationEnergy</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span> <span class="c1"># 40 eV</span>
+<span class="n">p</span><span class="o">.</span><span class="n">setCharge</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># 2+ ion</span>
+<span class="n">p</span><span class="o">.</span><span class="n">setMetaValue</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="n">chromatogram</span><span class="o">.</span><span class="n">getNativeID</span><span class="p">())</span>
+<span class="n">p</span><span class="o">.</span><span class="n">setMetaValue</span><span class="p">(</span><span class="s2">&quot;peptide_sequence&quot;</span><span class="p">,</span> <span class="n">chromatogram</span><span class="o">.</span><span class="n">getNativeID</span><span class="p">())</span>
+<span class="n">chromatogram</span><span class="o">.</span><span class="n">setPrecursor</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+<span class="c1"># Also store a product ion for the chromatogram (e.g. for SRM)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">Product</span><span class="p">()</span>
+<span class="n">p</span><span class="o">.</span><span class="n">setMZ</span><span class="p">(</span><span class="mf">603.4</span><span class="p">)</span> <span class="c1"># transition from 405.2 -&gt; 603.4</span>
+<span class="n">chromatogram</span><span class="o">.</span><span class="n">setProduct</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+<span class="c1"># Store as mzML</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">MSExperiment</span><span class="p">()</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">addChromatogram</span><span class="p">(</span><span class="n">chromatogram</span><span class="p">)</span>
+<span class="n">MzMLFile</span><span class="p">()</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="s2">&quot;testfile3.mzML&quot;</span><span class="p">,</span> <span class="n">exp</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>This shows how the <code class="docutils literal notranslate"><span class="pre">MSExperiment</span></code> class can hold spectra as well as chromatograms.</p>
+<p>Again we can visualize the resulting data using <code class="docutils literal notranslate"><span class="pre">TOPPView</span></code> using its chromatographic viewer
+capability, which shows the peak over retention time:</p>
+<img alt="_images/chromatogram1.png" src="_images/chromatogram1.png" />
+<p>Note how the annotation using precursor and production mass of our XIC
+chromatogram is displayed in the viewer.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="chemistry.html" class="btn btn-neutral float-right" title="Chemistry" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="other_file_handling.html" class="btn btn-neutral float-left" title="Other MS data formats" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, OpenMS Team
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

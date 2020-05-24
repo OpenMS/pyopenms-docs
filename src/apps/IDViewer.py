@@ -1,7 +1,7 @@
 import sys
 import os
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QDesktopWidget, \
-    QAction, QFileDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, \
+    QVBoxLayout, QWidget, QDesktopWidget, QAction, QFileDialog
 
 
 import pyqtgraph as pg
@@ -10,8 +10,8 @@ from pyqtgraph import PlotWidget
 from collections import namedtuple
 
 sys.path.insert(0, '../view')
-from ControllerWidget import ControllerWidget
 
+from ControllerWidget import ControllerWidget
 
 # structure for annotation (here for reference)
 PeakAnnoStruct = namedtuple('PeakAnnoStruct', "mz intensity text_label \
@@ -49,7 +49,6 @@ class App(QMainWindow):
         self.widgets = ControllerWidget(self)
         self.windowLay.addWidget(self.widgets)
 
-
     def setMainMenu(self):
         mainMenu = self.menuBar()
         mainMenu.setNativeMenuBar(False)
@@ -84,13 +83,13 @@ class App(QMainWindow):
 
     def openFileDialog(self):
         fileName, _ = QFileDialog.getOpenFileName(self,
-                                                  "Open File ", "", "idXML Files (*.idXML)")
+                                                  "Open File ", "",
+                                                  "idXML Files (*.idXML)")
         if fileName:
             print('opening...', fileName)
             self.setWidgets()
-            self.widgets.loadFileMzML(os.path.splitext(fileName)[0]+".mzML") 
+            self.widgets.loadFileMzML(os.path.splitext(fileName)[0]+".mzML")
             self.widgets.loadFileIdXML(fileName)
-
 
     def center(self):
         qr = self.frameGeometry()
@@ -107,6 +106,7 @@ class App(QMainWindow):
 
     def closeEvent(self, event):
         event.accept()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
