@@ -123,4 +123,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# documentation build
+/documentation/build
+
 # End of https://www.gitignore.io/api/linux,python
