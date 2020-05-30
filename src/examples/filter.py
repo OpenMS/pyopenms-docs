@@ -34,6 +34,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # Read input
 import pyopenms, sys
+
 if len(sys.argv) <= 3:
     print "Usage: filter.py inputfile outputfile filter_string"
     sys.exit()
@@ -42,7 +43,8 @@ infile = sys.argv[1]
 outfile = sys.argv[2]
 filter_string = sys.argv[3]
 
-class FilteringConsumer():
+
+class FilteringConsumer:
     """
     Consumer that forwards all calls the internal consumer (after filtering)
     """
@@ -59,10 +61,11 @@ class FilteringConsumer():
     def consumeChromatogram(self, c):
         if c.getNativeID().find(filter_string) != -1:
             self._internal_consumer.consumeChromatogram(c)
-        
+
     def consumeSpectrum(self, s):
         if s.getNativeID().find(filter_string) != -1:
             self._internal_consumer.consumeSpectrum(s)
+
 
 ###################################
 #### Do the actual work
@@ -72,4 +75,3 @@ consumer = pyopenms.PlainMSDataWritingConsumer(outfile)
 consumer = FilteringConsumer(consumer)
 
 pyopenms.MzMLFile().transform(infile, consumer)
-
