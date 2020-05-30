@@ -30,6 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 import pyopenms
 import re
+import functools
 
 
 def convertToRichMSSpectrum(input_):
@@ -124,7 +125,7 @@ class PhosphoScorerSimple:
             possibilities.append([comp_score, new_aaseq])
 
         # Sort the result by score, return the best scoring result
-        possibilities.sort(lambda x, y: -cmp(x[0], y[0]))
+        possibilities.sort(lambda x, y: -functools.cmp_to_key(x[0], y[0]))
         return possibilities[0]
 
     def compare_binnedSpectra(self, sp1, sp2):
