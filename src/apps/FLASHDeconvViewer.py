@@ -43,7 +43,7 @@ from collections import namedtuple
 from matplotlib import cm
 
 sys.path.insert(0, "../view")
-from SpecViewer import ScanBrowserWidget, App
+from SpecViewer import ScanBrowserWidget, App  # noqa: E402
 
 # import pyopenms.Constants
 # define Constant locally until bug in pyOpenMS is fixed
@@ -482,7 +482,7 @@ class ControllerWidget(QWidget):
                 txt_list = []
 
                 for theo in theo_list:  # theo : [0] cs [1] iso mz list
-                    # plotting only theoretical mz valule within experimental mz range
+                    # plotting only theoretical mz valule within experimental mz range # noqa: E501
                     if (theo[1][0] <= xlimit[0]) | (theo[1][-1] >= xlimit[1]):
                         continue
 

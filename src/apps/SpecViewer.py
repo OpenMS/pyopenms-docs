@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import (
+from PyQt5.QtWidgets import (  # noqa: F401
     QApplication,
     QMainWindow,
     QVBoxLayout,
@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import (
     QMenu,
     QAbstractItemView,
 )
-from PyQt5.QtCore import (
+from PyQt5.QtCore import (  # noqa: F401
     Qt,
     QAbstractTableModel,
     pyqtSignal,
@@ -25,15 +25,15 @@ from PyQt5.QtCore import (
 )
 
 import pyqtgraph as pg
-from pyqtgraph import PlotWidget
+from pyqtgraph import PlotWidget  # noqa: F401
 
-import numpy as np
+import numpy as np  # noqa: F401
 from collections import namedtuple
 
-import pyopenms
+import pyopenms  # noqa: F401
 
 sys.path.insert(0, "../view")
-from ScanBrowserWidget import ScanBrowserWidget
+from ScanBrowserWidget import ScanBrowserWidget  # noqa: E402
 
 # structure for annotation (here for reference)
 PeakAnnoStruct = namedtuple(

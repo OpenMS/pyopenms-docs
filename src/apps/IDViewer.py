@@ -12,12 +12,12 @@ from PyQt5.QtWidgets import (
 
 
 import pyqtgraph as pg
-from pyqtgraph import PlotWidget
+from pyqtgraph import PlotWidget  # noqa: F401
 
 from collections import namedtuple
 
 sys.path.insert(0, "../view")
-from ControllerWidget import ControllerWidget
+from ControllerWidget import ControllerWidget  # noqa: E402
 
 
 # structure for annotation (here for reference)
