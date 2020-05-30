@@ -6,7 +6,7 @@ import pyopenms
 from GUI_EXAMPLE_BASE import GUI_EXAMPLE_BASE
 
 sys.path.insert(0, "../view")
-from ScanTableWidget import ScanTableWidget
+from ScanTableWidget import ScanTableWidget  # noqa E402
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

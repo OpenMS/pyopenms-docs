@@ -1,12 +1,12 @@
 import sys
 from PyQt5.QtWidgets import QApplication
 
-import pyopenms
+import pyopenms  # noqa F401
 
 from GUI_EXAMPLE_BASE import GUI_EXAMPLE_BASE
 
 sys.path.insert(0, "../view")
-from SequenceIonsWidget import SequenceIonsWidget
+from SequenceIonsWidget import SequenceIonsWidget  # noqa E402
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

@@ -1,29 +1,28 @@
-from pyopenms import *
+from pyopenms import *  # noqa F403
 
 # Initialize Experiment
-exp = MSExperiment()
+exp = MSExperiment()  # noqa F405
 
 # Load file into experiment container
-MzMLFile().load("../data/YIC(Carbamidomethyl)DNQDTISSK.mzML", exp)
+MzMLFile().load("../data/YIC(Carbamidomethyl)DNQDTISSK.mzML", exp)  # noqa F405
 
 # Get first spectrum
 spectra = exp.getSpectra()
 spectrum = exp[0]
 
 # Generate theoretical spectrum
-tsg = TheoreticalSpectrumGenerator()
-theo_spectrum = MSSpectrum()
+tsg = TheoreticalSpectrumGenerator()  # noqa F405
+theo_spectrum = MSSpectrum()  # noqa F405
 p = tsg.getParameters()
 p.setValue(b"add_b_ions", b"true", b"Add peaks of b-ions to the spectrum")
 p.setValue(b"add_metainfo", b"true", "")
 tsg.setParameters(p)
 tsg.getSpectrum(
-    theo_spectrum, AASequence.fromString("YIC(Carbamidomethyl)DNQDTISSK"), 1, 2
-)
+    theo_spectrum, AASequence.fromString("YIC(Carbamidomethyl)DNQDTISSK"), 1, 2)  # noqa F405
 
 # Compute PSM
 alignment = []
-spa = SpectrumAlignment()
+spa = SpectrumAlignment()  # noqa F405
 p = spa.getParameters()
 p.setValue(b"tolerance", 0.5)
 p.setValue(b"is_relative_tolerance", b"false")  # 0.5 Da tolerance

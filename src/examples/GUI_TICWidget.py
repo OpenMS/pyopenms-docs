@@ -7,7 +7,8 @@ import pyopenms
 from GUI_EXAMPLE_BASE import GUI_EXAMPLE_BASE
 
 sys.path.insert(0, "../view")
-from TICWidget import TICWidget
+from TICWidget import TICWidget  # noqa E402
+
 
 # mock object to test the mouse click signal by TICWidget
 class TestMouseClick(QObject):

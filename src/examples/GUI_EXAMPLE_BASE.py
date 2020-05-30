@@ -9,12 +9,12 @@ from PyQt5.QtWidgets import (
 )
 
 import pyqtgraph as pg
-from pyqtgraph import PlotWidget
+from pyqtgraph import PlotWidget  # noqa F401
 
-import numpy as np
+import numpy as np  # noqa F401
 
-import time
-import pyopenms
+import time  # noqa F401
+import pyopenms  # noqa F401
 
 pg.setConfigOption("background", "w")  # white background
 pg.setConfigOption("foreground", "k")  # black peaks
