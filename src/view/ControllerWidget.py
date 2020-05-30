@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QHBoxLayout, QWidget, QSplitter
 from PyQt5.QtCore import Qt
 
 from SpectrumWidget import SpectrumWidget
-from ScanTableWidget import ScanTableWidget, ScanTableModel
+from ScanTableWidget import ScanTableWidget, ScanTableModel # noqa F401
 from SequenceIonsWidget import SequenceIonsWidget
 from TICWidget import TICWidget
 from ErrorWidget import ErrorWidget
@@ -28,7 +28,7 @@ LadderAnnoStruct = namedtuple(
 
 class ControllerWidget(QWidget):
     """
-    Used to merge spectrum, table, TIC, error plot and sequenceIons widgets together.
+    Used to merge spectrum, table, TIC, error plot and sequenceIons widgets together.  # noqa E501
 
     """
 
@@ -142,7 +142,7 @@ class ControllerWidget(QWidget):
                 )
 
                 index_ions = self.scan_widget.table_model.index(row, 7)
-                # data needs to be a string, but reversible -> using json.dumps()
+                # data needs to be a string, but reversible -> using json.dumps() # noqa E501
                 self.scan_widget.table_model.setData(
                     index_ions,
                     json.dumps(self.scanIDDict[tableRT]["PepIons"]),
@@ -174,7 +174,7 @@ class ControllerWidget(QWidget):
             ):
                 index = self.scan_widget.table_model.index(row, 2)
                 try:
-                    self.curr_table_index = self.scan_widget.proxy.mapFromSource(
+                    self.curr_table_index = self.scan_widget.proxy.mapFromSource( # noqa E501
                         index
                     )  # use proxy to get from filtered model index
                     return self.curr_table_index.row()
@@ -202,7 +202,7 @@ class ControllerWidget(QWidget):
     ):  # create color/mz array by distinguishing between prefix & suffix ions
         self.peakAnnoData = (
             {}
-        )  # key is ion annotation (e.g. b2): [mz, color distinguishing prefix, suffix]
+        )  # key is ion annotation (e.g. b2): [mz, color distinguishing prefix, suffix] # noqa E501
         colors = []
         mzs = []
         col_red = (255, 0, 0)  # suffix
@@ -246,7 +246,7 @@ class ControllerWidget(QWidget):
             self.errorData(index.siblingAtColumn(7).data())
             if (
                 self.peakAnnoData is not None
-            ):  # peakAnnoData created with existing ions in errorData (bc of coloring)
+            ):  # peakAnnoData created with existing ions in errorData (bc of coloring) # noqa E501
                 self.spectrum_widget.setPeakAnnotations(
                     self.createPeakAnnotation()
                 )
@@ -265,7 +265,7 @@ class ControllerWidget(QWidget):
 
     def createPeakAnnotation(self):
         pStructList = []
-        # for the future -> check clashes like in the TIC widget and then add labels (should be done in SpectrumWidget)
+        # for the future -> check clashes like in the TIC widget and then add labels (should be done in SpectrumWidget)  # noqa E501
         for anno, data in self.peakAnnoData.items():
             mz, anno_color = data[0], data[1]
             index = self.find_nearest_Index(self.spectrum_widget._mzs, mz)
@@ -344,7 +344,7 @@ class ControllerWidget(QWidget):
         return suffix, prefix
 
     def filterAnnotationIon(self, fragment_anno):
-        # filter from raw ion data annotation index and filtered annotation name (e.g. y2)
+        # filter from raw ion data annotation index and filtered annotation name (e.g. y2)  # noqa E501
         index = [s for s in re.findall(r"-?\d+\.?\d*", fragment_anno)][0]
         ion_anno = fragment_anno.split(index)[0] + index
         self.filteredIonFragments.append((fragment_anno, ion_anno))

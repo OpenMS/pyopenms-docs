@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import QWidget, QHBoxLayout
 
 
 class SequenceIonsWidget(QWidget):
-    """
+    """  # noqa E501
     Used for creates a window for a peptide sequence with its given ions, which is adjusted to the sequence size.
     To avoid contortions of the window, spaceritems are added.
 
@@ -70,7 +70,7 @@ class SequenceIonsWidget(QWidget):
         self.show()
 
     def resize(self):
-        """
+        """  # noqa E501
         The integer 8 represents the additional space needed for the in addition drawn lines. The 18 represents the
         monospace width.
 
@@ -84,7 +84,7 @@ class SequenceIonsWidget(QWidget):
         self.calculateHeight()
 
     def calculateHeight(self):
-        """
+        """  # noqa E501
         Calculate window height adjusting to sequence height with possible ions and set default setting in case of no
         ions.
 
@@ -147,7 +147,7 @@ class SequenceIonsWidget(QWidget):
 
 
 class observed_peptide(QWidget):
-    """
+    """  # noqa E501
     Used for creates a peptide sequence with its given ions. The ions can be stacked above each other, e.g. in case for
     a1, b1. Each amino letter is also separated by a line and prefixes are colored blue, otherwise suffixes are colored
     red.
@@ -192,7 +192,7 @@ class observed_peptide(QWidget):
         self._fragmentPeptide(qp)
 
     def _fragmentPeptide(self, qp):
-        """
+        """  # noqa E501
         In this function the sequence will be created stepwise. Each char of the sequence is drawn separately to add the
         lines between and the ions.
 

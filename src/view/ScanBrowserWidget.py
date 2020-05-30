@@ -1,6 +1,6 @@
-import sys
+import sys  # noqa F401
 import pyopenms
-from PyQt5.QtWidgets import (
+from PyQt5.QtWidgets import (  # noqa F401
     QApplication,
     QMainWindow,
     QVBoxLayout,
@@ -14,7 +14,7 @@ from PyQt5.QtWidgets import (
     QMenu,
     QAbstractItemView,
 )
-from PyQt5.QtCore import (
+from PyQt5.QtCore import (  # noqa F401
     Qt,
     QAbstractTableModel,
     pyqtSignal,
@@ -24,8 +24,8 @@ from PyQt5.QtCore import (
     QPoint,
     QRegExp,
 )
-from SpectrumWidget import *
-from ScanTableWidget import ScanTableWidget, ScanTableModel
+from SpectrumWidget import *  # noqa F403
+from ScanTableWidget import ScanTableWidget, ScanTableModel  # noqa F401
 
 
 class ScanBrowserWidget(QWidget):
@@ -46,7 +46,7 @@ class ScanBrowserWidget(QWidget):
         scans = self.readMS(file_path)
 
         # set Widgets
-        self.spectrum_widget = SpectrumWidget()
+        self.spectrum_widget = SpectrumWidget()  # noqa F405
         self.scan_widget = ScanTableWidget(scans)
         self.scan_widget.scanClicked.connect(self.redrawPlot)
         self.msexperimentWidget.addWidget(self.spectrum_widget)

@@ -9,7 +9,7 @@ pg.setConfigOption("foreground", "k")  # black peaks
 
 
 class ErrorWidget(PlotWidget):
-    """
+    """ # noqa E501
     Used to plot a error plot to display the derivation between exact mass and theoretical mass.
 
     """
@@ -27,7 +27,7 @@ class ErrorWidget(PlotWidget):
         self.setMouseEnabled(x=True, y=False)
 
     def setMassErrors(self, mz, ppm, colors):
-        """
+        """  # noqa E501
         Used for creating new error plot with the m/z of the peptides fragments.
 
         :param mz: An numpy array of m/z (mass divided by charge number) of the ions (starting with xyz or abc)

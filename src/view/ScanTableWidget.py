@@ -22,7 +22,7 @@ from PyQt5.QtCore import (
 
 
 class RTUnitDelegate(QItemDelegate):
-    """
+    """  # noqa E501
     Displays the minute values of the RT besides the RT values given in seconds. Through the delegate the RT values in
     the table are not changed, only difference is the display of the data in table_view. s
 
@@ -54,16 +54,16 @@ class RTUnitDelegate(QItemDelegate):
 
 
 class ScanTableWidget(QWidget):
-    """
+    """  # noqa E501
     Used for displaying information in a table.
 
-    ===============================  =============================================================================
+    ============================================================================================================
     **Signals:**
     sigScanClicked                   Emitted when the user has clicked on a row of the table and returns the
                                      current index. This index contains information about the current rows column
                                      data.
 
-    ===============================  =============================================================================
+    ============================================================================================================
     """
 
     sigScanClicked = pyqtSignal(QModelIndex, name="scanClicked")
@@ -127,7 +127,7 @@ class ScanTableWidget(QWidget):
         # default : first row selected. in OpenMSWidgets
 
     def onRowSelected(self, index):
-        if index.siblingAtColumn(1).data() == None:
+        if index.siblingAtColumn(1).data() is None:
             return  # prevents crash if row gets filtered out
         self.curr_spec = self.ms_experiment.getSpectrum(
             index.siblingAtColumn(1).data()

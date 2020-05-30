@@ -13,7 +13,7 @@ pg.setConfigOption("foreground", "k")  # black peaks
 
 
 class TICWidget(PlotWidget):
-    """
+    """  # noqa E501
     Used for creating a TIC plot with dynamic zooming to avoid label collisions.
 
     ===============================  =============================================================================
@@ -85,7 +85,7 @@ class TICWidget(PlotWidget):
         self._draw_peak_label()
 
     def _autoscaleYAxis(self):
-        """
+        """  # noqa E501
         Used to adjust y axis with the maximal y value from the current RT values. Also, redraws peak labels
         depending on the current displayed RT values.
 
@@ -99,7 +99,7 @@ class TICWidget(PlotWidget):
             self._redrawLabels()
 
     def _getMaxIntensityInRange(self, xrange):
-        """
+        """  # noqa E501
         :param xrange: A list of [min, max] bounding RT values.
         :return: An float value representing the maximal intensity current x range.
         """
@@ -114,7 +114,7 @@ class TICWidget(PlotWidget):
         self.addItem(plotgraph)
 
     def _find_Peak(self):
-        """
+        """  # noqa E501
         Calculates all indices from the intensity values to locate peaks. This function operates on the principle that
         it compares peak values against each other until it founds a maximal turning point.
 
@@ -166,7 +166,7 @@ class TICWidget(PlotWidget):
         self._peak_labels = {}
 
     def _label_clashes(self, label_id):
-        """
+        """  # noqa E501
         Calculates possible clash of new added label to other existing labels. The clash is measured by the
         collision of the label boundingRects, which are representing displayed scene positions.
 
@@ -217,7 +217,7 @@ class TICWidget(PlotWidget):
         return clash
 
     def _draw_peak_label(self):
-        """
+        """  # noqa E501
         Function draws peak labels, starting with the maximal peak to the minimal peak. In each addition possible
         label clashes will be calculated, if so then delete label.
 
