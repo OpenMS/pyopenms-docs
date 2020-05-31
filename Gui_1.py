@@ -4,7 +4,8 @@ from PyQt5.QtWidgets import (QWidget, QToolTip,
                              QPushButton, QApplication, QMainWindow,
                              QAction, qApp, QApplication,
                              QHBoxLayout, QVBoxLayout, QMessageBox,
-                             QLineEdit)
+                             QLineEdit, QTableWidget, QTableWidgetItem,
+                             QGridLayout, QScrollArea)
 from PyQt5.QtGui import QFont
 
 
@@ -28,9 +29,9 @@ class Window(QMainWindow):
 
         menubar = self.menuBar()
         # file menu
-        fileMenu = menubar.addMenu("File")
+        self.fileMenu = menubar.addMenu("File")
         # adding actions to file menu
-        fileMenu.addAction(loadAct)
+        self.fileMenu.addAction(loadAct)
 
         # creating Buttons
 
@@ -57,7 +58,28 @@ class Window(QMainWindow):
         self.boxID = QLineEdit(self)
         self.boxID.move(width-280, heightID)
         self.boxID.resize(280, 30)
-        #self.resize(1000, 1000)
+
+        # creating Table
+        self.table1 = QtWidgets.QTableWidget()
+        self.table1.setRowCount(10)
+        self.table1.setColumnCount(4)
+
+        self.table1.setItem(0, 0, QTableWidgetItem("Protein Name"))
+        self.table1.setItem(0, 1, QTableWidgetItem("Protein Sqeuence"))
+        self.table1.setItem(0, 2, QTableWidgetItem("ID"))
+
+        # Layout
+        self.mainwidget = QWidget(self)
+        self.main_layout = QGridLayout(self.mainwidget)
+        self.main_layout.addWidget(self.table1, 1, 0)
+        self.main_layout.addWidget(self.boxPro, 0, 1)
+        self.main_layout.addWidget(self.boxID, 1, 1)
+        self.main_layout.addWidget(self.searchButtonP, 0, 2)
+
+        self.main_layout.addWidget(self.searchButtonID, 1, 2)
+        self.mainwidget.setLayout(self.main_layout)
+        self.setCentralWidget(self.mainwidget)
+
         self.setWindowTitle('Protein Viewer')
         self.show()
 
@@ -66,10 +88,6 @@ class Window(QMainWindow):
         QMessageBox.question(self, "textboxmessage",
                              "you typed " + textboxValue, QMessageBox.Ok, QMessageBox.Ok)
         boxPro.setText("")
-
-        # self.searchButtonP.clicked.connect(clickprotein(self))
-
-        #self.resize(1000, 1000)
 
 
 def main():
