@@ -42,6 +42,7 @@ class Window(QMainWindow):
         self.searchButtonP = QtWidgets.QPushButton(self)
         self.searchButtonP.setText("search")
         self.searchButtonP.move(width, heightPro)
+
         self.searchButtonP.clicked.connect(self.clickprotein)
         self.searchButtonID = QPushButton(self)
         self.searchButtonID.setText("search")
@@ -49,25 +50,26 @@ class Window(QMainWindow):
 
         # creating testboxes for the buttons
 
-        boxPro = QLineEdit(self)
-        boxPro.move(width-280, heightPro)
-        boxPro.resize(280, 30)
+        self.boxPro = QLineEdit(self)
+        self.boxPro.move(width-280, heightPro)
+        self.boxPro.resize(280, 30)
 
-        boxID = QLineEdit(self)
-        boxID.move(width-280, heightID)
-        boxID.resize(280, 30)
+        self.boxID = QLineEdit(self)
+        self.boxID.move(width-280, heightID)
+        self.boxID.resize(280, 30)
         #self.resize(1000, 1000)
         self.setWindowTitle('Protein Viewer')
         self.show()
 
-        def clickprotein(self):
-            textboxValue = boxPro.text()
-            QMessageBox.question(self, "textboxmessage",
-                                 "you typed " + textboxValue, QMessageBox.Ok, QMessageBox.Ok)
+    def clickprotein(self):
+        textboxValue = self.boxPro.text()
+        QMessageBox.question(self, "textboxmessage",
+                             "you typed " + textboxValue, QMessageBox.Ok, QMessageBox.Ok)
+        boxPro.setText("")
+
+        # self.searchButtonP.clicked.connect(clickprotein(self))
 
         #self.resize(1000, 1000)
-        self.setWindowTitle('Protein Viewer')
-        self.show()
 
 
 def main():

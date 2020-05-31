@@ -1,3 +1,5 @@
+
+
 import sys
 import os
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QDesktopWidget, \
@@ -11,7 +13,6 @@ from collections import namedtuple
 
 sys.path.insert(0, '../view')
 from ControllerWidget import ControllerWidget
-
 
 # structure for annotation (here for reference)
 PeakAnnoStruct = namedtuple('PeakAnnoStruct', "mz intensity text_label \
@@ -48,7 +49,6 @@ class App(QMainWindow):
             self.clearLayout(self.windowLay)
         self.widgets = ControllerWidget(self)
         self.windowLay.addWidget(self.widgets)
-
 
     def setMainMenu(self):
         mainMenu = self.menuBar()
@@ -88,9 +88,8 @@ class App(QMainWindow):
         if fileName:
             print('opening...', fileName)
             self.setWidgets()
-            self.widgets.loadFileMzML(os.path.splitext(fileName)[0]+".mzML") 
+            self.widgets.loadFileMzML(os.path.splitext(fileName)[0]+".mzML")
             self.widgets.loadFileIdXML(fileName)
-
 
     def center(self):
         qr = self.frameGeometry()
@@ -107,6 +106,7 @@ class App(QMainWindow):
 
     def closeEvent(self, event):
         event.accept()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
