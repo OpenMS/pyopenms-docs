@@ -5,13 +5,63 @@ from PyQt5.QtWidgets import (QWidget, QToolTip,
                              QAction, qApp, QApplication,
                              QHBoxLayout, QVBoxLayout, QMessageBox,
                              QLineEdit, QTableWidget, QTableWidgetItem,
-                             QGridLayout, QScrollArea)
+                             QGridLayout, QScrollArea, QPlainTextEdit)
 from PyQt5.QtGui import QFont
+from dictionaries import Dict
 sys.path.insert(0, '../Teamprojekt')
 from Teamprojekt_FastaSuche import*  # NOQA: E402
 
 
+class logic:
+    # Aufgabe a) + b)
+
+    # Aufgabe a) + b)
+    def protein_dictionary(fastaFile):
+        thisdict = {}
+        protein_dict = {}
+        with open(fastaFile) as file_content:
+            for seqs in file_content:
+                if seqs.startswith('>'):
+                    bounds = find_all_indexes(seqs, '|')
+                    if len(bounds) != 0:
+                        key = (seqs[bounds[0]+1:bounds[1]])
+                        descr_upper_index = seqs.find('OS')
+                        description = (seqs[bounds[1]+1:descr_upper_index])
+                        stringValue = "Proteinname: " + description + "\nProtein:\n"
+                        stringKeyForProteinDict = ""
+                        nextLine = next(file_content)
+                        while not nextLine.startswith('>'):
+                            stringValue += nextLine
+                            stringKeyForProteinDict += nextLine
+                            nextLine = next(file_content)
+                        thisdict[key] = stringValue
+                        protein_dict[stringKeyForProteinDict] = stringValue
+        return thisdict, protein_dict
+
+
+dictionary, protein_dict = protein_dictionary(
+    "/home/hris/Documents/iPRG2015_target_decoy_nocontaminants.fasta")
+
+# wird für das protein_dictionary benötigt
+
+
+def find_all_indexes(input_str, search_str):
+    l1 = []
+    length = len(input_str)
+    index = 0
+    while index < length:
+        i = input_str.find(search_str, index)
+        if i == -1:
+            return l1
+        l1.append(i)
+        index = i + 1
+    return l1
+
+
 class Window(QMainWindow):
+
+    dictionary, protein_dict = logic.protein_dictionary(
+        "/home/hris/Documents/iPRG2015_target_decoy_nocontaminants.fasta")
 
     def __init__(self):
         super().__init__()
@@ -36,9 +86,6 @@ class Window(QMainWindow):
         self.fileMenu.addAction(loadAct)
 
         # creating Buttons
-
-        # width = self.frameGeometry().width()
-        # height = self.frameGeometry().height()
         width = 800
         heightPro = 100
         heightID = 500
@@ -52,7 +99,6 @@ class Window(QMainWindow):
         self.searchButtonID.move(width, heightID)
 
         # creating testboxes for the buttons
-
         self.boxPro = QLineEdit(self)
         self.boxPro.move(width-280, heightPro)
         self.boxPro.resize(280, 30)
@@ -60,32 +106,29 @@ class Window(QMainWindow):
         self.boxID = QLineEdit(self)
         self.boxID.move(width-280, heightID)
         self.boxID.resize(280, 30)
+        # create a textfield for the result after a protein search
+        self.resultBox = QPlainTextEdit(self)
+        self.resultBox.setReadOnly(True)
 
         # creating Table
-        self.table1 = QtWidgets.QTableWidget()
-        self.table1.setRowCount(20)
-        self.table1.setColumnCount(3)
-
-        self.table1.setItem(0, 0, QTableWidgetItem("Protein Name"))
-        self.table1.setItem(0, 1, QTableWidgetItem("Protein Sqeuence"))
-        self.table1.setItem(0, 2, QTableWidgetItem("ID"))
-        # creating second Table
         self.table2 = QtWidgets.QTableWidget()
         self.table2.setRowCount(20)
         self.table2.setColumnCount(3)
-
+        # naming the header of the Table
         self.table2.setItem(0, 0, QTableWidgetItem("Protein Name"))
         self.table2.setItem(0, 1, QTableWidgetItem("Protein Sqeuence"))
         self.table2.setItem(0, 2, QTableWidgetItem("ID"))
         # Layout
         self.mainwidget = QWidget(self)
         self.main_layout = QGridLayout(self.mainwidget)
-        self.main_layout.addWidget(self.table1, 1, 1)
+        self.main_layout.addWidget(self.resultBox, 1, 1)
         self.main_layout.addWidget(self.boxPro, 0, 1)
         self.main_layout.addWidget(self.boxID, 2, 1)
         self.main_layout.addWidget(self.searchButtonP, 0, 2)
         self.main_layout.addWidget(self.searchButtonID, 2, 2)
         self.main_layout.addWidget(self.table2, 3, 1)
+        self.main_layout.setColumnStretch(1, 1)
+        self.main_layout.setRowStretch(1, 1)
 
         # creating a scroll Area
         self.scroll = QScrollArea()
@@ -96,11 +139,16 @@ class Window(QMainWindow):
         self.setWindowTitle('Protein Viewer')
         self.show()
 
+        # defining the clickprotein method for the searchButtonP
     def clickprotein(self):
-        textboxValue = self.boxPro.text()
-        QMessageBox.question(self, "textboxmessage",
-                             "you typed " + textboxValue, QMessageBox.Ok, QMessageBox.Ok)
-        boxPro.setText("")
+
+        protein_accession = self.boxPro.text()
+        if protein_accession in dictionary:
+            self.resultBox.clear()
+            self.resultBox.insertPlainText(dictionary.get(protein_accession))
+        else:
+            self.resultBox.clear()
+            self.resultBox.insertPlainText("No matching protein accession found in database.\n")
 
 
 def main():

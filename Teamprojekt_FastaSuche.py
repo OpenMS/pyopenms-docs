@@ -1,15 +1,12 @@
 
 
-
-
-
 # Aufgabe a) + b)
-def protein_dictionary (fastaFile):
+def protein_dictionary(fastaFile):
     thisdict = {}
     protein_dict = {}
     with open(fastaFile) as file_content:
         for seqs in file_content:
-            if seqs.startswith('>'):           
+            if seqs.startswith('>'):
                 bounds = find_all_indexes(seqs, '|')
                 if len(bounds) != 0:
                     key = (seqs[bounds[0]+1:bounds[1]])
@@ -27,7 +24,7 @@ def protein_dictionary (fastaFile):
     return thisdict, protein_dict
 
 
-# wird für das protein_dictionary benötigt 
+# wird für das protein_dictionary benötigt
 def find_all_indexes(input_str, search_str):
     l1 = []
     length = len(input_str)
@@ -39,13 +36,13 @@ def find_all_indexes(input_str, search_str):
         l1.append(i)
         index = i + 1
     return l1
- 
 
 
 def main():
 
     # a)
-    dictionary, protein_dict = protein_dictionary("C:/Users/Alex/Desktop/iPRG2015_target_decoy_nocontaminants.fasta")
+    dictionary, protein_dict = protein_dictionary(
+        "/home/hris/Documents/iPRG2015_target_decoy_nocontaminants.fasta")
 
     # hier kommt die eingegeben protein accession rein
     # z.B.: 'P00761'
@@ -58,7 +55,7 @@ def main():
         print('No matching protein accession found in database.')
 
     # b)
-    # hier kommt die eingegene Sequenz des Proteins rein 
+    # hier kommt die eingegene Sequenz des Proteins rein
     # z.B.: FPTDDDDKIVGGYTCAANSIPYQVSLNSGSHFCGGSLINSQWVVSAAHCYKSRIQVRLGEHNIDVLEGNEQFINAAKIIT
     protein_sub_sequence = input("Bitte Protein Sequenz angeben:\n")
 
@@ -68,9 +65,5 @@ def main():
             print(protein_dict.get(ps))
 
 
-
 if __name__ == "__main__":
     main()
-
-
-
