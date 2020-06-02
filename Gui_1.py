@@ -5,7 +5,8 @@ from PyQt5.QtWidgets import (QWidget, QToolTip,
                              QAction, qApp, QApplication,
                              QHBoxLayout, QVBoxLayout, QMessageBox,
                              QLineEdit, QTableWidget, QTableWidgetItem,
-                             QGridLayout, QScrollArea, QPlainTextEdit)
+                             QGridLayout, QScrollArea, QPlainTextEdit,
+                             QDesktopWidget, QLabel)
 from PyQt5.QtGui import QFont
 from dictionaries import Dict
 sys.path.insert(0, '../Teamprojekt')
@@ -40,7 +41,7 @@ class logic:
 
 
 dictionary, protein_dict = protein_dictionary(
-    "/home/hris/Documents/iPRG2015_target_decoy_nocontaminants.fasta")
+    "/home/caro/Downloads/iPRG2015_target_decoy_nocontaminants.fasta")
 
 # wird für das protein_dictionary benötigt
 
@@ -61,7 +62,7 @@ def find_all_indexes(input_str, search_str):
 class Window(QMainWindow):
 
     dictionary, protein_dict = logic.protein_dictionary(
-        "/home/hris/Documents/iPRG2015_target_decoy_nocontaminants.fasta")
+        "/home/caro/Downloads/iPRG2015_target_decoy_nocontaminants.fasta")
 
     def __init__(self):
         super().__init__()
@@ -118,17 +119,26 @@ class Window(QMainWindow):
         self.table2.setItem(0, 0, QTableWidgetItem("Protein Name"))
         self.table2.setItem(0, 1, QTableWidgetItem("Protein Sqeuence"))
         self.table2.setItem(0, 2, QTableWidgetItem("ID"))
+
+        # creatingLabels
+        self.l1 = QLabel()
+        self.l2 = QLabel()
+        self.l1.setText("Enter protein acession:")
+        self.l2.setText("Enter peptide sequence:")
+
         # Layout
         self.mainwidget = QWidget(self)
         self.main_layout = QGridLayout(self.mainwidget)
-        self.main_layout.addWidget(self.resultBox, 1, 1)
-        self.main_layout.addWidget(self.boxPro, 0, 1)
-        self.main_layout.addWidget(self.boxID, 2, 1)
-        self.main_layout.addWidget(self.searchButtonP, 0, 2)
-        self.main_layout.addWidget(self.searchButtonID, 2, 2)
-        self.main_layout.addWidget(self.table2, 3, 1)
-        self.main_layout.setColumnStretch(1, 1)
-        self.main_layout.setRowStretch(1, 1)
+        self.main_layout.addWidget(self.l1, 0, 0)
+        self.main_layout.addWidget(self.l2, 3, 0)
+        self.main_layout.addWidget(self.resultBox, 2, 0)
+        self.main_layout.addWidget(self.boxPro, 1, 0)
+        self.main_layout.addWidget(self.boxID, 4, 0)
+        self.main_layout.addWidget(self.searchButtonP, 1, 1)
+        self.main_layout.addWidget(self.searchButtonID, 4, 1)
+        self.main_layout.addWidget(self.table2, 5, 0)
+        self.main_layout.setColumnStretch(0, 1)
+        self.main_layout.setRowStretch(0, 1)
 
         # creating a scroll Area
         self.scroll = QScrollArea()
@@ -137,9 +147,20 @@ class Window(QMainWindow):
         self.mainwidget.setLayout(self.main_layout)
         self.setCentralWidget(self.mainwidget)
         self.setWindowTitle('Protein Viewer')
+
+        self.center()
         self.show()
 
+        # centering the widget
+    def center(self):
+
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
+
         # defining the clickprotein method for the searchButtonP
+
     def clickprotein(self):
 
         protein_accession = self.boxPro.text()
