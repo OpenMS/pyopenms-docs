@@ -1,16 +1,3 @@
-# PyQt Teamprojekt
-
-[git.io page](https://wrthfl.github.io/pyopenms-tewb/)
-
-Teammitglieder:
-Philipp Baltik, Till Englert, Sevvalli Thavapalan, Fabian Wurth
-
-## Useful Links
-
-- [MD-Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-- [ohshitgit](ohshitgit.com)
-- [Continuous Integration](https://realpython.com/python-continuous-integration/)
-
 ## pyOpenMS Extra
 
 =============
