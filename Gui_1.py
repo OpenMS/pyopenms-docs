@@ -6,7 +6,8 @@ from PyQt5.QtWidgets import (QWidget, QToolTip,
                              QHBoxLayout, QVBoxLayout, QMessageBox,
                              QLineEdit, QTableWidget, QTableWidgetItem,
                              QGridLayout, QScrollArea, QPlainTextEdit,
-                             QDesktopWidget, QLabel)
+                             QDesktopWidget, QLabel, QRadioButton,
+                             QGroupBox)
 from PyQt5.QtGui import QFont
 from dictionaries import Dict
 sys.path.insert(0, '../Teamprojekt')
@@ -41,7 +42,7 @@ class logic:
 
 
 dictionary, protein_dict = protein_dictionary(
-    "/home/caro/Downloads/iPRG2015_target_decoy_nocontaminants.fasta")
+    "/home/hris/Documents/iPRG2015_target_decoy_nocontaminants.fasta")
 
 # wird für das protein_dictionary benötigt
 
@@ -62,7 +63,7 @@ def find_all_indexes(input_str, search_str):
 class Window(QMainWindow):
 
     dictionary, protein_dict = logic.protein_dictionary(
-        "/home/caro/Downloads/iPRG2015_target_decoy_nocontaminants.fasta")
+        "/home/hris/Documents/iPRG2015_target_decoy_nocontaminants.fasta")
 
     def __init__(self):
         super().__init__()
@@ -74,17 +75,6 @@ class Window(QMainWindow):
         # when selected loads a file which is a fasta data
         # first implement with exit action to test if is working
         # later when the loading alg is ready implement correctly
-        loadAct = QAction('load File', self)
-        loadAct.setShortcut('Ctrl+O')
-        loadAct.setStatusTip('load file')
-        loadAct.triggered.connect(qApp.quit)
-        # setting a menu bar
-
-        menubar = self.menuBar()
-        # file menu
-        self.fileMenu = menubar.addMenu("File")
-        # adding actions to file menu
-        self.fileMenu.addAction(loadAct)
 
         # creating Buttons
         width = 800
@@ -95,18 +85,12 @@ class Window(QMainWindow):
         self.searchButtonP.move(width, heightPro)
 
         self.searchButtonP.clicked.connect(self.clickprotein)
-        self.searchButtonID = QPushButton(self)
-        self.searchButtonID.setText("search")
-        self.searchButtonID.move(width, heightID)
 
         # creating testboxes for the buttons
         self.boxPro = QLineEdit(self)
         self.boxPro.move(width-280, heightPro)
         self.boxPro.resize(280, 30)
 
-        self.boxID = QLineEdit(self)
-        self.boxID.move(width-280, heightID)
-        self.boxID.resize(280, 30)
         # create a textfield for the result after a protein search
         self.resultBox = QPlainTextEdit(self)
         self.resultBox.setReadOnly(True)
@@ -114,31 +98,41 @@ class Window(QMainWindow):
         # creating Table
         self.table2 = QtWidgets.QTableWidget()
         self.table2.setRowCount(20)
-        self.table2.setColumnCount(3)
+        self.table2.setColumnCount(2)
         # naming the header of the Table
-        self.table2.setItem(0, 0, QTableWidgetItem("Protein Name"))
-        self.table2.setItem(0, 1, QTableWidgetItem("Protein Sqeuence"))
-        self.table2.setItem(0, 2, QTableWidgetItem("ID"))
-
-        # creatingLabels
-        self.l1 = QLabel()
-        self.l2 = QLabel()
-        self.l1.setText("Enter protein acession:")
-        self.l2.setText("Enter peptide sequence:")
+        self.table2.setItem(0, 1, QTableWidgetItem("Protein Name"))
+        self.table2.setItem(0, 0, QTableWidgetItem("ID"))
+        # Set QTableWidget to not be Editable
+        self.table2.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
         # Layout
         self.mainwidget = QWidget(self)
-        self.main_layout = QGridLayout(self.mainwidget)
-        self.main_layout.addWidget(self.l1, 0, 0)
-        self.main_layout.addWidget(self.l2, 3, 0)
-        self.main_layout.addWidget(self.resultBox, 2, 0)
-        self.main_layout.addWidget(self.boxPro, 1, 0)
-        self.main_layout.addWidget(self.boxID, 4, 0)
-        self.main_layout.addWidget(self.searchButtonP, 1, 1)
-        self.main_layout.addWidget(self.searchButtonID, 4, 1)
-        self.main_layout.addWidget(self.table2, 5, 0)
-        self.main_layout.setColumnStretch(0, 1)
-        self.main_layout.setRowStretch(0, 1)
+        self.main_layout = QVBoxLayout(self.mainwidget)
+        # every set contains all widgets on the level they should be in the UI
+        # in set1 there is a textbox and a button
+        self.set1 = QHBoxLayout()
+        self.set1.addWidget(self.boxPro)
+        self.set1.addWidget(self.searchButtonP)
+
+        # set 2 contains the radiobuttons
+        self.set2 = QHBoxLayout()
+        self.radioname = QRadioButton("Name")
+        self.radioid = QRadioButton("ID")
+        self.radioseq = QRadioButton("sequence")
+        self.radioname.setChecked(True)
+        self.set2.addWidget(self.radioname)
+        self.set2.addWidget(self.radioid)
+        self.set2.addWidget(self.radioseq)
+        self.set2.addStretch(1)
+        # set 3 contains the table and the result box
+        self.set3 = QHBoxLayout()
+        self.set3.addWidget(self.table2)
+        self.set3.addWidget(self.resultBox)
+
+        # adding all QHBoxLayout to the main QVBoxLayout
+        self.main_layout.addLayout(self.set1)
+        self.main_layout.addLayout(self.set2)
+        self.main_layout.addLayout(self.set3)
 
         # creating a scroll Area
         self.scroll = QScrollArea()
