@@ -12,7 +12,8 @@ class Programm1(QMainWindow):
         self.initUI()
         
         
-    def initUI(self):               
+    def initUI(self):         
+    	#erzeugt unsere Ansicht      
         view = OverallView(self)
 
         self.setCentralWidget(view)
@@ -36,5 +37,4 @@ if __name__ == '__main__':
     
     app = QApplication(sys.argv)
     ex = Programm1()
-    #ex.show()
     sys.exit(app.exec_())
