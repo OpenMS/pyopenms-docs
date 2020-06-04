@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QVBoxLayout, QPushButton, QWidget
 
-#erzeugt unser Buttonwidget 
+
+# erzeugt unser Buttonwidget
 class ButtonView(QWidget):
 
     def __init__(self, *args):
@@ -8,7 +9,7 @@ class ButtonView(QWidget):
 
         self.buttonLayout = QVBoxLayout(self)
 
-        #leere Buttons im gewünschten Layout
+        # leere Buttons im gewünschten Layout
         self.buttonLayout.addWidget(QPushButton('Load'))
         self.buttonLayout.addWidget(QPushButton('Save'))
         self.buttonLayout.addWidget(QPushButton('Label'))
