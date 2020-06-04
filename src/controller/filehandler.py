@@ -1,5 +1,6 @@
 import os
 import glob
+import pandas as pd
 
 files = []
 
@@ -10,23 +11,15 @@ def filehandler(path):
     return files
 
 
-def tagfiles(file, delimiter):
-    tagproperty = {"name": "", "tags": []}
-    tagproperty["name"] = file
-    tags = []
-    file = file.split(".")[0]
-    tags = file.split(delimiter)
-    tagproperty["tags"] = tags
-    return tagproperty
-
-
-def getTagsbyFile(files, delimiter):
-    n = len(files)
-    keys = range(n)
-    taglist = []
+def tagfiles(files, delimiter):
+    tagproperty = {}
     for file in files:
-        taglist.append(tagfiles(file, delimiter))
-    return taglist
+        name = file
+        tags = []
+        file = file.split(".")[0]
+        tags = file.split(delimiter)
+        tagproperty[name] = tags
+    return tagproperty
 
 
 # just for testing
@@ -34,5 +27,5 @@ i = input("filepath: ")
 
 delimiters = ["_"]
 files = filehandler(i)
-preparedfiles = getTagsbyFile(files, delimiters[0])
+preparedfiles = tagfiles(files, delimiters[0])
 print(preparedfiles)
