@@ -1,22 +1,19 @@
 
 
-
-
-
 # Zusammenstellung des dictionaries und der 3 Listen zum suchen für die a) und b)
-def protein_dictionary (fastaFile):
+def protein_dictionary(fastaFile):
     dictKeyAccession = {}
     proteinList = []
     proteinNameList = []
     proteinOSList = []
     with open(fastaFile) as file_content:
         for seqs in file_content:
-            if seqs.startswith('>'):           
+            if seqs.startswith('>'):
                 bounds = find_all_indexes(seqs, '|')
                 if len(bounds) != 0:
                     key = (seqs[bounds[0]+1:bounds[1]])
                     descr_upper_index = seqs.find('OS')
-                    # herausfinden bis zu welchem index das OS geht 
+                    # herausfinden bis zu welchem index das OS geht
                     os_upper_index = seqs.find('(')
                     os = ''
                     if (os_upper_index == -1):
@@ -51,13 +48,13 @@ def find_all_indexes(input_str, search_str):
         l1.append(i)
         index = i + 1
     return l1
- 
 
 
 def main():
 
     # a)
-    dictKeyAccession, proteinList, proteinNameList, proteinOSList = protein_dictionary("C:/Users/Alex/Desktop/iPRG2015_target_decoy_nocontaminants.fasta")
+    dictKeyAccession, proteinList, proteinNameList, proteinOSList = protein_dictionary(
+        "/home/hris/Documents/iPRG2015_target_decoy_nocontaminants.fasta")
 
     # hier kommt die eingegeben protein accession (oder nur ein Teil davon) rein
     # z.B.: 'P00761'
@@ -69,14 +66,14 @@ def main():
         if protein_accession_maybe_sub_sequence in protein_accession:
             index = list(dictKeyAccession).index(protein_accession)
             print("Protein: " + dictKeyAccession.get(protein_accession))
-            print("ID: " + list(dictKeyAccession.keys())[index]) 
-            print("Proteinname: " + proteinNameList[index]) 
+            print("ID: " + list(dictKeyAccession.keys())[index])
+            print("Proteinname: " + proteinNameList[index])
             print("OS: " + proteinOSList[index])
 
     # b)
-    # hier kommt die eingegene Sequenz des Proteins rein 
+    # hier kommt die eingegene Sequenz des Proteins rein
     # z.B.: FPTDDDDKIVGGYTCAANSIPYQVSLNSGSHFCGGSLINSQWVVSAAHCYKSRIQVRLGEHNIDVLEGNEQFINAAKIIT
-    
+
     protein_sub_sequence = input("Bitte Protein Sequenz angeben: ")
 
     for protein_sequence in proteinList:
@@ -86,9 +83,9 @@ def main():
             print("Protein: " + proteinList[index])
             print("Proteinname: " + proteinNameList[index])
             print("OS: " + proteinOSList[index])
-            
+
     # c)
-    # Suche nach Name 
+    # Suche nach Name
     # z.B: TRYP_PIG Trypsin
 
     protein_sub_name = input("Bitte Protein Namen eingeben: ")
@@ -101,11 +98,6 @@ def main():
             print("Proteinname: " + proteinNameList[index])
             print("OS: " + proteinOSList[index])
 
-    
-
 
 if __name__ == "__main__":
     main()
-
-
-

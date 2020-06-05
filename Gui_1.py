@@ -16,11 +16,13 @@ from Teamprojekt_FastaSuche import*  # NOQA: E402
 
 class logic:
     # Aufgabe a) + b)
+    # Zusammenstellung des dictionaries und der 3 Listen zum suchen für die a) und b)
 
-    # Aufgabe a) + b)
     def protein_dictionary(fastaFile):
-        thisdict = {}
-        protein_dict = {}
+        dictKeyAccession = {}
+        proteinList = []
+        proteinNameList = []
+        proteinOSList = []
         with open(fastaFile) as file_content:
             for seqs in file_content:
                 if seqs.startswith('>'):
@@ -28,42 +30,50 @@ class logic:
                     if len(bounds) != 0:
                         key = (seqs[bounds[0]+1:bounds[1]])
                         descr_upper_index = seqs.find('OS')
-                        description = (seqs[bounds[1]+1:descr_upper_index])
-                        stringValue = "Proteinname: " + description + "\nProtein:\n"
-                        stringKeyForProteinDict = ""
+                        # herausfinden bis zu welchem index das OS geht
+                        os_upper_index = seqs.find('(')
+                        os = ''
+                        if (os_upper_index == -1):
+                            zwischenergebnis = seqs[descr_upper_index+3:]
+                            zwischenergebnis1 = zwischenergebnis.split()
+                            os = zwischenergebnis1[0] + ' ' + zwischenergebnis1[1]
+                        name = (seqs[bounds[1]+1:descr_upper_index])
+                        stringValue = ""
                         nextLine = next(file_content)
                         while not nextLine.startswith('>'):
                             stringValue += nextLine
-                            stringKeyForProteinDict += nextLine
                             nextLine = next(file_content)
-                        thisdict[key] = stringValue
-                        protein_dict[stringKeyForProteinDict] = stringValue
-        return thisdict, protein_dict
+                        dictKeyAccession[key] = stringValue
+                        proteinList.append(stringValue)
+                        proteinNameList.append(name)
+                        if (os_upper_index == -1):
+                            proteinOSList.append(os)
+                        else:
+                            proteinOSList.append((seqs[descr_upper_index+3:os_upper_index]))
+        return dictKeyAccession, proteinList, proteinNameList, proteinOSList
 
+    dictKeyAccession, proteinList, proteinNameList, proteinOSList = protein_dictionary(
+        "/home/hris/Documents/iPRG2015_target_decoy_nocontaminants.fasta")
 
-dictionary, protein_dict = protein_dictionary(
-    "/home/caro/Downloads/iPRG2015_target_decoy_nocontaminants.fasta")
+# wird für die Methode protein_dictionary benötigt (suche von mehreren Indizes)
 
-# wird für das protein_dictionary benötigt
-
-
-def find_all_indexes(input_str, search_str):
-    l1 = []
-    length = len(input_str)
-    index = 0
-    while index < length:
-        i = input_str.find(search_str, index)
-        if i == -1:
-            return l1
-        l1.append(i)
-        index = i + 1
-    return l1
+    def find_all_indexes(input_str, search_str):
+        l1 = []
+        length = len(input_str)
+        index = 0
+        while index < length:
+            i = input_str.find(search_str, index)
+            if i == -1:
+                return l1
+            l1.append(i)
+            index = i + 1
+        return l1
 
 
 class Window(QMainWindow):
 
-    dictionary, protein_dict = logic.protein_dictionary(
-        "/home/caro/Downloads/iPRG2015_target_decoy_nocontaminants.fasta")
+    dictKeyAccession, proteinList, proteinNameList, proteinOSList = protein_dictionary(
+        "/home/hris/Documents/iPRG2015_target_decoy_nocontaminants.fasta")
 
     def __init__(self):
         super().__init__()
@@ -93,8 +103,8 @@ class Window(QMainWindow):
 
         # Creating treewidget
         self.tw = QtWidgets.QTreeWidget()
-        self.tw.setHeaderLabels(["Protein name"])
-        #self.tw.setColumnWidth(1, 280)
+        self.tw.setHeaderLabels(["Proteine"])
+        # self.tw.setColumnWidth(1, 280)
 
         # create a textfield for the result after a protein search
         self.resultBox = QPlainTextEdit(self)
@@ -161,17 +171,91 @@ class Window(QMainWindow):
 
     def clickprotein(self):
 
-        protein_accession = self.boxPro.text()
-        if protein_accession in dictionary:
-            self.cg = QtWidgets.QTreeWidgetItem(self.tw, [protein_accession])
-            self.textp = QPlainTextEdit()
-            self.textp.resize(self.textp.width(), self.textp.height())
-            self.textp.insertPlainText(dictionary.get(protein_accession))
-            self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
-            self.tw.setItemWidget(self.cgChild, 0, self.textp)
-        else:
-            self.resultBox.clear()
-            self.resultBox.insertPlainText("No matching protein accession found in database.\n")
+        if self.radioid.isChecked() == True:
+            counter = 0
+            protein_accession_maybe_sub_sequence = self.boxPro.text()
+            for logic.protein_accession in logic.dictKeyAccession:
+                if protein_accession_maybe_sub_sequence in logic.protein_accession:
+                    counter = counter + 1
+                    index = list(logic.dictKeyAccession).index(logic.protein_accession)
+                    Protein = logic.dictKeyAccession.get(logic.protein_accession)
+                    ID = list(logic.dictKeyAccession.keys())[index]
+                    Proteinname = logic.proteinNameList[index]
+                    OS = logic.proteinOSList[index]
+                    self.cg = QtWidgets.QTreeWidgetItem(self.tw, [ID])
+                    self.textp = QPlainTextEdit()
+                    self.textp.resize(self.textp.width(), self.textp.height())
+                    self.textp.insertPlainText("\nProtein Name: " + Proteinname +
+                                               "\nOS: " + OS +
+                                               "\nProteinsequenz: " + Protein)
+                    self.textp.setReadOnly(True)
+                    self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
+                    self.tw.setItemWidget(self.cgChild, 0, self.textp)
+
+            if counter == 0:
+                self.msg = QMessageBox()
+                self.msg.setIcon(QMessageBox.Information)
+                self.msg.setText("No matching protein accession found in database.")
+                self.msg.setWindowTitle("Error")
+                x = self.msg.exec_()
+
+        if self.radioseq.isChecked() == True:
+            counter = 0
+            protein_sub_sequence = self.boxPro.text()
+            for logic.protein_sequence in logic.proteinList:
+                if protein_sub_sequence in logic.protein_sequence:
+                    counter = counter + 1
+                    index = logic.proteinList.index(logic.protein_sequence)
+                    ID = list(logic.dictKeyAccession.keys())[index]
+                    Protein = logic.proteinList[index]
+                    Proteinname = logic.proteinNameList[index]
+                    OS = logic.proteinOSList[index]
+
+                    self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
+                    self.textp = QPlainTextEdit()
+                    self.textp.resize(self.textp.width(), self.textp.height())
+                    self.textp.insertPlainText("\nProtein accession: " + ID +
+                                               "\nOS: " + OS +
+                                               "\nProteinsequenz: " + Protein)
+                    self.textp.setReadOnly(True)
+                    self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
+                    self.tw.setItemWidget(self.cgChild, 0, self.textp)
+
+            if counter == 0:
+                self.msg = QMessageBox()
+                self.msg.setIcon(QMessageBox.Information)
+                self.msg.setText("No matching protein sequence found in database.")
+                self.msg.setWindowTitle("Error")
+                x = self.msg.exec_()
+
+        if self.radioname.isChecked() == True:
+            counter = 0
+            protein_sub_name = self.boxPro.text()
+            for logic.protein_name in logic.proteinNameList:
+                if protein_sub_name in logic.protein_name:
+                    counter = counter + 1
+                    index = logic.proteinNameList.index(logic.protein_name)
+                    ID = list(logic.dictKeyAccession.keys())[index]
+                    Protein = logic.proteinList[index]
+                    Proteinname = logic.proteinNameList[index]
+                    OS = logic.proteinOSList[index]
+
+                    self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
+                    self.textp = QPlainTextEdit()
+                    self.textp.resize(self.textp.width(), self.textp.height())
+                    self.textp.insertPlainText("\nProtein accession: " + ID +
+                                               "\nOS: " + OS +
+                                               "\nProteinsequenz: " + Protein)
+                    self.textp.setReadOnly(True)
+                    self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
+                    self.tw.setItemWidget(self.cgChild, 0, self.textp)
+
+            if counter == 0:
+                self.msg = QMessageBox()
+                self.msg.setIcon(QMessageBox.Information)
+                self.msg.setText("No matching protein name found in database.")
+                self.msg.setWindowTitle("Error")
+                x = self.msg.exec_()
 
 
 def main():
