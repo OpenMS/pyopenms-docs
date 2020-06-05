@@ -13,8 +13,7 @@ class ButtonView(QWidget):
         self.buttonLayout.addWidget(QPushButton('Load'))
         self.buttonLayout.addWidget(QPushButton('Save'))
         self.buttonLayout.addWidget(QPushButton('Label'))
-        self.buttonLayout.addWidget(QPushButton('Auto-Label'))
         self.buttonLayout.addWidget(QPushButton('Group'))
-        self.buttonLayout.addWidget(QPushButton('Auto-Group'))
+        self.buttonLayout.addWidget(QPushButton('Save'))
 
         self.resize(200, 690)
