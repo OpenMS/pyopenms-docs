@@ -85,6 +85,19 @@ def main():
             print("Proteinname: " + proteinNameList[index])
             print("OS: " + proteinOSList[index])
             
+    # c)
+    # Suche nach Name 
+    # z.B: TRYP_PIG Trypsin
+
+    protein_sub_name = input("Bitte Protein Namen eingeben: ")
+
+    for protein_name in proteinNameList:
+        if protein_sub_name in protein_name:
+            index = proteinNameList.index(protein_name)
+            print("Protein: " + proteinList[index])
+            print("Proteinname: " + proteinNameList[index])
+            print("OS: " + proteinOSList[index])
+
     
 
 
