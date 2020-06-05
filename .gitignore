@@ -127,3 +127,9 @@ dmypy.json
 /documentation/build
 
 # End of https://www.gitignore.io/api/linux,python
+
+src/controller/import_test.py
+
+src/examples/sample_ascore_output.csv
+
+src/view/TableWidget.py
