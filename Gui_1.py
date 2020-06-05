@@ -42,7 +42,7 @@ class logic:
 
 
 dictionary, protein_dict = protein_dictionary(
-    "/home/hris/Documents/iPRG2015_target_decoy_nocontaminants.fasta")
+    "/home/caro/Downloads/iPRG2015_target_decoy_nocontaminants.fasta")
 
 # wird für das protein_dictionary benötigt
 
@@ -63,7 +63,7 @@ def find_all_indexes(input_str, search_str):
 class Window(QMainWindow):
 
     dictionary, protein_dict = logic.protein_dictionary(
-        "/home/hris/Documents/iPRG2015_target_decoy_nocontaminants.fasta")
+        "/home/caro/Downloads/iPRG2015_target_decoy_nocontaminants.fasta")
 
     def __init__(self):
         super().__init__()
@@ -90,6 +90,11 @@ class Window(QMainWindow):
         self.boxPro = QLineEdit(self)
         self.boxPro.move(width-280, heightPro)
         self.boxPro.resize(280, 30)
+
+        # Creating treewidget
+        self.tw = QtWidgets.QTreeWidget()
+        self.tw.setHeaderLabels(["Protein name"])
+        #self.tw.setColumnWidth(1, 280)
 
         # create a textfield for the result after a protein search
         self.resultBox = QPlainTextEdit(self)
@@ -126,8 +131,7 @@ class Window(QMainWindow):
         self.set2.addStretch(1)
         # set 3 contains the table and the result box
         self.set3 = QHBoxLayout()
-        self.set3.addWidget(self.table2)
-        self.set3.addWidget(self.resultBox)
+        self.set3.addWidget(self.tw)
 
         # adding all QHBoxLayout to the main QVBoxLayout
         self.main_layout.addLayout(self.set1)
@@ -159,8 +163,12 @@ class Window(QMainWindow):
 
         protein_accession = self.boxPro.text()
         if protein_accession in dictionary:
-            self.resultBox.clear()
-            self.resultBox.insertPlainText(dictionary.get(protein_accession))
+            self.cg = QtWidgets.QTreeWidgetItem(self.tw, [protein_accession])
+            self.textp = QPlainTextEdit()
+            self.textp.resize(self.textp.width(), self.textp.height())
+            self.textp.insertPlainText(dictionary.get(protein_accession))
+            self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
+            self.tw.setItemWidget(self.cgChild, 0, self.textp)
         else:
             self.resultBox.clear()
             self.resultBox.insertPlainText("No matching protein accession found in database.\n")
