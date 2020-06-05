@@ -170,7 +170,7 @@ class Window(QMainWindow):
         # defining the clickprotein method for the searchButtonP
 
     def clickprotein(self):
-
+        self.tw.clear()
         if self.radioid.isChecked() == True:
             counter = 0
             protein_accession_maybe_sub_sequence = self.boxPro.text()
