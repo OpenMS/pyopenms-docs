@@ -50,7 +50,6 @@ def createRawTable(tagdict, inputdir):
 
 # just for testing
 i = input("filepath: ")
-
 delimiters = ["_"]
 files = filehandler(i)
 preparedfiles = tagfiles(files, delimiters[0])
