@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
+from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView, QPushButton
 
 
 # erzeugt unsere Tabelle
@@ -7,11 +7,17 @@ class TableView(QTableWidget):
     def __init__(self, *args):
         QTableWidget.__init__(self, *args)
         self.setRowCount(20)
-        self.setColumnCount(6)
-        self.setHorizontalHeaderLabels(['Check', 'Filename', 'Label', 'Group', 'Fractions', 'Comments'])
+        self.setColumnCount(7)
+        self.setHorizontalHeaderLabels(['Check', 'Filename', 'Label', 'Group', 'Fractions', 'Comments', ''])
         self.setItem(0, 0, QTableWidgetItem("0,0"))
         self.setItem(0, 1, QTableWidgetItem("0,1"))
         self.setItem(1, 1, QTableWidgetItem("1,1"))
+
+        # Fügt zu jeder Zeile einen Edit Button hinzu
+        for index in range(self.rowCount()):
+            editBtn = QPushButton(self)
+            editBtn.setText('Edit')
+            self.setCellWidget(index, 6, editBtn)
 
     # setzt die Verhaltensweisen der Spalten
         header = self.horizontalHeader()
