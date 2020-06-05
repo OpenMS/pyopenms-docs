@@ -67,10 +67,11 @@ def main():
     # Suche nach dem key (a)
     for protein_accession in dictKeyAccession:
         if protein_accession_maybe_sub_sequence in protein_accession:
+            index = list(dictKeyAccession).index(protein_accession)
             print("Protein: " + dictKeyAccession.get(protein_accession))
-            protein_index = list(dictKeyAccession).index(protein_accession)
-            print("Proteinname: " + proteinNameList[protein_index]) 
-            print("OS: " + proteinOSList[protein_index])
+            print("ID: " + list(dictKeyAccession.keys())[index]) 
+            print("Proteinname: " + proteinNameList[index]) 
+            print("OS: " + proteinOSList[index])
 
     # b)
     # hier kommt die eingegene Sequenz des Proteins rein 
@@ -81,6 +82,7 @@ def main():
     for protein_sequence in proteinList:
         if protein_sub_sequence in protein_sequence:
             index = proteinList.index(protein_sequence)
+            print("ID: " + list(dictKeyAccession.keys())[index])
             print("Protein: " + proteinList[index])
             print("Proteinname: " + proteinNameList[index])
             print("OS: " + proteinOSList[index])
@@ -94,6 +96,7 @@ def main():
     for protein_name in proteinNameList:
         if protein_sub_name in protein_name:
             index = proteinNameList.index(protein_name)
+            print("ID: " + list(dictKeyAccession.keys())[index])
             print("Protein: " + proteinList[index])
             print("Proteinname: " + proteinNameList[index])
             print("OS: " + proteinOSList[index])
