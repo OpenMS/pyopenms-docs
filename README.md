@@ -34,4 +34,4 @@ versions of OpenMS, covering Linux/Mac/Windows.
 ## Documentation
 
 =============
-The pyOpenMS documentation is also contained in this repository, see [docs/README.md](docs/README.md)
+The pyOpenMS documentation is also contained in this repository, see [documentation/README.md](docs/README.md)
