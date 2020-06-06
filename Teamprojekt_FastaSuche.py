@@ -56,6 +56,9 @@ def main():
     dictKeyAccession, proteinList, proteinNameList, proteinOSList = protein_dictionary(
         "/home/hris/Documents/iPRG2015_target_decoy_nocontaminants.fasta")
 
+    # decoy (checked?)
+    decoy = True
+
     # hier kommt die eingegeben protein accession (oder nur ein Teil davon) rein
     # z.B.: 'P00761'
     protein_accession_maybe_sub_sequence = input("Bitte Protein accession angeben: ")
@@ -65,8 +68,11 @@ def main():
     for protein_accession in dictKeyAccession:
         if protein_accession_maybe_sub_sequence in protein_accession:
             index = list(dictKeyAccession).index(protein_accession)
-            print("Protein: " + dictKeyAccession.get(protein_accession))
             print("ID: " + list(dictKeyAccession.keys())[index])
+            if (decoy):
+                print("Decoy-Protein: " + (dictKeyAccession.get(protein_accession))[::-1])
+            else:
+                print("Protein: " + dictKeyAccession.get(protein_accession))
             print("Proteinname: " + proteinNameList[index])
             print("OS: " + proteinOSList[index])
 
@@ -76,15 +82,27 @@ def main():
 
     protein_sub_sequence = input("Bitte Protein Sequenz angeben: ")
 
-    for protein_sequence in proteinList:
-        if protein_sub_sequence in protein_sequence:
-            index = proteinList.index(protein_sequence)
-            print("ID: " + list(dictKeyAccession.keys())[index])
-            print("Protein: " + proteinList[index])
-            print("Proteinname: " + proteinNameList[index])
-            print("OS: " + proteinOSList[index])
+    if (decoy):
+        # Suche nach decoy (if decoy is checked)
+        # Suche nach umgedrehter sequenz (b) (decoy sequenz)
+        for decoy_sequence in proteinList:
+            if protein_sub_sequence in decoy_sequence[::-1]:
+                index = proteinList.index(decoy_sequence)
+                print("ID: " + list(dictKeyAccession.keys())[index])
+                print("Protein: " + decoy_sequence[::-1])
+                print("Proteinname: " + proteinNameList[index])
+                print("OS: " + proteinOSList[index])
+    # wenn keine Decoy-Sequenz
+    else: 
+        for protein_sequence in proteinList:
+            if protein_sub_sequence in protein_sequence:
+                index = proteinList.index(protein_sequence)
+                print("ID: " + list(dictKeyAccession.keys())[index])
+                print("Protein: " + proteinList[index])
+                print("Proteinname: " + proteinNameList[index])
+                print("OS: " + proteinOSList[index])
 
-    # c)
+
     # Suche nach Name
     # z.B: TRYP_PIG Trypsin
 
@@ -94,9 +112,18 @@ def main():
         if protein_sub_name in protein_name:
             index = proteinNameList.index(protein_name)
             print("ID: " + list(dictKeyAccession.keys())[index])
-            print("Protein: " + proteinList[index])
+            if (decoy):
+                print("Decoy-Protein: " + proteinList[index][::-1])
+            else:
+                print("Protein: " + proteinList[index])
             print("Proteinname: " + proteinNameList[index])
             print("OS: " + proteinOSList[index])
+
+
+
+    
+    
+
 
 
 if __name__ == "__main__":
