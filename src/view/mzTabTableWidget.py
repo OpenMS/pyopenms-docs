@@ -19,7 +19,8 @@ class Window(QWidget):
         self.drawPSM = []
         self.drawPRT = []  # neu
 
-        self.selected = ""
+        self.selectedPSM = ""
+        self.selectedPRT = ""
 
         self.InitWindow()
 
@@ -96,15 +97,21 @@ class Window(QWidget):
                 break
 
     def filterProteins(self, item):
-        self.selected = self.drawPRT[item.row()][1]
-        print(self.selected)
-        self.drawPSM = [p for p in self.PSM if p[3] == self.selected]
+        if self.selectedPSM == self.drawPRT[item.row()][1]:
+            self.selectedPSM = ""
+            self.drawPSM = self.PSM
+        else:
+            self.selectedPSM = self.drawPRT[item.row()][1]
+            self.drawPSM = [p for p in self.PSM if p[3] == self.selectedPSM]
         self.createPSMTable()
 
     def filterPSMs(self, item):
-        self.selected = self.drawPSM[item.row()][3]
-        print(self.selected)
-        self.drawPRT = [f for f in self.PRT if f[1] in self.selected]
+        if self.selectedPRT == self.drawPSM[item.row()][3]:
+            self.selectedPRT = ""
+            self.drawPRT = self.PRT
+        else:
+            self.selectedPRT = self.drawPSM[item.row()][3]
+            self.drawPRT = [f for f in self.PRT if f[1] in self.selectedPRT]
         self.createProtTable()
 
 
