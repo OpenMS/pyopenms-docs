@@ -17,7 +17,11 @@ class Window(QWidget):
         self.height = 500
 
         self.PRT = []
-        self.PSM = []   
+        self.PSM = []
+
+        self.drawPSM = []
+
+        self.selected = ""
 
         self.InitWindow()
 
@@ -25,13 +29,19 @@ class Window(QWidget):
         self.setWindowIcon(QtGui.QIcon("icon.png"))
         self.setWindowTitle(self.title)
         self.setGeometry(self.top, self.left, self.width, self.height)
-        
+
+        self.parser('../examples/data/iPRG2015.mzTab')
+
+        self.drawPSM = self.PSM
+
         self.tableWidget1 = QTableWidget()
         self.createProtTable()
-        
+
         self.tableWidget2 = QTableWidget()
         self.createPSMTable()
-        
+
+        self.tableWidget1.itemClicked.connect(self.filterProteins)
+
         self.vbox = QVBoxLayout()
         self.vbox.addWidget(self.tableWidget1)
         self.vbox.addWidget(self.tableWidget2)
@@ -51,7 +61,6 @@ class Window(QWidget):
 
     def createProtTable(self):
 
-        self.parser('../examples/data/iPRG2015.mzTab') 
         self.tableWidget1.setRowCount(len(self.PRT))
         self.tableWidget1.setColumnCount(len(self.PRT[0]))
 
@@ -70,15 +79,14 @@ class Window(QWidget):
         
     def createPSMTable(self):
 
-        self.parser('../examples/data/iPRG2015.mzTab') 
-        self.tableWidget2.setRowCount(len(self.PSM))
-        self.tableWidget2.setColumnCount(len(self.PSM[0]))
+        self.tableWidget2.setRowCount(len(self.drawPSM))
+        self.tableWidget2.setColumnCount(len(self.drawPSM[0]))
 
         m = 0
         n = 0
         
-        for item in self.PSM:
-            while n < (len(self.PSM)):
+        for item in self.drawPSM:
+            while n < (len(self.drawPSM)):
                 while m < (len(item)):
                  self.tableWidget2.setItem(n,m,QTableWidgetItem(item[m]))
                  m+=1
@@ -86,7 +94,12 @@ class Window(QWidget):
                     n+=1
                     m=0
                 break
-            
+
+    def filterProteins(self, item):
+        self.selected = self.PRT[item.row()][1]
+        print(self.selected)
+        self.drawPSM = [p for p in self.PSM if p[3] == self.selected]
+        self.createPSMTable()
             
             
 
