@@ -7,8 +7,9 @@ from PyQt5.QtWidgets import (QWidget, QToolTip,
                              QLineEdit, QTableWidget, QTableWidgetItem,
                              QGridLayout, QScrollArea, QPlainTextEdit,
                              QDesktopWidget, QLabel, QRadioButton,
-                             QGroupBox, QSizePolicy, QCheckBox, QFileDialog)
-from PyQt5.QtGui import QFont
+                             QGroupBox, QSizePolicy, QCheckBox, QFileDialog,
+                             QTextEdit)
+from PyQt5.QtGui import QFont, QColor
 #from dictionaries import Dict
 sys.path.insert(0, '../Teamprojekt')
 from Teamprojekt_FastaSuche import*  # NOQA: E402
@@ -106,11 +107,13 @@ class Window(QMainWindow):
         self.mainwidget.setLayout(self.main_layout)
         self.setCentralWidget(self.mainwidget)
         self.setWindowTitle('Protein Viewer')
-
+        self.color = QColor(255, 0, 0)
+        self.colorblack = QColor(0, 0, 0)
         self.center()
         self.show()
 
         # centering the widget
+
     def center(self):
 
         qr = self.frameGeometry()
@@ -119,6 +122,9 @@ class Window(QMainWindow):
         self.move(qr.topLeft())
 
     # defining the function for load button to get path of database
+    def cutstring(self, oldstring, proteinseq):
+        cut = oldstring.split(proteinseq)
+        return cut
 
     def loadingfile(self):
         self.filename = QFileDialog.getOpenFileName()
@@ -154,7 +160,7 @@ class Window(QMainWindow):
                         Proteinname = proteinNameList[index]
                         OS = proteinOSList[index]
                         self.cg = QtWidgets.QTreeWidgetItem(self.tw, [ID])
-                        self.textp = QPlainTextEdit()
+                        self.textp = QTextEdit()
                         self.textp.resize(self.textp.width(), self.textp.height())
                         self.textp.insertPlainText("\nProtein Name: " + Proteinname +
                                                    "\nOS: " + OS +
@@ -186,11 +192,20 @@ class Window(QMainWindow):
                         OS = proteinOSList[index]
 
                         self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
-                        self.textp = QPlainTextEdit()
+                        self.textp = QTextEdit()
                         self.textp.resize(self.textp.width(), self.textp.height())
+                        cut = self.cutstring(Protein, protein_sub_sequence)
+                        Protein = cut[0]
                         self.textp.insertPlainText("\nProtein accession: " + ID +
                                                    "\nOS: " + OS +
-                                                   "\nProteinsequenz: " + Protein)
+                                                   "\nProteinsequenz: " + Protein
+                                                   )
+                        self.textp.setTextColor(self.color)
+                        self.textp.insertPlainText(protein_sub_sequence)
+                        self.textp.setTextColor(self.colorblack)
+                        Protein = cut[1]
+                        self.textp.insertPlainText(Protein)
+
                         self.textp.setReadOnly(True)
                         self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
                         self.tw.setItemWidget(self.cgChild, 0, self.textp)
