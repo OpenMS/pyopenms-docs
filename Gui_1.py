@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import (QWidget, QToolTip,
                              QLineEdit, QTableWidget, QTableWidgetItem,
                              QGridLayout, QScrollArea, QPlainTextEdit,
                              QDesktopWidget, QLabel, QRadioButton,
-                             QGroupBox, QSizePolicy, QCheckBox)
+                             QGroupBox, QSizePolicy, QCheckBox, QFileDialog)
 from PyQt5.QtGui import QFont
 #from dictionaries import Dict
 sys.path.insert(0, '../Teamprojekt')
@@ -36,6 +36,10 @@ class Window(QMainWindow):
         self.searchButtonP.move(width, heightPro)
 
         self.searchButtonP.clicked.connect(self.clickprotein)
+
+        self.loadbutton = QtWidgets.QPushButton(self)
+        self.loadbutton.setText("load")
+        self.loadbutton.clicked.connect(self.loadingfile)
 
         # creating testboxes for the buttons
         self.boxPro = QLineEdit(self)
@@ -70,6 +74,7 @@ class Window(QMainWindow):
         self.set1 = QHBoxLayout()
         self.set1.addWidget(self.boxPro)
         self.set1.addWidget(self.searchButtonP)
+        self.set1.addWidget(self.loadbutton)
         # self.set1.addStretch(1)
 
         # set 2 contains the radiobuttons
@@ -113,11 +118,16 @@ class Window(QMainWindow):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
-        # defining the clickprotein method for the searchButtonP
+    # defining the function for load button to get path of database
+
+    def loadingfile(self):
+        self.filename = QFileDialog.getOpenFileName()
+        self.path = self.filename[0]
+    # defining the clickprotein method for the searchButtonP
 
     def clickprotein(self):
         dictKeyAccession, proteinList, proteinNameList, proteinOSList = logic.protein_dictionary(
-        "C:/Users/Alex/Desktop/iPRG2015_target_decoy_nocontaminants.fasta")
+            self.path)
         # clearing the tree before each search
         self.tw.clear()
         # check if inputbox is empty if empty return error if not proceed
