@@ -27,3 +27,6 @@
         - muss ich nachschauen
 4. Screenshots:
     ![alt text](../Screenshots/ExampleTable.png "Tabelle")
+    ![alt text](../Screenshots/F1.png "Initialfenster")
+    ![alt text](../Screenshots/F2.png "Filedialog")
+    ![alt text](../Screenshots/F3.png "geladene Files")
