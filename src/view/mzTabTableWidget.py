@@ -96,13 +96,13 @@ class Window(QWidget):
                 break
 
     def filterProteins(self, item):
-        self.selected = self.PRT[item.row()][1]
+        self.selected = self.drawPRT[item.row()][1]
         print(self.selected)
         self.drawPSM = [p for p in self.PSM if p[3] == self.selected]
         self.createPSMTable()
 
     def filterPSMs(self, item):
-        self.selected = self.PSM[item.row()][3]
+        self.selected = self.drawPSM[item.row()][3]
         print(self.selected)
         self.drawPRT = [f for f in self.PRT if f[1] in self.selected]
         self.createProtTable()
@@ -111,4 +111,3 @@ class Window(QWidget):
 App = QApplication(sys.argv)
 window = Window()
 sys.exit(App.exec())
-
