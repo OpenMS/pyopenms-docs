@@ -13,6 +13,8 @@
    2. FileHandler.py für Funktionen rund um das hinzufügen und bauen einer Tabelle zu garantieren in controller angelegt.
    3. Probefenster.py zum Testen des Tabellen-Widgets in apps angelegt.
    4. Tableview.py und ButtonView.py in view angelegt.
+   5. Im nachhinein TableView und ButtonView in OverallView.py direkt vereint, daher TableView.py und ButtonView.py gelöscht.
+   6. Funktionalität des Load-Buttons in Grundzügen implementiert durch Verwendung von Filehandler(Ordner können gewählt werden und deren Inhalte werden dann entsprechend gehandhabt.)
 
 3. Userstories:
     a.  Ich möchte die Messungen (mzML Dateien) einfach über einen Filedialog hinzufügen können.
