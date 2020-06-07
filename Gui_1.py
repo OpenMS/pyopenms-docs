@@ -53,7 +53,7 @@ class logic:
         return dictKeyAccession, proteinList, proteinNameList, proteinOSList
 
     dictKeyAccession, proteinList, proteinNameList, proteinOSList = protein_dictionary(
-        "/home/hris/Documents/iPRG2015_target_decoy_nocontaminants.fasta")
+        "/home/caro/Downloads/iPRG2015_target_decoy_nocontaminants.fasta")
 
 # wird für die Methode protein_dictionary benötigt (suche von mehreren Indizes)
 
@@ -73,7 +73,7 @@ class logic:
 class Window(QMainWindow):
 
     dictKeyAccession, proteinList, proteinNameList, proteinOSList = protein_dictionary(
-        "/home/hris/Documents/iPRG2015_target_decoy_nocontaminants.fasta")
+        "/home/caro/Downloads/iPRG2015_target_decoy_nocontaminants.fasta")
 
     def __init__(self):
         super().__init__()
