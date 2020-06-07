@@ -107,6 +107,7 @@ class Window(QMainWindow):
         self.mainwidget.setLayout(self.main_layout)
         self.setCentralWidget(self.mainwidget)
         self.setWindowTitle('Protein Viewer')
+        # defining some colors to marked searched sequences
         self.color = QColor(255, 0, 0)
         self.colorblack = QColor(0, 0, 0)
         self.center()
@@ -121,10 +122,12 @@ class Window(QMainWindow):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
-    # defining the function for load button to get path of database
+    # defining a help function to cut the sequence that is being search from the
+    # Protein sequence that has been found
     def cutstring(self, oldstring, proteinseq):
         cut = oldstring.split(proteinseq)
         return cut
+    # defining the function for load button to get path of database
 
     def loadingfile(self):
         self.filename = QFileDialog.getOpenFileName()
