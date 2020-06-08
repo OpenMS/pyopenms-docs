@@ -5,9 +5,6 @@ class TableModifier:
     def __init__(self, dataframe):
         self.dataframe = dataframe
 
-    def save(self, dataframe, outputpath):
-        self.dataframe.to_csv(outputpath, sep='\t', encoding='utf-8')
-
     def modifyGroup(self, rows, groupnum):
         for row in rows:
             self.dataframe.at[row, 'Fraction_Group'] = groupnum
