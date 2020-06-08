@@ -20,11 +20,11 @@
     1. Ich möchte die Messungen (mzML Dateien) einfach über einen Filedialog hinzufügen können.
         - filehandler.py scannt ein zuvor übergebenes Verzeichnis und importiert daraus alle mzML-Dateien. Danach werden aus dem Dateinamen,tags über   zuvor festgelegte Delimiter ("_","-",etc.)erstellt
     2. Zusätzlich möchte ich angeben wieviele Labels in einer mzML Datei gemessen wurden. Wir nehmen an dass dieser Wert derselbe für alle mzML Dateien ist.
-        - muss ich nachschauen
+        - es existiert eine Spalte für Labels.
     3. Unterstütze Vorfraktionierung indem du vom User für jede mzML Datei die Fraktionsnummer abfrägst.
-        - muss ich nachschauen
+        - Fractions werden aus dem Dateinamen ausgelesen.
     4. Unterstütze den Nutzer weiter indem du die restlichen fehlenden Informationen abfrägst und die Datei entsprechend den Eingaben automatisch erstellst.
-        - muss ich nachschauen
+        - Noch nicht implementiert, mögliche Lösung wäre eine Abfrage nachdem erkannt wird welche Einträge in der Tabelle noch leer sind.
 4. Screenshots:
     ![alt text](../Screenshots/ExampleTable.png "Tabelle")
     ![alt text](../Screenshots/F1.png "Initialfenster")
