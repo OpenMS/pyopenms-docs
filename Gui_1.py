@@ -7,73 +7,15 @@ from PyQt5.QtWidgets import (QWidget, QToolTip,
                              QLineEdit, QTableWidget, QTableWidgetItem,
                              QGridLayout, QScrollArea, QPlainTextEdit,
                              QDesktopWidget, QLabel, QRadioButton,
-                             QGroupBox, QSizePolicy, QCheckBox)
-from PyQt5.QtGui import QFont
-from dictionaries import Dict
+                             QGroupBox, QSizePolicy, QCheckBox, QFileDialog,
+                             QTextEdit)
+from PyQt5.QtGui import QFont, QColor
+#from dictionaries import Dict
 sys.path.insert(0, '../Teamprojekt')
 from Teamprojekt_FastaSuche import*  # NOQA: E402
 
 
-class logic:
-    # Aufgabe a) + b)
-    # Zusammenstellung des dictionaries und der 3 Listen zum suchen für die a) und b)
-
-    def protein_dictionary(fastaFile):
-        dictKeyAccession = {}
-        proteinList = []
-        proteinNameList = []
-        proteinOSList = []
-        with open(fastaFile) as file_content:
-            for seqs in file_content:
-                if seqs.startswith('>'):
-                    bounds = find_all_indexes(seqs, '|')
-                    if len(bounds) != 0:
-                        key = (seqs[bounds[0]+1:bounds[1]])
-                        descr_upper_index = seqs.find('OS')
-                        # herausfinden bis zu welchem index das OS geht
-                        os_upper_index = seqs.find('(')
-                        os = ''
-                        if (os_upper_index == -1):
-                            zwischenergebnis = seqs[descr_upper_index+3:]
-                            zwischenergebnis1 = zwischenergebnis.split()
-                            os = zwischenergebnis1[0] + ' ' + zwischenergebnis1[1]
-                        name = (seqs[bounds[1]+1:descr_upper_index])
-                        stringValue = ""
-                        nextLine = next(file_content)
-                        while not nextLine.startswith('>'):
-                            stringValue += nextLine
-                            nextLine = next(file_content)
-                        dictKeyAccession[key] = stringValue
-                        proteinList.append(stringValue)
-                        proteinNameList.append(name)
-                        if (os_upper_index == -1):
-                            proteinOSList.append(os)
-                        else:
-                            proteinOSList.append((seqs[descr_upper_index+3:os_upper_index]))
-        return dictKeyAccession, proteinList, proteinNameList, proteinOSList
-
-    dictKeyAccession, proteinList, proteinNameList, proteinOSList = protein_dictionary(
-        "/home/caro/Downloads/iPRG2015_target_decoy_nocontaminants.fasta")
-
-# wird für die Methode protein_dictionary benötigt (suche von mehreren Indizes)
-
-    def find_all_indexes(input_str, search_str):
-        l1 = []
-        length = len(input_str)
-        index = 0
-        while index < length:
-            i = input_str.find(search_str, index)
-            if i == -1:
-                return l1
-            l1.append(i)
-            index = i + 1
-        return l1
-
-
 class Window(QMainWindow):
-
-    dictKeyAccession, proteinList, proteinNameList, proteinOSList = protein_dictionary(
-        "/home/caro/Downloads/iPRG2015_target_decoy_nocontaminants.fasta")
 
     def __init__(self):
         super().__init__()
@@ -95,6 +37,10 @@ class Window(QMainWindow):
         self.searchButtonP.move(width, heightPro)
 
         self.searchButtonP.clicked.connect(self.clickprotein)
+
+        self.loadbutton = QtWidgets.QPushButton(self)
+        self.loadbutton.setText("load")
+        self.loadbutton.clicked.connect(self.loadingfile)
 
         # creating testboxes for the buttons
         self.boxPro = QLineEdit(self)
@@ -129,6 +75,7 @@ class Window(QMainWindow):
         self.set1 = QHBoxLayout()
         self.set1.addWidget(self.boxPro)
         self.set1.addWidget(self.searchButtonP)
+        self.set1.addWidget(self.loadbutton)
         # self.set1.addStretch(1)
 
         # set 2 contains the radiobuttons
@@ -160,11 +107,14 @@ class Window(QMainWindow):
         self.mainwidget.setLayout(self.main_layout)
         self.setCentralWidget(self.mainwidget)
         self.setWindowTitle('Protein Viewer')
-
+        # defining some colors to marked searched sequences
+        self.color = QColor(255, 0, 0)
+        self.colorblack = QColor(0, 0, 0)
         self.center()
         self.show()
 
         # centering the widget
+
     def center(self):
 
         qr = self.frameGeometry()
@@ -172,9 +122,21 @@ class Window(QMainWindow):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
-        # defining the clickprotein method for the searchButtonP
+    # defining a help function to cut the sequence that is being search from the
+    # Protein sequence that has been found
+    def cutstring(self, oldstring, proteinseq):
+        cut = oldstring.split(proteinseq)
+        return cut
+    # defining the function for load button to get path of database
+
+    def loadingfile(self):
+        self.filename = QFileDialog.getOpenFileName()
+        self.path = self.filename[0]
+    # defining the clickprotein method for the searchButtonP
 
     def clickprotein(self):
+        dictKeyAccession, proteinList, proteinNameList, proteinOSList = logic.protein_dictionary(
+            self.path)
         # clearing the tree before each search
         self.tw.clear()
         # check if inputbox is empty if empty return error if not proceed
@@ -188,20 +150,20 @@ class Window(QMainWindow):
             if self.radioid.isChecked() == True:
                 counter = 0
                 protein_accession_maybe_sub_sequence = self.boxPro.text()
-                for logic.protein_accession in logic.dictKeyAccession:
+                for logic.protein_accession in dictKeyAccession:
                     if protein_accession_maybe_sub_sequence in logic.protein_accession:
                         counter = counter + 1
-                        index = list(logic.dictKeyAccession).index(logic.protein_accession)
-                        Protein = logic.dictKeyAccession.get(logic.protein_accession)
-                        ID = list(logic.dictKeyAccession.keys())[index]
+                        index = list(dictKeyAccession).index(logic.protein_accession)
+                        Protein = dictKeyAccession.get(logic.protein_accession)
+                        ID = list(dictKeyAccession.keys())[index]
                         if self.decoycheck.isChecked():
-                            Protein = logic.dictKeyAccession.get(logic.protein_accession)[::-1]
+                            Protein = dictKeyAccession.get(logic.protein_accession)[::-1]
                         else:
-                            Protein = logic.proteinList[index]
-                        Proteinname = logic.proteinNameList[index]
-                        OS = logic.proteinOSList[index]
+                            Protein = proteinList[index]
+                        Proteinname = proteinNameList[index]
+                        OS = proteinOSList[index]
                         self.cg = QtWidgets.QTreeWidgetItem(self.tw, [ID])
-                        self.textp = QPlainTextEdit()
+                        self.textp = QTextEdit()
                         self.textp.resize(self.textp.width(), self.textp.height())
                         self.textp.insertPlainText("\nProtein Name: " + Proteinname +
                                                    "\nOS: " + OS +
@@ -220,24 +182,33 @@ class Window(QMainWindow):
             if self.radioseq.isChecked() == True:
                 counter = 0
                 protein_sub_sequence = self.boxPro.text()
-                for logic.protein_sequence in logic.proteinList:
+                for logic.protein_sequence in proteinList:
                     if protein_sub_sequence in logic.protein_sequence:
                         counter = counter + 1
-                        index = logic.proteinList.index(logic.protein_sequence)
-                        ID = list(logic.dictKeyAccession.keys())[index]
+                        index = proteinList.index(logic.protein_sequence)
+                        ID = list(dictKeyAccession.keys())[index]
                         if self.decoycheck.isChecked():
-                            Protein = logic.dictKeyAccession.get(logic.protein_accession)[::-1]
+                            Protein = dictKeyAccession.get(logic.protein_accession)[::-1]
                         else:
-                            Protein = logic.proteinList[index]
-                        Proteinname = logic.proteinNameList[index]
-                        OS = logic.proteinOSList[index]
+                            Protein = proteinList[index]
+                        Proteinname = proteinNameList[index]
+                        OS = proteinOSList[index]
 
                         self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
-                        self.textp = QPlainTextEdit()
+                        self.textp = QTextEdit()
                         self.textp.resize(self.textp.width(), self.textp.height())
+                        cut = self.cutstring(Protein, protein_sub_sequence)
+                        Protein = cut[0]
                         self.textp.insertPlainText("\nProtein accession: " + ID +
                                                    "\nOS: " + OS +
-                                                   "\nProteinsequenz: " + Protein)
+                                                   "\nProteinsequenz: " + Protein
+                                                   )
+                        self.textp.setTextColor(self.color)
+                        self.textp.insertPlainText(protein_sub_sequence)
+                        self.textp.setTextColor(self.colorblack)
+                        Protein = cut[1]
+                        self.textp.insertPlainText(Protein)
+
                         self.textp.setReadOnly(True)
                         self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
                         self.tw.setItemWidget(self.cgChild, 0, self.textp)
@@ -252,17 +223,17 @@ class Window(QMainWindow):
             if self.radioname.isChecked() == True:
                 counter = 0
                 protein_sub_name = self.boxPro.text()
-                for logic.protein_name in logic.proteinNameList:
+                for logic.protein_name in proteinNameList:
                     if protein_sub_name in logic.protein_name:
                         counter = counter + 1
-                        index = logic.proteinNameList.index(logic.protein_name)
-                        ID = list(logic.dictKeyAccession.keys())[index]
+                        index = proteinNameList.index(logic.protein_name)
+                        ID = list(dictKeyAccession.keys())[index]
                         if self.decoycheck.isChecked():
-                            Protein = logic.dictKeyAccession.get(logic.protein_accession)[::-1]
+                            Protein = dictKeyAccession.get(logic.protein_accession)[::-1]
                         else:
-                            Protein = logic.proteinList[index]
-                        Proteinname = logic.proteinNameList[index]
-                        OS = logic.proteinOSList[index]
+                            Protein = proteinList[index]
+                        Proteinname = proteinNameList[index]
+                        OS = proteinOSList[index]
 
                         self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
                         self.textp = QPlainTextEdit()

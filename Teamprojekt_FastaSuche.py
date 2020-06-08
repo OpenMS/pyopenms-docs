@@ -1,39 +1,43 @@
 
 
-# Zusammenstellung des dictionaries und der 3 Listen zum suchen für die a) und b)
-def protein_dictionary(fastaFile):
-    dictKeyAccession = {}
-    proteinList = []
-    proteinNameList = []
-    proteinOSList = []
-    with open(fastaFile) as file_content:
-        for seqs in file_content:
-            if seqs.startswith('>'):
-                bounds = find_all_indexes(seqs, '|')
-                if len(bounds) != 0:
-                    key = (seqs[bounds[0]+1:bounds[1]])
-                    descr_upper_index = seqs.find('OS')
-                    # herausfinden bis zu welchem index das OS geht
-                    os_upper_index = seqs.find('(')
-                    os = ''
-                    if (os_upper_index == -1):
-                        zwischenergebnis = seqs[descr_upper_index+3:]
-                        zwischenergebnis1 = zwischenergebnis.split()
-                        os = zwischenergebnis1[0] + ' ' + zwischenergebnis1[1]
-                    name = (seqs[bounds[1]+1:descr_upper_index])
-                    stringValue = ""
-                    nextLine = next(file_content)
-                    while not nextLine.startswith('>'):
-                        stringValue += nextLine
+
+
+class logic:
+
+    # Zusammenstellung des dictionaries und der 3 Listen zum suchen für die a) und b)
+    def protein_dictionary(fastaFile):
+        dictKeyAccession = {}
+        proteinList = []
+        proteinNameList = []
+        proteinOSList = []
+        with open(fastaFile) as file_content:
+            for seqs in file_content:
+                if seqs.startswith('>'):
+                    bounds = find_all_indexes(seqs, '|')
+                    if len(bounds) != 0:
+                        key = (seqs[bounds[0]+1:bounds[1]])
+                        descr_upper_index = seqs.find('OS')
+                        # herausfinden bis zu welchem index das OS geht 
+                        os_upper_index = seqs.find('(')
+                        os = ''
+                        if (os_upper_index == -1):
+                            zwischenergebnis = seqs[descr_upper_index+3:]
+                            zwischenergebnis1 = zwischenergebnis.split()
+                            os = zwischenergebnis1[0] + ' ' + zwischenergebnis1[1]
+                        name = (seqs[bounds[1]+1:descr_upper_index])
+                        stringValue = ""
                         nextLine = next(file_content)
-                    dictKeyAccession[key] = stringValue
-                    proteinList.append(stringValue)
-                    proteinNameList.append(name)
-                    if (os_upper_index == -1):
-                        proteinOSList.append(os)
-                    else:
-                        proteinOSList.append((seqs[descr_upper_index+3:os_upper_index]))
-    return dictKeyAccession, proteinList, proteinNameList, proteinOSList
+                        while not nextLine.startswith('>'):
+                            stringValue += nextLine
+                            nextLine = next(file_content)
+                        dictKeyAccession[key] = stringValue
+                        proteinList.append(stringValue)
+                        proteinNameList.append(name)
+                        if (os_upper_index == -1):
+                            proteinOSList.append(os)
+                        else:
+                            proteinOSList.append((seqs[descr_upper_index+3:os_upper_index]))
+        return dictKeyAccession, proteinList, proteinNameList, proteinOSList
 
 
 # wird für die Methode protein_dictionary benötigt (suche von mehreren Indizes)
@@ -53,8 +57,8 @@ def find_all_indexes(input_str, search_str):
 def main():
 
     # a)
-    dictKeyAccession, proteinList, proteinNameList, proteinOSList = protein_dictionary(
-        "/home/hris/Documents/iPRG2015_target_decoy_nocontaminants.fasta")
+    dictKeyAccession, proteinList, proteinNameList, proteinOSList = logic.protein_dictionary(
+        "C:/Users/Alex/Desktop/iPRG2015_target_decoy_nocontaminants.fasta")
 
     # decoy (checked?)
     decoy = True
@@ -121,8 +125,8 @@ def main():
 
 
 
-    
-    
+        
+        
 
 
 
