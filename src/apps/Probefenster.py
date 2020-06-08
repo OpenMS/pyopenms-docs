@@ -1,7 +1,7 @@
-import sys
+import sys, os
 from PyQt5.QtWidgets import QApplication, QHBoxLayout, QMainWindow, QDesktopWidget, QWidget
 from PyQt5.QtCore import Qt
-sys.path.insert(0, '../view')
+sys.path.append(os.getcwd()+'/../view')
 from OverallView import OverallView
 
 
@@ -19,7 +19,7 @@ class Programm1(QMainWindow):
 
         self.resize(1280, 720)
         self.center()
-        self.setWindowTitle('Programm1')
+        self.setWindowTitle('ExperimentalDesign')
         self.show()
 
     def center(self):
