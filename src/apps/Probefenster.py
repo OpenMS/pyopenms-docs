@@ -19,7 +19,7 @@ class Programm1(QMainWindow):
 
         self.resize(1280, 720)
         self.center()
-        self.setWindowTitle('Programm1')
+        self.setWindowTitle('ExperimentalDesign')
         self.show()
 
     def center(self):
