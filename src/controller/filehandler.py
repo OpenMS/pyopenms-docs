@@ -48,7 +48,7 @@ class FileHandler:
             fimport = pd.read_csv(file)
             
         elif ftype == "tsv":           
-            fimport = pd.read_csv(file)
+            fimport = pd.read_csv(file, sep='\t')
         else: 
             return False
         return fimport
