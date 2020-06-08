@@ -8,6 +8,10 @@ files = []
 
 
 class FileHandler:
+    """
+    Filehandler class that provided support for file and directory interaction.
+
+    """
     def __init__(self, path, files, delimiter):
         self.path = path
         self.files = files
