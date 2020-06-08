@@ -17,13 +17,13 @@
    6. Funktionalität des Load-Buttons in Grundzügen implementiert durch Verwendung von Filehandler(Ordner können gewählt werden und deren Inhalte werden dann entsprechend gehandhabt.)
 
 3. Userstories:
-    a.  Ich möchte die Messungen (mzML Dateien) einfach über einen Filedialog hinzufügen können.
+    1. Ich möchte die Messungen (mzML Dateien) einfach über einen Filedialog hinzufügen können.
         - filehandler.py scannt ein zuvor übergebenes Verzeichnis und importiert daraus alle mzML-Dateien. Danach werden aus dem Dateinamen,tags über   zuvor festgelegte Delimiter ("_","-",etc.)erstellt
-    b.  Zusätzlich möchte ich angeben wieviele Labels in einer mzML Datei gemessen wurden. Wir nehmen an dass dieser Wert derselbe für alle mzML Dateien ist.
+    2. Zusätzlich möchte ich angeben wieviele Labels in einer mzML Datei gemessen wurden. Wir nehmen an dass dieser Wert derselbe für alle mzML Dateien ist.
         - muss ich nachschauen
-    c.  Unterstütze Vorfraktionierung indem du vom User für jede mzML Datei die Fraktionsnummer abfrägst.
+    3. Unterstütze Vorfraktionierung indem du vom User für jede mzML Datei die Fraktionsnummer abfrägst.
         - muss ich nachschauen
-    d.  Unterstütze den Nutzer weiter indem du die restlichen fehlenden Informationen abfrägst und die Datei entsprechend den Eingaben automatisch erstellst.
+    4. Unterstütze den Nutzer weiter indem du die restlichen fehlenden Informationen abfrägst und die Datei entsprechend den Eingaben automatisch erstellst.
         - muss ich nachschauen
 4. Screenshots:
     ![alt text](../Screenshots/ExampleTable.png "Tabelle")
