@@ -90,9 +90,14 @@ class FileHandler:
 
     def createRawTable(self, tagdict, inputdir):
         """
-        
+        Creates pandas-dataframe from prepared files dictionary, which contains the filename and its tags (delimiter is _).
+        Dataframes index corresponds to the filename, header are the column names.
+        Searches the tags for regular expressions to automatically include fraction and fraction group from filename.
+        Default regex:
+        Fraction-Group: FG or G
+        Fraction: F
         """
-        columnregex = ["TR[0-9]+", "F[0-9]+", "S[0-9]+"]
+        columnregex = ["FG[0-9]+", "G[0-9]+", "F[0-9]+"]
         header = ['Fraction_Group', 'Fraction',
                   'Spectra_Filepath', 'Label', 'Sample']
         index = []
@@ -106,11 +111,11 @@ class FileHandler:
             filetags = tagdict[file]
             for tag in filetags:
                 if re.match(columnregex[0], tag):
-                    filtered_tags['Fraction_Group'] = tag.split('TR')[1]
+                    filtered_tags['Fraction_Group'] = tag.split('FG')[1]
                 elif re.match(columnregex[1], tag):
-                    filtered_tags['Fraction'] = tag.split('F')[1]
+                    filtered_tags['Fraction_Group'] = tag.split('G')[1]
                 elif re.match(columnregex[2], tag):
-                    filtered_tags['Sample'] = tag.split('S')[1]
+                    filtered_tags['Fraction'] = tag.split('F')[1]
             rows.append([filtered_tags[i]for i in header])
         rawtable = pd.DataFrame(rows, index=index, columns=header)
         return rawtable
