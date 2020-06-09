@@ -9,7 +9,7 @@ from tableDataFrame import TableDataFrame as Tdf
 
 
 class OverallView(QWidget):
-    
+
     def __init__(self, *args):
         QWidget.__init__(self, *args)
 
@@ -51,16 +51,9 @@ class OverallView(QWidget):
         # Table
         self.table.setRowCount(10)
         self.table.setColumnCount(7)
-        self.table.setHorizontalHeaderLabels(['', 'Fraction_Group', 'Fraction', 'Filename',
-                'Label', 'Sample', ''])
-
-        # Fügt zu jeder Zeile einen Edit Button hinzu
-        #for index in range(self.table.rowCount()):
-        #    editBtn = QPushButton('Edit')
-        #    self.table.setCellWidget(index, 6, editBtn)
-        # test textwindow:
-
-
+        self.table.setHorizontalHeaderLabels(
+            ['', 'Fraction_Group', 'Fraction', 'Filename', 'Label', 'Sample',
+                ''])
 
         # Fügt zu jeder Zeile eine Checkbox hinzu
         for index in range(self.table.rowCount()):
@@ -82,6 +75,7 @@ class OverallView(QWidget):
         self.setLayout(layout)
 
         self.resize(1280, 720)
+
     def initUI(self):
         """
         initializes Ui Elements
@@ -95,9 +89,7 @@ class OverallView(QWidget):
         sets table layout
         """
 
-
-
-    def drawTable(self,tabledf,filePath):
+    def drawTable(self, tabledf, filePath):
         """
         draws a table witha given dataframe and filepath
         """
@@ -109,30 +101,37 @@ class OverallView(QWidget):
                     name = str(tabledf.iloc[i, j])[len(filePath):]
                     self.table.setItem(i, j+1, QTableWidgetItem(name))
                 else:
-                    self.table.setItem(i, j+1, QTableWidgetItem(tabledf.iloc[i, j]))
+                    self.table.setItem(
+                        i, j+1, QTableWidgetItem(tabledf.iloc[i, j]))
 
     def importBtn(self):
         """
         import button handler
         """
         options = QFileDialog.Options()
-        file, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;tsv (*.tsv);; csv (*.csv)", options=options)
+        file, _ = QFileDialog.getOpenFileName(
+            self, "QFileDialog.getOpenFileName()", "",
+            "All Files (*);;tsv (*.tsv);; csv (*.csv)", options=options)
+
         df = fh.importTable(self, file)
-        Tdf.setTable(self,df)
-        self.drawTable(df,file)
+        Tdf.setTable(self, df)
+        self.drawTable(df, file)
 
     def exportBtn(self):
         """
         export button handler
         """
         options = QFileDialog.Options()
-        file, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()", "","All Files (*);;tsv (*.tsv);; csv (*.csv)", options=options)
+        file, _ = QFileDialog.getSaveFileName(
+            self, "QFileDialog.getSaveFileName()", "",
+            "All Files (*);;tsv (*.tsv);; csv (*.csv)", options=options)
+
         df = Tdf.getTable(self)
-        
+
         temp = file.split("/")
-        fileName = temp[len(temp)-1] 
+        fileName = temp[len(temp)-1]
         ftype = fileName.split(".")[1]
-        fh.exportTable(self,df, fileName, ftype)
+        fh.exportTable(self, df, fileName, ftype)
 
     def loadBtnFn(self):
         """
@@ -144,9 +143,8 @@ class OverallView(QWidget):
         delimiters = ["_"]
         preparedFiles = fh.tagfiles(self, Files, delimiters[0])
         rawTable = fh.createRawTable(self, preparedFiles, filePath)
-        self.drawTable(rawTable,filePath)
-        Tdf.setTable(self,rawTable)
-        
+        self.drawTable(rawTable, filePath)
+        Tdf.setTable(self, rawTable)
 
     def loadFile(self):
         """
@@ -154,26 +152,27 @@ class OverallView(QWidget):
         """
         ftype = "*.mzML"
         options = QFileDialog.Options()
-        file, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;mzML Files (*.mzML)", options=options)
+        file, _ = QFileDialog.getOpenFileName(
+            self, "QFileDialog.getOpenFileName()", "",
+            "All Files (*);;mzML Files (*.mzML)", options=options)
+
         cdf = Tdf.getTable(self)
-        filelist =[]
-        filePath = file.rsplit("/",1)[0]
+        filelist = []
+        filePath = file.rsplit("/", 1)[0]
         temp = file.split("/")
-        fileName = temp[len(temp)-1] 
+        fileName = temp[len(temp)-1]
         if file:
-            #print(file)
+            # print(file)
             filelist.append(fileName)
             tagged_file = fh.tagfiles(self, filelist)
-            df =fh.createRawTable(self,tagged_file, filePath)
-            
-            ndf= cdf.append(df)
+            df = fh.createRawTable(self, tagged_file, filePath)
 
-            Tdf.setTable(self,ndf)
+            ndf = cdf.append(df)
+
+            Tdf.setTable(self, ndf)
             self.drawTable(ndf, filePath)
-        else: 
+        else:
             return False
-
-
 
         # print(len(rawTable.columns))
         # print(len(rawTable.index))

@@ -19,7 +19,8 @@ class FileHandler:
 
     def getFiles(self, path):
         """
-        Scans a provided directory and returns a list of all the matching files.
+        Scans a provided directory and returns a list of all
+        the matching files.
         """
         os.chdir(path)
         files = glob.glob('*.mzML')
@@ -39,28 +40,29 @@ class FileHandler:
             tags = file.split(delimiter)
             tagproperty[name] = tags
         return tagproperty
-    
+
     def importTable(self, file):
         """
         Imports a csv or tsv file and returns a panda-dataframe.
         Returns false if filetype is not tsv or csv.
 
         """
-        ftype = file.split(".")[1]        
-        
+        ftype = file.split(".")[1]
+
         if ftype == "csv":
             fimport = pd.read_csv(file)
-            
-        elif ftype == "tsv":           
+
+        elif ftype == "tsv":
             fimport = pd.read_csv(file, sep='\t')
-        else: 
+        else:
             return False
         return fimport
 
     def exportTable(self, table, filename, ftype='csv'):
         """
         Exports a panda-dataframe to the specified fyletype.
-        builds a path from a provided filename, a provided path, and the provided filetype.
+        builds a path from a provided filename, a provided path,
+        and the provided filetype.
 
         Defaults:
         If no path is specified, default is the current working directory.
@@ -73,7 +75,7 @@ class FileHandler:
 
         """
 
-        fullpath = filename 
+        fullpath = filename
         encodingOption = 'utf-8'
         if ftype == 'tsv':
             separator = "\t"
@@ -82,8 +84,9 @@ class FileHandler:
         else:
             return False
         try:
-            with open(fullpath,'w') as fileToWrite:
-                fileToWrite.write(table.to_csv(sep=separator, index=False, encoding=encodingOption))
+            with open(fullpath, 'w') as fileToWrite:
+                fileToWrite.write(table.to_csv(
+                    sep=separator, index=False, encoding=encodingOption))
             return True
         except:
             e = sys.exc_info()[0]
@@ -91,9 +94,11 @@ class FileHandler:
 
     def createRawTable(self, tagdict, inputdir):
         """
-        Creates pandas-dataframe from prepared files dictionary, which contains the filename and its tags (delimiter is _).
-        Dataframes index corresponds to the filename, header are the column names.
-        Searches the tags for regular expressions to automatically include fraction and fraction group from filename.
+        Creates pandas-dataframe from prepared files dictionary, which
+        contains the filename and its tags (delimiter is _). Dataframes index
+        corresponds to the filename, header are the column names. Searches the
+        tags for regular expressions to automatically include fraction and
+        fraction group from filename.
         Default regex:
         Fraction-Group: FG or G
         Fraction: F

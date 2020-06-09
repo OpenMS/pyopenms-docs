@@ -25,7 +25,7 @@ class TableModifier:
             self.dataframe.at[row, 'Fraction'] = fractionnum
 
         return self.dataframe
-    
+
     def modifyFraction(self, rows, fractionnummin, fractionnummax):
         """
         Let the user set the fraction for a list of selected rows.
@@ -34,8 +34,8 @@ class TableModifier:
         """
         if rows.lenght() < (fractionnummax-fractionnummin):
             return -1
-        
-        else: 
+
+        else:
             for i in range(rows.lenght()):
                 fractionnum = fractionnummin + i
                 self.dataframe.at[row, 'Fraction'] = fractionnum
@@ -65,7 +65,8 @@ class TableModifier:
     def searchTable(self, dataframe, searchstring):
         """
         Let the user search in all cells of the dataframe.
-        returns the a 2d list which corresponds to the cells, contains -1 if nothing is found the indeces of the searchstring if found.
+        returns the a 2d list which corresponds to the cells, contains -1 if
+        nothing is found the indeces of the searchstring if found.
         """
         header = list(dataframe.columns.values)
         indexesfound = []
@@ -73,4 +74,3 @@ class TableModifier:
             indexesfound.append(dataframe[col].str.find(searchstring))
 
         return indexesfound
-    

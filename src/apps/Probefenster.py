@@ -12,7 +12,9 @@ class Programm1(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        # erzeugt unsere Ansicht
+        '''
+        sets the window with all applications and widgets
+        '''
         view = OverallView(self)
 
         self.setCentralWidget(view)
