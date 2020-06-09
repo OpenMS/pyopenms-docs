@@ -133,3 +133,5 @@ src/controller/import_test.py
 src/examples/sample_ascore_output.csv
 
 src/view/TableWidget.py
+
+*.tsv

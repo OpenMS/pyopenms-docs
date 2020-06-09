@@ -35,6 +35,8 @@ class OverallView(QWidget):
         buttonlayout.addWidget(GroupBtn)
         buttonlayout.addWidget(SearchBtn)
         buttonlayout.addWidget(LoadFileBtn)
+        buttonlayout.addWidget(ImportBtn)
+        buttonlayout.addWidget(ExportBtn)
 
         buttons.setLayout(buttonlayout)
 
@@ -43,6 +45,8 @@ class OverallView(QWidget):
         # Buttonconnections
         LoadBtn.clicked.connect(self.loadBtnFn)
         LoadFileBtn.clicked.connect(self.loadFile)
+        ImportBtn.clicked.connect(self.importBtn)
+        ExportBtn.clicked.connect(self.exportBtn)
 
         # Table
         self.table.setRowCount(10)
@@ -78,7 +82,25 @@ class OverallView(QWidget):
         self.setLayout(layout)
 
         self.resize(1280, 720)
+    def initUI(self):
+        """
+        initializes Ui Elements
+        """
+    def setButtonLayout(self):
+        """
+        sets layout for buttons
+        """
+    def setTableLayout(self):
+        """
+        sets table layout
+        """
+
+
+
     def drawTable(self,tabledf,filePath):
+        """
+        draws a table witha given dataframe and filepath
+        """
         rowSize = len(tabledf.index)
         columSize = len(tabledf.columns)
         for i in range(rowSize):
@@ -89,8 +111,33 @@ class OverallView(QWidget):
                 else:
                     self.table.setItem(i, j+1, QTableWidgetItem(tabledf.iloc[i, j]))
 
-# Loadfunction
+    def importBtn(self):
+        """
+        import button handler
+        """
+        options = QFileDialog.Options()
+        file, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;tsv (*.tsv);; csv (*.csv)", options=options)
+        df = fh.importTable(self, file)
+        Tdf.setTable(self,df)
+        self.drawTable(df,file)
+
+    def exportBtn(self):
+        """
+        export button handler
+        """
+        options = QFileDialog.Options()
+        file, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()", "","All Files (*);;tsv (*.tsv);; csv (*.csv)", options=options)
+        df = Tdf.getTable(self)
+        
+        temp = file.split("/")
+        fileName = temp[len(temp)-1] 
+        ftype = fileName.split(".")[1]
+        fh.exportTable(self,df, fileName, ftype)
+
     def loadBtnFn(self):
+        """
+        provides a dialog to get the path for a directory
+        """
         dlg = QFileDialog(self)
         filePath = dlg.getExistingDirectory()
         Files = fh.getFiles(self, filePath)
@@ -102,6 +149,9 @@ class OverallView(QWidget):
         
 
     def loadFile(self):
+        """
+        provides a filedialog to load an additional file to the dataframe
+        """
         ftype = "*.mzML"
         options = QFileDialog.Options()
         file, _ = QFileDialog.getOpenFileName(self,"QFileDialog.getOpenFileName()", "","All Files (*);;mzML Files (*.mzML)", options=options)

@@ -57,7 +57,7 @@ class FileHandler:
             return False
         return fimport
 
-    def exportTable(self, table, filename, path=os.getcwd, ftype='csv'):
+    def exportTable(self, table, filename, ftype='csv'):
         """
         Exports a panda-dataframe to the specified fyletype.
         builds a path from a provided filename, a provided path, and the provided filetype.
@@ -72,7 +72,8 @@ class FileHandler:
         Returns an error if writing the file failed.
 
         """
-        fullpath = path + filename + '.' + ftype
+
+        fullpath = filename 
         encodingOption = 'utf-8'
         if ftype == 'tsv':
             separator = "\t"
