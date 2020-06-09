@@ -50,10 +50,10 @@ class FileHandler:
         ftype = file.split(".")[1]
 
         if ftype == "csv":
-            fimport = pd.read_csv(file)
+            fimport = pd.read_csv(file, index_col=0)
 
         elif ftype == "tsv":
-            fimport = pd.read_csv(file, sep='\t')
+            fimport = pd.read_csv(file, index_col=0, sep='\t')
         else:
             return False
         return fimport
@@ -86,7 +86,7 @@ class FileHandler:
         try:
             with open(fullpath, 'w') as fileToWrite:
                 fileToWrite.write(table.to_csv(
-                    sep=separator, index=False, encoding=encodingOption))
+                    sep=separator, index=True, encoding=encodingOption))
             return True
         except:
             e = sys.exc_info()[0]

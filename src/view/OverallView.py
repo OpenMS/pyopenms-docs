@@ -52,7 +52,8 @@ class OverallView(QWidget):
         self.table.setRowCount(10)
         self.table.setColumnCount(6)
         self.table.setHorizontalHeaderLabels(
-            ['', 'Fraction_Group', 'Fraction', 'Filename', 'Label', 'Sample'])
+            ['', 'Fraction_Group', 'Fraction',
+             'Spectra_Filepath', 'Label', 'Sample'])
 
         # Fügt zu jeder Zeile eine Checkbox hinzu
         for index in range(self.table.rowCount()):
@@ -88,7 +89,7 @@ class OverallView(QWidget):
         sets table layout
         """
 
-    def drawTable(self, tabledf, filePath):
+    def drawTable(self, tabledf):
         """
         draws a table witha given dataframe and filepath
         """
@@ -97,7 +98,8 @@ class OverallView(QWidget):
         for i in range(rowSize):
             for j in range(columSize):
                 if j == 2:
-                    name = str(tabledf.iloc[i, j])[len(filePath):]
+                    path = tabledf.iloc[i, j].split("/")
+                    name = path[len(path)-1]
                     self.table.setItem(i, j+1, QTableWidgetItem(name))
                 else:
                     self.table.setItem(
@@ -114,7 +116,7 @@ class OverallView(QWidget):
 
         df = fh.importTable(self, file)
         Tdf.setTable(self, df)
-        self.drawTable(df, file)
+        self.drawTable(df)
 
     def exportBtn(self):
         """
@@ -142,7 +144,7 @@ class OverallView(QWidget):
         delimiters = ["_"]
         preparedFiles = fh.tagfiles(self, Files, delimiters[0])
         rawTable = fh.createRawTable(self, preparedFiles, filePath)
-        self.drawTable(rawTable, filePath)
+        self.drawTable(rawTable)
         Tdf.setTable(self, rawTable)
 
     def loadFile(self):
@@ -169,7 +171,7 @@ class OverallView(QWidget):
             ndf = cdf.append(df)
 
             Tdf.setTable(self, ndf)
-            self.drawTable(ndf, filePath)
+            self.drawTable(ndf)
         else:
             return False
 
