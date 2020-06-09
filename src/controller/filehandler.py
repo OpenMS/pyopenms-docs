@@ -112,11 +112,11 @@ class FileHandler:
             filetags = tagdict[file]
             for tag in filetags:
                 if re.match(columnregex[0], tag):
-                    filtered_tags['Fraction_Group'] = tag.split('TR')[1]
+                    filtered_tags['Fraction_Group'] = tag.split('FG')[1]
                 elif re.match(columnregex[1], tag):
-                    filtered_tags['Fraction'] = tag.split('F')[1]
+                    filtered_tags['Fraction_Group'] = tag.split('G')[1]
                 elif re.match(columnregex[2], tag):
-                    filtered_tags['Sample'] = tag.split('S')[1]
+                    filtered_tags['Fraction'] = tag.split('F')[1]
             rows.append([filtered_tags[i]for i in header])
         rawtable = pd.DataFrame(rows, index=index, columns=header)
         return rawtable
