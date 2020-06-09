@@ -1,9 +1,12 @@
 import os
 import sys
 import pandas as pd
-from PyQt5.QtWidgets import QHBoxLayout, QWidget, QFileDialog, QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, QVBoxLayout, QCheckBox
+from PyQt5.QtWidgets import QHBoxLayout, QWidget, QFileDialog, \
+        QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, \
+        QVBoxLayout, QCheckBox
 sys.path.append(os.getcwd() + '/../controller')
 from filehandler import FileHandler as fh
+from TableModifier import TableModifier as Tm
 sys.path.append(os.getcwd() + '/../model')
 from tableDataFrame import TableDataFrame as Tdf
 
@@ -19,41 +22,32 @@ class OverallView(QWidget):
         buttons = QWidget()
         self.table = QTableWidget()
         self.df = pd.DataFrame()
-        # Buttons
-        ImportBtn = QPushButton('Import')
-        ExportBtn = QPushButton('Export')
-        LoadBtn = QPushButton('Load')
-        SaveBtn = QPushButton('Save')
-        LabelBtn = QPushButton('Label')
-        GroupBtn = QPushButton('Group')
-        SearchBtn = QPushButton('Search')
-        LoadFileBtn = QPushButton('AddFile')
 
-        buttonlayout.addWidget(LoadBtn)
-        buttonlayout.addWidget(SaveBtn)
-        buttonlayout.addWidget(LabelBtn)
-        buttonlayout.addWidget(GroupBtn)
-        buttonlayout.addWidget(SearchBtn)
-        buttonlayout.addWidget(LoadFileBtn)
-        buttonlayout.addWidget(ImportBtn)
-        buttonlayout.addWidget(ExportBtn)
+        # Buttons
+        Buttons = [QPushButton('Import'), QPushButton('Export'),
+                   QPushButton('Load'), QPushButton('Save'),
+                   QPushButton('Label'), QPushButton('Group'),
+                   QPushButton('Search'), QPushButton('Load File')]
+
+        for button in Buttons:
+            buttonlayout.addWidget(button)
 
         buttons.setLayout(buttonlayout)
 
         buttons.resize(200, 690)
 
         # Buttonconnections
-        LoadBtn.clicked.connect(self.loadBtnFn)
-        LoadFileBtn.clicked.connect(self.loadFile)
-        ImportBtn.clicked.connect(self.importBtn)
-        ExportBtn.clicked.connect(self.exportBtn)
+        Buttons[2].clicked.connect(self.loadBtnFn)
+        Buttons[7].clicked.connect(self.loadFile)
+        Buttons[0].clicked.connect(self.importBtn)
+        Buttons[1].clicked.connect(self.exportBtn)
 
         # Table
         self.table.setRowCount(10)
-        self.table.setColumnCount(6)
-        self.table.setHorizontalHeaderLabels(
-            ['', 'Fraction_Group', 'Fraction',
-             'Spectra_Filepath', 'Label', 'Sample'])
+        header = ['', 'Fraction_Group', 'Fraction',
+                  'Spectra_Filepath', 'Label', 'Sample']
+        self.table.setColumnCount(len(header))
+        self.table.setHorizontalHeaderLabels(header)
 
         # Fügt zu jeder Zeile eine Checkbox hinzu
         for index in range(self.table.rowCount()):
@@ -61,12 +55,12 @@ class OverallView(QWidget):
             self.table.setCellWidget(index, 0, CHBX)
 
         header = self.table.horizontalHeader()
-        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(3, QHeaderView.Stretch)
-        header.setSectionResizeMode(4, QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(5, QHeaderView.ResizeToContents)
+
+        for col in range(len(header)):
+            if col != 3:
+                header.setSectionResizeMode(col, QHeaderView.ResizeToContents)
+            else:
+                header.setSectionResizeMode(col, QHeaderView.Stretch)
 
         # setzte die Widgets ins gewünschte layout rein
         layout.addWidget(self.table)
