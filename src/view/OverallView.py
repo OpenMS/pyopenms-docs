@@ -50,10 +50,9 @@ class OverallView(QWidget):
 
         # Table
         self.table.setRowCount(10)
-        self.table.setColumnCount(7)
+        self.table.setColumnCount(6)
         self.table.setHorizontalHeaderLabels(
-            ['', 'Fraction_Group', 'Fraction', 'Filename', 'Label', 'Sample',
-                ''])
+            ['', 'Fraction_Group', 'Fraction', 'Filename', 'Label', 'Sample'])
 
         # Fügt zu jeder Zeile eine Checkbox hinzu
         for index in range(self.table.rowCount()):
