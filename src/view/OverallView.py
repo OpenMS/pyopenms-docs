@@ -195,7 +195,13 @@ class OverallView(QWidget):
                 return False
 
     def GroupBtn(self):
-        groupin, ok = QInputDialog.getInt(self, "Group Number", "Enter Integer Groupnumber")
+        """
+        Enables the user to change the group of selected rows to a given
+        number.
+        """
+        groupin, ok = QInputDialog.getInt(self,
+                                          "Group Number",
+                                          "Enter Integer Groupnumber")
 
         if ok:
             groupnum = groupin
