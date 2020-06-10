@@ -109,19 +109,18 @@ class OverallView(QWidget):
         tabledf = Tdf.getTable(self)
         rowcount = len(tabledf.index)
         colcount = len(tabledf.columns)
+        self.table.setRowCount(rowcount)
         for r in range(rowcount):
-            rowPosition = self.table.rowCount()
-            self.table.insertRow(rowPosition)
             row = tabledf.index[r]
             for c in range(colcount):
                 col = tabledf.columns[c]
                 if col == 'Spectra_Filepath':
                     path = tabledf.at[row, col].split("/")
                     name = path[len(path)-1]
-                    self.table.setItem(rowPosition, c, QTableWidgetItem(name))
+                    self.table.setItem(r, c, QTableWidgetItem(name))
                 else:
                     item = str(tabledf.at[row, col])
-                    self.table.setItem(rowPosition, c, QTableWidgetItem(item))
+                    self.table.setItem(r, c, QTableWidgetItem(item))
 
     def importBtn(self):
         """
