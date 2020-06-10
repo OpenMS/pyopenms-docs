@@ -16,8 +16,8 @@ class OverallView(QWidget):
     def __init__(self, *args):
         QWidget.__init__(self, *args)
 
-        buttonlayout = QVBoxLayout()
-        layout = QHBoxLayout()
+        buttonlayout = QHBoxLayout()
+        layout = QVBoxLayout()
         self.tdf = Tdf
         self.tm = Tm()
         buttons = QWidget()
@@ -26,9 +26,10 @@ class OverallView(QWidget):
 
         # Buttons
         Buttons = [QPushButton('Import'), QPushButton('Export'),
-                   QPushButton('Load'), QPushButton('Save'),
+                   QPushButton('Load'), QPushButton('Fraction'),
                    QPushButton('Label'), QPushButton('Group'),
-                   QPushButton('Search'), QPushButton('Load File')]
+                   QPushButton('Search'), QPushButton('Add File'),
+                   QPushButton('Remove File')]
 
         for button in Buttons:
             buttonlayout.addWidget(button)
@@ -43,6 +44,14 @@ class OverallView(QWidget):
         Buttons[2].clicked.connect(self.loadBtnFn)
         Buttons[5].clicked.connect(self.GroupBtn)
         Buttons[7].clicked.connect(self.loadFile)
+
+        """
+        Enabled buttons until function are added
+        """
+        Buttons[3].setEnabled(False)
+        Buttons[4].setEnabled(False)
+        Buttons[6].setEnabled(False)
+        Buttons[8].setEnabled(False)
 
         # Table
         self.table.setRowCount(10)
@@ -68,8 +77,8 @@ class OverallView(QWidget):
                 self.header.setSectionResizeMode(col, QHeaderView.Stretch)
 
         # setzte die Widgets ins gewünschte layout rein
-        layout.addWidget(self.table)
         layout.addWidget(buttons)
+        layout.addWidget(self.table)
 
         self.setLayout(layout)
 
@@ -83,6 +92,7 @@ class OverallView(QWidget):
         """
         sets layout for buttons
         """
+
     def setTableLayout(self):
         """
         sets table layout
