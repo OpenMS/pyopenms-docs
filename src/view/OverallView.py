@@ -19,6 +19,7 @@ class OverallView(QWidget):
         buttonlayout = QVBoxLayout()
         layout = QHBoxLayout()
         self.tdf = Tdf
+        self.tm = Tm()
         buttons = QWidget()
         self.table = QTableWidget()
         self.df = pd.DataFrame()
@@ -37,30 +38,32 @@ class OverallView(QWidget):
         buttons.resize(200, 690)
 
         # Buttonconnections
-        Buttons[2].clicked.connect(self.loadBtnFn)
-        Buttons[7].clicked.connect(self.loadFile)
         Buttons[0].clicked.connect(self.importBtn)
         Buttons[1].clicked.connect(self.exportBtn)
+        Buttons[2].clicked.connect(self.loadBtnFn)
+        Buttons[5].clicked.connect(self.GroupBtn)
+        Buttons[7].clicked.connect(self.loadFile)
 
         # Table
         self.table.setRowCount(10)
-        header = ['', 'Fraction_Group', 'Fraction',
-                  'Spectra_Filepath', 'Label', 'Sample']
-        self.table.setColumnCount(len(header))
-        self.table.setHorizontalHeaderLabels(header)
+        self.header = ['', 'Fraction_Group', 'Fraction',
+                       'Spectra_Filepath', 'Label', 'Sample']
+        self.table.setColumnCount(len(self.header))
+        self.table.setHorizontalHeaderLabels(self.header)
 
         # Fügt zu jeder Zeile eine Checkbox hinzu
         for index in range(self.table.rowCount()):
             CHBX = QCheckBox()
             self.table.setCellWidget(index, 0, CHBX)
 
-        header = self.table.horizontalHeader()
+        self.header = self.table.horizontalHeader()
 
-        for col in range(len(header)):
+        for col in range(len(self.header)):
             if col != 3:
-                header.setSectionResizeMode(col, QHeaderView.ResizeToContents)
+                self.header.setSectionResizeMode(col,
+                                                 QHeaderView.ResizeToContents)
             else:
-                header.setSectionResizeMode(col, QHeaderView.Stretch)
+                self.header.setSectionResizeMode(col, QHeaderView.Stretch)
 
         # setzte die Widgets ins gewünschte layout rein
         layout.addWidget(self.table)
@@ -168,6 +171,18 @@ class OverallView(QWidget):
             self.drawTable(ndf)
         else:
             return False
+
+    def GroupBtn(self):
+        selindexes = self.table.selectionModel().selectedRows()
+        selrows = []
+        df = Tdf.getTable(self)
+        for index in sorted(selindexes):
+            row = index.row()
+            tempfn = df.iloc[row, 2].split("/")  # static header
+            filename = tempfn[len(tempfn)-1]
+            selrows.append(filename)
+        Tm.modifyGroup(self, selrows, 2)
+        self.drawTable(Tdf.getTable(self))
 
         # print(len(rawTable.columns))
         # print(len(rawTable.index))

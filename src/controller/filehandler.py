@@ -112,7 +112,7 @@ class FileHandler:
         for file in filenames:
             index.append(file)
             filtered_tags = {'Fraction_Group': 0, 'Fraction': 0,
-                             'Spectra_Filepath': str(inputdir+file),
+                             'Spectra_Filepath': str(inputdir + "/" + file),
                              'Label': 0, 'Sample': 0}
             filetags = tagdict[file]
             for tag in filetags:
