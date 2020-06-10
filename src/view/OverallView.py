@@ -3,7 +3,7 @@ import sys
 import pandas as pd
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QFileDialog, \
         QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, \
-        QVBoxLayout, QCheckBox
+        QVBoxLayout, QCheckBox, QInputDialog
 sys.path.append(os.getcwd() + '/../controller')
 from filehandler import FileHandler as fh
 from TableModifier import TableModifier as Tm
@@ -115,10 +115,10 @@ class OverallView(QWidget):
         file, _ = QFileDialog.getOpenFileName(
             self, "QFileDialog.getOpenFileName()", "",
             "All Files (*);;tsv (*.tsv);; csv (*.csv)", options=options)
-
-        df = fh.importTable(self, file)
-        Tdf.setTable(self, df)
-        self.drawTable()
+        if file:
+            df = fh.importTable(self, file)
+            Tdf.setTable(self, df)
+            self.drawTable()
 
     def exportBtn(self):
         """
@@ -128,13 +128,13 @@ class OverallView(QWidget):
         file, _ = QFileDialog.getSaveFileName(
             self, "QFileDialog.getSaveFileName()", "",
             "All Files (*);;tsv (*.tsv);; csv (*.csv)", options=options)
+        if file:
+            df = Tdf.getTable(self)
 
-        df = Tdf.getTable(self)
-
-        temp = file.split("/")
-        fileName = temp[len(temp)-1]
-        ftype = fileName.split(".")[1]
-        fh.exportTable(self, df, fileName, ftype)
+            temp = file.split("/")
+            fileName = temp[len(temp)-1]
+            ftype = fileName.split(".")[1]
+            fh.exportTable(self, df, fileName, ftype)
 
     def loadBtnFn(self):
         """
@@ -142,12 +142,13 @@ class OverallView(QWidget):
         """
         dlg = QFileDialog(self)
         filePath = dlg.getExistingDirectory()
-        Files = fh.getFiles(self, filePath)
-        delimiters = ["_"]
-        preparedFiles = fh.tagfiles(self, Files, delimiters[0])
-        rawTable = fh.createRawTable(self, preparedFiles, filePath)
-        Tdf.setTable(self, rawTable)
-        self.drawTable()
+        if filePath != '':
+            Files = fh.getFiles(self, filePath)
+            delimiters = ["_"]
+            preparedFiles = fh.tagfiles(self, Files, delimiters[0])
+            rawTable = fh.createRawTable(self, preparedFiles, filePath)
+            Tdf.setTable(self, rawTable)
+            self.drawTable()
 
     def loadFile(self):
         """
@@ -158,36 +159,40 @@ class OverallView(QWidget):
         file, _ = QFileDialog.getOpenFileName(
             self, "QFileDialog.getOpenFileName()", "",
             "All Files (*);;mzML Files (*.mzML)", options=options)
-
-        cdf = Tdf.getTable(self)
-        filelist = []
-        filePath = file.rsplit("/", 1)[0]
-        temp = file.split("/")
-        fileName = temp[len(temp)-1]
         if file:
-            # print(file)
-            filelist.append(fileName)
-            tagged_file = fh.tagfiles(self, filelist)
-            df = fh.createRawTable(self, tagged_file, filePath)
+            cdf = Tdf.getTable(self)
+            filelist = []
+            filePath = file.rsplit("/", 1)[0]
+            temp = file.split("/")
+            fileName = temp[len(temp)-1]
+            if file:
+                # print(file)
+                filelist.append(fileName)
+                tagged_file = fh.tagfiles(self, filelist)
+                df = fh.createRawTable(self, tagged_file, filePath)
 
-            ndf = cdf.append(df)
+                ndf = cdf.append(df)
 
-            Tdf.setTable(self, ndf)
-            self.drawTable()
-        else:
-            return False
+                Tdf.setTable(self, ndf)
+                self.drawTable()
+            else:
+                return False
 
     def GroupBtn(self):
-        selindexes = self.table.selectionModel().selectedRows()
-        selrows = []
-        df = Tdf.getTable(self)
-        for index in sorted(selindexes):
-            row = index.row()
-            tempfn = df.iloc[row, 2].split("/")  # static header
-            filename = tempfn[len(tempfn)-1]
-            selrows.append(filename)
-        Tm.modifyGroup(self, selrows, 2)
-        self.drawTable()
+        groupin, ok = QInputDialog.getInt(self, "Group Number", "Enter Integer Groupnumber")
+
+        if ok:
+            groupnum = groupin
+            selindexes = self.table.selectionModel().selectedRows()
+            selrows = []
+            df = Tdf.getTable(self)
+            for index in sorted(selindexes):
+                row = index.row()
+                tempfn = df.iloc[row, 2].split("/")  # static header
+                filename = tempfn[len(tempfn)-1]
+                selrows.append(filename)
+            Tm.modifyGroup(self, selrows, groupnum)
+            self.drawTable()
 
         # print(len(rawTable.columns))
         # print(len(rawTable.index))
