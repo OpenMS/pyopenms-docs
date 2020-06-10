@@ -1,19 +1,24 @@
+import sys
+import os
 import pandas as pd
+sys.path.append(os.getcwd() + '/../model')
+from tableDataFrame import TableDataFrame as Tdf
 
 
 class TableModifier:
-    def __init__(self, dataframe):
-        self.dataframe = dataframe
+    def __init__(self):
+        self.tdf = Tdf
 
     def modifyGroup(self, rows, groupnum):
         """
         Let the user set the group for a list of selected rows.
         returns the modified dataframe
         """
+        self.df = Tdf.getTable(self)
         for row in rows:
-            self.dataframe.at[row, 'Fraction_Group'] = groupnum
+            self.df.at[row, 'Fraction_Group'] = groupnum
 
-        return self.dataframe
+        Tdf.setTable(self, self.df)
 
     def modifyFraction(self, rows, fractionnum):
         """
