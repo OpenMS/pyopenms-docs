@@ -86,10 +86,12 @@ class OverallView(QWidget):
         sets table layout
         """
 
-    def drawTable(self, tabledf):
+    def drawTable(self):
         """
         draws a table witha given dataframe and filepath
         """
+        tabledf = Tdf.getTable(self)
+        # print(tabledf) # for debugging
         rowSize = len(tabledf.index)
         columSize = len(tabledf.columns)
         for i in range(rowSize):
@@ -113,7 +115,7 @@ class OverallView(QWidget):
 
         df = fh.importTable(self, file)
         Tdf.setTable(self, df)
-        self.drawTable(df)
+        self.drawTable()
 
     def exportBtn(self):
         """
@@ -141,8 +143,8 @@ class OverallView(QWidget):
         delimiters = ["_"]
         preparedFiles = fh.tagfiles(self, Files, delimiters[0])
         rawTable = fh.createRawTable(self, preparedFiles, filePath)
-        self.drawTable(rawTable)
         Tdf.setTable(self, rawTable)
+        self.drawTable()
 
     def loadFile(self):
         """
@@ -168,7 +170,7 @@ class OverallView(QWidget):
             ndf = cdf.append(df)
 
             Tdf.setTable(self, ndf)
-            self.drawTable(ndf)
+            self.drawTable()
         else:
             return False
 
@@ -182,7 +184,7 @@ class OverallView(QWidget):
             filename = tempfn[len(tempfn)-1]
             selrows.append(filename)
         Tm.modifyGroup(self, selrows, 2)
-        self.drawTable(Tdf.getTable(self))
+        self.drawTable()
 
         # print(len(rawTable.columns))
         # print(len(rawTable.index))
