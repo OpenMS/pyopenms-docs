@@ -42,8 +42,6 @@ class OverallView(QWidget):
         buttons.setLayout(buttonlayout)
         buttonlayout.addWidget(self.textbox)
 
-        buttons.resize(200, 690)
-
         # Buttonconnections
         Buttons[0].clicked.connect(self.importBtn)
         Buttons[1].clicked.connect(self.exportBtn)
@@ -60,7 +58,7 @@ class OverallView(QWidget):
         Buttons[8].setEnabled(False)
 
         # Table
-        self.table.setRowCount(10)
+        self.table.setRowCount(0)
         self.header = ['Fraction_Group', 'Fraction',
                        'Spectra_Filepath', 'Label', 'Sample']
         self.table.setColumnCount(len(self.header))
@@ -112,16 +110,18 @@ class OverallView(QWidget):
         rowcount = len(tabledf.index)
         colcount = len(tabledf.columns)
         for r in range(rowcount):
+            rowPosition = self.table.rowCount()
+            self.table.insertRow(rowPosition)
             row = tabledf.index[r]
             for c in range(colcount):
                 col = tabledf.columns[c]
                 if col == 'Spectra_Filepath':
                     path = tabledf.at[row, col].split("/")
                     name = path[len(path)-1]
-                    self.table.setItem(r, c, QTableWidgetItem(name))
+                    self.table.setItem(rowPosition, c, QTableWidgetItem(name))
                 else:
                     item = str(tabledf.at[row, col])
-                    self.table.setItem(r, c, QTableWidgetItem(item))
+                    self.table.setItem(rowPosition, c, QTableWidgetItem(item))
 
     def importBtn(self):
         """
