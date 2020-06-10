@@ -46,20 +46,22 @@ class OverallView(QWidget):
 
         # Table
         self.table.setRowCount(10)
-        self.header = ['', 'Fraction_Group', 'Fraction',
+        self.header = ['Fraction_Group', 'Fraction',
                        'Spectra_Filepath', 'Label', 'Sample']
         self.table.setColumnCount(len(self.header))
         self.table.setHorizontalHeaderLabels(self.header)
 
+        """
         # Fügt zu jeder Zeile eine Checkbox hinzu
         for index in range(self.table.rowCount()):
             CHBX = QCheckBox()
             self.table.setCellWidget(index, 0, CHBX)
+        """
 
         self.header = self.table.horizontalHeader()
 
         for col in range(len(self.header)):
-            if col != 3:
+            if col != 2:
                 self.header.setSectionResizeMode(col,
                                                  QHeaderView.ResizeToContents)
             else:
@@ -88,21 +90,22 @@ class OverallView(QWidget):
 
     def drawTable(self):
         """
-        draws a table witha given dataframe and filepath
+        draws a table with the dataframe table model in tableDataFrame
         """
         tabledf = Tdf.getTable(self)
-        # print(tabledf) # for debugging
-        rowSize = len(tabledf.index)
-        columSize = len(tabledf.columns)
-        for i in range(rowSize):
-            for j in range(columSize):
-                if j == 2:
-                    path = tabledf.iloc[i, j].split("/")
+        rowcount = len(tabledf.index)
+        colcount = len(tabledf.columns)
+        for r in range(rowcount):
+            row = tabledf.index[r]
+            for c in range(colcount):
+                col = tabledf.columns[c]
+                if col == 'Spectra_Filepath':
+                    path = tabledf.at[row, col].split("/")
                     name = path[len(path)-1]
-                    self.table.setItem(i, j+1, QTableWidgetItem(name))
+                    self.table.setItem(r, c, QTableWidgetItem(name))
                 else:
-                    self.table.setItem(
-                        i, j+1, QTableWidgetItem(tabledf.iloc[i, j]))
+                    item = str(tabledf.at[row, col])
+                    self.table.setItem(r, c, QTableWidgetItem(item))
 
     def importBtn(self):
         """
