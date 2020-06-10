@@ -50,7 +50,7 @@ class OverallView(QWidget):
         Buttons[7].clicked.connect(self.loadFile)
 
         """
-        Enabled buttons until function are added
+        Disabled buttons until function are added
         """
         Buttons[3].setEnabled(False)
         Buttons[4].setEnabled(False)
