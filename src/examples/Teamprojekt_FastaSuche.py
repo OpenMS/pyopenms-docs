@@ -10,9 +10,16 @@ class logic:
         proteinList = []
         proteinNameList = []
         proteinOSList = []
+        dictKeyAccessionDECOY = {}
+        proteinListDECOY = []
+        proteinNameListDECOY = []
+        proteinOSListDECOY = []
+        #nextLine = ''
+        counter = 0
         with open(fastaFile) as file_content:
             for seqs in file_content:
-                if seqs.startswith('>'):
+                # is decoy 
+                if seqs.startswith('>DECOY'):
                     bounds = find_all_indexes(seqs, '|')
                     if len(bounds) != 0:
                         key = (seqs[bounds[0]+1:bounds[1]])
@@ -26,10 +33,47 @@ class logic:
                             os = zwischenergebnis1[0] + ' ' + zwischenergebnis1[1]
                         name = (seqs[bounds[1]+1:descr_upper_index])
                         stringValue = ""
+                        counter2 = 0
                         nextLine = next(file_content)
                         while not nextLine.startswith('>'):
-                            stringValue += nextLine
+                            stringValue += nextLine[:-1]
                             nextLine = next(file_content)
+                            counter2 = counter2 + 1
+                        counter = counter + len(stringValue) + len(seqs)  + counter2
+                        file_content.seek(counter, 0)
+                        dictKeyAccessionDECOY[key] = stringValue
+                        proteinListDECOY.append(stringValue)
+                        proteinNameListDECOY.append(name)
+                        if (os_upper_index == -1):
+                            proteinOSListDECOY.append(os)
+                        else:
+                            proteinOSListDECOY.append((seqs[descr_upper_index+3:os_upper_index]))
+
+                # is no decoy
+                elif seqs.startswith('>'):
+                    bounds = find_all_indexes(seqs, '|')
+                    if len(bounds) != 0:
+                        key = (seqs[bounds[0]+1:bounds[1]])
+                        descr_upper_index = seqs.find('OS')
+                        # herausfinden bis zu welchem index das OS geht 
+                        os_upper_index = seqs.find('(')
+                        os = ''
+                        if (os_upper_index == -1):
+                            zwischenergebnis = seqs[descr_upper_index+3:]
+                            zwischenergebnis1 = zwischenergebnis.split()
+                            os = zwischenergebnis1[0] + ' ' + zwischenergebnis1[1]
+                        name = (seqs[bounds[1]+1:descr_upper_index])
+                        stringValue = ""
+                        counter2 = 0
+                        nextLine = next(file_content)
+                        while not nextLine.startswith('>'):
+                            stringValue += nextLine[:-1]
+                            nextLine = next(file_content)
+                            if (nextLine[-1:] != '\n'):
+                                break
+                            counter2 = counter2 + 1
+                        counter = counter + len(stringValue) + len(seqs)  + counter2
+                        file_content.seek(counter, 0)
                         dictKeyAccession[key] = stringValue
                         proteinList.append(stringValue)
                         proteinNameList.append(name)
@@ -37,7 +81,7 @@ class logic:
                             proteinOSList.append(os)
                         else:
                             proteinOSList.append((seqs[descr_upper_index+3:os_upper_index]))
-        return dictKeyAccession, proteinList, proteinNameList, proteinOSList
+        return dictKeyAccession, proteinList, proteinNameList, proteinOSList, dictKeyAccessionDECOY, proteinListDECOY, proteinNameListDECOY, proteinOSListDECOY
 
 
 # wird für die Methode protein_dictionary benötigt (suche von mehreren Indizes)
@@ -57,8 +101,8 @@ def find_all_indexes(input_str, search_str):
 def main():
 
     # a)
-    dictKeyAccession, proteinList, proteinNameList, proteinOSList = logic.protein_dictionary(
-        "C:/Users/Alex/Desktop/iPRG2015_target_decoy_nocontaminants.fasta")
+    #dictKeyAccession, proteinList, proteinNameList, proteinOSList = logic.protein_dictionary(
+      #  "C:/Users/Alex/Desktop/iPRG2015_target_decoy_nocontaminants.fasta")
 
     # decoy (checked?)
     decoy = True

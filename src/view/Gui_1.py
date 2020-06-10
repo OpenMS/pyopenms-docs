@@ -146,11 +146,11 @@ class Window(QMainWindow):
             self.error.setWindowTitle("Error")
             c = self.error.exec_()
         else:
-            dictKeyAccession, proteinList, proteinNameList, proteinOSList = logic.protein_dictionary(
+            dictKeyAccession, proteinList, proteinNameList, proteinOSList, dictKeyAccessionDECOY, proteinListDECOY, proteinNameListDECOY, proteinOSListDECOY = logic.protein_dictionary(
                 self.path)
             # clearing the tree before each search
             self.tw.clear()
-            # check if inputbox is empty if empty return error if not proceed
+            # check if inputbox is empty. if empty return error if not proceed
             if self.boxPro.text() == "":
                 self.error = QMessageBox()
                 self.error.setIcon(QMessageBox.Information)
@@ -161,27 +161,45 @@ class Window(QMainWindow):
                 if self.radioid.isChecked() == True:
                     counter = 0
                     protein_accession_maybe_sub_sequence = self.boxPro.text()
-                    for logic.protein_accession in dictKeyAccession:
-                        if protein_accession_maybe_sub_sequence in logic.protein_accession:
-                            counter = counter + 1
-                            index = list(dictKeyAccession).index(logic.protein_accession)
-                            Protein = dictKeyAccession.get(logic.protein_accession)
-                            ID = list(dictKeyAccession.keys())[index]
-                            if self.decoycheck.isChecked():
-                                Protein = dictKeyAccession.get(logic.protein_accession)[::-1]
-                            else:
+                    if self.decoycheck.isChecked():
+                        for protein_accession in dictKeyAccessionDECOY:
+                            if protein_accession_maybe_sub_sequence in protein_accession:
+                                counter = counter + 1
+                                index = list(dictKeyAccessionDECOY).index(protein_accession)
+                                Protein = dictKeyAccessionDECOY.get(protein_accession)
+                                ID = list(dictKeyAccessionDECOY.keys())[index]
+                                Protein = dictKeyAccessionDECOY.get(protein_accession)[::-1]
+                                Proteinname = proteinNameListDECOY[index]
+                                OS = proteinOSListDECOY[index]
+                                self.cg = QtWidgets.QTreeWidgetItem(self.tw, [ID])
+                                self.textp = QTextEdit()
+                                self.textp.resize(self.textp.width(), self.textp.height())
+                                self.textp.insertPlainText("\nProtein Name: " + Proteinname +
+                                                        "\nOS: " + OS +
+                                                        "\nProteinsequenz: " + Protein)
+                                self.textp.setReadOnly(True)
+                                self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
+                                self.tw.setItemWidget(self.cgChild, 0, self.textp)
+                    else:
+                        for protein_accession in dictKeyAccession:
+                            if protein_accession_maybe_sub_sequence in protein_accession:
+                                counter = counter + 1
+                                index = list(dictKeyAccession).index(protein_accession)
+                                Protein = dictKeyAccession.get(protein_accession)
+                                ID = list(dictKeyAccession.keys())[index]
                                 Protein = proteinList[index]
-                            Proteinname = proteinNameList[index]
-                            OS = proteinOSList[index]
-                            self.cg = QtWidgets.QTreeWidgetItem(self.tw, [ID])
-                            self.textp = QTextEdit()
-                            self.textp.resize(self.textp.width(), self.textp.height())
-                            self.textp.insertPlainText("\nProtein Name: " + Proteinname +
-                                                       "\nOS: " + OS +
-                                                       "\nProteinsequenz: " + Protein)
-                            self.textp.setReadOnly(True)
-                            self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
-                            self.tw.setItemWidget(self.cgChild, 0, self.textp)
+                                Proteinname = proteinNameList[index]
+                                OS = proteinOSList[index]
+                                
+                                self.cg = QtWidgets.QTreeWidgetItem(self.tw, [ID])
+                                self.textp = QTextEdit()
+                                self.textp.resize(self.textp.width(), self.textp.height())
+                                self.textp.insertPlainText("\nProtein Name: " + Proteinname +
+                                                        "\nOS: " + OS +
+                                                        "\nProteinsequenz: " + Protein)
+                                self.textp.setReadOnly(True)
+                                self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
+                                self.tw.setItemWidget(self.cgChild, 0, self.textp)
 
                     if counter == 0:
                         self.msg = QMessageBox()
@@ -190,39 +208,66 @@ class Window(QMainWindow):
                         self.msg.setWindowTitle("Error")
                         x = self.msg.exec_()
 
+                # TODO: cuts sind mit for Schleifen denke ich gut zu lösen 
                 if self.radioseq.isChecked() == True:
                     counter = 0
                     protein_sub_sequence = self.boxPro.text()
-                    for logic.protein_sequence in proteinList:
-                        if protein_sub_sequence in logic.protein_sequence:
-                            counter = counter + 1
-                            index = proteinList.index(logic.protein_sequence)
-                            ID = list(dictKeyAccession.keys())[index]
-                            if self.decoycheck.isChecked():
-                                Protein = dictKeyAccession.get(logic.protein_accession)[::-1]
-                            else:
+                    if self.decoycheck.isChecked():
+                        for protein_sequence in proteinListDECOY:
+                            if protein_sub_sequence in protein_sequence:
+                                counter = counter + 1
+                                index = proteinListDECOY.index(protein_sequence)
+                                ID = list(dictKeyAccessionDECOY.keys())[index]
+                                Protein = proteinListDECOY[index]
+                                Proteinname = proteinNameListDECOY[index]
+                                OS = proteinOSListDECOY[index]
+
+                                self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
+                                self.textp = QTextEdit()
+                                self.textp.resize(self.textp.width(), self.textp.height())
+                                cut = self.cutstring(Protein, protein_sub_sequence)
+                                Protein = cut[0]
+                                self.textp.insertPlainText("\nProtein accession: " + ID +
+                                                        "\nOS: " + OS +
+                                                        "\nProteinsequenz: " + Protein
+                                                        )
+                                self.textp.setTextColor(self.color)
+                                self.textp.insertPlainText(protein_sub_sequence)
+                                self.textp.setTextColor(self.colorblack)
+                                Protein = cut[1]
+                                self.textp.insertPlainText(Protein)
+
+                                self.textp.setReadOnly(True)
+                                self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
+                                self.tw.setItemWidget(self.cgChild, 0, self.textp)
+                    else:
+                        for protein_sequence in proteinList:
+                            if protein_sub_sequence in protein_sequence:
+                                counter = counter + 1
+                                index = proteinList.index(protein_sequence)
+                                ID = list(dictKeyAccession.keys())[index]
                                 Protein = proteinList[index]
-                            Proteinname = proteinNameList[index]
-                            OS = proteinOSList[index]
+                                Proteinname = proteinNameList[index]
+                                OS = proteinOSList[index]
 
-                            self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
-                            self.textp = QTextEdit()
-                            self.textp.resize(self.textp.width(), self.textp.height())
-                            cut = self.cutstring(Protein, protein_sub_sequence)
-                            Protein = cut[0]
-                            self.textp.insertPlainText("\nProtein accession: " + ID +
-                                                       "\nOS: " + OS +
-                                                       "\nProteinsequenz: " + Protein
-                                                       )
-                            self.textp.setTextColor(self.color)
-                            self.textp.insertPlainText(protein_sub_sequence)
-                            self.textp.setTextColor(self.colorblack)
-                            Protein = cut[1]
-                            self.textp.insertPlainText(Protein)
+                                self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
+                                self.textp = QTextEdit()
+                                self.textp.resize(self.textp.width(), self.textp.height())
+                                cut = self.cutstring(Protein, protein_sub_sequence)
+                                Protein = cut[0]
+                                self.textp.insertPlainText("\nProtein accession: " + ID +
+                                                        "\nOS: " + OS +
+                                                        "\nProteinsequenz: " + Protein
+                                                        )
+                                self.textp.setTextColor(self.color)
+                                self.textp.insertPlainText(protein_sub_sequence)
+                                self.textp.setTextColor(self.colorblack)
+                                Protein = cut[1]
+                                self.textp.insertPlainText(Protein)
 
-                            self.textp.setReadOnly(True)
-                            self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
-                            self.tw.setItemWidget(self.cgChild, 0, self.textp)
+                                self.textp.setReadOnly(True)
+                                self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
+                                self.tw.setItemWidget(self.cgChild, 0, self.textp)
 
                     if counter == 0:
                         self.msg = QMessageBox()
@@ -234,27 +279,45 @@ class Window(QMainWindow):
                 if self.radioname.isChecked() == True:
                     counter = 0
                     protein_sub_name = self.boxPro.text()
-                    for logic.protein_name in proteinNameList:
-                        if protein_sub_name in logic.protein_name:
-                            counter = counter + 1
-                            index = proteinNameList.index(logic.protein_name)
-                            ID = list(dictKeyAccession.keys())[index]
-                            if self.decoycheck.isChecked():
-                                Protein = dictKeyAccession.get(logic.protein_accession)[::-1]
-                            else:
-                                Protein = proteinList[index]
-                            Proteinname = proteinNameList[index]
-                            OS = proteinOSList[index]
+                    if self.decoycheck.isChecked():
+                        for protein_name in proteinNameListDECOY:
+                            if protein_sub_name in protein_name:
+                                counter = counter + 1
+                                index = proteinNameListDECOY.index(protein_name)
+                                ID = list(dictKeyAccessionDECOY.keys())[index]
+                                Protein = proteinNameListDECOY[index]
+                                Proteinname = protein_name
+                                OS = proteinOSListDECOY[index]
 
-                            self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
-                            self.textp = QPlainTextEdit()
-                            self.textp.resize(self.textp.width(), self.textp.height())
-                            self.textp.insertPlainText("\nProtein accession: " + ID +
-                                                       "\nOS: " + OS +
-                                                       "\nProteinsequenz: " + Protein)
-                            self.textp.setReadOnly(True)
-                            self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
-                            self.tw.setItemWidget(self.cgChild, 0, self.textp)
+                                self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
+                                self.textp = QPlainTextEdit()
+                                self.textp.resize(self.textp.width(), self.textp.height())
+                                self.textp.insertPlainText("\nProtein accession: " + ID +
+                                                        "\nOS: " + OS +
+                                                        "\nProteinsequenz: " + Protein)
+                                self.textp.setReadOnly(True)
+                                self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
+                                self.tw.setItemWidget(self.cgChild, 0, self.textp)
+                    else:
+                        for protein_name in proteinNameList:
+                            if protein_sub_name in protein_name:
+                                counter = counter + 1
+                                index = proteinNameList.index(protein_name)
+                                ID = list(dictKeyAccession.keys())[index]
+                                Protein = proteinList[index]
+                                Proteinname = protein_name
+                                OS = proteinOSList[index]
+
+                                self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
+                                self.textp = QPlainTextEdit()
+                                self.textp.resize(self.textp.width(), self.textp.height())
+                                self.textp.insertPlainText("\nProtein accession: " + ID +
+                                                        "\nOS: " + OS +
+                                                        "\nProteinsequenz: " + Protein)
+                                self.textp.setReadOnly(True)
+                                self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
+                                self.tw.setItemWidget(self.cgChild, 0, self.textp)
+                    
 
                     if counter == 0:
                         self.msg = QMessageBox()
