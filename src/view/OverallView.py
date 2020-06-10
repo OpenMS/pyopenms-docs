@@ -1,9 +1,10 @@
 import os
 import sys
 import pandas as pd
+from PyQt5 import Qt
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QFileDialog, \
         QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, \
-        QVBoxLayout, QCheckBox, QInputDialog
+        QVBoxLayout, QCheckBox, QInputDialog, QLineEdit
 sys.path.append(os.getcwd() + '/../controller')
 from filehandler import FileHandler as fh
 from TableModifier import TableModifier as Tm
@@ -23,18 +24,23 @@ class OverallView(QWidget):
         buttons = QWidget()
         self.table = QTableWidget()
         self.df = pd.DataFrame()
+        self.textbox = QLineEdit(self)
+        self.textbox.move(20, 20)
+        self.textbox.setFixedWidth(400)
+        self.textbox.setFixedHeight(20)
 
         # Buttons
         Buttons = [QPushButton('Import'), QPushButton('Export'),
                    QPushButton('Load'), QPushButton('Fraction'),
                    QPushButton('Label'), QPushButton('Group'),
-                   QPushButton('Search'), QPushButton('Add File'),
-                   QPushButton('Remove File')]
+                   QPushButton('Remove File'), QPushButton('Add File'),
+                   QPushButton('Search')]
 
         for button in Buttons:
             buttonlayout.addWidget(button)
 
         buttons.setLayout(buttonlayout)
+        buttonlayout.addWidget(self.textbox)
 
         buttons.resize(200, 690)
 
