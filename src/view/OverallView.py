@@ -108,7 +108,7 @@ class OverallView(QWidget):
         draws a table with the dataframe table model in tableDataFrame
         """
         tabledf = Tdf.getTable(self)
-        print(tabledf)
+        # print(tabledf)  # For debugging
         rowcount = len(tabledf.index)
         colcount = len(tabledf.columns)
         self.table.setRowCount(rowcount)
