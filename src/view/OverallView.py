@@ -8,7 +8,6 @@ from PyQt5.QtWidgets import QHBoxLayout, QWidget, QFileDialog, \
         QVBoxLayout, QCheckBox, QInputDialog, QLineEdit, QMessageBox
 sys.path.append(os.getcwd() + '/../controller')
 from filehandler import FileHandler as fh
-from TableModifier import TableModifier as Tm
 sys.path.append(os.getcwd() + '/../model')
 from tableDataFrame import TableDataFrame as Tdf
 
@@ -21,7 +20,6 @@ class OverallView(QWidget):
         buttonlayout = QHBoxLayout()
         layout = QVBoxLayout()
         self.tdf = Tdf
-        self.tm = Tm()
         buttons = QWidget()
         self.table = QTableWidget()
         self.df = pd.DataFrame()
@@ -215,7 +213,7 @@ class OverallView(QWidget):
                                            "Enter Integer Groupnumber")
 
         if ok:
-            Tm.modifyGroup(self, selrows, groupnum)
+            Tdf.modifyGroup(self, selrows, groupnum)
             self.drawTable()
 
     def FractionBtn(self):
@@ -245,7 +243,7 @@ class OverallView(QWidget):
                                                     QMessageBox.No),
                                                    QMessageBox.No)
                         if rep == QMessageBox.Yes:
-                            Tm.modifyFraction(self, selrows, fracmin, fracmax)
+                            Tdf.modifyFraction(self, selrows, fracmin, fracmax)
                             fractions = fracmax-fracmin + 1
                             numgroups = math.ceil(len(selrows)/fractions)
                             splicelist = [0]
@@ -256,18 +254,18 @@ class OverallView(QWidget):
                                 indexa = splicelist[group-1]
                                 indexb = splicelist[group]
                                 subrows = selrows[indexa:indexb]
-                                Tm.modifyGroup(self, subrows, group)
+                                Tdf.modifyGroup(self, subrows, group)
                         else:
-                            Tm.modifyFraction(self, selrows, fracmin, fracmax)
+                            Tdf.modifyFraction(self, selrows, fracmin, fracmax)
                     elif fracmax == fracmin:
-                        Tm.modifyFraction(self, selrows, fracmin)
+                        Tdf.modifyFraction(self, selrows, fracmin)
                     else:
                         QMessageBox.warning(self, "Error", "Please use " +
                                             "a higher integer " +
                                             "number for the maximum " +
                                             "fractionnumber.")
                 else:
-                    Tm.modifyFraction(self, selrows, fracmin)
+                    Tdf.modifyFraction(self, selrows, fracmin)
                 self.drawTable()
 
     def LabelBtn(self):
@@ -290,9 +288,9 @@ class OverallView(QWidget):
                                         QMessageBox.No),
                                        QMessageBox.No)
             if rep == QMessageBox.Yes:
-                Tm.modifyLabelSample(self, labelnum, True)
+                Tdf.modifyLabelSample(self, labelnum, True)
             else:
-                Tm.modifyLabelSample(self, labelnum, False)
+                Tdf.modifyLabelSample(self, labelnum, False)
             self.drawTable()
 
 # print(len(rawTable.columns))
