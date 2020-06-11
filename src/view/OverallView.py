@@ -272,9 +272,9 @@ class OverallView(QWidget):
 
     def LabelBtn(self):
         """
-        Let the user choose the number of labels for the selected rows, it will
-        automatically count the labels for the copied rows and also links
-        the sample with the label. Gives an option to continue samplecount
+        Let the user choose the number of labels, it will generate
+        the labels for the copied rows and also links the sample to
+        the label. Gives an option to continue the samplecount
         over fraction groups.
         """
 
