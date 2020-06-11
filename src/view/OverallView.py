@@ -1,10 +1,11 @@
 import os
 import sys
 import pandas as pd
+import math
 from PyQt5 import Qt
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QFileDialog, \
         QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, \
-        QVBoxLayout, QCheckBox, QInputDialog, QLineEdit
+        QVBoxLayout, QCheckBox, QInputDialog, QLineEdit, QMessageBox
 sys.path.append(os.getcwd() + '/../controller')
 from filehandler import FileHandler as fh
 from TableModifier import TableModifier as Tm
@@ -59,8 +60,8 @@ class OverallView(QWidget):
 
         # Table
         self.table.setRowCount(0)
-        self.header = ['Fraction_Group', 'Fraction',
-                       'Spectra_Filepath', 'Label', 'Sample']
+        self.header = ['Fraction Group', 'Fraction',
+                       'Spectra Filepath', 'Label', 'Sample']
         self.table.setColumnCount(len(self.header))
         self.table.setHorizontalHeaderLabels(self.header)
 
@@ -241,7 +242,35 @@ class OverallView(QWidget):
             if ok:
                 if fracmax != 0:
                     if fracmax > fracmin:
-                        Tm.modifyFraction(self, selrows, fracmin, fracmax)
+                        rep = QMessageBox.question(self, "Fraction Group?",
+                                                   "Do you want to infer a " +
+                                                   "Fraction Group from the " +
+                                                   "given range?",
+                                                   (QMessageBox.Yes |
+                                                    QMessageBox.No),
+                                                   QMessageBox.No)
+                        if rep == QMessageBox.Yes:
+                            Tm.modifyFraction(self, selrows, fracmin, fracmax)
+                            fractions = fracmax-fracmin + 1
+                            numgroups = math.ceil(len(selrows)/fractions)
+                            splicelist = [0]
+                            for g in range(1, numgroups+1):
+                                splicelist.append(g*fractions)
+                            splicelist.append(len(selrows))
+                            for group in range(1, numgroups+1):
+                                indexa = splicelist[group-1]
+                                indexb = splicelist[group]
+                                subrows = selrows[indexa:indexb]
+                                Tm.modifyGroup(self, subrows, group)
+                        else:
+                            Tm.modifyFraction(self, selrows, fracmin, fracmax)
+                    elif fracmax == fracmin:
+                        Tm.modifyFraction(self, selrows, fracmin)
+                    else:
+                        QMessageBox.warning(self, "Error", "Please use" +
+                                            "a higher integer" +
+                                            "number for the maximum" +
+                                            "fractionnumber.")
                 else:
                     Tm.modifyFraction(self, selrows, fracmin)
                 self.drawTable()
