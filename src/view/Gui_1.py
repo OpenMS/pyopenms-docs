@@ -119,7 +119,6 @@ class Window(QMainWindow):
         # centering the widget
 
     def center(self):
-
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
@@ -225,17 +224,31 @@ class Window(QMainWindow):
                                 self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
                                 self.textp = QTextEdit()
                                 self.textp.resize(self.textp.width(), self.textp.height())
-                                cut = self.cutstring(Protein, protein_sub_sequence)
-                                Protein = cut[0]
+                                cuts = self.cutstring(Protein, protein_sub_sequence)
                                 self.textp.insertPlainText("\nProtein accession: " + ID +
                                                         "\nOS: " + OS +
-                                                        "\nProteinsequenz: " + Protein
+                                                        "\nProteinsequenz: "
                                                         )
-                                self.textp.setTextColor(self.color)
-                                self.textp.insertPlainText(protein_sub_sequence)
-                                self.textp.setTextColor(self.colorblack)
-                                Protein = cut[1]
-                                self.textp.insertPlainText(Protein)
+
+                                for i in range(len(cuts)):
+                                    # sofern wir ganz am Anfang der Liste sind
+                                    if (cuts[i] == '' and i == 0):
+                                        self.textp.setTextColor(self.color)
+                                        self.textp.insertPlainText(protein_sub_sequence)
+                                        self.textp.setTextColor(self.colorblack)
+                                    # sofern wir mitten drin sind und der sub_string mehrfach auftaucht
+                                    elif (cuts[i] == ''):
+                                        self.textp.setTextColor(self.color)
+                                        self.textp.insertPlainText(protein_sub_sequence)
+                                        self.textp.setTextColor(self.colorblack)
+                                    else:  
+                                        if (i == len(cuts) - 1):
+                                            self.textp.insertPlainText(cuts[i])
+                                        else:
+                                            self.textp.insertPlainText(cuts[i])
+                                            self.textp.setTextColor(self.color)
+                                            self.textp.insertPlainText(protein_sub_sequence)
+                                            self.textp.setTextColor(self.colorblack)
 
                                 self.textp.setReadOnly(True)
                                 self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
@@ -253,17 +266,31 @@ class Window(QMainWindow):
                                 self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
                                 self.textp = QTextEdit()
                                 self.textp.resize(self.textp.width(), self.textp.height())
-                                cut = self.cutstring(Protein, protein_sub_sequence)
-                                Protein = cut[0]
+                                cuts = self.cutstring(Protein, protein_sub_sequence)
                                 self.textp.insertPlainText("\nProtein accession: " + ID +
                                                         "\nOS: " + OS +
-                                                        "\nProteinsequenz: " + Protein
+                                                        "\nProteinsequenz: " 
                                                         )
-                                self.textp.setTextColor(self.color)
-                                self.textp.insertPlainText(protein_sub_sequence)
-                                self.textp.setTextColor(self.colorblack)
-                                Protein = cut[1]
-                                self.textp.insertPlainText(Protein)
+
+                                for i in range(len(cuts)):
+                                    # sofern wir ganz am Anfang der Liste sind
+                                    if (cuts[i] == '' and i == 0):
+                                        self.textp.setTextColor(self.color)
+                                        self.textp.insertPlainText(protein_sub_sequence)
+                                        self.textp.setTextColor(self.colorblack)
+                                    # sofern wir mitten drin oder am Ende sind sind 
+                                    elif (cuts[i] == ''):
+                                        self.textp.setTextColor(self.color)
+                                        self.textp.insertPlainText(protein_sub_sequence)
+                                        self.textp.setTextColor(self.colorblack)
+                                    else:  
+                                        if (i == len(cuts) - 1):
+                                            self.textp.insertPlainText(cuts[i])
+                                        else:
+                                            self.textp.insertPlainText(cuts[i])
+                                            self.textp.setTextColor(self.color)
+                                            self.textp.insertPlainText(protein_sub_sequence)
+                                            self.textp.setTextColor(self.colorblack)
 
                                 self.textp.setReadOnly(True)
                                 self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
@@ -285,7 +312,7 @@ class Window(QMainWindow):
                                 counter = counter + 1
                                 index = proteinNameListDECOY.index(protein_name)
                                 ID = list(dictKeyAccessionDECOY.keys())[index]
-                                Protein = proteinNameListDECOY[index]
+                                Protein = proteinListDECOY[index]
                                 Proteinname = protein_name
                                 OS = proteinOSListDECOY[index]
 
