@@ -1,6 +1,7 @@
 import sys
 import os
 import pandas as pd
+import numpy as np
 sys.path.append(os.getcwd() + '/../model')
 from tableDataFrame import TableDataFrame as Tdf
 
@@ -42,14 +43,50 @@ class TableModifier:
 
         Tdf.setTable(self, self.df)
 
-    def modifyLabelSample(self, rows, labelnum, continuous):
+    def modifyLabelSample(self, labelnum, continuous):
         """
         Let the user change the multiplicity of the selected rows
         """
         self.df = Tdf.getTable(self)
         if continuous:
-            self.df = self.df.append([self.df]*(labelnum-1), ignore_index=True)
-        Tdf.setTable(self, self.df)
+            ndf = []
+            for row in self.df.index:
+                for cl in range(labelnum):
+                    label = cl+1
+                    self.df.at[row, 'Label'] = label
+                    dfrow = self.df.loc[[row]]
+                    ndf.append(dfrow)
+
+            ndf = pd.concat(ndf, ignore_index=True)
+            prevsample = 0
+            for row in ndf.index:
+                if (row == 0):
+                    samplenum = 1
+                    ndf.at[row, 'Sample'] = samplenum
+                elif(ndf.at[row, 'Fraction_Group'] != ndf.at[row-1, 'Fraction_Group']):
+                    prevsample = ndf.at[row-1, 'Sample']
+                    samplenum = ndf.at[row, 'Label'] + prevsample
+                    ndf.at[row, 'Sample'] = samplenum
+                else:
+                    samplenum = ndf.at[row, 'Label'] + prevsample
+                    ndf.at[row, 'Sample'] = samplenum
+
+        else:
+            ndf = []
+            for row in self.df.index:
+                for cl in range(labelnum):
+                    label = cl+1
+                    self.df.at[row, 'Label'] = label
+                    dfrow = self.df.loc[[row]]
+                    ndf.append(dfrow)
+
+            ndf = pd.concat(ndf, ignore_index=True)
+
+            for row in ndf.index:
+                samplenum = ndf.at[row, 'Label']
+                ndf.at[row, 'Sample'] = samplenum
+
+        Tdf.setTable(self, ndf)
 
     def searchTable(self, dataframe, searchstring):
         """

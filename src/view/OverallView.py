@@ -277,7 +277,6 @@ class OverallView(QWidget):
         the sample with the label. Gives an option to continue samplecount
         over fraction groups.
         """
-        selrows = self.getSelRows()
 
         labelnum, ok = QInputDialog.getInt(self, "Label",
                                            "Please specify the multiplicity" +
@@ -291,9 +290,9 @@ class OverallView(QWidget):
                                         QMessageBox.No),
                                        QMessageBox.No)
             if rep == QMessageBox.Yes:
-                Tm.modifyLabelSample(self, selrows, labelnum, True)
+                Tm.modifyLabelSample(self, labelnum, True)
             else:
-                Tm.modifyLabelSample(self, selrows, labelnum, False)
+                Tm.modifyLabelSample(self, labelnum, False)
             self.drawTable()
 
 # print(len(rawTable.columns))
