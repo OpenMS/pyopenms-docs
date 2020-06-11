@@ -20,32 +20,27 @@ class TableModifier:
 
         Tdf.setTable(self, self.df)
 
-    def modifyFraction(self, rows, fractionnum):
+    def modifyFraction(self, rows, *argv):
         """
         Let the user set the fraction for a list of selected rows.
         enabled, when only parsing one number as fraction
         returns the modified dataframe
         """
-        for row in rows:
-            self.dataframe.at[row, 'Fraction'] = fractionnum
+        self.df = Tdf.getTable(self)
+        if len(argv) == 1:
+            for row in rows:
+                self.df.at[row, 'Fraction'] = argv[0]
+        elif len(argv) == 2:
+            count = 0
+            for row in rows:
+                fracnum = argv[0] + count
+                self.df.at[row, 'Fraction'] = fracnum
+                if fracnum >= argv[1]:
+                    count = 0
+                else:
+                    count += 1
 
-        return self.dataframe
-
-    def modifyFraction(self, rows, fractionnummin, fractionnummax):
-        """
-        Let the user set the fraction for a list of selected rows.
-        enabled, when parsing a range of numbers as fractions
-        returns the modified dataframe
-        """
-        if rows.lenght() < (fractionnummax-fractionnummin):
-            return -1
-
-        else:
-            for i in range(rows.lenght()):
-                fractionnum = fractionnummin + i
-                self.dataframe.at[row, 'Fraction'] = fractionnum
-
-            return self.dataframe
+        Tdf.setTable(self, self.df)
 
     def modifySample(self, rows, samplenum):
         """

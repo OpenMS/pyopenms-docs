@@ -46,13 +46,13 @@ class OverallView(QWidget):
         Buttons[0].clicked.connect(self.importBtn)
         Buttons[1].clicked.connect(self.exportBtn)
         Buttons[2].clicked.connect(self.loadBtnFn)
+        Buttons[3].clicked.connect(self.FractionBtn)
         Buttons[5].clicked.connect(self.GroupBtn)
         Buttons[7].clicked.connect(self.loadFile)
 
         """
         Disabled buttons until function are added
         """
-        Buttons[3].setEnabled(False)
         Buttons[4].setEnabled(False)
         Buttons[6].setEnabled(False)
         Buttons[8].setEnabled(False)
@@ -198,22 +198,53 @@ class OverallView(QWidget):
         Enables the user to change the group of selected rows to a given
         number.
         """
-        groupin, ok = QInputDialog.getInt(self,
-                                          "Group Number",
-                                          "Enter Integer Groupnumber")
+        selindexes = self.table.selectionModel().selectedRows()
+        selrows = []
+        df = Tdf.getTable(self)
+        for index in sorted(selindexes):
+            row = index.row()
+            tempfn = df.iloc[row, 2].split("/")  # static header
+            filename = tempfn[len(tempfn)-1]
+            selrows.append(filename)
+
+        groupnum, ok = QInputDialog.getInt(self,
+                                           "Group Number",
+                                           "Enter Integer Groupnumber")
 
         if ok:
-            groupnum = groupin
-            selindexes = self.table.selectionModel().selectedRows()
-            selrows = []
-            df = Tdf.getTable(self)
-            for index in sorted(selindexes):
-                row = index.row()
-                tempfn = df.iloc[row, 2].split("/")  # static header
-                filename = tempfn[len(tempfn)-1]
-                selrows.append(filename)
             Tm.modifyGroup(self, selrows, groupnum)
             self.drawTable()
+
+    def FractionBtn(self):
+        """
+        Enables the user to change the Fraction of selected rows to a given
+        number or give a range.
+        """
+        selindexes = self.table.selectionModel().selectedRows()
+        selrows = []
+        df = Tdf.getTable(self)
+        for index in sorted(selindexes):
+            row = index.row()
+            tempfn = df.iloc[row, 2].split("/")  # static header
+            filename = tempfn[len(tempfn)-1]
+            selrows.append(filename)
+
+        fracmin, ok = QInputDialog.getInt(self,
+                                          "Fraction",
+                                          "Enter minimal Fractionnumber " +
+                                          "or single Fractionnumber")
+        if ok:
+            fracmax, ok = QInputDialog.getInt(self,
+                                              "Fraction",
+                                              "Enter maximal Fractionnumber " +
+                                              "or 0 for single Fractionnumber")
+            if ok:
+                if fracmax != 0:
+                    if fracmax > fracmin:
+                        Tm.modifyFraction(self, selrows, fracmin, fracmax)
+                else:
+                    Tm.modifyFraction(self, selrows, fracmin)
+                self.drawTable()
 
         # print(len(rawTable.columns))
         # print(len(rawTable.index))
