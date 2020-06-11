@@ -49,7 +49,7 @@ class Window(QMainWindow):
 
         # Creating treewidget
         self.tw = QtWidgets.QTreeWidget()
-        self.tw.setHeaderLabels(["Proteine"])
+        self.tw.setHeaderLabels(["Accession", "Organism", "Protein Name"])
         self.tw.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         # self.tw.setColumnWidth(1, 280)
 
@@ -171,7 +171,15 @@ class Window(QMainWindow):
                                 Protein = self.dictKeyAccessionDECOY.get(protein_accession)[::-1]
                                 Proteinname = self.proteinNameListDECOY[index]
                                 OS = self.proteinOSListDECOY[index]
-                                self.cg = QtWidgets.QTreeWidgetItem(self.tw, [ID])
+                                self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+                                self.cg.setData(0, 0, ID)
+                                self.cg.setData(1, 0, OS)
+                                self.cg.setData(2, 0, Proteinname)
+
+                                header = self.tw.header()
+                                header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+                                header.setStretchLastSection(False)
+
                                 self.textp = QTextEdit()
                                 self.textp.resize(self.textp.width(), self.textp.height())
                                 self.textp.insertPlainText("\nProtein Name: " + Proteinname +
@@ -179,6 +187,7 @@ class Window(QMainWindow):
                                                            "\nProteinsequenz: " + Protein)
                                 self.textp.setReadOnly(True)
                                 self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
+                                self.cgChild.setFirstColumnSpanned(True)
                                 self.tw.setItemWidget(self.cgChild, 0, self.textp)
                     else:
                         for protein_accession in self.dictKeyAccession:
@@ -191,7 +200,15 @@ class Window(QMainWindow):
                                 Proteinname = self.proteinNameList[index]
                                 OS = self.proteinOSList[index]
 
-                                self.cg = QtWidgets.QTreeWidgetItem(self.tw, [ID])
+                                self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+                                self.cg.setData(0, 0, ID)
+                                self.cg.setData(1, 0, OS)
+                                self.cg.setData(2, 0, Proteinname)
+
+                                header = self.tw.header()
+                                header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+                                header.setStretchLastSection(False)
+
                                 self.textp = QTextEdit()
                                 self.textp.resize(self.textp.width(), self.textp.height())
                                 self.textp.insertPlainText("\nProtein Name: " + Proteinname +
@@ -199,6 +216,7 @@ class Window(QMainWindow):
                                                            "\nProteinsequenz: " + Protein)
                                 self.textp.setReadOnly(True)
                                 self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
+                                self.cgChild.setFirstColumnSpanned(True)
                                 self.tw.setItemWidget(self.cgChild, 0, self.textp)
 
                     if counter == 0:
@@ -222,7 +240,15 @@ class Window(QMainWindow):
                                 Proteinname = self.proteinNameListDECOY[index]
                                 OS = self.proteinOSListDECOY[index]
 
-                                self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
+                                self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+                                self.cg.setData(0, 0, ID)
+                                self.cg.setData(1, 0, OS)
+                                self.cg.setData(2, 0, Proteinname)
+
+                                header = self.tw.header()
+                                header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+                                header.setStretchLastSection(False)
+
                                 self.textp = QTextEdit()
                                 self.textp.resize(self.textp.width(), self.textp.height())
                                 cuts = self.cutstring(Protein, protein_sub_sequence)
@@ -253,6 +279,7 @@ class Window(QMainWindow):
 
                                 self.textp.setReadOnly(True)
                                 self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
+                                self.cgChild.setFirstColumnSpanned(True)
                                 self.tw.setItemWidget(self.cgChild, 0, self.textp)
                     else:
                         for protein_sequence in self.proteinList:
@@ -264,7 +291,15 @@ class Window(QMainWindow):
                                 Proteinname = self.proteinNameList[index]
                                 OS = self.proteinOSList[index]
 
-                                self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
+                                self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+                                self.cg.setData(0, 0, ID)
+                                self.cg.setData(1, 0, OS)
+                                self.cg.setData(2, 0, Proteinname)
+
+                                header = self.tw.header()
+                                header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+                                header.setStretchLastSection(False)
+
                                 self.textp = QTextEdit()
                                 self.textp.resize(self.textp.width(), self.textp.height())
                                 cuts = self.cutstring(Protein, protein_sub_sequence)
@@ -295,6 +330,7 @@ class Window(QMainWindow):
 
                                 self.textp.setReadOnly(True)
                                 self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
+                                self.cgChild.setFirstColumnSpanned(True)
                                 self.tw.setItemWidget(self.cgChild, 0, self.textp)
 
                     if counter == 0:
@@ -317,7 +353,14 @@ class Window(QMainWindow):
                                 Proteinname = protein_name
                                 OS = self.proteinOSListDECOY[index]
 
-                                self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
+                                self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+                                self.cg.setData(0, 0, ID)
+                                self.cg.setData(1, 0, OS)
+                                self.cg.setData(2, 0, Proteinname)
+                                header = self.tw.header()
+                                header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+                                header.setStretchLastSection(False)
+
                                 self.textp = QPlainTextEdit()
                                 self.textp.resize(self.textp.width(), self.textp.height())
                                 self.textp.insertPlainText("\nProtein accession: " + ID +
@@ -325,6 +368,7 @@ class Window(QMainWindow):
                                                            "\nProteinsequenz: " + Protein)
                                 self.textp.setReadOnly(True)
                                 self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
+                                self.cgChild.setFirstColumnSpanned(True)
                                 self.tw.setItemWidget(self.cgChild, 0, self.textp)
                     else:
                         for protein_name in self.proteinNameList:
@@ -336,7 +380,13 @@ class Window(QMainWindow):
                                 Proteinname = protein_name
                                 OS = self.proteinOSList[index]
 
-                                self.cg = QtWidgets.QTreeWidgetItem(self.tw, [Proteinname])
+                                self.cg = QtWidgets.QTreeWidgetItem(self.tw,)
+                                self.cg.setData(0, 0, ID)
+                                self.cg.setData(1, 0, OS)
+                                self.cg.setData(2, 0, Proteinname)
+                                header = self.tw.header()
+                                header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+                                header.setStretchLastSection(False)
                                 self.textp = QPlainTextEdit()
                                 self.textp.resize(self.textp.width(), self.textp.height())
                                 self.textp.insertPlainText("\nProtein accession: " + ID +
@@ -344,6 +394,7 @@ class Window(QMainWindow):
                                                            "\nProteinsequenz: " + Protein)
                                 self.textp.setReadOnly(True)
                                 self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
+                                self.cgChild.setFirstColumnSpanned(True)
                                 self.tw.setItemWidget(self.cgChild, 0, self.textp)
 
                     if counter == 0:
