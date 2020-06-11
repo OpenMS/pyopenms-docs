@@ -262,9 +262,9 @@ class OverallView(QWidget):
                     elif fracmax == fracmin:
                         Tm.modifyFraction(self, selrows, fracmin)
                     else:
-                        QMessageBox.warning(self, "Error", "Please use" +
-                                            "a higher integer" +
-                                            "number for the maximum" +
+                        QMessageBox.warning(self, "Error", "Please use " +
+                                            "a higher integer " +
+                                            "number for the maximum " +
                                             "fractionnumber.")
                 else:
                     Tm.modifyFraction(self, selrows, fracmin)
@@ -279,12 +279,12 @@ class OverallView(QWidget):
         """
 
         labelnum, ok = QInputDialog.getInt(self, "Label",
-                                           "Please specify the multiplicity" +
+                                           "Please specify the multiplicity " +
                                            "of the selected rows")
         if ok:
             rep = QMessageBox.question(self, "Continuous Sample",
-                                       "Does the samplenumber" +
-                                       "continue over multiple" +
+                                       "Does the samplenumber " +
+                                       "continue over multiple " +
                                        "fraction groups?",
                                        (QMessageBox.Yes |
                                         QMessageBox.No),
