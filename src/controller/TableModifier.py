@@ -45,7 +45,7 @@ class TableModifier:
     def modifySample(self, rows, samplenum):
         """
         Let the user set the sample for a list of selected rows.
-        returns the modified dataframe
+        returns the modified dataframe !!!NOT WORKING!!!
         """
         for row in rows:
             self.dataframe.at[row, 'Sample'] = samplenum
@@ -55,7 +55,7 @@ class TableModifier:
     def modifyLabel(self, rows, labelnum):
         """
         Let the user set the label for a list of selected rows.
-        returns the modified dataframe
+        returns the modified dataframe !!!NOT WORKING!!!
         """
         for row in rows:
             self.dataframe.at[row, 'Label'] = labelnum
@@ -66,7 +66,7 @@ class TableModifier:
         """
         Let the user search in all cells of the dataframe.
         returns the a 2d list which corresponds to the cells, contains -1 if
-        nothing is found the indeces of the searchstring if found.
+        nothing is found the indeces of the searchstring if found. !!!NOT WORKING!!!
         """
         header = list(dataframe.columns.values)
         indexesfound = []
