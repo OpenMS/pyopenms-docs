@@ -38,6 +38,8 @@ class logic:
                         while not nextLine.startswith('>'):
                             stringValue += nextLine[:-1]
                             nextLine = next(file_content)
+                            if (nextLine[-1:] != '\n'):
+                                break
                             counter2 = counter2 + 1
                         counter = counter + len(stringValue) + len(seqs)  + counter2
                         file_content.seek(counter, 0)
