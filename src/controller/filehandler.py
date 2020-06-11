@@ -50,10 +50,10 @@ class FileHandler:
         ftype = file.split(".")[1]
 
         if ftype == "csv":
-            fimport = pd.read_csv(file, index_col=0)
+            fimport = pd.read_csv(file)
 
         elif ftype == "tsv":
-            fimport = pd.read_csv(file, index_col=0, sep='\t')
+            fimport = pd.read_csv(file, sep='\t')
         else:
             return False
         return fimport
@@ -86,7 +86,7 @@ class FileHandler:
         try:
             with open(fullpath, 'w') as fileToWrite:
                 fileToWrite.write(table.to_csv(
-                    sep=separator, index=True, encoding=encodingOption))
+                    sep=separator, index=False, encoding=encodingOption))
             return True
         except:
             e = sys.exc_info()[0]
@@ -122,8 +122,10 @@ class FileHandler:
                     filtered_tags['Fraction_Group'] = tag.split('G')[1]
                 elif re.match(columnregex[2], tag):
                     filtered_tags['Fraction'] = tag.split('F')[1]
+                else:
+                    continue
             rows.append([filtered_tags[i]for i in header])
-        rawtable = pd.DataFrame(rows, index=index, columns=header)
+        rawtable = pd.DataFrame(rows, columns=header)
         return rawtable
 
 

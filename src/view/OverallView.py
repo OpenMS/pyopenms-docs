@@ -48,13 +48,13 @@ class OverallView(QWidget):
         Buttons[1].clicked.connect(self.exportBtn)
         Buttons[2].clicked.connect(self.loadBtnFn)
         Buttons[3].clicked.connect(self.FractionBtn)
+        Buttons[4].clicked.connect(self.LabelBtn)
         Buttons[5].clicked.connect(self.GroupBtn)
         Buttons[7].clicked.connect(self.loadFile)
 
         """
         Disabled buttons until function are added
         """
-        Buttons[4].setEnabled(False)
         Buttons[6].setEnabled(False)
         Buttons[8].setEnabled(False)
 
@@ -108,6 +108,7 @@ class OverallView(QWidget):
         draws a table with the dataframe table model in tableDataFrame
         """
         tabledf = Tdf.getTable(self)
+        print(tabledf)
         rowcount = len(tabledf.index)
         colcount = len(tabledf.columns)
         self.table.setRowCount(rowcount)
@@ -187,26 +188,27 @@ class OverallView(QWidget):
                 tagged_file = fh.tagfiles(self, filelist)
                 df = fh.createRawTable(self, tagged_file, filePath)
 
-                ndf = cdf.append(df)
+                ndf = cdf.append(df, ignore_index=True)
 
                 Tdf.setTable(self, ndf)
                 self.drawTable()
             else:
                 return False
 
+    def getSelRows(self):
+        selindexes = self.table.selectionModel().selectedRows()
+        selrows = []
+        for index in sorted(selindexes):
+            row = index.row()
+            selrows.append(row)
+        return selrows
+
     def GroupBtn(self):
         """
         Enables the user to change the group of selected rows to a given
         number.
         """
-        selindexes = self.table.selectionModel().selectedRows()
-        selrows = []
-        df = Tdf.getTable(self)
-        for index in sorted(selindexes):
-            row = index.row()
-            tempfn = df.iloc[row, 2].split("/")  # static header
-            filename = tempfn[len(tempfn)-1]
-            selrows.append(filename)
+        selrows = self.getSelRows()
 
         groupnum, ok = QInputDialog.getInt(self,
                                            "Group Number",
@@ -221,14 +223,7 @@ class OverallView(QWidget):
         Enables the user to change the Fraction of selected rows to a given
         number or give a range.
         """
-        selindexes = self.table.selectionModel().selectedRows()
-        selrows = []
-        df = Tdf.getTable(self)
-        for index in sorted(selindexes):
-            row = index.row()
-            tempfn = df.iloc[row, 2].split("/")  # static header
-            filename = tempfn[len(tempfn)-1]
-            selrows.append(filename)
+        selrows = self.getSelRows()
 
         fracmin, ok = QInputDialog.getInt(self,
                                           "Fraction",
@@ -275,11 +270,37 @@ class OverallView(QWidget):
                     Tm.modifyFraction(self, selrows, fracmin)
                 self.drawTable()
 
-        # print(len(rawTable.columns))
-        # print(len(rawTable.index))
-        # print('Fraction_Group' + str(rawTable.iloc[1, 0]))
-        # print('Fraction' + str(rawTable.iloc[1, 1]))
-        # print('Filename' + name)
-        # print('Label' + str(rawTable.iloc[1, 3]))
-        # print('Sample' + str(rawTable.iloc[1, 4]))
-        # print(rawTable)
+    def LabelBtn(self):
+        """
+        Let the user choose the number of labels for the selected rows, it will
+        automatically count the labels for the copied rows and also links
+        the sample with the label. Gives an option to continue samplecount
+        over fraction groups.
+        """
+        selrows = self.getSelRows()
+
+        labelnum, ok = QInputDialog.getInt(self, "Label",
+                                           "Please specify the multiplicity" +
+                                           "of the selected rows")
+        if ok:
+            rep = QMessageBox.question(self, "Continuous Sample",
+                                       "Does the samplenumber" +
+                                       "continue over multiple" +
+                                       "fraction groups?",
+                                       (QMessageBox.Yes |
+                                        QMessageBox.No),
+                                       QMessageBox.No)
+            if rep == QMessageBox.Yes:
+                Tm.modifyLabelSample(self, selrows, labelnum, True)
+            else:
+                Tm.modifyLabelSample(self, selrows, labelnum, False)
+            self.drawTable()
+
+# print(len(rawTable.columns))
+# print(len(rawTable.index))
+# print('Fraction_Group' + str(rawTable.iloc[1, 0]))
+# print('Fraction' + str(rawTable.iloc[1, 1]))
+# print('Filename' + name)
+# print('Label' + str(rawTable.iloc[1, 3]))
+# print('Sample' + str(rawTable.iloc[1, 4]))
+# print(rawTable)

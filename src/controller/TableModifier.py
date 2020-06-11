@@ -42,25 +42,14 @@ class TableModifier:
 
         Tdf.setTable(self, self.df)
 
-    def modifySample(self, rows, samplenum):
+    def modifyLabelSample(self, rows, labelnum, continuous):
         """
-        Let the user set the sample for a list of selected rows.
-        returns the modified dataframe !!!NOT WORKING!!!
+        Let the user change the multiplicity of the selected rows
         """
-        for row in rows:
-            self.dataframe.at[row, 'Sample'] = samplenum
-
-        return self.dataframe
-
-    def modifyLabel(self, rows, labelnum):
-        """
-        Let the user set the label for a list of selected rows.
-        returns the modified dataframe !!!NOT WORKING!!!
-        """
-        for row in rows:
-            self.dataframe.at[row, 'Label'] = labelnum
-
-        return self.dataframe
+        self.df = Tdf.getTable(self)
+        if continuous:
+            self.df = self.df.append([self.df]*(labelnum-1), ignore_index=True)
+        Tdf.setTable(self, self.df)
 
     def searchTable(self, dataframe, searchstring):
         """
