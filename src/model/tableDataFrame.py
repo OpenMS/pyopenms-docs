@@ -77,3 +77,6 @@ class TableDataFrame():
                 ndf.at[row, 'Sample'] = samplenum
 
         self.df = ndf
+
+    def rmvRow(self, rows):
+        self.df.drop(rows, inplace=True)

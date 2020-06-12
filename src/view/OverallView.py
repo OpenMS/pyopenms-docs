@@ -227,10 +227,9 @@ class OverallView(QWidget):
         Enables the user to remove selected rows
         """
 
-        index_list = self.getSelRows()
-
-        for index in index_list:
-            self.table.removeRow(index)
+        selrows = self.getSelRows()
+        Tdf.rmvRow(self, selrows)
+        self.drawTable()
 
     def FractionBtn(self):
         """
