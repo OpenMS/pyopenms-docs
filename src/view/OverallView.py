@@ -227,10 +227,7 @@ class OverallView(QWidget):
         Enables the user to remove selected rows
         """
 
-        index_list = []
-        for table_index in self.table.selectionModel().selectedRows():
-            index = QPersistentModelIndex(table_index)
-            index_list.append(index)
+        index_list = self.getSelRows()
 
         for index in index_list:
             self.table.removeRow(index.row())
