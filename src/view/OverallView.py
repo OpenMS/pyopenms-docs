@@ -49,12 +49,12 @@ class OverallView(QWidget):
         Buttons[3].clicked.connect(self.FractionBtn)
         Buttons[4].clicked.connect(self.LabelBtn)
         Buttons[5].clicked.connect(self.GroupBtn)
+        Buttons[6].clicked.connect(self.RemoveBtn)
         Buttons[7].clicked.connect(self.loadFile)
 
         """
         Disabled buttons until function are added
         """
-        Buttons[6].setEnabled(False)
         Buttons[8].setEnabled(False)
 
         """
@@ -220,6 +220,14 @@ class OverallView(QWidget):
         if ok:
             Tdf.modifyGroup(self, selrows, groupnum)
             self.drawTable()
+
+    def RemoveBtn(self):
+        """
+        Enables the user to remove selected rows
+        """
+        selindexes = self.table.selectionModel().selectedRows()
+        for index in sorted(selindexes):
+            self.table.removeRow(index.row())
 
     def FractionBtn(self):
         """
