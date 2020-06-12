@@ -230,7 +230,7 @@ class OverallView(QWidget):
         index_list = self.getSelRows()
 
         for index in index_list:
-            self.table.removeRow(index.row())
+            self.table.removeRow(index)
 
     def FractionBtn(self):
         """
