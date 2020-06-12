@@ -28,7 +28,9 @@ class OverallView(QWidget):
         self.textbox.setFixedWidth(400)
         self.textbox.setFixedHeight(20)
 
-        # Buttons
+        """
+        Button and  connections
+        """
         Buttons = [QPushButton('Import'), QPushButton('Export'),
                    QPushButton('Load'), QPushButton('Fraction'),
                    QPushButton('Label'), QPushButton('Group'),
@@ -41,7 +43,6 @@ class OverallView(QWidget):
         buttons.setLayout(buttonlayout)
         buttonlayout.addWidget(self.textbox)
 
-        # Buttonconnections
         Buttons[0].clicked.connect(self.importBtn)
         Buttons[1].clicked.connect(self.exportBtn)
         Buttons[2].clicked.connect(self.loadBtnFn)
@@ -56,7 +57,9 @@ class OverallView(QWidget):
         Buttons[6].setEnabled(False)
         Buttons[8].setEnabled(False)
 
-        # Table
+        """
+        Table
+        """
         self.table.setRowCount(0)
         self.header = ['Fraction Group', 'Fraction',
                        'Spectra Filepath', 'Label', 'Sample']
@@ -79,7 +82,9 @@ class OverallView(QWidget):
             else:
                 self.header.setSectionResizeMode(col, QHeaderView.Stretch)
 
-        # setzte die Widgets ins gewünschte layout rein
+        """
+        Layout for the widgets
+        """
         layout.addWidget(buttons)
         layout.addWidget(self.table)
 
