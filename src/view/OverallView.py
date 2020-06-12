@@ -226,7 +226,6 @@ class OverallView(QWidget):
         """
         Enables the user to remove selected rows
         """
-
         selrows = self.getSelRows()
         Tdf.rmvRow(self, selrows)
         self.drawTable()

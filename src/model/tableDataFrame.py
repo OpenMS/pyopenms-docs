@@ -79,4 +79,7 @@ class TableDataFrame():
         self.df = ndf
 
     def rmvRow(self, rows):
+        """
+        Let the user remove a list of rows
+        """
         self.df.drop(rows, inplace=True)
