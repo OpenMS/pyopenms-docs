@@ -3,6 +3,7 @@ import sys
 import pandas as pd
 import math
 from PyQt5 import Qt
+from PyQt5.QtCore import QPersistentModelIndex
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QFileDialog, \
         QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, \
         QVBoxLayout, QCheckBox, QInputDialog, QLineEdit, QMessageBox
@@ -225,8 +226,13 @@ class OverallView(QWidget):
         """
         Enables the user to remove selected rows
         """
-        selindexes = self.table.selectionModel().selectedRows()
-        for index in sorted(selindexes):
+
+        index_list = []
+        for table_index in self.table.selectionModel().selectedRows():
+            index = QPersistentModelIndex(table_index)
+            index_list.append(index)
+
+        for index in index_list:
             self.table.removeRow(index.row())
 
     def FractionBtn(self):
