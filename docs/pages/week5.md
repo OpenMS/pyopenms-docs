@@ -7,13 +7,15 @@
    4. Design der Anwendung etwas angepasst.
    5. Save-Button entfernt und zusätzlich Import, Export, Add File, Remove File, Select All Buttons sowie ein Eingabefeld für den
       Search-Button hinzugefügt.
-   4. Funktionalität für alle Buttons ausgenommen Search und Select All, implementiert.
+   4. Funktionalität für alle Buttons ausgenommen Search implementiert.
    
 2. Bugs:
-      - Export crasht wenn bei Eingabe des Filenames nicht .tsv/.csv als Dateiendung steht und es wird immer in 
-         den Ordner exportiert welcher zuletzt über Load geladen wurde
-      - Label, Fraction und Group können mit manchen Eingaben zum Crash führen 
-         (Bsp. Label mit Eingabe 0 und No erzeugt derzeit noch einen ValueError)
+      - Select All selectiert zwar alles, allerdings stimmt die Darstellung nicht immer überein(mal wird nichts markiert,
+         mal wird alles grau markiert, mal tatsächlich markiert oder aber auch manche markiert und andere nicht)
+      - Remove File besizt derzeit noch ein seltsames Verhalten, mit Select All kann die ganze Tabelle gelöscht werden,
+         ist ein einzelner Eintrag markiert so kann dieser gelöscht werden, sind allerdings mehrere Einträge markiert,
+         sowerden nicht zwangsläufig die markierten gelöscht und wenn dann die markierten noch da sind und man erneut
+         löscht kann es zum Crash mit einem KeyError [...] not found in axis kommen
 
 3. TypeHinting:
     - Definition: Type von Eingabe- und Ausgabeparameter einer Funktion festlegen.
