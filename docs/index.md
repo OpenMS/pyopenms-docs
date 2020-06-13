@@ -7,3 +7,5 @@
 [Woche 3](pages/week3.md)
 
 [Woche 4](pages/week4.md)
+
+[Woche 5](pages/week5.md)
