@@ -1,4 +1,5 @@
 import sys
+import asyncio
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import (QWidget, QToolTip,
                              QPushButton, QApplication, QMainWindow,
@@ -12,7 +13,7 @@ from PyQt5.QtWidgets import (QWidget, QToolTip,
 from PyQt5.QtGui import QFont, QColor
 #from dictionaries import Dict
 sys.path.insert(0, '../examples')
-from Teamprojekt_FastaSuche import*  # NOQA: E402
+from Logic_fastaSearch import*  # NOQA: E402
 
 
 class Window(QMainWindow):
@@ -140,6 +141,7 @@ class Window(QMainWindow):
             self.path)
     # defining the clickprotein method for the searchButtonP
 
+
     def clickprotein(self):
         if self.fileloaded == 0:
             self.error = QMessageBox()
@@ -148,7 +150,6 @@ class Window(QMainWindow):
             self.error.setWindowTitle("Error")
             c = self.error.exec_()
         else:
-
             self.tw.clear()
             # check if inputbox is empty. if empty return error if not proceed
             if self.boxPro.text() == "":
@@ -159,251 +160,312 @@ class Window(QMainWindow):
                 a = self.error.exec_()
             else:
                 if self.radioid.isChecked() == True:
-                    counter = 0
-                    protein_accession_maybe_sub_sequence = self.boxPro.text()
-                    if self.decoycheck.isChecked():
-                        for protein_accession in self.dictKeyAccessionDECOY:
-                            if protein_accession_maybe_sub_sequence in protein_accession:
-                                counter = counter + 1
-                                index = list(self.dictKeyAccessionDECOY).index(protein_accession)
-                                Protein = self.dictKeyAccessionDECOY.get(protein_accession)
-                                ID = list(self.dictKeyAccessionDECOY.keys())[index]
-                                Protein = self.dictKeyAccessionDECOY.get(protein_accession)[::-1]
-                                Proteinname = self.proteinNameListDECOY[index]
-                                OS = self.proteinOSListDECOY[index]
-                                self.cg = QtWidgets.QTreeWidgetItem(self.tw)
-                                self.cg.setData(0, 0, ID)
-                                self.cg.setData(1, 0, OS)
-                                self.cg.setData(2, 0, Proteinname)
+                    self.radioIdSearch() 
 
-                                header = self.tw.header()
-                                header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
-                                header.setStretchLastSection(False)
-
-                                self.textp = QTextEdit()
-                                self.textp.resize(self.textp.width(), self.textp.height())
-                                self.textp.insertPlainText("\nProtein Name: " + Proteinname +
-                                                           "\nOS: " + OS +
-                                                           "\nProteinsequenz: " + Protein)
-                                self.textp.setReadOnly(True)
-                                self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
-                                self.cgChild.setFirstColumnSpanned(True)
-                                self.tw.setItemWidget(self.cgChild, 0, self.textp)
-                    else:
-                        for protein_accession in self.dictKeyAccession:
-                            if protein_accession_maybe_sub_sequence in protein_accession:
-                                counter = counter + 1
-                                index = list(self.dictKeyAccession).index(protein_accession)
-                                Protein = self.dictKeyAccession.get(protein_accession)
-                                ID = list(self.dictKeyAccession.keys())[index]
-                                Protein = self.proteinList[index]
-                                Proteinname = self.proteinNameList[index]
-                                OS = self.proteinOSList[index]
-
-                                self.cg = QtWidgets.QTreeWidgetItem(self.tw)
-                                self.cg.setData(0, 0, ID)
-                                self.cg.setData(1, 0, OS)
-                                self.cg.setData(2, 0, Proteinname)
-
-                                header = self.tw.header()
-                                header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
-                                header.setStretchLastSection(False)
-
-                                self.textp = QTextEdit()
-                                self.textp.resize(self.textp.width(), self.textp.height())
-                                self.textp.insertPlainText("\nProtein Name: " + Proteinname +
-                                                           "\nOS: " + OS +
-                                                           "\nProteinsequenz: " + Protein)
-                                self.textp.setReadOnly(True)
-                                self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
-                                self.cgChild.setFirstColumnSpanned(True)
-                                self.tw.setItemWidget(self.cgChild, 0, self.textp)
-
-                    if counter == 0:
-                        self.msg = QMessageBox()
-                        self.msg.setIcon(QMessageBox.Information)
-                        self.msg.setText("No matching protein accession found in database.")
-                        self.msg.setWindowTitle("Error")
-                        x = self.msg.exec_()
-
-                # TODO: cuts sind mit for Schleifen denke ich gut zu lösen
                 if self.radioseq.isChecked() == True:
-                    counter = 0
-                    protein_sub_sequence = self.boxPro.text()
-                    if self.decoycheck.isChecked():
-                        for protein_sequence in self.proteinListDECOY:
-                            if protein_sub_sequence in protein_sequence:
-                                counter = counter + 1
-                                index = self.proteinListDECOY.index(protein_sequence)
-                                ID = list(self.dictKeyAccessionDECOY.keys())[index]
-                                Protein = self.proteinListDECOY[index]
-                                Proteinname = self.proteinNameListDECOY[index]
-                                OS = self.proteinOSListDECOY[index]
-
-                                self.cg = QtWidgets.QTreeWidgetItem(self.tw)
-                                self.cg.setData(0, 0, ID)
-                                self.cg.setData(1, 0, OS)
-                                self.cg.setData(2, 0, Proteinname)
-
-                                header = self.tw.header()
-                                header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
-                                header.setStretchLastSection(False)
-
-                                self.textp = QTextEdit()
-                                self.textp.resize(self.textp.width(), self.textp.height())
-                                cuts = self.cutstring(Protein, protein_sub_sequence)
-                                self.textp.insertPlainText("\nProtein accession: " + ID +
-                                                           "\nOS: " + OS +
-                                                           "\nProteinsequenz: "
-                                                           )
-
-                                for i in range(len(cuts)):
-                                    # sofern wir ganz am Anfang der Liste sind
-                                    if (cuts[i] == '' and i == 0):
-                                        self.textp.setTextColor(self.color)
-                                        self.textp.insertPlainText(protein_sub_sequence)
-                                        self.textp.setTextColor(self.colorblack)
-                                    # sofern wir mitten drin sind und der sub_string mehrfach auftaucht
-                                    elif (cuts[i] == ''):
-                                        self.textp.setTextColor(self.color)
-                                        self.textp.insertPlainText(protein_sub_sequence)
-                                        self.textp.setTextColor(self.colorblack)
-                                    else:
-                                        if (i == len(cuts) - 1):
-                                            self.textp.insertPlainText(cuts[i])
-                                        else:
-                                            self.textp.insertPlainText(cuts[i])
-                                            self.textp.setTextColor(self.color)
-                                            self.textp.insertPlainText(protein_sub_sequence)
-                                            self.textp.setTextColor(self.colorblack)
-
-                                self.textp.setReadOnly(True)
-                                self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
-                                self.cgChild.setFirstColumnSpanned(True)
-                                self.tw.setItemWidget(self.cgChild, 0, self.textp)
-                    else:
-                        for protein_sequence in self.proteinList:
-                            if protein_sub_sequence in protein_sequence:
-                                counter = counter + 1
-                                index = self.proteinList.index(protein_sequence)
-                                ID = list(self.dictKeyAccession.keys())[index]
-                                Protein = self.proteinList[index]
-                                Proteinname = self.proteinNameList[index]
-                                OS = self.proteinOSList[index]
-
-                                self.cg = QtWidgets.QTreeWidgetItem(self.tw)
-                                self.cg.setData(0, 0, ID)
-                                self.cg.setData(1, 0, OS)
-                                self.cg.setData(2, 0, Proteinname)
-
-                                header = self.tw.header()
-                                header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
-                                header.setStretchLastSection(False)
-
-                                self.textp = QTextEdit()
-                                self.textp.resize(self.textp.width(), self.textp.height())
-                                cuts = self.cutstring(Protein, protein_sub_sequence)
-                                self.textp.insertPlainText("\nProtein accession: " + ID +
-                                                           "\nOS: " + OS +
-                                                           "\nProteinsequenz: "
-                                                           )
-
-                                for i in range(len(cuts)):
-                                    # sofern wir ganz am Anfang der Liste sind
-                                    if (cuts[i] == '' and i == 0):
-                                        self.textp.setTextColor(self.color)
-                                        self.textp.insertPlainText(protein_sub_sequence)
-                                        self.textp.setTextColor(self.colorblack)
-                                    # sofern wir mitten drin oder am Ende sind sind
-                                    elif (cuts[i] == ''):
-                                        self.textp.setTextColor(self.color)
-                                        self.textp.insertPlainText(protein_sub_sequence)
-                                        self.textp.setTextColor(self.colorblack)
-                                    else:
-                                        if (i == len(cuts) - 1):
-                                            self.textp.insertPlainText(cuts[i])
-                                        else:
-                                            self.textp.insertPlainText(cuts[i])
-                                            self.textp.setTextColor(self.color)
-                                            self.textp.insertPlainText(protein_sub_sequence)
-                                            self.textp.setTextColor(self.colorblack)
-
-                                self.textp.setReadOnly(True)
-                                self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
-                                self.cgChild.setFirstColumnSpanned(True)
-                                self.tw.setItemWidget(self.cgChild, 0, self.textp)
-
-                    if counter == 0:
-                        self.msg = QMessageBox()
-                        self.msg.setIcon(QMessageBox.Information)
-                        self.msg.setText("No matching protein sequence found in database.")
-                        self.msg.setWindowTitle("Error")
-                        x = self.msg.exec_()
-
+                    self.sequenceSearch()
+                    
                 if self.radioname.isChecked() == True:
-                    counter = 0
-                    protein_sub_name = self.boxPro.text()
-                    if self.decoycheck.isChecked():
-                        for protein_name in self.proteinNameListDECOY:
-                            if protein_sub_name in protein_name:
-                                counter = counter + 1
-                                index = self.proteinNameListDECOY.index(protein_name)
-                                ID = list(self.dictKeyAccessionDECOY.keys())[index]
-                                Protein = self.proteinListDECOY[index]
-                                Proteinname = protein_name
-                                OS = self.proteinOSListDECOY[index]
+                    self.nameSearch()
 
-                                self.cg = QtWidgets.QTreeWidgetItem(self.tw)
-                                self.cg.setData(0, 0, ID)
-                                self.cg.setData(1, 0, OS)
-                                self.cg.setData(2, 0, Proteinname)
-                                header = self.tw.header()
-                                header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
-                                header.setStretchLastSection(False)
 
-                                self.textp = QPlainTextEdit()
-                                self.textp.resize(self.textp.width(), self.textp.height())
-                                self.textp.insertPlainText("\nProtein accession: " + ID +
-                                                           "\nOS: " + OS +
-                                                           "\nProteinsequenz: " + Protein)
-                                self.textp.setReadOnly(True)
-                                self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
-                                self.cgChild.setFirstColumnSpanned(True)
-                                self.tw.setItemWidget(self.cgChild, 0, self.textp)
-                    else:
-                        for protein_name in self.proteinNameList:
-                            if protein_sub_name in protein_name:
-                                counter = counter + 1
-                                index = self.proteinNameList.index(protein_name)
-                                ID = list(self.dictKeyAccession.keys())[index]
-                                Protein = self.proteinList[index]
-                                Proteinname = protein_name
-                                OS = self.proteinOSList[index]
 
-                                self.cg = QtWidgets.QTreeWidgetItem(self.tw,)
-                                self.cg.setData(0, 0, ID)
-                                self.cg.setData(1, 0, OS)
-                                self.cg.setData(2, 0, Proteinname)
-                                header = self.tw.header()
-                                header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
-                                header.setStretchLastSection(False)
-                                self.textp = QPlainTextEdit()
-                                self.textp.resize(self.textp.width(), self.textp.height())
-                                self.textp.insertPlainText("\nProtein accession: " + ID +
-                                                           "\nOS: " + OS +
-                                                           "\nProteinsequenz: " + Protein)
-                                self.textp.setReadOnly(True)
-                                self.cgChild = QtWidgets.QTreeWidgetItem(self.cg)
-                                self.cgChild.setFirstColumnSpanned(True)
-                                self.tw.setItemWidget(self.cgChild, 0, self.textp)
 
-                    if counter == 0:
-                        self.msg = QMessageBox()
-                        self.msg.setIcon(QMessageBox.Information)
-                        self.msg.setText("No matching protein name found in database.")
-                        self.msg.setWindowTitle("Error")
-                        x = self.msg.exec_()
+    def radioIdSearch(self):
+        counter = 0
+        protein_accession_maybe_sub_sequence = self.boxPro.text()
+        if self.decoycheck.isChecked():
+            for protein_accession in self.dictKeyAccessionDECOY:
+                if protein_accession_maybe_sub_sequence in protein_accession:
+                    counter = counter + 1
+                    index = list(self.dictKeyAccessionDECOY).index(
+                        protein_accession)
+                    Protein = self.dictKeyAccessionDECOY.get(
+                        protein_accession)
+                    ID = list(self.dictKeyAccessionDECOY.keys())[
+                        index]
+                    Proteinname = self.proteinNameListDECOY[index]
+                    OS = self.proteinOSListDECOY[index]
+                    self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+                    self.cg.setData(0, 0, ID)
+                    self.cg.setData(1, 0, OS)
+                    self.cg.setData(2, 0, Proteinname)
 
+                    header = self.tw.header()
+                    header.setSectionResizeMode(
+                        QtWidgets.QHeaderView.ResizeToContents)
+                    header.setStretchLastSection(False)
+
+                    self.textp = QTextEdit()
+                    self.textp.resize(
+                        self.textp.width(), self.textp.height())
+                    self.textp.insertPlainText("\nProtein Name: " + Proteinname +
+                                                "\nOS: " + OS +
+                                                "\nProteinsequenz: " + Protein)
+                    self.textp.setReadOnly(True)
+                    self.cgChild = QtWidgets.QTreeWidgetItem(
+                        self.cg)
+                    self.cgChild.setFirstColumnSpanned(True)
+                    self.tw.setItemWidget(
+                        self.cgChild, 0, self.textp)
+        else:
+            for protein_accession in self.dictKeyAccession:
+                if protein_accession_maybe_sub_sequence in protein_accession:
+                    counter = counter + 1
+                    index = list(self.dictKeyAccession).index(
+                        protein_accession)
+                    Protein = self.dictKeyAccession.get(
+                        protein_accession)
+                    ID = list(self.dictKeyAccession.keys())[index]
+                    Protein = self.proteinList[index]
+                    Proteinname = self.proteinNameList[index]
+                    OS = self.proteinOSList[index]
+
+                    self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+                    self.cg.setData(0, 0, ID)
+                    self.cg.setData(1, 0, OS)
+                    self.cg.setData(2, 0, Proteinname)
+
+                    header = self.tw.header()
+                    header.setSectionResizeMode(
+                        QtWidgets.QHeaderView.ResizeToContents)
+                    header.setStretchLastSection(False)
+
+                    self.textp = QTextEdit()
+                    self.textp.resize(
+                        self.textp.width(), self.textp.height())
+                    self.textp.insertPlainText("\nProtein Name: " + Proteinname +
+                                                "\nOS: " + OS +
+                                                "\nProteinsequenz: " + Protein)
+                    self.textp.setReadOnly(True)
+                    self.cgChild = QtWidgets.QTreeWidgetItem(
+                        self.cg)
+                    self.cgChild.setFirstColumnSpanned(True)
+                    self.tw.setItemWidget(
+                        self.cgChild, 0, self.textp)
+
+        if counter == 0:
+            self.msg = QMessageBox()
+            self.msg.setIcon(QMessageBox.Information)
+            self.msg.setText(
+                "No matching protein accession found in database.")
+            self.msg.setWindowTitle("Error")
+            x = self.msg.exec_()
+
+    def sequenceSearch(self):
+        counter = 0
+        protein_sub_sequence = self.boxPro.text()
+        if self.decoycheck.isChecked():
+            for protein_sequence in self.proteinListDECOY:
+                if protein_sub_sequence in protein_sequence:
+                    counter = counter + 1
+                    index = self.proteinListDECOY.index(
+                        protein_sequence)
+                    ID = list(self.dictKeyAccessionDECOY.keys())[
+                        index]
+                    Protein = self.proteinListDECOY[index]
+                    Proteinname = self.proteinNameListDECOY[index]
+                    OS = self.proteinOSListDECOY[index]
+
+                    self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+                    self.cg.setData(0, 0, ID)
+                    self.cg.setData(1, 0, OS)
+                    self.cg.setData(2, 0, Proteinname)
+
+                    header = self.tw.header()
+                    header.setSectionResizeMode(
+                        QtWidgets.QHeaderView.ResizeToContents)
+                    header.setStretchLastSection(False)
+
+                    self.textp = QTextEdit()
+                    self.textp.resize(
+                        self.textp.width(), self.textp.height())
+                    cuts = self.cutstring(
+                        Protein, protein_sub_sequence)
+                    self.textp.insertPlainText("\nProtein accession: " + ID +
+                                                "\nOS: " + OS +
+                                                "\nProteinsequenz: "
+                                                )
+
+                    for i in range(len(cuts)):
+                        # sofern wir ganz am Anfang der Liste sind
+                        if (cuts[i] == '' and i == 0):
+                            self.textp.setTextColor(self.color)
+                            self.textp.insertPlainText(
+                                protein_sub_sequence)
+                            self.textp.setTextColor(
+                                self.colorblack)
+                        # sofern wir mitten drin sind und der sub_string mehrfach auftaucht
+                        elif (cuts[i] == ''):
+                            self.textp.setTextColor(self.color)
+                            self.textp.insertPlainText(
+                                protein_sub_sequence)
+                            self.textp.setTextColor(
+                                self.colorblack)
+                        else:
+                            if (i == len(cuts) - 1):
+                                self.textp.insertPlainText(cuts[i])
+                            else:
+                                self.textp.insertPlainText(cuts[i])
+                                self.textp.setTextColor(self.color)
+                                self.textp.insertPlainText(
+                                    protein_sub_sequence)
+                                self.textp.setTextColor(
+                                    self.colorblack)
+
+                    self.textp.setReadOnly(True)
+                    self.cgChild = QtWidgets.QTreeWidgetItem(
+                        self.cg)
+                    self.cgChild.setFirstColumnSpanned(True)
+                    self.tw.setItemWidget(
+                        self.cgChild, 0, self.textp)
+        else:
+            for protein_sequence in self.proteinList:
+                if protein_sub_sequence in protein_sequence:
+                    counter = counter + 1
+                    index = self.proteinList.index(
+                        protein_sequence)
+                    ID = list(self.dictKeyAccession.keys())[index]
+                    Protein = self.proteinList[index]
+                    Proteinname = self.proteinNameList[index]
+                    OS = self.proteinOSList[index]
+
+                    self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+                    self.cg.setData(0, 0, ID)
+                    self.cg.setData(1, 0, OS)
+                    self.cg.setData(2, 0, Proteinname)
+
+                    header = self.tw.header()
+                    header.setSectionResizeMode(
+                        QtWidgets.QHeaderView.ResizeToContents)
+                    header.setStretchLastSection(False)
+
+                    self.textp = QTextEdit()
+                    self.textp.resize(
+                        self.textp.width(), self.textp.height())
+                    cuts = self.cutstring(
+                        Protein, protein_sub_sequence)
+                    self.textp.insertPlainText("\nProtein accession: " + ID +
+                                                "\nOS: " + OS +
+                                                "\nProteinsequenz: "
+                                                )
+
+                    for i in range(len(cuts)):
+                        # sofern wir ganz am Anfang der Liste sind
+                        if (cuts[i] == '' and i == 0):
+                            self.textp.setTextColor(self.color)
+                            self.textp.insertPlainText(
+                                protein_sub_sequence)
+                            self.textp.setTextColor(
+                                self.colorblack)
+                        # sofern wir mitten drin oder am Ende sind sind
+                        elif (cuts[i] == ''):
+                            self.textp.setTextColor(self.color)
+                            self.textp.insertPlainText(
+                                protein_sub_sequence)
+                            self.textp.setTextColor(
+                                self.colorblack)
+                        else:
+                            if (i == len(cuts) - 1):
+                                self.textp.insertPlainText(cuts[i])
+                            else:
+                                self.textp.insertPlainText(cuts[i])
+                                self.textp.setTextColor(self.color)
+                                self.textp.insertPlainText(
+                                    protein_sub_sequence)
+                                self.textp.setTextColor(
+                                    self.colorblack)
+
+                    self.textp.setReadOnly(True)
+                    self.cgChild = QtWidgets.QTreeWidgetItem(
+                        self.cg)
+                    self.cgChild.setFirstColumnSpanned(True)
+                    self.tw.setItemWidget(
+                        self.cgChild, 0, self.textp)
+
+        if counter == 0:
+            self.msg = QMessageBox()
+            self.msg.setIcon(QMessageBox.Information)
+            self.msg.setText(
+                "No matching protein sequence found in database.")
+            self.msg.setWindowTitle("Error")
+            x = self.msg.exec_()
+    
+    def nameSearch(self):
+        counter = 0
+        protein_sub_name = self.boxPro.text()
+        if self.decoycheck.isChecked():
+            for protein_name in self.proteinNameListDECOY:
+                if protein_sub_name in protein_name:
+                    counter = counter + 1
+                    index = self.proteinNameListDECOY.index(
+                        protein_name)
+                    ID = list(self.dictKeyAccessionDECOY.keys())[
+                        index]
+                    Protein = self.proteinListDECOY[index]
+                    Proteinname = protein_name
+                    OS = self.proteinOSListDECOY[index]
+
+                    self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+                    self.cg.setData(0, 0, ID)
+                    self.cg.setData(1, 0, OS)
+                    self.cg.setData(2, 0, Proteinname)
+                    header = self.tw.header()
+                    header.setSectionResizeMode(
+                        QtWidgets.QHeaderView.ResizeToContents)
+                    header.setStretchLastSection(False)
+
+                    self.textp = QPlainTextEdit()
+                    self.textp.resize(
+                        self.textp.width(), self.textp.height())
+                    self.textp.insertPlainText("\nProtein accession: " + ID +
+                                                "\nOS: " + OS +
+                                                "\nProteinsequenz: " + Protein)
+                    self.textp.setReadOnly(True)
+                    self.cgChild = QtWidgets.QTreeWidgetItem(
+                        self.cg)
+                    self.cgChild.setFirstColumnSpanned(True)
+                    self.tw.setItemWidget(
+                        self.cgChild, 0, self.textp)
+        else:
+            for protein_name in self.proteinNameList:
+                if protein_sub_name in protein_name:
+                    counter = counter + 1
+                    index = self.proteinNameList.index(
+                        protein_name)
+                    ID = list(self.dictKeyAccession.keys())[index]
+                    Protein = self.proteinList[index]
+                    Proteinname = protein_name
+                    OS = self.proteinOSList[index]
+
+                    self.cg = QtWidgets.QTreeWidgetItem(self.tw,)
+                    self.cg.setData(0, 0, ID)
+                    self.cg.setData(1, 0, OS)
+                    self.cg.setData(2, 0, Proteinname)
+                    header = self.tw.header()
+                    header.setSectionResizeMode(
+                        QtWidgets.QHeaderView.ResizeToContents)
+                    header.setStretchLastSection(False)
+                    self.textp = QPlainTextEdit()
+                    self.textp.resize(
+                        self.textp.width(), self.textp.height())
+                    self.textp.insertPlainText("\nProtein accession: " + ID +
+                                                "\nOS: " + OS +
+                                                "\nProteinsequenz: " + Protein)
+                    self.textp.setReadOnly(True)
+                    self.cgChild = QtWidgets.QTreeWidgetItem(
+                        self.cg)
+                    self.cgChild.setFirstColumnSpanned(True)
+                    self.tw.setItemWidget(
+                        self.cgChild, 0, self.textp)
+
+        if counter == 0:
+            self.msg = QMessageBox()
+            self.msg.setIcon(QMessageBox.Information)
+            self.msg.setText(
+                "No matching protein name found in database.")
+            self.msg.setWindowTitle("Error")
+            x = self.msg.exec_()
 
 def main():
 
