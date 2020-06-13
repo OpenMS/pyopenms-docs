@@ -6,7 +6,8 @@ from PyQt5 import Qt
 from PyQt5.QtCore import QPersistentModelIndex
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QFileDialog, \
         QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, \
-        QVBoxLayout, QGridLayout, QInputDialog, QLineEdit, QMessageBox
+        QVBoxLayout, QGridLayout, QInputDialog, QLineEdit, QMessageBox, \
+        QAbstractItemView
 sys.path.append(os.getcwd() + '/../controller')
 from filehandler import FileHandler as fh
 sys.path.append(os.getcwd() + '/../model')
@@ -60,11 +61,12 @@ class OverallView(QWidget):
         Buttons[5].clicked.connect(self.GroupBtn)
         Buttons[6].clicked.connect(self.RemoveBtn)
         Buttons[7].clicked.connect(self.loadFile)
+        Buttons[8].clicked.connect(self.SelectAllBtn)
 
         """
         Disabled buttons until function are added
         """
-        Buttons[8].setEnabled(False)
+        # Buttons[8].setEnabled(False)
         Buttons[9].setEnabled(False)
 
         """
@@ -163,8 +165,20 @@ class OverallView(QWidget):
 
             temp = file.split("/")
             fileName = temp[len(temp)-1]
-            ftype = fileName.split(".")[1]
-            fh.exportTable(self, df, fileName, ftype)
+            length = len(fileName)
+            if length < 4:
+                ftype = "csv"
+                file = file + ".csv"
+            elif fileName.find('.csv', length-4) != -1:
+                ftype = "csv"
+            elif fileName.find('.tsv', length-4) != -1:
+                ftype = "tsv"
+            else:
+                ftype = "csv"
+                file = file + ".csv"
+
+            # ftype = fileName.split(".")[1]
+            fh.exportTable(self, df, file, ftype)
 
     def loadBtnFn(self):
         """
@@ -316,11 +330,15 @@ class OverallView(QWidget):
                 Tdf.modifyLabelSample(self, labelnum, False)
             self.drawTable()
 
-# print(len(rawTable.columns))
-# print(len(rawTable.index))
-# print('Fraction_Group' + str(rawTable.iloc[1, 0]))
-# print('Fraction' + str(rawTable.iloc[1, 1]))
-# print('Filename' + name)
-# print('Label' + str(rawTable.iloc[1, 3]))
-# print('Sample' + str(rawTable.iloc[1, 4]))
-# print(rawTable)
+    def SelectAllBtn(self):
+        """
+        Selects all Rows of the Table
+        """
+        # Funktioniert allerdings wird die tabelle nicht aktualisiert
+        # sprich alles ist ausgewählt aber das wird nicht angezeigt
+        self.table.setSelectionMode(QAbstractItemView.MultiSelection)
+
+        for i in range(self.table.rowCount()):
+            self.table.selectRow(i)
+
+        self.table.setSelectionMode(QAbstractItemView.ExtendedSelection)
