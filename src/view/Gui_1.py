@@ -1,5 +1,4 @@
 import sys
-import asyncio
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import (QWidget, QToolTip,
                              QPushButton, QApplication, QMainWindow,
@@ -58,16 +57,6 @@ class Window(QMainWindow):
         self.resultBox = QPlainTextEdit(self)
         self.resultBox.setReadOnly(True)
 
-        # creating Table
-        self.table2 = QtWidgets.QTableWidget()
-        self.table2.setRowCount(20)
-        self.table2.setColumnCount(2)
-        # naming the header of the Table
-        self.table2.setItem(0, 1, QTableWidgetItem("Protein Name"))
-        self.table2.setItem(0, 0, QTableWidgetItem("ID"))
-        # Set QTableWidget to not be Editable
-        self.table2.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
-
         # Layout
         self.mainwidget = QWidget(self)
         self.main_layout = QVBoxLayout(self.mainwidget)
@@ -79,18 +68,21 @@ class Window(QMainWindow):
         self.set1.addWidget(self.loadbutton)
         # self.set1.addStretch(1)
 
-        # set 2 contains the radiobuttons
+        # set 2 contains the radiobuttons and a label
         self.set2 = QHBoxLayout()
         self.radioname = QRadioButton("Name")
         self.radioid = QRadioButton("ID")
         self.radioseq = QRadioButton("sequence")
         self.radioname.setChecked(True)
         self.decoycheck = QCheckBox("Decoy search", self)
+        self.datalabel = QLabel()
+        self.datalabel.setText("Data not loaded")
         self.set2.addWidget(self.radioname)
         self.set2.addWidget(self.radioid)
         self.set2.addWidget(self.radioseq)
         self.set2.addWidget(self.decoycheck)
-        self.set2.addStretch(1)
+        self.set2.addWidget(self.datalabel)
+        # self.set2.addStretch(1)
 
         # set 3 contains the table and the result box
         self.set3 = QHBoxLayout()
@@ -139,8 +131,8 @@ class Window(QMainWindow):
         # loading the lists before searching in order to make the search faster
         self.dictKeyAccession, self.proteinList, self.proteinNameList, self.proteinOSList, self.dictKeyAccessionDECOY, self.proteinListDECOY, self.proteinNameListDECOY, self.proteinOSListDECOY = logic.protein_dictionary(
             self.path)
+        self.datalabel.setText("Data loaded")
     # defining the clickprotein method for the searchButtonP
-
 
     def clickprotein(self):
         if self.fileloaded == 0:
@@ -160,16 +152,13 @@ class Window(QMainWindow):
                 a = self.error.exec_()
             else:
                 if self.radioid.isChecked() == True:
-                    self.radioIdSearch() 
+                    self.radioIdSearch()
 
                 if self.radioseq.isChecked() == True:
                     self.sequenceSearch()
-                    
+
                 if self.radioname.isChecked() == True:
                     self.nameSearch()
-
-
-
 
     def radioIdSearch(self):
         counter = 0
@@ -199,9 +188,7 @@ class Window(QMainWindow):
                     self.textp = QTextEdit()
                     self.textp.resize(
                         self.textp.width(), self.textp.height())
-                    self.textp.insertPlainText("\nProtein Name: " + Proteinname +
-                                                "\nOS: " + OS +
-                                                "\nProteinsequenz: " + Protein)
+                    self.textp.insertPlainText("Proteinsequenz: " + Protein)
                     self.textp.setReadOnly(True)
                     self.cgChild = QtWidgets.QTreeWidgetItem(
                         self.cg)
@@ -234,9 +221,8 @@ class Window(QMainWindow):
                     self.textp = QTextEdit()
                     self.textp.resize(
                         self.textp.width(), self.textp.height())
-                    self.textp.insertPlainText("\nProtein Name: " + Proteinname +
-                                                "\nOS: " + OS +
-                                                "\nProteinsequenz: " + Protein)
+                    self.textp.insertPlainText(
+                        "Proteinsequenz: " + Protein)
                     self.textp.setReadOnly(True)
                     self.cgChild = QtWidgets.QTreeWidgetItem(
                         self.cg)
@@ -282,10 +268,9 @@ class Window(QMainWindow):
                         self.textp.width(), self.textp.height())
                     cuts = self.cutstring(
                         Protein, protein_sub_sequence)
-                    self.textp.insertPlainText("\nProtein accession: " + ID +
-                                                "\nOS: " + OS +
-                                                "\nProteinsequenz: "
-                                                )
+                    self.textp.insertPlainText(
+                        "Proteinsequenz: "
+                    )
 
                     for i in range(len(cuts)):
                         # sofern wir ganz am Anfang der Liste sind
@@ -345,10 +330,9 @@ class Window(QMainWindow):
                         self.textp.width(), self.textp.height())
                     cuts = self.cutstring(
                         Protein, protein_sub_sequence)
-                    self.textp.insertPlainText("\nProtein accession: " + ID +
-                                                "\nOS: " + OS +
-                                                "\nProteinsequenz: "
-                                                )
+                    self.textp.insertPlainText(
+                        "Proteinsequenz: "
+                    )
 
                     for i in range(len(cuts)):
                         # sofern wir ganz am Anfang der Liste sind
@@ -390,7 +374,7 @@ class Window(QMainWindow):
                 "No matching protein sequence found in database.")
             self.msg.setWindowTitle("Error")
             x = self.msg.exec_()
-    
+
     def nameSearch(self):
         counter = 0
         protein_sub_name = self.boxPro.text()
@@ -418,9 +402,8 @@ class Window(QMainWindow):
                     self.textp = QPlainTextEdit()
                     self.textp.resize(
                         self.textp.width(), self.textp.height())
-                    self.textp.insertPlainText("\nProtein accession: " + ID +
-                                                "\nOS: " + OS +
-                                                "\nProteinsequenz: " + Protein)
+                    self.textp.insertPlainText(
+                        "\nProteinsequenz: " + Protein)
                     self.textp.setReadOnly(True)
                     self.cgChild = QtWidgets.QTreeWidgetItem(
                         self.cg)
@@ -449,9 +432,8 @@ class Window(QMainWindow):
                     self.textp = QPlainTextEdit()
                     self.textp.resize(
                         self.textp.width(), self.textp.height())
-                    self.textp.insertPlainText("\nProtein accession: " + ID +
-                                                "\nOS: " + OS +
-                                                "\nProteinsequenz: " + Protein)
+                    self.textp.insertPlainText(
+                        "Proteinsequenz: " + Protein)
                     self.textp.setReadOnly(True)
                     self.cgChild = QtWidgets.QTreeWidgetItem(
                         self.cg)
@@ -466,6 +448,7 @@ class Window(QMainWindow):
                 "No matching protein name found in database.")
             self.msg.setWindowTitle("Error")
             x = self.msg.exec_()
+
 
 def main():
 
