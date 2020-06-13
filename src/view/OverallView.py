@@ -6,7 +6,7 @@ from PyQt5 import Qt
 from PyQt5.QtCore import QPersistentModelIndex
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QFileDialog, \
         QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, \
-        QVBoxLayout, QCheckBox, QInputDialog, QLineEdit, QMessageBox
+        QVBoxLayout, QGridLayout, QInputDialog, QLineEdit, QMessageBox
 sys.path.append(os.getcwd() + '/../controller')
 from filehandler import FileHandler as fh
 sys.path.append(os.getcwd() + '/../model')
@@ -18,7 +18,7 @@ class OverallView(QWidget):
     def __init__(self, *args):
         QWidget.__init__(self, *args)
 
-        buttonlayout = QHBoxLayout()
+        buttonlayout = QGridLayout()
         layout = QVBoxLayout()
         self.tdf = Tdf
         buttons = QWidget()
@@ -26,7 +26,6 @@ class OverallView(QWidget):
         self.df = pd.DataFrame()
         self.textbox = QLineEdit(self)
         self.textbox.move(20, 20)
-        self.textbox.setFixedWidth(400)
         self.textbox.setFixedHeight(20)
 
         """
@@ -36,13 +35,22 @@ class OverallView(QWidget):
                    QPushButton('Load'), QPushButton('Fraction'),
                    QPushButton('Label'), QPushButton('Group'),
                    QPushButton('Remove File'), QPushButton('Add File'),
-                   QPushButton('Search')]
+                   QPushButton('Select all'), QPushButton('Search')]
 
-        for button in Buttons:
-            buttonlayout.addWidget(button)
+        buttonlayout.addWidget(Buttons[0], 0, 0)
+        buttonlayout.addWidget(Buttons[1], 1, 0)
+        buttonlayout.addWidget(Buttons[2], 2, 0)
+        buttonlayout.addWidget(Buttons[7], 0, 1)
+        buttonlayout.addWidget(Buttons[6], 1, 1)
+        buttonlayout.addWidget(Buttons[8], 2, 1)
+        buttonlayout.addWidget(Buttons[5], 0, 2)
+        buttonlayout.addWidget(Buttons[3], 1, 2)
+        buttonlayout.addWidget(Buttons[4], 2, 2)
+        buttonlayout.addWidget(Buttons[9], 3, 2)
+
+        buttonlayout.addWidget(self.textbox, 3, 0, 1, 2)
 
         buttons.setLayout(buttonlayout)
-        buttonlayout.addWidget(self.textbox)
 
         Buttons[0].clicked.connect(self.importBtn)
         Buttons[1].clicked.connect(self.exportBtn)
@@ -57,6 +65,7 @@ class OverallView(QWidget):
         Disabled buttons until function are added
         """
         Buttons[8].setEnabled(False)
+        Buttons[9].setEnabled(False)
 
         """
         Table
