@@ -325,9 +325,17 @@ class OverallView(QWidget):
                                         QMessageBox.No),
                                        QMessageBox.No)
             if rep == QMessageBox.Yes:
-                Tdf.modifyLabelSample(self, labelnum, True)
+                try:
+                    Tdf.modifyLabelSample(self, labelnum, True)
+                except ValueError:
+                    QMessageBox.about(self, "Warning", "Unfortunaly, " + 
+                                                        "your Number was <1")
             else:
-                Tdf.modifyLabelSample(self, labelnum, False)
+                try:
+                    Tdf.modifyLabelSample(self, labelnum, False)
+                except ValueError:
+                    QMessageBox.about(self, "Warning", "Unfortunaly, " + 
+                                                        "your Number was <1")
             self.drawTable()
 
     def SelectAllBtn(self):
