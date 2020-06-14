@@ -19,7 +19,7 @@ class Window(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.setFixedSize(635, 480)
+        self.setFixedSize(835, 680)
         self.initUI()
 
     def initUI(self):
@@ -29,12 +29,12 @@ class Window(QMainWindow):
         # later when the loading alg is ready implement correctly
 
         # creating Buttons
-        width = 800
-        heightPro = 100
-        heightID = 500
+        #width = 800
+        #heightPro = 100
+        #heightID = 500
         self.searchButtonP = QtWidgets.QPushButton(self)
         self.searchButtonP.setText("search")
-        self.searchButtonP.move(width, heightPro)
+        #self.searchButtonP.move(width, heightPro)
 
         self.searchButtonP.clicked.connect(self.clickprotein)
 
@@ -60,6 +60,7 @@ class Window(QMainWindow):
         # Layout
         self.mainwidget = QWidget(self)
         self.main_layout = QVBoxLayout(self.mainwidget)
+
         # every set contains all widgets on the level they should be in the UI
         # in set1 there is a textbox and a button
         self.set1 = QHBoxLayout()
@@ -179,12 +180,6 @@ class Window(QMainWindow):
                     self.cg.setData(0, 0, ID)
                     self.cg.setData(1, 0, OS)
                     self.cg.setData(2, 0, Proteinname)
-
-                    header = self.tw.header()
-                    header.setSectionResizeMode(
-                        QtWidgets.QHeaderView.ResizeToContents)
-                    header.setStretchLastSection(False)
-
                     self.textp = QTextEdit()
                     self.textp.resize(
                         self.textp.width(), self.textp.height())
@@ -195,6 +190,12 @@ class Window(QMainWindow):
                     self.cgChild.setFirstColumnSpanned(True)
                     self.tw.setItemWidget(
                         self.cgChild, 0, self.textp)
+
+            header = self.tw.header()
+            header.setSectionResizeMode(
+                QtWidgets.QHeaderView.ResizeToContents)
+            header.setStretchLastSection(True)
+
         else:
             for protein_accession in self.dictKeyAccession:
                 if protein_accession_maybe_sub_sequence in protein_accession:
@@ -213,11 +214,6 @@ class Window(QMainWindow):
                     self.cg.setData(1, 0, OS)
                     self.cg.setData(2, 0, Proteinname)
 
-                    header = self.tw.header()
-                    header.setSectionResizeMode(
-                        QtWidgets.QHeaderView.ResizeToContents)
-                    header.setStretchLastSection(False)
-
                     self.textp = QTextEdit()
                     self.textp.resize(
                         self.textp.width(), self.textp.height())
@@ -229,6 +225,11 @@ class Window(QMainWindow):
                     self.cgChild.setFirstColumnSpanned(True)
                     self.tw.setItemWidget(
                         self.cgChild, 0, self.textp)
+
+            header = self.tw.header()
+            header.setSectionResizeMode(
+                QtWidgets.QHeaderView.ResizeToContents)
+            header.setStretchLastSection(True)
 
         if counter == 0:
             self.msg = QMessageBox()
@@ -257,11 +258,6 @@ class Window(QMainWindow):
                     self.cg.setData(0, 0, ID)
                     self.cg.setData(1, 0, OS)
                     self.cg.setData(2, 0, Proteinname)
-
-                    header = self.tw.header()
-                    header.setSectionResizeMode(
-                        QtWidgets.QHeaderView.ResizeToContents)
-                    header.setStretchLastSection(False)
 
                     self.textp = QTextEdit()
                     self.textp.resize(
@@ -304,6 +300,12 @@ class Window(QMainWindow):
                     self.cgChild.setFirstColumnSpanned(True)
                     self.tw.setItemWidget(
                         self.cgChild, 0, self.textp)
+
+            header = self.tw.header()
+            header.setSectionResizeMode(
+                QtWidgets.QHeaderView.ResizeToContents)
+            header.setStretchLastSection(True)
+
         else:
             for protein_sequence in self.proteinList:
                 if protein_sub_sequence in protein_sequence:
@@ -319,11 +321,6 @@ class Window(QMainWindow):
                     self.cg.setData(0, 0, ID)
                     self.cg.setData(1, 0, OS)
                     self.cg.setData(2, 0, Proteinname)
-
-                    header = self.tw.header()
-                    header.setSectionResizeMode(
-                        QtWidgets.QHeaderView.ResizeToContents)
-                    header.setStretchLastSection(False)
 
                     self.textp = QTextEdit()
                     self.textp.resize(
@@ -367,6 +364,11 @@ class Window(QMainWindow):
                     self.tw.setItemWidget(
                         self.cgChild, 0, self.textp)
 
+            header = self.tw.header()
+            header.setSectionResizeMode(
+                QtWidgets.QHeaderView.ResizeToContents)
+            header.setStretchLastSection(True)
+
         if counter == 0:
             self.msg = QMessageBox()
             self.msg.setIcon(QMessageBox.Information)
@@ -394,10 +396,6 @@ class Window(QMainWindow):
                     self.cg.setData(0, 0, ID)
                     self.cg.setData(1, 0, OS)
                     self.cg.setData(2, 0, Proteinname)
-                    header = self.tw.header()
-                    header.setSectionResizeMode(
-                        QtWidgets.QHeaderView.ResizeToContents)
-                    header.setStretchLastSection(False)
 
                     self.textp = QPlainTextEdit()
                     self.textp.resize(
@@ -410,6 +408,12 @@ class Window(QMainWindow):
                     self.cgChild.setFirstColumnSpanned(True)
                     self.tw.setItemWidget(
                         self.cgChild, 0, self.textp)
+
+            header = self.tw.header()
+            header.setSectionResizeMode(
+                QtWidgets.QHeaderView.ResizeToContents)
+            header.setStretchLastSection(True)
+
         else:
             for protein_name in self.proteinNameList:
                 if protein_sub_name in protein_name:
@@ -425,10 +429,7 @@ class Window(QMainWindow):
                     self.cg.setData(0, 0, ID)
                     self.cg.setData(1, 0, OS)
                     self.cg.setData(2, 0, Proteinname)
-                    header = self.tw.header()
-                    header.setSectionResizeMode(
-                        QtWidgets.QHeaderView.ResizeToContents)
-                    header.setStretchLastSection(False)
+
                     self.textp = QPlainTextEdit()
                     self.textp.resize(
                         self.textp.width(), self.textp.height())
@@ -440,6 +441,11 @@ class Window(QMainWindow):
                     self.cgChild.setFirstColumnSpanned(True)
                     self.tw.setItemWidget(
                         self.cgChild, 0, self.textp)
+
+            header = self.tw.header()
+            header.setSectionResizeMode(
+                QtWidgets.QHeaderView.ResizeToContents)
+            header.setStretchLastSection(True)
 
         if counter == 0:
             self.msg = QMessageBox()
