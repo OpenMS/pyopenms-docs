@@ -1,4 +1,12 @@
+""" 
+mzTabTableWidget
+----------------
+This script allows the user to transfer information about proteins and psms from a mzTab file into two tables, one containing the proteins, the other one containing the psms.
 
+By clicking on a row, the tables get updated regarding their listed proteins or psms. Once you choose a protein/psm, the table displays only those psms/proteins that are linked to one another.
+
+This tool is designed to accept mzTab files. It is required to save those files under '.../examples/data/' or change the path within the InitWindow.
+"""
 
 import sys
 from PyQt5 import QtGui
@@ -52,7 +60,13 @@ class Window(QWidget):
         self.show()
 
     def parser(self, file): 
-        
+                """parses the given mzTab file and saves PRT and PSM information
+        Parameters
+        ----------
+        file : str
+            The file path of the mzTab file
+        """
+
         with open(file) as inp:
             for line in inp:
                 if line.startswith("PRH"):
@@ -68,7 +82,9 @@ class Window(QWidget):
         for item in self.PSM:
             item.pop(0)
             
-    def drawTables(self):         
+    def drawTables(self):
+            """draws protein and psm table with headers"""
+
         self.tableWidget2.setRowCount(len(self.drawPSM))
         self.tableWidget2.setColumnCount(len(self.drawPSM[0]))
         self.tableWidget2.setHorizontalHeaderLabels(self.drawPSM[0])
@@ -78,7 +94,7 @@ class Window(QWidget):
         self.tableWidget1.setHorizontalHeaderLabels(self.drawPRT[0])
 
     def createProtTable(self):
-
+            """updates protein table by setting table items and changing number of rows"""
         self.tableWidget1.setRowCount(len(self.drawPRT))
         
         j = 0
@@ -95,7 +111,7 @@ class Window(QWidget):
                 break       
         
     def createPSMTable(self):
-
+            """updates psm table by setting table items and changing number of rows"""
         self.tableWidget2.setRowCount(len(self.drawPSM))
         
         m = 0
