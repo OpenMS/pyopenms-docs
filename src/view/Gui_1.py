@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import (QWidget, QToolTip,
                              QGroupBox, QSizePolicy, QCheckBox, QFileDialog,
                              QTextEdit)
 from PyQt5.QtGui import QFont, QColor
-#from dictionaries import Dict
+# from dictionaries import Dict
 sys.path.insert(0, '../examples')
 from Logic_fastaSearch import*  # NOQA: E402
 
@@ -125,6 +125,16 @@ class Window(QMainWindow):
         self.dictKeyAccession, self.proteinList, self.proteinNameList, self.proteinOSList, self.dictKeyAccessionDECOY, self.proteinListDECOY, self.proteinNameListDECOY, self.proteinOSListDECOY = logic.protein_dictionary(
             self.path)
         self.datalabel.setText("Data loaded")
+        for i in range(len(self.dictKeyAccession)):
+            ID = list(self.dictKeyAccession.keys())[i]
+            Protein = self.proteinList[i]
+            Proteinname = self.proteinNameList[i]
+            OS = self.proteinOSList[i]
+            self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+            self.cg.setData(0, 0, ID)
+            self.cg.setData(1, 0, OS)
+            self.cg.setData(2, 0, Proteinname)
+
     # defining the clickprotein method for the searchButtonP
 
     def clickprotein(self):
@@ -193,8 +203,6 @@ class Window(QMainWindow):
                 if protein_accession_maybe_sub_sequence in protein_accession:
                     counter = counter + 1
                     index = list(self.dictKeyAccession).index(
-                        protein_accession)
-                    Protein = self.dictKeyAccession.get(
                         protein_accession)
                     ID = list(self.dictKeyAccession.keys())[index]
                     Protein = self.proteinList[index]
