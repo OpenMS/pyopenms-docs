@@ -22,8 +22,7 @@ class Window(QWidget):
         self.drawPSM = []
         self.drawPRT = [] 
 
-        self.selectedPSM = ""
-        self.selectedPRT = ""
+        self.selected = ""
 
         self.InitWindow()
 
