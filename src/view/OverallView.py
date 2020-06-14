@@ -19,7 +19,7 @@ class OverallView(QWidget):
     def __init__(self, *args):
         QWidget.__init__(self, *args)
 
-        buttonlayout = QGridLayout()
+        buttonlayout = QHBoxLayout()
         layout = QVBoxLayout()
         self.tdf = Tdf
         buttons = QWidget()
@@ -32,35 +32,27 @@ class OverallView(QWidget):
         """
         Button and  connections
         """
-        Buttons = [QPushButton('Import'), QPushButton('Export'),
-                   QPushButton('Load'), QPushButton('Fraction'),
-                   QPushButton('Label'), QPushButton('Group'),
-                   QPushButton('Remove File'), QPushButton('Add File'),
+        Buttons = [QPushButton('Load'), QPushButton('Import'),
+                   QPushButton('Export'), QPushButton('Add File'),
+                   QPushButton('Remove File'), QPushButton('Group'),
+                   QPushButton('Fraction'), QPushButton('Label'),
                    QPushButton('Select all'), QPushButton('Search')]
 
-        buttonlayout.addWidget(Buttons[0], 0, 0)
-        buttonlayout.addWidget(Buttons[1], 1, 0)
-        buttonlayout.addWidget(Buttons[2], 2, 0)
-        buttonlayout.addWidget(Buttons[7], 0, 1)
-        buttonlayout.addWidget(Buttons[6], 1, 1)
-        buttonlayout.addWidget(Buttons[8], 2, 1)
-        buttonlayout.addWidget(Buttons[5], 0, 2)
-        buttonlayout.addWidget(Buttons[3], 1, 2)
-        buttonlayout.addWidget(Buttons[4], 2, 2)
-        buttonlayout.addWidget(Buttons[9], 3, 2)
-
-        buttonlayout.addWidget(self.textbox, 3, 0, 1, 2)
+        for button in Buttons:
+            buttonlayout.addWidget(button)
 
         buttons.setLayout(buttonlayout)
+        buttonlayout.addWidget(self.textbox)
+        buttons.resize(200, 690)
 
-        Buttons[0].clicked.connect(self.importBtn)
-        Buttons[1].clicked.connect(self.exportBtn)
-        Buttons[2].clicked.connect(self.loadBtnFn)
-        Buttons[3].clicked.connect(self.FractionBtn)
-        Buttons[4].clicked.connect(self.LabelBtn)
+        Buttons[0].clicked.connect(self.loadBtnFn)
+        Buttons[1].clicked.connect(self.importBtn)
+        Buttons[2].clicked.connect(self.exportBtn)
+        Buttons[3].clicked.connect(self.loadFile)
+        Buttons[4].clicked.connect(self.RemoveBtn)
         Buttons[5].clicked.connect(self.GroupBtn)
-        Buttons[6].clicked.connect(self.RemoveBtn)
-        Buttons[7].clicked.connect(self.loadFile)
+        Buttons[6].clicked.connect(self.FractionBtn)
+        Buttons[7].clicked.connect(self.LabelBtn)
         Buttons[8].clicked.connect(self.SelectAllBtn)
 
         """
@@ -73,7 +65,7 @@ class OverallView(QWidget):
         Table
         """
         self.table.setRowCount(0)
-        self.header = ['Fraction Group', 'Fraction',
+        self.header = ['Group', 'Fraction',
                        'Spectra Filepath', 'Label', 'Sample']
         self.table.setColumnCount(len(self.header))
         self.table.setHorizontalHeaderLabels(self.header)
@@ -328,14 +320,14 @@ class OverallView(QWidget):
                 try:
                     Tdf.modifyLabelSample(self, labelnum, True)
                 except ValueError:
-                    QMessageBox.about(self, "Warning", "Unfortunaly, " + 
-                                                        "your Number was <1")
+                    QMessageBox.about(self, "Warning", "Unfortunaly, " +
+                                            "your Number was <1")
             else:
                 try:
                     Tdf.modifyLabelSample(self, labelnum, False)
                 except ValueError:
-                    QMessageBox.about(self, "Warning", "Unfortunaly, " + 
-                                                        "your Number was <1")
+                    QMessageBox.about(self, "Warning", "Unfortunaly, " +
+                                            "your Number was <1")
             self.drawTable()
 
     def SelectAllBtn(self):
