@@ -16,7 +16,7 @@ from Logic_fastaSearch import*  # NOQA: E402
 
 
 class Window(QMainWindow):
-       """
+    """
     A class used to make and change the apperance of a Window
 
     ...
@@ -96,7 +96,7 @@ class Window(QMainWindow):
     """
 
     def __init__(self):
-            """Gets self and sets Window size na exc. initUI()
+        """Gets self and sets Window size na exc. initUI()
 
         Parameters
         ----------
@@ -112,7 +112,7 @@ class Window(QMainWindow):
         self.initUI()
 
     def initUI(self):
-            """Gets self and creates creates the User Interface
+        """Gets self and creates creates the User Interface
 
         Parameters
         ----------
@@ -140,8 +140,6 @@ class Window(QMainWindow):
         self.tw = QtWidgets.QTreeWidget()
         self.tw.setHeaderLabels(["Accession", "Organism", "Protein Name"])
         self.tw.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-
-
 
         # Layout
         self.mainwidget = QWidget(self)
@@ -198,7 +196,7 @@ class Window(QMainWindow):
 
         # centering the widget
     def center(self):
-            """Gets self and centers the Window
+        """Gets self and centers the Window
         Parameters
         ----------
         self : QMainWindow
@@ -308,7 +306,7 @@ class Window(QMainWindow):
                     self.nameSearch()
 
     def radioIdSearch(self):
-            """Gets self and searches for Protein based on ID
+        """Gets self and searches for Protein based on ID
             and shows the result on QMainWindow
 
         Parameters
@@ -396,7 +394,7 @@ class Window(QMainWindow):
             x = self.msg.exec_()
 
     def sequenceSearch(self):
-            """Gets self and searches for Protein based on sequence
+        """Gets self and searches for Protein based on sequence
             and shows the result on QMainWindow
 
         Parameters
@@ -548,7 +546,7 @@ class Window(QMainWindow):
             x = self.msg.exec_()
 
     def nameSearch(self):
-            """Gets self and searches for Protein based on Proteinname
+        """Gets self and searches for Protein based on Proteinname
             and shows the result on QMainWindow
 
         Parameters
@@ -639,7 +637,7 @@ class Window(QMainWindow):
 
 
 def main():
-        """Gets nothing, runs the QApplication
+    """Gets nothing, runs the QApplication
 
     Parameters
     ----------
