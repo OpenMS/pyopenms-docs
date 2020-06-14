@@ -16,18 +16,113 @@ from Logic_fastaSearch import*  # NOQA: E402
 
 
 class Window(QMainWindow):
+       """
+    A class used to make and change the apperance of a Window
+
+    ...
+
+    Attributes
+    ----------
+    searchButtonP : QtWidgets.QPushButton
+        a button to be shown on window and exc action on click
+
+    searchButtonP : QtWidgets.QPushButton
+         Button to be shown on window and exc action on click
+
+    boxPro : QLineEdit(self)
+         Textfield in wich the user can type inputs
+
+    tw : QtWidgets.QTreeWidget
+         Treewidget used to hold and show data on the sceen
+
+    mainwidget : QWidget
+         QWidget that contains all the Widgets
+
+    main_layout : QVBoxLayout
+        The main Layout of the Window, contains all other Layouts
+
+    set1,set2,set3 : QHBoxLayout()
+         Horizontal Layouts that hold different Widgets
+
+    radioname,radioid,radioseq=QRadioButton
+            A QRadioButton that appears on sceen an can be cheked
+
+    scroll : QScrollArea()
+            Makes an areo of the Window scrollable
+
+    color : QColor
+            Red Color for the searched seq
+
+    colorblack : QColor
+            Black color for the found Protein sequence
+    fileloaded : int
+            Integer to check if file has been loaded
+    Methods
+    -------
+    _init_(self)
+        Sets Window size na exc. initUI()
+
+    initUi(self)
+            Creates the User Interface
+
+    center(self)
+            Centers the Window on screen
+
+    cutstring(self,oldstring,proteinseq)
+            Cuts the oldstring when proteinseq appears and returns a list of
+            the cuts
+
+    lodafile(self)
+            A function for the loadbutton that open QFileDialog and saves the
+            Path to the file fo the logic class
+
+    clickprotein(self)
+            A function for the searchButtonP, it checks if input is correct
+            and exc a search function
+
+    radioIdSearch()
+            Searches for the Protein Information by ID
+
+
+    sequenceSearch()
+            Searches for the Protein Information by sequence and also changes
+            the color of the are of the sequence that is the same as the input
+
+    nameSearch()
+            Searches for the Protein Information by name
+
+    main()
+            runs the QApplication
+    """
 
     def __init__(self):
+            """Gets self and sets Window size na exc. initUI()
+
+        Parameters
+        ----------
+        self : QMainWindow
+
+
+        Returns
+        -------
+        nothing
+        """
         super().__init__()
         self.setFixedSize(635, 480)
         self.initUI()
 
     def initUI(self):
-        # creating Action loadAct
-        # when selected loads a file which is a fasta data
-        # first implement with exit action to test if is working
-        # later when the loading alg is ready implement correctly
+            """Gets self and creates creates the User Interface
 
+        Parameters
+        ----------
+        self : QMainWindow
+
+
+        Returns
+        -------
+        nothing
+        """
         # creating Buttons
 
         self.searchButtonP = QtWidgets.QPushButton(self)
@@ -46,9 +141,7 @@ class Window(QMainWindow):
         self.tw.setHeaderLabels(["Accession", "Organism", "Protein Name"])
         self.tw.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
-        # create a textfield for the result after a protein search
-        self.resultBox = QPlainTextEdit(self)
-        self.resultBox.setReadOnly(True)
+
 
         # Layout
         self.mainwidget = QWidget(self)
@@ -105,6 +198,16 @@ class Window(QMainWindow):
 
         # centering the widget
     def center(self):
+            """Gets self and centers the Window
+        Parameters
+        ----------
+        self : QMainWindow
+
+
+        Returns
+        -------
+        changes so that the Window appears on the center of the screen
+        """
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
@@ -113,11 +216,40 @@ class Window(QMainWindow):
     # defining a help function to cut the sequence that is being search from the
     # Protein sequence that has been found
     def cutstring(self, oldstring: str, proteinseq: str) -> str:
+        """Gets two strings and splits the first string in a list
+            on the playces where the second string is found. This helps
+            to change the color of the sequences later on
+
+    Parameters
+    ----------
+    oldstring : str
+        the enteire proteinseq as a string
+    proteinseq : str
+        is the searched seq and is used to split the entire seq in parts
+
+    Returns
+    -------
+    list
+        a list of strings to be later put together after recoloring
+    """
         cut = oldstring.split(proteinseq)
         return cut
     # defining the function for load button to get path of database
 
     def loadingfile(self):
+        """Gets QMainWindow and opens a QFileDialog and loads path
+
+    Parameters
+    ----------
+    self : QMainWindow
+        the MainWindow of the class
+
+
+    Returns
+    -------
+    nothing , it changes the QMainWindow so that the user can see that a file
+    has been loaded
+    """
         self.filename = QFileDialog.getOpenFileName()
         self.path = self.filename[0]
         self.fileloaded = 1
@@ -138,6 +270,18 @@ class Window(QMainWindow):
     # defining the clickprotein method for the searchButtonP
 
     def clickprotein(self):
+        """Gets self and searches for Protein and shows the result
+        on QMainWindow
+
+    Parameters
+    ----------
+    self : QMainWindow
+
+
+    Returns
+    -------
+    nothing but changes the QMainWindow to show the Protein or an Error message
+    """
         if self.fileloaded == 0:
             self.error = QMessageBox()
             self.error.setIcon(QMessageBox.Information)
@@ -164,6 +308,18 @@ class Window(QMainWindow):
                     self.nameSearch()
 
     def radioIdSearch(self):
+            """Gets self and searches for Protein based on ID
+            and shows the result on QMainWindow
+
+        Parameters
+        ----------
+        self : QMainWindow
+
+
+        Returns
+        -------
+        nothing but changes the QMainWindow to show the Protein in treewidget
+        """
         counter = 0
         protein_accession_maybe_sub_sequence = self.boxPro.text()
         if self.decoycheck.isChecked():
@@ -240,6 +396,20 @@ class Window(QMainWindow):
             x = self.msg.exec_()
 
     def sequenceSearch(self):
+            """Gets self and searches for Protein based on sequence
+            and shows the result on QMainWindow
+
+        Parameters
+        ----------
+        self : QMainWindow
+
+
+        Returns
+        -------
+        nothing but changes the QMainWindow to show the Protein in treewidget
+        also changes the color of the parts of the sequence
+        that are being searched
+        """
         counter = 0
         protein_sub_sequence = self.boxPro.text()
         if self.decoycheck.isChecked():
@@ -378,6 +548,18 @@ class Window(QMainWindow):
             x = self.msg.exec_()
 
     def nameSearch(self):
+            """Gets self and searches for Protein based on Proteinname
+            and shows the result on QMainWindow
+
+        Parameters
+        ----------
+        self : QMainWindow
+
+
+        Returns
+        -------
+        nothing but changes the QMainWindow to show the Protein in treewidget
+        """
         counter = 0
         protein_sub_name = self.boxPro.text()
         if self.decoycheck.isChecked():
@@ -457,7 +639,17 @@ class Window(QMainWindow):
 
 
 def main():
+        """Gets nothing, runs the QApplication
 
+    Parameters
+    ----------
+    nothing
+
+
+    Returns
+    -------
+    nothing
+    """
     app = QApplication(sys.argv)
     ex = Window()
     sys.exit(app.exec_())
