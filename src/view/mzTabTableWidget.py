@@ -1,3 +1,5 @@
+
+
 import sys
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QTableWidget, QVBoxLayout, QTableWidgetItem
@@ -18,9 +20,10 @@ class Window(QWidget):
         self.PSM = []
 
         self.drawPSM = []
-        self.drawPRT = [] #neu
+        self.drawPRT = [] 
 
-        self.selected = ""
+        self.selectedPSM = ""
+        self.selectedPRT = ""
 
         self.InitWindow()
 
@@ -32,16 +35,16 @@ class Window(QWidget):
         self.parser('../examples/data/iPRG2015.mzTab')
 
         self.drawPSM = self.PSM
-        self.drawPRT = self.PRT #neu
+        self.drawPRT = self.PRT 
 
         self.tableWidget1 = QTableWidget()
-        self.createProtTable()
-
         self.tableWidget2 = QTableWidget()
+        self.drawTables()
+        self.createProtTable()
         self.createPSMTable()
 
         self.tableWidget1.itemClicked.connect(self.filterProteins)
-        self.tableWidget2.itemClicked.connect(self.filterPSMs) # neu
+        self.tableWidget2.itemClicked.connect(self.filterPSMs) 
 
         self.vbox = QVBoxLayout()
         self.vbox.addWidget(self.tableWidget1)
@@ -60,15 +63,29 @@ class Window(QWidget):
                 elif line.startswith("PSH") or line.startswith("PSM"):
                     self.PSM.append(line.strip().split('\t'))
 
-    def createProtTable(self):
+        for item in self.PRT:
+            item.pop(0)
+
+        for item in self.PSM:
+            item.pop(0)
+            
+    def drawTables(self):         
+        self.tableWidget2.setRowCount(len(self.drawPSM))
+        self.tableWidget2.setColumnCount(len(self.drawPSM[0]))
+        self.tableWidget2.setHorizontalHeaderLabels(self.drawPSM[0])
 
         self.tableWidget1.setRowCount(len(self.drawPRT))
         self.tableWidget1.setColumnCount(len(self.drawPRT[0]))
+        self.tableWidget1.setHorizontalHeaderLabels(self.drawPRT[0])
 
+    def createProtTable(self):
+
+        self.tableWidget1.setRowCount(len(self.drawPRT))
+        
         j = 0
         k = 0
-                                   
-        for item in self.drawPRT:
+                        
+        for item in self.drawPRT[1:]:
             while k < (len(self.drawPRT)):
                 while j < (len(item)):
                  self.tableWidget1.setItem(k,j,QTableWidgetItem(item[j]))
@@ -81,12 +98,11 @@ class Window(QWidget):
     def createPSMTable(self):
 
         self.tableWidget2.setRowCount(len(self.drawPSM))
-        self.tableWidget2.setColumnCount(len(self.drawPSM[0]))
-
+        
         m = 0
         n = 0
         
-        for item in self.drawPSM:
+        for item in self.drawPSM[1:]:
             while n < (len(self.drawPSM)):
                 while m < (len(item)):
                  self.tableWidget2.setItem(n,m,QTableWidgetItem(item[m]))
@@ -97,19 +113,18 @@ class Window(QWidget):
                 break
 
     def filterProteins(self, item):
-        self.selected = self.PRT[item.row()][1]
+        self.selected = self.PRT[item.row()][0]
         print(self.selected)
-        self.drawPSM = [p for p in self.PSM if p[3] == self.selected]
+        self.drawPSM = [p for p in self.PSM if p[2] == self.selected]
         self.createPSMTable()
             
     def filterPSMs(self, item):
-        self.selected = self.PSM[item.row()][3]
+        self.selected = self.PSM[item.row()][2]
         print(self.selected)
-        self.drawPRT = [f for f in self.PRT if f[1] in self.selected]
+        self.drawPRT = [f for f in self.PRT if f[0] in self.selected]
         self.createProtTable()
 
             
 App = QApplication(sys.argv)
 window = Window()
 sys.exit(App.exec())
-
