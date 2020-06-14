@@ -19,7 +19,7 @@ class Window(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.setFixedSize(835, 680)
+        self.setFixedSize(635, 480)
         self.initUI()
 
     def initUI(self):
@@ -29,13 +29,9 @@ class Window(QMainWindow):
         # later when the loading alg is ready implement correctly
 
         # creating Buttons
-        #width = 800
-        #heightPro = 100
-        #heightID = 500
+
         self.searchButtonP = QtWidgets.QPushButton(self)
         self.searchButtonP.setText("search")
-        #self.searchButtonP.move(width, heightPro)
-
         self.searchButtonP.clicked.connect(self.clickprotein)
 
         self.loadbutton = QtWidgets.QPushButton(self)
@@ -44,14 +40,11 @@ class Window(QMainWindow):
 
         # creating testboxes for the buttons
         self.boxPro = QLineEdit(self)
-        # self.boxPro.move(width-280, heightPro)
-        # self.boxPro.resize(280, 30)
 
-        # Creating treewidget
+        # Creating treewidget for displaying the proteins
         self.tw = QtWidgets.QTreeWidget()
         self.tw.setHeaderLabels(["Accession", "Organism", "Protein Name"])
         self.tw.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        # self.tw.setColumnWidth(1, 280)
 
         # create a textfield for the result after a protein search
         self.resultBox = QPlainTextEdit(self)
@@ -67,7 +60,6 @@ class Window(QMainWindow):
         self.set1.addWidget(self.boxPro)
         self.set1.addWidget(self.searchButtonP)
         self.set1.addWidget(self.loadbutton)
-        # self.set1.addStretch(1)
 
         # set 2 contains the radiobuttons and a label
         self.set2 = QHBoxLayout()
@@ -83,7 +75,6 @@ class Window(QMainWindow):
         self.set2.addWidget(self.radioseq)
         self.set2.addWidget(self.decoycheck)
         self.set2.addWidget(self.datalabel)
-        # self.set2.addStretch(1)
 
         # set 3 contains the table and the result box
         self.set3 = QHBoxLayout()
@@ -101,6 +92,7 @@ class Window(QMainWindow):
         self.mainwidget.setLayout(self.main_layout)
         self.setCentralWidget(self.mainwidget)
         self.setWindowTitle('Protein Viewer')
+
         # defining some colors to marked searched sequences
         self.color = QColor(255, 0, 0)
         self.colorblack = QColor(0, 0, 0)
@@ -110,8 +102,8 @@ class Window(QMainWindow):
         # if not than there should be an error Window when a search is done
 
         self.fileloaded = 0
-        # centering the widget
 
+        # centering the widget
     def center(self):
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
@@ -120,7 +112,7 @@ class Window(QMainWindow):
 
     # defining a help function to cut the sequence that is being search from the
     # Protein sequence that has been found
-    def cutstring(self, oldstring, proteinseq):
+    def cutstring(self, oldstring: str, proteinseq: str) -> str:
         cut = oldstring.split(proteinseq)
         return cut
     # defining the function for load button to get path of database
