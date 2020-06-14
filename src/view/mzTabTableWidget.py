@@ -1,9 +1,6 @@
-
-
 import sys
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QTableWidget, QVBoxLayout, QTableWidgetItem
-
 
 
 class Window(QWidget):
@@ -48,8 +45,15 @@ class Window(QWidget):
         self.setLayout(self.vbox)
         self.show()
 
-    def parser(self, file): 
-        
+    def parser(self, file):
+        """parses the given mzTab file and saves PRT and PSM information
+
+        Parameters
+        ----------
+        file : str
+            The file path of the mzTab file
+        """
+
         with open(file) as inp:
             for line in inp:
                 if line.startswith("PRH"):
@@ -66,17 +70,17 @@ class Window(QWidget):
 
         j = 0
         k = 0
-                                   
+
         for item in self.PRT:
             while k < (len(self.PRT)):
                 while j < (len(item)):
-                 self.tableWidget1.setItem(k,j,QTableWidgetItem(item[j]))
-                 j+=1
+                    self.tableWidget1.setItem(k, j, QTableWidgetItem(item[j]))
+                    j += 1
                 else:
-                    k+=1
-                    j=0
-                break       
-        
+                    k += 1
+                    j = 0
+                break
+
     def createPSMTable(self):
 
         self.tableWidget2.setRowCount(len(self.drawPSM))
@@ -84,15 +88,15 @@ class Window(QWidget):
 
         m = 0
         n = 0
-        
+
         for item in self.drawPSM:
             while n < (len(self.drawPSM)):
                 while m < (len(item)):
-                 self.tableWidget2.setItem(n,m,QTableWidgetItem(item[m]))
-                 m+=1
+                    self.tableWidget2.setItem(n, m, QTableWidgetItem(item[m]))
+                    m += 1
                 else:
-                    n+=1
-                    m=0
+                    n += 1
+                    m = 0
                 break
 
     def filterProteins(self, item):
@@ -100,10 +104,8 @@ class Window(QWidget):
         print(self.selected)
         self.drawPSM = [p for p in self.PSM if p[3] == self.selected]
         self.createPSMTable()
-            
-            
 
-            
+
 App = QApplication(sys.argv)
 window = Window()
 sys.exit(App.exec())
