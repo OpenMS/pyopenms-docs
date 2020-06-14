@@ -1,7 +1,5 @@
 
 
-
-
 class logic:
 
     # Zusammenstellung des dictionaries und der 3 Listen zum suchen für die a) und b)
@@ -17,14 +15,14 @@ class logic:
         counter = 0
         with open(fastaFile) as file_content:
             for seqs in file_content:
-                
-                # is decoy 
+
+                # is decoy
                 if seqs.startswith('>DECOY'):
                     bounds = find_all_indexes(seqs, '|')
                     if len(bounds) != 0:
                         key = (seqs[bounds[0]+1:bounds[1]])
                         descr_upper_index = seqs.find('OS=')
-                        # herausfinden bis zu welchem index das OS geht 
+                        # herausfinden bis zu welchem index das OS geht
                         os_upper_index = seqs.find('(')
                         os = ''
                         if (os_upper_index == -1):
@@ -42,7 +40,37 @@ class logic:
                             except:
                                 break
                             counter2 = counter2 + 1
-                        counter = counter + len(stringValue) + len(seqs)  + counter2
+                        counter = counter + len(stringValue) + len(seqs) + counter2
+                        file_content.seek(counter, 0)
+                        dictKeyAccessionDECOY[key] = stringValue
+                        proteinListDECOY.append(stringValue)
+                        proteinNameListDECOY.append(name)
+                        if (os_upper_index == -1):
+                            proteinOSListDECOY.append(os)
+                        else:
+                            proteinOSListDECOY.append((seqs[descr_upper_index+3:os_upper_index]))
+                    else:
+                        key = seqs.split("OS=")[0]
+                        descr_upper_index = seqs.find('OS=')
+                        # herausfinden bis zu welchem index das OS geht
+                        os_upper_index = seqs.find('(')
+                        os = ''
+                        if (os_upper_index == -1):
+                            zwischenergebnis = seqs[descr_upper_index+3:]
+                            zwischenergebnis1 = zwischenergebnis.split()
+                            os = zwischenergebnis1[0] + ' ' + zwischenergebnis1[1]
+                        name = seqs.split("OS=")[0]
+                        stringValue = ""
+                        counter2 = 0
+                        nextLine = next(file_content)
+                        while not nextLine.startswith('>'):
+                            stringValue += nextLine[:-1]
+                            try:
+                                nextLine = next(file_content)
+                            except:
+                                break
+                            counter2 = counter2 + 1
+                        counter = counter + len(stringValue) + len(seqs) + counter2
                         file_content.seek(counter, 0)
                         dictKeyAccessionDECOY[key] = stringValue
                         proteinListDECOY.append(stringValue)
@@ -58,7 +86,7 @@ class logic:
                     if len(bounds) != 0:
                         key = (seqs[bounds[0]+1:bounds[1]])
                         descr_upper_index = seqs.find('OS=')
-                        # herausfinden bis zu welchem index das OS geht 
+                        # herausfinden bis zu welchem index das OS geht
                         os_upper_index = seqs.find('(')
                         os = ''
                         if (os_upper_index == -1):
@@ -76,7 +104,37 @@ class logic:
                             except:
                                 break
                             counter2 = counter2 + 1
-                        counter = counter + len(stringValue) + len(seqs)  + counter2
+                        counter = counter + len(stringValue) + len(seqs) + counter2
+                        file_content.seek(counter, 0)
+                        dictKeyAccession[key] = stringValue
+                        proteinList.append(stringValue)
+                        proteinNameList.append(name)
+                        if (os_upper_index == -1):
+                            proteinOSList.append(os)
+                        else:
+                            proteinOSList.append((seqs[descr_upper_index+3:os_upper_index]))
+                    else:
+                        key = seqs.split("OS=")[0]
+                        descr_upper_index = seqs.find('OS=')
+                        # herausfinden bis zu welchem index das OS geht
+                        os_upper_index = seqs.find('(')
+                        os = ''
+                        if (os_upper_index == -1):
+                            zwischenergebnis = seqs[descr_upper_index+3:]
+                            zwischenergebnis1 = zwischenergebnis.split()
+                            os = zwischenergebnis1[0] + ' ' + zwischenergebnis1[1]
+                        name = seqs.split("OS=")[0]  # (seqs[bounds[1]+1:descr_upper_index])
+                        stringValue = ""
+                        counter2 = 0
+                        nextLine = next(file_content)
+                        while not nextLine.startswith('>'):
+                            stringValue += nextLine[:-1]
+                            try:
+                                nextLine = next(file_content)
+                            except:
+                                break
+                            counter2 = counter2 + 1
+                        counter = counter + len(stringValue) + len(seqs) + counter2
                         file_content.seek(counter, 0)
                         dictKeyAccession[key] = stringValue
                         proteinList.append(stringValue)
@@ -121,7 +179,6 @@ def main():
             print("Protein: " + dictKeyAccession.get(protein_accession))
             print("Proteinname: " + proteinNameList[index])
             print("OS: " + proteinOSList[index])
-
 
 
 if __name__ == "__main__":
