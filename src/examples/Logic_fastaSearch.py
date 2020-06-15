@@ -1,4 +1,5 @@
 
+import webbrowser
 
 class logic:
 
@@ -146,6 +147,11 @@ class logic:
         return dictKeyAccession, proteinList, proteinNameList, proteinOSList, dictKeyAccessionDECOY, proteinListDECOY, proteinNameListDECOY, proteinOSListDECOY
 
 
+    # um im Internet das Protein aufzurufen für mehr Informationen 
+    def moreProteinInformation(protein_accession):
+        return webbrowser.open("https://www.uniprot.org/uniprot/" + protein_accession)
+
+
 # wird für die Methode protein_dictionary benötigt (suche von mehreren Indizes)
 def find_all_indexes(input_str, search_str):
     l1 = []
@@ -160,7 +166,10 @@ def find_all_indexes(input_str, search_str):
     return l1
 
 
+
+
 def main():
+
 
     # a)
     dictKeyAccession, proteinList, proteinNameList, proteinOSList, dictKeyAccessionDECOY, proteinListDECOY, proteinNameListDECOY, proteinOSListDECOY = logic.protein_dictionary(
@@ -179,6 +188,8 @@ def main():
             print("Protein: " + dictKeyAccession.get(protein_accession))
             print("Proteinname: " + proteinNameList[index])
             print("OS: " + proteinOSList[index])
+            # Test für Webbrowser Funktionalität
+            # moreProteinInformation(protein_accession)
 
 
 if __name__ == "__main__":
