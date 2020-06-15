@@ -11,6 +11,7 @@ This tool is designed to accept mzTab files. It is required to save those files 
 change the path within the InitWindow.
 """
 import sys
+import webbrowser
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QTableWidget, QVBoxLayout, QTableWidgetItem
 
@@ -47,7 +48,7 @@ class Window(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.top, self.left, self.width, self.height)
 
-        self.parser('../examples/data/iPRG2015.mzTab')
+        self.parser('/home/fabian/Downloads/test.mzTab')
 
         self.drawPRT = self.PRT
         self.drawPSM = self.PSM
@@ -60,6 +61,9 @@ class Window(QWidget):
 
         self.tableWidget1.itemClicked.connect(self.filterPRT)
         self.tableWidget2.itemClicked.connect(self.filterPSM)
+
+        self.tableWidget1.itemDoubleClicked.connect(self.browsePRT)
+        self.tableWidget2.itemDoubleClicked.connect(self.browsePSM)
 
         self.vbox = QVBoxLayout()
         self.vbox.addWidget(self.tableWidget1)
@@ -150,7 +154,7 @@ class Window(QWidget):
 
     def filterPSM(self, item):
         if self.selectedPSM == self.PSM[item.row()+1][2]:
-            self.selectedSM = ""
+            self.selectedPSM = ""
             for i in range(0, self.tableWidget1.rowCount()):
                 self.tableWidget1.setRowHidden(i, False)
         else:
@@ -158,6 +162,15 @@ class Window(QWidget):
             for i in range(0, self.tableWidget1.rowCount()):
                 if not self.PRT[i][0] == self.selectedPSM:
                     self.tableWidget1.setRowHidden(i, True)
+
+    def browsePRT(self, item):
+        accession = self.PRT[item.row()+1][0].split("|", 2)[1]
+        webbrowser.open("https://www.uniprot.org/uniprot/" + accession)
+
+    def browsePSM(self, item):
+        accession = self.PSM[item.row()+1][2].split("|", 2)[1]
+        webbrowser.open("https://www.uniprot.org/uniprot/" + accession)
+
 
 App = QApplication(sys.argv)
 window = Window()
