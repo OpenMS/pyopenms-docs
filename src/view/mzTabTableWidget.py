@@ -24,6 +24,7 @@ class Window(QWidget):
         self.left = 100
         self.width = 500
         self.height = 500
+        self.tableRows = 5
 
         self.PRT = []
         self.PSM = []
@@ -31,7 +32,13 @@ class Window(QWidget):
         self.drawPSM = []
         self.drawPRT = []
 
+        self.startPSM = 0
+        self.startPRT = 0
+
         self.selected = ""
+        self.selectedPRT = ""
+        self.selectedPSM = ""
+
 
         self.InitWindow()
 
@@ -51,8 +58,8 @@ class Window(QWidget):
         self.createProtTable()
         self.createPSMTable()
 
-        self.tableWidget1.itemClicked.connect(self.filterProteins)
-        self.tableWidget2.itemClicked.connect(self.filterPSMs)
+        self.tableWidget1.itemClicked.connect(self.filterPRT)
+        self.tableWidget2.itemClicked.connect(self.filterPSM)
 
         self.vbox = QVBoxLayout()
         self.vbox.addWidget(self.tableWidget1)
@@ -128,18 +135,29 @@ class Window(QWidget):
                     m = 0
                 break
 
-    def filterProteins(self, item):
-        self.selected = self.PRT[item.row()][0]
-        print(self.selected)
-        self.drawPSM = [p for p in self.PSM if p[2] == self.selected]
-        self.createPSMTable()
+    def filterPRT(self, item):
+        if self.selectedPRT == self.PRT[item.row()+1][0]:
+            self.selectedPRT = ""
+            for i in range(0, self.tableWidget2.rowCount()):
+                self.tableWidget2.setRowHidden(i, False)
+        else:
+            self.selectedPRT = self.PRT[item.row()+1][0]
+            print(self.selectedPRT)
+            print(self.PRT[item.row()+1][0])
+            for i in range(0, self.tableWidget2.rowCount()):
+                if not self.PSM[i][2] == self.selectedPRT:
+                    self.tableWidget2.setRowHidden(i, True)
 
-    def filterPSMs(self, item):
-        self.selected = self.PSM[item.row()][2]
-        print(self.selected)
-        self.drawPSM = [f for f in self.PSM if f[0] == self.selected]
-        self.createProtTable()
-
+    def filterPSM(self, item):
+        if self.selectedPSM == self.PSM[item.row()+1][2]:
+            self.selectedSM = ""
+            for i in range(0, self.tableWidget1.rowCount()):
+                self.tableWidget1.setRowHidden(i, False)
+        else:
+            self.selectedPSM = self.PSM[item.row()+1][2]
+            for i in range(0, self.tableWidget1.rowCount()):
+                if not self.PRT[i][0] == self.selectedPSM:
+                    self.tableWidget1.setRowHidden(i, True)
 
 App = QApplication(sys.argv)
 window = Window()
