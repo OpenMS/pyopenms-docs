@@ -175,6 +175,17 @@ def main():
     dictKeyAccession, proteinList, proteinNameList, proteinOSList, dictKeyAccessionDECOY, proteinListDECOY, proteinNameListDECOY, proteinOSListDECOY = logic.protein_dictionary(
         "C:/Users/Alex/Desktop/iPRG2015_target_decoy_nocontaminants.fasta")
 
+
+    proteinnameSub = input("Name: ")
+    
+    for protein_name in proteinNameList:
+        if proteinnameSub in protein_name:
+            print("Protein: " + protein_name)
+            # Test für Webbrowser Funktionalität
+            # moreProteinInformation(protein_accession)
+
+
+
     # hier kommt die eingegeben protein accession (oder nur ein Teil davon) rein
     # z.B.: 'P00761'
     protein_accession_maybe_sub_sequence = input("Bitte Protein accession angeben: ")
@@ -190,6 +201,8 @@ def main():
             print("OS: " + proteinOSList[index])
             # Test für Webbrowser Funktionalität
             # moreProteinInformation(protein_accession)
+
+    
 
 
 if __name__ == "__main__":

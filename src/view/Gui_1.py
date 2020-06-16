@@ -318,12 +318,13 @@ class Window(QMainWindow):
         -------
         nothing but changes the QMainWindow to show the Protein in treewidget
         """
-        counter = 0
+        atLeastOneProteinFound = False
         protein_accession_maybe_sub_sequence = self.boxPro.text()
+        
         if self.decoycheck.isChecked():
             for protein_accession in self.dictKeyAccessionDECOY:
                 if protein_accession_maybe_sub_sequence in protein_accession:
-                    counter = counter + 1
+                    atLeastOneProteinFound = True
                     index = list(self.dictKeyAccessionDECOY).index(
                         protein_accession)
                     Protein = self.dictKeyAccessionDECOY.get(
@@ -355,7 +356,7 @@ class Window(QMainWindow):
         else:
             for protein_accession in self.dictKeyAccession:
                 if protein_accession_maybe_sub_sequence in protein_accession:
-                    counter = counter + 1
+                    atLeastOneProteinFound = True
                     index = list(self.dictKeyAccession).index(
                         protein_accession)
                     ID = list(self.dictKeyAccession.keys())[index]
@@ -385,7 +386,7 @@ class Window(QMainWindow):
                 QtWidgets.QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
 
-        if counter == 0:
+        if not atLeastOneProteinFound:
             self.msg = QMessageBox()
             self.msg.setIcon(QMessageBox.Information)
             self.msg.setText(
@@ -408,12 +409,13 @@ class Window(QMainWindow):
         also changes the color of the parts of the sequence
         that are being searched
         """
-        counter = 0
+        atLeastOneProteinFound = False
         protein_sub_sequence = self.boxPro.text()
+
         if self.decoycheck.isChecked():
             for protein_sequence in self.proteinListDECOY:
                 if protein_sub_sequence in protein_sequence:
-                    counter = counter + 1
+                    atLeastOneProteinFound = True
                     index = self.proteinListDECOY.index(
                         protein_sequence)
                     ID = list(self.dictKeyAccessionDECOY.keys())[
@@ -477,7 +479,7 @@ class Window(QMainWindow):
         else:
             for protein_sequence in self.proteinList:
                 if protein_sub_sequence in protein_sequence:
-                    counter = counter + 1
+                    atLeastOneProteinFound = True
                     index = self.proteinList.index(
                         protein_sequence)
                     ID = list(self.dictKeyAccession.keys())[index]
@@ -537,7 +539,7 @@ class Window(QMainWindow):
                 QtWidgets.QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
 
-        if counter == 0:
+        if not atLeastOneProteinFound:
             self.msg = QMessageBox()
             self.msg.setIcon(QMessageBox.Information)
             self.msg.setText(
@@ -558,12 +560,13 @@ class Window(QMainWindow):
         -------
         nothing but changes the QMainWindow to show the Protein in treewidget
         """
-        counter = 0
+        atLeastOneProteinFound = False
         protein_sub_name = self.boxPro.text()
+
         if self.decoycheck.isChecked():
             for protein_name in self.proteinNameListDECOY:
                 if protein_sub_name in protein_name:
-                    counter = counter + 1
+                    atLeastOneProteinFound = True
                     index = self.proteinNameListDECOY.index(
                         protein_name)
                     ID = list(self.dictKeyAccessionDECOY.keys())[
@@ -597,12 +600,12 @@ class Window(QMainWindow):
         else:
             for protein_name in self.proteinNameList:
                 if protein_sub_name in protein_name:
-                    counter = counter + 1
+                    atLeastOneProteinFound = True
                     index = self.proteinNameList.index(
                         protein_name)
                     ID = list(self.dictKeyAccession.keys())[index]
                     Protein = self.proteinList[index]
-                    Proteinname = protein_name
+                    Proteinname = self.proteinNameList[index]
                     OS = self.proteinOSList[index]
 
                     self.cg = QtWidgets.QTreeWidgetItem(self.tw,)
@@ -627,7 +630,7 @@ class Window(QMainWindow):
                 QtWidgets.QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
 
-        if counter == 0:
+        if not atLeastOneProteinFound:
             self.msg = QMessageBox()
             self.msg.setIcon(QMessageBox.Information)
             self.msg.setText(
