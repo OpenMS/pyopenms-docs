@@ -32,11 +32,11 @@ class OverallView(QWidget):
         """
         Button and  connections
         """
-        Buttons = [QPushButton('Load'), QPushButton('Import'),
-                   QPushButton('Export'), QPushButton('Add File'),
+        Buttons = [QPushButton('Load Project'), QPushButton('Load Table'),
+                   QPushButton('Save Table'), QPushButton('Add File'),
                    QPushButton('Remove File'), QPushButton('Group'),
                    QPushButton('Fraction'), QPushButton('Label'),
-                   QPushButton('Select all'), QPushButton('Search')]
+                   QPushButton('Select All'), QPushButton('Search')]
 
         for button in Buttons:
             buttonlayout.addWidget(button)
