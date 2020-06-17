@@ -8,8 +8,9 @@ from PyQt5.QtWidgets import (QWidget, QToolTip,
                              QGridLayout, QScrollArea, QPlainTextEdit,
                              QDesktopWidget, QLabel, QRadioButton,
                              QGroupBox, QSizePolicy, QCheckBox, QFileDialog,
-                             QTextEdit)
+                             QTextEdit, QTextBrowser)
 from PyQt5.QtGui import QFont, QColor
+from PyQt5.QtCore import Qt, QUrl
 # from dictionaries import Dict
 sys.path.insert(0, '../examples')
 from Logic_fastaSearch import*  # NOQA: E402
@@ -307,7 +308,8 @@ class Window(QMainWindow):
 
     def radioIdSearch(self):
         """Gets self and searches for Protein based on ID
-            and shows the result on QMainWindow
+            and shows the result on QMainWindow, also adds a hyperlink for
+            more Information
 
         Parameters
         ----------
@@ -320,7 +322,7 @@ class Window(QMainWindow):
         """
         atLeastOneProteinFound = False
         protein_accession_maybe_sub_sequence = self.boxPro.text()
-        
+
         if self.decoycheck.isChecked():
             for protein_accession in self.dictKeyAccessionDECOY:
                 if protein_accession_maybe_sub_sequence in protein_accession:
@@ -340,13 +342,23 @@ class Window(QMainWindow):
                     self.textp = QTextEdit()
                     self.textp.resize(
                         self.textp.width(), self.textp.height())
-                    self.textp.insertPlainText("Proteinsequenz: " + Protein)
-                    self.textp.setReadOnly(True)
+                    self.textp.insertPlainText(
+                        "Proteinsequenz: " + Protein + "\n")
+                    self.textp.insertHtml(
+                        "<a href =" + "https://www.uniprot.org/uniprot/" + protein_accession + ">" + "More Information"+" </a>")
+
+                    # self.textp.setReadOnly(True)
+                    # ein QTextBrowser der das QTextEdit übernimmt damit der
+                    # User das Html link öffnen kann
+                    self.browser = QTextBrowser()
+                    self.browser.setDocument(self.textp.document())
+                    self.browser.setOpenLinks(True)
+                    self.browser.setOpenExternalLinks(True)
                     self.cgChild = QtWidgets.QTreeWidgetItem(
                         self.cg)
                     self.cgChild.setFirstColumnSpanned(True)
                     self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
+                        self.cgChild, 0, self.browser)
 
             header = self.tw.header()
             header.setSectionResizeMode(
@@ -373,13 +385,23 @@ class Window(QMainWindow):
                     self.textp.resize(
                         self.textp.width(), self.textp.height())
                     self.textp.insertPlainText(
-                        "Proteinsequenz: " + Protein)
-                    self.textp.setReadOnly(True)
+                        "Proteinsequenz: " + Protein + "\n")
+
+                    self.textp.insertHtml(
+                        "<a href =" + "https://www.uniprot.org/uniprot/" + protein_accession + ">" + "More Information"+" </a>")
+
+                    # self.textp.setReadOnly(True)
+                    # ein QTextBrowser der das QTextEdit übernimmt damit der
+                    # User das Html link öffnen kann
+                    self.browser = QTextBrowser()
+                    self.browser.setDocument(self.textp.document())
+                    self.browser.setOpenLinks(True)
+                    self.browser.setOpenExternalLinks(True)
                     self.cgChild = QtWidgets.QTreeWidgetItem(
                         self.cg)
                     self.cgChild.setFirstColumnSpanned(True)
                     self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
+                        self.cgChild, 0, self.browser)
 
             header = self.tw.header()
             header.setSectionResizeMode(
@@ -396,7 +418,8 @@ class Window(QMainWindow):
 
     def sequenceSearch(self):
         """Gets self and searches for Protein based on sequence
-            and shows the result on QMainWindow
+            and shows the result on QMainWindow, also adds a hyperlink for
+            more Information
 
         Parameters
         ----------
@@ -463,13 +486,21 @@ class Window(QMainWindow):
                                     protein_sub_sequence)
                                 self.textp.setTextColor(
                                     self.colorblack)
-
-                    self.textp.setReadOnly(True)
+                    self.textp.insertPlainText("\n")
+                    self.textp.insertHtml(
+                        "<a href =" + "https://www.uniprot.org/uniprot/" + ID + ">" + "More Information"+" </a>")
+                    # self.textp.setReadOnly(True)
+                    # ein QTextBrowser der das QTextEdit übernimmt damit der
+                    # User das Html link öffnen kann
+                    self.browser = QTextBrowser()
+                    self.browser.setDocument(self.textp.document())
+                    self.browser.setOpenLinks(True)
+                    self.browser.setOpenExternalLinks(True)
                     self.cgChild = QtWidgets.QTreeWidgetItem(
                         self.cg)
                     self.cgChild.setFirstColumnSpanned(True)
                     self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
+                        self.cgChild, 0, self.browser)
 
             header = self.tw.header()
             header.setSectionResizeMode(
@@ -526,13 +557,21 @@ class Window(QMainWindow):
                                     protein_sub_sequence)
                                 self.textp.setTextColor(
                                     self.colorblack)
-
-                    self.textp.setReadOnly(True)
+                    self.textp.insertPlainText("\n")
+                    self.textp.insertHtml(
+                        "<a href =" + "https://www.uniprot.org/uniprot/" + ID + ">" + "More Information"+" </a>")
+                    # self.textp.setReadOnly(True)
+                    # ein QTextBrowser der das QTextEdit übernimmt damit der
+                    # User das Html link öffnen kann
+                    self.browser = QTextBrowser()
+                    self.browser.setDocument(self.textp.document())
+                    self.browser.setOpenLinks(True)
+                    self.browser.setOpenExternalLinks(True)
                     self.cgChild = QtWidgets.QTreeWidgetItem(
                         self.cg)
                     self.cgChild.setFirstColumnSpanned(True)
                     self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
+                        self.cgChild, 0, self.browser)
 
             header = self.tw.header()
             header.setSectionResizeMode(
@@ -549,7 +588,8 @@ class Window(QMainWindow):
 
     def nameSearch(self):
         """Gets self and searches for Protein based on Proteinname
-            and shows the result on QMainWindow
+            and shows the result on QMainWindow, also adds a hyperlink for
+            more Information
 
         Parameters
         ----------
@@ -580,17 +620,26 @@ class Window(QMainWindow):
                     self.cg.setData(1, 0, OS)
                     self.cg.setData(2, 0, Proteinname)
 
-                    self.textp = QPlainTextEdit()
+                    self.textp = QTextEdit()
                     self.textp.resize(
                         self.textp.width(), self.textp.height())
                     self.textp.insertPlainText(
-                        "\nProteinsequenz: " + Protein)
-                    self.textp.setReadOnly(True)
+                        "\nProteinsequenz: " + Protein + "\n")
+
+                    self.textp.insertHtml(
+                        "<a href =" + "https://www.uniprot.org/uniprot/" + ID + ">" + "More Information"+" </a>")
+                    # self.textp.setReadOnly(True)
+                    # ein QTextBrowser der das QTextEdit übernimmt damit der
+                    # User das Html link öffnen kann
+                    self.browser = QTextBrowser()
+                    self.browser.setDocument(self.textp.document())
+                    self.browser.setOpenLinks(True)
+                    self.browser.setOpenExternalLinks(True)
                     self.cgChild = QtWidgets.QTreeWidgetItem(
                         self.cg)
                     self.cgChild.setFirstColumnSpanned(True)
                     self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
+                        self.cgChild, 0, self.browser)
 
             header = self.tw.header()
             header.setSectionResizeMode(
@@ -613,17 +662,26 @@ class Window(QMainWindow):
                     self.cg.setData(1, 0, OS)
                     self.cg.setData(2, 0, Proteinname)
 
-                    self.textp = QPlainTextEdit()
+                    self.textp = QTextEdit()
                     self.textp.resize(
                         self.textp.width(), self.textp.height())
                     self.textp.insertPlainText(
-                        "Proteinsequenz: " + Protein)
-                    self.textp.setReadOnly(True)
+                        "Proteinsequenz: " + Protein + "\n")
+
+                    self.textp.insertHtml(
+                        "<a href =" + "https://www.uniprot.org/uniprot/" + ID + ">" + "More Information"+" </a>")
+                    # self.textp.setReadOnly(True)
+                    # ein QTextBrowser der das QTextEdit übernimmt damit der
+                    # User das Html link öffnen kann
+                    self.browser = QTextBrowser()
+                    self.browser.setDocument(self.textp.document())
+                    self.browser.setOpenLinks(True)
+                    self.browser.setOpenExternalLinks(True)
                     self.cgChild = QtWidgets.QTreeWidgetItem(
                         self.cg)
                     self.cgChild.setFirstColumnSpanned(True)
                     self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
+                        self.cgChild, 0, self.browser)
 
             header = self.tw.header()
             header.setSectionResizeMode(

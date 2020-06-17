@@ -1,6 +1,7 @@
 
 import webbrowser
 
+
 class logic:
 
     # Zusammenstellung des dictionaries und der 3 Listen zum suchen für die a) und b)
@@ -146,8 +147,8 @@ class logic:
                             proteinOSList.append((seqs[descr_upper_index+3:os_upper_index]))
         return dictKeyAccession, proteinList, proteinNameList, proteinOSList, dictKeyAccessionDECOY, proteinListDECOY, proteinNameListDECOY, proteinOSListDECOY
 
+    # um im Internet das Protein aufzurufen für mehr Informationen
 
-    # um im Internet das Protein aufzurufen für mehr Informationen 
     def moreProteinInformation(protein_accession):
         return webbrowser.open("https://www.uniprot.org/uniprot/" + protein_accession)
 
@@ -166,25 +167,19 @@ def find_all_indexes(input_str, search_str):
     return l1
 
 
-
-
 def main():
-
 
     # a)
     dictKeyAccession, proteinList, proteinNameList, proteinOSList, dictKeyAccessionDECOY, proteinListDECOY, proteinNameListDECOY, proteinOSListDECOY = logic.protein_dictionary(
         "C:/Users/Alex/Desktop/iPRG2015_target_decoy_nocontaminants.fasta")
 
-
     proteinnameSub = input("Name: ")
-    
+
     for protein_name in proteinNameList:
         if proteinnameSub in protein_name:
             print("Protein: " + protein_name)
             # Test für Webbrowser Funktionalität
             # moreProteinInformation(protein_accession)
-
-
 
     # hier kommt die eingegeben protein accession (oder nur ein Teil davon) rein
     # z.B.: 'P00761'
@@ -201,8 +196,6 @@ def main():
             print("OS: " + proteinOSList[index])
             # Test für Webbrowser Funktionalität
             # moreProteinInformation(protein_accession)
-
-    
 
 
 if __name__ == "__main__":
