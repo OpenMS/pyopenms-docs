@@ -2,7 +2,7 @@ import sys, os
 from PyQt5.QtWidgets import QApplication, QHBoxLayout, QMainWindow, QDesktopWidget, QWidget
 from PyQt5.QtCore import Qt
 sys.path.append(os.getcwd()+'/../view')
-from OverallView import OverallView
+from mzMLTableView import mzMLTableView
 
 
 class Programm1(QMainWindow):
@@ -15,7 +15,7 @@ class Programm1(QMainWindow):
         '''
         sets the window with all applications and widgets
         '''
-        view = OverallView(self)
+        view = mzMLTableView(self)
 
         self.setCentralWidget(view)
 

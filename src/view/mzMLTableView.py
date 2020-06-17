@@ -14,37 +14,70 @@ sys.path.append(os.getcwd() + '/../model')
 from tableDataFrame import TableDataFrame as Tdf
 
 
-class OverallView(QWidget):
+class mzMLTableView(QWidget):
 
     def __init__(self, *args):
         QWidget.__init__(self, *args)
 
-        buttonlayout = QHBoxLayout()
-        layout = QVBoxLayout()
-        self.tdf = Tdf
-        buttons = QWidget()
-        self.table = QTableWidget()
         self.df = pd.DataFrame()
+        self.tdf = Tdf
+
+        self.initTable()
+        self.initButtons()
+
+        """
+        Layout for the entire View
+        """
+        layout = QVBoxLayout()
+        layout.addWidget(self.buttons)
+        layout.addWidget(self.table)
+
+        self.setLayout(layout)
+        self.resize(1280, 720)
+
+    def initTable(self):
+        """
+        initializes Table
+        """
+        self.table = QTableWidget()
+        self.table.setRowCount(0)
+        self.header = ['Group', 'Fraction',
+                       'Spectra Filepath', 'Label', 'Sample']
+        self.table.setColumnCount(len(self.header))
+        self.table.setHorizontalHeaderLabels(self.header)
+        self.header = self.table.horizontalHeader()
+
+        for col in range(len(self.header)):
+            if col != 2:
+                self.header.setSectionResizeMode(col,
+                                                 QHeaderView.ResizeToContents)
+            else:
+                self.header.setSectionResizeMode(col, QHeaderView.Stretch)
+
+    def initButtons(self):
+        """
+        initializes Buttons
+        """
+        self.buttons = QWidget()
         self.textbox = QLineEdit(self)
         self.textbox.move(20, 20)
         self.textbox.setFixedHeight(20)
 
-        """
-        Button and  connections
-        """
         Buttons = [QPushButton('Load Project'), QPushButton('Load Table'),
                    QPushButton('Save Table'), QPushButton('Add File'),
                    QPushButton('Remove File'), QPushButton('Group'),
                    QPushButton('Fraction'), QPushButton('Label'),
                    QPushButton('Select All'), QPushButton('Search')]
 
+        # Buttonlayout
+        buttonlayout = QHBoxLayout()
         for button in Buttons:
             buttonlayout.addWidget(button)
 
-        buttons.setLayout(buttonlayout)
         buttonlayout.addWidget(self.textbox)
-        buttons.resize(200, 690)
+        self.buttons.setLayout(buttonlayout)
 
+        # Connections for Buttons and their apropriate functions
         Buttons[0].clicked.connect(self.loadBtnFn)
         Buttons[1].clicked.connect(self.importBtn)
         Buttons[2].clicked.connect(self.exportBtn)
@@ -55,60 +88,8 @@ class OverallView(QWidget):
         Buttons[7].clicked.connect(self.LabelBtn)
         Buttons[8].clicked.connect(self.SelectAllBtn)
 
-        """
-        Disabled buttons until function are added
-        """
-        # Buttons[8].setEnabled(False)
+        # Disabled buttons until function are added
         Buttons[9].setEnabled(False)
-
-        """
-        Table
-        """
-        self.table.setRowCount(0)
-        self.header = ['Group', 'Fraction',
-                       'Spectra Filepath', 'Label', 'Sample']
-        self.table.setColumnCount(len(self.header))
-        self.table.setHorizontalHeaderLabels(self.header)
-
-        """
-        # Fügt zu jeder Zeile eine Checkbox hinzu
-        for index in range(self.table.rowCount()):
-            CHBX = QCheckBox()
-            self.table.setCellWidget(index, 0, CHBX)
-        """
-
-        self.header = self.table.horizontalHeader()
-
-        for col in range(len(self.header)):
-            if col != 2:
-                self.header.setSectionResizeMode(col,
-                                                 QHeaderView.ResizeToContents)
-            else:
-                self.header.setSectionResizeMode(col, QHeaderView.Stretch)
-
-        """
-        Layout for the widgets
-        """
-        layout.addWidget(buttons)
-        layout.addWidget(self.table)
-
-        self.setLayout(layout)
-
-        self.resize(1280, 720)
-
-    def initUI(self):
-        """
-        initializes Ui Elements
-        """
-    def setButtonLayout(self):
-        """
-        sets layout for buttons
-        """
-
-    def setTableLayout(self):
-        """
-        sets table layout
-        """
 
     def drawTable(self):
         """
@@ -133,7 +114,7 @@ class OverallView(QWidget):
 
     def importBtn(self):
         """
-        import button handler
+        Imports table files, currently working are csv and tsv
         """
         options = QFileDialog.Options()
         file, _ = QFileDialog.getOpenFileName(
@@ -146,7 +127,7 @@ class OverallView(QWidget):
 
     def exportBtn(self):
         """
-        export button handler
+        Exports the table to csv or tsv;default is csv
         """
         options = QFileDialog.Options()
         file, _ = QFileDialog.getSaveFileName(
@@ -154,7 +135,6 @@ class OverallView(QWidget):
             "All Files (*);;tsv (*.tsv);; csv (*.csv)", options=options)
         if file:
             df = Tdf.getTable(self)
-
             temp = file.split("/")
             fileName = temp[len(temp)-1]
             length = len(fileName)
@@ -169,7 +149,6 @@ class OverallView(QWidget):
                 ftype = "csv"
                 file = file + ".csv"
 
-            # ftype = fileName.split(".")[1]
             fh.exportTable(self, df, file, ftype)
 
     def loadBtnFn(self):
@@ -190,7 +169,7 @@ class OverallView(QWidget):
         """
         provides a filedialog to load an additional file to the dataframe
         """
-        ftype = "*.mzML"
+        # ftype = "*.mzML"
         options = QFileDialog.Options()
         file, _ = QFileDialog.getOpenFileName(
             self, "QFileDialog.getOpenFileName()", "",
@@ -215,6 +194,9 @@ class OverallView(QWidget):
                 return False
 
     def getSelRows(self):
+        """
+        Function which returns a list of the Indexes of selected Rows
+        """
         selindexes = self.table.selectionModel().selectedRows()
         selrows = []
         for index in sorted(selindexes):
@@ -304,7 +286,6 @@ class OverallView(QWidget):
         the label. Gives an option to continue the samplecount
         over fraction groups.
         """
-
         labelnum, ok = QInputDialog.getInt(self, "Label",
                                            "Please specify the multiplicity " +
                                            "of the selected rows")
@@ -334,8 +315,6 @@ class OverallView(QWidget):
         """
         Selects all Rows of the Table
         """
-        # Funktioniert allerdings wird die tabelle nicht aktualisiert
-        # sprich alles ist ausgewählt aber das wird nicht angezeigt
         self.table.setSelectionMode(QAbstractItemView.MultiSelection)
 
         for i in range(self.table.rowCount()):
