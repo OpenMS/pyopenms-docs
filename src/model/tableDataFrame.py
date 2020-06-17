@@ -3,28 +3,38 @@ import pandas as pd
 
 class TableDataFrame():
 
-    def __init__(self, df):
+    def __init__(self, df: pd.DataFrame):
         self.df = df
 
-    def getTable(self):
+    def getTable(self) -> pd.DataFrame:
+        """
+        Returns the current dataframe
+        """
         return self.df
 
-    def setTable(self, df):
+    def setTable(self, df: pd.DataFrame):
+        """
+        Sets the dataframe to the given
+        """
         self.df = df
 
-    def modifyGroup(self, rows, groupnum):
+    def modifyGroup(self, rows: list, groupnum: int):
         """
         Let the user set the group for a list of selected rows.
-        returns the modified dataframe
+        Needs a list of selected rows and the integer to which
+        the group is set.
         """
         for row in rows:
             self.df.at[row, 'Fraction_Group'] = groupnum
 
-    def modifyFraction(self, rows, *argv):
+    def modifyFraction(self, rows: list, *argv: int):
         """
         Let the user set the fraction for a list of selected rows.
-        enabled, when only parsing one number as fraction
-        returns the modified dataframe
+        when only one number is given in argv one fraction is set
+        to all selected entries, else it will count to from min to max
+        and sets the group accordingly.
+        Takes a list of selected rows and the number(s) how the fractions
+        should be set.
         """
         if len(argv) == 1:
             for row in rows:
@@ -39,12 +49,14 @@ class TableDataFrame():
                 else:
                     count += 1
 
-    def modifyLabelSample(self, labelnum, continuous):
+    def modifyLabelSample(self, labelnum: int, continuous: bool):
         """
         Let the user change the multiplicity of the selected rows
         continuous should be boolean if true samplenumber counts
         through for all fraction groups otherwise it will start at
         1 for each fraction group
+        Takes the number of labels and a boolean, which sets the option
+        of continuing the samplenumber over groups.
         """
         # generate new dataframe from rows and copied rows of labels
         ndf = []
@@ -78,8 +90,9 @@ class TableDataFrame():
 
         self.df = ndf
 
-    def rmvRow(self, rows):
+    def rmvRow(self, rows: list):
         """
-        Let the user remove a list of rows
+        Let the user remove a list of rows.
+        Takes list of selected rows.
         """
         self.df.drop(rows, inplace=True)

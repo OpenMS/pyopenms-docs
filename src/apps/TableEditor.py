@@ -5,7 +5,7 @@ sys.path.append(os.getcwd()+'/../view')
 from mzMLTableView import mzMLTableView
 
 
-class Programm1(QMainWindow):
+class TableEditor(QMainWindow):
 
     def __init__(self):
         QMainWindow.__init__(self)
@@ -25,7 +25,9 @@ class Programm1(QMainWindow):
         self.show()
 
     def center(self):
-
+        """
+        centers the widget to the screen
+        """
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
@@ -35,5 +37,5 @@ class Programm1(QMainWindow):
 if __name__ == '__main__':
 
     app = QApplication(sys.argv)
-    ex = Programm1()
+    ex = TableEditor()
     sys.exit(app.exec_())

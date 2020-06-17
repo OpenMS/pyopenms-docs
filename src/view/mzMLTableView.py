@@ -15,7 +15,9 @@ from tableDataFrame import TableDataFrame as Tdf
 
 
 class mzMLTableView(QWidget):
-
+    """
+    Main Widget of the TableEditor app
+    """
     def __init__(self, *args):
         QWidget.__init__(self, *args)
 
@@ -153,7 +155,8 @@ class mzMLTableView(QWidget):
 
     def loadBtnFn(self):
         """
-        provides a dialog to get the path for a directory
+        provides a dialog to get the path for a directory and load the directory
+        into the table.
         """
         dlg = QFileDialog(self)
         filePath = dlg.getExistingDirectory()
@@ -193,9 +196,12 @@ class mzMLTableView(QWidget):
             else:
                 return False
 
-    def getSelRows(self):
+    def getSelRows(self) -> list:
         """
         Function which returns a list of the Indexes of selected Rows
+        todo: needs to be adjusted to fit the datamodel:
+        so far index of table is only matching index of dataframe
+        in first iteration, as soon as remove is called twice it crashes.
         """
         selindexes = self.table.selectionModel().selectedRows()
         selrows = []
@@ -234,18 +240,22 @@ class mzMLTableView(QWidget):
         """
         selrows = self.getSelRows()
 
+        # first inputdialog
         fracmin, ok = QInputDialog.getInt(self,
                                           "Fraction",
                                           "Enter minimal Fractionnumber " +
                                           "or single Fractionnumber")
+        # second inputdialog if first is accepted
         if ok:
             fracmax, ok = QInputDialog.getInt(self,
                                               "Fraction",
                                               "Enter maximal Fractionnumber " +
                                               "or 0 for single Fractionnumber")
             if ok:
+                # decision if multiple fractions are set or just one
                 if fracmax != 0:
                     if fracmax > fracmin:
+                        # third messagedialog
                         rep = QMessageBox.question(self, "Fraction Group?",
                                                    "Do you want to infer a " +
                                                    "Fraction Group from the " +
@@ -253,6 +263,7 @@ class mzMLTableView(QWidget):
                                                    (QMessageBox.Yes |
                                                     QMessageBox.No),
                                                    QMessageBox.No)
+                        # when confirmed the fraction froup is set when max fraction is reached.
                         if rep == QMessageBox.Yes:
                             Tdf.modifyFraction(self, selrows, fracmin, fracmax)
                             fractions = fracmax-fracmin + 1
