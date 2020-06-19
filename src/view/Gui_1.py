@@ -305,6 +305,8 @@ class Window(QMainWindow):
 
                 if self.radioname.isChecked() == True:
                     self.nameSearch()
+        # doc recomends enabling sorting after loading the tree with elements
+        self.tw.setSortingEnabled(True)
 
     def radioIdSearch(self):
         """Gets self and searches for Protein based on ID
