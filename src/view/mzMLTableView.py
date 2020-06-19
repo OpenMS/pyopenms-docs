@@ -1,5 +1,6 @@
 import os
 import sys
+import timeit
 import pandas as pd
 import math
 from PyQt5 import Qt
@@ -19,6 +20,12 @@ class mzMLTableView(QWidget):
     Main Widget of the TableEditor app
     """
     def __init__(self, *args):
+        # set variable self.testForTime to True to see all Runtimes
+        self.testForTime = False
+        if self.testForTime:
+            starttime = timeit.default_timer()
+            print("Starttime of overall Initiation : ", starttime)
+
         QWidget.__init__(self, *args)
 
         self.df = pd.DataFrame()
@@ -37,10 +44,18 @@ class mzMLTableView(QWidget):
         self.setLayout(layout)
         self.resize(1280, 720)
 
+        if self.testForTime:
+            rt = timeit.default_timer() - starttime
+            print("Runtime of overall Initiation was : ", rt)
+
     def initTable(self):
         """
         initializes Table
         """
+        if self.testForTime:
+            starttime = timeit.default_timer()
+            print("Starttime of initTable : ", starttime)
+
         self.table = QTableWidget()
         self.table.setRowCount(0)
         self.header = ['Group', 'Fraction',
@@ -56,10 +71,18 @@ class mzMLTableView(QWidget):
             else:
                 self.header.setSectionResizeMode(col, QHeaderView.Stretch)
 
+        if self.testForTime:
+            rt = timeit.default_timer() - starttime
+            print("Runtime of initTable : ", rt)
+
     def initButtons(self):
         """
         initializes Buttons
         """
+        if self.testForTime:
+            starttime = timeit.default_timer()
+            print("Starttime of initButtons : ", starttime)
+
         self.buttons = QWidget()
         self.textbox = QLineEdit(self)
         self.textbox.move(20, 20)
@@ -93,10 +116,18 @@ class mzMLTableView(QWidget):
         # Disabled buttons until function are added
         Buttons[9].setEnabled(False)
 
+        if self.testForTime:
+            rt = timeit.default_timer() - starttime
+            print("Runtime of initButtons : ", rt)
+
     def drawTable(self):
         """
         draws a table with the dataframe table model in tableDataFrame
         """
+        if self.testForTime:
+            starttime = timeit.default_timer()
+            print("Starttime of drawTable : ", starttime)
+
         tabledf = Tdf.getTable(self)
         # print(tabledf)  # For debugging
         rowcount = len(tabledf.index)
@@ -114,6 +145,10 @@ class mzMLTableView(QWidget):
                     item = str(tabledf.at[row, col])
                     self.table.setItem(r, c, QTableWidgetItem(item))
 
+        if self.testForTime:
+            rt = timeit.default_timer() - starttime
+            print("Runtime of drawTable : ", rt)
+
     def importBtn(self):
         """
         Imports table files, currently working are csv and tsv
@@ -122,10 +157,19 @@ class mzMLTableView(QWidget):
         file, _ = QFileDialog.getOpenFileName(
             self, "QFileDialog.getOpenFileName()", "",
             "All Files (*);;tsv (*.tsv);; csv (*.csv)", options=options)
+
+        if self.testForTime:
+            starttime = timeit.default_timer()
+            print("Starttime of importBtn : ", starttime)
+
         if file:
             df = fh.importTable(self, file)
             Tdf.setTable(self, df)
             self.drawTable()
+
+        if self.testForTime:
+            rt = timeit.default_timer() - starttime
+            print("Runtime of importBtn : ", rt)
 
     def exportBtn(self):
         """
@@ -135,6 +179,11 @@ class mzMLTableView(QWidget):
         file, _ = QFileDialog.getSaveFileName(
             self, "QFileDialog.getSaveFileName()", "",
             "All Files (*);;tsv (*.tsv);; csv (*.csv)", options=options)
+
+        if self.testForTime:
+            starttime = timeit.default_timer()
+            print("Starttime of exportBtn : ", starttime)
+
         if file:
             df = Tdf.getTable(self)
             temp = file.split("/")
@@ -153,6 +202,10 @@ class mzMLTableView(QWidget):
 
             fh.exportTable(self, df, file, ftype)
 
+        if self.testForTime:
+            rt = timeit.default_timer() - starttime
+            print("Runtime of exportBtn : ", rt)
+
     def loadBtnFn(self):
         """
         provides a dialog to get the path for a directory
@@ -160,6 +213,11 @@ class mzMLTableView(QWidget):
         """
         dlg = QFileDialog(self)
         filePath = dlg.getExistingDirectory()
+
+        if self.testForTime:
+            starttime = timeit.default_timer()
+            print("Starttime of loadBtnFn : ", starttime)
+
         if filePath != '':
             Files = fh.getFiles(self, filePath)
             delimiters = ["_"]
@@ -168,15 +226,23 @@ class mzMLTableView(QWidget):
             Tdf.setTable(self, rawTable)
             self.drawTable()
 
+        if self.testForTime:
+            rt = timeit.default_timer() - starttime
+            print("Runtime of loadBtnFn : ", rt)
+
     def loadFile(self):
         """
         provides a filedialog to load an additional file to the dataframe
         """
-        # ftype = "*.mzML"
         options = QFileDialog.Options()
         file, _ = QFileDialog.getOpenFileName(
             self, "QFileDialog.getOpenFileName()", "",
             "All Files (*);;mzML Files (*.mzML)", options=options)
+
+        if self.testForTime:
+            starttime = timeit.default_timer()
+            print("Starttime of loadFile : ", starttime)
+
         if file:
             cdf = Tdf.getTable(self)
             filelist = []
@@ -195,6 +261,9 @@ class mzMLTableView(QWidget):
                 self.drawTable()
             else:
                 return False
+
+        if self.testForTime:
+            print("Runtime of loadFile : ", timeit.default_timer() - starttime)
 
     def getSelRows(self) -> list:
         """
@@ -221,17 +290,32 @@ class mzMLTableView(QWidget):
                                            "Group Number",
                                            "Enter Integer Groupnumber")
 
+        if self.testForTime:
+            starttime = timeit.default_timer()
+            print("Starttime of GroupBtn : ", starttime)
+
         if ok:
             Tdf.modifyGroup(self, selrows, groupnum)
             self.drawTable()
+
+        if self.testForTime:
+            print("Runtime of GroupBtn : ", timeit.default_timer() - starttime)
 
     def RemoveBtn(self):
         """
         Enables the user to remove selected rows
         """
+        if self.testForTime:
+            starttime = timeit.default_timer()
+            print("Starttime of RemoveBtn : ", starttime)
+
         selrows = self.getSelRows()
         Tdf.rmvRow(self, selrows)
         self.drawTable()
+
+        if self.testForTime:
+            rt = timeit.default_timer() - starttime
+            print("Runtime of RemoveBtn : ", rt)
 
     def FractionBtn(self):
         """
@@ -263,6 +347,11 @@ class mzMLTableView(QWidget):
                                                    (QMessageBox.Yes |
                                                     QMessageBox.No),
                                                    QMessageBox.No)
+
+                        if self.testForTime:
+                            starttime = timeit.default_timer()
+                            print("Starttime of FractionBtn : ", starttime)
+
                         # when confirmed the fraction froup is set
                         # when max fraction is reached.
                         if rep == QMessageBox.Yes:
@@ -280,16 +369,39 @@ class mzMLTableView(QWidget):
                                 Tdf.modifyGroup(self, subrows, group)
                         else:
                             Tdf.modifyFraction(self, selrows, fracmin, fracmax)
+
+                        if self.testForTime:
+                            rt = timeit.default_timer() - starttime
+                            print("Runtime of FractionBtn : ", rt)
+
+                    if self.testForTime:
+                        starttime = timeit.default_timer()
+                        print("Starttime of FractionBtn : ", starttime)
+
                     elif fracmax == fracmin:
                         Tdf.modifyFraction(self, selrows, fracmin)
+
+                    if self.testForTime:
+                        rt = timeit.default_timer() - starttime
+                        print("Runtime of FractionBtn : ", rt)
+
                     else:
                         QMessageBox.warning(self, "Error", "Please use " +
                                             "a higher integer " +
                                             "number for the maximum " +
                                             "fractionnumber.")
+
+                if self.testForTime:
+                    starttime = timeit.default_timer()
+                    print("Starttime of FractionBtn : ", starttime)
+
                 else:
                     Tdf.modifyFraction(self, selrows, fracmin)
                 self.drawTable()
+
+                if self.testForTime:
+                    rt = timeit.default_timer() - starttime
+                    print("Runtime of FractionBtn : ", rt)
 
     def LabelBtn(self):
         """
@@ -309,6 +421,11 @@ class mzMLTableView(QWidget):
                                        (QMessageBox.Yes |
                                         QMessageBox.No),
                                        QMessageBox.No)
+
+            if self.testForTime:
+                starttime = timeit.default_timer()
+                print("Starttime of LabelBtn : ", starttime)
+
             if rep == QMessageBox.Yes:
                 try:
                     Tdf.modifyLabelSample(self, labelnum, True)
@@ -323,13 +440,31 @@ class mzMLTableView(QWidget):
                                             "your Number was <1")
             self.drawTable()
 
+            if self.testForTime:
+                rt = timeit.default_timer() - starttime
+                print("Runtime of LabelBtn : ", rt)
+
     def SelectAllBtn(self):
         """
         Selects all Rows of the Table
         """
+        if self.testForTime:
+            starttime = timeit.default_timer()
+            print("Starttime of SelectAllBtn : ", starttime)
+
         self.table.setSelectionMode(QAbstractItemView.MultiSelection)
 
         for i in range(self.table.rowCount()):
+            selected = self.getSelRows()
+
+            for j in range(len(selected)):
+                if i == selected[j]:
+                    self.table.selectRow(i)
+
             self.table.selectRow(i)
 
         self.table.setSelectionMode(QAbstractItemView.ExtendedSelection)
+
+        if self.testForTime:
+            rt = timeit.default_timer() - starttime
+            print("Runtime of SelectAllBtn : ", rt)
