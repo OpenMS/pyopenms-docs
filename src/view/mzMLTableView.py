@@ -155,8 +155,8 @@ class mzMLTableView(QWidget):
 
     def loadBtnFn(self):
         """
-        provides a dialog to get the path for a directory and load the directory
-        into the table.
+        provides a dialog to get the path for a directory
+        and load the directory into the table.
         """
         dlg = QFileDialog(self)
         filePath = dlg.getExistingDirectory()
@@ -263,7 +263,8 @@ class mzMLTableView(QWidget):
                                                    (QMessageBox.Yes |
                                                     QMessageBox.No),
                                                    QMessageBox.No)
-                        # when confirmed the fraction froup is set when max fraction is reached.
+                        # when confirmed the fraction froup is set
+                        # when max fraction is reached.
                         if rep == QMessageBox.Yes:
                             Tdf.modifyFraction(self, selrows, fracmin, fracmax)
                             fractions = fracmax-fracmin + 1
