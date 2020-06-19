@@ -97,4 +97,3 @@ class TableDataFrame():
         """
         self.df.drop(rows, inplace=True)
         self.df.reset_index(drop=True, inplace=True)
-        print(self.df)
