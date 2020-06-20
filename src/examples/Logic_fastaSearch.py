@@ -6,6 +6,17 @@ class logic:
 
     # Zusammenstellung des dictionaries und der 3 Listen zum suchen für die a) und b)
     def protein_dictionary(fastaFile):
+        """Gets fasta File Path and saves all infromations about the proteins 
+        in separate lists 
+
+        Parameters
+        ----------
+        fastaFile : path to fasta file
+
+        Returns
+        -------
+        for all proteins either Decoy or normal Lists/ dectionary.
+        """
         dictKeyAccession = {}
         proteinList = []
         proteinNameList = []
@@ -155,6 +166,18 @@ class logic:
 
 # wird für die Methode protein_dictionary benötigt (suche von mehreren Indizes)
 def find_all_indexes(input_str, search_str):
+    """Gets fasta File Path and saves all infromations about the proteins 
+    in separate lists 
+
+    Parameters
+    ----------
+    input_str   : string to be searched in for the substring 'search_str' 
+    search_str  : substring to be searched for in string 'input_str' 
+
+    Returns
+    -------
+    list of all indexes where 'search_str' was found in 'input_str' found
+    """
     l1 = []
     length = len(input_str)
     index = 0

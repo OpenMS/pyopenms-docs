@@ -305,7 +305,7 @@ class Window(QMainWindow):
 
                 if self.radioname.isChecked() == True:
                     self.nameSearch()
-        # doc recomends enabling sorting after loading the tree with elements
+        # doc recommends enabling sorting after loading the tree with elements
         self.tw.setSortingEnabled(True)
 
     def radioIdSearch(self):
