@@ -30,8 +30,9 @@ class Window(QWidget):
         self.PRT = []
         self.PSM = []
 
-        self.drawPSM = []
         self.drawPRT = []
+        self.drawPSM = []
+
 
         self.InitWindow()
 
@@ -45,22 +46,35 @@ class Window(QWidget):
         self.drawPRT = self.PRT
         self.drawPSM = self.PSM
 
-        self.tableWidget1 = QTableWidget()
-        self.tableWidget2 = QTableWidget()
+        self.tablePRTFull = QTableWidget()
+        self.tablePSMFull = QTableWidget()
+
+        self.tablePRTFiltered = QTableWidget()
+        self.tablePSMFiltered = QTableWidget()
+
         self.drawTables()
-        self.createProtTable()
-        self.createPSMTable()
+        self.createProtTableFull()
+        self.createPSMTableFull()
 
-        self.tableWidget1.itemClicked.connect(self.filterPRT)
-        self.tableWidget2.itemClicked.connect(self.filterPSM)
+        self.tablePRTFull.itemClicked.connect(self.filterPRT)
+        self.tablePSMFull.itemClicked.connect(self.filterPSM)
 
-        self.tableWidget1.itemDoubleClicked.connect(self.browsePRT)
-        self.tableWidget2.itemDoubleClicked.connect(self.browsePSM)
+        self.tablePRTFull.itemDoubleClicked.connect(self.browsePRT)
+        self.tablePSMFull.itemDoubleClicked.connect(self.browsePSM)
 
-        self.vbox = QVBoxLayout()
-        self.vbox.addWidget(self.tableWidget1)
-        self.vbox.addWidget(self.tableWidget2)
-        self.setLayout(self.vbox)
+        self.vboxFull = QVBoxLayout()
+        self.vboxFull.addWidget(self.tablePRTFull)
+        self.vboxFull.addWidget(self.tablePSMFull)
+
+        self.vboxFiltered = QVBoxLayout()
+        self.vboxFiltered.addWidget(self.tablePRTFiltered)
+        self.vboxFiltered.addWidget(self.tablePSMFiltered)
+
+        self.outerVbox = QVBoxLayout()
+        self.outerVbox.addLayout(self.vboxFull)
+        self.outerVbox.addLayout(self.vboxFiltered)
+
+        self.setLayout(self.outerVbox)
         self.show()
 
     def parser(self, file):
@@ -89,17 +103,25 @@ class Window(QWidget):
     def drawTables(self):
         """draws protein and psm table with headers"""
 
-        self.tableWidget1.setRowCount(len(self.drawPRT))
-        self.tableWidget1.setColumnCount(len(self.drawPRT[0]))
-        self.tableWidget1.setHorizontalHeaderLabels(self.drawPRT[0])
+        self.tablePRTFull.setRowCount(len(self.drawPRT))
+        self.tablePRTFull.setColumnCount(len(self.drawPRT[0]))
+        self.tablePRTFull.setHorizontalHeaderLabels(self.drawPRT[0])
 
-        self.tableWidget2.setRowCount(len(self.drawPSM))
-        self.tableWidget2.setColumnCount(len(self.drawPSM[0]))
-        self.tableWidget2.setHorizontalHeaderLabels(self.drawPSM[0])
+        self.tablePSMFull.setRowCount(len(self.drawPSM))
+        self.tablePSMFull.setColumnCount(len(self.drawPSM[0]))
+        self.tablePSMFull.setHorizontalHeaderLabels(self.drawPSM[0])
+
+        self.tablePRTFiltered.setRowCount(0)
+        self.tablePRTFiltered.setColumnCount(len(self.drawPRT[0]))
+        self.tablePRTFiltered.setHorizontalHeaderLabels(self.drawPRT[0])
+
+        self.tablePSMFiltered.setRowCount(0)
+        self.tablePSMFiltered.setColumnCount(len(self.drawPSM[0]))
+        self.tablePSMFiltered.setHorizontalHeaderLabels(self.drawPSM[0])
         
-    def createProtTable(self):
+    def createProtTableFull(self):
         """updates protein table by setting table items and changing number of rows"""
-        self.tableWidget1.setRowCount(len(self.PRT))
+        self.tablePRTFull.setRowCount(len(self.PRT))
 
         j = 0
         k = 0
@@ -107,16 +129,16 @@ class Window(QWidget):
         for item in self.drawPRT[1:]:
             while k < (len(self.drawPRT)):
                 while j < (len(item)):
-                    self.tableWidget1.setItem(k, j, QTableWidgetItem(item[j]))
+                    self.tablePRTFull.setItem(k, j, QTableWidgetItem(item[j]))
                     j += 1
                 else:
                     k += 1
                     j = 0
                 break
 
-    def createPSMTable(self):
+    def createPSMTableFull(self):
         """updates psm table by setting table items and changing number of rows"""
-        self.tableWidget2.setRowCount(len(self.drawPSM))
+        self.tablePSMFull.setRowCount(len(self.drawPSM))
 
         m = 0
         n = 0
@@ -124,7 +146,7 @@ class Window(QWidget):
         for item in self.drawPSM[1:]:
             while n < (len(self.drawPSM)):
                 while m < (len(item)):
-                    self.tableWidget2.setItem(n, m, QTableWidgetItem(item[m]))
+                    self.tablePSMFull.setItem(n, m, QTableWidgetItem(item[m]))
                     m += 1
                 else:
                     n += 1
