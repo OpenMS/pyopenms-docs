@@ -161,6 +161,7 @@ class Window(QWidget):
                 break
 
     def hidePRTColumns(self):
+        """hides constant columns in PRT table by default by checking if every value equals"""
         i = 0
         j = 0
         k = 0
@@ -180,6 +181,7 @@ class Window(QWidget):
             k += 1
 
     def hidePSMColumns(self):
+        """hides constant columns in PSM table by default by checking if every value equals"""
         i = 0
         j = 0
         k = 0
