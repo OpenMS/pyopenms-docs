@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTreeWidget, QTreeWidgetItem, QFileDialog,\
-    QPushButton, QHBoxLayout
+    QPushButton, QHBoxLayout, QDesktopWidget, QMainWindow
+from PyQt5.QtCore import Qt
 import xml.etree.ElementTree as ET
 
 
@@ -8,16 +9,18 @@ class ConfigView(QWidget):
         QWidget.__init__(self, *args)
 
         self.tree = ET.ElementTree
-        self.initXMLView = QTreeWidget()
 
-        self.buttons = QWidget()
-        loadbtn = QPushButton('Load Project')
-        buttonlayout = QHBoxLayout()
-        buttonlayout.addWidget(loadbtn)
-        loadbtn.clicked.connect(self.openXML)
-        self.buttons.setLayout(buttonlayout)
+        view = QWidget(self)
+        self.bottom = QTreeWidget(self)
+        QTreeWidget.__init__(self.bottom)
+        button = QPushButton('something for a button')
+
+        button.clicked.connect(self.openXML)
 
         layout = QVBoxLayout()
+        layout.addWidget(button)
+        layout.addWidget(self.bottom)
+        view.setLayout(layout)
 
         self.setLayout(layout)
         self.resize(1280, 720)
@@ -32,10 +35,19 @@ class ConfigView(QWidget):
     def getRoot(self):
         root = self.tree.getroot()
 
+        return root
+
     def drawTree(self):
-        for row in self.tree:
+        root = self.getRoot()
+        rootitem = QTreeWidgetItem()
+        rootitem.setText(0, root.attrib[''])
+        self.bottom.addTopLevelItem(rootitem)
+        """
+        for row in self.tree.getiterator():
             rowItem = QTreeWidgetItem()
-            rowItem.setText(0, row)
-            for subRow in row:
+            rowItem.setText(0, row.tag)
+            self.bottom.addTopLevelItem(rowItem)
+            for subRow in row.getiterator():
                 subRowItem = QTreeWidgetItem(rowItem)
-                subRowItem.setText(0, subRow)
+                subRowItem.setText(0, subRow.tag)
+        """
