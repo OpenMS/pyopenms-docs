@@ -38,11 +38,12 @@ class Window(QWidget):
 
         self.tablePRTFull = QTableWidget()
         self.tablePSMFull = QTableWidget()
-        self.vBoxFull = QVBoxLayout()
 
         self.tablePRTFiltered = QTableWidget()
         self.tablePSMFiltered = QTableWidget()
-        self.vBoxFiltered = QVBoxLayout()
+
+        self.vBoxPRT = QVBoxLayout()
+        self.vBoxPSM = QVBoxLayout()
 
         self.outerVBox = QVBoxLayout()
 
@@ -58,18 +59,25 @@ class Window(QWidget):
         self.initTables()
         self.createTable(self.tablePRTFull, self.PRTFull)
         self.createTable(self.tablePSMFull, self.PSMFull)
+        self.tablePRTFiltered.setHidden(True)
+        self.tablePSMFiltered.setHidden(True)
+
+        self.tablePRTFull.itemClicked.connect(self.PRTClicked)
+        self.tablePRTFiltered.itemClicked.connect(self.PRTClicked)
+        self.tablePSMFull.itemClicked.connect(self.PSMClicked)
+        self.tablePSMFiltered.itemClicked.connect(self.PSMClicked)
 
         self.tablePRTFull.itemDoubleClicked.connect(self.browsePRT)
         self.tablePSMFull.itemDoubleClicked.connect(self.browsePSM)
 
-        self.vBoxFull.addWidget(self.tablePRTFull)
-        self.vBoxFull.addWidget(self.tablePSMFull)
+        self.vBoxPRT.addWidget(self.tablePRTFull)
+        self.vBoxPRT.addWidget(self.tablePRTFiltered)
 
-        self.vBoxFiltered.addWidget(self.tablePRTFiltered)
-        self.vBoxFiltered.addWidget(self.tablePSMFiltered)
+        self.vBoxPSM.addWidget(self.tablePSMFull)
+        self.vBoxPSM.addWidget(self.tablePSMFiltered)
 
-        self.outerVBox.addLayout(self.vBoxFull)
-        self.outerVBox.addLayout(self.vBoxFiltered)
+        self.outerVBox.addLayout(self.vBoxPRT)
+        self.outerVBox.addLayout(self.vBoxPSM)
 
         self.setLayout(self.outerVBox)
         self.show()
@@ -97,6 +105,8 @@ class Window(QWidget):
         for item in self.PSMFull:
             item.pop(0)
 
+
+
     def initTables(self):
         """draws protein and psm tables with headers"""
 
@@ -116,6 +126,10 @@ class Window(QWidget):
         self.tablePSMFiltered.setColumnCount(len(self.PSMFull[0]))
         self.tablePSMFiltered.setHorizontalHeaderLabels(self.PSMFull[0])
 
+        """removes now unnecessary header information from content lists """
+        self.PRTFull.pop(0)
+        self.PSMFull.pop(0)
+
     def createTable(self, table, content):
         """parameters: tableWidget to draw content in. Content to be drawn in list form"""
         """Setting count to zero empties the table. Then table is (re-)filled with specified content"""
@@ -125,7 +139,7 @@ class Window(QWidget):
         j = 0
         k = 0
 
-        for item in content[1:]:
+        for item in content[0:]:
             while k < (len(content)):
                 while j < (len(item)):
                     table.setItem(k, j, QTableWidgetItem(item[j]))
@@ -135,11 +149,64 @@ class Window(QWidget):
                     j = 0
                 break
 
-    def filterPRT(self, item):
-        test = 0
+    def PRTClicked(self, item):
 
-    def filterPSM(self, item):
-        test = 0
+        if self.tablePRTFull.isHidden():
+            relevantContent = self.PRTFiltered
+        else:
+            relevantContent = self.PRTFull
+
+        accession = relevantContent[item.row() + 1][0]
+
+        if self.selectedPSM == accession:
+            self.unfilterPSM()
+        else:
+            self.filterPSM(accession)
+
+    def PSMClicked(self, item):
+
+        if self.tablePSMFull.isHidden():
+            relevantContent = self.PSMFiltered
+        else:
+            relevantContent = self.PSMFull
+
+        accession = relevantContent[item.row() + 1][2]
+
+        if self.selectedPRT == accession:
+            self.unfilterPRT()
+        else:
+            self.filterPRT(accession)
+
+    def filterPRT(self, accession):
+        self.tablePRTFiltered.setHidden(False)
+        self.tablePRTFull.setHidden(True)
+
+        self.selectedPRT = accession
+
+        self.PRTFiltered = [p for p in self.PRTFull if p[0] == self.selectedPRT]
+        print(self.PRTFiltered[0][1])
+        self.createTable(self.tablePRTFiltered, self.PRTFiltered)
+
+    def filterPSM(self, accession):
+        self.tablePSMFiltered.setHidden(False)
+        self.tablePSMFull.setHidden(True)
+
+        self.selectedPSM = accession
+
+        self.PSMFiltered = [p for p in self.PSMFull if p[2] == self.selectedPSM]
+        self.createTable(self.tablePSMFiltered, self.PSMFiltered)
+
+    def unfilterPRT(self):
+        self.tablePRTFiltered.setHidden(True)
+        self.tablePRTFull.setHidden(False)
+        self.selectedPRT = ""
+        self.PRTFiltered = []
+
+    def unfilterPSM(self):
+        self.tablePSMFiltered.setHidden(True)
+        self.tablePSMFull.setHidden(False)
+        self.selectedPSM = ""
+        self.PSMFiltered = []
 
     def browsePRT(self, item):
         accession = self.PRTFull[item.row() + 1][0].split("|", 2)[1]
