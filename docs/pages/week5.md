@@ -7,8 +7,7 @@
    4. Design der Anwendung etwas angepasst.
    5. Save-Button entfernt und zusätzlich Import, Export, Add File, Remove File, Select All Buttons sowie ein Eingabefeld für den
       Search-Button hinzugefügt.
-   4. Funktionalität für alle Buttons ausgenommen Search implementiert.
-   
+   6. Funktionalität für alle Buttons ausgenommen Search implementiert.
 2. Bugs:
       - Select All selectiert zwar alles, allerdings stimmt die Darstellung nicht immer überein(mal wird nichts markiert,
          mal wird alles grau markiert, mal tatsächlich markiert oder aber auch manche markiert und andere nicht)
