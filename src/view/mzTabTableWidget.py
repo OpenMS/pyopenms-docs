@@ -33,6 +33,9 @@ class Window(QWidget):
         self.PRTFiltered = []
         self.PSMFiltered = []
 
+        self.PRTColumn = [True]
+        self.PSMColumn = [True]
+
         self.selectedPRT = ""
         self.selectedPSM = ""
 
@@ -56,11 +59,17 @@ class Window(QWidget):
 
         self.parser('/home/fabian/Downloads/test1.mzTab')
 
+        self.PRTColumn *= len(self.PRTFull[1])
+        self.PSMColumn *= len(self.PSMFull[1])
+
         self.initTables()
         self.createTable(self.tablePRTFull, self.PRTFull)
         self.createTable(self.tablePSMFull, self.PSMFull)
         self.tablePRTFiltered.setHidden(True)
         self.tablePSMFiltered.setHidden(True)
+
+        self.hidePRTColumns()
+        self.hidePSMColumns()
 
         self.tablePRTFull.itemClicked.connect(self.PRTClicked)
         self.tablePRTFiltered.itemClicked.connect(self.PRTClicked)
@@ -150,6 +159,44 @@ class Window(QWidget):
                     k += 1
                     j = 0
                 break
+
+    def hidePRTColumns(self):
+        i = 0
+        j = 0
+        k = 0
+
+        while i < len(self.PRTFull) - 1:
+            while j < len(self.PRTFull[i]):
+                if self.PRTColumn[j]:
+                    if self.PRTFull[i][j] != self.PRTFull[i + 1][j]:
+                        self.PRTColumn[j] = False
+                j += 1
+            i += 1
+
+        while k < len(self.PRTColumn):
+            if self.PRTColumn[k]:
+                self.tablePRTFull.setColumnHidden(k, True)
+                self.tablePRTFiltered.setColumnHidden(k, True)
+            k += 1
+
+    def hidePSMColumns(self):
+        i = 0
+        j = 0
+        k = 0
+
+        while i < len(self.PSMFull) - 1:
+            while j < len(self.PSMFull[i]):
+                if self.PSMColumn[j]:
+                    if self.PSMFull[i][j] != self.PSMFull[i + 1][j]:
+                        self.PSMColumn[j] = False
+                j += 1
+            i += 1
+
+        while k < len(self.PSMColumn):
+            if self.PSMColumn[k]:
+                self.tablePSMFull.setColumnHidden(k, True)
+                self.tablePSMFiltered.setColumnHidden(k, True)
+            k += 1
 
     def PRTClicked(self, item):
 
