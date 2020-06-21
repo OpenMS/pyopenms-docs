@@ -116,6 +116,8 @@ class mzMLTableView(QWidget):
         # Disabled buttons until function are added
         Buttons[9].setEnabled(False)
 
+        #init changelistener on textbox
+        self.textbox.textChanged[str].connect(self.filterTable)
         if self.testForTime:
             rt = timeit.default_timer() - starttime
             print("Runtime of initButtons : ", rt)
@@ -468,3 +470,19 @@ class mzMLTableView(QWidget):
         if self.testForTime:
             rt = timeit.default_timer() - starttime
             print("Runtime of SelectAllBtn : ", rt)
+
+    def filterTable(self):
+        """
+        get changes from textbox and update table when more than 3 characters are given.
+        then update table with the rows that contain the input in the give column. 
+
+        """
+        tb = self.textbox
+        givencolumn = "Spectra_Filepath"
+        tbinput = tb.text()
+        ft = Tdf.getTable(self)
+        if len(tbinput) >=3:
+            rowstoshow = ft[ft[givencolumn].str.contains(tbinput)]
+            # prints the rows containing the input
+            print(rowstoshow)
+            # updated table funtion goes here
