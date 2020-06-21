@@ -33,14 +33,6 @@ class Window(QWidget):
         self.drawPSM = []
         self.drawPRT = []
 
-        self.startPSM = 0
-        self.startPRT = 0
-
-        self.selected = ""
-        self.selectedPRT = ""
-        self.selectedPSM = ""
-
-
         self.InitWindow()
 
     def InitWindow(self):
@@ -48,7 +40,7 @@ class Window(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.top, self.left, self.width, self.height)
 
-        self.parser('/home/fabian/Downloads/test.mzTab')
+        self.parser('/home/taiki/Downloads/test.mzTab')
 
         self.drawPRT = self.PRT
         self.drawPSM = self.PSM
@@ -140,28 +132,10 @@ class Window(QWidget):
                 break
 
     def filterPRT(self, item):
-        if self.selectedPRT == self.PRT[item.row()+1][0]:
-            self.selectedPRT = ""
-            for i in range(0, self.tableWidget2.rowCount()):
-                self.tableWidget2.setRowHidden(i, False)
-        else:
-            self.selectedPRT = self.PRT[item.row()+1][0]
-            print(self.selectedPRT)
-            print(self.PRT[item.row()+1][0])
-            for i in range(0, self.tableWidget2.rowCount()):
-                if not self.PSM[i][2] == self.selectedPRT:
-                    self.tableWidget2.setRowHidden(i, True)
+        test = 0
 
     def filterPSM(self, item):
-        if self.selectedPSM == self.PSM[item.row()+1][2]:
-            self.selectedPSM = ""
-            for i in range(0, self.tableWidget1.rowCount()):
-                self.tableWidget1.setRowHidden(i, False)
-        else:
-            self.selectedPSM = self.PSM[item.row()+1][2]
-            for i in range(0, self.tableWidget1.rowCount()):
-                if not self.PRT[i][0] == self.selectedPSM:
-                    self.tableWidget1.setRowHidden(i, True)
+        test = 0
 
     def browsePRT(self, item):
         accession = self.PRT[item.row()+1][0].split("|", 2)[1]
