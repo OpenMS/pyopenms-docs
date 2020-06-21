@@ -53,8 +53,8 @@ class Window(QWidget):
         self.tablePSMFiltered = QTableWidget()
 
         self.drawTables()
-        self.createProtTableFull()
-        self.createPSMTableFull()
+        self.createTable(self.tablePRTFull, self.drawPRT)
+        self.createTable(self.tablePSMFull, self.drawPSM)
 
         self.tablePRTFull.itemClicked.connect(self.filterPRT)
         self.tablePSMFull.itemClicked.connect(self.filterPSM)
@@ -118,39 +118,21 @@ class Window(QWidget):
         self.tablePSMFiltered.setRowCount(0)
         self.tablePSMFiltered.setColumnCount(len(self.drawPSM[0]))
         self.tablePSMFiltered.setHorizontalHeaderLabels(self.drawPSM[0])
-        
-    def createProtTableFull(self):
-        """updates protein table by setting table items and changing number of rows"""
-        self.tablePRTFull.setRowCount(len(self.PRT))
+
+    def createTable(self, table, content):
+        table.setRowCount(len(content))
 
         j = 0
         k = 0
 
         for item in self.drawPRT[1:]:
-            while k < (len(self.drawPRT)):
+            while k < (len(content)):
                 while j < (len(item)):
-                    self.tablePRTFull.setItem(k, j, QTableWidgetItem(item[j]))
+                    table.setItem(k, j, QTableWidgetItem(item[j]))
                     j += 1
                 else:
                     k += 1
                     j = 0
-                break
-
-    def createPSMTableFull(self):
-        """updates psm table by setting table items and changing number of rows"""
-        self.tablePSMFull.setRowCount(len(self.drawPSM))
-
-        m = 0
-        n = 0
-
-        for item in self.drawPSM[1:]:
-            while n < (len(self.drawPSM)):
-                while m < (len(item)):
-                    self.tablePSMFull.setItem(n, m, QTableWidgetItem(item[m]))
-                    m += 1
-                else:
-                    n += 1
-                    m = 0
                 break
 
     def filterPRT(self, item):
