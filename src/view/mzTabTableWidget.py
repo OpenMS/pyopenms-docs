@@ -68,7 +68,9 @@ class Window(QWidget):
         self.tablePSMFiltered.itemClicked.connect(self.PSMClicked)
 
         self.tablePRTFull.itemDoubleClicked.connect(self.browsePRT)
+        self.tablePRTFiltered.itemDoubleClicked.connect(self.browsePRT)
         self.tablePSMFull.itemDoubleClicked.connect(self.browsePSM)
+        self.tablePSMFiltered.itemDoubleClicked.connect(self.browsePSM)
 
         self.vBoxPRT.addWidget(self.tablePRTFull)
         self.vBoxPRT.addWidget(self.tablePRTFiltered)
