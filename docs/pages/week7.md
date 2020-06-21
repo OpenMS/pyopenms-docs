@@ -3,7 +3,7 @@
 1. Arbeitet euch in Profiling mit trace und timeit ein
      - trace gibt einfach in der Konsole aus was genau gemacht wird, mit der option --trace
        z.Bsp. wird jeder funktionsaufruf bis ins detail angezeigt
-     - timeit stellt verschiedene Möglichkeiten zur Verfügung um runtime zu testen 
+     - timeit stellt verschiedene Möglichkeiten zur Verfügung um runtime zu testen
         (bei uns wird über einen boolean bestimmt ob die runtimes der ausgeführten funktionen im
          Terminal angezeigt werden sollen, wobei timeit nur die Zeit zu Beginn der Funktion nimmt
          und dann die Zeit von der aktuellen abzieht um eine aktuelle runtime auszurechnen)
@@ -16,13 +16,13 @@
     - Der Fehler konnte so eingedämmt werden auf den Punkt an dem er passiert.
     - Programm kann jetzt ohne Probleme mehrere Male hintereinander Files aus der Tabelle
     löschen ohne abzustürzen -> Problem war das Löschen der Zeilen im Dataframe, da der index nicht erneuert wurde.
-    
+
 3. Erstellt ein Widget um Konfigurationsdateien wie z.B.:
     <https://github.com/OpenMS/OpenMS/blob/develop/src/tests/topp/OpenPepXLLF_>
     input2.ini zu visualisieren und vom Benutzer editierbar zu machen.
     - Erstes grobe Fenster ist erstellt -> Layout muss bearbeitet werden
-      ![alt text](../Screenshots/ConfigView.png )
-    -noch keine funktionalität wie gewünscht, XML ist in Objekt geparst aber ist noch nicht in QTreeWidget angezeigt.
+    - Noch keine funktionalität wie gewünscht, .ini ist in Objekt geparst aber ist noch nicht in QTreeWidget angezeigt.
+
 4. TabellenFilter-Funktion implementiert
    - filtert Zeilen über den Wert aus dem Textinput basierend auf der zuvor spezifierten Spalte (Spectra_Filepath).
    - momentan wird die tabelle noch nicht upgedatet
