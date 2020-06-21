@@ -16,15 +16,14 @@
     - Der Fehler konnte so eingedämmt werden auf den Punkt an dem er passiert.
     - Programm kann jetzt ohne Probleme mehrere Male hintereinander Files aus der Tabelle
     löschen ohne abzustürzen -> Problem war das Löschen der Zeilen im Dataframe, da der index nicht erneuert wurde.
-3. To Do:
     
-4. Erstellt ein Widget um Konfigurationsdateien wie z.B.:
+3. Erstellt ein Widget um Konfigurationsdateien wie z.B.:
     <https://github.com/OpenMS/OpenMS/blob/develop/src/tests/topp/OpenPepXLLF_>
     input2.ini zu visualisieren und vom Benutzer editierbar zu machen.
     - Erstes grobe Fenster ist erstellt -> Layout muss bearbeitet werden
       ![alt text](../Screenshots/ConfigView.png )
     -noch keine funktionalität wie gewünscht, XML ist in Objekt geparst aber ist noch nicht in QTreeWidget angezeigt.
-5. TabellenFilter-Funktion implementiert
+4. TabellenFilter-Funktion implementiert
    - filtert Zeilen über den Wert aus dem Textinput basierend auf der zuvor spezifierten Spalte (Spectra_Filepath).
    - momentan wird die tabelle noch nicht upgedatet
    - stattdessen werden nur die Zeilen geprintet die den suchparameter(string) aus dem textinput enthalten
