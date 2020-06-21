@@ -21,8 +21,7 @@
     <https://github.com/OpenMS/OpenMS/blob/develop/src/tests/topp/OpenPepXLLF_>
     input2.ini zu visualisieren und vom Benutzer editierbar zu machen.
     - Erstes grobe Fenster ist erstellt -> Layout muss bearbeitet werden
-      ![alt text](../Screenshots/ConfigView.png )
-    -noch keine funktionalität wie gewünscht, XML ist in Objekt geparst aber ist noch nicht in QTreeWidget angezeigt.
+    - Noch keine funktionalität wie gewünscht, .ini ist in Objekt geparst aber ist noch nicht in QTreeWidget angezeigt.
 4. TabellenFilter-Funktion implementiert
    - filtert Zeilen über den Wert aus dem Textinput basierend auf der zuvor spezifierten Spalte (Spectra_Filepath).
    - momentan wird die tabelle noch nicht upgedatet
