@@ -54,7 +54,7 @@ class Window(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.top, self.left, self.width, self.height)
 
-        self.parser('/home/fabian/Downloads/test.mzTab')
+        self.parser('/home/fabian/Downloads/test1.mzTab')
 
         self.initTables()
         self.createTable(self.tablePRTFull, self.PRTFull)
@@ -184,7 +184,6 @@ class Window(QWidget):
         self.selectedPRT = accession
 
         self.PRTFiltered = [p for p in self.PRTFull if p[0] == self.selectedPRT]
-        print(self.PRTFiltered[0][1])
         self.createTable(self.tablePRTFiltered, self.PRTFiltered)
 
     def filterPSM(self, accession):
@@ -209,11 +208,19 @@ class Window(QWidget):
         self.PSMFiltered = []
 
     def browsePRT(self, item):
-        accession = self.PRTFull[item.row() + 1][0].split("|", 2)[1]
+        if self.tablePRTFull.isHidden():
+            accession = self.PRTFiltered[item.row()][0].split("|", 2)[1]
+        else:
+            accession = self.PRTFull[item.row()][0].split("|", 2)[1]
+
         webbrowser.open("https://www.uniprot.org/uniprot/" + accession)
 
     def browsePSM(self, item):
-        accession = self.PSMFull[item.row() + 1][2].split("|", 2)[1]
+        if self.tablePSMFull.isHidden():
+            accession = self.PSMFiltered[item.row()][2].split("|", 2)[1]
+        else:
+            accession = self.PSMFull[item.row()][2].split("|", 2)[1]
+
         webbrowser.open("https://www.uniprot.org/uniprot/" + accession)
 
 
