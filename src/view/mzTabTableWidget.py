@@ -156,7 +156,7 @@ class Window(QWidget):
         else:
             relevantContent = self.PRTFull
 
-        accession = relevantContent[item.row() + 1][0]
+        accession = relevantContent[item.row()][0]
 
         if self.selectedPSM == accession:
             self.unfilterPSM()
@@ -170,7 +170,7 @@ class Window(QWidget):
         else:
             relevantContent = self.PSMFull
 
-        accession = relevantContent[item.row() + 1][2]
+        accession = relevantContent[item.row()][2]
 
         if self.selectedPRT == accession:
             self.unfilterPRT()
