@@ -54,7 +54,7 @@ class Window(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.top, self.left, self.width, self.height)
 
-        self.parser('/home/taiki/Downloads/test.mzTab')
+        self.parser('/home/taiki/Downloads/iPRG2015.mzTab')
 
         self.initTables()
         self.createTable(self.tablePRTFull, self.PRTFull)
