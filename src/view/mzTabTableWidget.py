@@ -27,12 +27,24 @@ class Window(QWidget):
         self.height = 500
         self.tableRows = 5
 
-        self.PRT = []
-        self.PSM = []
+        self.PRTFull = []
+        self.PSMFull = []
 
-        self.drawPRT = []
-        self.drawPSM = []
+        self.PRTFiltered = []
+        self.PSMFiltered = []
 
+        self.selectedPRT = ""
+        self.selectedPSM = ""
+
+        self.tablePRTFull = QTableWidget()
+        self.tablePSMFull = QTableWidget()
+        self.vBoxFull = QVBoxLayout()
+
+        self.tablePRTFiltered = QTableWidget()
+        self.tablePSMFiltered = QTableWidget()
+        self.vBoxFiltered = QVBoxLayout()
+
+        self.outerVBox = QVBoxLayout()
 
         self.InitWindow()
 
@@ -43,38 +55,23 @@ class Window(QWidget):
 
         self.parser('/home/taiki/Downloads/test.mzTab')
 
-        self.drawPRT = self.PRT
-        self.drawPSM = self.PSM
-
-        self.tablePRTFull = QTableWidget()
-        self.tablePSMFull = QTableWidget()
-
-        self.tablePRTFiltered = QTableWidget()
-        self.tablePSMFiltered = QTableWidget()
-
-        self.drawTables()
-        self.createTable(self.tablePRTFull, self.drawPRT)
-        self.createTable(self.tablePSMFull, self.drawPSM)
-
-        self.tablePRTFull.itemClicked.connect(self.filterPRT)
-        self.tablePSMFull.itemClicked.connect(self.filterPSM)
+        self.initTables()
+        self.createTable(self.tablePRTFull, self.PRTFull)
+        self.createTable(self.tablePSMFull, self.PSMFull)
 
         self.tablePRTFull.itemDoubleClicked.connect(self.browsePRT)
         self.tablePSMFull.itemDoubleClicked.connect(self.browsePSM)
 
-        self.vboxFull = QVBoxLayout()
-        self.vboxFull.addWidget(self.tablePRTFull)
-        self.vboxFull.addWidget(self.tablePSMFull)
+        self.vBoxFull.addWidget(self.tablePRTFull)
+        self.vBoxFull.addWidget(self.tablePSMFull)
 
-        self.vboxFiltered = QVBoxLayout()
-        self.vboxFiltered.addWidget(self.tablePRTFiltered)
-        self.vboxFiltered.addWidget(self.tablePSMFiltered)
+        self.vBoxFiltered.addWidget(self.tablePRTFiltered)
+        self.vBoxFiltered.addWidget(self.tablePSMFiltered)
 
-        self.outerVbox = QVBoxLayout()
-        self.outerVbox.addLayout(self.vboxFull)
-        self.outerVbox.addLayout(self.vboxFiltered)
+        self.outerVBox.addLayout(self.vBoxFull)
+        self.outerVBox.addLayout(self.vBoxFiltered)
 
-        self.setLayout(self.outerVbox)
+        self.setLayout(self.outerVBox)
         self.show()
 
     def parser(self, file):
@@ -88,44 +85,47 @@ class Window(QWidget):
         with open(file) as inp:
             for line in inp:
                 if line.startswith("PRH"):
-                    self.PRT.append(line.strip().split('\t'))
+                    self.PRTFull.append(line.strip().split('\t'))
                 elif line.startswith("PRT") and not line.endswith("protein_details\n"):
-                    self.PRT.append(line.strip().split('\t'))
+                    self.PRTFull.append(line.strip().split('\t'))
                 elif line.startswith("PSH") or line.startswith("PSM"):
-                    self.PSM.append(line.strip().split('\t'))
+                    self.PSMFull.append(line.strip().split('\t'))
 
-        for item in self.PRT:
+        for item in self.PRTFull:
             item.pop(0)
 
-        for item in self.PSM:
+        for item in self.PSMFull:
             item.pop(0)
 
-    def drawTables(self):
-        """draws protein and psm table with headers"""
+    def initTables(self):
+        """draws protein and psm tables with headers"""
 
-        self.tablePRTFull.setRowCount(len(self.drawPRT))
-        self.tablePRTFull.setColumnCount(len(self.drawPRT[0]))
-        self.tablePRTFull.setHorizontalHeaderLabels(self.drawPRT[0])
+        self.tablePRTFull.setRowCount(len(self.PRTFull))
+        self.tablePRTFull.setColumnCount(len(self.PRTFull[0]))
+        self.tablePRTFull.setHorizontalHeaderLabels(self.PRTFull[0])
 
-        self.tablePSMFull.setRowCount(len(self.drawPSM))
-        self.tablePSMFull.setColumnCount(len(self.drawPSM[0]))
-        self.tablePSMFull.setHorizontalHeaderLabels(self.drawPSM[0])
+        self.tablePSMFull.setRowCount(len(self.PSMFull))
+        self.tablePSMFull.setColumnCount(len(self.PSMFull[0]))
+        self.tablePSMFull.setHorizontalHeaderLabels(self.PSMFull[0])
 
         self.tablePRTFiltered.setRowCount(0)
-        self.tablePRTFiltered.setColumnCount(len(self.drawPRT[0]))
-        self.tablePRTFiltered.setHorizontalHeaderLabels(self.drawPRT[0])
+        self.tablePRTFiltered.setColumnCount(len(self.PRTFull[0]))
+        self.tablePRTFiltered.setHorizontalHeaderLabels(self.PRTFull[0])
 
         self.tablePSMFiltered.setRowCount(0)
-        self.tablePSMFiltered.setColumnCount(len(self.drawPSM[0]))
-        self.tablePSMFiltered.setHorizontalHeaderLabels(self.drawPSM[0])
+        self.tablePSMFiltered.setColumnCount(len(self.PSMFull[0]))
+        self.tablePSMFiltered.setHorizontalHeaderLabels(self.PSMFull[0])
 
     def createTable(self, table, content):
+        """parameters: tableWidget to draw content in. Content to be drawn in list form"""
+        """Setting count to zero empties the table. Then table is (re-)filled with specified content"""
+        table.setRowCount(0)
         table.setRowCount(len(content))
 
         j = 0
         k = 0
 
-        for item in self.drawPRT[1:]:
+        for item in content[1:]:
             while k < (len(content)):
                 while j < (len(item)):
                     table.setItem(k, j, QTableWidgetItem(item[j]))
@@ -142,11 +142,11 @@ class Window(QWidget):
         test = 0
 
     def browsePRT(self, item):
-        accession = self.PRT[item.row()+1][0].split("|", 2)[1]
+        accession = self.PRTFull[item.row() + 1][0].split("|", 2)[1]
         webbrowser.open("https://www.uniprot.org/uniprot/" + accession)
 
     def browsePSM(self, item):
-        accession = self.PSM[item.row()+1][2].split("|", 2)[1]
+        accession = self.PSMFull[item.row() + 1][2].split("|", 2)[1]
         webbrowser.open("https://www.uniprot.org/uniprot/" + accession)
 
 
