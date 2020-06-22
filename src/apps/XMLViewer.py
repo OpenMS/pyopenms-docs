@@ -15,7 +15,9 @@ class XMLViewer(QMainWindow):
         '''
         sets the window with all applications and widgets
         '''
-        self.setCentralWidget(ConfigView())
+        cview = ConfigView()
+
+        self.setCentralWidget(cview)
         self.resize(1280, 720)
         self.center()
         self.setWindowTitle('ini File Viewer')

@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTreeWidget, QTreeWidgetItem, QFileDialog,\
-    QPushButton, QHBoxLayout, QDesktopWidget, QMainWindow, QPlainTextEdit
+    QPushButton, QHBoxLayout, QDesktopWidget, QMainWindow, QPlainTextEdit,\
+    QHBoxLayout
 from PyQt5.QtCore import Qt
 import xml.etree.ElementTree as ET
 
@@ -12,28 +13,42 @@ class ConfigView(QWidget):
         self.header = ['name', 'value', 'type', 'restrictions']
         self.descriptions = {}
 
-        view = QWidget(self)
         self.treeWidget = QTreeWidget(self)
-        QTreeWidget.__init__(self.treeWidget)
+        #QTreeWidget.__init__(self.treeWidget) erzeugt weiteren extra tree oben links im fenster
         self.treeWidget.setHeaderLabels(self.header)
         self.treeWidget.itemSelectionChanged.connect(self.loadDescription)
 
-        button = QPushButton('Load')
-        button.clicked.connect(self.openXML)
+        btns = QWidget(self)
+        lower = QWidget(self)
+        loadbtn = QPushButton('Load')
+        savebtn = QPushButton('Save')
+        loadbtn.clicked.connect(self.openXML)
+        savebtn.clicked.connect(self.saveFile)
 
         self.textbox = QPlainTextEdit(self)
         self.textbox.setReadOnly(True)
 
+        btnlayout = QVBoxLayout()
+        lowerlayout = QHBoxLayout()
         layout = QVBoxLayout()
-        layout.addWidget(button, 1)
+        
+        btnlayout.addWidget(loadbtn)
+        btnlayout.addWidget(savebtn)
+        btns.setLayout(btnlayout)
+        
+        lowerlayout.addWidget(btns, 1)
+        lowerlayout.addWidget(self.textbox, 9)
+        lower.setLayout(lowerlayout)
         layout.addWidget(self.treeWidget, 3)
-        layout.addWidget(self.textbox, 1)
-        view.setLayout(layout)
+        layout.addWidget(lower, 1)
 
         self.setLayout(layout)
         self.resize(500, 720)
 
     def openXML(self):
+        '''
+        cancel lässt die app crashen
+        '''
         file, _ = QFileDialog.getOpenFileName(
             self, "QFileDialog.getOpenFileName()", "",
             "All Files (*);;xml (*.xml)")
@@ -88,3 +103,6 @@ class ConfigView(QWidget):
         if getSelected:
             node = getSelected[0].text(0)
             self.textbox.setPlainText(self.descriptions[node])
+
+    def saveFile(self):
+        print('sollte noch speichern')
