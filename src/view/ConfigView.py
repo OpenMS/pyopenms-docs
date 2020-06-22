@@ -9,7 +9,7 @@ class ConfigView(QWidget):
         QWidget.__init__(self, *args)
 
         self.tree = ET.ElementTree
-        self.header = ['name', 'value', 'type', 'restrictions']
+        self.header = ['name', 'value', 'type', 'restrictions', 'advanced']
         self.descriptions = {}
 
         self.treeWidget = QTreeWidget(self)
@@ -47,14 +47,12 @@ class ConfigView(QWidget):
         self.resize(500, 720)
 
     def openXML(self):
-        '''
-        cancel lässt die app crashen
-        '''
         file, _ = QFileDialog.getOpenFileName(
             self, "QFileDialog.getOpenFileName()", "",
             "All Files (*);;xml (*.xml)")
-        self.tree = ET.parse(file)
-        self.drawTree()
+        if file:
+            self.tree = ET.parse(file)
+            self.drawTree()
 
     def generateTreeWidgetItem(self, item):
         treeitem = QTreeWidgetItem()
@@ -72,6 +70,10 @@ class ConfigView(QWidget):
             pass
         try:
             treeitem.setText(3, item.attrib['restrictions'])
+        except KeyError:
+            pass
+        try:
+            treeitem.setText(4, item.attrib['advanced'])
         except KeyError:
             pass
         try:
@@ -94,12 +96,14 @@ class ConfigView(QWidget):
                         childitem.addChild(sub1childitem)
                     else:
                         if sub1child.attrib['advanced'] == 'false':
-                            sub1childitem = self.generateTreeWidgetItem(sub1child)
+                            sub1childitem = self.generateTreeWidgetItem(
+                                sub1child)
                             childitem.addChild(sub1childitem)
 
                     for sub2child in sub1child:
                         if self.checkbox.isChecked:
-                            sub2childitem = self.generateTreeWidgetItem(sub2child)
+                            sub2childitem = self.generateTreeWidgetItem(
+                                sub2child)
                             sub1childitem.addChild(sub2childitem)
                         else:
                             if sub2child.attrib['advanced'] == 'false':
@@ -126,7 +130,8 @@ class ConfigView(QWidget):
                                 else:
                                     if sub4child.attrib['advanced'] == 'false':
                                         sub4childitem = (
-                                            self.generateTreeWidgetItem(sub4child))
+                                            self.generateTreeWidgetItem(
+                                                sub4child))
                                         sub3childitem.addChild(sub4childitem)
         except TypeError:
             pass
