@@ -25,13 +25,12 @@ class XMLViewer(QMainWindow):
 
         fileMenu.addAction(loadAction)
         fileMenu.addAction(saveAction)
-        
+
         loadAction.triggered.connect(cview.openXML)
         saveAction.triggered.connect(cview.saveFile)
-        
 
         self.setCentralWidget(cview)
-        self.resize(1280, 720)
+        self.resize(800, 1000)
         self.center()
         self.setWindowTitle('ini File Viewer')
         self.show()
