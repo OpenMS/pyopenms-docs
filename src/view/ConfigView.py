@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTreeWidget, QTreeWidgetItem, QFileDialog,\
-    QPushButton, QHBoxLayout, QDesktopWidget, QMainWindow, QPlainTextEdit
+    QPushButton, QHBoxLayout, QDesktopWidget, QMainWindow, QPlainTextEdit, QCheckBox
 from PyQt5.QtCore import Qt
 import xml.etree.ElementTree as ET
 
@@ -16,16 +16,21 @@ class ConfigView(QWidget):
         self.treeWidget = QTreeWidget(self)
         QTreeWidget.__init__(self.treeWidget)
         self.treeWidget.setHeaderLabels(self.header)
-        self.treeWidget.itemSelectionChanged.connect(self.loadDescription)
 
-        button = QPushButton('Load')
-        button.clicked.connect(self.openXML)
+        self.button = QPushButton('Load')
+        self.button.clicked.connect(self.openXML)
+        self.checkbox = QCheckBox('Show advanced parameters')
+        self.checkbox.setChecked(True)
+        self.checkbox.stateChanged.connect(self.drawTree)
 
         self.textbox = QPlainTextEdit(self)
         self.textbox.setReadOnly(True)
 
+        buttons = QHBoxLayout()
+        buttons.addWidget(self.button)
+        buttons.addWidget(self.checkbox)
         layout = QVBoxLayout()
-        layout.addWidget(button, 1)
+        layout.addLayout(buttons)
         layout.addWidget(self.treeWidget, 3)
         layout.addWidget(self.textbox, 1)
         view.setLayout(layout)
@@ -66,25 +71,61 @@ class ConfigView(QWidget):
         return treeitem
 
     def drawTree(self):
-        root = self.tree.getroot()
-        for child in root:
-            childitem = self.generateTreeWidgetItem(child)
-            self.treeWidget.addTopLevelItem(childitem)
-            for sub1child in child:
-                sub1childitem = self.generateTreeWidgetItem(sub1child)
-                childitem.addChild(sub1childitem)
-                for sub2child in sub1child:
-                    sub2childitem = self.generateTreeWidgetItem(sub2child)
-                    sub1childitem.addChild(sub2childitem)
-                    for sub3child in sub2child:
-                        sub3childitem = self.generateTreeWidgetItem(sub3child)
-                        sub2childitem.addChild(sub3childitem)
-                        for sub4child in sub3child:
-                            sub4childitem = self.generateTreeWidgetItem(sub4child)
-                            sub3childitem.addChild(sub4childitem)
+        try:
+            self.treeWidget.clear()
+            root = self.tree.getroot()
+            for child in root:
+                childitem = self.generateTreeWidgetItem(child)
+                self.treeWidget.addTopLevelItem(childitem)
+                for sub1child in child:
+                    if self.checkbox.isChecked:
+                        sub1childitem = self.generateTreeWidgetItem(sub1child)
+                        childitem.addChild(sub1childitem)
+                    else:
+                        if sub1child.attrib['advanced'] == 'false':
+                            sub1childitem = self.generateTreeWidgetItem(sub1child)
+                            childitem.addChild(sub1childitem)
+
+                    for sub2child in sub1child:
+                        if self.checkbox.isChecked:
+                            sub2childitem = self.generateTreeWidgetItem(sub2child)
+                            sub1childitem.addChild(sub2childitem)
+                        else:
+                            if sub2child.attrib['advanced'] == 'false':
+                                sub2childitem = (
+                                    self.generateTreeWidgetItem(sub2child))
+                                sub1childitem.addChild(sub2childitem)
+
+                        for sub3child in sub2child:
+                            if self.checkbox.isChecked:
+                                sub3childitem = (
+                                    self.generateTreeWidgetItem(sub3child))
+                                sub2childitem.addChild(sub3childitem)
+                            else:
+                                if sub3child.attrib['advanced'] == 'false':
+                                    sub3childitem = (
+                                        self.generateTreeWidgetItem(sub3child))
+                                    sub2childitem.addChild(sub3childitem)
+
+                            for sub4child in sub3child:
+                                if self.checkbox.isChecked:
+                                    sub4childitem = (
+                                        self.generateTreeWidgetItem(sub4child))
+                                    sub3childitem.addChild(sub4childitem)
+                                else:
+                                    if sub4child.attrib['advanced'] == 'false':
+                                        sub4childitem = (
+                                            self.generateTreeWidgetItem(sub4child))
+                                        sub3childitem.addChild(sub4childitem)
+        except TypeError:
+            pass
 
     def loadDescription(self):
         getSelected = self.treeWidget.selectedItems()
         if getSelected:
-            node = getSelected[0].text(0)
-            self.textbox.setPlainText(self.descriptions[node])
+            try:
+                node = getSelected[0].text(0)
+                self.textbox.setPlainText(self.descriptions[node])
+            except KeyError:
+                node = getSelected[0].parent().text(0)
+                self.textbox.setPlainText(self.descriptions[node])
