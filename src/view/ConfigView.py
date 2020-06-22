@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTreeWidget, QTreeWidgetItem, QFileDialog,\
-    QPushButton, QHBoxLayout, QDesktopWidget, QMainWindow, QPlainTextEdit, QCheckBox
+    QPushButton, QHBoxLayout, QDesktopWidget, QMainWindow, QPlainTextEdit
 from PyQt5.QtCore import Qt
 import xml.etree.ElementTree as ET
 
@@ -12,13 +12,16 @@ class ConfigView(QWidget):
         self.header = ['name', 'value', 'type', 'restrictions']
         self.descriptions = {}
 
-        view = QWidget(self)
         self.treeWidget = QTreeWidget(self)
-        QTreeWidget.__init__(self.treeWidget)
+        #QTreeWidget.__init__(self.treeWidget) erzeugt weiteren extra tree oben links im fenster
         self.treeWidget.setHeaderLabels(self.header)
 
-        self.button = QPushButton('Load')
-        self.button.clicked.connect(self.openXML)
+        btns = QWidget(self)
+        lower = QWidget(self)
+        loadbtn = QPushButton('Load')
+        savebtn = QPushButton('Save')
+        loadbtn.clicked.connect(self.openXML)
+        savebtn.clicked.connect(self.saveFile)
         self.checkbox = QCheckBox('Show advanced parameters')
         self.checkbox.setChecked(True)
         self.checkbox.stateChanged.connect(self.drawTree)
@@ -26,19 +29,27 @@ class ConfigView(QWidget):
         self.textbox = QPlainTextEdit(self)
         self.textbox.setReadOnly(True)
 
-        buttons = QHBoxLayout()
-        buttons.addWidget(self.button)
-        buttons.addWidget(self.checkbox)
+        btnlayout = QVBoxLayout()
+        lowerlayout = QHBoxLayout()
         layout = QVBoxLayout()
-        layout.addLayout(buttons)
+        
+        btnlayout.addWidget(loadbtn)
+        btnlayout.addWidget(savebtn)
+        btns.setLayout(btnlayout)
+        
+        lowerlayout.addWidget(btns, 1)
+        lowerlayout.addWidget(self.textbox, 9)
+        lower.setLayout(lowerlayout)
         layout.addWidget(self.treeWidget, 3)
-        layout.addWidget(self.textbox, 1)
-        view.setLayout(layout)
+        layout.addWidget(lower, 1)
 
         self.setLayout(layout)
         self.resize(500, 720)
 
     def openXML(self):
+        '''
+        cancel lässt die app crashen
+        '''
         file, _ = QFileDialog.getOpenFileName(
             self, "QFileDialog.getOpenFileName()", "",
             "All Files (*);;xml (*.xml)")
@@ -129,3 +140,6 @@ class ConfigView(QWidget):
             except KeyError:
                 node = getSelected[0].parent().text(0)
                 self.textbox.setPlainText(self.descriptions[node])
+
+    def saveFile(self):
+        print('sollte noch speichern')
