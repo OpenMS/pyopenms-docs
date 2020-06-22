@@ -1,5 +1,5 @@
 import sys, os
-from PyQt5.QtWidgets import QApplication, QVBoxLayout, QMainWindow, QDesktopWidget, QWidget, QPushButton
+from PyQt5.QtWidgets import QApplication, QVBoxLayout, QMainWindow, QDesktopWidget, QWidget, QPushButton, QAction
 from PyQt5.QtCore import Qt
 sys.path.append(os.getcwd()+'/../view')
 from ConfigView import ConfigView
@@ -16,6 +16,19 @@ class XMLViewer(QMainWindow):
         sets the window with all applications and widgets
         '''
         cview = ConfigView()
+
+        menubar = self.menuBar()
+        menubar.setNativeMenuBar(False)
+        fileMenu = menubar.addMenu('&File')
+        saveAction = QAction("&Save File", self)
+        loadAction = QAction("&Load File", self)
+
+        fileMenu.addAction(loadAction)
+        fileMenu.addAction(saveAction)
+        
+        loadAction.triggered.connect(cview.openXML)
+        saveAction.triggered.connect(cview.saveFile)
+        
 
         self.setCentralWidget(cview)
         self.resize(1280, 720)
