@@ -16,11 +16,13 @@ class ConfigView(QWidget):
         self.treeWidget = QTreeWidget(self)
         QTreeWidget.__init__(self.treeWidget)
         self.treeWidget.setHeaderLabels(self.header)
+        self.treeWidget.itemSelectionChanged.connect(self.loadDescription)
 
         button = QPushButton('Load')
         button.clicked.connect(self.openXML)
 
         self.textbox = QPlainTextEdit(self)
+        self.textbox.setReadOnly(True)
 
         layout = QVBoxLayout()
         layout.addWidget(button, 1)
@@ -80,3 +82,9 @@ class ConfigView(QWidget):
                         for sub4child in sub3child:
                             sub4childitem = self.generateTreeWidgetItem(sub4child)
                             sub3childitem.addChild(sub4childitem)
+
+    def loadDescription(self):
+        getSelected = self.treeWidget.selectedItems()
+        if getSelected:
+            node = getSelected[0].text(0)
+            self.textbox.setPlainText(self.descriptions[node])
