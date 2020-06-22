@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTreeWidget, QTreeWidgetItem, QFileDialog,\
-    QPushButton, QHBoxLayout, QDesktopWidget, QMainWindow, QPlainTextEdit, QCheckBox
+    QPushButton, QHBoxLayout, QDesktopWidget, QMainWindow, QPlainTextEdit, QCheckBox, QHeaderView
 from PyQt5.QtCore import Qt
 import xml.etree.ElementTree as ET
 
@@ -14,6 +14,12 @@ class ConfigView(QWidget):
 
         self.treeWidget = QTreeWidget(self)
         self.treeWidget.setHeaderLabels(self.header)
+        header = self.treeWidget.header()
+        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
+
 
         btns = QWidget(self)
         lower = QWidget(self)
