@@ -14,6 +14,7 @@ class ConfigView(QWidget):
 
         self.treeWidget = QTreeWidget(self)
         self.treeWidget.setHeaderLabels(self.header)
+        self.treeWidget.itemSelectionChanged.connect(self.loadDescription)
 
         btns = QWidget(self)
         lower = QWidget(self)
