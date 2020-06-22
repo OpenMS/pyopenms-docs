@@ -85,30 +85,91 @@ class ConfigView(QWidget):
         return treeitem
 
     def drawTree(self):
+        """
+        """
         try:
             self.treeWidget.clear()
             root = self.tree.getroot()
             for child in root:
-                childitem = self.generateTreeWidgetItem(child)
-                self.treeWidget.addTopLevelItem(childitem)
+                if self.checkbox.isChecked():
+                    childitem = self.generateTreeWidgetItem(child)
+                    self.treeWidget.addTopLevelItem(childitem)
+                else:
+                    try:
+                        if child.attrib['advanced'] == 'false':
+                            childitem = self.generateTreeWidgetItem(child)
+                            self.treeWidget.addTopLevelItem(childitem)
+                    except KeyError:
+                        childitem = self.generateTreeWidgetItem(child)
+                        self.treeWidget.addTopLevelItem(childitem)
+
                 for sub1child in child:
-                    sub1childitem = self.generateTreeWidgetItem(sub1child)
-                    childitem.addChild(sub1childitem)
+                    if self.checkbox.isChecked():
+                        sub1childitem = self.generateTreeWidgetItem(sub1child)
+                        childitem.addChild(sub1childitem)
+                    else:
+                        try:
+                            if sub1child.attrib['advanced'] == 'false':
+                                sub1childitem = self.generateTreeWidgetItem(
+                                    sub1child)
+                                childitem.addChild(sub1childitem)
+                        except KeyError:
+                            sub1childitem = self.generateTreeWidgetItem(
+                                sub1child)
+                            childitem.addChild(sub1childitem)
 
                     for sub2child in sub1child:
-                        sub2childitem = (
-                            self.generateTreeWidgetItem(sub2child))
-                        sub1childitem.addChild(sub2childitem)
+                        if self.checkbox.isChecked():
+                            sub2childitem = (
+                                self.generateTreeWidgetItem(sub2child))
+                            sub1childitem.addChild(sub2childitem)
+                        else:
+                            try:
+                                if sub2child.attrib['advanced'] == 'false':
+                                    sub2childitem = (
+                                        self.generateTreeWidgetItem(sub2child))
+                                    sub1childitem.addChild(sub2childitem)
+                            except KeyError:
+                                sub2childitem = (
+                                    self.generateTreeWidgetItem(sub2child))
+                                sub1childitem.addChild(sub2childitem)
 
                         for sub3child in sub2child:
-                            sub3childitem = (
-                                self.generateTreeWidgetItem(sub3child))
-                            sub2childitem.addChild(sub3childitem)
+                            if self.checkbox.isChecked():
+                                sub3childitem = (
+                                    self.generateTreeWidgetItem(sub3child))
+                                sub2childitem.addChild(sub3childitem)
+                            else:
+                                try:
+                                    if sub3child.attrib['advanced'] == 'false':
+                                        sub3childitem = (
+                                            self.generateTreeWidgetItem(
+                                                sub3child))
+                                        sub2childitem.addChild(sub3childitem)
+                                except KeyError:
+                                    sub3childitem = (
+                                        self.generateTreeWidgetItem(sub3child))
+                                    sub2childitem.addChild(sub3childitem)
 
                             for sub4child in sub3child:
-                                sub4childitem = (
-                                    self.generateTreeWidgetItem(sub4child))
-                                sub3childitem.addChild(sub4childitem)
+                                if self.checkbox.isChecked():
+                                    sub4childitem = (
+                                        self.generateTreeWidgetItem(sub4child))
+                                    sub3childitem.addChild(sub4childitem)
+                                else:
+                                    try:
+                                        if (sub4child.attrib['advanced']
+                                           == 'false'):
+                                            sub4childitem = (
+                                                self.generateTreeWidgetItem(
+                                                    sub4child))
+                                            sub3childitem.addChild(
+                                                sub4childitem)
+                                    except KeyError:
+                                        sub4childitem = (
+                                            self.generateTreeWidgetItem(
+                                                sub4child))
+                                        sub3childitem.addChild(sub4childitem)
             self.treeWidget.expandAll()
         except TypeError:
             pass
