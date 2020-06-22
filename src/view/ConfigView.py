@@ -28,6 +28,7 @@ class ConfigView(QWidget):
         savebtn = QPushButton('Save')
         loadbtn.clicked.connect(self.openXML)
         savebtn.clicked.connect(self.saveFile)
+
         self.checkbox = QCheckBox('Show advanced parameters')
         self.checkbox.setChecked(True)
         self.checkbox.stateChanged.connect(self.drawTree)
@@ -47,21 +48,29 @@ class ConfigView(QWidget):
         lowerlayout.addWidget(btns, 1)
         lowerlayout.addWidget(self.textbox, 9)
         lower.setLayout(lowerlayout)
-        layout.addWidget(self.treeWidget, 3)
+        layout.addWidget(self.treeWidget, 5)
         layout.addWidget(lower, 1)
 
         self.setLayout(layout)
         self.resize(500, 720)
 
     def openXML(self):
+        """
+        Loads a XML file with .ini tag, parses the xml into ET.ElementTree
+        calls the drawTree function to draw a Tree with the loaded xml
+        """
         file, _ = QFileDialog.getOpenFileName(
             self, "QFileDialog.getOpenFileName()", "",
-            "All Files (*);;xml (*.xml)")
+            "All Files (*);;ini (*.ini)")
         if file:
             self.tree = ET.parse(file)
             self.drawTree()
 
-    def generateTreeWidgetItem(self, item):
+    def generateTreeWidgetItem(self, item: ET.Element) -> QTreeWidgetItem:
+        """
+        generates a QTreeWidgetItem with each column for an
+        ET.Element (e.g. root)
+        """
         treeitem = QTreeWidgetItem()
         try:
             treeitem.setText(0, item.attrib['name'])
@@ -181,6 +190,9 @@ class ConfigView(QWidget):
             pass
 
     def loadDescription(self):
+        """
+        Shows the description of the configuration parameter in the textbox
+        """
         getSelected = self.treeWidget.selectedItems()
         if getSelected:
             try:

@@ -23,6 +23,8 @@ class XMLViewer(QMainWindow):
         saveAction = QAction("&Save File", self)
         loadAction = QAction("&Load File", self)
 
+        saveAction.setDisabled(True)
+
         fileMenu.addAction(loadAction)
         fileMenu.addAction(saveAction)
 
