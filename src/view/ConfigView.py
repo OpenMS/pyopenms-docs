@@ -80,10 +80,6 @@ class ConfigView(QWidget):
         except KeyError:
             pass
         try:
-            treeitem.setText(4, item.attrib['advanced'])
-        except KeyError:
-            pass
-        try:
             self.descriptions[item.attrib['name']] = item.attrib['description']
         except KeyError:
             pass
@@ -92,6 +88,10 @@ class ConfigView(QWidget):
 
     def drawTree(self):
         """
+        Main function of this widget:
+        Draws a tree for the loaded XML file
+        The checkbox "show advanced options" is implemented here aswell
+        it will only draw those items, which have the according advanced flag
         """
         try:
             self.treeWidget.clear()
