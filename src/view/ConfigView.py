@@ -19,7 +19,7 @@ class ConfigView(QWidget):
         self.header.resizeSection(0, 150)
         self.header.resizeSection(1, 150)
         self.header.resizeSection(2, 150)
-        self.header.setMinimumSectionSize(50)
+        # self.header.setMinimumSectionSize(50)
 
         self.treeWidget.itemSelectionChanged.connect(self.loadDescription)
 
@@ -61,7 +61,7 @@ class ConfigView(QWidget):
             self.tree = ET.parse(file)
             self.drawTree()
 
-            # self.header.setSectionResizeMode(QHeaderView.ResizeToContents)
+            self.header.setSectionResizeMode(QHeaderView.ResizeToContents)
 
     def generateTreeWidgetItem(self, item: ET.Element) -> QTreeWidgetItem:
         """
