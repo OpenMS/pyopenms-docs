@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTreeWidget, QTreeWidgetItem, QFileDialog,\
-    QPushButton, QHBoxLayout, QDesktopWidget, QMainWindow, QPlainTextEdit, QCheckBox, QHeaderView
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTreeWidget, \
+    QTreeWidgetItem, QFileDialog, QPushButton, QHBoxLayout, \
+    QDesktopWidget, QMainWindow, QPlainTextEdit, QCheckBox, QHeaderView
 from PyQt5.QtCore import Qt
 import xml.etree.ElementTree as ET
 
@@ -9,7 +10,7 @@ class ConfigView(QWidget):
         QWidget.__init__(self, *args)
 
         self.tree = ET.ElementTree
-        self.header = ['name', 'value', 'type', 'restrictions', 'advanced']
+        self.header = ['Name', 'Value', 'Type', 'Restrictions', 'Advanced']
         self.descriptions = {}
 
         self.treeWidget = QTreeWidget(self)
@@ -23,11 +24,10 @@ class ConfigView(QWidget):
         self.treeWidget.itemSelectionChanged.connect(self.loadDescription)
 
         btns = QWidget(self)
-        lower = QWidget(self)
-        loadbtn = QPushButton('Load')
-        savebtn = QPushButton('Save')
-        loadbtn.clicked.connect(self.openXML)
-        savebtn.clicked.connect(self.saveFile)
+        # loadbtn = QPushButton('Load')
+        # savebtn = QPushButton('Save')
+        # loadbtn.clicked.connect(self.openXML)
+        # savebtn.clicked.connect(self.saveFile)
 
         self.checkbox = QCheckBox('Show advanced parameters')
         self.checkbox.setChecked(True)
@@ -37,19 +37,14 @@ class ConfigView(QWidget):
         self.textbox.setReadOnly(True)
 
         btnlayout = QVBoxLayout()
-        lowerlayout = QHBoxLayout()
         layout = QVBoxLayout()
 
-        btnlayout.addWidget(loadbtn)
-        btnlayout.addWidget(savebtn)
         btnlayout.addWidget(self.checkbox)
         btns.setLayout(btnlayout)
 
-        lowerlayout.addWidget(btns, 1)
-        lowerlayout.addWidget(self.textbox, 9)
-        lower.setLayout(lowerlayout)
-        layout.addWidget(self.treeWidget, 5)
-        layout.addWidget(lower, 1)
+        layout.addWidget(self.treeWidget, 6)
+        layout.addWidget(self.textbox, 1)
+        layout.addWidget(btns, 0.5)
 
         self.setLayout(layout)
         self.resize(500, 720)

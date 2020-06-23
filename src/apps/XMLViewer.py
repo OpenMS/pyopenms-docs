@@ -1,11 +1,15 @@
 import sys, os
-from PyQt5.QtWidgets import QApplication, QVBoxLayout, QMainWindow, QDesktopWidget, QWidget, QPushButton, QAction
+from PyQt5.QtWidgets import QApplication, QVBoxLayout, QMainWindow, \
+     QDesktopWidget, QWidget, QPushButton, QAction
 from PyQt5.QtCore import Qt
 sys.path.append(os.getcwd()+'/../view')
 from ConfigView import ConfigView
 
 
 class XMLViewer(QMainWindow):
+    """
+    Widget for visualizing configuration data
+    """
 
     def __init__(self):
         QMainWindow.__init__(self)
@@ -14,6 +18,7 @@ class XMLViewer(QMainWindow):
     def initUI(self):
         '''
         sets the window with all applications and widgets
+        which are loaded from the ConfigView.py file
         '''
         cview = ConfigView()
 
