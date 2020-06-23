@@ -10,7 +10,7 @@ class ConfigView(QWidget):
         QWidget.__init__(self, *args)
 
         self.tree = ET.ElementTree
-        self.header = ['Name', 'Value', 'Type', 'Restrictions', 'Advanced']
+        self.header = ['Name', 'Value', 'Type', 'Restrictions']
         self.descriptions = {}
 
         self.treeWidget = QTreeWidget(self)
@@ -19,7 +19,6 @@ class ConfigView(QWidget):
         header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
         header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
         header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
 
         self.treeWidget.itemSelectionChanged.connect(self.loadDescription)
 
