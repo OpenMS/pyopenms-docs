@@ -39,6 +39,7 @@ class TICWidget(PlotWidget):
         self.setLabel("bottom", "RT (min)")
         self.setLabel("left", "relative intensity (%)")
         self._peak_labels = {}
+        self._existTIC = True
         # numpy arrays for fast look-up
         self._rts = np.array([])
         self._ints = np.array([])
@@ -53,6 +54,12 @@ class TICWidget(PlotWidget):
         self.shortcut1 = QShortcut(QKeySequence("Ctrl+r"), self)
         self.shortcut1.activated.connect(self._rgn_shortcut)
 
+
+    # in cases only MS2 spectra are given
+    def checkExistTIC(self):
+        if self._rts.size == 0:
+            self._existTIC = False
+
     def setTIC(self, chromatogram):
         """
         Used to set new TIC and with given Information (rts, ints)
@@ -64,14 +71,15 @@ class TICWidget(PlotWidget):
             self._peak_labels = {}
         self._chrom = chromatogram
         self._rts, self._ints = self._chrom.get_peaks()
-        try:
+
+        self.checkExistTIC()
+        if self._existTIC:
             self._rts_in_min()
             self._relative_ints()
             self._peak_indices = self._find_Peak()
             self._autoscaleYAxis()
             self.redrawPlot()
-        except ValueError:
-            print("No TIC values in spectrum")
+
 
     def _rts_in_min(self):
         self._rts = np.array([x / 60 for x in self._rts])
@@ -242,7 +250,7 @@ class TICWidget(PlotWidget):
         self._draw_peak_label()
 
     def _clicked(self, event):
-        try:
+        if self._existTIC:
             pos = event.scenePos()
             if self.sceneBoundingRect().contains(pos):
                 mouse_point = self.getViewBox().mapSceneToView(pos)
@@ -257,9 +265,6 @@ class TICWidget(PlotWidget):
             if self._region is not None:
                 self._region.sigRegionChangeFinished.connect(
                     self._rtRegionBounds)
-
-        except ValueError:
-            print("No TIC values to click on")
 
     def mouseDoubleClickEvent(self, event):
         super(TICWidget, self).mouseDoubleClickEvent(event)
