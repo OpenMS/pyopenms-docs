@@ -136,5 +136,5 @@ src/view/TableWidget.py
 
 *.tsv
 
-# useless mac indexing file
+# mac indexing file
 .DS_Store
