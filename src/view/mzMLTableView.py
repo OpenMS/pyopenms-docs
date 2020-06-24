@@ -481,6 +481,9 @@ class mzMLTableView(QWidget):
         givencolumn = "Spectra_Filepath"
         tbinput = tb.text()
         ft = Tdf.getTable(self)
+        validDf = not(ft.empty or ft.dropna().empty)
+        print(validDf)
+        print(type(ft))
         if len(tbinput) >=3:
             rowstoshow = ft[ft[givencolumn].str.contains(tbinput)]
             # prints the rows containing the input
