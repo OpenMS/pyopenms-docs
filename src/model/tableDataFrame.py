@@ -97,3 +97,7 @@ class TableDataFrame():
         """
         self.df.drop(rows, inplace=True)
         self.df.reset_index(drop=True, inplace=True)
+
+    def modifyField(self, row: int, column: int, newvalue: int):
+        col = self.df.columns[column]
+        self.df.at[row, col] = newvalue
