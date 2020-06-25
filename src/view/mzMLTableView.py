@@ -116,7 +116,7 @@ class mzMLTableView(QWidget):
         # Disabled buttons until function are added
         Buttons[9].setEnabled(False)
 
-        #init changelistener on textbox
+        # init changelistener on textbox
         self.textbox.textChanged[str].connect(self.filterTable)
         if self.testForTime:
             rt = timeit.default_timer() - starttime
