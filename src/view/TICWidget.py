@@ -54,7 +54,6 @@ class TICWidget(PlotWidget):
         self.shortcut1 = QShortcut(QKeySequence("Ctrl+r"), self)
         self.shortcut1.activated.connect(self._rgn_shortcut)
 
-
     # in cases only MS2 spectra are given
     def checkExistTIC(self):
         if self._rts.size == 0:
@@ -79,7 +78,6 @@ class TICWidget(PlotWidget):
             self._peak_indices = self._find_Peak()
             self._autoscaleYAxis()
             self.redrawPlot()
-
 
     def _rts_in_min(self):
         self._rts = np.array([x / 60 for x in self._rts])
