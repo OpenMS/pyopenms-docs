@@ -38,7 +38,6 @@ class RTUnitDelegate(QItemDelegate):
         if index.isValid():
             rt_min = str(round(index.siblingAtColumn(2).data() * 1.0 / 60, 3))
             rt_sec = str(round(index.siblingAtColumn(2).data(), 3))
-            
             text = "  " + rt_sec + "\t [" + rt_min + " Min" + "]"
 
             painter.setRenderHint(QPainter.Antialiasing)
