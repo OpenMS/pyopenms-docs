@@ -253,7 +253,8 @@ class observed_peptide(QWidget):
                 # position lines for possible ions
                 centerOfLine = \
                     (
-                        (SequenceIonsWidget.SUFFIX_HEIGHT + height) - height / 4
+                        (SequenceIonsWidget.SUFFIX_HEIGHT + height) 
+                        - height / 4
                     ) - 1
 
                 start_linePos = QPointF(
