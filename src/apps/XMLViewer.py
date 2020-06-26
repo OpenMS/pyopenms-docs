@@ -22,20 +22,6 @@ class XMLViewer(QMainWindow):
         '''
         cview = ConfigView()
 
-        menubar = self.menuBar()
-        menubar.setNativeMenuBar(False)
-        fileMenu = menubar.addMenu('&File')
-        saveAction = QAction("&Save File", self)
-        loadAction = QAction("&Load File", self)
-
-        saveAction.setDisabled(True)
-
-        fileMenu.addAction(loadAction)
-        fileMenu.addAction(saveAction)
-
-        loadAction.triggered.connect(cview.openXML)
-        saveAction.triggered.connect(cview.saveFile)
-
         self.setCentralWidget(cview)
         self.resize(800, 1000)
         self.center()

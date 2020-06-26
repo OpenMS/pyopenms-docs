@@ -40,17 +40,18 @@ class FinalBox(QMainWindow):
         loadAction = QAction("&Load File", self)
 
         saveAction.setDisabled(True)
+        loadAction.setDisabled(True)
 
         fileMenu.addAction(loadAction)
         fileMenu.addAction(saveAction)
 
         '''
         Hier muss noch vlt ein conditional hin sodass
-        die connections sich für das aktuelle tab jeweils 
+        die connections sich für das aktuelle tab jeweils
         ändern
         '''
-        loadAction.triggered.connect(cview.openXML)
-        saveAction.triggered.connect(cview.saveFile)
+        # loadAction.triggered.connect(cview.openXML)
+        # saveAction.triggered.connect(cview.saveFile)
 
         self.setCentralWidget(view)
         self.resize(1280, 720)
@@ -66,6 +67,7 @@ class FinalBox(QMainWindow):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
+
 
 if __name__ == '__main__':
 
