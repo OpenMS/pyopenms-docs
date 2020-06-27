@@ -1,12 +1,14 @@
 
 import webbrowser
 
+import timeit
 
-class logic:
 
-    # Zusammenstellung des dictionaries und der 3 Listen zum suchen für die a) und b)
+class Logic_LoadFasta_FastaViewer:
+
+    # Compilation for the ProteinId_dictionary and the lists with its values for each Protein
     def protein_dictionary(fastaFile):
-        """Gets fasta File Path and saves all infromations about the proteins 
+        """Gets fasta File Path and saves all informations about the proteins 
         in separate lists 
 
         Parameters
@@ -15,7 +17,7 @@ class logic:
 
         Returns
         -------
-        for all proteins either Decoy or normal Lists/ dectionary.
+        for all proteins either Decoy or normal Lists/ dictionary.
         """
         dictKeyAccession = {}
         proteinList = []
@@ -25,149 +27,198 @@ class logic:
         proteinListDECOY = []
         proteinNameListDECOY = []
         proteinOSListDECOY = []
-        counter = 0
+        indexToStartReadingFrom_InFastaFile = 0
+
         with open(fastaFile) as file_content:
+
+            # Go through the fasta file, line by line
             for seqs in file_content:
 
-                # is decoy
+                # is decoy -> use seperate List
                 if seqs.startswith('>DECOY'):
                     bounds = find_all_indexes(seqs, '|')
+
+                    # if a Protein Accesion (ID) was found
                     if len(bounds) != 0:
                         key = (seqs[bounds[0]+1:bounds[1]])
                         descr_upper_index = seqs.find('OS=')
-                        # herausfinden bis zu welchem index das OS geht
+
+                        # find out up to which index the OS goes
                         os_upper_index = seqs.find('(')
                         os = ''
+
+                        # if no upper index for the OS was found use the line from "OS=" till end of line
                         if (os_upper_index == -1):
-                            zwischenergebnis = seqs[descr_upper_index+3:]
-                            zwischenergebnis1 = zwischenergebnis.split()
-                            os = zwischenergebnis1[0] + ' ' + zwischenergebnis1[1]
+                            stringFrom_OS_TillEndOfLine = seqs[descr_upper_index+3:]
+                            listOfAllWordsTillEndOfLine = stringFrom_OS_TillEndOfLine.split()
+                            os = listOfAllWordsTillEndOfLine[0] + ' ' + listOfAllWordsTillEndOfLine[1]
+
                         name = (seqs[bounds[1]+1:descr_upper_index])
                         stringValue = ""
-                        counter2 = 0
+                        indexShift = 0
                         nextLine = next(file_content)
+
+                        # read file line by line, till new protein (begins with '>')
                         while not nextLine.startswith('>'):
                             stringValue += nextLine[:-1]
                             try:
                                 nextLine = next(file_content)
                             except:
                                 break
-                            counter2 = counter2 + 1
-                        counter = counter + len(stringValue) + len(seqs) + counter2
-                        file_content.seek(counter, 0)
+                            indexShift = indexShift + 1
+
+                        # shift Index inside of the file-reader
+                        indexToStartReadingFrom_InFastaFile = indexToStartReadingFrom_InFastaFile + len(stringValue) + len(seqs) + indexShift
+                        file_content.seek(indexToStartReadingFrom_InFastaFile, 0)
+
+                        # set the values inside of the dictionary and the lists
                         dictKeyAccessionDECOY[key] = stringValue
                         proteinListDECOY.append(stringValue)
                         proteinNameListDECOY.append(name)
+
                         if (os_upper_index == -1):
                             proteinOSListDECOY.append(os)
                         else:
                             proteinOSListDECOY.append((seqs[descr_upper_index+3:os_upper_index]))
+
+                    # if no Protein Accesion (ID) was found
                     else:
                         key = seqs.split("OS=")[0]
                         descr_upper_index = seqs.find('OS=')
-                        # herausfinden bis zu welchem index das OS geht
+
+                        # find out up to which index the OS goes
                         os_upper_index = seqs.find('(')
                         os = ''
+
+                        # if no upper index for the OS was found use the line from "OS=" till end of line
                         if (os_upper_index == -1):
-                            zwischenergebnis = seqs[descr_upper_index+3:]
-                            zwischenergebnis1 = zwischenergebnis.split()
-                            os = zwischenergebnis1[0] + ' ' + zwischenergebnis1[1]
+                            stringFrom_OS_TillEndOfLine = seqs[descr_upper_index+3:]
+                            listOfAllWordsTillEndOfLine = stringFrom_OS_TillEndOfLine.split()
+                            os = listOfAllWordsTillEndOfLine[0] + ' ' + listOfAllWordsTillEndOfLine[1]
+
                         name = seqs.split("OS=")[0]
                         stringValue = ""
-                        counter2 = 0
+                        indexShift = 0
                         nextLine = next(file_content)
+
+                        # read file line by line, till new protein (begins with '>')
                         while not nextLine.startswith('>'):
                             stringValue += nextLine[:-1]
                             try:
                                 nextLine = next(file_content)
                             except:
                                 break
-                            counter2 = counter2 + 1
-                        counter = counter + len(stringValue) + len(seqs) + counter2
-                        file_content.seek(counter, 0)
+                            indexShift = indexShift + 1
+
+                        # shift Index inside of the file-reader
+                        indexToStartReadingFrom_InFastaFile = indexToStartReadingFrom_InFastaFile + len(stringValue) + len(seqs) + indexShift
+                        file_content.seek(indexToStartReadingFrom_InFastaFile, 0)
+
+                        # set the values inside of the dictionary and the lists
                         dictKeyAccessionDECOY[key] = stringValue
                         proteinListDECOY.append(stringValue)
                         proteinNameListDECOY.append(name)
+
                         if (os_upper_index == -1):
                             proteinOSListDECOY.append(os)
                         else:
                             proteinOSListDECOY.append((seqs[descr_upper_index+3:os_upper_index]))
 
-                # is no decoy
+                # is no decoy -> use 'usual' list
                 elif seqs.startswith('>'):
                     bounds = find_all_indexes(seqs, '|')
+
+                    # if a Protein Accesion (ID) was found
                     if len(bounds) != 0:
                         key = (seqs[bounds[0]+1:bounds[1]])
                         descr_upper_index = seqs.find('OS=')
-                        # herausfinden bis zu welchem index das OS geht
+
+                        # find out up to which index the OS goes
                         os_upper_index = seqs.find('(')
                         os = ''
+
+                        # if no upper index for the OS was found use the line from "OS=" till end of line
                         if (os_upper_index == -1):
-                            zwischenergebnis = seqs[descr_upper_index+3:]
-                            zwischenergebnis1 = zwischenergebnis.split()
-                            os = zwischenergebnis1[0] + ' ' + zwischenergebnis1[1]
+                            stringFrom_OS_TillEndOfLine = seqs[descr_upper_index+3:]
+                            listOfAllWordsTillEndOfLine = stringFrom_OS_TillEndOfLine.split()
+                            os = listOfAllWordsTillEndOfLine[0] + ' ' + listOfAllWordsTillEndOfLine[1]
+
                         name = (seqs[bounds[1]+1:descr_upper_index])
                         stringValue = ""
-                        counter2 = 0
+                        indexShift = 0
                         nextLine = next(file_content)
+
+                        # read file line by line, till new protein (begins with '>')
                         while not nextLine.startswith('>'):
                             stringValue += nextLine[:-1]
                             try:
                                 nextLine = next(file_content)
                             except:
                                 break
-                            counter2 = counter2 + 1
-                        counter = counter + len(stringValue) + len(seqs) + counter2
-                        file_content.seek(counter, 0)
+                            indexShift = indexShift + 1
+
+                        # shift Index inside of the file-reader
+                        indexToStartReadingFrom_InFastaFile = indexToStartReadingFrom_InFastaFile + len(stringValue) + len(seqs) + indexShift
+                        file_content.seek(indexToStartReadingFrom_InFastaFile, 0)
+
+                        # set the values inside of the dictionary and the lists
                         dictKeyAccession[key] = stringValue
                         proteinList.append(stringValue)
                         proteinNameList.append(name)
+
                         if (os_upper_index == -1):
                             proteinOSList.append(os)
                         else:
                             proteinOSList.append((seqs[descr_upper_index+3:os_upper_index]))
+                    
+                    # if no Protein Accesion (ID) was found
                     else:
                         key = seqs.split("OS=")[0]
                         descr_upper_index = seqs.find('OS=')
-                        # herausfinden bis zu welchem index das OS geht
+
+                        # find out up to which index the OS goes
                         os_upper_index = seqs.find('(')
                         os = ''
+
                         if (os_upper_index == -1):
-                            zwischenergebnis = seqs[descr_upper_index+3:]
-                            zwischenergebnis1 = zwischenergebnis.split()
-                            os = zwischenergebnis1[0] + ' ' + zwischenergebnis1[1]
-                        name = seqs.split("OS=")[0]  # (seqs[bounds[1]+1:descr_upper_index])
+                            stringFrom_OS_TillEndOfLine = seqs[descr_upper_index+3:]
+                            listOfAllWordsTillEndOfLine = stringFrom_OS_TillEndOfLine.split()
+                            os = listOfAllWordsTillEndOfLine[0] + ' ' + listOfAllWordsTillEndOfLine[1]
+
+                        name = seqs.split("OS=")[0]  
                         stringValue = ""
-                        counter2 = 0
+                        indexShift = 0
                         nextLine = next(file_content)
+
+                        # read file line by line, till new protein (begins with '>')
                         while not nextLine.startswith('>'):
                             stringValue += nextLine[:-1]
                             try:
                                 nextLine = next(file_content)
                             except:
                                 break
-                            counter2 = counter2 + 1
-                        counter = counter + len(stringValue) + len(seqs) + counter2
-                        file_content.seek(counter, 0)
+                            indexShift = indexShift + 1
+
+                        # shift Index inside of the file-reader
+                        indexToStartReadingFrom_InFastaFile = indexToStartReadingFrom_InFastaFile + len(stringValue) + len(seqs) + indexShift
+                        file_content.seek(indexToStartReadingFrom_InFastaFile, 0)
+
+                        # set the values inside of the dictionary and the lists
                         dictKeyAccession[key] = stringValue
                         proteinList.append(stringValue)
                         proteinNameList.append(name)
+
                         if (os_upper_index == -1):
                             proteinOSList.append(os)
                         else:
                             proteinOSList.append((seqs[descr_upper_index+3:os_upper_index]))
+
         return dictKeyAccession, proteinList, proteinNameList, proteinOSList, dictKeyAccessionDECOY, proteinListDECOY, proteinNameListDECOY, proteinOSListDECOY
-
-    # um im Internet das Protein aufzurufen für mehr Informationen
-
-    def moreProteinInformation(protein_accession):
-        return webbrowser.open("https://www.uniprot.org/uniprot/" + protein_accession)
 
 
 # wird für die Methode protein_dictionary benötigt (suche von mehreren Indizes)
 def find_all_indexes(input_str, search_str):
-    """Gets fasta File Path and saves all infromations about the proteins 
-    in separate lists 
+    """Look for all occurences of 'search_str' in 'input_str'
 
     Parameters
     ----------
@@ -192,8 +243,7 @@ def find_all_indexes(input_str, search_str):
 
 def main():
 
-    # a)
-    dictKeyAccession, proteinList, proteinNameList, proteinOSList, dictKeyAccessionDECOY, proteinListDECOY, proteinNameListDECOY, proteinOSListDECOY = logic.protein_dictionary(
+    dictKeyAccession, proteinList, proteinNameList, proteinOSList, dictKeyAccessionDECOY, proteinListDECOY, proteinNameListDECOY, proteinOSListDECOY = Logic_LoadFasta_FastaViewer.protein_dictionary(
         "C:/Users/Alex/Desktop/iPRG2015_target_decoy_nocontaminants.fasta")
 
     proteinnameSub = input("Name: ")
