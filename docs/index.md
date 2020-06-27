@@ -1,5 +1,13 @@
 # Teamprojekt
 
+[git.io page](https://wrthfl.github.io/pyopenms-tewb/)
+
+## Useful Links
+
+- [MD-Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+- [ohshitgit](ohshitgit.com)
+- [Continuous Integration](https://realpython.com/python-continuous-integration/)
+
 <!--[README](/docs/README.md)-->
 
 [Woche 2](pages/week2.md)
