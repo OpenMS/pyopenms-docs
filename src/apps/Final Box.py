@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QVBoxLayout, QMainWindow, \
      QDesktopWidget, QWidget, QTabWidget, QAction, QPushButton
 from PyQt5.QtCore import pyqtSlot
 sys.path.append(os.getcwd()+'/../view')
+from FastaViewer import FastaViewer
 from ConfigView import ConfigView
 from mzMLTableView import mzMLTableView
 
@@ -24,13 +25,13 @@ class FinalBox(QMainWindow):
         cview = ConfigView()
         tView = mzMLTableView()
         # sview = ()
-        # fview = ()
+        fview = FastaViewer()
         # xview = ()
 
         view.addTab(cview, 'XML-Viewer')
         view.addTab(tView, 'Experimental-Design')
         # view.addTab(sView, 'Spec-Viewer')
-        # view.addTab(fView, 'Fasta-Viewer')
+        view.addTab(fview, 'Fasta-Viewer')
         # view.addTab(xView, 'Viewer')
 
         menubar = self.menuBar()
