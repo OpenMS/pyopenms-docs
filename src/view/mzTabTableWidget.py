@@ -17,11 +17,11 @@ change the path within the InitWindow.
 import sys
 import webbrowser
 from PyQt5 import QtGui
-from PyQt5.QtWidgets import(
+from PyQt5.QtWidgets import (
     QApplication,
-    QWidget, 
+    QWidget,
     QTableWidget,
-    QVBoxLayout, 
+    QVBoxLayout,
     QTableWidgetItem,
     )
 
@@ -104,7 +104,7 @@ class Window(QWidget):
         self.show()
 
     def parser(self, file):
-        """parses the given mzTab file and saves 
+        """parses the given mzTab file and saves
         PRT and PSM information Parameters
         ----------
         file : str
@@ -115,7 +115,7 @@ class Window(QWidget):
             for line in inp:
                 if line.startswith("PRH"):
                     self.PRTFull.append(line.strip().split('\t'))
-                elif line.startswith("PRT") and not line.endswith("protein_details\n"):
+                elif line.startswith("PRT") and not line.endswith("protein_details\n"):  # noqa: E501
                     self.PRTFull.append(line.strip().split('\t'))
                 elif line.startswith("PSH") or line.startswith("PSM"):
                     self.PSMFull.append(line.strip().split('\t'))
@@ -172,7 +172,7 @@ class Window(QWidget):
                 break
 
     def hidePRTColumns(self):
-        """hides constant columns in PRT table by default by checking if every value equals"""
+        """hides constant columns in PRT table by default by checking if every value equals"""  # noqa: E501
         i = 0
         j = 0
         k = 0
@@ -192,7 +192,7 @@ class Window(QWidget):
             k += 1
 
     def hidePSMColumns(self):
-        """hides constant columns in PSM table by default by checking if every value equals"""
+        """hides constant columns in PSM table by default by checking if every value equals"""  # noqa: E501
         i = 0
         j = 0
         k = 0
@@ -245,7 +245,7 @@ class Window(QWidget):
 
         self.selectedPRT = accession
 
-        self.PRTFiltered = [p for p in self.PRTFull if p[0] == self.selectedPRT]
+        self.PRTFiltered = [p for p in self.PRTFull if p[0] == self.selectedPRT]  # noqa: E501
         self.createTable(self.tablePRTFiltered, self.PRTFiltered)
 
     def filterPSM(self, accession):
@@ -254,7 +254,7 @@ class Window(QWidget):
 
         self.selectedPSM = accession
 
-        self.PSMFiltered = [p for p in self.PSMFull if p[2] == self.selectedPSM]
+        self.PSMFiltered = [p for p in self.PSMFull if p[2] == self.selectedPSM]  # noqa: E501
         self.createTable(self.tablePSMFiltered, self.PSMFiltered)
 
     def unfilterPRT(self):
@@ -284,6 +284,7 @@ class Window(QWidget):
             accession = self.PSMFull[item.row()][2].split("|", 2)[1]
 
         webbrowser.open("https://www.uniprot.org/uniprot/" + accession)
+
 
 App = QApplication(sys.argv)
 window = Window()
