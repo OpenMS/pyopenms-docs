@@ -2,7 +2,7 @@ import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import (QWidget, QToolTip,
                              QPushButton, QApplication, QMainWindow,
-                             QAction, qApp, QApplication,
+                             QAction, qApp,
                              QHBoxLayout, QVBoxLayout, QMessageBox,
                              QLineEdit, QTableWidget, QTableWidgetItem,
                              QGridLayout, QScrollArea, QPlainTextEdit,
@@ -18,7 +18,10 @@ from Logic_LoadFasta_FastaViewer import*  # NOQA: E402
 
 class Window(QMainWindow):
     """
-    A class used to make and change the apperance of a Window
+    A class used to make and change the appearance of the FastaViewer.
+    It enables to load a fasta file of a colletion of protein sequences
+    and search for proteins by its accesion number, name or subsequence.
+
 
     ...
 
@@ -73,11 +76,11 @@ class Window(QMainWindow):
             Cuts the oldstring when proteinseq appears and returns a list of
             the cuts
 
-    lodafile(self)
+    loadFile(self)
             A function for the loadbutton that open QFileDialog and saves the
             Path to the file fo the logic class
 
-    clickprotein(self)
+    searchClicked(self)
             A function for the searchButtonP, it checks if input is correct
             and exc a search function
 
@@ -128,11 +131,11 @@ class Window(QMainWindow):
 
         self.searchButtonP = QtWidgets.QPushButton(self)
         self.searchButtonP.setText("search")
-        self.searchButtonP.clicked.connect(self.clickprotein)
+        self.searchButtonP.clicked.connect(self.searchClicked)
 
         self.loadbutton = QtWidgets.QPushButton(self)
         self.loadbutton.setText("load")
-        self.loadbutton.clicked.connect(self.loadingfile)
+        self.loadbutton.clicked.connect(self.loadFile)
 
         # creating testboxes for the buttons
         self.boxPro = QLineEdit(self)
@@ -236,7 +239,7 @@ class Window(QMainWindow):
         return cut
     # defining the function for load button to get path of database
 
-    def loadingfile(self):
+    def loadFile(self):
         """Gets QMainWindow and opens a QFileDialog and loads path
 
     Parameters
@@ -266,10 +269,158 @@ class Window(QMainWindow):
             self.cg.setData(0, 0, ID)
             self.cg.setData(1, 0, OS)
             self.cg.setData(2, 0, Proteinname)
+        self.tw.itemClicked.connect(self.clickTreeItem)
 
-    # defining the clickprotein method for the searchButtonP
+    # defining functions to display the protein sequence when TreeItem is clicked
 
-    def clickprotein(self):
+    def clickTreeItem(self, item):
+        '''Gets the item of the tree widget that was itemClicked and
+        creates two new child items of the item. One child item displays the
+        protein sequence in a QTextEdit the second child item displays a link to the protein
+        database UniProt.
+
+        Parameters
+        ----------
+        self : QTreeWidget
+        item : QTreeWidgetItem
+            the specific item that was clicked
+
+        Returns
+        -------
+        nothing , it creates two new child QTreeWidgetItems of the
+        clicked QTreeWidgetItem
+        '''
+        num = item.childCount()
+        # check nummer of child items to avoid adding new items for every click
+        if num == 0:
+            ID = item.data(0, 0)
+            index = list(self.dictKeyAccession.keys()).index(ID)
+            Protein = self.proteinList[index]
+            self.link = QLabel()
+            self.link.setTextInteractionFlags(
+                Qt.LinksAccessibleByMouse)
+            self.link.setOpenExternalLinks(True)
+            self.link.setTextFormat(Qt.RichText)
+            self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
+                              ID + ">" + "More Information"+" </a>")
+            self.textp = QTextEdit()
+            self.textp.resize(
+                self.textp.width(), self.textp.height())
+            self.textp.insertPlainText(
+                "Proteinsequenz: " + Protein + "\n")
+            self.textp.setReadOnly(True)
+            self.cgChild = QtWidgets.QTreeWidgetItem(
+                item)
+            self.cgChild2 = QtWidgets.QTreeWidgetItem(
+                item)
+            self.cgChild.setFirstColumnSpanned(True)
+            self.tw.setItemWidget(
+                self.cgChild, 0, self.textp)
+            self.tw.setItemWidget(
+                self.cgChild2, 0, self.link)
+
+    # same function as clickTreeItem but searches proetein sequence in DECOY list
+
+    def clickTreeItemDecoy(self, item):
+        num = item.childCount()
+        if num == 0:
+            ID = item.data(0, 0)
+            index = list(self.dictKeyAccessionDECOY).index(ID)
+            Protein = self.proteinListDECOY[index]
+            self.link = QLabel()
+            self.link.setTextInteractionFlags(
+                Qt.LinksAccessibleByMouse)
+            self.link.setOpenExternalLinks(True)
+            self.link.setTextFormat(Qt.RichText)
+            self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
+                              ID + ">" + "More Information"+" </a>")
+            self.textp = QTextEdit()
+            self.textp.resize(
+                self.textp.width(), self.textp.height())
+            self.textp.insertPlainText(
+                "Proteinsequenz: " + Protein + "\n")
+            self.textp.setReadOnly(True)
+            self.cgChild = QtWidgets.QTreeWidgetItem(
+                item)
+            self.cgChild2 = QtWidgets.QTreeWidgetItem(
+                item)
+            self.cgChild.setFirstColumnSpanned(True)
+            self.tw.setItemWidget(
+                self.cgChild, 0, self.textp)
+            self.tw.setItemWidget(
+                self.cgChild2, 0, self.link)
+
+    #function for displaying the protein sequence after subsequence search
+
+    def clickTreeItemSeqSearch(self, item):
+        '''Gets the item of the tree widget that was itemClicked and
+        creates two new child items of the item. One empty child item and
+        the second child item displays a link to the protein
+        database UniProt.
+
+        Parameters
+        ----------
+        self : QTreeWidget
+        item : QTreeWidgetItem
+            the specific item that was clicked
+
+        Returns
+        -------
+        nothing , it creates two new child QTreeWidgetItems of the
+        clicked QTreeWidgetItem
+        '''
+        num = item.childCount()
+        if num == 0:
+            ID = item.data(0, 0)
+            ProtSeq = self.SequencSearchDict.get(ID)
+            print(ProtSeq)
+            self.link = QLabel()
+            self.link.setTextInteractionFlags(
+                Qt.LinksAccessibleByMouse)
+            self.link.setOpenExternalLinks(True)
+            self.link.setTextFormat(Qt.RichText)
+            self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
+                              ID + ">" + "More Information"+" </a>")
+
+            self.cgChild = QtWidgets.QTreeWidgetItem(
+                item)
+            self.cgChild2 = QtWidgets.QTreeWidgetItem(
+                item)
+            self.cgChild.setFirstColumnSpanned(True)
+            self.tw.setItemWidget(
+                self.cgChild, 0, ProtSeq)
+            self.tw.setItemWidget(
+                self.cgChild2, 0, self.link)
+
+    # same function as clickTreeItemSeqSearch but searches proetein sequence in DECOY list
+
+    def clickTreeItemSeqSearchDecoy(self, item):
+        num = item.childCount()
+        if num == 0:
+            ID = item.data(0, 0)
+            index = list(self.dictKeyAccessionDECOY.keys()).index(ID)
+            Protein = self.proteinListDECOY[index]
+            self.link = QLabel()
+            self.link.setTextInteractionFlags(
+                Qt.LinksAccessibleByMouse)
+            self.link.setOpenExternalLinks(True)
+            self.link.setTextFormat(Qt.RichText)
+            self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
+                              ID + ">" + "More Information"+" </a>")
+
+            self.cgChild = QtWidgets.QTreeWidgetItem(
+                item)
+            self.cgChild2 = QtWidgets.QTreeWidgetItem(
+                item)
+            self.cgChild.setFirstColumnSpanned(True)
+            self.tw.setItemWidget(
+                self.cgChild, 0, Protein)
+            self.tw.setItemWidget(
+                self.cgChild2, 0, self.link)
+
+    # defining the searchClicked method for the searchButtonP
+
+    def searchClicked(self):
         """Gets self and searches for Protein and shows the result
         on QMainWindow
 
@@ -298,13 +449,13 @@ class Window(QMainWindow):
                 self.error.setWindowTitle("Error")
                 a = self.error.exec_()
             else:
-                if self.radioid.isChecked() == True:
+                if self.radioid.isChecked():
                     self.radioIdSearch()
 
-                if self.radioseq.isChecked() == True:
+                if self.radioseq.isChecked():
                     self.sequenceSearch()
 
-                if self.radioname.isChecked() == True:
+                if self.radioname.isChecked():
                     self.nameSearch()
         # doc recommends enabling sorting after loading the tree with elements
         self.tw.setSortingEnabled(True)
@@ -342,36 +493,13 @@ class Window(QMainWindow):
                     self.cg.setData(0, 0, ID)
                     self.cg.setData(1, 0, OS)
                     self.cg.setData(2, 0, Proteinname)
-                    self.link = QLabel()
-
-                    self.link.setTextInteractionFlags(
-                        Qt.LinksAccessibleByMouse)
-                    self.link.setOpenExternalLinks(True)
-                    self.link.setTextFormat(Qt.RichText)
-                    self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
-                                      ID + ">" + "More Information"+" </a>")
-                    self.textp = QTextEdit()
-                    self.textp.resize(
-                        self.textp.width(), self.textp.height())
-                    self.textp.insertPlainText(
-                        "Proteinsequenz: " + Protein + "\n")
-
-                    self.textp.setReadOnly(True)
-
-                    self.cgChild = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild2 = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild.setFirstColumnSpanned(True)
-                    self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
-                    self.tw.setItemWidget(
-                        self.cgChild2, 0, self.link)
 
             header = self.tw.header()
             header.setSectionResizeMode(
                 QtWidgets.QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
+            self.tw.itemClicked.disconnect()
+            self.tw.itemClicked.connect(self.clickTreeItemDecoy)
 
         else:
             for protein_accession in self.dictKeyAccession:
@@ -388,37 +516,13 @@ class Window(QMainWindow):
                     self.cg.setData(0, 0, ID)
                     self.cg.setData(1, 0, OS)
                     self.cg.setData(2, 0, Proteinname)
-                    self.link = QLabel()
-
-                    self.link.setTextInteractionFlags(
-                        Qt.LinksAccessibleByMouse)
-                    self.link.setOpenExternalLinks(True)
-                    self.link.setTextFormat(Qt.RichText)
-                    self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
-                                      ID + ">" + "More Information"+" </a>")
-
-                    self.textp = QTextEdit()
-                    self.textp.resize(
-                        self.textp.width(), self.textp.height())
-                    self.textp.insertPlainText(
-                        "Proteinsequenz: " + Protein + "\n")
-
-                    self.textp.setReadOnly(True)
-
-                    self.cgChild = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild2 = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild.setFirstColumnSpanned(True)
-                    self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
-                    self.tw.setItemWidget(
-                        self.cgChild2, 0, self.link)
 
             header = self.tw.header()
             header.setSectionResizeMode(
                 QtWidgets.QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
+            self.tw.itemClicked.disconnect()
+            self.tw.itemClicked.connect(self.clickTreeItem)
 
         if not atLeastOneProteinFound:
             self.msg = QMessageBox()
@@ -446,6 +550,9 @@ class Window(QMainWindow):
         """
         atLeastOneProteinFound = False
         protein_sub_sequence = self.boxPro.text()
+        # dictionaries with ID as key and corresponding QTextEdit with protein sequence as value
+        self.SequencSearchDict = {}
+        self.SequencSearchDictDECOY = {}
 
         if self.decoycheck.isChecked():
             for protein_sequence in self.proteinListDECOY:
@@ -463,14 +570,6 @@ class Window(QMainWindow):
                     self.cg.setData(0, 0, ID)
                     self.cg.setData(1, 0, OS)
                     self.cg.setData(2, 0, Proteinname)
-                    self.link = QLabel()
-
-                    self.link.setTextInteractionFlags(
-                        Qt.LinksAccessibleByMouse)
-                    self.link.setOpenExternalLinks(True)
-                    self.link.setTextFormat(Qt.RichText)
-                    self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
-                                      ID + ">" + "More Information"+" </a>")
 
                     self.textp = QTextEdit()
                     self.textp.resize(
@@ -509,20 +608,14 @@ class Window(QMainWindow):
                     self.textp.insertPlainText("\n")
 
                     self.textp.setReadOnly(True)
+                    self.SequencSearchDictDECOY[ID] = self.textp
 
-                    self.cgChild = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild2 = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild.setFirstColumnSpanned(True)
-                    self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
-                    self.tw.setItemWidget(
-                        self.cgChild2, 0, self.link)
             header = self.tw.header()
             header.setSectionResizeMode(
                 QtWidgets.QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
+            self.tw.itemClicked.disconnect()
+            self.tw.itemClicked.connect(self.clickTreeItemSeqSearchDecoy)
 
         else:
             for protein_sequence in self.proteinList:
@@ -539,15 +632,6 @@ class Window(QMainWindow):
                     self.cg.setData(0, 0, ID)
                     self.cg.setData(1, 0, OS)
                     self.cg.setData(2, 0, Proteinname)
-
-                    self.link = QLabel()
-
-                    self.link.setTextInteractionFlags(
-                        Qt.LinksAccessibleByMouse)
-                    self.link.setOpenExternalLinks(True)
-                    self.link.setTextFormat(Qt.RichText)
-                    self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
-                                      ID + ">" + "More Information"+" </a>")
 
                     self.textp = QTextEdit()
                     self.textp.resize(
@@ -585,21 +669,14 @@ class Window(QMainWindow):
                                     self.colorblack)
 
                     self.textp.setReadOnly(True)
-
-                    self.cgChild = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild2 = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild.setFirstColumnSpanned(True)
-                    self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
-                    self.tw.setItemWidget(
-                        self.cgChild2, 0, self.link)
+                    self.SequencSearchDict[ID] = self.textp
 
             header = self.tw.header()
             header.setSectionResizeMode(
                 QtWidgets.QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
+            self.tw.itemClicked.disconnect()
+            self.tw.itemClicked.connect(self.clickTreeItemSeqSearch)
 
         if not atLeastOneProteinFound:
             self.msg = QMessageBox()
@@ -643,37 +720,12 @@ class Window(QMainWindow):
                     self.cg.setData(1, 0, OS)
                     self.cg.setData(2, 0, Proteinname)
 
-                    self.link = QLabel()
-
-                    self.link.setTextInteractionFlags(
-                        Qt.LinksAccessibleByMouse)
-                    self.link.setOpenExternalLinks(True)
-                    self.link.setTextFormat(Qt.RichText)
-                    self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
-                                      ID + ">" + "More Information"+" </a>")
-
-                    self.textp = QTextEdit()
-                    self.textp.resize(
-                        self.textp.width(), self.textp.height())
-                    self.textp.insertPlainText(
-                        "\nProteinsequenz: " + Protein + "\n")
-
-                    self.textp.setReadOnly(True)
-
-                    self.cgChild = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild2 = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild.setFirstColumnSpanned(True)
-                    self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
-                    self.tw.setItemWidget(
-                        self.cgChild2, 0, self.link)
-
             header = self.tw.header()
             header.setSectionResizeMode(
                 QtWidgets.QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
+            self.tw.itemClicked.disconnect()
+            self.tw.itemClicked.connect(self.clickTreeItemDecoy)
 
         else:
             for protein_name in self.proteinNameList:
@@ -691,36 +743,12 @@ class Window(QMainWindow):
                     self.cg.setData(1, 0, OS)
                     self.cg.setData(2, 0, Proteinname)
 
-                    self.link = QLabel()
-
-                    self.link.setTextInteractionFlags(
-                        Qt.LinksAccessibleByMouse)
-                    self.link.setOpenExternalLinks(True)
-                    self.link.setTextFormat(Qt.RichText)
-                    self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
-                                      ID + ">" + "More Information"+" </a>")
-
-                    self.textp = QTextEdit()
-                    self.textp.resize(
-                        self.textp.width(), self.textp.height())
-                    self.textp.insertPlainText(
-                        "Proteinsequenz: " + Protein + "\n")
-
-                    self.textp.setReadOnly(True)
-                    self.cgChild = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild2 = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild.setFirstColumnSpanned(True)
-                    self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
-                    self.tw.setItemWidget(
-                        self.cgChild2, 0, self.link)
-
             header = self.tw.header()
             header.setSectionResizeMode(
                 QtWidgets.QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
+            self.tw.itemClicked.disconnect()
+            self.tw.itemClicked.connect(self.clickTreeItem)
 
         if not atLeastOneProteinFound:
             self.msg = QMessageBox()
