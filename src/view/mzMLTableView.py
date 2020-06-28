@@ -36,9 +36,7 @@ class mzMLTableView(QWidget):
         self.initButtons()
         self.changeListener()
 
-        """
-        Layout for the entire View
-        """
+        # layout for the view 
         layout = QVBoxLayout()
         layout.addWidget(self.buttons)
         layout.addWidget(self.table)

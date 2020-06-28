@@ -86,7 +86,7 @@ class FileHandler:
                 fileToWrite.write(table.to_csv(
                     sep=separator, encoding=encodingOption))
             return True
-        except:
+        except IOError:
             e = sys.exc_info()[0]
             return e
 
