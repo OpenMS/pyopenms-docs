@@ -6,6 +6,7 @@ sys.path.append(os.getcwd()+'/../view')
 from FastaViewer import FastaViewer
 from ConfigView import ConfigView
 from mzMLTableView import mzMLTableView
+from SpecViewer import Specviewer
 
 
 class FinalBox(QMainWindow):
@@ -23,15 +24,15 @@ class FinalBox(QMainWindow):
         '''
         view = QTabWidget()
         cview = ConfigView()
-        tView = mzMLTableView()
-        # sview = ()
+        tview = mzMLTableView()
+        sview = Specviewer()
         fview = FastaViewer()
         # xview = ()
 
         view.addTab(cview, 'XML-Viewer')
-        view.addTab(tView, 'Experimental-Design')
-        # view.addTab(sView, 'Spec-Viewer')
+        view.addTab(tview, 'Experimental-Design')
         view.addTab(fview, 'Fasta-Viewer')
+        view.addTab(sview, 'Spec-Viewer')
         # view.addTab(xView, 'Viewer')
 
         menubar = self.menuBar()
