@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import (
 )
 
 sys.path.insert(0, "../view")
-from ScanBrowserWidget import ScanBrowserWidget# noqa: E402
+from ScanBrowserWidget import ScanBrowserWidget  # noqa: E402
 
 # structure for annotation (here for reference)
 PeakAnnoStruct = namedtuple(

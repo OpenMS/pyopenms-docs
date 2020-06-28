@@ -11,6 +11,7 @@ from ScanTableWidget import ScanTableWidget
 
 from src.view.SpectrumWidget import SpectrumWidget
 
+
 class ScanBrowserWidget(QWidget):
     def __init__(self, *args, **kwargs):
         QWidget.__init__(self, *args, **kwargs)

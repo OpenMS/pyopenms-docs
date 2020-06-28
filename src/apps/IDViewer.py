@@ -14,7 +14,7 @@ from PyQt5.QtWidgets import (
 )
 
 sys.path.insert(0, "../view")
-from ControllerWidget import ControllerWidget # noqa: E402
+from ControllerWidget import ControllerWidget  # noqa: E402
 
 # structure for annotation (here for reference)
 PeakAnnoStruct = namedtuple(

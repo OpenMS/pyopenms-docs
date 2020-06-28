@@ -1,18 +1,18 @@
 import os
 import sys
 import timeit
-import pandas as pd
+import pandas as pd #noqa
 import math
-from PyQt5 import Qt
-from PyQt5.QtCore import QPersistentModelIndex
+# from PyQt5 import Qt
+# from PyQt5.QtCore import QPersistentModelIndex
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QFileDialog, \
         QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, \
-        QVBoxLayout, QGridLayout, QInputDialog, QLineEdit, QMessageBox, \
+        QVBoxLayout, QInputDialog, QLineEdit, QMessageBox, \
         QAbstractItemView
 sys.path.append(os.getcwd() + '/../controller')
-from filehandler import FileHandler as fh
+from filehandler import FileHandler as fh  # noqa: E402
 sys.path.append(os.getcwd() + '/../model')
-from tableDataFrame import TableDataFrame as Tdf
+from tableDataFrame import TableDataFrame as Tdf  # noqa: E402
 
 
 class mzMLTableView(QWidget):
@@ -36,7 +36,7 @@ class mzMLTableView(QWidget):
         self.initButtons()
         self.changeListener()
 
-        # layout for the view 
+        # layout for the view
         layout = QVBoxLayout()
         layout.addWidget(self.buttons)
         layout.addWidget(self.table)

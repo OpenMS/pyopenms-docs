@@ -192,8 +192,8 @@ class SpectrumWidget(PlotWidget):
     def _clear_ladder_item(self, key):
         for p in self._ladder_anno_lines[key]:
             p.clear()
-        for l in self._ladder_anno_labels[key]:
-            l.setPos(0, 0)
+        for ladder in self._ladder_anno_labels[key]:
+            ladder.setPos(0, 0)
         del self._ladder_anno_lines[key]
         del self._ladder_anno_labels[key]
 

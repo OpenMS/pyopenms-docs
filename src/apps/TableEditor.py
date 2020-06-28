@@ -1,9 +1,9 @@
 import sys
 import os
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget # noqa
-from PyQt5.QtCore import Qt # noqa
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QDesktopWidget)  # noqa
+from PyQt5.QtCore import Qt  # noqa
 sys.path.append(os.getcwd()+'/../view')
-from mzMLTableView import mzMLTableView # noqa: E402
+from mzMLTableView import mzMLTableView  # noqa: E402
 
 
 class TableEditor(QMainWindow):

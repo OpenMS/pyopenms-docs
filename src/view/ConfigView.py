@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTreeWidget, \
     QTreeWidgetItem, QFileDialog,  \
-      QPlainTextEdit, QCheckBox, QHeaderView
+    QPlainTextEdit, QCheckBox, QHeaderView
 # from PyQt5.QtCore import Qt
 import xml.etree.ElementTree as ET
 
