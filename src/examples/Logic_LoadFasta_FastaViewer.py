@@ -45,15 +45,19 @@ class Logic_LoadFasta_FastaViewer:
 
                         # find out up to which index the OS goes
                         os_upper_index = seqs.find('(')
-                        os = ''
+                        os = 'not found'
 
                         # if no upper index for the OS was found use the line from "OS=" till end of line
                         if (os_upper_index == -1):
-                            stringFrom_OS_TillEndOfLine = seqs[descr_upper_index+3:]
-                            listOfAllWordsTillEndOfLine = stringFrom_OS_TillEndOfLine.split()
-                            os = listOfAllWordsTillEndOfLine[0] + ' ' + listOfAllWordsTillEndOfLine[1]
+                            if not (descr_upper_index == -1):
+                                stringFrom_OS_TillEndOfLine = seqs[descr_upper_index+3:]
+                                listOfAllWordsTillEndOfLine = stringFrom_OS_TillEndOfLine.split()
+                                os = listOfAllWordsTillEndOfLine[0] + ' ' + listOfAllWordsTillEndOfLine[1]
 
-                        name = (seqs[bounds[1]+1:descr_upper_index])
+                        name = 'not found'
+                        if not (descr_upper_index == -1):
+                            name = (seqs[bounds[1]+1:descr_upper_index])
+
                         stringValue = ""
                         indexShift = 0
                         nextLine = next(file_content)
@@ -76,7 +80,7 @@ class Logic_LoadFasta_FastaViewer:
                         proteinListDECOY.append(stringValue)
                         proteinNameListDECOY.append(name)
 
-                        if (os_upper_index == -1):
+                        if (os_upper_index == -1 or descr_upper_index == -1):
                             proteinOSListDECOY.append(os)
                         else:
                             proteinOSListDECOY.append((seqs[descr_upper_index+3:os_upper_index]))
@@ -137,15 +141,19 @@ class Logic_LoadFasta_FastaViewer:
 
                         # find out up to which index the OS goes
                         os_upper_index = seqs.find('(')
-                        os = ''
+                        os = 'not found'
 
                         # if no upper index for the OS was found use the line from "OS=" till end of line
                         if (os_upper_index == -1):
-                            stringFrom_OS_TillEndOfLine = seqs[descr_upper_index+3:]
-                            listOfAllWordsTillEndOfLine = stringFrom_OS_TillEndOfLine.split()
-                            os = listOfAllWordsTillEndOfLine[0] + ' ' + listOfAllWordsTillEndOfLine[1]
+                            if not (descr_upper_index == -1):
+                                stringFrom_OS_TillEndOfLine = seqs[descr_upper_index+3:]
+                                listOfAllWordsTillEndOfLine = stringFrom_OS_TillEndOfLine.split()
+                                os = listOfAllWordsTillEndOfLine[0] + ' ' + listOfAllWordsTillEndOfLine[1]
 
-                        name = (seqs[bounds[1]+1:descr_upper_index])
+                        name = 'not found'
+                        if not (descr_upper_index == -1):
+                            name = (seqs[bounds[1]+1:descr_upper_index])
+
                         stringValue = ""
                         indexShift = 0
                         nextLine = next(file_content)
@@ -168,7 +176,7 @@ class Logic_LoadFasta_FastaViewer:
                         proteinList.append(stringValue)
                         proteinNameList.append(name)
 
-                        if (os_upper_index == -1):
+                        if (os_upper_index == -1 or descr_upper_index == -1):
                             proteinOSList.append(os)
                         else:
                             proteinOSList.append((seqs[descr_upper_index+3:os_upper_index]))
