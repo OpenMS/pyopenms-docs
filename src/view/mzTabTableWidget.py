@@ -17,7 +17,13 @@ change the path within the InitWindow.
 import sys
 import webbrowser
 from PyQt5 import QtGui
-from PyQt5.QtWidgets import QApplication, QWidget, QTableWidget, QVBoxLayout, QTableWidgetItem
+from PyQt5.QtWidgets import(
+    QApplication,
+    QWidget, 
+    QTableWidget,
+    QVBoxLayout, 
+    QTableWidgetItem,
+    )
 
 
 class Window(QWidget):
@@ -98,8 +104,8 @@ class Window(QWidget):
         self.show()
 
     def parser(self, file):
-        """parses the given mzTab file and saves PRT and PSM information
-        Parameters
+        """parses the given mzTab file and saves 
+        PRT and PSM information Parameters
         ----------
         file : str
             The file path of the mzTab file
@@ -148,7 +154,7 @@ class Window(QWidget):
         Content to be drawn in list form
         Setting count to zero empties the table.
         Then table is (re-)filled with specified content"""
-        
+
         table.setRowCount(0)
         table.setRowCount(len(content))
 

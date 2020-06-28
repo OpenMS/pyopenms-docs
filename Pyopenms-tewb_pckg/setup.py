@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name ="pyopenms-tewb",
+    name="pyopenms-tewb",
     version="0.0.1",
     author="Sevvalli Thavapalan, Till Englert, Fabian Würth, Philipp Baltik",
     author_email="sevvalli.thavapalan@student.uni-tuebingen.de",
