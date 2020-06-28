@@ -1,7 +1,7 @@
 import os
 import sys
 import timeit
-import pandas as pd #noqa
+import pandas as pd  # noqa
 import math
 # from PyQt5 import Qt
 # from PyQt5.QtCore import QPersistentModelIndex
