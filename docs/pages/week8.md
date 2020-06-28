@@ -9,12 +9,18 @@
     - Todo:
         - Noch ist das QTreeWidget unveränderbar
         - Bisher noch nicht möglich den Tree wieder zu speichern
-    
+
     - Änderungen im TableEditor Widget:
         - Dataframe wurde nicht aktualisiert wenn von Hand Änderungen durchgeführt wurden. Dies führte zu Problemen beim Exportieren der Tabelle. ✔️
 
-2. Jede Gruppe schickt bitte nochmal explizit den Github IO Pages Link per Email an alle Betreuer.✔️
+2. Jede Gruppe schickt bitte nochmal explizit den Github IO Pages Link per Email an alle Betreuer.
 3. Bis Mittwoch hat jede Gruppe einen sauberen(!) Pull Request erstellt, so dass die
 anderen Teams anfangen können zu arbeiten ✔️
-4. Erstellt eine Hauptapplikation die den Code der anderen Gruppen jeweils mit
-verwendet.
+
+4. Erstellt eine Hauptapplikation die den Code der anderen Gruppen jeweils mit verwendet.
+    - Fertige Version des XML - Viewers: Es wurden unsere beiden Applikation(XML - Viewer und Experimental Design) und der Fasta-viewer hinzugefügt:
+     ![alt text](../Screenshots/Finalbox.png )
+    - mzTabTablewidget von der dritten Gruppe wurde noch nicht eingefügt, da man die Datei noch nicht manuell  einlesen kann, sondern der path angegeben werden
+     muss
+     ![alt text](../Screenshots/parsermzTabTableWidget.png )
+     ![alt text](../Screenshots/tablemz.png )
