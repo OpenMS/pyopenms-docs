@@ -1,8 +1,5 @@
 
-import webbrowser
-
-import timeit
-
+import re
 
 class Logic_LoadFasta_FastaViewer:
 
@@ -34,9 +31,12 @@ class Logic_LoadFasta_FastaViewer:
             # Go through the fasta file, line by line
             for seqs in file_content:
 
-                # is decoy -> use seperate List
+                # is decoy -> use seperate List to safe informations
                 if seqs.startswith('>DECOY'):
-                    bounds = find_all_indexes(seqs, '|')
+
+                    # find upper and lower index of Protein Accession (ID)
+                    bounds = bounds = find_all_indexes(seqs, '|')
+                    #[m.start() for m in re.finditer('|', seqs)]
 
                     # if a Protein Accesion (ID) was found
                     if len(bounds) != 0:
@@ -124,8 +124,10 @@ class Logic_LoadFasta_FastaViewer:
                         else:
                             proteinOSListDECOY.append((seqs[descr_upper_index+3:os_upper_index]))
 
-                # is no decoy -> use 'usual' list
+                # is no decoy -> use 'usual' list to safe Protein informations
                 elif seqs.startswith('>'):
+
+                    # find upper and lower index of Protein Accession (ID)
                     bounds = find_all_indexes(seqs, '|')
 
                     # if a Protein Accesion (ID) was found
@@ -243,6 +245,9 @@ def find_all_indexes(input_str, search_str):
 
 def main():
 
+
+    # for testing purposes only
+    # use your own path for it
     dictKeyAccession, proteinList, proteinNameList, proteinOSList, dictKeyAccessionDECOY, proteinListDECOY, proteinNameListDECOY, proteinOSListDECOY = Logic_LoadFasta_FastaViewer.protein_dictionary(
         "C:/Users/Alex/Desktop/iPRG2015_target_decoy_nocontaminants.fasta")
 
@@ -250,7 +255,7 @@ def main():
 
     for protein_name in proteinNameList:
         if proteinnameSub in protein_name:
-            print("Protein: " + protein_name)
+            print("Proteinname: " + protein_name)
             # Test für Webbrowser Funktionalität
             # moreProteinInformation(protein_accession)
 
