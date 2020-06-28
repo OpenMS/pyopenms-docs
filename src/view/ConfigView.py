@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTreeWidget, \
     QDesktopWidget, QMainWindow, QPlainTextEdit, QCheckBox, QHeaderView
 from PyQt5.QtCore import Qt
 import xml.etree.ElementTree as ET
+from defusedxml.ElementTree import parse
 
 
 class ConfigView(QWidget):
@@ -58,7 +59,7 @@ class ConfigView(QWidget):
             self, "QFileDialog.getOpenFileName()", "",
             "All Files (*);;ini (*.ini)")
         if file:
-            self.tree = ET.parse(file)
+            self.tree = parse(file)
             self.drawTree()
 
             self.header.setSectionResizeMode(QHeaderView.ResizeToContents)
