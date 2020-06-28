@@ -1,9 +1,8 @@
 import sys, os
-from PyQt5.QtWidgets import QApplication, QVBoxLayout, QMainWindow, \
-     QDesktopWidget, QWidget, QPushButton, QAction
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, QAction
+# from PyQt5.QtCore import Qt
 sys.path.append(os.getcwd()+'/../view')
-from ConfigView import ConfigView
+from ConfigView import ConfigView # noqa: E402
 
 
 class XMLViewer(QMainWindow):

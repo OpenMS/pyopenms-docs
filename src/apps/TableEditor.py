@@ -1,8 +1,9 @@
-import sys, os
-from PyQt5.QtWidgets import QApplication, QHBoxLayout, QMainWindow, QDesktopWidget, QWidget
-from PyQt5.QtCore import Qt
+import sys
+import os
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget # noqa
+from PyQt5.QtCore import Qt # noqa
 sys.path.append(os.getcwd()+'/../view')
-from mzMLTableView import mzMLTableView
+from mzMLTableView import mzMLTableView # noqa: E402
 
 
 class TableEditor(QMainWindow):
@@ -39,4 +40,3 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = TableEditor()
     sys.exit(app.exec_())
-    
