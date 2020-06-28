@@ -5,7 +5,7 @@ from GUI_EXAMPLE_BASE import GUI_EXAMPLE_BASE
 from PyQt5.QtWidgets import QApplication
 
 sys.path.insert(0, "../view")
-from MS1MapWidget import MS1MapWidget
+from MS1MapWidget import MS1MapWidget # noqa: E402
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

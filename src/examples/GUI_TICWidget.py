@@ -6,7 +6,7 @@ from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import QApplication
 
 sys.path.insert(0, "../view")
-from TICWidget import TICWidget
+from TICWidget import TICWidget # noqa: E402
 
 
 # mock object to test the mouse click signal by TICWidget
