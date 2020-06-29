@@ -1,3 +1,5 @@
+on: [pull_request]
+
 jobs:
   spelling:
     runs-on: ubuntu-latest
