@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import (QWidget, QToolTip,
                              QGroupBox, QSizePolicy, QCheckBox, QFileDialog,
                              QTextEdit, QTextBrowser)
 from PyQt5.QtGui import QFont, QColor, QTextCharFormat, QTextCursor
-from PyQt5.QtCore import *  # Qt, QUrl
+from PyQt5.QtCore import Qt, QUrl
 # from dictionaries import Dict
 sys.path.insert(0, '../examples')
 from Logic_LoadFasta_FastaViewer import*  # NOQA: E402
@@ -350,7 +350,7 @@ class Window(QMainWindow):
             self.tw.setItemWidget(
                 self.cgChild2, 0, self.link)
 
-    #function for displaying the protein sequence after subsequence search
+    # function for displaying the protein sequence after subsequence search
 
     def clickTreeItemSeqSearch(self, item):
         '''Gets the item of the tree widget that was itemClicked and
