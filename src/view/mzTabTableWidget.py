@@ -12,8 +12,8 @@ change the path within the InitWindow.
 """
 import sys
 import webbrowser
-from PyQt5 import QtGui
-from PyQt5.QtWidgets import QApplication, QWidget, QTableWidget, QVBoxLayout, QTableWidgetItem
+from PyQt5 import QtGui, QtWidgets
+from PyQt5.QtWidgets import QApplication, QWidget, QTableWidget, QVBoxLayout, QTableWidgetItem, QPushButton, QFileDialog
 
 
 class Window(QWidget):
@@ -57,19 +57,14 @@ class Window(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.top, self.left, self.width, self.height)
 
-        self.parser('/home/fabian/Downloads/test1.mzTab')
-
-        self.PRTColumn *= len(self.PRTFull[1])
-        self.PSMColumn *= len(self.PSMFull[1])
-
-        self.initTables()
-        self.createTable(self.tablePRTFull, self.PRTFull)
-        self.createTable(self.tablePSMFull, self.PSMFull)
+        self.tablePRTFull.setHidden(True)
+        self.tablePSMFull.setHidden(True)
         self.tablePRTFiltered.setHidden(True)
         self.tablePSMFiltered.setHidden(True)
 
-        self.hidePRTColumns()
-        self.hidePSMColumns()
+        self.loadButton = QtWidgets.QPushButton(self)
+        self.loadButton.setText("load")
+        self.loadButton.clicked.connect(self.loadFile)
 
         self.tablePRTFull.itemClicked.connect(self.PRTClicked)
         self.tablePRTFiltered.itemClicked.connect(self.PRTClicked)
@@ -92,6 +87,25 @@ class Window(QWidget):
 
         self.setLayout(self.outerVBox)
         self.show()
+
+    def loadFile(self):
+        self.filename = QFileDialog.getOpenFileName()
+
+        self.parser(self.filename[0])
+
+        self.PRTColumn *= len(self.PRTFull[1])
+        self.PSMColumn *= len(self.PSMFull[1])
+
+        self.initTables()
+        self.createTable(self.tablePRTFull, self.PRTFull)
+        self.createTable(self.tablePSMFull, self.PSMFull)
+
+        self.hidePRTColumns()
+        self.hidePSMColumns()
+
+        self.tablePRTFull.setHidden(False)
+        self.tablePSMFull.setHidden(False)
+
 
     def parser(self, file):
         """parses the given mzTab file and saves PRT and PSM information
