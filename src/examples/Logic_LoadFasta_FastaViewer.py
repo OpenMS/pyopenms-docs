@@ -1,6 +1,5 @@
 
 import re
-import logging
 
 class Logic_LoadFasta_FastaViewer:
 
