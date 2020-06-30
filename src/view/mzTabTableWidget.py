@@ -27,6 +27,8 @@ class Window(QWidget):
         self.height = 500
         self.tableRows = 5
 
+        self.fileLoaded = False
+
         self.PRTFull = []
         self.PSMFull = []
 
@@ -89,6 +91,29 @@ class Window(QWidget):
         self.show()
 
     def loadFile(self):
+        if self.fileLoaded:
+            self.tablePRTFull.clear()
+            self.tablePSMFull.clear()
+            self.tablePSMFiltered.clear()
+            self.tablePRTFiltered.clear()
+
+            self.tablePRTFull.setRowCount(0)
+            self.tablePSMFull.setRowCount(0)
+            self.tablePSMFiltered.setRowCount(0)
+            self.tablePRTFiltered.setRowCount(0)
+
+            self.PRTFull.clear()
+            self.PSMFull.clear()
+
+            self.PRTFiltered.clear()
+            self.PSMFiltered.clear()
+
+            self.PRTColumn.clear()
+            self.PSMColumn.clear()
+
+            self.PRTColumn = [True]
+            self.PSMColumn = [True]
+
         self.filename = QFileDialog.getOpenFileName()
 
         self.parser(self.filename[0])
@@ -105,6 +130,8 @@ class Window(QWidget):
 
         self.tablePRTFull.setHidden(False)
         self.tablePSMFull.setHidden(False)
+
+        self.fileLoaded = True
 
 
     def parser(self, file):
