@@ -30,9 +30,11 @@ class mzMLTableView(QWidget):
 
         self.df = pd.DataFrame()
         self.tdf = Tdf
+        self.drawtableactive = False
 
         self.initTable()
         self.initButtons()
+        self.changeListener()
 
         """
         Layout for the entire View
@@ -116,7 +118,7 @@ class mzMLTableView(QWidget):
         # Disabled buttons until function are added
         Buttons[9].setEnabled(False)
 
-        #init changelistener on textbox
+        # init changelistener on textbox
         self.textbox.textChanged[str].connect(self.filterTable)
         if self.testForTime:
             rt = timeit.default_timer() - starttime
@@ -126,6 +128,7 @@ class mzMLTableView(QWidget):
         """
         draws a table with the dataframe table model in tableDataFrame
         """
+        self.drawtableactive = True
         if self.testForTime:
             starttime = timeit.default_timer()
             print("Starttime of drawTable : ", starttime)
@@ -146,6 +149,8 @@ class mzMLTableView(QWidget):
                 else:
                     item = str(tabledf.at[row, col])
                     self.table.setItem(r, c, QTableWidgetItem(item))
+
+        self.drawtableactive = False
 
         if self.testForTime:
             rt = timeit.default_timer() - starttime
@@ -473,9 +478,10 @@ class mzMLTableView(QWidget):
 
     def filterTable(self):
         """
-        get changes from textbox and update table when more than 3 characters are given.
-        then update table with the rows that contain the input in the give column. 
-
+        get changes from textbox and update table when
+        more than 3 characters are given.
+        then update table with the rows that
+        contain the input in the give column.
         """
         tb = self.textbox
         givencolumn = "Spectra_Filepath"
@@ -484,8 +490,29 @@ class mzMLTableView(QWidget):
         validDf = not(ft.empty or ft.dropna().empty)
         print(validDf)
         print(type(ft))
-        if len(tbinput) >=3:
+        if len(tbinput) >= 3:
             rowstoshow = ft[ft[givencolumn].str.contains(tbinput)]
             # prints the rows containing the input
             print(rowstoshow)
             # updated table funtion goes here
+
+    def changeListener(self):
+        self.table.itemChanged.connect(self.editField)
+
+    def editField(self):
+        if len(self.table.selectedItems()) == 1:
+            if not self.drawtableactive:
+                itemchanged = self.table.currentItem()
+                newvalue = itemchanged.text()
+                row = itemchanged.row()
+                column = itemchanged.column()
+                if column != 2:
+                    Tdf.modifyField(self, row, column, newvalue)
+                    self.drawTable()
+                else:
+                    QMessageBox.about(self, "Warning", "Please only, " +
+                                            "modify attribute columns," +
+                                            "not the filepath.\n" +
+                                            "To change the filepath," +
+                                            "use remove and add file.")
+                    self.drawTable()

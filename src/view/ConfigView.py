@@ -24,10 +24,12 @@ class ConfigView(QWidget):
         self.treeWidget.itemSelectionChanged.connect(self.loadDescription)
 
         btns = QWidget(self)
-        # loadbtn = QPushButton('Load')
-        # savebtn = QPushButton('Save')
-        # loadbtn.clicked.connect(self.openXML)
-        # savebtn.clicked.connect(self.saveFile)
+        loadbtn = QPushButton('Load')
+        loadbtn.setMaximumWidth(80)
+        savebtn = QPushButton('Save')
+        savebtn.setMaximumWidth(80)
+        loadbtn.clicked.connect(self.openXML)
+        savebtn.clicked.connect(self.saveFile)
 
         self.checkbox = QCheckBox('Show advanced parameters')
         self.checkbox.setChecked(True)
@@ -36,12 +38,14 @@ class ConfigView(QWidget):
         self.textbox = QPlainTextEdit(self)
         self.textbox.setReadOnly(True)
 
-        btnlayout = QVBoxLayout()
+        btnlayout = QHBoxLayout()
         layout = QVBoxLayout()
 
+        btnlayout.addWidget(loadbtn)
+        btnlayout.addWidget(savebtn)
         btnlayout.addWidget(self.checkbox)
         btns.setLayout(btnlayout)
-
+        btns.setFixedWidth(500)
         layout.addWidget(self.treeWidget, 6)
         layout.addWidget(self.textbox, 1)
         layout.addWidget(btns, 0.5)
