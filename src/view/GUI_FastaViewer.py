@@ -13,7 +13,7 @@ from PyQt5.QtGui import QFont, QColor, QTextCharFormat, QTextCursor
 from PyQt5.QtCore import Qt, QUrl
 # from dictionaries import Dict
 sys.path.insert(0, '../examples')
-from Logic_LoadFasta_FastaViewer import*  # NOQA: E402
+from Logic_LoadFasta_FastaViewer import Logic_LoadFasta_FastaViewer  # NOQA: E402
 
 
 class GUI_FastaViewer(QMainWindow):
@@ -262,7 +262,6 @@ class GUI_FastaViewer(QMainWindow):
         self.datalabel.setText("Data loaded")
         for i in range(len(self.dictKeyAccession)):
             ID = list(self.dictKeyAccession.keys())[i]
-            Protein = self.proteinList[i]
             Proteinname = self.proteinNameList[i]
             OS = self.proteinOSList[i]
             self.cg = QtWidgets.QTreeWidgetItem(self.tw)
@@ -306,7 +305,7 @@ class GUI_FastaViewer(QMainWindow):
         self.textp.resize(
             self.textp.width(), self.textp.height())
         self.textp.insertPlainText(
-            "Proteinsequenz: " + Protein + "\n")
+            "Proteinsequence: " + Protein + "\n")
         self.textp.setReadOnly(True)
         self.cgChild = QtWidgets.QTreeWidgetItem(
             item)
@@ -496,8 +495,6 @@ class GUI_FastaViewer(QMainWindow):
                     atLeastOneProteinFound = True
                     index = list(self.dictKeyAccessionDECOY).index(
                         protein_accession)
-                    Protein = self.dictKeyAccessionDECOY.get(
-                        protein_accession)
                     ID = list(self.dictKeyAccessionDECOY.keys())[
                         index]
                     Proteinname = self.proteinNameListDECOY[index]
@@ -521,7 +518,6 @@ class GUI_FastaViewer(QMainWindow):
                     index = list(self.dictKeyAccession).index(
                         protein_accession)
                     ID = list(self.dictKeyAccession.keys())[index]
-                    Protein = self.proteinList[index]
                     Proteinname = self.proteinNameList[index]
                     OS = self.proteinOSList[index]
                     self.dummy = ID
@@ -590,7 +586,7 @@ class GUI_FastaViewer(QMainWindow):
                     cuts = self.cutstring(
                         Protein, protein_sub_sequence)
                     self.textp.insertPlainText(
-                        "Proteinsequenz: "
+                        "Proteinsequence: "
                     )
 
                     for i in range(len(cuts)):
@@ -652,7 +648,7 @@ class GUI_FastaViewer(QMainWindow):
                     cuts = self.cutstring(
                         Protein, protein_sub_sequence)
                     self.textp.insertPlainText(
-                        "Proteinsequenz: "
+                        "Proteinsequence: "
                     )
 
                     for i in range(len(cuts)):
@@ -724,7 +720,6 @@ class GUI_FastaViewer(QMainWindow):
                         protein_name)
                     ID = list(self.dictKeyAccessionDECOY.keys())[
                         index]
-                    Protein = self.proteinListDECOY[index]
                     Proteinname = protein_name
                     OS = self.proteinOSListDECOY[index]
 
@@ -747,7 +742,6 @@ class GUI_FastaViewer(QMainWindow):
                     index = self.proteinNameList.index(
                         protein_name)
                     ID = list(self.dictKeyAccession.keys())[index]
-                    Protein = self.proteinList[index]
                     Proteinname = self.proteinNameList[index]
                     OS = self.proteinOSList[index]
 

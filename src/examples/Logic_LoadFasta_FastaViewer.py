@@ -1,5 +1,6 @@
 
 import re
+import logging
 
 class Logic_LoadFasta_FastaViewer:
 
@@ -35,11 +36,10 @@ class Logic_LoadFasta_FastaViewer:
                 if seqs.startswith('>DECOY'):
 
                     # find upper and lower index of Protein Accession (ID)
-                    bounds = bounds = find_all_indexes(seqs, '|')
-                    #[m.start() for m in re.finditer('|', seqs)]
+                    bounds = [m.start() for m in re.finditer(r'\|', seqs)]
 
                     # if a Protein Accesion (ID) was found
-                    if len(bounds) != 0:
+                    if len(bounds) == 2:
                         key = (seqs[bounds[0]+1:bounds[1]])
                         descr_upper_index = seqs.find('OS=')
 
@@ -49,6 +49,7 @@ class Logic_LoadFasta_FastaViewer:
 
                         # if no upper index for the OS was found use the line from "OS=" till end of line
                         if (os_upper_index == -1):
+                            # if "OS=" was found, else stick with "os = not found"
                             if not (descr_upper_index == -1):
                                 stringFrom_OS_TillEndOfLine = seqs[descr_upper_index+3:]
                                 listOfAllWordsTillEndOfLine = stringFrom_OS_TillEndOfLine.split()
@@ -67,7 +68,7 @@ class Logic_LoadFasta_FastaViewer:
                             stringValue += nextLine[:-1]
                             try:
                                 nextLine = next(file_content)
-                            except:
+                            except Exception:
                                 break
                             indexShift = indexShift + 1
 
@@ -92,7 +93,7 @@ class Logic_LoadFasta_FastaViewer:
 
                         # find out up to which index the OS goes
                         os_upper_index = seqs.find('(')
-                        os = ''
+                        os = 'not found'
 
                         # if no upper index for the OS was found use the line from "OS=" till end of line
                         if (os_upper_index == -1):
@@ -110,7 +111,7 @@ class Logic_LoadFasta_FastaViewer:
                             stringValue += nextLine[:-1]
                             try:
                                 nextLine = next(file_content)
-                            except:
+                            except Exception:
                                 break
                             indexShift = indexShift + 1
 
@@ -123,19 +124,20 @@ class Logic_LoadFasta_FastaViewer:
                         proteinListDECOY.append(stringValue)
                         proteinNameListDECOY.append(name)
 
-                        if (os_upper_index == -1):
+                        if (os_upper_index == -1 or descr_upper_index == -1):
                             proteinOSListDECOY.append(os)
                         else:
                             proteinOSListDECOY.append((seqs[descr_upper_index+3:os_upper_index]))
+
 
                 # is no decoy -> use 'usual' list to safe Protein informations
                 elif seqs.startswith('>'):
 
                     # find upper and lower index of Protein Accession (ID)
-                    bounds = find_all_indexes(seqs, '|')
+                    bounds = [m.start() for m in re.finditer(r'\|', seqs)]
 
                     # if a Protein Accesion (ID) was found
-                    if len(bounds) != 0:
+                    if len(bounds) == 2:
                         key = (seqs[bounds[0]+1:bounds[1]])
                         descr_upper_index = seqs.find('OS=')
 
@@ -163,7 +165,7 @@ class Logic_LoadFasta_FastaViewer:
                             stringValue += nextLine[:-1]
                             try:
                                 nextLine = next(file_content)
-                            except:
+                            except Exception:
                                 break
                             indexShift = indexShift + 1
 
@@ -188,7 +190,7 @@ class Logic_LoadFasta_FastaViewer:
 
                         # find out up to which index the OS goes
                         os_upper_index = seqs.find('(')
-                        os = ''
+                        os = 'not found'
 
                         if (os_upper_index == -1):
                             stringFrom_OS_TillEndOfLine = seqs[descr_upper_index+3:]
@@ -205,7 +207,7 @@ class Logic_LoadFasta_FastaViewer:
                             stringValue += nextLine[:-1]
                             try:
                                 nextLine = next(file_content)
-                            except:
+                            except Exception:
                                 break
                             indexShift = indexShift + 1
 
@@ -218,37 +220,12 @@ class Logic_LoadFasta_FastaViewer:
                         proteinList.append(stringValue)
                         proteinNameList.append(name)
 
-                        if (os_upper_index == -1):
+                        if (os_upper_index == -1 or descr_upper_index == -1):
                             proteinOSList.append(os)
                         else:
                             proteinOSList.append((seqs[descr_upper_index+3:os_upper_index]))
 
         return dictKeyAccession, proteinList, proteinNameList, proteinOSList, dictKeyAccessionDECOY, proteinListDECOY, proteinNameListDECOY, proteinOSListDECOY
-
-
-# wird für die Methode protein_dictionary benötigt (suche von mehreren Indizes)
-def find_all_indexes(input_str, search_str):
-    """Look for all occurences of 'search_str' in 'input_str'
-
-    Parameters
-    ----------
-    input_str   : string to be searched in for the substring 'search_str' 
-    search_str  : substring to be searched for in string 'input_str' 
-
-    Returns
-    -------
-    list of all indexes where 'search_str' was found in 'input_str' found
-    """
-    l1 = []
-    length = len(input_str)
-    index = 0
-    while index < length:
-        i = input_str.find(search_str, index)
-        if i == -1:
-            return l1
-        l1.append(i)
-        index = i + 1
-    return l1
 
 
 def main():
@@ -264,15 +241,13 @@ def main():
     for protein_name in proteinNameList:
         if proteinnameSub in protein_name:
             print("Proteinname: " + protein_name)
-            # Test für Webbrowser Funktionalität
-            # moreProteinInformation(protein_accession)
 
-    # hier kommt die eingegeben protein accession (oder nur ein Teil davon) rein
-    # z.B.: 'P00761'
+    # here comes the entered protein accession (key) ,or only a part of it
+    # e.g.: 'P00761'
     protein_accession_maybe_sub_sequence = input("Bitte Protein accession angeben: ")
 
-    # index beginnt mit 0 (für das dictionary und die Liste)
-    # Suche nach dem key (a)
+    # index starts with 0 (for the lists and the dictionary)
+    # search for key
     for protein_accession in dictKeyAccession:
         if protein_accession_maybe_sub_sequence in protein_accession:
             index = list(dictKeyAccession).index(protein_accession)
