@@ -112,7 +112,7 @@ class GUI_FastaViewer(QMainWindow):
         nothing
         """
         super().__init__()
-        self.setFixedSize(635, 480)
+        self.resize(1280, 720)
         self.initUI()
 
     def initUI(self):
@@ -180,10 +180,6 @@ class GUI_FastaViewer(QMainWindow):
         self.main_layout.addLayout(self.set2)
         self.main_layout.addLayout(self.set3)
 
-        # creating a scroll Area
-        self.scroll = QScrollArea()
-        self.scroll.setWidget(self.mainwidget)
-        self.scroll.setWidgetResizable(True)
         self.mainwidget.setLayout(self.main_layout)
         self.setCentralWidget(self.mainwidget)
         self.setWindowTitle('Protein Viewer')
@@ -317,7 +313,7 @@ class GUI_FastaViewer(QMainWindow):
         self.tw.setItemWidget(
             self.cgChild2, 0, self.link)
 
-    #methode when TreeItem was cklicked
+    # methode when TreeItem was cklicked
 
     def clickTreeItem(self, item):
         '''Gets a QTreeWidgetItem and its ID data of the first
@@ -343,7 +339,6 @@ class GUI_FastaViewer(QMainWindow):
             Protein = self.proteinList[index]
             self.createTreeItem(item, ID, Protein)
 
-
     def clickTreeItemDecoy(self, item):
         '''Does the same as clickTreeItem but
         hands the corresponding DECOY protein sequence
@@ -355,7 +350,6 @@ class GUI_FastaViewer(QMainWindow):
             index = list(self.dictKeyAccessionDECOY).index(ID)
             Protein = self.proteinListDECOY[index]
             self.createTreeItem(item, ID, Protein)
-
 
     def createTreeItemSeqSearch(self, item, ID, Protein):
         """Gets a TreeItem and creats two child Items and a Qlabel.
@@ -417,7 +411,6 @@ class GUI_FastaViewer(QMainWindow):
             ID = item.data(0, 0)
             Protein = self.SequencSearchDict.get(ID)
             self.createTreeItemSeqSearch(item, ID, Protein)
-
 
     def clickTreeItemSeqSearchDecoy(self, item):
         '''Does the same as clickTreeItemSeqSearch but
