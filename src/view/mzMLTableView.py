@@ -10,9 +10,9 @@ from PyQt5.QtWidgets import QHBoxLayout, QWidget, QFileDialog, \
         QVBoxLayout, QGridLayout, QInputDialog, QLineEdit, QMessageBox, \
         QAbstractItemView
 sys.path.append(os.getcwd() + '/../controller')
-from filehandler import FileHandler as fh
+from filehandler import FileHandler as fh  # noqa E402
 sys.path.append(os.getcwd() + '/../model')
-from tableDataFrame import TableDataFrame as Tdf
+from tableDataFrame import TableDataFrame as Tdf  # noqa E402
 
 
 class mzMLTableView(QWidget):
