@@ -51,8 +51,6 @@ class GUI_FastaViewer(QMainWindow):
     radioname,radioid,radioseq=QRadioButton
             A QRadioButton that appears on sceen an can be cheked
 
-    scroll : QScrollArea()
-            Makes an areo of the Window scrollable
 
     color : QColor
             Red Color for the searched seq
