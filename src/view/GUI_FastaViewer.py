@@ -13,7 +13,7 @@ from PyQt5.QtGui import QFont, QColor, QTextCharFormat, QTextCursor
 from PyQt5.QtCore import Qt, QUrl
 # from dictionaries import Dict
 sys.path.insert(0, '../examples')
-from Logic_LoadFasta_FastaViewer import Logic_LoadFasta_FastaViewer  # NOQA: E402
+from LoadFasta_FastaViewer import LoadFasta_FastaViewer  # NOQA: E402
 
 
 class GUI_FastaViewer(QMainWindow):
@@ -251,7 +251,7 @@ class GUI_FastaViewer(QMainWindow):
         self.path = self.filename[0]
         self.fileloaded = 1
         # loading the lists before searching in order to make the search faster
-        self.dictKeyAccession, self.proteinList, self.proteinNameList, self.proteinOSList, self.dictKeyAccessionDECOY, self.proteinListDECOY, self.proteinNameListDECOY, self.proteinOSListDECOY = Logic_LoadFasta_FastaViewer.protein_dictionary(
+        self.dictKeyAccession, self.proteinList, self.proteinNameList, self.proteinOSList, self.dictKeyAccessionDECOY, self.proteinListDECOY, self.proteinNameListDECOY, self.proteinOSListDECOY = LoadFasta_FastaViewer.protein_dictionary(
             self.path)
         self.datalabel.setText("Data loaded")
         for i in range(len(self.dictKeyAccession)):
