@@ -78,6 +78,8 @@ class Window(QWidget):
         self.tablePSMFull.itemDoubleClicked.connect(self.browsePSM)
         self.tablePSMFiltered.itemDoubleClicked.connect(self.browsePSM)
 
+        self.vBoxPRT.addWidget(self.loadButton)
+
         self.vBoxPRT.addWidget(self.tablePRTFull)
         self.vBoxPRT.addWidget(self.tablePRTFiltered)
 
@@ -200,6 +202,11 @@ class Window(QWidget):
                     k += 1
                     j = 0
                 break
+
+        self.tablePRTFull.resizeColumnsToContents()  # resize columns
+        self.tablePSMFull.resizeColumnsToContents()  # resize columns
+        self.tablePRTFiltered.resizeColumnsToContents()  # resize columns
+        self.tablePSMFiltered.resizeColumnsToContents()  # resize columns
 
     def hidePRTColumns(self):
         """hides constant columns in PRT table by default by checking if every value equals"""
