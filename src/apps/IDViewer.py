@@ -115,6 +115,7 @@ class App(QMainWindow):
     def closeEvent(self, event):
         event.accept()
 
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     ex = App()
