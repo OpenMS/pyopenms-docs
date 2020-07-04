@@ -474,6 +474,15 @@ class mzMLTableView(QWidget):
             rt = timeit.default_timer() - starttime
             print("Runtime of SelectAllBtn : ", rt)
 
+
+    def updateTableView(self, rows):
+        tabledf = Tdf.getTable(self)
+        rowcount = len(tabledf.index)
+        for i in range(rowcount):
+            self.table.setRowHidden(i, True)
+        for i in rows:
+            self.table.setRowHidden(i, False)
+
     def filterTable(self):
         """
         get changes from textbox and update table when
@@ -490,9 +499,9 @@ class mzMLTableView(QWidget):
         print(type(ft))
         if len(tbinput) >= 3:
             rowstoshow = ft[ft[givencolumn].str.contains(tbinput)]
-            # prints the rows containing the input
-            print(rowstoshow)
-            # updated table funtion goes here
+            self.updateTableView(rowstoshow.index)
+        else:
+            self.updateTableView(ft.index)
 
     def changeListener(self):
         self.table.itemChanged.connect(self.editField)
