@@ -9,7 +9,15 @@ from defusedxml.ElementTree import parse
 class ConfigView(QWidget):
     def __init__(self, *args):
         QWidget.__init__(self, *args)
+        self.initTreeModel()
+        self.initTreeWidget()
+        self.initUI()
 
+    def initTreeModel(self):
+        """
+        Initialise the tree model using a fixed header
+        Columns are defined as constants
+        """
         self.tree = ET.ElementTree
         self.header = ['Name', 'Value', 'Type', 'Restrictions']
         self.NAMECOL = 0
@@ -19,24 +27,33 @@ class ConfigView(QWidget):
         self.descriptions = {}
         self.drawTree = False
 
+    def initTreeWidget(self):
+        """
+        Initialise the TreeWidget, with corresponding header
+        A change listener is implemented and initialised here too
+        """
         self.treeWidget = QTreeWidget(self)
         self.treeWidget.setHeaderLabels(self.header)
+
         self.header = self.treeWidget.header()
         self.header.resizeSection(0, 150)
         self.header.resizeSection(1, 150)
         self.header.resizeSection(2, 150)
-        # self.header.setMinimumSectionSize(50)
 
         self.treeWidget.itemSelectionChanged.connect(self.loadDescription)
         self.changeListener()
 
-        btns = QWidget(self)
-        loadbtn = QPushButton('Load')
-        loadbtn.setMaximumWidth(80)
-        savebtn = QPushButton('Save')
-        savebtn.setMaximumWidth(80)
-        loadbtn.clicked.connect(self.openXML)
-        savebtn.clicked.connect(self.saveFile)
+    def initUI(self):
+        """
+        Initialise the GUI with buttons, checkbox, textbox and treewidget
+        """
+        self.loadbtn = QPushButton('Load')
+        self.loadbtn.setMaximumWidth(80)
+        self.loadbtn.clicked.connect(self.openXML)
+
+        self.savebtn = QPushButton('Save')
+        self.savebtn.setMaximumWidth(80)
+        self.savebtn.clicked.connect(self.saveFile)
 
         self.checkbox = QCheckBox('Show advanced parameters')
         self.checkbox.setChecked(True)
@@ -48,11 +65,13 @@ class ConfigView(QWidget):
         btnlayout = QHBoxLayout()
         layout = QVBoxLayout()
 
-        btnlayout.addWidget(loadbtn)
-        btnlayout.addWidget(savebtn)
+        btns = QWidget(self)
+        btnlayout.addWidget(self.loadbtn)
+        btnlayout.addWidget(self.savebtn)
         btnlayout.addWidget(self.checkbox)
         btns.setLayout(btnlayout)
         btns.setFixedWidth(500)
+
         layout.addWidget(self.treeWidget, 6)
         layout.addWidget(self.textbox, 1)
         layout.addWidget(btns, 0.5)
@@ -173,38 +192,53 @@ class ConfigView(QWidget):
                 self.textbox.setPlainText(self.descriptions[node])
 
     def changeListener(self):
+        """
+        Change Listener for the tree widget
+        to connect the model with the widget
+        """
         self.treeWidget.itemChanged.connect(self.editField)
 
     def editField(self):
+        """
+        Fields in model are edited upon change of treewidget
+        Edit is only allowed if restrictions are checked and type is correct
+        """
         if not self.drawTreeActive:
-            itemchanged = self.treeWidget.currentItem()
-            itemparent = itemchanged.parent()
-            itemname = itemchanged.text(self.NAMECOL)
-            parentname = itemparent.text(self.NAMECOL)
-            newvalue = itemchanged.text(self.VALUECOL)
-            restrictions = itemchanged.text(self.RESTRICTIONCOL)
-            types = itemchanged.text(self.TYPECOL)
+            if self.treeWidget.currentColumn() == self.VALUECOL:
+                itemchanged = self.treeWidget.currentItem()
+                itemparent = itemchanged.parent()
+                itemname = itemchanged.text(self.NAMECOL)
+                parentname = itemparent.text(self.NAMECOL)
+                newvalue = itemchanged.text(self.VALUECOL)
+                restrictions = itemchanged.text(self.RESTRICTIONCOL)
+                types = itemchanged.text(self.TYPECOL)
 
-            reschecked = self.checkRestrictionString(newvalue, restrictions)
-            typechecked = self.checkTypeRestrictions(newvalue, types)
+                reschecked = self.checkRestrictionString(newvalue,
+                                                         restrictions)
+                typechecked = self.checkTypeRestrictions(newvalue, types)
 
-            if reschecked and typechecked:
-                for parent in self.tree.iter('NODE'):
-                    if parent.attrib['name'] == parentname:
-                        for child in parent:
-                            if child.attrib['name'] == itemname:
-                                child.attrib['value'] = newvalue
-            elif typechecked:
-                QMessageBox.about(self, "Warning", "Please only, " +
-                                  "modify according to Restrictions")
+                if reschecked and typechecked:
+                    for parent in self.tree.iter('NODE'):
+                        if parent.attrib['name'] == parentname:
+                            for child in parent:
+                                if child.attrib['name'] == itemname:
+                                    child.attrib['value'] = newvalue
+                elif typechecked:
+                    QMessageBox.about(self, "Warning", "Please only, " +
+                                      "modify according to Restrictions")
+                else:
+                    QMessageBox.about(self, "Warning", "Please only, " +
+                                      "modify according to Typerestrictions")
             else:
                 QMessageBox.about(self, "Warning", "Please only, " +
-                                  "modify according to Typerestrictions")
-
+                                  "modify the Column: value")
             self.drawTreeInit()
 
     def checkRestrictionString(self,
                                newvalue: type, restrictions: str) -> bool:
+        """
+        Checks the restrictions of a item are matched when edited
+        """
         if restrictions != "":
             if newvalue not in restrictions:
                 reschecked = False
@@ -216,6 +250,9 @@ class ConfigView(QWidget):
         return reschecked
 
     def checkTypeRestrictions(self, newvalue: type, types: str) -> bool:
+        """
+        Checks if the edit is corresponding to the type
+        """
         if types != "":
             try:
                 float(newvalue)
@@ -235,6 +272,9 @@ class ConfigView(QWidget):
         return typechecked
 
     def saveFile(self):
+        """
+        Saves current tree model as .ini file
+        """
         file, _ = QFileDialog.getSaveFileName(
             self, "QFileDialog.getSaveFileName()", "",
             "All Files (*);;ini (*.ini)")
