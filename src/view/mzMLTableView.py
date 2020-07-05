@@ -4,10 +4,9 @@ import timeit
 import pandas as pd
 import math
 from PyQt5 import Qt
-from PyQt5.QtCore import QPersistentModelIndex
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QFileDialog, \
         QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, \
-        QVBoxLayout, QGridLayout, QInputDialog, QLineEdit, QMessageBox, \
+        QVBoxLayout, QInputDialog, QLineEdit, QMessageBox, \
         QAbstractItemView
 sys.path.append(os.getcwd() + '/../controller')
 from filehandler import FileHandler as fh  # noqa E402
@@ -94,7 +93,7 @@ class mzMLTableView(QWidget):
                    QPushButton('Save Table'), QPushButton('Add File'),
                    QPushButton('Remove File'), QPushButton('Group'),
                    QPushButton('Fraction'), QPushButton('Label'),
-                   QPushButton('Select All'), QPushButton('Search')]
+                   QPushButton('Select All')]
 
         # Buttonlayout
         buttonlayout = QHBoxLayout()
@@ -114,9 +113,6 @@ class mzMLTableView(QWidget):
         Buttons[6].clicked.connect(self.FractionBtn)
         Buttons[7].clicked.connect(self.LabelBtn)
         Buttons[8].clicked.connect(self.SelectAllBtn)
-
-        # Disabled buttons until function are added
-        Buttons[9].setEnabled(False)
 
         # init changelistener on textbox
         self.textbox.textChanged[str].connect(self.filterTable)

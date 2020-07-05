@@ -1,5 +1,5 @@
 import sys, os
-from PyQt5.QtWidgets import QApplication, QHBoxLayout, QMainWindow, QDesktopWidget, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget
 from PyQt5.QtCore import Qt
 sys.path.append(os.getcwd()+'/../view')
 from mzMLTableView import mzMLTableView
@@ -39,4 +39,3 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = TableEditor()
     sys.exit(app.exec_())
-    
