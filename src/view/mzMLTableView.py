@@ -59,6 +59,7 @@ class mzMLTableView(QWidget):
 
         self.table = QTableWidget()
         self.table.setRowCount(0)
+        self.table.setSortingEnabled(True)
         self.header = ['Group', 'Fraction',
                        'Spectra Filepath', 'Label', 'Sample']
         self.table.setColumnCount(len(self.header))
