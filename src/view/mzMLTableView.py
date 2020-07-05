@@ -492,8 +492,8 @@ class mzMLTableView(QWidget):
         tbinput = tb.text()
         ft = Tdf.getTable(self)
         validDf = not(ft.empty or ft.dropna().empty)
-        print(validDf)
-        print(type(ft))
+        # print(validDf)  # for debugging
+        # print(type(ft))  # for debugging
         if len(tbinput) >= 3:
             rowstoshow = ft[ft[givencolumn].str.contains(tbinput)]
             self.updateTableView(rowstoshow.index)
