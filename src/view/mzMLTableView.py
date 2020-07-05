@@ -494,7 +494,7 @@ class mzMLTableView(QWidget):
         validDf = not(ft.empty or ft.dropna().empty)
         # print(validDf)  # for debugging
         # print(type(ft))  # for debugging
-        if len(tbinput) >= 3:
+        if len(tbinput) >= 2:
             rowstoshow = ft[ft[givencolumn].str.contains(tbinput)]
             self.updateTableView(rowstoshow.index)
         else:
