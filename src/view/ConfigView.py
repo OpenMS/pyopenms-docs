@@ -279,4 +279,7 @@ class ConfigView(QWidget):
             self, "QFileDialog.getSaveFileName()", "",
             "All Files (*);;ini (*.ini)")
         if file:
+            temp = file.split(".")
+            if len(temp) < 2:
+                file = file + ".ini"
             self.tree.write(file)

@@ -399,9 +399,9 @@ class mzMLTableView(QWidget):
                     Tdf.modifyFraction(self, selrows, fracmin)
                 self.drawTable()
 
-                    if self.testForTime:
-                        rt = timeit.default_timer() - starttime
-                        print("Runtime of FractionBtn : ", rt)
+                if self.testForTime:
+                    rt = timeit.default_timer() - starttime
+                    print("Runtime of FractionBtn : ", rt)
 
     def LabelBtn(self):
         """
