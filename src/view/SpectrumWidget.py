@@ -190,10 +190,11 @@ class SpectrumWidget(PlotWidget):
         self.peak_annotation_list = None
 
     def _clear_ladder_item(self, key):
-        for p in self._ladder_anno_lines[key]:
-            p.clear()
-        for ladder in self._ladder_anno_labels[key]:
-            ladder.setPos(0, 0)
+        for anno in self._ladder_anno_lines[key]:
+            anno.clear()
+        for pos in self._ladder_anno_labels[key]:
+            pos.setPos(0, 0)
+
         del self._ladder_anno_lines[key]
         del self._ladder_anno_labels[key]
 
