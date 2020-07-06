@@ -378,16 +378,12 @@ class mzMLTableView(QWidget):
                             rt = timeit.default_timer() - starttime
                             print("Runtime of FractionBtn : ", rt)
 
-                    if self.testForTime:
-                        starttime = timeit.default_timer()
-                        print("Starttime of FractionBtn : ", starttime)
-
                     elif fracmax == fracmin:
                         Tdf.modifyFraction(self, selrows, fracmin)
 
-                    if self.testForTime:
-                        rt = timeit.default_timer() - starttime
-                        print("Runtime of FractionBtn : ", rt)
+                        if self.testForTime:
+                            rt = timeit.default_timer() - starttime
+                            print("Runtime of FractionBtn : ", rt)
 
                     else:
                         QMessageBox.warning(self, "Error", "Please use " +
@@ -395,17 +391,17 @@ class mzMLTableView(QWidget):
                                             "number for the maximum " +
                                             "fractionnumber.")
 
-                if self.testForTime:
-                    starttime = timeit.default_timer()
-                    print("Starttime of FractionBtn : ", starttime)
+                        if self.testForTime:
+                            rt = timeit.default_timer() - starttime
+                            print("Runtime of FractionBtn : ", rt)
 
                 else:
                     Tdf.modifyFraction(self, selrows, fracmin)
                 self.drawTable()
 
-                if self.testForTime:
-                    rt = timeit.default_timer() - starttime
-                    print("Runtime of FractionBtn : ", rt)
+                    if self.testForTime:
+                        rt = timeit.default_timer() - starttime
+                        print("Runtime of FractionBtn : ", rt)
 
     def LabelBtn(self):
         """
