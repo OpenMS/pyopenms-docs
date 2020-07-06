@@ -3,16 +3,15 @@ import sys
 import timeit
 import pandas as pd  # noqa
 import math
-# from PyQt5 import Qt
-# from PyQt5.QtCore import QPersistentModelIndex
+from PyQt5 import Qt
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QFileDialog, \
         QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, \
         QVBoxLayout, QInputDialog, QLineEdit, QMessageBox, \
         QAbstractItemView
 sys.path.append(os.getcwd() + '/../controller')
-from filehandler import FileHandler as fh  # noqa: E402
+from filehandler import FileHandler as fh  # noqa E402
 sys.path.append(os.getcwd() + '/../model')
-from tableDataFrame import TableDataFrame as Tdf  # noqa: E402
+from tableDataFrame import TableDataFrame as Tdf  # noqa E402
 
 
 class mzMLTableView(QWidget):
@@ -58,6 +57,7 @@ class mzMLTableView(QWidget):
 
         self.table = QTableWidget()
         self.table.setRowCount(0)
+        self.table.setSortingEnabled(True)
         self.header = ['Group', 'Fraction',
                        'Spectra Filepath', 'Label', 'Sample']
         self.table.setColumnCount(len(self.header))
@@ -92,7 +92,7 @@ class mzMLTableView(QWidget):
                    QPushButton('Save Table'), QPushButton('Add File'),
                    QPushButton('Remove File'), QPushButton('Group'),
                    QPushButton('Fraction'), QPushButton('Label'),
-                   QPushButton('Select All'), QPushButton('Search')]
+                   QPushButton('Select All')]
 
         # Buttonlayout
         buttonlayout = QHBoxLayout()
@@ -112,9 +112,6 @@ class mzMLTableView(QWidget):
         Buttons[6].clicked.connect(self.FractionBtn)
         Buttons[7].clicked.connect(self.LabelBtn)
         Buttons[8].clicked.connect(self.SelectAllBtn)
-
-        # Disabled buttons until function are added
-        Buttons[9].setEnabled(False)
 
         # init changelistener on textbox
         self.textbox.textChanged[str].connect(self.filterTable)
@@ -379,16 +376,12 @@ class mzMLTableView(QWidget):
                             rt = timeit.default_timer() - starttime
                             print("Runtime of FractionBtn : ", rt)
 
-                    if self.testForTime:
-                        starttime = timeit.default_timer()
-                        print("Starttime of FractionBtn : ", starttime)
-
                     elif fracmax == fracmin:
                         Tdf.modifyFraction(self, selrows, fracmin)
 
-                    if self.testForTime:
-                        rt = timeit.default_timer() - starttime
-                        print("Runtime of FractionBtn : ", rt)
+                        if self.testForTime:
+                            rt = timeit.default_timer() - starttime
+                            print("Runtime of FractionBtn : ", rt)
 
                     else:
                         QMessageBox.warning(self, "Error", "Please use " +
@@ -396,9 +389,9 @@ class mzMLTableView(QWidget):
                                             "number for the maximum " +
                                             "fractionnumber.")
 
-                if self.testForTime:
-                    starttime = timeit.default_timer()
-                    print("Starttime of FractionBtn : ", starttime)
+                        if self.testForTime:
+                            rt = timeit.default_timer() - starttime
+                            print("Runtime of FractionBtn : ", rt)
 
                 else:
                     Tdf.modifyFraction(self, selrows, fracmin)
@@ -474,7 +467,6 @@ class mzMLTableView(QWidget):
             rt = timeit.default_timer() - starttime
             print("Runtime of SelectAllBtn : ", rt)
 
-
     def updateTableView(self, rows):
         tabledf = Tdf.getTable(self)
         rowcount = len(tabledf.index)
@@ -495,9 +487,9 @@ class mzMLTableView(QWidget):
         tbinput = tb.text()
         ft = Tdf.getTable(self)
         validDf = not(ft.empty or ft.dropna().empty)
-        print(validDf)
-        print(type(ft))
-        if len(tbinput) >= 3:
+        # print(validDf)  # for debugging
+        # print(type(ft))  # for debugging
+        if len(tbinput) >= 2:
             rowstoshow = ft[ft[givencolumn].str.contains(tbinput)]
             self.updateTableView(rowstoshow.index)
         else:

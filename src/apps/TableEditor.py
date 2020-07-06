@@ -1,7 +1,6 @@
-import sys
-import os
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QDesktopWidget)  # noqa
-from PyQt5.QtCore import Qt  # noqa
+import sys, os
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget
+from PyQt5.QtCore import Qt
 sys.path.append(os.getcwd()+'/../view')
 from mzMLTableView import mzMLTableView  # noqa: E402
 

@@ -1,29 +1,19 @@
-"""
+""" 
 mzTabTableWidget
 ----------------
-This script allows the user to transfer information
-about proteins and psms from a mzTab file into two tables,
+This script allows the user to transfer information about proteins and psms from a mzTab file into two tables, 
 one containing the proteins, the other one containing the psms.
 
-By clicking on a row, the tables get updated
-regarding their listed proteins or psms.
-Once you choose a protein/psm, the table displays
-only those psms/proteins that are linked to one another.
+By clicking on a row, the tables get updated regarding their listed proteins or psms.
+Once you choose a protein/psm, the table displays only those psms/proteins that are linked to one another.
 
-This tool is designed to accept mzTab files.
-It is required to save those files under '.../examples/data/' or
+This tool is designed to accept mzTab files. It is required to save those files under '.../examples/data/' or 
 change the path within the InitWindow.
 """
 import sys
 import webbrowser
 from PyQt5 import QtGui
-from PyQt5.QtWidgets import (
-    QApplication,
-    QWidget,
-    QTableWidget,
-    QVBoxLayout,
-    QTableWidgetItem,
-    )
+from PyQt5.QtWidgets import QApplication, QWidget, QTableWidget, QVBoxLayout, QTableWidgetItem
 
 
 class Window(QWidget):
@@ -67,7 +57,7 @@ class Window(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.top, self.left, self.width, self.height)
 
-        self.parser('/home/fabian/Downloads/test1.mzTab')
+        self.parser('../examples/data/iPRG2015.mzTab')
 
         self.PRTColumn *= len(self.PRTFull[1])
         self.PSMColumn *= len(self.PSMFull[1])
@@ -104,8 +94,8 @@ class Window(QWidget):
         self.show()
 
     def parser(self, file):
-        """parses the given mzTab file and saves
-        PRT and PSM information Parameters
+        """parses the given mzTab file and saves PRT and PSM information
+        Parameters
         ----------
         file : str
             The file path of the mzTab file
@@ -115,7 +105,7 @@ class Window(QWidget):
             for line in inp:
                 if line.startswith("PRH"):
                     self.PRTFull.append(line.strip().split('\t'))
-                elif line.startswith("PRT") and not line.endswith("protein_details\n"):  # noqa: E501
+                elif line.startswith("PRT") and not line.endswith("protein_details\n"):
                     self.PRTFull.append(line.strip().split('\t'))
                 elif line.startswith("PSH") or line.startswith("PSM"):
                     self.PSMFull.append(line.strip().split('\t'))
@@ -125,6 +115,8 @@ class Window(QWidget):
 
         for item in self.PSMFull:
             item.pop(0)
+
+
 
     def initTables(self):
         """draws protein and psm tables with headers"""
@@ -150,11 +142,8 @@ class Window(QWidget):
         self.PSMFull.pop(0)
 
     def createTable(self, table, content):
-        """parameters: tableWidget to draw content in.
-        Content to be drawn in list form
-        Setting count to zero empties the table.
-        Then table is (re-)filled with specified content"""
-
+        """parameters: tableWidget to draw content in. Content to be drawn in list form"""
+        """Setting count to zero empties the table. Then table is (re-)filled with specified content"""
         table.setRowCount(0)
         table.setRowCount(len(content))
 
@@ -172,7 +161,7 @@ class Window(QWidget):
                 break
 
     def hidePRTColumns(self):
-        """hides constant columns in PRT table by default by checking if every value equals"""  # noqa: E501
+        """hides constant columns in PRT table by default by checking if every value equals"""
         i = 0
         j = 0
         k = 0
@@ -192,7 +181,7 @@ class Window(QWidget):
             k += 1
 
     def hidePSMColumns(self):
-        """hides constant columns in PSM table by default by checking if every value equals"""  # noqa: E501
+        """hides constant columns in PSM table by default by checking if every value equals"""
         i = 0
         j = 0
         k = 0
@@ -245,7 +234,7 @@ class Window(QWidget):
 
         self.selectedPRT = accession
 
-        self.PRTFiltered = [p for p in self.PRTFull if p[0] == self.selectedPRT]  # noqa: E501
+        self.PRTFiltered = [p for p in self.PRTFull if p[0] == self.selectedPRT]
         self.createTable(self.tablePRTFiltered, self.PRTFiltered)
 
     def filterPSM(self, accession):
@@ -254,7 +243,7 @@ class Window(QWidget):
 
         self.selectedPSM = accession
 
-        self.PSMFiltered = [p for p in self.PSMFull if p[2] == self.selectedPSM]  # noqa: E501
+        self.PSMFiltered = [p for p in self.PSMFull if p[2] == self.selectedPSM]
         self.createTable(self.tablePSMFiltered, self.PSMFiltered)
 
     def unfilterPRT(self):

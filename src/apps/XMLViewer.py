@@ -1,9 +1,9 @@
 import sys
 import os
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, QAction
-# from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QMainWindow, \
+     QDesktopWidget
 sys.path.append(os.getcwd()+'/../view')
-from ConfigView import ConfigView  # noqa: E402
+from ConfigView import ConfigView   # noqa E402
 
 
 class XMLViewer(QMainWindow):
@@ -21,20 +21,6 @@ class XMLViewer(QMainWindow):
         which are loaded from the ConfigView.py file
         '''
         cview = ConfigView()
-
-        menubar = self.menuBar()
-        menubar.setNativeMenuBar(False)
-        fileMenu = menubar.addMenu('&File')
-        saveAction = QAction("&Save File", self)
-        loadAction = QAction("&Load File", self)
-
-        saveAction.setDisabled(True)
-
-        fileMenu.addAction(loadAction)
-        fileMenu.addAction(saveAction)
-
-        loadAction.triggered.connect(cview.openXML)
-        saveAction.triggered.connect(cview.saveFile)
 
         self.setCentralWidget(cview)
         self.resize(800, 1000)

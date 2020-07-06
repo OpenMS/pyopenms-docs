@@ -31,7 +31,8 @@ pg.setConfigOption("background", "w")  # white background
 pg.setConfigOption("foreground", "k")  # black peaks
 
 
-class App(QMainWindow):
+class Specviewer(QMainWindow):
+
     def __init__(self):
         QMainWindow.__init__(self)
         self.resize(1000, 700)  # window size
