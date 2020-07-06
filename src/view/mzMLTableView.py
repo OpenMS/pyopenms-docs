@@ -48,6 +48,8 @@ class mzMLTableView(QWidget):
         if self.testForTime:
             rt = timeit.default_timer() - starttime
             print("Runtime of overall Initiation was : ", rt)
+    def dragMoveEvent(self, e):
+        e.accept()
 
     def initTable(self):
         """
