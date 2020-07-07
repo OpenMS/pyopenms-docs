@@ -82,7 +82,7 @@ class ControllerWidget(QWidget):
             widget_height,
             widget_height,
             widget_height * 0.5,
-            widget_height,
+            widget_height
         ]
         self.msexperimentWidget.setSizes(size_list)
 
