@@ -71,3 +71,4 @@ for spectrum in msdata:
 
 if nr_ms2_spectra == 0:
     print("Did not find any MS2 spectra in your input, thus the output file is empty!")
+    
