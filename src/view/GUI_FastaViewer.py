@@ -2,7 +2,7 @@ import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import (QWidget, QToolTip,
                              QPushButton, QApplication, QMainWindow,
-                             QAction, qApp, QApplication,
+                             QAction, qApp,
                              QHBoxLayout, QVBoxLayout, QMessageBox,
                              QLineEdit, QTableWidget, QTableWidgetItem,
                              QGridLayout, QScrollArea, QPlainTextEdit,
@@ -10,15 +10,18 @@ from PyQt5.QtWidgets import (QWidget, QToolTip,
                              QGroupBox, QSizePolicy, QCheckBox, QFileDialog,
                              QTextEdit, QTextBrowser)
 from PyQt5.QtGui import QFont, QColor, QTextCharFormat, QTextCursor
-from PyQt5.QtCore import *  # Qt, QUrl
+from PyQt5.QtCore import Qt, QUrl
 # from dictionaries import Dict
 sys.path.insert(0, '../examples')
-from Logic_fastaSearch import*  # NOQA: E402
+from LoadFasta_FastaViewer import LoadFasta_FastaViewer  # NOQA: E402
 
 
-class FastaViewer(QMainWindow):
+class GUI_FastaViewer(QMainWindow):
     """
-    A class used to make and change the apperance of a Window
+    A class used to make and change the appearance of the FastaViewer.
+    It enables to load a fasta file of a colletion of protein sequences
+    and search for proteins by its accesion number, name or subsequence.
+
 
     ...
 
@@ -48,8 +51,6 @@ class FastaViewer(QMainWindow):
     radioname,radioid,radioseq=QRadioButton
             A QRadioButton that appears on sceen an can be cheked
 
-    scroll : QScrollArea()
-            Makes an areo of the Window scrollable
 
     color : QColor
             Red Color for the searched seq
@@ -73,11 +74,11 @@ class FastaViewer(QMainWindow):
             Cuts the oldstring when proteinseq appears and returns a list of
             the cuts
 
-    lodafile(self)
+    loadFile(self)
             A function for the loadbutton that open QFileDialog and saves the
             Path to the file fo the logic class
 
-    clickprotein(self)
+    searchClicked(self)
             A function for the searchButtonP, it checks if input is correct
             and exc a search function
 
@@ -109,7 +110,7 @@ class FastaViewer(QMainWindow):
         nothing
         """
         super().__init__()
-        self.resize(800, 1000)
+        self.resize(1280, 720)
         self.initUI()
 
     def initUI(self):
@@ -128,11 +129,11 @@ class FastaViewer(QMainWindow):
 
         self.searchButtonP = QtWidgets.QPushButton(self)
         self.searchButtonP.setText("search")
-        self.searchButtonP.clicked.connect(self.clickprotein)
+        self.searchButtonP.clicked.connect(self.searchClicked)
 
         self.loadbutton = QtWidgets.QPushButton(self)
         self.loadbutton.setText("load")
-        self.loadbutton.clicked.connect(self.loadingfile)
+        self.loadbutton.clicked.connect(self.loadFile)
 
         # creating testboxes for the buttons
         self.boxPro = QLineEdit(self)
@@ -177,10 +178,6 @@ class FastaViewer(QMainWindow):
         self.main_layout.addLayout(self.set2)
         self.main_layout.addLayout(self.set3)
 
-        # creating a scroll Area
-        self.scroll = QScrollArea()
-        self.scroll.setWidget(self.mainwidget)
-        self.scroll.setWidgetResizable(True)
         self.mainwidget.setLayout(self.main_layout)
         self.setCentralWidget(self.mainwidget)
         self.setWindowTitle('Protein Viewer')
@@ -236,7 +233,7 @@ class FastaViewer(QMainWindow):
         return cut
     # defining the function for load button to get path of database
 
-    def loadingfile(self):
+    def loadFile(self):
         """Gets QMainWindow and opens a QFileDialog and loads path
 
     Parameters
@@ -254,22 +251,198 @@ class FastaViewer(QMainWindow):
         self.path = self.filename[0]
         self.fileloaded = 1
         # loading the lists before searching in order to make the search faster
-        self.dictKeyAccession, self.proteinList, self.proteinNameList, self.proteinOSList, self.dictKeyAccessionDECOY, self.proteinListDECOY, self.proteinNameListDECOY, self.proteinOSListDECOY = logic.protein_dictionary(
+        self.dictKeyAccession, self.proteinList, self.proteinNameList, self.proteinOSList, self.dictKeyAccessionDECOY, self.proteinListDECOY, self.proteinNameListDECOY, self.proteinOSListDECOY = LoadFasta_FastaViewer.protein_dictionary(
             self.path)
         self.datalabel.setText("Data loaded")
         for i in range(len(self.dictKeyAccession)):
             ID = list(self.dictKeyAccession.keys())[i]
-            Protein = self.proteinList[i]
             Proteinname = self.proteinNameList[i]
             OS = self.proteinOSList[i]
-            self.cg = QtWidgets.QTreeWidgetItem(self.tw)
-            self.cg.setData(0, 0, ID)
-            self.cg.setData(1, 0, OS)
-            self.cg.setData(2, 0, Proteinname)
+            self.createParentItem(ID,OS,Proteinname)
+        self.tw.itemClicked.connect(self.clickTreeItem)
 
-    # defining the clickprotein method for the searchButtonP
+    # defining a function to creat TreeItems
+    def createParentItem(self, ID, OS,Proteinname):
+        """Creates a TreeItem with 3 columns (ID, OS, Proteinname).
 
-    def clickprotein(self):
+    Parameters
+    ----------
+    self : QMainWindow
+        the MainWindow of the class
+    ID : The specific protein accesion
+        which is needed for the link to the database
+    OS: The organism from where the protein is from
+    Proteinname : The name of the protein
+
+
+    Returns
+    -------
+    nothing , it changes the Treewidget
+    and creates a TreeItem with three columns
+    """
+        self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+        self.cg.setData(0, 0, ID)
+        self.cg.setData(1, 0, OS)
+        self.cg.setData(2, 0, Proteinname)
+
+    def createChildTreeItem(self, item, ID, Protein):
+        """Gets a TreeItem and creats two child Items, a Qlabel and a QTextEdit.
+    Firs Child Item holds a QTextEdit with the given Protein sequence.
+    Second Cild Item holds a QLabel with a hyperlink to the database UniProt.
+
+    Parameters
+    ----------
+    self : QMainWindow
+        the MainWindow of the class
+    item : QTreeWidgetItem
+        for which the child items will be created
+    ID : The specific protein accesion
+        which is needed for the link to the database
+    Protein : The specific protein sequence
+        that will be displayed in the QTextEdit
+
+
+    Returns
+    -------
+    nothing , it changes the Treewidget
+    and creates two child items for the handed in tree item
+    """
+        self.link = QLabel()
+        self.link.setTextInteractionFlags(
+            Qt.LinksAccessibleByMouse)
+        self.link.setOpenExternalLinks(True)
+        self.link.setTextFormat(Qt.RichText)
+        self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
+                          ID + ">" + "More Information"+" </a>")
+        self.textp = QTextEdit()
+        self.textp.resize(
+            self.textp.width(), self.textp.height())
+        self.textp.insertPlainText(
+            "Proteinsequence: " + Protein + "\n")
+        self.textp.setReadOnly(True)
+        self.cgChild = QtWidgets.QTreeWidgetItem(
+            item)
+        self.cgChild2 = QtWidgets.QTreeWidgetItem(
+            item)
+        self.cgChild.setFirstColumnSpanned(True)
+        self.tw.setItemWidget(
+            self.cgChild, 0, self.textp)
+        self.tw.setItemWidget(
+            self.cgChild2, 0, self.link)
+
+    # methode when TreeItem was cklicked
+
+    def clickTreeItem(self, item):
+        '''Gets a QTreeWidgetItem and its ID data of the first
+        collumn. The ID and the corresponding protein sequence are
+        handed to the createChildTreeItem method.
+
+        Parameters
+        ----------
+        self : QMainWindow
+            the MainWindow of the class
+        item : clicked QTreeWidgetItem
+            from which the ID is obtained
+
+        Returns
+        -------
+        nothing
+        '''
+        num = item.childCount()
+        # prevents multiple creation of the same child tree items
+        if num == 0:
+            ID = item.data(0, 0)
+            index = list(self.dictKeyAccession.keys()).index(ID)
+            Protein = self.proteinList[index]
+            self.createChildTreeItem(item, ID, Protein)
+
+    def clickTreeItemDecoy(self, item):
+        '''Does the same as clickTreeItem but
+        hands the corresponding DECOY protein sequence
+        to the create TreeItem method.
+        '''
+        num = item.childCount()
+        if num == 0:
+            ID = item.data(0, 0)
+            index = list(self.dictKeyAccessionDECOY).index(ID)
+            Protein = self.proteinListDECOY[index]
+            self.createChildTreeItem(item, ID, Protein)
+
+    def createChildTreeItemSeqSearch(self, item, ID, Protein):
+        """Gets a TreeItem and creats two child Items and a Qlabel.
+        Firs Child Item holds a QTextEdit with the given Protein sequence.
+        Second Cild Item holds a QLabel with a hyperlink to the database UniProt.
+
+        Parameters
+        ----------
+        self : QMainWindow
+            the MainWindow of the class
+        item : QTreeWidgetItem
+            for which the child items will be created
+        ID : The specific protein accesion
+            which is needed for the link to the database
+        Protein : A QTextEdit widget with the specific portein sequence
+
+
+        Returns
+        -------
+        nothing , it changes the Treewidget
+        and creates two child items for the handed in tree item
+        """
+        self.link = QLabel()
+        self.link.setTextInteractionFlags(
+            Qt.LinksAccessibleByMouse)
+        self.link.setOpenExternalLinks(True)
+        self.link.setTextFormat(Qt.RichText)
+        self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
+                          ID + ">" + "More Information"+" </a>")
+
+        self.cgChild = QtWidgets.QTreeWidgetItem(
+            item)
+        self.cgChild2 = QtWidgets.QTreeWidgetItem(
+            item)
+        self.cgChild.setFirstColumnSpanned(True)
+        self.tw.setItemWidget(
+            self.cgChild, 0, Protein)
+        self.tw.setItemWidget(
+            self.cgChild2, 0, self.link)
+
+    def clickTreeItemSeqSearch(self, item):
+        '''Gets a QTreeWidgetItem and its ID data of the first
+        collumn. The ID and the corresponding QTextEdit widget with the
+        protein sequence are handed to the createChildTreeItem method.
+
+        Parameters
+        ----------
+        self : QMainWindow
+            the MainWindow of the class
+        item : clicked QTreeWidgetItem
+            from which the ID is obtained
+
+        Returns
+        -------
+        nothing
+        '''
+        num = item.childCount()
+        if num == 0:
+            ID = item.data(0, 0)
+            Protein = self.SequencSearchDict.get(ID)
+            self.createChildTreeItemSeqSearch(item, ID, Protein)
+
+    def clickTreeItemSeqSearchDecoy(self, item):
+        '''Does the same as clickTreeItemSeqSearch but
+        hands the corresponding DECOY protein sequence
+        to the create TreeItem method.
+        '''
+        num = item.childCount()
+        if num == 0:
+            ID = item.data(0, 0)
+            Protein = self.SequencSearchDictDECOY.get(ID)
+            self.createChildTreeItemSeqSearch(item, ID, Protein)
+
+    # defining the searchClicked method for the searchButtonP
+
+    def searchClicked(self):
         """Gets self and searches for Protein and shows the result
         on QMainWindow
 
@@ -298,13 +471,13 @@ class FastaViewer(QMainWindow):
                 self.error.setWindowTitle("Error")
                 a = self.error.exec_()
             else:
-                if self.radioid.isChecked() == True:
+                if self.radioid.isChecked():
                     self.radioIdSearch()
 
-                if self.radioseq.isChecked() == True:
+                if self.radioseq.isChecked():
                     self.sequenceSearch()
 
-                if self.radioname.isChecked() == True:
+                if self.radioname.isChecked():
                     self.nameSearch()
         # doc recommends enabling sorting after loading the tree with elements
         self.tw.setSortingEnabled(True)
@@ -332,46 +505,18 @@ class FastaViewer(QMainWindow):
                     atLeastOneProteinFound = True
                     index = list(self.dictKeyAccessionDECOY).index(
                         protein_accession)
-                    Protein = self.dictKeyAccessionDECOY.get(
-                        protein_accession)
                     ID = list(self.dictKeyAccessionDECOY.keys())[
                         index]
                     Proteinname = self.proteinNameListDECOY[index]
                     OS = self.proteinOSListDECOY[index]
-                    self.cg = QtWidgets.QTreeWidgetItem(self.tw)
-                    self.cg.setData(0, 0, ID)
-                    self.cg.setData(1, 0, OS)
-                    self.cg.setData(2, 0, Proteinname)
-                    self.link = QLabel()
-
-                    self.link.setTextInteractionFlags(
-                        Qt.LinksAccessibleByMouse)
-                    self.link.setOpenExternalLinks(True)
-                    self.link.setTextFormat(Qt.RichText)
-                    self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
-                                      ID + ">" + "More Information"+" </a>")
-                    self.textp = QTextEdit()
-                    self.textp.resize(
-                        self.textp.width(), self.textp.height())
-                    self.textp.insertPlainText(
-                        "Proteinsequenz: " + Protein + "\n")
-
-                    self.textp.setReadOnly(True)
-
-                    self.cgChild = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild2 = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild.setFirstColumnSpanned(True)
-                    self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
-                    self.tw.setItemWidget(
-                        self.cgChild2, 0, self.link)
+                    self.createParentItem(ID,OS,Proteinname)
 
             header = self.tw.header()
             header.setSectionResizeMode(
                 QtWidgets.QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
+            self.tw.itemClicked.disconnect()
+            self.tw.itemClicked.connect(self.clickTreeItemDecoy)
 
         else:
             for protein_accession in self.dictKeyAccession:
@@ -380,45 +525,17 @@ class FastaViewer(QMainWindow):
                     index = list(self.dictKeyAccession).index(
                         protein_accession)
                     ID = list(self.dictKeyAccession.keys())[index]
-                    Protein = self.proteinList[index]
                     Proteinname = self.proteinNameList[index]
                     OS = self.proteinOSList[index]
                     self.dummy = ID
-                    self.cg = QtWidgets.QTreeWidgetItem(self.tw)
-                    self.cg.setData(0, 0, ID)
-                    self.cg.setData(1, 0, OS)
-                    self.cg.setData(2, 0, Proteinname)
-                    self.link = QLabel()
-
-                    self.link.setTextInteractionFlags(
-                        Qt.LinksAccessibleByMouse)
-                    self.link.setOpenExternalLinks(True)
-                    self.link.setTextFormat(Qt.RichText)
-                    self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
-                                      ID + ">" + "More Information"+" </a>")
-
-                    self.textp = QTextEdit()
-                    self.textp.resize(
-                        self.textp.width(), self.textp.height())
-                    self.textp.insertPlainText(
-                        "Proteinsequenz: " + Protein + "\n")
-
-                    self.textp.setReadOnly(True)
-
-                    self.cgChild = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild2 = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild.setFirstColumnSpanned(True)
-                    self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
-                    self.tw.setItemWidget(
-                        self.cgChild2, 0, self.link)
+                    self.createParentItem(ID,OS,Proteinname)
 
             header = self.tw.header()
             header.setSectionResizeMode(
                 QtWidgets.QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
+            self.tw.itemClicked.disconnect()
+            self.tw.itemClicked.connect(self.clickTreeItem)
 
         if not atLeastOneProteinFound:
             self.msg = QMessageBox()
@@ -427,6 +544,7 @@ class FastaViewer(QMainWindow):
                 "No matching protein accession found in database.")
             self.msg.setWindowTitle("Error")
             x = self.msg.exec_()
+
 
     def sequenceSearch(self):
         """Gets self and searches for Protein based on sequence
@@ -446,6 +564,9 @@ class FastaViewer(QMainWindow):
         """
         atLeastOneProteinFound = False
         protein_sub_sequence = self.boxPro.text()
+        # dictionaries with ID as key and corresponding QTextEdit with protein sequence as value
+        self.SequencSearchDict = {}
+        self.SequencSearchDictDECOY = {}
 
         if self.decoycheck.isChecked():
             for protein_sequence in self.proteinListDECOY:
@@ -459,18 +580,8 @@ class FastaViewer(QMainWindow):
                     Proteinname = self.proteinNameListDECOY[index]
                     OS = self.proteinOSListDECOY[index]
 
-                    self.cg = QtWidgets.QTreeWidgetItem(self.tw)
-                    self.cg.setData(0, 0, ID)
-                    self.cg.setData(1, 0, OS)
-                    self.cg.setData(2, 0, Proteinname)
-                    self.link = QLabel()
+                    self.createParentItem(ID,OS,Proteinname)
 
-                    self.link.setTextInteractionFlags(
-                        Qt.LinksAccessibleByMouse)
-                    self.link.setOpenExternalLinks(True)
-                    self.link.setTextFormat(Qt.RichText)
-                    self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
-                                      ID + ">" + "More Information"+" </a>")
 
                     self.textp = QTextEdit()
                     self.textp.resize(
@@ -478,7 +589,7 @@ class FastaViewer(QMainWindow):
                     cuts = self.cutstring(
                         Protein, protein_sub_sequence)
                     self.textp.insertPlainText(
-                        "Proteinsequenz: "
+                        "Proteinsequence: "
                     )
 
                     for i in range(len(cuts)):
@@ -509,20 +620,14 @@ class FastaViewer(QMainWindow):
                     self.textp.insertPlainText("\n")
 
                     self.textp.setReadOnly(True)
+                    self.SequencSearchDictDECOY[ID] = self.textp
 
-                    self.cgChild = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild2 = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild.setFirstColumnSpanned(True)
-                    self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
-                    self.tw.setItemWidget(
-                        self.cgChild2, 0, self.link)
             header = self.tw.header()
             header.setSectionResizeMode(
                 QtWidgets.QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
+            self.tw.itemClicked.disconnect()
+            self.tw.itemClicked.connect(self.clickTreeItemSeqSearchDecoy)
 
         else:
             for protein_sequence in self.proteinList:
@@ -535,19 +640,7 @@ class FastaViewer(QMainWindow):
                     Proteinname = self.proteinNameList[index]
                     OS = self.proteinOSList[index]
 
-                    self.cg = QtWidgets.QTreeWidgetItem(self.tw)
-                    self.cg.setData(0, 0, ID)
-                    self.cg.setData(1, 0, OS)
-                    self.cg.setData(2, 0, Proteinname)
-
-                    self.link = QLabel()
-
-                    self.link.setTextInteractionFlags(
-                        Qt.LinksAccessibleByMouse)
-                    self.link.setOpenExternalLinks(True)
-                    self.link.setTextFormat(Qt.RichText)
-                    self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
-                                      ID + ">" + "More Information"+" </a>")
+                    self.createParentItem(ID,OS,Proteinname)
 
                     self.textp = QTextEdit()
                     self.textp.resize(
@@ -555,7 +648,7 @@ class FastaViewer(QMainWindow):
                     cuts = self.cutstring(
                         Protein, protein_sub_sequence)
                     self.textp.insertPlainText(
-                        "Proteinsequenz: "
+                        "Proteinsequence: "
                     )
 
                     for i in range(len(cuts)):
@@ -585,21 +678,14 @@ class FastaViewer(QMainWindow):
                                     self.colorblack)
 
                     self.textp.setReadOnly(True)
-
-                    self.cgChild = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild2 = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild.setFirstColumnSpanned(True)
-                    self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
-                    self.tw.setItemWidget(
-                        self.cgChild2, 0, self.link)
+                    self.SequencSearchDict[ID] = self.textp
 
             header = self.tw.header()
             header.setSectionResizeMode(
                 QtWidgets.QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
+            self.tw.itemClicked.disconnect()
+            self.tw.itemClicked.connect(self.clickTreeItemSeqSearch)
 
         if not atLeastOneProteinFound:
             self.msg = QMessageBox()
@@ -634,46 +720,17 @@ class FastaViewer(QMainWindow):
                         protein_name)
                     ID = list(self.dictKeyAccessionDECOY.keys())[
                         index]
-                    Protein = self.proteinListDECOY[index]
                     Proteinname = protein_name
                     OS = self.proteinOSListDECOY[index]
 
-                    self.cg = QtWidgets.QTreeWidgetItem(self.tw)
-                    self.cg.setData(0, 0, ID)
-                    self.cg.setData(1, 0, OS)
-                    self.cg.setData(2, 0, Proteinname)
-
-                    self.link = QLabel()
-
-                    self.link.setTextInteractionFlags(
-                        Qt.LinksAccessibleByMouse)
-                    self.link.setOpenExternalLinks(True)
-                    self.link.setTextFormat(Qt.RichText)
-                    self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
-                                      ID + ">" + "More Information"+" </a>")
-
-                    self.textp = QTextEdit()
-                    self.textp.resize(
-                        self.textp.width(), self.textp.height())
-                    self.textp.insertPlainText(
-                        "\nProteinsequenz: " + Protein + "\n")
-
-                    self.textp.setReadOnly(True)
-
-                    self.cgChild = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild2 = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild.setFirstColumnSpanned(True)
-                    self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
-                    self.tw.setItemWidget(
-                        self.cgChild2, 0, self.link)
+                    self.createParentItem(ID,OS,Proteinname)
 
             header = self.tw.header()
             header.setSectionResizeMode(
                 QtWidgets.QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
+            self.tw.itemClicked.disconnect()
+            self.tw.itemClicked.connect(self.clickTreeItemDecoy)
 
         else:
             for protein_name in self.proteinNameList:
@@ -682,45 +739,17 @@ class FastaViewer(QMainWindow):
                     index = self.proteinNameList.index(
                         protein_name)
                     ID = list(self.dictKeyAccession.keys())[index]
-                    Protein = self.proteinList[index]
                     Proteinname = self.proteinNameList[index]
                     OS = self.proteinOSList[index]
 
-                    self.cg = QtWidgets.QTreeWidgetItem(self.tw,)
-                    self.cg.setData(0, 0, ID)
-                    self.cg.setData(1, 0, OS)
-                    self.cg.setData(2, 0, Proteinname)
-
-                    self.link = QLabel()
-
-                    self.link.setTextInteractionFlags(
-                        Qt.LinksAccessibleByMouse)
-                    self.link.setOpenExternalLinks(True)
-                    self.link.setTextFormat(Qt.RichText)
-                    self.link.setText("<a href =" + "https://www.uniprot.org/uniprot/" +
-                                      ID + ">" + "More Information"+" </a>")
-
-                    self.textp = QTextEdit()
-                    self.textp.resize(
-                        self.textp.width(), self.textp.height())
-                    self.textp.insertPlainText(
-                        "Proteinsequenz: " + Protein + "\n")
-
-                    self.textp.setReadOnly(True)
-                    self.cgChild = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild2 = QtWidgets.QTreeWidgetItem(
-                        self.cg)
-                    self.cgChild.setFirstColumnSpanned(True)
-                    self.tw.setItemWidget(
-                        self.cgChild, 0, self.textp)
-                    self.tw.setItemWidget(
-                        self.cgChild2, 0, self.link)
+                    self.createParentItem(ID,OS,Proteinname)
 
             header = self.tw.header()
             header.setSectionResizeMode(
                 QtWidgets.QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
+            self.tw.itemClicked.disconnect()
+            self.tw.itemClicked.connect(self.clickTreeItem)
 
         if not atLeastOneProteinFound:
             self.msg = QMessageBox()
@@ -744,7 +773,7 @@ def main():
     nothing
     """
     app = QApplication(sys.argv)
-    ex = Window()
+    ex = GUI_FastaViewer()
     sys.exit(app.exec_())
 
 
