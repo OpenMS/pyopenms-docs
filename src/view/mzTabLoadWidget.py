@@ -1,58 +1,48 @@
 import sys
-from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QWidget, QAction, QTabWidget, QVBoxLayout
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import pyqtSlot
+import webbrowser
+from PyQt5 import QtGui, QtWidgets
+from PyQt5.QtWidgets import QApplication, QWidget, QTableWidget, QVBoxLayout, QTableWidgetItem, QPushButton, QFileDialog
+from mzTabTableWidget import Window as mz
 
-from mzTabTableWidget import mzTabTableWidget
-#from XMLViewer import XMLViewer
-
-
-class AppGUITabs(QMainWindow):
-
+class Window(QWidget):
     def __init__(self):
         super().__init__()
-        self.title = 'GUI_Tabs'
-        self.left = 0
-        self.top = 0
-        self.width = 300
-        self.height = 200
-        self.setWindowTitle(self.title)
-        self.setGeometry(self.left, self.top, self.width, self.height)
-        #setTab3()
-        self.table_widget = MyTableWidget(self)
-        self.setCentralWidget(self.table_widget)
 
+        self.title = "mzTabTableWidget"
+        self.top = 100
+        self.left = 100
+        self.width = 500
+        self.height = 500
+
+        self.vBox = QVBoxLayout()
+
+        self.InitWindow()
+
+    def InitWindow(self):
+        self.setWindowIcon(QtGui.QIcon("icon.png"))
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.top, self.left, self.width, self.height)
+
+        self.mzTabTableWidget = mz()
+
+        self.loadButton = QtWidgets.QPushButton(self)
+        self.loadButton.setText("load")
+        self.loadButton.clicked.connect(self.loadFile)
+
+        self.vBox.addWidget(self.loadButton)
+        self.vBox.addWidget(self.mzTabTableWidget)
+
+        self.setLayout(self.vBox)
         self.show()
 
-class MyTableWidget(QWidget):
-    def __init__(self, parent):
-        super(QWidget, self).__init__(parent)
-        self.layout = QVBoxLayout(self)
+    def loadFile(self):
+        self.filename = QFileDialog.getOpenFileName()
+        self.mzTabTableWidget.readFile(self.filename[0])
 
-        #initialize tab screen
-        self.tabs = QTabWidget()
-        #self.tab1 = XMLViewer()
-        self.tab1 = QWidget()
-        self.tab2 = QWidget()
-        self.tab3 = mzTabTableWidget()
-        self.tab4 = QWidget()
-        self.tab5 = QWidget()
-
-        self.tabs.resize(300,200)
-
-        #add tabs
-        self.tabs.addTab(self.tab1, "Ini-Config")
-        self.tabs.addTab(self.tab2, "Experimental Design")
-        self.tabs.addTab(self.tab3, "PSM/PRT Table")
-        self.tabs.addTab(self.tab4, "Fasta-Viewer")
-        self.tabs.addTab(self.tab5, "Spectrum Viewer")
-
-        #add tabs to widget
-        self.layout.addWidget(self.tabs)
-        self.setLayout(self.layout)
-
-
+# the following is here to test the widget on its own, leave it commented if you want to use it elsewhere
+"""
 if __name__== '__main__':
     app = QApplication(sys.argv)
-    ex = AppGUITabs()
+    ex = Window()
     sys.exit(app.exec_())
+"""

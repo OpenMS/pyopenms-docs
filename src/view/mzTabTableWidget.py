@@ -86,7 +86,7 @@ class Window(QWidget):
         self.setLayout(self.outerVBox)
         self.show()
 
-    def loadFile(self):
+    def readFile(self, file):
         if self.fileLoaded:
             self.tablePRTFull.clear()
             self.tablePSMFull.clear()
@@ -110,9 +110,7 @@ class Window(QWidget):
             self.PRTColumn = [True]
             self.PSMColumn = [True]
 
-        self.filename = QFileDialog.getOpenFileName()
-
-        self.parser(self.filename[0])
+        self.parser(file)
 
         self.PRTColumn *= len(self.PRTFull[1])
         self.PSMColumn *= len(self.PSMFull[1])
