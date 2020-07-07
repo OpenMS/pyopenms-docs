@@ -4,6 +4,7 @@
 --------------------------------------------------------------------------
 Copyright The OpenMS Team -- Eberhard Karls University Tuebingen,
 ETH Zurich, and Freie Universitaet Berlin 2002-2013.
+
 This software is released under a three-clause BSD license:
  * Redistributions of source code must retain the above copyright
    notice, this list of conditions and the following disclaimer.
