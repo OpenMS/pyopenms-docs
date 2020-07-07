@@ -64,10 +64,6 @@ class Window(QWidget):
         self.tablePRTFiltered.setHidden(True)
         self.tablePSMFiltered.setHidden(True)
 
-        self.loadButton = QtWidgets.QPushButton(self)
-        self.loadButton.setText("load")
-        self.loadButton.clicked.connect(self.loadFile)
-
         self.tablePRTFull.itemClicked.connect(self.PRTClicked)
         self.tablePRTFiltered.itemClicked.connect(self.PRTClicked)
         self.tablePSMFull.itemClicked.connect(self.PSMClicked)
@@ -77,8 +73,6 @@ class Window(QWidget):
         self.tablePRTFiltered.itemDoubleClicked.connect(self.browsePRT)
         self.tablePSMFull.itemDoubleClicked.connect(self.browsePSM)
         self.tablePSMFiltered.itemDoubleClicked.connect(self.browsePSM)
-
-        self.vBoxPRT.addWidget(self.loadButton)
 
         self.vBoxPRT.addWidget(self.tablePRTFull)
         self.vBoxPRT.addWidget(self.tablePRTFiltered)
@@ -322,7 +316,3 @@ class Window(QWidget):
 
         webbrowser.open("https://www.uniprot.org/uniprot/" + accession)
 
-
-App = QApplication(sys.argv)
-window = Window()
-sys.exit(App.exec())
