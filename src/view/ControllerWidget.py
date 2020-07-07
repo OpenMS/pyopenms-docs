@@ -6,7 +6,7 @@ import numpy as np
 import pyopenms
 from ErrorWidget import ErrorWidget
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QHBoxLayout, QWidget, QSplitter
+from PyQt5.QtWidgets import QHBoxLayout, QWidget, QSplitter, QTableWidget
 from ScanTableWidget import ScanTableWidget
 from SequenceIonsWidget import SequenceIonsWidget
 from SpectrumWidget import SpectrumWidget
