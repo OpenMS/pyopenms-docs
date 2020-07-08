@@ -7,6 +7,7 @@ from GUI_FastaViewer import GUI_FastaViewer
 from ConfigView import ConfigView
 from mzMLTableView import mzMLTableView
 from SpecViewer import Specviewer
+from mzTabLoadWidget import mzTabLoadWidget
 
 
 class ProteinQuantification(QMainWindow):
@@ -27,13 +28,13 @@ class ProteinQuantification(QMainWindow):
         tview = mzMLTableView()
         sview = Specviewer()
         fview = GUI_FastaViewer()
-        # xview = ()
+        xview = mzTabLoadWidget()
 
         view.addTab(cview, 'XML-Viewer')
         view.addTab(tview, 'Experimental-Design')
         view.addTab(fview, 'Fasta-Viewer')
         view.addTab(sview, 'Spec-Viewer')
-        # view.addTab(xView, 'Viewer')
+        view.addTab(xview, 'mzTabViewer')
 
         menubar = self.menuBar()
         menubar.setNativeMenuBar(False)
