@@ -81,6 +81,18 @@ class ConfigView(QWidget):
         self.setLayout(layout)
         self.resize(500, 720)
 
+    def dragDropEvent(self, files: list):
+        if len(files) > 1:
+            QMessageBox.about(self, "Warning",
+                              "Please only use one file")
+        else:
+            if ".ini" not in files[0]:
+                QMessageBox.about(self, "Warning",
+                                  "Please only use .ini files.")
+            else:
+                file = str(files[0])
+                self.generateTreeModel(file)
+
     def openXML(self):
         """
         Loads a XML file with .ini tag, parses the xml into ET.ElementTree
@@ -90,11 +102,13 @@ class ConfigView(QWidget):
             self, "QFileDialog.getOpenFileName()", "",
             "All Files (*);;ini (*.ini)")
         if file:
-            self.tree = parse(file)
-            self.root = self.tree.getroot()
-            self.drawTreeInit()
+            self.generateTreeModel(file)
 
-            self.header.setSectionResizeMode(QHeaderView.ResizeToContents)
+    def generateTreeModel(self, file: str):
+        self.tree = parse(file)
+        self.root = self.tree.getroot()
+        self.drawTreeInit()
+        self.header.setSectionResizeMode(QHeaderView.ResizeToContents)
 
     def generateTreeWidgetItem(self, item: ET.Element) -> QTreeWidgetItem:
         """

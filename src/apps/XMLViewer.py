@@ -14,6 +14,7 @@ class XMLViewer(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
         self.initUI()
+        self.setAcceptDrops(True)
 
     def initUI(self):
         '''
@@ -36,6 +37,16 @@ class XMLViewer(QMainWindow):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
+
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.accept()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+        files = [u.path() for u in event.mimeData().urls()]
+        ConfigView().dragDropEvent(files)
 
 
 if __name__ == '__main__':
