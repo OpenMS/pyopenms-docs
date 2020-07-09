@@ -91,6 +91,7 @@ class ConfigView(QWidget):
                                   "Please only use .ini files.")
             else:
                 file = str(files[0])
+                print(file)
                 self.generateTreeModel(file)
 
     def openXML(self):
@@ -105,6 +106,7 @@ class ConfigView(QWidget):
             self.generateTreeModel(file)
 
     def generateTreeModel(self, file: str):
+        print(file)
         self.tree = parse(file)
         self.root = self.tree.getroot()
         self.drawTreeInit()
