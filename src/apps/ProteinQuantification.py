@@ -3,13 +3,14 @@ from PyQt5.QtWidgets import QApplication, QVBoxLayout, QMainWindow, \
      QDesktopWidget, QWidget, QTabWidget, QAction, QPushButton
 from PyQt5.QtCore import pyqtSlot
 sys.path.append(os.getcwd()+'/../view')
-from FastaViewer import FastaViewer
+from GUI_FastaViewer import GUI_FastaViewer
 from ConfigView import ConfigView
 from mzMLTableView import mzMLTableView
 from SpecViewer import Specviewer
+from mzTabLoadWidget import mzTabLoadWidget
 
 
-class FinalBox(QMainWindow):
+class ProteinQuantification(QMainWindow):
     """
     Application to use different Widgets in one Window
     """
@@ -26,39 +27,31 @@ class FinalBox(QMainWindow):
         cview = ConfigView()
         tview = mzMLTableView()
         sview = Specviewer()
-        fview = FastaViewer()
-        # xview = ()
+        fview = GUI_FastaViewer()
+        xview = mzTabLoadWidget()
 
         view.addTab(cview, 'XML-Viewer')
         view.addTab(tview, 'Experimental-Design')
         view.addTab(fview, 'Fasta-Viewer')
         view.addTab(sview, 'Spec-Viewer')
-        # view.addTab(xView, 'Viewer')
+        view.addTab(xview, 'mzTabViewer')
 
         menubar = self.menuBar()
         menubar.setNativeMenuBar(False)
-        fileMenu = menubar.addMenu('&File')
-        saveAction = QAction("&Save File", self)
-        loadAction = QAction("&Load File", self)
+        fileMenu = menubar.addMenu('Project')
+        saveAction = QAction("&Save project", self)
+        runAction = QAction("&Run", self)
 
         saveAction.setDisabled(True)
-        loadAction.setDisabled(True)
+        runAction.setDisabled(True)
 
-        fileMenu.addAction(loadAction)
+        fileMenu.addAction(runAction)
         fileMenu.addAction(saveAction)
-
-        '''
-        Hier muss noch vlt ein conditional hin sodass
-        die connections sich für das aktuelle tab jeweils
-        ändern
-        '''
-        # loadAction.triggered.connect(cview.openXML)
-        # saveAction.triggered.connect(cview.saveFile)
 
         self.setCentralWidget(view)
         self.resize(1280, 720)
         self.center()
-        self.setWindowTitle('Final Box')
+        self.setWindowTitle('Protein Quantification')
         self.show()
 
     def center(self):
@@ -74,5 +67,5 @@ class FinalBox(QMainWindow):
 if __name__ == '__main__':
 
     app = QApplication(sys.argv)
-    ex = FinalBox()
+    ex = ProteinQuantification()
     sys.exit(app.exec_())
