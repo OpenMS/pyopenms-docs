@@ -48,8 +48,48 @@ class mzMLTableView(QWidget):
         if self.testForTime:
             rt = timeit.default_timer() - starttime
             print("Runtime of overall Initiation was : ", rt)
-    def dragMoveEvent(self, e):
-        e.accept()
+
+    def dragEnterEvent(self, event):
+
+        if event.mimeData().hasFile:
+
+            event.accept()
+
+        else:
+
+            event.ignore()
+
+ 
+
+    def dragMoveEvent(self, event):
+
+        if event.mimeData().hasImage:
+
+            event.accept()
+
+        else:
+
+            event.ignore()
+
+ 
+
+    def dropEvent(self, event):
+
+        if event.mimeData().hasImage:
+
+            event.setDropAction(Qt.CopyAction)
+
+            file_path = event.mimeData().urls()[0].toLocalFile()
+
+            self.set_image(file_path)
+
+ 
+
+            event.accept()
+
+        else:
+
+            event.ignore()
 
     def initTable(self):
         """
