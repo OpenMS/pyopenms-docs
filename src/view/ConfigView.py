@@ -82,6 +82,11 @@ class ConfigView(QWidget):
         self.resize(500, 720)
 
     def dragDropEvent(self, files: list):
+        """
+        Gets the input from the main Application.
+        The function chooses if the dragged files are
+        valid for the ConfigView Widget
+        """
         if len(files) > 1:
             QMessageBox.about(self, "Warning",
                               "Please only use one file")
@@ -106,6 +111,10 @@ class ConfigView(QWidget):
             self.generateTreeModel(file)
 
     def generateTreeModel(self, file: str):
+        """
+        Function to parse the xml .ini file to a tree model
+        Also initialises the TreeWidget
+        """
         print(file)
         self.tree = parse(file)
         self.root = self.tree.getroot()
