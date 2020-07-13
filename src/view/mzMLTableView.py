@@ -92,6 +92,11 @@ class mzMLTableView(QWidget):
         self.textbox = QLineEdit(self)
         self.textbox.move(20, 20)
         self.textbox.setFixedHeight(20)
+        self.textbox.setToolTip("Filter the experimental layout " +
+                                "according to Spectra Filepath " +
+                                "column. It will be dynamically \n" +
+                                "updated as soon as 2 characters " +
+                                "are inserted.")
 
         Buttons = [QPushButton('Load Project'), QPushButton('Load Table'),
                    QPushButton('Save Table'), QPushButton('Add File'),
