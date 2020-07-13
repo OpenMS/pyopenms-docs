@@ -52,10 +52,14 @@ class ConfigView(QWidget):
         self.loadbtn = QPushButton('Load')
         self.loadbtn.setMaximumWidth(80)
         self.loadbtn.clicked.connect(self.openXML)
+        self.loadbtn.setToolTip("Load a .ini file to display and " +
+                                "modify the configuration of your processing.")
 
         self.savebtn = QPushButton('Save')
         self.savebtn.setMaximumWidth(80)
         self.savebtn.clicked.connect(self.saveFile)
+        self.savebtn.setToolTip("Save the modified " +
+                                "configuration as .ini file.")
 
         self.checkbox = QCheckBox('Show advanced parameters')
         self.checkbox.setChecked(True)
