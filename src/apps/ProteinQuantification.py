@@ -101,6 +101,7 @@ class ProteinQuantification(QMainWindow):
         l2125 = c21 + c22 + c23 + c24 + c25
         command = l15 + l610 + l1115 + l1620 + l2125
         # command1 = "ping google.com"
+        os.chdir("../data_ProtQuantification")
         os.system(command)
         print("All has been executed!")
 

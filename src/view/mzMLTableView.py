@@ -91,6 +91,11 @@ class mzMLTableView(QWidget):
         self.textbox = QLineEdit(self)
         self.textbox.move(20, 20)
         self.textbox.setFixedHeight(20)
+        self.textbox.setToolTip("Filter the experimental layout " +
+                                "according to Spectra Filepath " +
+                                "column. It will be dynamically \n" +
+                                "updated as soon as 2 characters " +
+                                "are inserted.")
 
         Buttons = [QPushButton('Load Project'), QPushButton('Load Table'),
                    QPushButton('Save Table'), QPushButton('Add File'),
@@ -108,13 +113,41 @@ class mzMLTableView(QWidget):
 
         # Connections for Buttons and their apropriate functions
         Buttons[0].clicked.connect(self.loadBtnFn)
+        Buttons[0].setToolTip("Load a directory with .mzML files to " +
+                              "generate your own eperimental layout. " +
+                              "For mzML filenames, \"F\" is the regular \n" +
+                              "expression for fraction, while \"G\" or " +
+                              "\"FG\"is the regular expression for the " +
+                              "fraction groups.")
         Buttons[1].clicked.connect(self.importBtn)
+        Buttons[1].setToolTip("Load an existing experimental layout, as " +
+                              ".csv or .tsv to display and modify it.")
         Buttons[2].clicked.connect(self.exportBtn)
+        Buttons[2].setToolTip("Save the experimental layout as .csv or " +
+                              ".tsv file. .csv is the default option")
         Buttons[3].clicked.connect(self.loadFile)
+        Buttons[3].setToolTip("Load an additional single .mzML file " +
+                              "to the experimental layout.")
         Buttons[4].clicked.connect(self.RemoveBtn)
+        Buttons[4].setToolTip("Remove one or more selected .mzML " +
+                              "files from the experimental layout.")
         Buttons[5].clicked.connect(self.GroupBtn)
+        Buttons[5].setToolTip("Set the fraction group of selected rows " +
+                              "to a given number.")
         Buttons[6].clicked.connect(self.FractionBtn)
+        Buttons[6].setToolTip("Set the fraction of selected rows to a " +
+                              "specific number or use a range to define " +
+                              "multiple fractions. This function is \n" +
+                              "also able to work over multiple fraction " +
+                              "groups and sets the group according to the " +
+                              "fraction number.")
         Buttons[7].clicked.connect(self.LabelBtn)
+        Buttons[7].setToolTip("Set the number of labels, the program will " +
+                              "generate the necessary rows and will also " +
+                              "define the samplenumber for you. You can \n" +
+                              "apply the option to continue samplenumbers " +
+                              "over mutliple fraction groups to combine " +
+                              "two sample preparations.")
         Buttons[8].clicked.connect(self.SelectAllBtn)
 
         # init changelistener on textbox

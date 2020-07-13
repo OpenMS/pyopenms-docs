@@ -52,14 +52,21 @@ class ConfigView(QWidget):
         self.loadbtn = QPushButton('Load')
         self.loadbtn.setMaximumWidth(80)
         self.loadbtn.clicked.connect(self.openXML)
+        self.loadbtn.setToolTip("Load a .ini file to display and " +
+                                "modify the configuration of your processing.")
 
         self.savebtn = QPushButton('Save')
         self.savebtn.setMaximumWidth(80)
         self.savebtn.clicked.connect(self.saveFile)
+        self.savebtn.setToolTip("Save the modified " +
+                                "configuration as .ini file.")
 
         self.checkbox = QCheckBox('Show advanced parameters')
         self.checkbox.setChecked(True)
         self.checkbox.stateChanged.connect(self.drawTreeInit)
+        self.checkbox.setToolTip("Shows or hides parameters, " +
+                                 "which are tagged as advance in " +
+                                 "the .ini configuration file.")
 
         self.textbox = QPlainTextEdit(self)
         self.textbox.setReadOnly(True)
@@ -213,6 +220,8 @@ class ConfigView(QWidget):
             if subnode.tag == "ITEMLIST":
                 newbtn = QPushButton('Add New')
                 newbtn.setFixedSize(100, 20)
+                newbtn.setToolTip("Add new Item to the Itemlist, " +
+                                  "according to type and restrictions.")
                 listname = subnode.attrib['name']
                 self.additembtns[listname] = newbtn
                 self.treeWidget.setItemWidget(subitem, 1,
