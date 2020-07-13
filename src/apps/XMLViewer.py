@@ -21,9 +21,9 @@ class XMLViewer(QMainWindow):
         sets the window with all applications and widgets
         which are loaded from the ConfigView.py file
         '''
-        cview = ConfigView()
+        self.cview = ConfigView()
 
-        self.setCentralWidget(cview)
+        self.setCentralWidget(self.cview)
         self.resize(800, 1000)
         self.center()
         self.setWindowTitle('ini File Viewer')
@@ -46,7 +46,7 @@ class XMLViewer(QMainWindow):
 
     def dropEvent(self, event):
         files = [u.path() for u in event.mimeData().urls()]
-        ConfigView().dragDropEvent(files)
+        self.cview.dragDropEvent(files)
 
 
 if __name__ == '__main__':
