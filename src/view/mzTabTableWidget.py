@@ -12,8 +12,8 @@ change the path within the InitWindow.
 """
 import sys
 import webbrowser
-from PyQt5 import QtGui
-from PyQt5.QtWidgets import QApplication, QWidget, QTableWidget, QVBoxLayout, QTableWidgetItem
+from PyQt5 import QtGui, QtWidgets
+from PyQt5.QtWidgets import QApplication, QWidget, QTableWidget, QVBoxLayout, QTableWidgetItem, QPushButton, QFileDialog
 
 
 class Window(QWidget):
@@ -26,6 +26,8 @@ class Window(QWidget):
         self.width = 500
         self.height = 500
         self.tableRows = 5
+
+        self.fileLoaded = False
 
         self.PRTFull = []
         self.PSMFull = []
@@ -57,19 +59,10 @@ class Window(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.top, self.left, self.width, self.height)
 
-        self.parser('/home/fabian/Downloads/test1.mzTab')
-
-        self.PRTColumn *= len(self.PRTFull[1])
-        self.PSMColumn *= len(self.PSMFull[1])
-
-        self.initTables()
-        self.createTable(self.tablePRTFull, self.PRTFull)
-        self.createTable(self.tablePSMFull, self.PSMFull)
+        self.tablePRTFull.setHidden(True)
+        self.tablePSMFull.setHidden(True)
         self.tablePRTFiltered.setHidden(True)
         self.tablePSMFiltered.setHidden(True)
-
-        self.hidePRTColumns()
-        self.hidePSMColumns()
 
         self.tablePRTFull.itemClicked.connect(self.PRTClicked)
         self.tablePRTFiltered.itemClicked.connect(self.PRTClicked)
@@ -92,6 +85,48 @@ class Window(QWidget):
 
         self.setLayout(self.outerVBox)
         self.show()
+
+    def readFile(self, file):
+        if self.fileLoaded:
+            self.tablePRTFull.clear()
+            self.tablePSMFull.clear()
+            self.tablePSMFiltered.clear()
+            self.tablePRTFiltered.clear()
+
+            self.tablePRTFull.setRowCount(0)
+            self.tablePSMFull.setRowCount(0)
+            self.tablePSMFiltered.setRowCount(0)
+            self.tablePRTFiltered.setRowCount(0)
+
+            self.PRTFull.clear()
+            self.PSMFull.clear()
+
+            self.PRTFiltered.clear()
+            self.PSMFiltered.clear()
+
+            self.PRTColumn.clear()
+            self.PSMColumn.clear()
+
+            self.PRTColumn = [True]
+            self.PSMColumn = [True]
+
+        self.parser(file)
+
+        self.PRTColumn *= len(self.PRTFull[1])
+        self.PSMColumn *= len(self.PSMFull[1])
+
+        self.initTables()
+        self.createTable(self.tablePRTFull, self.PRTFull)
+        self.createTable(self.tablePSMFull, self.PSMFull)
+
+        self.hidePRTColumns()
+        self.hidePSMColumns()
+
+        self.tablePRTFull.setHidden(False)
+        self.tablePSMFull.setHidden(False)
+
+        self.fileLoaded = True
+
 
     def parser(self, file):
         """parses the given mzTab file and saves PRT and PSM information
@@ -159,6 +194,11 @@ class Window(QWidget):
                     k += 1
                     j = 0
                 break
+
+        self.tablePRTFull.resizeColumnsToContents()  # resize columns
+        self.tablePSMFull.resizeColumnsToContents()  # resize columns
+        self.tablePRTFiltered.resizeColumnsToContents()  # resize columns
+        self.tablePSMFiltered.resizeColumnsToContents()  # resize columns
 
     def hidePRTColumns(self):
         """hides constant columns in PRT table by default by checking if every value equals"""
@@ -274,7 +314,3 @@ class Window(QWidget):
 
         webbrowser.open("https://www.uniprot.org/uniprot/" + accession)
 
-
-App = QApplication(sys.argv)
-window = Window()
-sys.exit(App.exec())
