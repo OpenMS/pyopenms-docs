@@ -49,47 +49,7 @@ class mzMLTableView(QWidget):
             rt = timeit.default_timer() - starttime
             print("Runtime of overall Initiation was : ", rt)
 
-    def dragEnterEvent(self, event):
 
-        if event.mimeData().hasFile:
-
-            event.accept()
-
-        else:
-
-            event.ignore()
-
- 
-
-    def dragMoveEvent(self, event):
-
-        if event.mimeData().hasImage:
-
-            event.accept()
-
-        else:
-
-            event.ignore()
-
- 
-
-    def dropEvent(self, event):
-
-        if event.mimeData().hasImage:
-
-            event.setDropAction(Qt.CopyAction)
-
-            file_path = event.mimeData().urls()[0].toLocalFile()
-
-            self.set_image(file_path)
-
- 
-
-            event.accept()
-
-        else:
-
-            event.ignore()
 
     def initTable(self):
         """
@@ -276,14 +236,15 @@ class mzMLTableView(QWidget):
             rt = timeit.default_timer() - starttime
             print("Runtime of loadBtnFn : ", rt)
 
-    def loadFile(self):
+    def loadFile(self, file: str = ""):
         """
         provides a filedialog to load an additional file to the dataframe
         """
         options = QFileDialog.Options()
-        file, _ = QFileDialog.getOpenFileName(
-            self, "QFileDialog.getOpenFileName()", "",
-            "All Files (*);;mzML Files (*.mzML)", options=options)
+        if not file:
+            file, _ = QFileDialog.getOpenFileName(
+                self, "QFileDialog.getOpenFileName()", "",
+                "All Files (*);;mzML Files (*.mzML)", options=options)
 
         if self.testForTime:
             starttime = timeit.default_timer()
