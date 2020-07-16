@@ -1,6 +1,7 @@
 import sys, os
 from PyQt5.QtWidgets import QApplication, QVBoxLayout, QMainWindow, \
-     QDesktopWidget, QWidget, QTabWidget, QAction, QPushButton
+     QDesktopWidget, QWidget, QTabWidget, QAction, QPushButton, QInputDialog, \
+     QMessageBox
 from PyQt5.QtCore import pyqtSlot
 sys.path.append(os.getcwd()+'/../view')
 from GUI_FastaViewer import GUI_FastaViewer
@@ -38,17 +39,26 @@ class ProteinQuantification(QMainWindow):
 
         menubar = self.menuBar()
         menubar.setNativeMenuBar(False)
-        fileMenu = menubar.addMenu('Project')
+        projectMenu = menubar.addMenu('Project')
+        parametersMenu = menubar.addMenu('Parameters')
         saveAction = QAction("&Save project", self)
         runAction = QAction("&Run in Terminal", self)
+        Threads = QAction("&Adjust the Threadnumber", self)
+        FDR = QAction("&Adjust the protein FDR", self)
 
         saveAction.setDisabled(True)
         # runAction.setDisabled(True)
 
-        fileMenu.addAction(runAction)
-        fileMenu.addAction(saveAction)
+        projectMenu.addAction(runAction)
+        projectMenu.addAction(saveAction)
+        parametersMenu.addAction(Threads)
+        parametersMenu.addAction(FDR)
 
         runAction.triggered.connect(self.runFunktion)
+        FDR.triggered.connect(self.adjustFDR)
+        Threads.triggered.connect(self.adjustThreads)
+
+        self.initDefaultValues()
 
         self.setCentralWidget(view)
         self.resize(1280, 720)
@@ -65,45 +75,77 @@ class ProteinQuantification(QMainWindow):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
+    def initDefaultValues(self):
+        self.threads = 1
+        self.fdr = 0.3
+        self.procdone = False
+
+    def adjustFDR(self):
+        newfdr, ok = QInputDialog.getDouble(
+            self, "Adjust the value for the protein FDR",
+            "Please specify a double as new FDR value")
+        if ok:
+            if newfdr > 0:
+                if newfdr <= 1:
+                    self.fdr = newfdr
+                else:
+                    QMessageBox.about(self, "Warning",
+                                      "Please specify a value" +
+                                      "between 0.0 and 1.0 for the FDR.")
+            else:
+                QMessageBox.about(self, "Warning",
+                                  "Please specify a positive" +
+                                  "value for the FDR.")
+
+    def adjustThreads(self):
+        newthreads, ok = QInputDialog.getInt(
+            self, "Adjust the number of threads",
+            "Please specify the number of threads for the processing")
+        if ok:
+            if newthreads > 0:
+                self.threads = newthreads
+            else:
+                QMessageBox.about(self, "Warning",
+                                  "Please specify a positive" +
+                                  "number of threads.")
+
     def runFunktion(self):
         """
         runs the work from the GUI in a Terminal
         """
-        c1 = "ProteomicsLFQ -in "
-        c2 = "BSA1_F1.mzML "
-        c3 = "BSA1_F2.mzML "
-        c4 = "BSA2_F1.mzML "
-        c5 = "BSA2_F2.mzML "
-        c6 = "BSA3_F1.mzML "
-        c7 = "BSA3_F2.mzML "
-        c8 = "-ids "
-        c9 = "BSA1_F1.idXML "
-        c10 = "BSA1_F2.idXML "
-        c11 = "BSA2_F1.idXML "
-        c12 = "BSA2_F2.idXML "
-        c13 = "BSA3_F1.idXML "
-        c14 = "BSA3_F2.idXML "
-        c15 = "-design BSA_design.tsv "
-        c16 = "-fasta 18Protein_SoCe_Tr_detergents_trace_target_decoy.fasta "
-        c17 = "-Alignment:max_rt_shift 0 "
-        c18 = "-targeted_only true "
-        c19 = "-transfer_ids false "
-        c20 = "-mass_recalibration false "
-        c21 = "-out_cxml BSA.consensusXML.tmp "
-        c22 = "-out_msstats BSA.csv.tmp "
-        c23 = "-out BSA.mzTab.tmp "
-        c24 = "-threads 1 "
-        c25 = "-proteinFDR 0.3"
-        l15 = c1 + c2 + c3 + c4 + c5
-        l610 = c6 + c7 + c8 + c9 + c10
-        l1115 = c11 + c12 + c13 + c14 + c15
-        l1620 = c16 + c17 + c18 + c19 + c20
-        l2125 = c21 + c22 + c23 + c24 + c25
-        command = l15 + l610 + l1115 + l1620 + l2125
-        # command1 = "ping google.com"
-        os.chdir("../data_ProtQuantification")
-        os.system(command)
-        print("All has been executed!")
+        self.procdone = False
+        outfileprefix, ok = QInputDialog.getText(self,
+                                                 "Prefix for outputfiles",
+                                                 "Please specify a prefix " +
+                                                 "for the outputfiles")
+        if ok:
+            projectfolder = "../data_ProtQuantification"
+            mzMLfiles = ["BSA1_F1.mzML", "BSA1_F2.mzML", "BSA2_F1.mzML",
+                         "BSA2_F2.mzML", "BSA3_F1.mzML", "BSA3_F2.mzML"]
+            idXMLfiles = ["BSA1_F1.idXML", "BSA1_F2.idXML ", "BSA2_F1.idXML ",
+                          "BSA2_F2.idXML ", "BSA3_F1.idXML ", "BSA3_F2.idXML "]
+            expdesign = "BSA_design.tsv"
+            dbfasta = "18Protein_SoCe_Tr_detergents_trace_target_decoy.fasta"
+            inifile = "OpenPepXLLF_input2.ini"
+            runcall = "ProteomicsLFQ "
+            mzMLs = "-in " + " ".join(mzMLfiles)
+            idXMLs = " -ids " + " ".join(idXMLfiles)
+            design = "-design " + expdesign + " "
+            refdb = "-fasta " + dbfasta + " "
+            configini = "-ini " + inifile + " "
+            threads = "-threads " + str(self.threads) + " "
+            fdr = "-proteinFDR " + str(self.fdr) + " "
+            out = ("-out_cxml " + outfileprefix + ".consensusXML.tmp " +
+                   "-out_msstats " + outfileprefix + ".csv.tmp " +
+                   "-out " + outfileprefix + ".mzTab.tmp")
+            command = (runcall + mzMLs + idXMLs + design +
+                       refdb + configini + threads + fdr + out)
+            os.chdir(projectfolder)
+            os.system(command)
+            self.procdone = True
+            QMessageBox.about(self, "Information", "Processing has been " +
+                              "performed and outputfiles saved to " +
+                              "projectfolder")
 
 
 if __name__ == '__main__':
