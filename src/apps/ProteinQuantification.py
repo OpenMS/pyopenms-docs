@@ -76,11 +76,17 @@ class ProteinQuantification(QMainWindow):
         self.move(qr.topLeft())
 
     def initDefaultValues(self):
+        """
+        set the default values of threads and fdr
+        """
         self.threads = 1
         self.fdr = 0.3
         self.procdone = False
 
     def adjustFDR(self):
+        """
+        The user is allowed to change th FDR
+        """
         newfdr, ok = QInputDialog.getDouble(
             self, "Adjust the value for the protein FDR",
             "Please specify a double as new FDR value")
@@ -98,6 +104,9 @@ class ProteinQuantification(QMainWindow):
                                   "value for the FDR.")
 
     def adjustThreads(self):
+        """
+        The user is allowed to change the number of threads
+        """
         newthreads, ok = QInputDialog.getInt(
             self, "Adjust the number of threads",
             "Please specify the number of threads for the processing")
@@ -111,7 +120,7 @@ class ProteinQuantification(QMainWindow):
 
     def runFunktion(self):
         """
-        runs the work from the GUI in a Terminal
+        runs the processing from the GUI in a Terminal
         """
         self.procdone = False
         outfileprefix, ok = QInputDialog.getText(self,
