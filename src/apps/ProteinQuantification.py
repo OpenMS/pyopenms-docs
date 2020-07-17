@@ -5,7 +5,7 @@ sys.path.append(os.getcwd()+'/../view')
 from GUI_FastaViewer import GUI_FastaViewer
 from ConfigView import ConfigView
 from mzMLTableView import mzMLTableView
-from SpecViewer import Specviewer
+from MultipleSpecView import MultipleSpecView
 from mzTabTableWidget import Window as mzTabTableWidget
 sys.path.append(os.getcwd() + '/../model')
 from tableDataFrame import TableDataFrame as Tdf  # noqa E402
@@ -30,7 +30,7 @@ class ProteinQuantification(QMainWindow):
         self.view = QTabWidget()
         self.cview = ConfigView()
         self.tview = mzMLTableView()
-        self.sview = Specviewer()
+        self.sview = MultipleSpecView()
         self.fview = GUI_FastaViewer()
         self.xview = mzTabTableWidget()
 
