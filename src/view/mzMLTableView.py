@@ -18,11 +18,12 @@ class mzMLTableView(QWidget):
     """
     Main Widget of the TableEditor app
     """
+
     def __init__(self, *args):
         # set variable self.testForTime to True to see Runtimes
         # the following 2 if constructs can be used to determine
-        # timing 
-        # just put them around whatever should be timed 
+        # timing
+        # just put them around whatever should be timed
 
         # self.testForTime = False
         # if self.testForTime:
@@ -142,6 +143,9 @@ class mzMLTableView(QWidget):
 
         # init changelistener on textbox
         self.textbox.textChanged[str].connect(self.filterTable)
+
+    def getDataFrame(self):
+        return self.tdf.getTable(self)
 
     def drawTable(self):
         """

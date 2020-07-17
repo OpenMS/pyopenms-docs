@@ -59,7 +59,7 @@ class ProteinQuantification(QMainWindow):
         runAction.triggered.connect(self.runFunktion)
         FDR.triggered.connect(self.adjustFDR)
         Threads.triggered.connect(self.adjustThreads)
-        
+
         saveAction.triggered.connect(self.saveFunktion)
 
         self.initDefaultValues()
@@ -133,32 +133,44 @@ class ProteinQuantification(QMainWindow):
                                                  "for the outputfiles")
         if ok:
             projectfolder = "../data_ProtQuantification"
-            mzMLfiles = ["BSA1_F1.mzML", "BSA1_F2.mzML", "BSA2_F1.mzML",
-                         "BSA2_F2.mzML", "BSA3_F1.mzML", "BSA3_F2.mzML"]
-            idXMLfiles = ["BSA1_F1.idXML", "BSA1_F2.idXML ", "BSA2_F1.idXML ",
-                          "BSA2_F2.idXML ", "BSA3_F1.idXML ", "BSA3_F2.idXML "]
-            expdesign = "BSA_design.tsv"
-            dbfasta = "18Protein_SoCe_Tr_detergents_trace_target_decoy.fasta"
-            inifile = "OpenPepXLLF_input2.ini"
-            runcall = "ProteomicsLFQ "
-            mzMLs = "-in " + " ".join(mzMLfiles)
-            idXMLs = " -ids " + " ".join(idXMLfiles)
-            design = "-design " + expdesign + " "
-            refdb = "-fasta " + dbfasta + " "
-            configini = "-ini " + inifile + " "
-            threads = "-threads " + str(self.threads) + " "
-            fdr = "-proteinFDR " + str(self.fdr) + " "
-            out = ("-out_cxml " + outfileprefix + ".consensusXML.tmp " +
-                   "-out_msstats " + outfileprefix + ".csv.tmp " +
-                   "-out " + outfileprefix + ".mzTab.tmp")
-            command = (runcall + mzMLs + idXMLs + design +
-                       refdb + configini + threads + fdr + out)
-            os.chdir(projectfolder)
-            os.system(command)
-            self.procdone = True
-            QMessageBox.about(self, "Information", "Processing has been " +
-                              "performed and outputfiles saved to " +
-                              "projectfolder")
+            mzMLExpLayout = self.tview.getDataFrame()
+            try:
+                mzMLfiles = mzMLExpLayout['Spectra_Filepath']
+                idXMLfiles = []
+                for mzML in mzMLfiles:
+                    temp = mzML.split(".")
+                    idXML = temp[0] + ".idXML"
+                    idXMLfiles.append(idXML)
+                mzMLidXMLdefined = True
+            except KeyError:
+                QMessageBox.about(self, "Warning", "Please load or " +
+                                  "create an Experimental Design first")
+                mzMLidXMLdefined = False
+
+            expdesign = "BSA_design.tsv"  # todo
+            dbfasta = "18Protein_SoCe_Tr_detergents_trace_target_decoy.fasta"  # todo
+            inifile = "OpenPepXLLF_input2.ini"  # todo
+
+            if mzMLidXMLdefined:
+                runcall = "ProteomicsLFQ "
+                mzMLs = "-in " + " ".join(mzMLfiles)
+                idXMLs = " -ids " + " ".join(idXMLfiles)
+                design = " -design " + expdesign + " "
+                refdb = "-fasta " + dbfasta + " "
+                configini = "-ini " + inifile + " "
+                threads = "-threads " + str(self.threads) + " "
+                fdr = "-proteinFDR " + str(self.fdr) + " "
+                out = ("-out_cxml " + outfileprefix + ".consensusXML.tmp " +
+                       "-out_msstats " + outfileprefix + ".csv.tmp " +
+                       "-out " + outfileprefix + ".mzTab.tmp")
+                command = (runcall + mzMLs + idXMLs + design +
+                           refdb + configini + threads + fdr + out)
+                os.chdir(projectfolder)
+                os.system(command)
+                self.procdone = True
+                QMessageBox.about(self, "Information", "Processing has been " +
+                                  "performed and outputfiles saved to " +
+                                  "projectfolder")
 
     def saveFunktion(self):
         """
@@ -171,11 +183,11 @@ class ProteinQuantification(QMainWindow):
         #get xml name?
         xmlPath = filePath + "/name.ini"
         print(xmlPath)
-        try: 
+        try:
             self.cview.tree.write(xmlPath)
         except TypeError:
             print("Nothing loaded to be saved!")
-        
+
         #get table name?
         tablePath = filePath + "/design.tsv"
         print(tablePath)
