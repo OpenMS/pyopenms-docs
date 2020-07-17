@@ -6,7 +6,7 @@ from GUI_FastaViewer import GUI_FastaViewer
 from ConfigView import ConfigView
 from mzMLTableView import mzMLTableView
 from SpecViewer import Specviewer
-from mzTabLoadWidget import mzTabLoadWidget
+from mzTabTableWidget import Window as mzTabTableWidget
 sys.path.append(os.getcwd() + '/../model')
 from tableDataFrame import TableDataFrame as Tdf  # noqa E402
 sys.path.append(os.getcwd() + '/../controller')
@@ -31,7 +31,7 @@ class ProteinQuantification(QMainWindow):
         self.tview = mzMLTableView()
         self.sview = Specviewer()
         self.fview = GUI_FastaViewer()
-        self.xview = mzTabLoadWidget()
+        self.xview = mzTabTableWidget()
 
         self.view.addTab(self.cview, 'XML-Viewer')
         self.view.addTab(self.tview, 'Experimental-Design')
@@ -171,7 +171,8 @@ class ProteinQuantification(QMainWindow):
                 QMessageBox.about(self, "Information", "Processing has been " +
                                   "performed and outputfiles saved to " +
                                   "projectfolder")
-
+                self.xview.readFile(outfileprefix + ".mzTab.tmp")
+                self.view.setCurrentWidget(self.xview)
 
     def saveFunktion(self):
         """
