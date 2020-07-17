@@ -21,6 +21,7 @@ class ProteinQuantification(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
         self.initUI()
+        self.initVars()
 
     def initUI(self):
         '''
@@ -69,6 +70,22 @@ class ProteinQuantification(QMainWindow):
         self.center()
         self.setWindowTitle('Protein Quantification')
         self.show()
+
+    def initVars(self):
+        """
+        initiates usable variables
+        """
+        self.init_loaded = False
+        self.tablefile_loaded = False
+        # self.fasta_loaded = True
+        # self.spec_loaded = True
+        # self.mztab_loaded = True
+
+        self.loaded_init = "notYetDefined.ini"
+        self.loaded_table = ""
+        # self.loaded_fasta = ""
+        # self.loaded_spec = ""
+        # self.loaded_mztab = ""
 
     def center(self):
         """
@@ -180,23 +197,35 @@ class ProteinQuantification(QMainWindow):
         """
         dlg = QFileDialog(self)
         filePath = dlg.getExistingDirectory()
+        filePath = filePath + "/"
         print(filePath)
 
-        #get xml name?
-        xmlPath = filePath + "/name.ini"
-        print(xmlPath)
-        try:
-            self.cview.tree.write(xmlPath)
-        except TypeError:
-            print("Nothing loaded to be saved!")
+        ok = False
+        table_empty = self.tview.table.rowCount() <= 0
 
-        #get table name?
-        tablePath = filePath + "/design.tsv"
-        print(tablePath)
-        if self.tview.table.rowCount() > 0:
+        if self.tablefile_loaded == False and table_empty == False:
+            prefix, ok = QInputDialog.getText(self,
+                                        "Prefix for outputfiles",
+                                         "Please specify a prefix " +
+                                         "for the outputfiles")
+            if ok:
+                tablePath = filePath + prefix + "_design.tsv"
+                # print(tablePath)
+
+        if self.tablefile_loaded:
+            tablePath = filePath + self.loaded_table
+
+        if ok or self.tablefile_loaded:
             df = Tdf.getTable(self.tview)
             fh.exportTable(self.tview, df, tablePath , "tsv")
 
+
+        xmlPath = filePath + self.loaded_init
+        # print(xmlPath)
+        try:
+            self.cview.tree.write(xmlPath)
+        except TypeError:
+            print("No Config loaded to be saved!")
 
 if __name__ == '__main__':
 
