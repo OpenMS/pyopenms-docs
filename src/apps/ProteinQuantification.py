@@ -1,14 +1,16 @@
 import sys, os
-from PyQt5.QtWidgets import QApplication, QVBoxLayout, QMainWindow, \
-     QDesktopWidget, QWidget, QTabWidget, QAction, QPushButton, QInputDialog, \
-     QMessageBox
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, \
+     QTabWidget, QAction, QInputDialog, QMessageBox, QFileDialog
 sys.path.append(os.getcwd()+'/../view')
 from GUI_FastaViewer import GUI_FastaViewer
 from ConfigView import ConfigView
 from mzMLTableView import mzMLTableView
 from SpecViewer import Specviewer
 from mzTabLoadWidget import mzTabLoadWidget
+sys.path.append(os.getcwd() + '/../model')
+from tableDataFrame import TableDataFrame as Tdf  # noqa E402
+sys.path.append(os.getcwd() + '/../controller')
+from filehandler import FileHandler as fh  # noqa E402
 
 
 class ProteinQuantification(QMainWindow):
@@ -25,14 +27,14 @@ class ProteinQuantification(QMainWindow):
         sets the window with all applications and widgets
         '''
         view = QTabWidget()
-        cview = ConfigView()
-        tview = mzMLTableView()
+        self.cview = ConfigView()
+        self.tview = mzMLTableView()
         sview = Specviewer()
         fview = GUI_FastaViewer()
         xview = mzTabLoadWidget()
 
-        view.addTab(cview, 'XML-Viewer')
-        view.addTab(tview, 'Experimental-Design')
+        view.addTab(self.cview, 'XML-Viewer')
+        view.addTab(self.tview, 'Experimental-Design')
         view.addTab(fview, 'Fasta-Viewer')
         view.addTab(sview, 'Spec-Viewer')
         view.addTab(xview, 'mzTabViewer')
@@ -46,7 +48,7 @@ class ProteinQuantification(QMainWindow):
         Threads = QAction("&Adjust the Threadnumber", self)
         FDR = QAction("&Adjust the protein FDR", self)
 
-        saveAction.setDisabled(True)
+        # saveAction.setDisabled(True)
         # runAction.setDisabled(True)
 
         projectMenu.addAction(runAction)
@@ -57,6 +59,8 @@ class ProteinQuantification(QMainWindow):
         runAction.triggered.connect(self.runFunktion)
         FDR.triggered.connect(self.adjustFDR)
         Threads.triggered.connect(self.adjustThreads)
+        
+        saveAction.triggered.connect(self.saveFunktion)
 
         self.initDefaultValues()
 
@@ -155,6 +159,29 @@ class ProteinQuantification(QMainWindow):
             QMessageBox.about(self, "Information", "Processing has been " +
                               "performed and outputfiles saved to " +
                               "projectfolder")
+
+    def saveFunktion(self):
+        """
+        saves all work from the GUI in chosen folder
+        """
+        dlg = QFileDialog(self)
+        filePath = dlg.getExistingDirectory()
+        print(filePath)
+
+        #get xml name?
+        xmlPath = filePath + "/name.ini"
+        print(xmlPath)
+        try: 
+            self.cview.tree.write(xmlPath)
+        except TypeError:
+            print("Nothing loaded to be saved!")
+        
+        #get table name?
+        tablePath = filePath + "/design.tsv"
+        print(tablePath)
+        if self.tview.table.rowCount() > 0:
+            df = Tdf.getTable(self.tview)
+            fh.exportTable(self.tview, df, tablePath , "tsv")
 
 
 if __name__ == '__main__':
