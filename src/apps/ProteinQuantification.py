@@ -26,18 +26,18 @@ class ProteinQuantification(QMainWindow):
         '''
         sets the window with all applications and widgets
         '''
-        view = QTabWidget()
+        self.view = QTabWidget()
         self.cview = ConfigView()
         self.tview = mzMLTableView()
-        sview = Specviewer()
-        fview = GUI_FastaViewer()
-        xview = mzTabLoadWidget()
+        self.sview = Specviewer()
+        self.fview = GUI_FastaViewer()
+        self.xview = mzTabLoadWidget()
 
-        view.addTab(self.cview, 'XML-Viewer')
-        view.addTab(self.tview, 'Experimental-Design')
-        view.addTab(fview, 'Fasta-Viewer')
-        view.addTab(sview, 'Spec-Viewer')
-        view.addTab(xview, 'mzTabViewer')
+        self.view.addTab(self.cview, 'XML-Viewer')
+        self.view.addTab(self.tview, 'Experimental-Design')
+        self.view.addTab(self.fview, 'Fasta-Viewer')
+        self.view.addTab(self.sview, 'Spec-Viewer')
+        self.view.addTab(self.xview, 'mzTabViewer')
 
         menubar = self.menuBar()
         menubar.setNativeMenuBar(False)
@@ -64,7 +64,7 @@ class ProteinQuantification(QMainWindow):
 
         self.initDefaultValues()
 
-        self.setCentralWidget(view)
+        self.setCentralWidget(self.view)
         self.resize(1280, 720)
         self.center()
         self.setWindowTitle('Protein Quantification')
@@ -171,6 +171,7 @@ class ProteinQuantification(QMainWindow):
                 QMessageBox.about(self, "Information", "Processing has been " +
                                   "performed and outputfiles saved to " +
                                   "projectfolder")
+
 
     def saveFunktion(self):
         """
