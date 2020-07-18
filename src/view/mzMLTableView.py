@@ -222,12 +222,15 @@ class mzMLTableView(QWidget):
         filePath = dlg.getExistingDirectory()
 
         if filePath != '':
-            Files = fh.getFiles(self, filePath)
-            delimiters = ["_"]
-            preparedFiles = fh.tagfiles(self, Files, delimiters[0])
-            rawTable = fh.createRawTable(self, preparedFiles, filePath)
-            Tdf.setTable(self, rawTable)
-            self.drawTable()
+            self.loadDir(filePath)
+
+    def loadDir(self, filepath: str):
+        Files = fh.getFiles(self, filepath)
+        delimiters = ["_"]
+        preparedFiles = fh.tagfiles(self, Files, delimiters[0])
+        rawTable = fh.createRawTable(self, preparedFiles, filepath)
+        Tdf.setTable(self, rawTable)
+        self.drawTable()
 
     def loadFile(self, file: str = ""):
         """
