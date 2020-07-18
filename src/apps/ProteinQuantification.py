@@ -239,24 +239,31 @@ class ProteinQuantification(QMainWindow):
 
         try:
             if filePath != '':
-                xmlFiles = fh.getFiles(self.tview, filePath)
-                self.loaded_table = xmlFiles
-                delimiters = ["_"]
-                preparedFiles = fh.tagfiles(self.tview, xmlFiles, delimiters[0])
-                rawTable = fh.createRawTable(self.tview, preparedFiles, filePath)
-                Tdf.setTable(self.tview, rawTable)
-                self.tview.drawTable()
-            self.tablefile_loaded = True
+                tsvfiles = glob.glob('*.tsv')
+                for file in tsvfiles:
+                    df = fh.importTable(self.tview, file)
+                    Tdf.setTable(self.tview, df)
+                    self.tview.drawTable()
+                    self.loaded_table = file
+                    self.tablefile_loaded = True
         except TypeError:
-            print("Could not load .mzml files")
+            "No tsv or csv file could be loaded."
+
+        if self.tablefile_loaded == False:
+            try:
+                if filePath != '':
+                    self.tview.loadDir(filePath)
+                    self.tablefile_loaded = True
+            except TypeError:
+                print("Could not load .mzMl files")
 
         try:
             os.chdir(filePath)
             if filePath != '':
                 iniFiles = glob.glob('*.ini')
-                self.loaded_init = iniFiles
                 for file in iniFiles:
                     self.cview.generateTreeModel(file)
+                    self.loaded_init = file
             self.init_loaded = True
         except TypeError:
             print("Could not load .ini file")
@@ -264,9 +271,9 @@ class ProteinQuantification(QMainWindow):
         try:
             if filePath != '':
                 fastafiles = glob.glob('*fasta')
-                self.loaded_fasta = fastafiles
                 for file in fastafiles:
                     self.fview.loadFile(file)
+                    self.loaded_fasta = file
                     self.fasta_loaded = True
         except TypeError:
             print("Could not load .fasta file")
