@@ -233,7 +233,7 @@ class GUI_FastaViewer(QMainWindow):
         return cut
     # defining the function for load button to get path of database
 
-    def loadFile(self):
+    def loadFile(self, filepath):
         """Gets QMainWindow and opens a QFileDialog and loads path
 
     Parameters
@@ -247,9 +247,7 @@ class GUI_FastaViewer(QMainWindow):
     nothing , it changes the QMainWindow so that the user can see that a file
     has been loaded
     """
-        self.filename = QFileDialog.getOpenFileName()
-        self.path = self.filename[0]
-        self.fileloaded = 1
+        self.path = filepath
         # loading the lists before searching in order to make the search faster
         self.dictKeyAccession, self.proteinList, self.proteinNameList, self.proteinOSList, self.dictKeyAccessionDECOY, self.proteinListDECOY, self.proteinNameListDECOY, self.proteinOSListDECOY = LoadFasta_FastaViewer.protein_dictionary(
             self.path)

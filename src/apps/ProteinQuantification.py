@@ -80,13 +80,13 @@ class ProteinQuantification(QMainWindow):
         """
         self.init_loaded = False
         self.tablefile_loaded = False
-        # self.fasta_loaded = True
+        self.fasta_loaded = False
         # self.spec_loaded = True
         # self.mztab_loaded = True
 
         self.loaded_init = ""
         self.loaded_table = ""
-        # self.loaded_fasta = ""
+        self.loaded_fasta = ""
         # self.loaded_spec = ""
         # self.loaded_mztab = ""
         
@@ -205,8 +205,8 @@ class ProteinQuantification(QMainWindow):
         if self.tablefile_loaded == False and table_empty == False:
             prefix, ok = QInputDialog.getText(self,
                                         "Prefix for outputfiles",
-                                         "Please specify a prefix " +
-                                         "for the outputfiles")
+                                        "Please specify a prefix " +
+                                        "for the outputfiles")
             if ok:
                 tablePath = filePath + prefix + "_design.tsv"
                 # print(tablePath)
@@ -216,8 +216,7 @@ class ProteinQuantification(QMainWindow):
 
         if ok or self.tablefile_loaded:
             df = Tdf.getTable(self.tview)
-            fh.exportTable(self.tview, df, tablePath , "tsv")
-
+            fh.exportTable(self.tview, df, tablePath, "tsv")
 
         xmlPath = filePath + self.loaded_init
         # print(xmlPath)
@@ -227,9 +226,17 @@ class ProteinQuantification(QMainWindow):
             print("No Config loaded to be saved!")
 
     def loadFunction(self):
+        """
+        loads all files (.xml, .ini, .fasta) from a given 
+        directory.
+        .xml and . ini dont need to be selected as it takes
+        the file endings
+
+        Fasta file needs to be selected for that the second
+        window opens
+        """
         dlg = QFileDialog(self)
         filePath = dlg.getExistingDirectory()
-        print(filePath)
 
         try:
             if filePath != '':
@@ -254,6 +261,15 @@ class ProteinQuantification(QMainWindow):
             self.init_loaded = True
         except TypeError:
             print("Could not load .ini file")
+
+        try:
+            filename = QFileDialog.getOpenFileName()
+            path = filename[0]
+            self.loaded_fasta = path
+            self.fview.loadFile(path)
+            self.fasta_loaded = True
+        except TypeError:
+            print("Could not load .fasta file")
 
 
 if __name__ == '__main__':
