@@ -11,7 +11,6 @@ sys.path.append(os.getcwd() + '/../model')
 from tableDataFrame import TableDataFrame as Tdf  # noqa E402
 sys.path.append(os.getcwd() + '/../controller')
 from filehandler import FileHandler as fh  # noqa E402
-sys.path.append(os.getcwd() + '/../examples')
 
 
 class ProteinQuantification(QMainWindow):
@@ -203,10 +202,10 @@ class ProteinQuantification(QMainWindow):
         table_empty = self.tview.table.rowCount() <= 0
 
         if self.tablefile_loaded == False and table_empty == False:
-            prefix, ok = QInputDialog.getText(self,
-                                        "Prefix for outputfiles",
-                                        "Please specify a prefix " +
-                                        "for the outputfiles")
+            prefix, ok = QInputDialog.getText(
+                self, "Prefix for outputfiles",
+                "Please specify a prefix " +
+                "for the outputfiles")
             if ok:
                 tablePath = filePath + prefix + "_design.tsv"
                 # print(tablePath)
@@ -227,7 +226,7 @@ class ProteinQuantification(QMainWindow):
 
     def loadFunction(self):
         """
-        loads all files (.xml, .ini, .fasta) from a given 
+        loads all files (.xml, .ini, .fasta) from a given
         directory.
         .xml and . ini dont need to be selected as it takes
         the file endings
@@ -263,11 +262,12 @@ class ProteinQuantification(QMainWindow):
             print("Could not load .ini file")
 
         try:
-            filename = QFileDialog.getOpenFileName()
-            path = filename[0]
-            self.loaded_fasta = path
-            self.fview.loadFile(path)
-            self.fasta_loaded = True
+            if filePath != '':
+                fastafiles = glob.glob('*fasta')
+                self.loaded_fasta = fastafiles
+                for file in fastafiles:
+                    self.fview.loadFile(file)
+                    self.fasta_loaded = True
         except TypeError:
             print("Could not load .fasta file")
 
