@@ -14,9 +14,6 @@ class MultipleSpecView(QWidget):
     """
 
     def __init__(self, *args):
-        """
-
-        """
         QWidget.__init__(self, *args)
         self.table = QTableWidget()
         self.sview = Specviewer()
@@ -36,9 +33,7 @@ class MultipleSpecView(QWidget):
         self.setLayout(layout)
         self.resize(1280, 720)
 
-        self.fillTable()
-
-    def fillTable(self):
+    def fillTable(self, projectdir: str):
         """
         Uses the project directory to access all mzML files
         Loads all mzML files in the table

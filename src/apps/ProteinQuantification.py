@@ -83,12 +83,13 @@ class ProteinQuantification(QMainWindow):
         # self.spec_loaded = True
         # self.mztab_loaded = True
 
+        self.loaded_dir = ""
         self.loaded_init = ""
         self.loaded_table = ""
         self.loaded_fasta = ""
         # self.loaded_spec = ""
         # self.loaded_mztab = ""
-        
+
         self.threads = 1
         self.fdr = 0.3
         self.procdone = False
@@ -147,7 +148,7 @@ class ProteinQuantification(QMainWindow):
                                                  "Please specify a prefix " +
                                                  "for the outputfiles")
         if ok:
-            projectfolder = "../data_ProtQuantification"
+            projectfolder = self.loaded_dir
             mzMLExpLayout = self.tview.getDataFrame()
             try:
                 mzMLfiles = mzMLExpLayout['Spectra_Filepath']
@@ -248,6 +249,8 @@ class ProteinQuantification(QMainWindow):
         """
         dlg = QFileDialog(self)
         filePath = dlg.getExistingDirectory()
+        self.loaded_dir = filePath
+        self.sview.fillTable(filePath)
 
         try:
             if filePath != '':
