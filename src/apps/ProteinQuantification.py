@@ -1,4 +1,4 @@
-import sys, os
+import sys, os, glob
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, \
      QTabWidget, QAction, QInputDialog, QMessageBox, QFileDialog
 sys.path.append(os.getcwd()+'/../view')
@@ -11,6 +11,7 @@ sys.path.append(os.getcwd() + '/../model')
 from tableDataFrame import TableDataFrame as Tdf  # noqa E402
 sys.path.append(os.getcwd() + '/../controller')
 from filehandler import FileHandler as fh  # noqa E402
+sys.path.append(os.getcwd() + '/../examples')
 
 
 class ProteinQuantification(QMainWindow):
@@ -44,6 +45,7 @@ class ProteinQuantification(QMainWindow):
         menubar.setNativeMenuBar(False)
         projectMenu = menubar.addMenu('Project')
         parametersMenu = menubar.addMenu('Parameters')
+        loadAction = QAction("&Load Project", self)
         saveAction = QAction("&Save project", self)
         runAction = QAction("&Run in Terminal", self)
         Threads = QAction("&Adjust the Threadnumber", self)
@@ -51,7 +53,7 @@ class ProteinQuantification(QMainWindow):
 
         # saveAction.setDisabled(True)
         # runAction.setDisabled(True)
-
+        projectMenu.addAction(loadAction)
         projectMenu.addAction(runAction)
         projectMenu.addAction(saveAction)
         parametersMenu.addAction(Threads)
@@ -62,8 +64,9 @@ class ProteinQuantification(QMainWindow):
         Threads.triggered.connect(self.adjustThreads)
 
         saveAction.triggered.connect(self.saveFunktion)
+        loadAction.triggered.connect(self.loadFunction)
 
-        self.initDefaultValues()
+        #self.initDefaultValues()
 
         self.setCentralWidget(self.view)
         self.resize(1280, 720)
@@ -81,7 +84,7 @@ class ProteinQuantification(QMainWindow):
         # self.spec_loaded = True
         # self.mztab_loaded = True
 
-        self.loaded_init = "notYetDefined.ini"
+        self.loaded_init = ""
         self.loaded_table = ""
         # self.loaded_fasta = ""
         # self.loaded_spec = ""
@@ -222,6 +225,36 @@ class ProteinQuantification(QMainWindow):
             self.cview.tree.write(xmlPath)
         except TypeError:
             print("No Config loaded to be saved!")
+
+    def loadFunction(self):
+        dlg = QFileDialog(self)
+        filePath = dlg.getExistingDirectory()
+        print(filePath)
+
+        try:
+            if filePath != '':
+                xmlFiles = fh.getFiles(self.tview, filePath)
+                self.loaded_table = xmlFiles
+                delimiters = ["_"]
+                preparedFiles = fh.tagfiles(self.tview, xmlFiles, delimiters[0])
+                rawTable = fh.createRawTable(self.tview, preparedFiles, filePath)
+                Tdf.setTable(self.tview, rawTable)
+                self.tview.drawTable()
+            self.tablefile_loaded = True
+        except TypeError:
+            print("Could not load .mzml files")
+
+        try:
+            os.chdir(filePath)
+            if filePath != '':
+                iniFiles = glob.glob('*.ini')
+                self.loaded_init = iniFiles
+                for file in iniFiles:
+                    self.cview.generateTreeModel(file)
+            self.init_loaded = True
+        except TypeError:
+            print("Could not load .ini file")
+
 
 if __name__ == '__main__':
 
