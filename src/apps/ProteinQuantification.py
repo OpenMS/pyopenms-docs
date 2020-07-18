@@ -86,6 +86,10 @@ class ProteinQuantification(QMainWindow):
         # self.loaded_fasta = ""
         # self.loaded_spec = ""
         # self.loaded_mztab = ""
+        
+        self.threads = 1
+        self.fdr = 0.3
+        self.procdone = False
 
     def center(self):
         """
@@ -95,14 +99,6 @@ class ProteinQuantification(QMainWindow):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
-
-    def initDefaultValues(self):
-        """
-        set the default values of threads and fdr
-        """
-        self.threads = 1
-        self.fdr = 0.3
-        self.procdone = False
 
     def adjustFDR(self):
         """
