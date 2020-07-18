@@ -208,6 +208,8 @@ class ProteinQuantification(QMainWindow):
                 "for the outputfiles")
             if ok:
                 tablePath = filePath + prefix + "_design.tsv"
+                self.loaded_table = prefix + "_design.tsv"
+                self.tablefile_loaded = True
                 # print(tablePath)
 
         if self.tablefile_loaded:
