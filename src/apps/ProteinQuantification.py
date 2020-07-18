@@ -77,14 +77,14 @@ class ProteinQuantification(QMainWindow):
         """
         initiates usable variables
         """
-        self.init_loaded = False
+        self.ini_loaded = False
         self.tablefile_loaded = False
         self.fasta_loaded = False
         # self.spec_loaded = True
         # self.mztab_loaded = True
 
         self.loaded_dir = ""
-        self.loaded_init = ""
+        self.loaded_ini = ""
         self.loaded_table = ""
         self.loaded_fasta = ""
         # self.loaded_spec = ""
@@ -163,9 +163,9 @@ class ProteinQuantification(QMainWindow):
                                   "create an Experimental Design first")
                 mzMLidXMLdefined = False
 
-            expdesign = "BSA_design.tsv"  # todo
-            dbfasta = "18Protein_SoCe_Tr_detergents_trace_target_decoy.fasta"  # todo
-            inifile = "OpenPepXLLF_input2.ini"  # todo
+            expdesign = self.loaded_table
+            dbfasta = self.loaded_fasta
+            inifile = self.loaded_ini
 
             if mzMLidXMLdefined:
                 runcall = "ProteomicsLFQ "
@@ -230,7 +230,7 @@ class ProteinQuantification(QMainWindow):
         print("is file loaded above: " + str(self.tablefile_loaded))
         print("is file loaded within: " + str(self.tview.tablefile_loaded))
 
-        xmlPath = filePath + self.loaded_init
+        xmlPath = filePath + self.loaded_ini
         # print(xmlPath)
         try:
             self.cview.tree.write(xmlPath)
@@ -278,8 +278,8 @@ class ProteinQuantification(QMainWindow):
                 iniFiles = glob.glob('*.ini')
                 for file in iniFiles:
                     self.cview.generateTreeModel(file)
-                    self.loaded_init = file
-            self.init_loaded = True
+                    self.loaded_ini = file
+            self.ini_loaded = True
         except TypeError:
             print("Could not load .ini file")
 
