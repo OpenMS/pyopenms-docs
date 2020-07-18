@@ -58,6 +58,8 @@ class mzMLTableView(QWidget):
         """
         initializes Table
         """
+        self.tablefile_loaded = False
+        self.loaded_table = ""
         self.table = QTableWidget()
         self.table.setRowCount(0)
         self.table.setSortingEnabled(True)
@@ -185,6 +187,10 @@ class mzMLTableView(QWidget):
             df = fh.importTable(self, file)
             Tdf.setTable(self, df)
             self.drawTable()
+            self.tablefile_loaded = True
+            file = file.split("/")[-1]
+            self.loaded_table = file
+            print("is file loaded: " + str(self.tablefile_loaded))
 
     def exportBtn(self):
         """
@@ -196,6 +202,10 @@ class mzMLTableView(QWidget):
             "All Files (*);;tsv (*.tsv);; csv (*.csv)", options=options)
 
         if file:
+            self.tablefile_loaded = True
+            fpath = file.split("/")[-1]
+            self.loaded_table = fpath
+            print("is file loaded: " + str(self.tablefile_loaded))
             df = Tdf.getTable(self)
             temp = file.split("/")
             fileName = temp[len(temp)-1]
@@ -297,7 +307,6 @@ class mzMLTableView(QWidget):
         selrows = self.getSelRows()
         Tdf.rmvRow(self, selrows)
         self.drawTable()
-
 
     def FractionBtn(self):
         """

@@ -201,7 +201,9 @@ class ProteinQuantification(QMainWindow):
         ok = False
         table_empty = self.tview.table.rowCount() <= 0
 
-        if self.tablefile_loaded == False and table_empty == False:
+
+        if self.tablefile_loaded == False and table_empty == False \
+        	and self.tview.tablefile_loaded == False:
             prefix, ok = QInputDialog.getText(
                 self, "Prefix for outputfiles",
                 "Please specify a prefix " +
@@ -212,12 +214,20 @@ class ProteinQuantification(QMainWindow):
                 self.tablefile_loaded = True
                 # print(tablePath)
 
-        if self.tablefile_loaded:
+        if self.tablefile_loaded and self.tview.tablefile_loaded == False:
             tablePath = filePath + self.loaded_table
 
-        if ok or self.tablefile_loaded:
+        if self.tview.tablefile_loaded:
+        	tablePath = filePath + self.tview.loaded_table
+
+        if (ok or self.tablefile_loaded or \
+        	self.tview.tablefile_loaded) and \
+        		table_empty == False:
             df = Tdf.getTable(self.tview)
             fh.exportTable(self.tview, df, tablePath, "tsv")
+
+        print("is file loaded above: " + str(self.tablefile_loaded))
+        print("is file loaded within: " + str(self.tview.tablefile_loaded))
 
         xmlPath = filePath + self.loaded_init
         # print(xmlPath)
