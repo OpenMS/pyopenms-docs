@@ -65,7 +65,7 @@ class ProteinQuantification(QMainWindow):
         saveAction.triggered.connect(self.saveFunktion)
         loadAction.triggered.connect(self.loadFunction)
 
-        #self.initDefaultValues()
+        # self.initDefaultValues()
 
         self.setCentralWidget(self.view)
         self.resize(1280, 720)
@@ -239,13 +239,13 @@ class ProteinQuantification(QMainWindow):
 
     def loadFunction(self):
         """
-        loads all files (.xml, .ini, .fasta) from a given
+        loads all files (.tsv .ini, .fasta) from a given
         directory.
-        .xml and . ini dont need to be selected as it takes
-        the file endings
+        If .tsv file is not present the experimental design is
+        filled with mzMl files
 
-        Fasta file needs to be selected for that the second
-        window opens
+        If no .ini file is present default ini file is written
+        and has to be loaded with the button inside tab
         """
         dlg = QFileDialog(self)
         filePath = dlg.getExistingDirectory()
@@ -264,7 +264,7 @@ class ProteinQuantification(QMainWindow):
         except TypeError:
             "No tsv or csv file could be loaded."
 
-        if self.tablefile_loaded == False:
+        if self.tablefile_loaded is False:
             try:
                 if filePath != '':
                     self.tview.loadDir(filePath)
@@ -273,15 +273,32 @@ class ProteinQuantification(QMainWindow):
                 print("Could not load .mzMl files")
 
         try:
-            os.chdir(filePath)
             if filePath != '':
                 iniFiles = glob.glob('*.ini')
                 for file in iniFiles:
                     self.cview.generateTreeModel(file)
                     self.loaded_ini = file
-            self.ini_loaded = True
+                    self.ini_loaded = True
         except TypeError:
             print("Could not load .ini file")
+
+        if self.ini_loaded is False:
+            try:
+                runcall = "ProteomicsLFQ "
+                writeIniFile = "-write_ini "
+                out = "Config.ini"
+                command = (runcall + writeIniFile + out)
+                os.chdir(filePath)
+                os.system(command)
+
+                if filePath != '':
+                    iniFiles = glob.glob('*.ini')
+                    for file in iniFiles:
+                        self.cview.generateTreeModel(file)
+                        self.loaded_ini = file
+                        self.ini_loaded = True
+            except TypeError:
+                print("Could not write and load default ini file.")
 
         try:
             if filePath != '':
