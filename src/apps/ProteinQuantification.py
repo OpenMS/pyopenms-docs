@@ -50,8 +50,6 @@ class ProteinQuantification(QMainWindow):
         Threads = QAction("&Adjust the Threadnumber", self)
         FDR = QAction("&Adjust the protein FDR", self)
 
-        # saveAction.setDisabled(True)
-        # runAction.setDisabled(True)
         projectMenu.addAction(loadAction)
         projectMenu.addAction(runAction)
         projectMenu.addAction(saveAction)
@@ -64,8 +62,6 @@ class ProteinQuantification(QMainWindow):
 
         saveAction.triggered.connect(self.saveFunktion)
         loadAction.triggered.connect(self.loadFunction)
-
-        # self.initDefaultValues()
 
         self.setCentralWidget(self.view)
         self.resize(1280, 720)
@@ -80,15 +76,13 @@ class ProteinQuantification(QMainWindow):
         self.ini_loaded = False
         self.tablefile_loaded = False
         self.fasta_loaded = False
-        # self.spec_loaded = True
-        # self.mztab_loaded = True
+        self.mztab_loaded = False
 
         self.loaded_dir = ""
         self.loaded_ini = ""
         self.loaded_table = ""
         self.loaded_fasta = ""
-        # self.loaded_spec = ""
-        # self.loaded_mztab = ""
+        self.loaded_mztab = ""
 
         self.threads = 1
         self.fdr = 0.3
@@ -187,7 +181,10 @@ class ProteinQuantification(QMainWindow):
                 QMessageBox.about(self, "Information", "Processing has been " +
                                   "performed and outputfiles saved to " +
                                   "projectfolder")
-                self.xview.readFile(outfileprefix + ".mzTab.tmp")
+                mztabfile = outfileprefix + ".mzTab.tmp"
+                self.xview.readFile(mztabfile)
+                self.loaded_mztab = mztabfile
+                self.mztab_loaded = True
                 self.view.setCurrentWidget(self.xview)
 
     def saveFunktion(self):
@@ -264,9 +261,8 @@ class ProteinQuantification(QMainWindow):
         filePath = dlg.getExistingDirectory()
         self.loaded_dir = filePath
         self.sview.fillTable(filePath)
-
-        try:
-            if filePath != '':
+        if filePath != '':
+            try:
                 tsvfiles = glob.glob('*.tsv')
                 for file in tsvfiles:
                     df = fh.importTable(self.tview, file)
@@ -274,54 +270,49 @@ class ProteinQuantification(QMainWindow):
                     self.tview.drawTable()
                     self.loaded_table = file
                     self.tablefile_loaded = True
-        except TypeError:
-            "No tsv or csv file could be loaded."
+            except TypeError:
+                "No tsv or csv file could be loaded."
 
-        if self.tablefile_loaded is False:
-            try:
-                if filePath != '':
+            if self.tablefile_loaded is False:
+                try:
                     self.tview.loadDir(filePath)
                     self.tablefile_loaded = True
-            except TypeError:
-                print("Could not load .mzMl files")
+                except TypeError:
+                    print("Could not load .mzMl files")
 
-        try:
-            if filePath != '':
+            try:
                 iniFiles = glob.glob('*.ini')
                 for file in iniFiles:
                     self.cview.generateTreeModel(file)
                     self.loaded_ini = file
                     self.ini_loaded = True
-        except TypeError:
-            print("Could not load .ini file")
+            except TypeError:
+                print("Could not load .ini file")
 
-        if self.ini_loaded is False:
-            try:
-                runcall = "ProteomicsLFQ "
-                writeIniFile = "-write_ini "
-                out = "Config.ini"
-                command = (runcall + writeIniFile + out)
-                os.chdir(filePath)
-                os.system(command)
-
-                if filePath != '':
+            if self.ini_loaded is False:
+                try:
+                    runcall = "ProteomicsLFQ "
+                    writeIniFile = "-write_ini "
+                    out = "Config.ini"
+                    command = (runcall + writeIniFile + out)
+                    os.chdir(filePath)
+                    os.system(command)
                     iniFiles = glob.glob('*.ini')
                     for file in iniFiles:
                         self.cview.generateTreeModel(file)
                         self.loaded_ini = file
                         self.ini_loaded = True
-            except TypeError:
-                print("Could not write and load default ini file.")
+                except TypeError:
+                    print("Could not write and load default ini file.")
 
-        try:
-            if filePath != '':
+            try:
                 fastafiles = glob.glob('*fasta')
                 for file in fastafiles:
                     self.fview.loadFile(file)
                     self.loaded_fasta = file
                     self.fasta_loaded = True
-        except TypeError:
-            print("Could not load .fasta file")
+            except TypeError:
+                print("Could not load .fasta file")
 
 
 if __name__ == '__main__':
