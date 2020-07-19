@@ -190,7 +190,6 @@ class mzMLTableView(QWidget):
             self.tablefile_loaded = True
             file = file.split("/")[-1]
             self.loaded_table = file
-            print("is file loaded: " + str(self.tablefile_loaded))
 
     def exportBtn(self):
         """
@@ -205,7 +204,6 @@ class mzMLTableView(QWidget):
             self.tablefile_loaded = True
             fpath = file.split("/")[-1]
             self.loaded_table = fpath
-            print("is file loaded: " + str(self.tablefile_loaded))
             df = Tdf.getTable(self)
             temp = file.split("/")
             fileName = temp[len(temp)-1]

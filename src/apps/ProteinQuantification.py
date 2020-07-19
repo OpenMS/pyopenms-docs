@@ -196,46 +196,59 @@ class ProteinQuantification(QMainWindow):
         """
         dlg = QFileDialog(self)
         filePath = dlg.getExistingDirectory()
-        filePath = filePath + "/"
-        print(filePath)
 
-        ok = False
-        table_empty = self.tview.table.rowCount() <= 0
+        if filePath:
+            filePath = filePath + "/"
+            tablePath = ""
+            ok = False
+            table_empty = self.tview.table.rowCount() <= 0
 
+            if table_empty:
+                tablePath = ""
+                self.tablefile_loaded = False
+                self.tview.tablefile_loaded = False
 
-        if self.tablefile_loaded == False and table_empty == False \
-        	and self.tview.tablefile_loaded == False:
-            prefix, ok = QInputDialog.getText(
-                self, "Prefix for outputfiles",
-                "Please specify a prefix " +
-                "for the outputfiles")
+            if self.tablefile_loaded is False and table_empty is False \
+                    and self.tview.tablefile_loaded is False:
+                prefix, ok = QInputDialog.getText(
+                      self, "Prefix for outputfiles",
+                      "Please specify a prefix " +
+                      "for the outputfiles")
             if ok:
                 tablePath = filePath + prefix + "_design.tsv"
                 self.loaded_table = prefix + "_design.tsv"
                 self.tablefile_loaded = True
-                # print(tablePath)
 
-        if self.tablefile_loaded and self.tview.tablefile_loaded == False:
-            tablePath = filePath + self.loaded_table
+            if self.tablefile_loaded and self.tview.tablefile_loaded is False:
+                tablePath = filePath + self.loaded_table
 
-        if self.tview.tablefile_loaded:
-        	tablePath = filePath + self.tview.loaded_table
+            if self.tview.tablefile_loaded:
+                tablePath = filePath + self.tview.loaded_table
 
-        if (ok or self.tablefile_loaded or \
-        	self.tview.tablefile_loaded) and \
-        		table_empty == False:
-            df = Tdf.getTable(self.tview)
-            fh.exportTable(self.tview, df, tablePath, "tsv")
+            if (ok or self.tablefile_loaded or self.tview.tablefile_loaded) \
+                    and table_empty is False:
+                df = Tdf.getTable(self.tview)
+                fh.exportTable(self.tview, df, tablePath, "tsv")
 
-        print("is file loaded above: " + str(self.tablefile_loaded))
-        print("is file loaded within: " + str(self.tview.tablefile_loaded))
+            xmlPath = filePath + self.loaded_ini
+            try:
+                self.cview.tree.write(xmlPath)
+            except TypeError:
+                print("No Config loaded to be saved!")
 
-        xmlPath = filePath + self.loaded_ini
-        # print(xmlPath)
-        try:
-            self.cview.tree.write(xmlPath)
-        except TypeError:
-            print("No Config loaded to be saved!")
+            if self.loaded_ini != "" and tablePath.split("/")[-1] != "":
+                QMessageBox.about(self, "Successfully saved!",
+                                        "Files have been saved as: " +
+                                        self.loaded_ini + ", " +
+                                        tablePath.split("/")[-1])
+            elif self.loaded_ini != "":
+                QMessageBox.about(self, "Successfully saved!",
+                                        "ini has been saved as: " +
+                                        self.loaded_ini)
+            elif tablePath.split("/")[-1] != "":
+                QMessageBox.about(self, "Successfully saved!",
+                                        "Table has been saved as: " +
+                                        tablePath.split("/")[-1])
 
     def loadFunction(self):
         """
