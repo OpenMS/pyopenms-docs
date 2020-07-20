@@ -21,9 +21,9 @@ class TableEditor(QMainWindow):
         '''
         sets the window with all applications and widgets
         '''
-        view = mzMLTableView(self)
+        self.view = mzMLTableView(self)
 
-        self.setCentralWidget(view)
+        self.setCentralWidget(self.view)
 
         self.resize(1280, 720)
         self.center()
@@ -62,11 +62,10 @@ class TableEditor(QMainWindow):
         e = event
         data = e.mimeData()
         urls = data.urls()
-        #self.df = mzMLTableView.df
         if urls and urls[0].scheme() == "file":
             filepath = str(urls[0].path())[1:]
             if filepath[-4:] == "mzML":
-                mzMLTableView.loadFile(self,filepath)
+                self.view.loadFile(filepath)
             else:
                 dialog = QMessageBox()
                 dialog.setWindowTitle("Error: Invalid File")
