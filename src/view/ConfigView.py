@@ -1,9 +1,11 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTreeWidget, \
     QTreeWidgetItem, QFileDialog, QPushButton, QHBoxLayout, \
-    QPlainTextEdit, QCheckBox, QHeaderView, QMessageBox
+    QPlainTextEdit, QCheckBox, QHeaderView, QMessageBox, \
+    QInputDialog
 from PyQt5.QtCore import Qt
 import xml.etree.ElementTree as ET
 from defusedxml.ElementTree import parse
+from functools import partial
 
 
 class ConfigView(QWidget):
@@ -50,14 +52,21 @@ class ConfigView(QWidget):
         self.loadbtn = QPushButton('Load')
         self.loadbtn.setMaximumWidth(80)
         self.loadbtn.clicked.connect(self.openXML)
+        self.loadbtn.setToolTip("Load a .ini file to display and " +
+                                "modify the configuration of your processing.")
 
         self.savebtn = QPushButton('Save')
         self.savebtn.setMaximumWidth(80)
         self.savebtn.clicked.connect(self.saveFile)
+        self.savebtn.setToolTip("Save the modified " +
+                                "configuration as .ini file.")
 
         self.checkbox = QCheckBox('Show advanced parameters')
         self.checkbox.setChecked(True)
         self.checkbox.stateChanged.connect(self.drawTreeInit)
+        self.checkbox.setToolTip("Shows or hides parameters, " +
+                                 "which are tagged as advance in " +
+                                 "the .ini configuration file.")
 
         self.textbox = QPlainTextEdit(self)
         self.textbox.setReadOnly(True)
@@ -79,6 +88,23 @@ class ConfigView(QWidget):
         self.setLayout(layout)
         self.resize(500, 720)
 
+    def dragDropEvent(self, files: list):
+        """
+        Gets the input from the main Application.
+        The function chooses if the dragged files are
+        valid for the ConfigView Widget
+        """
+        if len(files) > 1:
+            QMessageBox.about(self, "Warning",
+                              "Please only use one file")
+        else:
+            if ".ini" not in files[0]:
+                QMessageBox.about(self, "Warning",
+                                  "Please only use .ini files.")
+            else:
+                file = str(files[0])
+                self.generateTreeModel(file)
+
     def openXML(self):
         """
         Loads a XML file with .ini tag, parses the xml into ET.ElementTree
@@ -88,11 +114,17 @@ class ConfigView(QWidget):
             self, "QFileDialog.getOpenFileName()", "",
             "All Files (*);;ini (*.ini)")
         if file:
-            self.tree = parse(file)
-            self.root = self.tree.getroot()
-            self.drawTreeInit()
+            self.generateTreeModel(file)
 
-            self.header.setSectionResizeMode(QHeaderView.ResizeToContents)
+    def generateTreeModel(self, file: str):
+        """
+        Function to parse the xml .ini file to a tree model
+        Also initialises the TreeWidget
+        """
+        self.tree = parse(file)
+        self.root = self.tree.getroot()
+        self.drawTreeInit()
+        self.header.setSectionResizeMode(QHeaderView.ResizeToContents)
 
     def generateTreeWidgetItem(self, item: ET.Element) -> QTreeWidgetItem:
         """
@@ -130,6 +162,7 @@ class ConfigView(QWidget):
         and starts the main recursion
         """
         self.drawTreeActive = True
+        self.additembtns = {}
         self.treeWidget.clear()
         root = self.tree.getroot()
         for child in root:
@@ -151,6 +184,10 @@ class ConfigView(QWidget):
                     if len(child.getchildren()) > 0:
                         self.drawTreeRecursive(childitem, child)
         self.treeWidget.expandAll()
+        self.header.setSectionResizeMode(QHeaderView.ResizeToContents)
+        for btn in self.additembtns.keys():
+            self.additembtns[btn].clicked.connect(
+                partial(self.addItemToItemList, btn))
         self.drawTreeActive = False
 
     def drawTreeRecursive(self, nodeitem: QTreeWidgetItem, node: ET.Element):
@@ -177,6 +214,16 @@ class ConfigView(QWidget):
                     nodeitem.addChild(subitem)
                     if len(subnode.getchildren()) > 0:
                         self.drawTreeRecursive(subitem, subnode)
+
+            if subnode.tag == "ITEMLIST":
+                newbtn = QPushButton('Add New')
+                newbtn.setFixedSize(100, 20)
+                newbtn.setToolTip("Add new Item to the Itemlist, " +
+                                  "according to type and restrictions.")
+                listname = subnode.attrib['name']
+                self.additembtns[listname] = newbtn
+                self.treeWidget.setItemWidget(subitem, 1,
+                                              self.additembtns[listname])
 
     def loadDescription(self):
         """
@@ -207,15 +254,30 @@ class ConfigView(QWidget):
             if self.treeWidget.currentColumn() == self.VALUECOL:
                 itemchanged = self.treeWidget.currentItem()
                 itemparent = itemchanged.parent()
-                itemname = itemchanged.text(self.NAMECOL)
+                changeditemindex = itemparent.indexOfChild(itemchanged)
                 parentname = itemparent.text(self.NAMECOL)
+                parentres = itemparent.text(self.RESTRICTIONCOL)
+                parenttype = itemparent.text(self.TYPECOL)
+                itemname = itemchanged.text(self.NAMECOL)
                 newvalue = itemchanged.text(self.VALUECOL)
                 restrictions = itemchanged.text(self.RESTRICTIONCOL)
                 types = itemchanged.text(self.TYPECOL)
 
-                reschecked = self.checkRestrictionString(newvalue,
-                                                         restrictions)
-                typechecked = self.checkTypeRestrictions(newvalue, types)
+                parentcheck = False
+                for itemlist in self.tree.iter('ITEMLIST'):
+                    if str(itemlist.attrib['name']) == str(parentname):
+                        parentcheck = True
+
+                if parentcheck:
+                    reschecked = self.checkRestrictionString(
+                        newvalue, parentres)
+                    typechecked = self.checkTypeRestrictions(
+                        newvalue, parenttype)
+                else:
+                    reschecked = self.checkRestrictionString(
+                        newvalue, restrictions)
+                    typechecked = self.checkTypeRestrictions(
+                        newvalue, types)
 
                 if reschecked and typechecked:
                     for parent in self.tree.iter('NODE'):
@@ -223,7 +285,13 @@ class ConfigView(QWidget):
                             for child in parent:
                                 if child.attrib['name'] == itemname:
                                     child.attrib['value'] = newvalue
-                elif typechecked:
+                    for parent in self.tree.iter('ITEMLIST'):
+                        if parent.attrib['name'] == parentname:
+                            for child, childindex in zip(parent,
+                                                         range(len(parent))):
+                                if childindex == changeditemindex:
+                                    child.attrib['value'] = newvalue
+                elif typechecked and not reschecked:
                     QMessageBox.about(self, "Warning", "Please only, " +
                                       "modify according to Restrictions")
                 else:
@@ -232,6 +300,7 @@ class ConfigView(QWidget):
             else:
                 QMessageBox.about(self, "Warning", "Please only, " +
                                   "modify the Column: value")
+
             self.drawTreeInit()
 
     def checkRestrictionString(self,
@@ -270,6 +339,43 @@ class ConfigView(QWidget):
             typechecked = True
 
         return typechecked
+
+    def addItemToItemList(self, parentnodename: str):
+        """
+        Adds new Item to a ItemList parent, both in etree model and QTreeWidget
+        """
+        newdata, ok = QInputDialog.getText(self, "Add new row to List",
+                                           "Please input the new Parameter," +
+                                           "which should be added.")
+        if ok:
+            if newdata != "":
+                for itemlist in self.tree.iter('ITEMLIST'):
+                    if itemlist.attrib['name'] == parentnodename:
+                        try:
+                            restrictions = itemlist.attrib['restrictions']
+                            reschecked = self.checkRestrictionString(
+                                newdata, restrictions)
+                        except KeyError:
+                            reschecked = True
+                        try:
+                            types = itemlist.attrib['type']
+                            typechecked = self.checkTypeRestrictions(
+                                newdata, types)
+                        except KeyError:
+                            typechecked = True
+                        if reschecked and typechecked:
+                            newelement = ET.Element(
+                                "LISTITEM", {'value': newdata})
+                            itemlist.append(newelement)
+                        elif typechecked and not reschecked:
+                            QMessageBox.about(
+                                self, "Warning", "Please only, " +
+                                "modify according to Restrictions")
+                        else:
+                            QMessageBox.about(
+                                self, "Warning", "Please only, " +
+                                "modify according to Typerestrictions")
+                self.drawTreeInit()
 
     def saveFile(self):
         """
