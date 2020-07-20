@@ -1,3 +1,4 @@
+
 import re
 
 class LoadFasta_FastaViewer:
@@ -6,9 +7,11 @@ class LoadFasta_FastaViewer:
     def protein_dictionary(fastaFile):
         """Gets fasta File Path and saves all informations about the proteins 
         in separate lists 
+
         Parameters
         ----------
         fastaFile : path to fasta file
+
         Returns
         -------
         for all proteins either Decoy or normal Lists/ dictionary.

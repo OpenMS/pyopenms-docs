@@ -1,465 +1,316 @@
-import os
+""" 
+mzTabTableWidget
+----------------
+This script allows the user to transfer information about proteins and psms from a mzTab file into two tables, 
+one containing the proteins, the other one containing the psms.
+
+By clicking on a row, the tables get updated regarding their listed proteins or psms.
+Once you choose a protein/psm, the table displays only those psms/proteins that are linked to one another.
+
+This tool is designed to accept mzTab files. It is required to save those files under '.../examples/data/' or 
+change the path within the InitWindow.
+"""
 import sys
-import timeit
-import pandas as pd  # noqa
-import math
-from PyQt5 import Qt
-from PyQt5.QtWidgets import QHBoxLayout, QWidget, QFileDialog, \
-        QTableWidget, QTableWidgetItem, QHeaderView, QPushButton, \
-        QVBoxLayout, QInputDialog, QLineEdit, QMessageBox, \
-        QAbstractItemView
-sys.path.append(os.getcwd() + '/../controller')
-from filehandler import FileHandler as fh  # noqa E402
-sys.path.append(os.getcwd() + '/../model')
-from tableDataFrame import TableDataFrame as Tdf  # noqa E402
+import webbrowser
+from PyQt5 import QtGui, QtWidgets
+from PyQt5.QtWidgets import QApplication, QWidget, QTableWidget, QVBoxLayout, QTableWidgetItem, QPushButton, QFileDialog
 
 
-class mzMLTableView(QWidget):
-    """
-    Main Widget of the TableEditor app
-    """
+class Window(QWidget):
+    def __init__(self):
+        super().__init__()
 
-    def __init__(self, *args):
-        # set variable self.testForTime to True to see Runtimes
-        # the following 2 if constructs can be used to determine
-        # timing
-        # just put them around whatever should be timed
+        self.title = "mzTabTableWidget"
+        self.top = 100
+        self.left = 100
+        self.width = 500
+        self.height = 500
+        self.tableRows = 5
 
-        # self.testForTime = False
-        # if self.testForTime:
-        #    starttime = timeit.default_timer()
-        #    print("Starttime of overall Initiation : ", starttime)
+        self.fileLoaded = False
 
-        # if self.testForTime:
-        #    rt = timeit.default_timer() - starttime
-        #    print("Runtime of overall Initiation was : ", rt)
+        self.PRTFull = []
+        self.PSMFull = []
 
-        QWidget.__init__(self, *args)
+        self.PRTFiltered = []
+        self.PSMFiltered = []
 
-        self.df = pd.DataFrame()
-        self.tdf = Tdf
-        self.drawtableactive = False
+        self.PRTColumn = [True]
+        self.PSMColumn = [True]
 
-        self.initTable()
-        self.initButtons()
-        self.changeListener()
+        self.selectedPRT = ""
+        self.selectedPSM = ""
 
-        # layout for the view
-        layout = QVBoxLayout()
-        layout.addWidget(self.buttons)
-        layout.addWidget(self.table)
+        self.tablePRTFull = QTableWidget()
+        self.tablePSMFull = QTableWidget()
 
-        self.setLayout(layout)
-        self.resize(1280, 720)
+        self.tablePRTFiltered = QTableWidget()
+        self.tablePSMFiltered = QTableWidget()
 
-    def initTable(self):
+        self.vBoxPRT = QVBoxLayout()
+        self.vBoxPSM = QVBoxLayout()
+
+        self.outerVBox = QVBoxLayout()
+
+        self.InitWindow()
+
+    def InitWindow(self):
+        self.setWindowIcon(QtGui.QIcon("icon.png"))
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.top, self.left, self.width, self.height)
+
+        self.tablePRTFull.setHidden(True)
+        self.tablePSMFull.setHidden(True)
+        self.tablePRTFiltered.setHidden(True)
+        self.tablePSMFiltered.setHidden(True)
+
+        self.tablePRTFull.itemClicked.connect(self.PRTClicked)
+        self.tablePRTFiltered.itemClicked.connect(self.PRTClicked)
+        self.tablePSMFull.itemClicked.connect(self.PSMClicked)
+        self.tablePSMFiltered.itemClicked.connect(self.PSMClicked)
+
+        self.tablePRTFull.itemDoubleClicked.connect(self.browsePRT)
+        self.tablePRTFiltered.itemDoubleClicked.connect(self.browsePRT)
+        self.tablePSMFull.itemDoubleClicked.connect(self.browsePSM)
+        self.tablePSMFiltered.itemDoubleClicked.connect(self.browsePSM)
+
+        self.vBoxPRT.addWidget(self.tablePRTFull)
+        self.vBoxPRT.addWidget(self.tablePRTFiltered)
+
+        self.vBoxPSM.addWidget(self.tablePSMFull)
+        self.vBoxPSM.addWidget(self.tablePSMFiltered)
+
+        self.outerVBox.addLayout(self.vBoxPRT)
+        self.outerVBox.addLayout(self.vBoxPSM)
+
+        self.setLayout(self.outerVBox)
+        self.show()
+
+    def readFile(self, file):
+        if self.fileLoaded:
+            self.tablePRTFull.clear()
+            self.tablePSMFull.clear()
+            self.tablePSMFiltered.clear()
+            self.tablePRTFiltered.clear()
+
+            self.tablePRTFull.setRowCount(0)
+            self.tablePSMFull.setRowCount(0)
+            self.tablePSMFiltered.setRowCount(0)
+            self.tablePRTFiltered.setRowCount(0)
+
+            self.PRTFull.clear()
+            self.PSMFull.clear()
+
+            self.PRTFiltered.clear()
+            self.PSMFiltered.clear()
+
+            self.PRTColumn.clear()
+            self.PSMColumn.clear()
+
+            self.PRTColumn = [True]
+            self.PSMColumn = [True]
+
+        self.parser(file)
+
+        self.PRTColumn *= len(self.PRTFull[1])
+        self.PSMColumn *= len(self.PSMFull[1])
+
+        self.initTables()
+        self.createTable(self.tablePRTFull, self.PRTFull)
+        self.createTable(self.tablePSMFull, self.PSMFull)
+
+        self.hidePRTColumns()
+        self.hidePSMColumns()
+
+        self.tablePRTFull.setHidden(False)
+        self.tablePSMFull.setHidden(False)
+
+        self.fileLoaded = True
+
+
+    def parser(self, file):
+        """parses the given mzTab file and saves PRT and PSM information
+        Parameters
+        ----------
+        file : str
+            The file path of the mzTab file
         """
-        initializes Table
-        """
-        self.tablefile_loaded = False
-        self.loaded_table = ""
-        self.table = QTableWidget()
-        self.table.setRowCount(0)
-        self.table.setSortingEnabled(True)
-        self.header = ['Group', 'Fraction',
-                       'Spectra Filepath', 'Label', 'Sample']
-        self.table.setColumnCount(len(self.header))
-        self.table.setHorizontalHeaderLabels(self.header)
-        self.header = self.table.horizontalHeader()
 
-        for col in range(len(self.header)):
-            if col != 2:
-                self.header.setSectionResizeMode(col,
-                                                 QHeaderView.ResizeToContents)
-            else:
-                self.header.setSectionResizeMode(col, QHeaderView.Stretch)
+        with open(file) as inp:
+            for line in inp:
+                if line.startswith("PRH"):
+                    self.PRTFull.append(line.strip().split('\t'))
+                elif line.startswith("PRT") and not line.endswith("protein_details\n"):
+                    self.PRTFull.append(line.strip().split('\t'))
+                elif line.startswith("PSH") or line.startswith("PSM"):
+                    self.PSMFull.append(line.strip().split('\t'))
 
-    def initButtons(self):
-        """
-        initializes Buttons
-        """
-        self.buttons = QWidget()
-        self.textbox = QLineEdit(self)
-        self.textbox.move(20, 20)
-        self.textbox.setFixedHeight(20)
-        self.textbox.setToolTip("Filter the experimental layout " +
-                                "according to Spectra Filepath " +
-                                "column. It will be dynamically \n" +
-                                "updated as soon as 2 characters " +
-                                "are inserted.")
+        for item in self.PRTFull:
+            item.pop(0)
 
-        Buttons = [QPushButton('Load Project'), QPushButton('Load Table'),
-                   QPushButton('Save Table'), QPushButton('Add File'),
-                   QPushButton('Remove File'), QPushButton('Group'),
-                   QPushButton('Fraction'), QPushButton('Label'),
-                   QPushButton('Select All')]
+        for item in self.PSMFull:
+            item.pop(0)
 
-        # Buttonlayout
-        buttonlayout = QHBoxLayout()
-        for button in Buttons:
-            buttonlayout.addWidget(button)
 
-        buttonlayout.addWidget(self.textbox)
-        self.buttons.setLayout(buttonlayout)
 
-        # Connections for Buttons and their apropriate functions
-        Buttons[0].clicked.connect(self.loadBtnFn)
-        Buttons[0].setToolTip("Load a directory with .mzML files to " +
-                              "generate your own eperimental layout. " +
-                              "For mzML filenames, \"F\" is the regular \n" +
-                              "expression for fraction, while \"G\" or " +
-                              "\"FG\"is the regular expression for the " +
-                              "fraction groups.")
-        Buttons[1].clicked.connect(self.importBtn)
-        Buttons[1].setToolTip("Load an existing experimental layout, as " +
-                              ".csv or .tsv to display and modify it.")
-        Buttons[2].clicked.connect(self.exportBtn)
-        Buttons[2].setToolTip("Save the experimental layout as .csv or " +
-                              ".tsv file. .csv is the default option")
-        Buttons[3].clicked.connect(self.loadFile)
-        Buttons[3].setToolTip("Load an additional single .mzML file " +
-                              "to the experimental layout.")
-        Buttons[4].clicked.connect(self.RemoveBtn)
-        Buttons[4].setToolTip("Remove one or more selected .mzML " +
-                              "files from the experimental layout.")
-        Buttons[5].clicked.connect(self.GroupBtn)
-        Buttons[5].setToolTip("Set the fraction group of selected rows " +
-                              "to a given number.")
-        Buttons[6].clicked.connect(self.FractionBtn)
-        Buttons[6].setToolTip("Set the fraction of selected rows to a " +
-                              "specific number or use a range to define " +
-                              "multiple fractions. This function is \n" +
-                              "also able to work over multiple fraction " +
-                              "groups and sets the group according to the " +
-                              "fraction number.")
-        Buttons[7].clicked.connect(self.LabelBtn)
-        Buttons[7].setToolTip("Set the number of labels, the program will " +
-                              "generate the necessary rows and will also " +
-                              "define the samplenumber for you. You can \n" +
-                              "apply the option to continue samplenumbers " +
-                              "over mutliple fraction groups to combine " +
-                              "two sample preparations.")
-        Buttons[8].clicked.connect(self.SelectAllBtn)
+    def initTables(self):
+        """draws protein and psm tables with headers"""
 
-        # init changelistener on textbox
-        self.textbox.textChanged[str].connect(self.filterTable)
+        self.tablePRTFull.setRowCount(len(self.PRTFull))
+        self.tablePRTFull.setColumnCount(len(self.PRTFull[0]))
+        self.tablePRTFull.setHorizontalHeaderLabels(self.PRTFull[0])
 
-    def getDataFrame(self):
-        return self.tdf.getTable(self)
+        self.tablePSMFull.setRowCount(len(self.PSMFull))
+        self.tablePSMFull.setColumnCount(len(self.PSMFull[0]))
+        self.tablePSMFull.setHorizontalHeaderLabels(self.PSMFull[0])
 
-    def drawTable(self):
-        """
-        draws a table with the dataframe table model in tableDataFrame
-        """
-        self.drawtableactive = True
+        self.tablePRTFiltered.setRowCount(0)
+        self.tablePRTFiltered.setColumnCount(len(self.PRTFull[0]))
+        self.tablePRTFiltered.setHorizontalHeaderLabels(self.PRTFull[0])
 
-        tabledf = Tdf.getTable(self)
-        # print(tabledf)  # For debugging
-        rowcount = len(tabledf.index)
-        colcount = len(tabledf.columns)
-        self.table.setRowCount(rowcount)
-        for r in range(rowcount):
-            row = tabledf.index[r]
-            for c in range(colcount):
-                col = tabledf.columns[c]
-                if col == 'Spectra_Filepath':
-                    path = tabledf.at[row, col].split("/")
-                    name = path[len(path)-1]
-                    self.table.setItem(r, c, QTableWidgetItem(name))
+        self.tablePSMFiltered.setRowCount(0)
+        self.tablePSMFiltered.setColumnCount(len(self.PSMFull[0]))
+        self.tablePSMFiltered.setHorizontalHeaderLabels(self.PSMFull[0])
+
+        """removes now unnecessary header information from content lists """
+        self.PRTFull.pop(0)
+        self.PSMFull.pop(0)
+
+    def createTable(self, table, content):
+        """parameters: tableWidget to draw content in. Content to be drawn in list form"""
+        """Setting count to zero empties the table. Then table is (re-)filled with specified content"""
+        table.setRowCount(0)
+        table.setRowCount(len(content))
+
+        j = 0
+        k = 0
+
+        for item in content[0:]:
+            while k < (len(content)):
+                while j < (len(item)):
+                    table.setItem(k, j, QTableWidgetItem(item[j]))
+                    j += 1
                 else:
-                    item = str(tabledf.at[row, col])
-                    self.table.setItem(r, c, QTableWidgetItem(item))
+                    k += 1
+                    j = 0
+                break
 
-        self.drawtableactive = False
+        self.tablePRTFull.resizeColumnsToContents()  # resize columns
+        self.tablePSMFull.resizeColumnsToContents()  # resize columns
+        self.tablePRTFiltered.resizeColumnsToContents()  # resize columns
+        self.tablePSMFiltered.resizeColumnsToContents()  # resize columns
 
-    def importBtn(self):
-        """
-        Imports table files, currently working are csv and tsv
-        """
-        options = QFileDialog.Options()
-        file, _ = QFileDialog.getOpenFileName(
-            self, "QFileDialog.getOpenFileName()", "",
-            "All Files (*);;tsv (*.tsv);; csv (*.csv)", options=options)
+    def hidePRTColumns(self):
+        """hides constant columns in PRT table by default by checking if every value equals"""
+        i = 0
+        j = 0
+        k = 0
 
-        if file:
-            df = fh.importTable(self, file)
-            Tdf.setTable(self, df)
-            self.drawTable()
-            self.tablefile_loaded = True
-            file = file.split("/")[-1]
-            self.loaded_table = file
+        while i < len(self.PRTFull) - 1:
+            while j < len(self.PRTFull[i]):
+                if self.PRTColumn[j]:
+                    if self.PRTFull[i][j] != self.PRTFull[i + 1][j]:
+                        self.PRTColumn[j] = False
+                j += 1
+            i += 1
 
-    def exportBtn(self):
-        """
-        Exports the table to csv or tsv;default is csv
-        """
-        options = QFileDialog.Options()
-        file, _ = QFileDialog.getSaveFileName(
-            self, "QFileDialog.getSaveFileName()", "",
-            "All Files (*);;tsv (*.tsv);; csv (*.csv)", options=options)
+        while k < len(self.PRTColumn):
+            if self.PRTColumn[k]:
+                self.tablePRTFull.setColumnHidden(k, True)
+                self.tablePRTFiltered.setColumnHidden(k, True)
+            k += 1
 
-        if file:
-            self.tablefile_loaded = True
-            fpath = file.split("/")[-1]
-            self.loaded_table = fpath
-            df = Tdf.getTable(self)
-            temp = file.split("/")
-            fileName = temp[len(temp)-1]
-            length = len(fileName)
-            if length < 4:
-                ftype = "csv"
-                file = file + ".csv"
-            elif fileName.find('.csv', length-4) != -1:
-                ftype = "csv"
-            elif fileName.find('.tsv', length-4) != -1:
-                ftype = "tsv"
-            else:
-                ftype = "csv"
-                file = file + ".csv"
+    def hidePSMColumns(self):
+        """hides constant columns in PSM table by default by checking if every value equals"""
+        i = 0
+        j = 0
+        k = 0
 
-            fh.exportTable(self, df, file, ftype)
+        while i < len(self.PSMFull) - 1:
+            while j < len(self.PSMFull[i]):
+                if self.PSMColumn[j]:
+                    if self.PSMFull[i][j] != self.PSMFull[i + 1][j]:
+                        self.PSMColumn[j] = False
+                j += 1
+            i += 1
 
-    def loadBtnFn(self):
-        """
-        provides a dialog to get the path for a directory
-        and load the directory into the table.
-        """
-        dlg = QFileDialog(self)
-        filePath = dlg.getExistingDirectory()
+        while k < len(self.PSMColumn):
+            if self.PSMColumn[k]:
+                self.tablePSMFull.setColumnHidden(k, True)
+                self.tablePSMFiltered.setColumnHidden(k, True)
+            k += 1
 
-        if filePath != '':
-            self.loadDir(filePath)
+    def PRTClicked(self, item):
 
-    def loadDir(self, filepath: str):
-        Files = fh.getFiles(self, filepath)
-        delimiters = ["_"]
-        preparedFiles = fh.tagfiles(self, Files, delimiters[0])
-        rawTable = fh.createRawTable(self, preparedFiles, filepath)
-        Tdf.setTable(self, rawTable)
-        self.drawTable()
-
-    def loadFile(self, file: str = ""):
-        """
-        provides a filedialog to load an additional file to the dataframe
-        """
-        options = QFileDialog.Options()
-        if not file:
-            file, _ = QFileDialog.getOpenFileName(
-                self, "QFileDialog.getOpenFileName()", "",
-                "All Files (*);;mzML Files (*.mzML)", options=options)
-
-        if file:
-            cdf = Tdf.getTable(self)
-            filelist = []
-            filePath = file.rsplit("/", 1)[0]
-            temp = file.split("/")
-            fileName = temp[len(temp)-1]
-            if file:
-                # print(file)
-                filelist.append(fileName)
-                tagged_file = fh.tagfiles(self, filelist)
-                df = fh.createRawTable(self, tagged_file, filePath)
-
-                ndf = cdf.append(df, ignore_index=True)
-
-                Tdf.setTable(self, ndf)
-                self.drawTable()
-            else:
-                return False
-
-    def getSelRows(self) -> list:
-        """
-        Function which returns a list of the Indexes of selected Rows
-        todo: needs to be adjusted to fit the datamodel:
-        so far index of table is only matching index of dataframe
-        in first iteration, as soon as remove is called twice it crashes.
-        """
-        selindexes = self.table.selectionModel().selectedRows()
-        selrows = []
-        for index in sorted(selindexes):
-            row = index.row()
-            selrows.append(row)
-        return selrows
-
-    def GroupBtn(self):
-        """
-        Enables the user to change the group of selected rows to a given
-        number.
-        """
-        selrows = self.getSelRows()
-
-        groupnum, ok = QInputDialog.getInt(self,
-                                           "Group Number",
-                                           "Enter Integer Groupnumber")
-
-        if ok:
-            Tdf.modifyGroup(self, selrows, groupnum)
-            self.drawTable()
-
-    def RemoveBtn(self):
-        """
-        Enables the user to remove selected rows
-        """
-        selrows = self.getSelRows()
-        Tdf.rmvRow(self, selrows)
-        self.drawTable()
-
-    def FractionBtn(self):
-        """
-        Enables the user to change the Fraction of selected rows to a given
-        number or give a range.
-        """
-        selrows = self.getSelRows()
-
-        # first inputdialog
-        fracmin, ok = QInputDialog.getInt(self,
-                                          "Fraction",
-                                          "Enter minimal Fractionnumber " +
-                                          "or single Fractionnumber")
-        # second inputdialog if first is accepted
-        if ok:
-            fracmax, ok = QInputDialog.getInt(self,
-                                              "Fraction",
-                                              "Enter maximal Fractionnumber " +
-                                              "or 0 for single Fractionnumber")
-            if ok:
-                # decision if multiple fractions are set or just one
-                if fracmax != 0:
-                    if fracmax > fracmin:
-                        # third messagedialog
-                        rep = QMessageBox.question(self, "Fraction Group?",
-                                                   "Do you want to infer a " +
-                                                   "Fraction Group from the " +
-                                                   "given range?",
-                                                   (QMessageBox.Yes |
-                                                    QMessageBox.No),
-                                                   QMessageBox.No)
-
-                        # when confirmed the fraction froup is set
-                        # when max fraction is reached.
-                        if rep == QMessageBox.Yes:
-                            Tdf.modifyFraction(self, selrows, fracmin, fracmax)
-                            fractions = fracmax-fracmin + 1
-                            numgroups = math.ceil(len(selrows)/fractions)
-                            splicelist = [0]
-                            for g in range(1, numgroups+1):
-                                splicelist.append(g*fractions)
-                            splicelist.append(len(selrows))
-                            for group in range(1, numgroups+1):
-                                indexa = splicelist[group-1]
-                                indexb = splicelist[group]
-                                subrows = selrows[indexa:indexb]
-                                Tdf.modifyGroup(self, subrows, group)
-                        else:
-                            Tdf.modifyFraction(self, selrows, fracmin, fracmax)
-
-                    elif fracmax == fracmin:
-                        Tdf.modifyFraction(self, selrows, fracmin)
-
-                    else:
-                        QMessageBox.warning(self, "Error", "Please use " +
-                                            "a higher integer " +
-                                            "number for the maximum " +
-                                            "fractionnumber.")
-
-                else:
-                    Tdf.modifyFraction(self, selrows, fracmin)
-                self.drawTable()
-
-    def LabelBtn(self):
-        """
-        Let the user choose the number of labels, it will generate
-        the labels for the copied rows and also links the sample to
-        the label. Gives an option to continue the samplecount
-        over fraction groups.
-        """
-        labelnum, ok = QInputDialog.getInt(self, "Label",
-                                           "Please specify the multiplicity " +
-                                           "of the selected rows")
-        if ok:
-            rep = QMessageBox.question(self, "Continuous Sample",
-                                       "Does the samplenumber " +
-                                       "continue over multiple " +
-                                       "fraction groups?",
-                                       (QMessageBox.Yes |
-                                        QMessageBox.No),
-                                       QMessageBox.No)
-            if rep == QMessageBox.Yes:
-                try:
-                    Tdf.modifyLabelSample(self, labelnum, True)
-                except ValueError:
-                    QMessageBox.about(self, "Warning", "Unfortunaly, " +
-                                            "your Number was <1")
-            else:
-                try:
-                    Tdf.modifyLabelSample(self, labelnum, False)
-                except ValueError:
-                    QMessageBox.about(self, "Warning", "Unfortunaly, " +
-                                            "your Number was <1")
-            self.drawTable()
-
-    def SelectAllBtn(self):
-        """
-        Selects all Rows of the Table
-        """
-        self.table.setSelectionMode(QAbstractItemView.MultiSelection)
-
-        for i in range(self.table.rowCount()):
-            selected = self.getSelRows()
-
-            for j in range(len(selected)):
-                if i == selected[j]:
-                    self.table.selectRow(i)
-
-            self.table.selectRow(i)
-
-        self.table.setSelectionMode(QAbstractItemView.ExtendedSelection)
-
-    def updateTableView(self, rows):
-        tabledf = Tdf.getTable(self)
-        rowcount = len(tabledf.index)
-        for i in range(rowcount):
-            self.table.setRowHidden(i, True)
-        for i in rows:
-            self.table.setRowHidden(i, False)
-
-    def filterTable(self):
-        """
-        get changes from textbox and update table when
-        more than 3 characters are given.
-        then update table with the rows that
-        contain the input in the give column.
-        """
-        tb = self.textbox
-        givencolumn = "Spectra_Filepath"
-        tbinput = tb.text()
-        ft = Tdf.getTable(self)
-        validDf = not(ft.empty or ft.dropna().empty)
-        # print(validDf)  # for debugging
-        # print(type(ft))  # for debugging
-        if len(tbinput) >= 2:
-            rowstoshow = ft[ft[givencolumn].str.contains(tbinput)]
-            self.updateTableView(rowstoshow.index)
+        if self.tablePRTFull.isHidden():
+            relevantContent = self.PRTFiltered
         else:
-            self.updateTableView(ft.index)
+            relevantContent = self.PRTFull
 
-    def changeListener(self):
-        self.table.itemChanged.connect(self.editField)
+        accession = relevantContent[item.row()][0]
 
-    def editField(self):
-        if len(self.table.selectedItems()) == 1:
-            if not self.drawtableactive:
-                itemchanged = self.table.currentItem()
-                newvalue = itemchanged.text()
-                row = itemchanged.row()
-                column = itemchanged.column()
-                if column != 2:
-                    Tdf.modifyField(self, row, column, newvalue)
-                    self.drawTable()
-                else:
-                    QMessageBox.about(self, "Warning", "Please only, " +
-                                            "modify attribute columns," +
-                                            "not the filepath.\n" +
-                                            "To change the filepath," +
-                                            "use remove and add file.")
-                    self.drawTable()
+        if self.selectedPSM == accession:
+            self.unfilterPSM()
+        else:
+            self.filterPSM(accession)
+
+    def PSMClicked(self, item):
+
+        if self.tablePSMFull.isHidden():
+            relevantContent = self.PSMFiltered
+        else:
+            relevantContent = self.PSMFull
+
+        accession = relevantContent[item.row()][2]
+
+        if self.selectedPRT == accession:
+            self.unfilterPRT()
+        else:
+            self.filterPRT(accession)
+
+    def filterPRT(self, accession):
+        self.tablePRTFiltered.setHidden(False)
+        self.tablePRTFull.setHidden(True)
+
+        self.selectedPRT = accession
+
+        self.PRTFiltered = [p for p in self.PRTFull if p[0] == self.selectedPRT]
+        self.createTable(self.tablePRTFiltered, self.PRTFiltered)
+
+    def filterPSM(self, accession):
+        self.tablePSMFiltered.setHidden(False)
+        self.tablePSMFull.setHidden(True)
+
+        self.selectedPSM = accession
+
+        self.PSMFiltered = [p for p in self.PSMFull if p[2] == self.selectedPSM]
+        self.createTable(self.tablePSMFiltered, self.PSMFiltered)
+
+    def unfilterPRT(self):
+        self.tablePRTFiltered.setHidden(True)
+        self.tablePRTFull.setHidden(False)
+        self.selectedPRT = ""
+        self.PRTFiltered = []
+
+    def unfilterPSM(self):
+        self.tablePSMFiltered.setHidden(True)
+        self.tablePSMFull.setHidden(False)
+        self.selectedPSM = ""
+        self.PSMFiltered = []
+
+    def browsePRT(self, item):
+        if self.tablePRTFull.isHidden():
+            accession = self.PRTFiltered[item.row()][0].split("|", 2)[1]
+        else:
+            accession = self.PRTFull[item.row()][0].split("|", 2)[1]
+
+        webbrowser.open("https://www.uniprot.org/uniprot/" + accession)
+
+    def browsePSM(self, item):
+        if self.tablePSMFull.isHidden():
+            accession = self.PSMFiltered[item.row()][2].split("|", 2)[1]
+        else:
+            accession = self.PSMFull[item.row()][2].split("|", 2)[1]
+
+        webbrowser.open("https://www.uniprot.org/uniprot/" + accession)
+

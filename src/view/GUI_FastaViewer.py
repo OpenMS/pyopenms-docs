@@ -233,7 +233,7 @@ class GUI_FastaViewer(QMainWindow):
         return cut
     # defining the function for load button to get path of database
 
-    def loadFile(self, filepath):
+    def loadFile(self):
         """Gets QMainWindow and opens a QFileDialog and loads path
 
     Parameters
@@ -247,7 +247,9 @@ class GUI_FastaViewer(QMainWindow):
     nothing , it changes the QMainWindow so that the user can see that a file
     has been loaded
     """
-        self.path = filepath
+        self.filename = QFileDialog.getOpenFileName()
+        self.path = self.filename[0]
+        self.fileloaded = 1
         # loading the lists before searching in order to make the search faster
         self.dictKeyAccession, self.proteinList, self.proteinNameList, self.proteinOSList, self.dictKeyAccessionDECOY, self.proteinListDECOY, self.proteinNameListDECOY, self.proteinOSListDECOY = LoadFasta_FastaViewer.protein_dictionary(
             self.path)
@@ -278,10 +280,11 @@ class GUI_FastaViewer(QMainWindow):
     nothing , it changes the Treewidget
     and creates a TreeItem with three columns
     """
-        self.cg = QtWidgets.QTreeWidgetItem(self.tw)
-        self.cg.setData(0, 0, ID)
-        self.cg.setData(1, 0, OS)
-        self.cg.setData(2, 0, Proteinname)
+            self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+            self.cg.setData(0, 0, ID)
+            self.cg.setData(1, 0, OS)
+            self.cg.setData(2, 0, Proteinname)
+
 
     def createChildTreeItem(self, item, ID, Protein):
         """Gets a TreeItem and creats two child Items, a Qlabel and a QTextEdit.
