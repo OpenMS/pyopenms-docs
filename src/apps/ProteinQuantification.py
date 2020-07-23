@@ -1,6 +1,8 @@
 import sys, os, glob
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, \
-     QTabWidget, QAction, QInputDialog, QMessageBox, QFileDialog
+     QTabWidget, QAction, QInputDialog, QMessageBox, QFileDialog, \
+     QWidget, QLabel, QVBoxLayout
+from PyQt5.QtGui import QIcon
 sys.path.append(os.getcwd()+'/../view')
 from GUI_FastaViewer import GUI_FastaViewer
 from ConfigView import ConfigView
@@ -28,12 +30,14 @@ class ProteinQuantification(QMainWindow):
         sets the window with all applications and widgets
         '''
         self.view = QTabWidget()
+        self.welcome = QWidget()
         self.cview = ConfigView()
         self.tview = mzMLTableView()
         self.sview = MultipleSpecView()
         self.fview = GUI_FastaViewer()
         self.xview = mzTabTableWidget()
 
+        self.view.addTab(self.welcome, 'Welcome')
         self.view.addTab(self.cview, 'XML-Viewer')
         self.view.addTab(self.tview, 'Experimental-Design')
         self.view.addTab(self.fview, 'Fasta-Viewer')
@@ -44,15 +48,18 @@ class ProteinQuantification(QMainWindow):
         menubar.setNativeMenuBar(False)
         projectMenu = menubar.addMenu('Project')
         parametersMenu = menubar.addMenu('Parameters')
-        loadAction = QAction("&Load Project", self)
-        saveAction = QAction("&Save project", self)
-        runAction = QAction("&Run in Terminal", self)
+        loadAction = QAction(QIcon("Icons/load_icon.png"), "&Load Project", self)
+        loadAction.setShortcut("Ctrl+L")
+        saveAction = QAction(QIcon("Icons/save_icon.png"), "&Save Project", self)
+        saveAction.setShortcut("Ctrl+S")
+        runAction = QAction(QIcon("Icons/run_icon.png"), "&Run in Terminal", self)
+        runAction.setShortcut("Ctrl+R")
         Threads = QAction("&Adjust the Threadnumber", self)
         FDR = QAction("&Adjust the protein FDR", self)
 
         projectMenu.addAction(loadAction)
-        projectMenu.addAction(runAction)
         projectMenu.addAction(saveAction)
+        projectMenu.addAction(runAction)
         parametersMenu.addAction(Threads)
         parametersMenu.addAction(FDR)
 
@@ -62,6 +69,23 @@ class ProteinQuantification(QMainWindow):
 
         saveAction.triggered.connect(self.saveFunktion)
         loadAction.triggered.connect(self.loadFunction)
+
+        text1 = QLabel()
+        text1.setText("Welcome")
+        text2 = QLabel()
+        text2.setText("Hier kommt irgendein Content!")
+        text3 = QLabel()
+        text3.setText("Funktionalität")
+        text4 = QLabel()
+        text4.setText("Hier kommt irgendein Content!")
+
+        welcome_layout = QVBoxLayout()
+        welcome_layout.addWidget(text1)
+        welcome_layout.addWidget(text2)
+        welcome_layout.addWidget(text3)
+        welcome_layout.addWidget(text4)
+
+        self.welcome.setLayout(welcome_layout)
 
         self.setCentralWidget(self.view)
         self.resize(1280, 720)
