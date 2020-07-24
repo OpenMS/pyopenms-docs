@@ -25,6 +25,11 @@ class ProteinQuantification(QMainWindow):
         QMainWindow.__init__(self)
         self.initUI()
         self.initVars()
+        #flag for themetoggle
+        self.flag = False
+        #self.palette = self.palette()      
+        self.setPalette(self.palette)
+        self.setTheme()
 
     def initUI(self):
         '''
@@ -44,9 +49,8 @@ class ProteinQuantification(QMainWindow):
         self.view.addTab(self.fview, 'Fasta-Viewer')
         self.view.addTab(self.sview, 'Spec-Viewer')
         self.view.addTab(self.xview, 'mzTabViewer')
-
-        #flag for themetoggle
-        self.flag = False
+             
+        self.palette = QPalette()
         
         menubar = self.menuBar()
         menubar.setNativeMenuBar(False)
@@ -348,44 +352,52 @@ class ProteinQuantification(QMainWindow):
             except TypeError:
                 print("Could not load .fasta file")
     
+    def setTheme(self):
+        """
+        sets theme based on flag state
+        """
+        p = self.palette
+        if not self.flag:
+            #lightmode
+            p.setColor(QPalette.Window, QColor(202, 202, 202))
+            p.setColor(QPalette.WindowText, Qt.black)
+            p.setColor(QPalette.Base, QColor(230, 230, 230))
+            p.setColor(QPalette.AlternateBase, QColor(202, 202, 202))
+            p.setColor(QPalette.ToolTipBase, Qt.black)
+            p.setColor(QPalette.ToolTipText, Qt.black)
+            p.setColor(QPalette.Text, Qt.black)
+            p.setColor(QPalette.Button, QColor(202, 202, 202))
+            p.setColor(QPalette.ButtonText, Qt.black)
+            p.setColor(QPalette.BrightText, Qt.red)
+            p.setColor(QPalette.Link, QColor(213, 125, 37))
+            p.setColor(QPalette.Highlight, QColor(213, 125, 37))
+            p.setColor(QPalette.HighlightedText, Qt.white)
+        else:
+            #darkmode
+            p.setColor(QPalette.Window, QColor(53, 53, 53))
+            p.setColor(QPalette.WindowText, Qt.white)
+            p.setColor(QPalette.Base, QColor(25, 25, 25))
+            p.setColor(QPalette.AlternateBase, QColor(53, 53, 53))
+            p.setColor(QPalette.ToolTipBase, Qt.white)
+            p.setColor(QPalette.ToolTipText, Qt.white)
+            p.setColor(QPalette.Text, Qt.white)
+            p.setColor(QPalette.Button, QColor(53, 53, 53))
+            p.setColor(QPalette.ButtonText, Qt.white)
+            p.setColor(QPalette.BrightText, Qt.red)
+            p.setColor(QPalette.Link, QColor(42, 130, 218))
+            p.setColor(QPalette.Highlight, QColor(42, 130, 218))
+            p.setColor(QPalette.HighlightedText, Qt.black)
+        self.setPalette(p)
+    
     def switchTheme(self):
         """
         Toggles between dark and light theme
         """
-        palette = QPalette()
-        if self.flag:
-            #lightmode
-            palette.setColor(QPalette.Window, QColor(202, 202, 202))
-            palette.setColor(QPalette.WindowText, Qt.black)
-            palette.setColor(QPalette.Base, QColor(230, 230, 230))
-            palette.setColor(QPalette.AlternateBase, QColor(202, 202, 202))
-            palette.setColor(QPalette.ToolTipBase, Qt.black)
-            palette.setColor(QPalette.ToolTipText, Qt.black)
-            palette.setColor(QPalette.Text, Qt.black)
-            palette.setColor(QPalette.Button, QColor(202, 202, 202))
-            palette.setColor(QPalette.ButtonText, Qt.black)
-            palette.setColor(QPalette.BrightText, Qt.red)
-            palette.setColor(QPalette.Link, QColor(213, 125, 37))
-            palette.setColor(QPalette.Highlight, QColor(213, 125, 37))
-            palette.setColor(QPalette.HighlightedText, Qt.white)
-        else:
-            #darkmode
-            palette.setColor(QPalette.Window, QColor(53, 53, 53))
-            palette.setColor(QPalette.WindowText, Qt.white)
-            palette.setColor(QPalette.Base, QColor(25, 25, 25))
-            palette.setColor(QPalette.AlternateBase, QColor(53, 53, 53))
-            palette.setColor(QPalette.ToolTipBase, Qt.white)
-            palette.setColor(QPalette.ToolTipText, Qt.white)
-            palette.setColor(QPalette.Text, Qt.white)
-            palette.setColor(QPalette.Button, QColor(53, 53, 53))
-            palette.setColor(QPalette.ButtonText, Qt.white)
-            palette.setColor(QPalette.BrightText, Qt.red)
-            palette.setColor(QPalette.Link, QColor(42, 130, 218))
-            palette.setColor(QPalette.Highlight, QColor(42, 130, 218))
-            palette.setColor(QPalette.HighlightedText, Qt.black)
-
-        app.setPalette(palette)
+        
         self.flag = not self.flag
+        self.setTheme()
+        
+    
 
 
 
@@ -394,5 +406,5 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = ProteinQuantification()
     app.setStyle("Fusion")
-    
+    print(ex.flag)
     sys.exit(app.exec_())
