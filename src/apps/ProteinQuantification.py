@@ -2,7 +2,8 @@ import sys, os, glob
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, \
      QTabWidget, QAction, QInputDialog, QMessageBox, QFileDialog, \
      QWidget, QLabel, QVBoxLayout
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPalette, QColor
+from PyQt5.QtCore import Qt
 sys.path.append(os.getcwd()+'/../view')
 from GUI_FastaViewer import GUI_FastaViewer
 from ConfigView import ConfigView
@@ -44,15 +45,18 @@ class ProteinQuantification(QMainWindow):
         self.view.addTab(self.sview, 'Spec-Viewer')
         self.view.addTab(self.xview, 'mzTabViewer')
 
+        #flag for themetoggle
+        self.flag = False
+        
         menubar = self.menuBar()
         menubar.setNativeMenuBar(False)
         projectMenu = menubar.addMenu('Project')
         parametersMenu = menubar.addMenu('Parameters')
-        loadAction = QAction(QIcon("Icons/load_icon.png"), "&Load Project", self)
+        loadAction = QAction(QIcon("Icons/open.svg"), "&Load Project", self)
         loadAction.setShortcut("Ctrl+L")
-        saveAction = QAction(QIcon("Icons/save_icon.png"), "&Save Project", self)
+        saveAction = QAction(QIcon("Icons/save.svg"), "&Save Project", self)
         saveAction.setShortcut("Ctrl+S")
-        runAction = QAction(QIcon("Icons/run_icon.png"), "&Run in Terminal", self)
+        runAction = QAction(QIcon("Icons/run.svg"), "&Run in Terminal", self)
         runAction.setShortcut("Ctrl+R")
         Threads = QAction("&Adjust the Threadnumber", self)
         FDR = QAction("&Adjust the protein FDR", self)
@@ -62,13 +66,19 @@ class ProteinQuantification(QMainWindow):
         projectMenu.addAction(runAction)
         parametersMenu.addAction(Threads)
         parametersMenu.addAction(FDR)
-
+        
         runAction.triggered.connect(self.runFunktion)
         FDR.triggered.connect(self.adjustFDR)
         Threads.triggered.connect(self.adjustThreads)
 
         saveAction.triggered.connect(self.saveFunktion)
         loadAction.triggered.connect(self.loadFunction)
+
+        #themeswitcher
+        settingsMenu = menubar.addMenu('Settings')
+        switchThemeAction = QAction('Change Theme', self)
+        settingsMenu.addAction(switchThemeAction)
+        switchThemeAction.triggered.connect(self.switchTheme)
 
         text1 = QLabel()
         text1.setText("Welcome")
@@ -337,10 +347,52 @@ class ProteinQuantification(QMainWindow):
                     self.fasta_loaded = True
             except TypeError:
                 print("Could not load .fasta file")
+    
+    def switchTheme(self):
+        """
+        Toggles between dark and light theme
+        """
+        palette = QPalette()
+        if self.flag:
+            #lightmode
+            palette.setColor(QPalette.Window, QColor(202, 202, 202))
+            palette.setColor(QPalette.WindowText, Qt.black)
+            palette.setColor(QPalette.Base, QColor(230, 230, 230))
+            palette.setColor(QPalette.AlternateBase, QColor(202, 202, 202))
+            palette.setColor(QPalette.ToolTipBase, Qt.black)
+            palette.setColor(QPalette.ToolTipText, Qt.black)
+            palette.setColor(QPalette.Text, Qt.black)
+            palette.setColor(QPalette.Button, QColor(202, 202, 202))
+            palette.setColor(QPalette.ButtonText, Qt.black)
+            palette.setColor(QPalette.BrightText, Qt.red)
+            palette.setColor(QPalette.Link, QColor(213, 125, 37))
+            palette.setColor(QPalette.Highlight, QColor(213, 125, 37))
+            palette.setColor(QPalette.HighlightedText, Qt.white)
+        else:
+            #darkmode
+            palette.setColor(QPalette.Window, QColor(53, 53, 53))
+            palette.setColor(QPalette.WindowText, Qt.white)
+            palette.setColor(QPalette.Base, QColor(25, 25, 25))
+            palette.setColor(QPalette.AlternateBase, QColor(53, 53, 53))
+            palette.setColor(QPalette.ToolTipBase, Qt.white)
+            palette.setColor(QPalette.ToolTipText, Qt.white)
+            palette.setColor(QPalette.Text, Qt.white)
+            palette.setColor(QPalette.Button, QColor(53, 53, 53))
+            palette.setColor(QPalette.ButtonText, Qt.white)
+            palette.setColor(QPalette.BrightText, Qt.red)
+            palette.setColor(QPalette.Link, QColor(42, 130, 218))
+            palette.setColor(QPalette.Highlight, QColor(42, 130, 218))
+            palette.setColor(QPalette.HighlightedText, Qt.black)
+
+        app.setPalette(palette)
+        self.flag = not self.flag
+
 
 
 if __name__ == '__main__':
 
     app = QApplication(sys.argv)
     ex = ProteinQuantification()
+    app.setStyle("Fusion")
+    
     sys.exit(app.exec_())
