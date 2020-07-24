@@ -1,7 +1,7 @@
 import sys, os, glob
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, \
      QTabWidget, QAction, QInputDialog, QMessageBox, QFileDialog, \
-     QWidget, QLabel, QVBoxLayout
+     QWidget, QLabel, QVBoxLayout, QCheckBox
 from PyQt5.QtGui import QIcon, QPalette, QColor
 from PyQt5.QtCore import Qt
 sys.path.append(os.getcwd()+'/../view')
@@ -27,7 +27,7 @@ class ProteinQuantification(QMainWindow):
         self.initVars()
         #flag for themetoggle
         self.flag = False
-        #self.palette = self.palette()      
+        #self.palette = self.palette()
         self.setPalette(self.palette)
         self.setTheme()
 
@@ -49,31 +49,37 @@ class ProteinQuantification(QMainWindow):
         self.view.addTab(self.fview, 'Fasta-Viewer')
         self.view.addTab(self.sview, 'Spec-Viewer')
         self.view.addTab(self.xview, 'mzTabViewer')
-             
+
         self.palette = QPalette()
-        
+
         menubar = self.menuBar()
         menubar.setNativeMenuBar(False)
         projectMenu = menubar.addMenu('Project')
         parametersMenu = menubar.addMenu('Parameters')
-        loadAction = QAction(QIcon("Icons/open.svg"), "&Load Project", self)
+        loadAction = QAction(QIcon("Icons/load_icon.png"),
+                             "&Load Project", self)
         loadAction.setShortcut("Ctrl+L")
-        saveAction = QAction(QIcon("Icons/save.svg"), "&Save Project", self)
+        saveAction = QAction(QIcon("Icons/save_icon.png"),
+                             "&Save Project", self)
         saveAction.setShortcut("Ctrl+S")
-        runAction = QAction(QIcon("Icons/run.svg"), "&Run in Terminal", self)
+        runAction = QAction(QIcon("Icons/run_icon.png"),
+                            "&Run in Terminal", self)
         runAction.setShortcut("Ctrl+R")
         Threads = QAction("&Adjust the Threadnumber", self)
         FDR = QAction("&Adjust the protein FDR", self)
+        Out = QAction("&Choose outputfiles", self)
 
         projectMenu.addAction(loadAction)
         projectMenu.addAction(saveAction)
         projectMenu.addAction(runAction)
         parametersMenu.addAction(Threads)
         parametersMenu.addAction(FDR)
-        
+        parametersMenu.addAction(Out)
+
         runAction.triggered.connect(self.runFunktion)
         FDR.triggered.connect(self.adjustFDR)
         Threads.triggered.connect(self.adjustThreads)
+        Out.triggered.connect(self.chooseOutputfiles)
 
         saveAction.triggered.connect(self.saveFunktion)
         loadAction.triggered.connect(self.loadFunction)
@@ -115,6 +121,8 @@ class ProteinQuantification(QMainWindow):
         self.tablefile_loaded = False
         self.fasta_loaded = False
         self.mztab_loaded = False
+        self.cxml_out = True
+        self.msstats_out = True
 
         self.loaded_dir = ""
         self.loaded_ini = ""
@@ -134,6 +142,50 @@ class ProteinQuantification(QMainWindow):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
+
+    def chooseOutputfiles(self):
+        """
+        Opens a popup window to choose the outputfiles
+        If output is generated checkbox is checked.
+        """
+        # Popup
+        self.outputCheckBoxWindow = OutputCheckBoxWindow()
+        mainWidget = QWidget()
+        mztabCheckbox = QCheckBox("Generate a mzTab outputfile")
+        cxmlCheckbox = QCheckBox("Generate a cxml outputfile")
+        msstatsCheckbox = QCheckBox("Generate a msstats outputfile")
+        layout = QVBoxLayout()
+        layout.addWidget(mztabCheckbox)
+        layout.addWidget(cxmlCheckbox)
+        layout.addWidget(msstatsCheckbox)
+        mainWidget.setLayout(layout)
+        self.outputCheckBoxWindow.setCentralWidget(mainWidget)
+
+        # Checkboxstates
+        mztabCheckbox.setChecked(True)
+        mztabCheckbox.setEnabled(False)
+
+        if self.cxml_out:
+            cxmlCheckbox.setChecked(True)
+
+        if self.msstats_out:
+            msstatsCheckbox.setChecked(True)
+
+        # Change Checkbox
+        cxmlCheckbox.clicked.connect(self.togglecxml)
+        msstatsCheckbox.clicked.connect(self.togglemsstats)
+
+    def togglecxml(self):
+        if self.cxml_out:
+            self.cxml_out = False
+        else:
+            self.cxml_out = True
+
+    def togglemsstats(self):
+        if self.msstats_out:
+            self.msstats_out = False
+        else:
+            self.msstats_out = True
 
     def adjustFDR(self):
         """
@@ -208,9 +260,14 @@ class ProteinQuantification(QMainWindow):
                 configini = "-ini " + inifile + " "
                 threads = "-threads " + str(self.threads) + " "
                 fdr = "-proteinFDR " + str(self.fdr) + " "
-                out = ("-out_cxml " + outfileprefix + ".consensusXML.tmp " +
-                       "-out_msstats " + outfileprefix + ".csv.tmp " +
-                       "-out " + outfileprefix + ".mzTab.tmp")
+                out = ""
+                if self.cxml_out:
+                    out += "-out_cxml " + outfileprefix + ".consensusXML.tmp "
+                if self.msstats_out:
+                    out += "-out_msstats " + outfileprefix + ".csv.tmp "
+
+                out += "-out " + outfileprefix + ".mzTab.tmp"
+
                 command = (runcall + mzMLs + idXMLs + design +
                            refdb + configini + threads + fdr + out)
                 os.chdir(projectfolder)
@@ -220,10 +277,14 @@ class ProteinQuantification(QMainWindow):
                                   "performed and outputfiles saved to " +
                                   "projectfolder")
                 mztabfile = outfileprefix + ".mzTab.tmp"
-                self.xview.readFile(mztabfile)
-                self.loaded_mztab = mztabfile
-                self.mztab_loaded = True
-                self.view.setCurrentWidget(self.xview)
+                try:
+                    self.xview.readFile(mztabfile)
+                    self.loaded_mztab = mztabfile
+                    self.mztab_loaded = True
+                    self.view.setCurrentWidget(self.xview)
+                except FileNotFoundError:
+                    QMessageBox.about(self, "Warning", "Some Error occurred " +
+                                      "and no mzTab could be found.")
 
     def saveFunktion(self):
         """
@@ -351,7 +412,7 @@ class ProteinQuantification(QMainWindow):
                     self.fasta_loaded = True
             except TypeError:
                 print("Could not load .fasta file")
-    
+
     def setTheme(self):
         """
         sets theme based on flag state
@@ -388,17 +449,36 @@ class ProteinQuantification(QMainWindow):
             p.setColor(QPalette.Highlight, QColor(42, 130, 218))
             p.setColor(QPalette.HighlightedText, Qt.black)
         self.setPalette(p)
-    
+
     def switchTheme(self):
         """
         Toggles between dark and light theme
         """
-        
+
         self.flag = not self.flag
         self.setTheme()
-        
-    
 
+
+class OutputCheckBoxWindow(QMainWindow):
+    """
+    Popup window to have checkboxes for outputfiles
+    """
+
+    def __init__(self):
+        QMainWindow.__init__(self)
+        self.setWindowTitle("Choose the outputfiles")
+        self.resize(300, 100)
+        self.center()
+        self.show()
+
+    def center(self):
+        """
+        centers the widget to the screen
+        """
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
 
 
 if __name__ == '__main__':
