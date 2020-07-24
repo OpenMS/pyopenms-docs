@@ -5,11 +5,11 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, \
 from PyQt5.QtGui import QIcon, QPalette, QColor
 from PyQt5.QtCore import Qt
 sys.path.append(os.getcwd()+'/../view')
-from GUI_FastaViewer import GUI_FastaViewer
-from ConfigView import ConfigView
-from mzMLTableView import mzMLTableView
-from MultipleSpecView import MultipleSpecView
-from mzTabTableWidget import Window as mzTabTableWidget
+from GUI_FastaViewer import GUI_FastaViewer # noqa E402
+from ConfigView import ConfigView # noqa E402
+from mzMLTableView import mzMLTableView # noqa E402
+from MultipleSpecView import MultipleSpecView # noqa E402
+from mzTabTableWidget import Window as mzTabTableWidget # noqa E402
 sys.path.append(os.getcwd() + '/../model')
 from tableDataFrame import TableDataFrame as Tdf  # noqa E402
 sys.path.append(os.getcwd() + '/../controller')
@@ -18,16 +18,26 @@ from filehandler import FileHandler as fh  # noqa E402
 
 class ProteinQuantification(QMainWindow):
     """
-    Application to use different Widgets in one Window
+    Application to use different Widgets in one Window:
+    First Tab: Welcome tab with information about how the GUI works.
+    Second Tab: Config view - here the .ini file can be viewed and edited
+    Third Tab: mzMLTable view - the experimental design can be
+    viewed and edited.
+    Fourth Tab: Fasta view - fasta files can be loaded and inspected
+    Fifth Tab: Spec view - ms spectras from loaded mzML files can be seen
+    and inspected
+    Sixth Tab: mzTabTable view - The result of the ProteomicsLFQ
+    is displayed
+
     """
 
     def __init__(self):
         QMainWindow.__init__(self)
         self.initUI()
         self.initVars()
-        #flag for themetoggle
+        # flag for themetoggle
         self.flag = False
-        #self.palette = self.palette()
+        # self.palette = self.palette()
         self.setPalette(self.palette)
         self.setTheme()
 
@@ -76,15 +86,15 @@ class ProteinQuantification(QMainWindow):
         parametersMenu.addAction(FDR)
         parametersMenu.addAction(Out)
 
-        runAction.triggered.connect(self.runFunktion)
+        runAction.triggered.connect(self.runFunction)
         FDR.triggered.connect(self.adjustFDR)
         Threads.triggered.connect(self.adjustThreads)
         Out.triggered.connect(self.chooseOutputfiles)
 
-        saveAction.triggered.connect(self.saveFunktion)
+        saveAction.triggered.connect(self.saveFunction)
         loadAction.triggered.connect(self.loadFunction)
 
-        #themeswitcher
+        # themeswitcher
         settingsMenu = menubar.addMenu('Settings')
         switchThemeAction = QAction('Change Theme', self)
         settingsMenu.addAction(switchThemeAction)
@@ -222,9 +232,10 @@ class ProteinQuantification(QMainWindow):
                                   "Please specify a positive" +
                                   "number of threads.")
 
-    def runFunktion(self):
+    def runFunction(self):
         """
         runs the processing from the GUI in a Terminal
+        based on the ProteomicsLFQ command of OpenMS
         """
         self.procdone = False
         outfileprefix, ok = QInputDialog.getText(self,
@@ -286,9 +297,10 @@ class ProteinQuantification(QMainWindow):
                     QMessageBox.about(self, "Warning", "Some Error occurred " +
                                       "and no mzTab could be found.")
 
-    def saveFunktion(self):
+    def saveFunction(self):
         """
         saves all work from the GUI in chosen folder
+        the prefix of the outputfiles can be choosen
         """
         dlg = QFileDialog(self)
         filePath = dlg.getExistingDirectory()
@@ -415,11 +427,12 @@ class ProteinQuantification(QMainWindow):
 
     def setTheme(self):
         """
-        sets theme based on flag state
+        sets theme based on flag state, light or dark modes are possible
+        default is light theme
         """
         p = self.palette
         if not self.flag:
-            #lightmode
+            # lightmode
             p.setColor(QPalette.Window, QColor(202, 202, 202))
             p.setColor(QPalette.WindowText, Qt.black)
             p.setColor(QPalette.Base, QColor(230, 230, 230))
@@ -434,7 +447,7 @@ class ProteinQuantification(QMainWindow):
             p.setColor(QPalette.Highlight, QColor(213, 125, 37))
             p.setColor(QPalette.HighlightedText, Qt.white)
         else:
-            #darkmode
+            # darkmode
             p.setColor(QPalette.Window, QColor(53, 53, 53))
             p.setColor(QPalette.WindowText, Qt.white)
             p.setColor(QPalette.Base, QColor(25, 25, 25))
@@ -461,7 +474,7 @@ class ProteinQuantification(QMainWindow):
 
 class OutputCheckBoxWindow(QMainWindow):
     """
-    Popup window to have checkboxes for outputfiles
+    Popup window with checkboxes for outputfiles
     """
 
     def __init__(self):
