@@ -239,10 +239,10 @@ class ProteinQuantification(QMainWindow):
         """
         #query output-directory 
         dlg = QFileDialog(self)
-        filePath = dlg.getExistingDirectory(self,"Choose Output-Folder")
-
+        filePath = "/" +dlg.getExistingDirectory(self,"Choose Output-Folder")
+        
         self.procdone = False
-        outfileprefix, ok = QInputDialog.getText(self,
+        outfileprefix, ok = filePath + QInputDialog.getText(self,
                                                  "Prefix for outputfiles",
                                                  "Please specify a prefix " +
                                                  "for the outputfiles")
@@ -291,7 +291,7 @@ class ProteinQuantification(QMainWindow):
                 QMessageBox.about(self, "Information", "Processing has been " +
                                   "performed and outputfiles saved to " +
                                   "projectfolder")
-                mztabfile = filePath + "/" + outfileprefix + ".mzTab.tmp"
+                mztabfile = outfileprefix + ".mzTab.tmp"
                 try:
                     self.xview.readFile(mztabfile)
                     self.loaded_mztab = mztabfile
