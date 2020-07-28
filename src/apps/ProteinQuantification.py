@@ -15,7 +15,6 @@ from tableDataFrame import TableDataFrame as Tdf  # noqa E402
 sys.path.append(os.getcwd() + '/../controller')
 from filehandler import FileHandler as fh  # noqa E402
 
-
 class ProteinQuantification(QMainWindow):
     """
     Application to use different Widgets in one Window:
@@ -238,12 +237,16 @@ class ProteinQuantification(QMainWindow):
         based on the ProteomicsLFQ command of OpenMS
         """
         #query output-directory 
-        correctDir = True
-        while correctDir:
+        correctDir = False
+        while not correctDir:
             dlg = QFileDialog(self)
             filePath = dlg.getExistingDirectory(self,"Choose Output-Folder")
+            if not filePath:
+                return False
             if not ' ' in filePath:
-                correctDir = False
+                correctDir = True
+            else:
+                QMessageBox.about(self, "Error", "Please only use Filepaths that do not contain spaces.")
 
         
         self.procdone = False
@@ -480,8 +483,7 @@ class ProteinQuantification(QMainWindow):
         """
 
         self.flag = not self.flag
-        self.setTheme()
-
+        self.setTheme()    
 
 class OutputCheckBoxWindow(QMainWindow):
     """
@@ -510,5 +512,5 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = ProteinQuantification()
     app.setStyle("Fusion")
-    print(ex.flag)
+
     sys.exit(app.exec_())
