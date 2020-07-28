@@ -239,14 +239,14 @@ class ProteinQuantification(QMainWindow):
         """
         #query output-directory 
         dlg = QFileDialog(self)
-        filePath = "/" + dlg.getExistingDirectory(self,"Choose Output-Folder")
+        filePath =  dlg.getExistingDirectory(self,"Choose Output-Folder")
         
         self.procdone = False
         outfileprefix, ok = QInputDialog.getText(self,
                                                  "Prefix for outputfiles",
                                                  "Please specify a prefix " +
                                                  "for the outputfiles")
-        outfileprefix = filePath + outfileprefix
+        outfileprefix = filePath + "/" +outfileprefix
         if ok:
             projectfolder = self.loaded_dir
             mzMLExpLayout = self.tview.getDataFrame()
