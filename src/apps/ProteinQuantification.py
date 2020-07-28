@@ -237,13 +237,17 @@ class ProteinQuantification(QMainWindow):
         runs the processing from the GUI in a Terminal
         based on the ProteomicsLFQ command of OpenMS
         """
+        #query output-directory 
+        dlg = QFileDialog(self)
+        filePath = dlg.getExistingDirectory(self,"Choose Output-Folder")
+
         self.procdone = False
         outfileprefix, ok = QInputDialog.getText(self,
                                                  "Prefix for outputfiles",
                                                  "Please specify a prefix " +
                                                  "for the outputfiles")
         if ok:
-            projectfolder = self.loaded_dir
+            projectfolder = filePath
             mzMLExpLayout = self.tview.getDataFrame()
             try:
                 mzMLfiles = mzMLExpLayout['Spectra_Filepath']
