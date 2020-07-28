@@ -247,7 +247,7 @@ class ProteinQuantification(QMainWindow):
                                                  "Please specify a prefix " +
                                                  "for the outputfiles")
         if ok:
-            projectfolder = filePath
+            projectfolder = self.loaded_dir
             mzMLExpLayout = self.tview.getDataFrame()
             try:
                 mzMLfiles = mzMLExpLayout['Spectra_Filepath']
@@ -291,7 +291,7 @@ class ProteinQuantification(QMainWindow):
                 QMessageBox.about(self, "Information", "Processing has been " +
                                   "performed and outputfiles saved to " +
                                   "projectfolder")
-                mztabfile = outfileprefix + ".mzTab.tmp"
+                mztabfile = filePath + "/" + outfileprefix + ".mzTab.tmp"
                 try:
                     self.xview.readFile(mztabfile)
                     self.loaded_mztab = mztabfile
