@@ -1,9 +1,9 @@
 import sys, os
 import timeit
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, QMessageBox
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, \
+     QMessageBox
 sys.path.append(os.getcwd()+'/../view')
-from mzMLTableView import mzMLTableView  # noqa: E402
+from mzMLTableView import mzMLTableView # noqa E402
 
 
 class TableEditor(QMainWindow):
@@ -46,8 +46,7 @@ class TableEditor(QMainWindow):
         if urls and urls[0].scheme() == "file":
             e.acceptProposedAction()
         else:
-            e.ignore() 
-        
+            e.ignore()
 
     def dragMoveEvent(self, event):
         e = event
@@ -56,7 +55,7 @@ class TableEditor(QMainWindow):
         if urls and urls[0].scheme() == "file":
             e.acceptProposedAction()
         else:
-            e.ignore() 
+            e.ignore()
 
     def dropEvent(self, event):
         e = event
@@ -73,7 +72,7 @@ class TableEditor(QMainWindow):
                 dialog.setIcon(QMessageBox.Warning)
                 dialog.exec_()
         else:
-            e.ignore() 
+            e.ignore()
 
 
 if __name__ == '__main__':

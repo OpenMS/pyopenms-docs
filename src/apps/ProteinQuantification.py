@@ -1,12 +1,15 @@
 import sys, os, glob
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, \
-     QTabWidget, QAction, QInputDialog, QMessageBox, QFileDialog
+     QTabWidget, QAction, QInputDialog, QMessageBox, QFileDialog, \
+     QWidget, QLabel, QVBoxLayout, QCheckBox
+from PyQt5.QtGui import QIcon, QPalette, QColor
+from PyQt5.QtCore import Qt
 sys.path.append(os.getcwd()+'/../view')
-from GUI_FastaViewer import GUI_FastaViewer
-from ConfigView import ConfigView
-from mzMLTableView import mzMLTableView
-from MultipleSpecView import MultipleSpecView
-from mzTabTableWidget import Window as mzTabTableWidget
+from GUI_FastaViewer import GUI_FastaViewer # noqa E402
+from ConfigView import ConfigView # noqa E402
+from mzMLTableView import mzMLTableView # noqa E402
+from MultipleSpecView import MultipleSpecView # noqa E402
+from mzTabTableWidget import Window as mzTabTableWidget # noqa E402
 sys.path.append(os.getcwd() + '/../model')
 from tableDataFrame import TableDataFrame as Tdf  # noqa E402
 sys.path.append(os.getcwd() + '/../controller')
@@ -15,53 +18,104 @@ from filehandler import FileHandler as fh  # noqa E402
 
 class ProteinQuantification(QMainWindow):
     """
-    Application to use different Widgets in one Window
+    Application to use different Widgets in one Window:
+    First Tab: Welcome tab with information about how the GUI works.
+    Second Tab: Config view - here the .ini file can be viewed and edited
+    Third Tab: mzMLTable view - the experimental design can be
+    viewed and edited.
+    Fourth Tab: Fasta view - fasta files can be loaded and inspected
+    Fifth Tab: Spec view - ms spectras from loaded mzML files can be seen
+    and inspected
+    Sixth Tab: mzTabTable view - The result of the ProteomicsLFQ
+    is displayed
+
     """
 
     def __init__(self):
         QMainWindow.__init__(self)
         self.initUI()
         self.initVars()
+        # flag for themetoggle
+        self.flag = False
+        # self.palette = self.palette()
+        self.setPalette(self.palette)
+        self.setTheme()
 
     def initUI(self):
         '''
         sets the window with all applications and widgets
         '''
         self.view = QTabWidget()
+        self.welcome = QWidget()
         self.cview = ConfigView()
         self.tview = mzMLTableView()
         self.sview = MultipleSpecView()
         self.fview = GUI_FastaViewer()
         self.xview = mzTabTableWidget()
 
+        self.view.addTab(self.welcome, 'Welcome')
         self.view.addTab(self.cview, 'XML-Viewer')
         self.view.addTab(self.tview, 'Experimental-Design')
         self.view.addTab(self.fview, 'Fasta-Viewer')
         self.view.addTab(self.sview, 'Spec-Viewer')
         self.view.addTab(self.xview, 'mzTabViewer')
 
+        self.palette = QPalette()
+
         menubar = self.menuBar()
         menubar.setNativeMenuBar(False)
         projectMenu = menubar.addMenu('Project')
         parametersMenu = menubar.addMenu('Parameters')
-        loadAction = QAction("&Load Project", self)
-        saveAction = QAction("&Save project", self)
-        runAction = QAction("&Run in Terminal", self)
+        loadAction = QAction(QIcon("Icons/load_icon.png"),
+                             "&Load Project", self)
+        loadAction.setShortcut("Ctrl+L")
+        saveAction = QAction(QIcon("Icons/save_icon.png"),
+                             "&Save Project", self)
+        saveAction.setShortcut("Ctrl+S")
+        runAction = QAction(QIcon("Icons/run_icon.png"),
+                            "&Run in Terminal", self)
+        runAction.setShortcut("Ctrl+R")
         Threads = QAction("&Adjust the Threadnumber", self)
         FDR = QAction("&Adjust the protein FDR", self)
+        Out = QAction("&Choose outputfiles", self)
 
         projectMenu.addAction(loadAction)
-        projectMenu.addAction(runAction)
         projectMenu.addAction(saveAction)
+        projectMenu.addAction(runAction)
         parametersMenu.addAction(Threads)
         parametersMenu.addAction(FDR)
+        parametersMenu.addAction(Out)
 
-        runAction.triggered.connect(self.runFunktion)
+        runAction.triggered.connect(self.runFunction)
         FDR.triggered.connect(self.adjustFDR)
         Threads.triggered.connect(self.adjustThreads)
+        Out.triggered.connect(self.chooseOutputfiles)
 
-        saveAction.triggered.connect(self.saveFunktion)
+        saveAction.triggered.connect(self.saveFunction)
         loadAction.triggered.connect(self.loadFunction)
+
+        # themeswitcher
+        settingsMenu = menubar.addMenu('Settings')
+        switchThemeAction = QAction('Change Theme', self)
+        settingsMenu.addAction(switchThemeAction)
+        switchThemeAction.triggered.connect(self.switchTheme)
+
+        text1 = QLabel()
+        text1.setText("Welcome")
+        text2 = QLabel()
+        text2.setText("Hier kommt irgendein Content!")
+        text3 = QLabel()
+        text3.setText("Funktionalität")
+        text4 = QLabel()
+        text4.setText("Hier kommt irgendein Content!")
+
+        welcome_layout = QVBoxLayout()
+        welcome_layout.addWidget(text1)
+        welcome_layout.addWidget(text2)
+        welcome_layout.addWidget(text3)
+        welcome_layout.addWidget(text4)
+
+        self.welcome.setLayout(welcome_layout)
 
         self.setCentralWidget(self.view)
         self.resize(1280, 720)
@@ -77,6 +131,8 @@ class ProteinQuantification(QMainWindow):
         self.tablefile_loaded = False
         self.fasta_loaded = False
         self.mztab_loaded = False
+        self.cxml_out = True
+        self.msstats_out = True
 
         self.loaded_dir = ""
         self.loaded_ini = ""
@@ -96,6 +152,50 @@ class ProteinQuantification(QMainWindow):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
+
+    def chooseOutputfiles(self):
+        """
+        Opens a popup window to choose the outputfiles
+        If output is generated checkbox is checked.
+        """
+        # Popup
+        self.outputCheckBoxWindow = OutputCheckBoxWindow()
+        mainWidget = QWidget()
+        mztabCheckbox = QCheckBox("Generate a mzTab outputfile")
+        cxmlCheckbox = QCheckBox("Generate a cxml outputfile")
+        msstatsCheckbox = QCheckBox("Generate a msstats outputfile")
+        layout = QVBoxLayout()
+        layout.addWidget(mztabCheckbox)
+        layout.addWidget(cxmlCheckbox)
+        layout.addWidget(msstatsCheckbox)
+        mainWidget.setLayout(layout)
+        self.outputCheckBoxWindow.setCentralWidget(mainWidget)
+
+        # Checkboxstates
+        mztabCheckbox.setChecked(True)
+        mztabCheckbox.setEnabled(False)
+
+        if self.cxml_out:
+            cxmlCheckbox.setChecked(True)
+
+        if self.msstats_out:
+            msstatsCheckbox.setChecked(True)
+
+        # Change Checkbox
+        cxmlCheckbox.clicked.connect(self.togglecxml)
+        msstatsCheckbox.clicked.connect(self.togglemsstats)
+
+    def togglecxml(self):
+        if self.cxml_out:
+            self.cxml_out = False
+        else:
+            self.cxml_out = True
+
+    def togglemsstats(self):
+        if self.msstats_out:
+            self.msstats_out = False
+        else:
+            self.msstats_out = True
 
     def adjustFDR(self):
         """
@@ -132,9 +232,10 @@ class ProteinQuantification(QMainWindow):
                                   "Please specify a positive" +
                                   "number of threads.")
 
-    def runFunktion(self):
+    def runFunction(self):
         """
         runs the processing from the GUI in a Terminal
+        based on the ProteomicsLFQ command of OpenMS
         """
         self.procdone = False
         outfileprefix, ok = QInputDialog.getText(self,
@@ -170,9 +271,14 @@ class ProteinQuantification(QMainWindow):
                 configini = "-ini " + inifile + " "
                 threads = "-threads " + str(self.threads) + " "
                 fdr = "-proteinFDR " + str(self.fdr) + " "
-                out = ("-out_cxml " + outfileprefix + ".consensusXML.tmp " +
-                       "-out_msstats " + outfileprefix + ".csv.tmp " +
-                       "-out " + outfileprefix + ".mzTab.tmp")
+                out = ""
+                if self.cxml_out:
+                    out += "-out_cxml " + outfileprefix + ".consensusXML.tmp "
+                if self.msstats_out:
+                    out += "-out_msstats " + outfileprefix + ".csv.tmp "
+
+                out += "-out " + outfileprefix + ".mzTab.tmp"
+
                 command = (runcall + mzMLs + idXMLs + design +
                            refdb + configini + threads + fdr + out)
                 os.chdir(projectfolder)
@@ -182,14 +288,19 @@ class ProteinQuantification(QMainWindow):
                                   "performed and outputfiles saved to " +
                                   "projectfolder")
                 mztabfile = outfileprefix + ".mzTab.tmp"
-                self.xview.readFile(mztabfile)
-                self.loaded_mztab = mztabfile
-                self.mztab_loaded = True
-                self.view.setCurrentWidget(self.xview)
+                try:
+                    self.xview.readFile(mztabfile)
+                    self.loaded_mztab = mztabfile
+                    self.mztab_loaded = True
+                    self.view.setCurrentWidget(self.xview)
+                except FileNotFoundError:
+                    QMessageBox.about(self, "Warning", "Some Error occurred " +
+                                      "and no mzTab could be found.")
 
-    def saveFunktion(self):
+    def saveFunction(self):
         """
         saves all work from the GUI in chosen folder
+        the prefix of the outputfiles can be choosen
         """
         dlg = QFileDialog(self)
         filePath = dlg.getExistingDirectory()
@@ -314,9 +425,79 @@ class ProteinQuantification(QMainWindow):
             except TypeError:
                 print("Could not load .fasta file")
 
+    def setTheme(self):
+        """
+        sets theme based on flag state, light or dark modes are possible
+        default is light theme
+        """
+        p = self.palette
+        if not self.flag:
+            # lightmode
+            p.setColor(QPalette.Window, QColor(202, 202, 202))
+            p.setColor(QPalette.WindowText, Qt.black)
+            p.setColor(QPalette.Base, QColor(230, 230, 230))
+            p.setColor(QPalette.AlternateBase, QColor(202, 202, 202))
+            p.setColor(QPalette.ToolTipBase, Qt.black)
+            p.setColor(QPalette.ToolTipText, Qt.black)
+            p.setColor(QPalette.Text, Qt.black)
+            p.setColor(QPalette.Button, QColor(202, 202, 202))
+            p.setColor(QPalette.ButtonText, Qt.black)
+            p.setColor(QPalette.BrightText, Qt.red)
+            p.setColor(QPalette.Link, QColor(213, 125, 37))
+            p.setColor(QPalette.Highlight, QColor(213, 125, 37))
+            p.setColor(QPalette.HighlightedText, Qt.white)
+        else:
+            # darkmode
+            p.setColor(QPalette.Window, QColor(53, 53, 53))
+            p.setColor(QPalette.WindowText, Qt.white)
+            p.setColor(QPalette.Base, QColor(25, 25, 25))
+            p.setColor(QPalette.AlternateBase, QColor(53, 53, 53))
+            p.setColor(QPalette.ToolTipBase, Qt.white)
+            p.setColor(QPalette.ToolTipText, Qt.white)
+            p.setColor(QPalette.Text, Qt.white)
+            p.setColor(QPalette.Button, QColor(53, 53, 53))
+            p.setColor(QPalette.ButtonText, Qt.white)
+            p.setColor(QPalette.BrightText, Qt.red)
+            p.setColor(QPalette.Link, QColor(42, 130, 218))
+            p.setColor(QPalette.Highlight, QColor(42, 130, 218))
+            p.setColor(QPalette.HighlightedText, Qt.black)
+        self.setPalette(p)
+
+    def switchTheme(self):
+        """
+        Toggles between dark and light theme
+        """
+
+        self.flag = not self.flag
+        self.setTheme()
+
+
+class OutputCheckBoxWindow(QMainWindow):
+    """
+    Popup window with checkboxes for outputfiles
+    """
+
+    def __init__(self):
+        QMainWindow.__init__(self)
+        self.setWindowTitle("Choose the outputfiles")
+        self.resize(300, 100)
+        self.center()
+        self.show()
+
+    def center(self):
+        """
+        centers the widget to the screen
+        """
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
+
 
 if __name__ == '__main__':
 
     app = QApplication(sys.argv)
     ex = ProteinQuantification()
+    app.setStyle("Fusion")
+    print(ex.flag)
     sys.exit(app.exec_())
