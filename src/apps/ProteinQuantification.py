@@ -2,7 +2,7 @@ import sys, os, glob
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, \
      QTabWidget, QAction, QInputDialog, QMessageBox, QFileDialog, \
      QWidget, QLabel, QVBoxLayout, QCheckBox
-from PyQt5.QtGui import QIcon, QPalette, QColor
+from PyQt5.QtGui import QIcon, QPalette, QColor, QFont
 from PyQt5.QtCore import Qt
 sys.path.append(os.getcwd()+'/../view')
 from GUI_FastaViewer import GUI_FastaViewer # noqa E402
@@ -14,6 +14,8 @@ sys.path.append(os.getcwd() + '/../model')
 from tableDataFrame import TableDataFrame as Tdf  # noqa E402
 sys.path.append(os.getcwd() + '/../controller')
 from filehandler import FileHandler as fh  # noqa E402
+sys.path.insert(0, '../examples')
+
 
 class ProteinQuantification(QMainWindow):
     """
@@ -99,20 +101,41 @@ class ProteinQuantification(QMainWindow):
         settingsMenu.addAction(switchThemeAction)
         switchThemeAction.triggered.connect(self.switchTheme)
 
-        text1 = QLabel()
-        text1.setText("Welcome")
-        text2 = QLabel()
-        text2.setText("Hier kommt irgendein Content!")
+        # Welcome Tab
+
+        normalFont = QFont("Helvetica", 11)
+        boldFont = QFont("Helvetica", 14, QFont.Bold)
+        Title = QLabel()
+        Title.setText("Welcome: Get started with your Proteinquantifcation!")
+        Title.setFont(boldFont)
+        Title.setFixedHeight(22)
+        Welcome = QLabel()
+        Welcome.setMaximumHeight(80)
+        Welcome.setText("This application performs a LFQ"
+                        "Proteinquantification.\nTo run the analysis you have "
+                        "include files for the first three tabs. The result "
+                        "can will\nbe loaded into the last tab."
+                        "These following tabs are part of this application:\n")
+        Welcome.setFont(normalFont)
+        XMLText = QLabel()
+        XMLText.setMaximumHeight(50)
+        XMLText.setText("XML Viewer: This application allows you to load, edit "
+                        "and save your configuration file of\nyour Experiment."
+                        " If no config file is present a default file is "
+                        "written and used.")
+        XMLText.setFont(normalFont)
         text3 = QLabel()
         text3.setText("Funktionalität")
         text4 = QLabel()
         text4.setText("Hier kommt irgendein Content!")
 
         welcome_layout = QVBoxLayout()
-        welcome_layout.addWidget(text1)
-        welcome_layout.addWidget(text2)
+        welcome_layout.addWidget(Title)
+        welcome_layout.addWidget(Welcome)
+        welcome_layout.addWidget(XMLText)
         welcome_layout.addWidget(text3)
         welcome_layout.addWidget(text4)
+        #welcome_layout.setContentsMargins(11, 25, 25, 11)
 
         self.welcome.setLayout(welcome_layout)
 
@@ -236,26 +259,11 @@ class ProteinQuantification(QMainWindow):
         runs the processing from the GUI in a Terminal
         based on the ProteomicsLFQ command of OpenMS
         """
-        #query output-directory 
-        correctDir = False
-        while not correctDir:
-            dlg = QFileDialog(self)
-            filePath = dlg.getExistingDirectory(self,"Choose Output-Folder")
-            if not filePath:
-                return False
-            if not ' ' in filePath:
-                correctDir = True
-            else:
-                QMessageBox.about(self, "Error", "Please only use Filepaths that do not contain spaces.")
-
-        
         self.procdone = False
         outfileprefix, ok = QInputDialog.getText(self,
                                                  "Prefix for outputfiles",
                                                  "Please specify a prefix " +
                                                  "for the outputfiles")
-
-        outfileprefix = filePath + "/" + outfileprefix
         if ok:
             projectfolder = self.loaded_dir
             mzMLExpLayout = self.tview.getDataFrame()
@@ -372,7 +380,7 @@ class ProteinQuantification(QMainWindow):
                                         "Table has been saved as: " +
                                         tablePath.split("/")[-1])
 
-    def loadFunction(self):
+    def loadFunction(self, file):
         """
         loads all files (.tsv .ini, .fasta) from a given
         directory.
@@ -380,7 +388,7 @@ class ProteinQuantification(QMainWindow):
         filled with mzMl files
 
         If no .ini file is present default ini file is written
-        and has to be loaded with the button inside tab
+        and is loaded automatically
         """
         dlg = QFileDialog(self)
         filePath = dlg.getExistingDirectory()
@@ -390,11 +398,12 @@ class ProteinQuantification(QMainWindow):
             try:
                 tsvfiles = glob.glob('*.tsv')
                 for file in tsvfiles:
-                    df = fh.importTable(self.tview, file)
-                    Tdf.setTable(self.tview, df)
-                    self.tview.drawTable()
-                    self.loaded_table = file
-                    self.tablefile_loaded = True
+                        df = fh.importTable(self.tview, file)
+                        Tdf.setTable(self.tview, df)
+                        self.tview.drawTable()
+                        self.loaded_table = file
+                        self.tablefile_loaded = True
+                     
             except TypeError:
                 "No tsv or csv file could be loaded."
 
@@ -483,7 +492,8 @@ class ProteinQuantification(QMainWindow):
         """
 
         self.flag = not self.flag
-        self.setTheme()    
+        self.setTheme()
+
 
 class OutputCheckBoxWindow(QMainWindow):
     """
@@ -512,5 +522,5 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = ProteinQuantification()
     app.setStyle("Fusion")
-
+    print(ex.flag)
     sys.exit(app.exec_())
