@@ -1,7 +1,7 @@
 import sys, os, glob
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, \
      QTabWidget, QAction, QInputDialog, QMessageBox, QFileDialog, \
-     QWidget, QLabel, QVBoxLayout, QCheckBox
+     QWidget, QLabel, QVBoxLayout, QCheckBox, QGridLayout
 from PyQt5.QtGui import QIcon, QPalette, QColor, QFont
 from PyQt5.QtCore import Qt
 sys.path.append(os.getcwd()+'/../view')
@@ -105,37 +105,58 @@ class ProteinQuantification(QMainWindow):
 
         normalFont = QFont("Helvetica", 11)
         boldFont = QFont("Helvetica", 14, QFont.Bold)
-        Title = QLabel()
-        Title.setText("Welcome: Get started with your Proteinquantifcation!")
-        Title.setFont(boldFont)
-        Title.setFixedHeight(22)
-        Welcome = QLabel()
-        Welcome.setMaximumHeight(80)
-        Welcome.setText("This application performs a LFQ"
-                        "Proteinquantification.\nTo run the analysis you have "
-                        "include files for the first three tabs. The result "
-                        "can will\nbe loaded into the last tab."
+        title = QLabel()
+        title.setText("Welcome: Get started with your Proteinquantifcation!")
+        title.setFont(boldFont)
+        title.setMaximumHeight(30)
+        welcome = QLabel()
+        welcome.setMaximumHeight(75)
+        welcome.setText("This application performs a LFQ"
+                        "Proteinquantification. \nTo run the analysis you have "
+                        "include files for the first three tabs.\nThe result "
+                        "will be displayed in the last tab."
                         "These following tabs are part of this application:\n")
-        Welcome.setFont(normalFont)
-        XMLText = QLabel()
-        XMLText.setMaximumHeight(50)
-        XMLText.setText("XML Viewer: This application allows you to load, edit "
-                        "and save your configuration file of\nyour Experiment."
-                        " If no config file is present a default file is "
-                        "written and used.")
-        XMLText.setFont(normalFont)
-        text3 = QLabel()
-        text3.setText("Funktionalität")
-        text4 = QLabel()
-        text4.setText("Hier kommt irgendein Content!")
+        welcome.setFont(normalFont)
 
-        welcome_layout = QVBoxLayout()
-        welcome_layout.addWidget(Title)
-        welcome_layout.addWidget(Welcome)
-        welcome_layout.addWidget(XMLText)
-        welcome_layout.addWidget(text3)
-        welcome_layout.addWidget(text4)
-        #welcome_layout.setContentsMargins(11, 25, 25, 11)
+        xmlText = QLabel()
+        xmlText.setMaximumHeight(80)
+
+        xmlText.setText("XML Viewer: This application allows you to load, edit"
+                        " and save your configuration file of\nyour Experiment."
+                        " If no config file is present a default file is "
+                        "written and used. Here a\n.ini file is required.")
+        xmlText.setFont(normalFont)
+
+        experimentalText = QLabel()
+        experimentalText.setMaximumHeight(80)
+        experimentalText.setText("Experimental Design: Here a table of your"
+                                 " experimental design can\nbe loaded. Here "
+                                 "you are able to edit specifics like number\n"
+                                 "of files, fractions or groups.\n.tsv files"
+                                 "can be directly loaded as table or single"
+                                 ".mzml files can be included.")
+        experimentalText.setFont(normalFont)
+
+        fastaText = QLabel()
+        fastaText.setMaximumHeight(80)
+        fastaText.setText("Fasta Viewer: This viewer allows the user to load"
+                          "a fasta file and search \nfor information about the"
+                          "sequences such as protein IDs and accession"
+                          " numbers.")
+        fastaText.setFont(normalFont)
+
+        specText = QLabel()
+        specText.setMaximumHeight(80)
+        specText.setText("Spectrum Viewer")
+        specText.setFont(normalFont)
+        welcome_layout = QGridLayout()
+        welcome_layout.addWidget(title, 0, 0)
+        welcome_layout.addWidget(welcome, 1, 0)
+        welcome_layout.addWidget(xmlText, 2, 0)
+        welcome_layout.addWidget(experimentalText, 3, 0)
+        welcome_layout.addWidget(fastaText, 4, 0)
+        welcome_layout.addWidget(specText, 2, 3)
+        welcome_layout.setSpacing(0)
 
         self.welcome.setLayout(welcome_layout)
 
