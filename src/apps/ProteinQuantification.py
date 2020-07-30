@@ -418,6 +418,26 @@ class ProteinQuantification(QMainWindow):
         if filePath != '':
             try:
                 tsvfiles = glob.glob('*.tsv')
+                if len(tsvfiles) > 1:
+                    QMessageBox.about(self, "Sorry!",
+                                            "Where are multiple .tsv "
+                                            "files in the specified folder. "
+                                            "Please choose the one supposed "
+                                            "to be used")
+                    dial = QFileDialog(self)
+                    newFilePath = dial.getOpenFileName(self,
+                                                       "Choose .tsv",
+                                                       filePath,
+                                                       "Tables (*.tsv)")
+                    if newFilePath[0] != '':
+                        newFile = newFilePath[0].split("/")[-1]
+                        tsvfiles = [newFile]
+                    else:
+                        QMessageBox.about(self, "Sorry!",
+                                                "Nothing was choosen. "
+                                                "Therefor no .tsv was "
+                                                "loaded. ")
+                        tsvfiles = []
                 for file in tsvfiles:
                     df = fh.importTable(self.tview, file)
                     Tdf.setTable(self.tview, df)
@@ -437,6 +457,26 @@ class ProteinQuantification(QMainWindow):
 
             try:
                 iniFiles = glob.glob('*.ini')
+                if len(iniFiles) > 1:
+                    QMessageBox.about(self, "Sorry!",
+                                            "Where are multiple .ini "
+                                            "files in the specified folder. "
+                                            "Please choose the one supposed "
+                                            "to be used")
+                    dial = QFileDialog(self)
+                    newFilePath = dial.getOpenFileName(self,
+                                                       "Choose .ini",
+                                                       filePath,
+                                                       "Config (*.ini)")
+                    if newFilePath[0] != '':
+                        newFile = newFilePath[0].split("/")[-1]
+                        iniFiles = [newFile]
+                    else:
+                        QMessageBox.about(self, "Sorry!",
+                                                "Nothing was choosen. "
+                                                "Therefor no .ini was "
+                                                "loaded. ")
+                        iniFiles = []
                 for file in iniFiles:
                     self.cview.generateTreeModel(file)
                     self.loaded_ini = file
@@ -462,6 +502,26 @@ class ProteinQuantification(QMainWindow):
 
             try:
                 fastafiles = glob.glob('*fasta')
+                if len(fastafiles) > 1:
+                    QMessageBox.about(self, "Sorry!",
+                                            "Where are multiple .fasta "
+                                            "files in the specified folder. "
+                                            "Please choose the one supposed "
+                                            "to be used")
+                    dial = QFileDialog(self)
+                    newFilePath = dial.getOpenFileName(self,
+                                                       "Choose .fasta",
+                                                       filePath,
+                                                       "Proteindata (*.fasta)")
+                    if newFilePath[0] != '':
+                        newFile = newFilePath[0].split("/")[-1]
+                        tsvfiles = [newFile]
+                    else:
+                        QMessageBox.about(self, "Sorry!",
+                                                "Nothing was choosen. "
+                                                "Therefor no .fasta was "
+                                                "loaded. ")
+                        fastafiles = []
                 for file in fastafiles:
                     self.fview.loadFile(file)
                     self.loaded_fasta = file
