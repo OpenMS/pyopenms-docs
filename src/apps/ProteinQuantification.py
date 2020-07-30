@@ -112,8 +112,8 @@ class ProteinQuantification(QMainWindow):
         welcome = QLabel()
         welcome.setMaximumHeight(75)
         welcome.setText("This application performs a LFQ"
-                        "Proteinquantification. \nTo run the analysis you have "
-                        "include files for the first three tabs.\nThe result "
+                        "Proteinquantification. \nTo run the analysis you have"
+                        " include files for the first three tabs.\nThe result "
                         "will be displayed in the last tab."
                         "These following tabs are part of this application:\n")
         welcome.setFont(normalFont)
@@ -122,8 +122,8 @@ class ProteinQuantification(QMainWindow):
         xmlText.setMaximumHeight(80)
 
         xmlText.setText("XML Viewer: This application allows you to load, edit"
-                        " and save your configuration file of\nyour Experiment."
-                        " If no config file is present a default file is "
+                        " and save your configuration file of\nyour Experiment"
+                        ". If no config file is present a default file is "
                         "written and used. Here a\n.ini file is required.")
         xmlText.setFont(normalFont)
 
@@ -419,12 +419,12 @@ class ProteinQuantification(QMainWindow):
             try:
                 tsvfiles = glob.glob('*.tsv')
                 for file in tsvfiles:
-                        df = fh.importTable(self.tview, file)
-                        Tdf.setTable(self.tview, df)
-                        self.tview.drawTable()
-                        self.loaded_table = file
-                        self.tablefile_loaded = True
-                     
+                    df = fh.importTable(self.tview, file)
+                    Tdf.setTable(self.tview, df)
+                    self.tview.drawTable()
+                    self.loaded_table = file
+                    self.tablefile_loaded = True
+
             except TypeError:
                 "No tsv or csv file could be loaded."
 
