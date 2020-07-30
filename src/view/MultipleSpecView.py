@@ -38,7 +38,7 @@ class MultipleSpecView(QWidget):
         Uses the project directory to access all mzML files
         Loads all mzML files in the table
         """
-        directory = "../data_ProtQuantification"
+        directory = projectdir
         os.chdir(directory)
         files = glob.glob('*.mzML')
         numfiles = len(files)
