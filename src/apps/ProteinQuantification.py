@@ -1,8 +1,8 @@
 import sys, os, glob
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, \
      QTabWidget, QAction, QInputDialog, QMessageBox, QFileDialog, \
-     QWidget, QLabel, QVBoxLayout, QCheckBox, QGridLayout
-from PyQt5.QtGui import QIcon, QPalette, QColor, QFont
+     QWidget, QLabel, QVBoxLayout, QCheckBox, QHBoxLayout
+from PyQt5.QtGui import QIcon, QPalette, QColor, QFont, QPixmap
 from PyQt5.QtCore import Qt
 sys.path.append(os.getcwd()+'/../view')
 from GUI_FastaViewer import GUI_FastaViewer # noqa E402
@@ -59,7 +59,7 @@ class ProteinQuantification(QMainWindow):
         self.view.addTab(self.tview, 'Experimental-Design')
         self.view.addTab(self.fview, 'Fasta-Viewer')
         self.view.addTab(self.sview, 'Spec-Viewer')
-        self.view.addTab(self.xview, 'mzTabViewer')
+        self.view.addTab(self.xview, 'mzTab-Viewer')
 
         self.palette = QPalette()
 
@@ -110,55 +110,70 @@ class ProteinQuantification(QMainWindow):
         title.setFont(boldFont)
         title.setMaximumHeight(30)
         welcome = QLabel()
-        welcome.setMaximumHeight(75)
-        welcome.setText("This application performs a LFQ"
-                        "Proteinquantification. \nTo run the analysis you have"
-                        " include files for the first three tabs.\nThe result "
-                        "will be displayed in the last tab."
-                        "These following tabs are part of this application:\n")
+        welcome.setText("This application performs a ProteomicsLFQ "
+                        "Proteinquantification. \nThe files, needed to "
+                        "run have to be loaded into "
+                        "the first three tabs,\nnamed: XML-Viewer, "
+                        "Experimental-Design, Fasta-Viewer \nThe result "
+                        "will then be displayed in the last tab: "
+                        "mzTab-Viewer.\n"
+                        "If you want to look at the spectras used for the "
+                        "quantification\ngive the Spec-Viewer tab a visit.\n\n"
+                        "Following tabs are part of this application:\n")
         welcome.setFont(normalFont)
 
         xmlText = QLabel()
-        xmlText.setMaximumHeight(80)
 
         xmlText.setText("XML Viewer: This application allows you to load, edit"
-                        " and save your configuration file of\nyour Experiment"
-                        ". If no config file is present a default file is "
-                        "written and used. Here a\n.ini file is required.")
+                        " and save your\nconfiguration file for"
+                        "your Experiment. If no config file is present "
+                        "a\ndefault file is written and used. "
+                        "You can also modify that configuration\n"
+                        "file if needed. "
+                        "The configurationfile should be a .ini file.")
         xmlText.setFont(normalFont)
 
         experimentalText = QLabel()
-        experimentalText.setMaximumHeight(80)
         experimentalText.setText("Experimental Design: Here a table of your"
-                                 " experimental design can\nbe loaded. Here "
-                                 "you are able to edit specifics like number\n"
+                                 " experimental design can\nbe loaded, "
+                                 "and modified. "
+                                 "You are able to edit specifics like number\n"
                                  "of files, fractions or groups.\n.tsv files"
-                                 "can be directly loaded as table or single"
-                                 ".mzml files can be included.")
+                                 "can be directly loaded as table or single "
+                                 ".mzml files can be\nincluded and the design "
+                                 "set manually.")
         experimentalText.setFont(normalFont)
 
         fastaText = QLabel()
-        fastaText.setMaximumHeight(80)
-        fastaText.setText("Fasta Viewer: This viewer allows the user to load"
-                          "a fasta file and search \nfor information about the"
-                          "sequences such as protein IDs and accession"
+        fastaText.setText("Fasta Viewer: This viewer allows the user to load "
+                          "a fasta file\nand search for information about the"
+                          "sequences such as\nprotein IDs and accession"
                           " numbers.")
         fastaText.setFont(normalFont)
 
         specText = QLabel()
-        specText.setMaximumHeight(80)
-        specText.setText("Spectrum Viewer")
+        specText.setText("Spectrum Viewer: The Spectrum Viewer enables you to "
+                         "look at\nthe mzML spectras your Mass Spectrometer "
+                         "measured for your\nsamples. It loads all "
+                         "spectrafiles, which are located in your "
+                         "projectfolder.")
         specText.setFont(normalFont)
-        welcome_layout = QGridLayout()
-        welcome_layout.addWidget(title, 0, 0)
-        welcome_layout.addWidget(welcome, 1, 0)
-        welcome_layout.addWidget(xmlText, 2, 0)
-        welcome_layout.addWidget(experimentalText, 3, 0)
-        welcome_layout.addWidget(fastaText, 4, 0)
-        welcome_layout.addWidget(specText, 2, 3)
-        welcome_layout.setSpacing(0)
+        iconOpenMs = QPixmap("../view/IconOpenMS.png")
+        iconLabel = QLabel()
+        iconLabel.setPixmap(iconOpenMs)
+        welcome_layout = QVBoxLayout()
+        welcome_layout.addWidget(title)
+        welcome_layout.addWidget(welcome)
+        welcome_layout.addWidget(xmlText)
+        welcome_layout.addWidget(experimentalText)
+        welcome_layout.addWidget(fastaText)
+        welcome_layout.addWidget(specText)
+        welcome_layout.setSpacing(1)
 
-        self.welcome.setLayout(welcome_layout)
+        central_layout = QHBoxLayout()
+        central_layout.addLayout(welcome_layout)
+        central_layout.addWidget(iconLabel)
+        self.welcome.setLayout(central_layout)
 
         self.setCentralWidget(self.view)
         self.resize(1280, 720)
@@ -202,7 +217,7 @@ class ProteinQuantification(QMainWindow):
         If output is generated checkbox is checked.
         """
         # Popup
-        self.outputCheckBoxWindow = OutputCheckBoxWindow()
+        self.outputCheckBoxWindow = PopupWindow()
         mainWidget = QWidget()
         mztabCheckbox = QCheckBox("Generate a mzTab outputfile")
         cxmlCheckbox = QCheckBox("Generate a cxml outputfile")
@@ -213,6 +228,7 @@ class ProteinQuantification(QMainWindow):
         layout.addWidget(msstatsCheckbox)
         mainWidget.setLayout(layout)
         self.outputCheckBoxWindow.setCentralWidget(mainWidget)
+        self.outputCheckBoxWindow.setTitle("Choose Outputfiles")
 
         # Checkboxstates
         mztabCheckbox.setChecked(True)
@@ -417,8 +433,8 @@ class ProteinQuantification(QMainWindow):
         self.sview.fillTable(filePath)
         if filePath != '':
             try:
-                tsvfiles = glob.glob('*.tsv')
-                if len(tsvfiles) > 1:
+                self.tsvfiles = glob.glob('*.tsv')
+                if len(self.tsvfiles) > 1:
                     QMessageBox.about(self, "Sorry!",
                                             "Where are multiple .tsv "
                                             "files in the specified folder. "
@@ -431,14 +447,14 @@ class ProteinQuantification(QMainWindow):
                                                        "Tables (*.tsv)")
                     if newFilePath[0] != '':
                         newFile = newFilePath[0].split("/")[-1]
-                        tsvfiles = [newFile]
+                        self.tsvfiles = [newFile]
                     else:
                         QMessageBox.about(self, "Sorry!",
                                                 "Nothing was choosen. "
                                                 "Therefor no .tsv was "
                                                 "loaded. ")
-                        tsvfiles = []
-                for file in tsvfiles:
+                        self.tsvfiles = []
+                for file in self.tsvfiles:
                     df = fh.importTable(self.tview, file)
                     Tdf.setTable(self.tview, df)
                     self.tview.drawTable()
@@ -456,10 +472,10 @@ class ProteinQuantification(QMainWindow):
                     print("Could not load .mzMl files")
 
             try:
-                iniFiles = glob.glob('*.ini')
-                if len(iniFiles) > 1:
+                self.iniFiles = glob.glob('*.ini')
+                if len(self.iniFiles) > 1:
                     QMessageBox.about(self, "Sorry!",
-                                            "Where are multiple .ini "
+                                            "There are multiple .ini "
                                             "files in the specified folder. "
                                             "Please choose the one supposed "
                                             "to be used")
@@ -470,14 +486,14 @@ class ProteinQuantification(QMainWindow):
                                                        "Config (*.ini)")
                     if newFilePath[0] != '':
                         newFile = newFilePath[0].split("/")[-1]
-                        iniFiles = [newFile]
+                        self.iniFiles = [newFile]
                     else:
                         QMessageBox.about(self, "Sorry!",
                                                 "Nothing was choosen. "
-                                                "Therefor no .ini was "
+                                                "Therefore, no .ini was "
                                                 "loaded. ")
-                        iniFiles = []
-                for file in iniFiles:
+                        self.iniFiles = []
+                for file in self.iniFiles:
                     self.cview.generateTreeModel(file)
                     self.loaded_ini = file
                     self.ini_loaded = True
@@ -501,10 +517,12 @@ class ProteinQuantification(QMainWindow):
                     print("Could not write and load default ini file.")
 
             try:
-                fastafiles = glob.glob('*fasta')
-                if len(fastafiles) > 1:
+                self.fastafiles = glob.glob('*fasta')
+                if len(self.fastafiles) > 1:
+                    self.multipleFilesPopup("fasta")
+                    """
                     QMessageBox.about(self, "Sorry!",
-                                            "Where are multiple .fasta "
+                                            "There are multiple .fasta "
                                             "files in the specified folder. "
                                             "Please choose the one supposed "
                                             "to be used")
@@ -515,14 +533,15 @@ class ProteinQuantification(QMainWindow):
                                                        "Proteindata (*.fasta)")
                     if newFilePath[0] != '':
                         newFile = newFilePath[0].split("/")[-1]
-                        tsvfiles = [newFile]
+                        self.fastafiles = [newFile]
                     else:
                         QMessageBox.about(self, "Sorry!",
                                                 "Nothing was choosen. "
-                                                "Therefor no .fasta was "
+                                                "Therefore, no .fasta was "
                                                 "loaded. ")
-                        fastafiles = []
-                for file in fastafiles:
+                        self.fastafiles = []
+                    """
+                for file in self.fastafiles:
                     self.fview.loadFile(file)
                     self.loaded_fasta = file
                     self.fasta_loaded = True
@@ -576,14 +595,13 @@ class ProteinQuantification(QMainWindow):
         self.setTheme()
 
 
-class OutputCheckBoxWindow(QMainWindow):
+class PopupWindow(QMainWindow):
     """
     Popup window with checkboxes for outputfiles
     """
 
     def __init__(self):
         QMainWindow.__init__(self)
-        self.setWindowTitle("Choose the outputfiles")
         self.resize(300, 100)
         self.center()
         self.show()
@@ -596,6 +614,9 @@ class OutputCheckBoxWindow(QMainWindow):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
+
+    def setTitle(self, title: str):
+        self.setWindowTitle(title)
 
 
 if __name__ == '__main__':
