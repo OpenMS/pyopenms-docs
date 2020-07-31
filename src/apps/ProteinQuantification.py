@@ -107,7 +107,7 @@ class ProteinQuantification(QMainWindow):
         boldFont = QFont("Helvetica", 14, QFont.Bold)
         
         welcome = QLabel()
-        welcome.setText("<h4 align='justify'>Welcome: Get started with your Proteinquantifcation!</h4><br>"
+        welcome.setText("<h4 align='justify'>Welcome: Get started with your Proteinquantifcation!</h4>"
                         "<div style='left:0;' align='justify'>This application performs a ProteomicsLFQ-"
                         "Proteinquantification. <br>The files, needed to "
                         "run have to be loaded into"
