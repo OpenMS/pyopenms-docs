@@ -166,6 +166,15 @@ class ProteinQuantification(QMainWindow):
                          " located in your projectfolder.</div>")
         specText.setFont(normalFont)
 
+        mzTabText = QLabel()
+        mzTabText.setText("<div align='justify'><b>MzTab Viewer:</b><br>The "
+                          "results of your analysis is visualized"
+                          "in the mztabtable viewer.<br>"
+                          "Information about the identified sequences, such as"
+                          "retention time, <br>charge or mass to charge ratio"
+                          " are listed in the table.</div>")
+        mzTabText.setFont(normalFont)
+
         welcome_layout = QVBoxLayout()
         # left
         welcome_layout.addWidget(welcome, 2, Qt.AlignTop)
@@ -188,6 +197,7 @@ class ProteinQuantification(QMainWindow):
         center_layout.addWidget(fastaText, 4)
         # center_layout.addStretch(1)
         center_layout.addWidget(specText, 4)
+        center_layout.addWidget(mzTabText, 4)
         # center_layout.addStretch(1)
         # center_layout.setSpacing(1)
         # center_layout.setAlignment(Qt.AnchorTop)
