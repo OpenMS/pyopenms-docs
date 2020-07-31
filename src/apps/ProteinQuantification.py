@@ -105,12 +105,10 @@ class ProteinQuantification(QMainWindow):
 
         normalFont = QFont("Helvetica", 11)
         boldFont = QFont("Helvetica", 14, QFont.Bold)
-        title = QLabel()
-        title.setText("<center align='justify'>Welcome: Get started with your Proteinquantifcation!</center>")
-        title.setFont(boldFont)
-        title.setMaximumHeight(30)
+        
         welcome = QLabel()
-        welcome.setText("<center align='justify'>This application performs a ProteomicsLFQ-"
+        welcome.setText("<h4 align='justify'>Welcome: Get started with your Proteinquantifcation!</h4><br>"
+                        "<div style='left:0;' align='justify'>This application performs a ProteomicsLFQ-"
                         "Proteinquantification. <br>The files, needed to "
                         "run have to be loaded into"
                         "<br>XML-Viewer, "
@@ -118,7 +116,7 @@ class ProteinQuantification(QMainWindow):
                         "<br>"
                         "You can look at the spectras used for the "
                         "quantification<br>in the Spec-Viewer-Tab.<br><br>"
-                        "The following tabs are part of this application:<br></center>")
+                        "The following tabs are part of this application:<br></div>")
         welcome.setFont(normalFont)
 
         xmlText = QLabel()
@@ -160,13 +158,15 @@ class ProteinQuantification(QMainWindow):
         specText.setFont(normalFont)
 
         welcome_layout = QVBoxLayout()
-        welcome_layout.addWidget(title)
+        #left
         welcome_layout.addWidget(welcome)
-        welcome_layout.addWidget(xmlText)
-        welcome_layout.addWidget(experimentalText)
-        welcome_layout.addWidget(fastaText)
-        welcome_layout.addWidget(specText)
-        welcome_layout.setSpacing(1)
+        #centered
+        center_layout = QVBoxLayout()
+        center_layout.addWidget(xmlText)
+        center_layout.addWidget(experimentalText)
+        center_layout.addWidget(fastaText)
+        center_layout.addWidget(specText)
+        center_layout.setSpacing(1)
 
         iconOpenMs = QPixmap("../view/IconOpenMS_small.png")
         iconLabel = QLabel()
@@ -177,8 +177,9 @@ class ProteinQuantification(QMainWindow):
         icon_layout.addWidget(QWidget(), 8)
 
         central_layout = QHBoxLayout()
-        central_layout.addWidget(QWidget(), 3)
-        central_layout.addLayout(welcome_layout, 5)
+        #central_layout.addWidget(QWidget(), 8)
+        central_layout.addLayout(welcome_layout,4)
+        central_layout.addLayout(center_layout, 4)
         central_layout.addLayout(icon_layout, 2)
 
         self.welcome.setLayout(central_layout)
