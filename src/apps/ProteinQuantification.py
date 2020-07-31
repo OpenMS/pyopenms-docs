@@ -178,7 +178,7 @@ class ProteinQuantification(QMainWindow):
         # left
         welcome_layout.addWidget(welcome, 2, Qt.AlignTop)
 
-        iconOpenMs = QPixmap("../view/IconOpenMS_small.png")
+        iconOpenMs = QPixmap("Icons/IconOpenMS.png")
         iconLabel = QLabel()
         iconLabel.setPixmap(iconOpenMs)
 
