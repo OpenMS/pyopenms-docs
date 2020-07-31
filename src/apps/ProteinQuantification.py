@@ -109,15 +109,15 @@ class ProteinQuantification(QMainWindow):
         welcome.setText("<h4 align='justify'>Welcome: Get started with your"
                         " Proteinquantifcation!</h4>"
                         "<div align='justify'>This application performs a "
-                        "ProteomicsLFQ- Proteinquantification. <br>"
+                        "ProteomicsLFQ - Proteinquantification. <br>"
                         "The files, needed to "
-                        "run have to be loaded into"
+                        "run the application have to be loaded into"
                         "<br>XML-Viewer, "
-                        "Experimental-Design and Fasta-Viewer-Tabs "
-                        "respectively. <br>The mzTab-Viewer-Tab "
-                        " will then display the result."
+                        "Experimental-Design and Fasta-Viewer-Tabs, "
+                        "respectively. <br>Finally, the mzTab-Viewer-Tab "
+                        " will show the result."
                         "<br>"
-                        "You can look at the spectras used for the "
+                        "You can look at the spectra used for the "
                         "quantification<br>in the Spec-Viewer-Tab.</div>"
                         )
         welcome.setFont(normalFont)
@@ -125,30 +125,28 @@ class ProteinQuantification(QMainWindow):
         xmlText = QLabel()
         xmlText.setText("<div align='justify'><b>XML Viewer:</b><br>In this"
                         " tab you can load, edit"
-                        " and save your Experiments config-file.<br>"
+                        " and save your experiments config-file.<br>"
                         "If no config-file is provided, "
-                        "a default file will be generated.<br>"
-                        "If necessary, this generated config-file can be"
-                        " modified.<br>"
-                        "This Application only accepts '.ini'-files as "
+                        "a default file will be generated,<br>"
+                        "which you can modify for the quantification.<br>"
+                        "This application only accepts '.ini'-files as "
                         "config-files.</div>")
         xmlText.setFont(normalFont)
 
         experimentalText = QLabel()
         experimentalText.setText("<div align='justify'><b>Experimental "
-                                 "Design:</b><br>Here a table of your"
-                                 " experimental design can<br>be loaded, "
-                                 "and modified. "
+                                 "Design:</b><br>The Experimental-Design-Tab"
+                                 " enables you to load and edit an "
+                                 "experimental design.<br>"
                                  "You can edit specifics like number<br>"
                                  "of files, fractions or groups.<br>'.tsv'"
                                  "-files can be directly loaded as a "
                                  "table.<br> You can also add single "
                                  "'.mzml'-files to the table,<br>either"
                                  " via drag'n'drop, or with the 'add file'"
-                                 "-button.<br> In the textfield,"
-                                 " you can filter the table by the"
-                                 "'Spectra Filepath'-column.<br>"
-                                 "You can set the design manually.</div>")
+                                 "-button.<br> You can filter the files "
+                                 "using the textfield in the upper right "
+                                 "corner.</div>")
         experimentalText.setFont(normalFont)
 
         fastaText = QLabel()
@@ -160,18 +158,19 @@ class ProteinQuantification(QMainWindow):
 
         specText = QLabel()
         specText.setText("<div align='justify'><b>Spectrum Viewer:</b><br>This"
-                         " tab enables you to look at<br>the mzML-spectras  "
+                         " tab enables you to look at<br>the mzML-spectra "
                          "your Mass-Spectrometer measured for your"
-                         "<br>samples.<br>It loads all spectrafiles, which are"
-                         " located in your projectfolder.</div>")
+                         "<br>samples.<br>It loads all spectra files, "
+                         "which are"
+                         " located in your project folder.</div>")
         specText.setFont(normalFont)
 
         mzTabText = QLabel()
         mzTabText.setText("<div align='justify'><b>MzTab Viewer:</b><br>The "
-                          "results of your analysis is visualized"
-                          "in the mztabtable viewer.<br>"
+                          "results of your analysis is visualized "
+                          "in the mzTab-Viewer.<br>"
                           "Information about the identified sequences, such as"
-                          "retention time, <br>charge or mass to charge ratio"
+                          " retention time, <br>charge or mass to charge ratio"
                           " are listed in the table.</div>")
         mzTabText.setFont(normalFont)
 
@@ -318,6 +317,7 @@ class ProteinQuantification(QMainWindow):
         runs the processing from the GUI in a Terminal
         based on the ProteomicsLFQ command of OpenMS
         """
+        self.saveFunction()
         self.procdone = False
         outfileprefix, ok = QInputDialog.getText(self,
                                                  "Prefix for outputfiles",
@@ -643,5 +643,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = ProteinQuantification()
     app.setStyle("Fusion")
-    print(ex.flag)
     sys.exit(app.exec_())
