@@ -642,16 +642,22 @@ class ProteinQuantification(QMainWindow):
                 else:
                     dialog = QMessageBox()
                     dialog.setWindowTitle("Error: Invalid File")
-                    dialog.setText("Please only use .mzML files")
+                    dialog.setText("Please only use '.mzML'-files")
                     dialog.setIcon(QMessageBox.Warning)
                     dialog.exec_()
             if self.view.currentIndex()==1:
-                #code goes here
                 files = [str(u.path())[1:] for u in urls]
                 self.cview.dragDropEvent(files)
             if self.view.currentIndex()==3:
                 filepath = str(urls[0].path())[1:]
-                self.fview.loadFile(filepath)
+                if filepath[-5:] == "fasta":
+                    self.fview.loadFile(filepath)
+                else:
+                    dialog = QMessageBox()
+                    dialog.setWindowTitle("Error: Invalid File")
+                    dialog.setText("Please only use '.fasta'-files")
+                    dialog.setIcon(QMessageBox.Warning)
+                    dialog.exec_()
         else:
             e.ignore()
 
