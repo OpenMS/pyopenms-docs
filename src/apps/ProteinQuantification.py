@@ -556,7 +556,7 @@ class ProteinQuantification(QMainWindow):
                     else:
                         QMessageBox.about(self, "Sorry!",
                                                 "Nothing was choosen. "
-                                                "Therefore, no .fasta was "
+                                                "Therefore, no '.fasta'-file was "
                                                 "loaded. ")
                         self.fastafiles = []
                 for file in self.fastafiles:
