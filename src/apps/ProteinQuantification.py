@@ -528,8 +528,6 @@ class ProteinQuantification(QMainWindow):
             try:
                 self.fastafiles = glob.glob('*fasta')
                 if len(self.fastafiles) > 1:
-                    self.multipleFilesPopup("fasta")
-                    """
                     QMessageBox.about(self, "Sorry!",
                                             "There are multiple '.fasta'-"
                                             "files in the specified folder. "
@@ -549,7 +547,6 @@ class ProteinQuantification(QMainWindow):
                                                 "Therefore, no .fasta was "
                                                 "loaded. ")
                         self.fastafiles = []
-                    """
                 for file in self.fastafiles:
                     self.fview.loadFile(file)
                     self.loaded_fasta = file
