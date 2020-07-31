@@ -579,14 +579,15 @@ class ProteinQuantification(QMainWindow):
         p = self.palette
         if not self.flag:
             # lightmode
-            p.setColor(QPalette.Window, QColor(202, 202, 202))
+            p.setColor(QPalette.Window, Qt.white)
+            p.setColor(QPalette.Background, Qt.white)
             p.setColor(QPalette.WindowText, Qt.black)
-            p.setColor(QPalette.Base, QColor(230, 230, 230))
-            p.setColor(QPalette.AlternateBase, QColor(202, 202, 202))
+            p.setColor(QPalette.Base, Qt.white)
+            p.setColor(QPalette.AlternateBase, Qt.white)
             p.setColor(QPalette.ToolTipBase, Qt.black)
             p.setColor(QPalette.ToolTipText, Qt.black)
             p.setColor(QPalette.Text, Qt.black)
-            p.setColor(QPalette.Button, QColor(202, 202, 202))
+            p.setColor(QPalette.Button, Qt.white)
             p.setColor(QPalette.ButtonText, Qt.black)
             p.setColor(QPalette.BrightText, Qt.red)
             p.setColor(QPalette.Link, QColor(213, 125, 37))
