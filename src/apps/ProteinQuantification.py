@@ -649,6 +649,9 @@ class ProteinQuantification(QMainWindow):
                 #code goes here
                 files = [str(u.path())[1:] for u in urls]
                 self.cview.dragDropEvent(files)
+            if self.view.currentIndex()==3:
+                filepath = str(urls[0].path())[1:]
+                self.fview.loadFile(filepath)
         else:
             e.ignore()
 
