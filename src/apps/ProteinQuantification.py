@@ -104,32 +104,33 @@ class ProteinQuantification(QMainWindow):
         # Welcome Tab
 
         normalFont = QFont("Helvetica", 11)
-        boldFont = QFont("Helvetica", 14, QFont.Bold)
+        #boldFont = QFont("Helvetica", 14, QFont.Bold)
         
         welcome = QLabel()
         welcome.setText("<h4 align='justify'>Welcome: Get started with your Proteinquantifcation!</h4>"
-                        "<div style='left:0;' align='justify'>This application performs a ProteomicsLFQ-"
+                        "<div align='justify'>This application performs a ProteomicsLFQ-"
                         "Proteinquantification. <br>The files, needed to "
                         "run have to be loaded into"
                         "<br>XML-Viewer, "
                         "Experimental-Design and Fasta-Viewer-Tabs respectively. <br>The mzTab-Viewer-Tab will then display the result."
                         "<br>"
                         "You can look at the spectras used for the "
-                        "quantification<br>in the Spec-Viewer-Tab.<br><br>"
-                        "The following tabs are part of this application:<br></div>")
+                        "quantification<br>in the Spec-Viewer-Tab.</div>"
+                        #"The following tabs are part of this application:</div>"
+                        )
         welcome.setFont(normalFont)
 
         xmlText = QLabel()
-        xmlText.setText("<center align='justify'><b>XML Viewer:</b><br>In this tab you can load, edit"
+        xmlText.setText("<div align='justify'><b>XML Viewer:</b><br>In this tab you can load, edit"
                         " and save your Experiments config-file.<br>"
                         "If no config-file is provided, "
-                        "<br>a default file will be generated.<br>"
+                        "a default file will be generated.<br>"
                         "If necessary, this generated config-file can be modified.<br>"
-                        "This Application only accepts '.ini'-files as config-files.</center>")
+                        "This Application only accepts '.ini'-files as config-files.</div>")
         xmlText.setFont(normalFont)
 
         experimentalText = QLabel()
-        experimentalText.setText("<center align='justify'><b>Experimental Design:</b><br>In this tab a table of your"
+        experimentalText.setText("<div align='justify'><b>Experimental Design:</b><br>In this tab a table of your"
                                  " experimental design can<br>be loaded, "
                                  "and modified. "
                                  "You can edit specifics like number<br>"
@@ -139,48 +140,59 @@ class ProteinQuantification(QMainWindow):
                                  " via drag'n'drop, or with the 'add file'-button.<br>"
                                  "In the textfield, you can filter the table by the"
                                  "'Spectra Filepath'-column.<br>"
-                                 "You can set the design manually.</center>")
+                                 "You can set the design manually.</div>")
         experimentalText.setFont(normalFont)
 
         fastaText = QLabel()
-        fastaText.setText("<center align='justify'><b>Fasta Viewer:</b><br>In this tab you can load "
+        fastaText.setText("<div align='justify'><b>Fasta Viewer:</b><br>In this tab you can load "
                           "a fasta file<br>and search for information about the"
                           "sequences such as<br>protein-IDs and accession-"
-                          "numbers.</center>")
+                          "numbers.</div>")
         fastaText.setFont(normalFont)
 
         specText = QLabel()
-        specText.setText("<center align='justify'><b>Spectrum Viewer:</b><br>This tab enables you to "
+        specText.setText("<div align='justify'><b>Spectrum Viewer:</b><br>This tab enables you to "
                          "look at<br>the mzML-spectras your Mass-Spectrometer "
                          "measured for your<br>samples.<br>It loads all "
                          "spectrafiles, which are located in your "
-                         "projectfolder.</center>")
+                         "projectfolder.</div>")
         specText.setFont(normalFont)
 
         welcome_layout = QVBoxLayout()
         #left
-        welcome_layout.addWidget(welcome)
-        #centered
-        center_layout = QVBoxLayout()
-        center_layout.addWidget(xmlText)
-        center_layout.addWidget(experimentalText)
-        center_layout.addWidget(fastaText)
-        center_layout.addWidget(specText)
-        center_layout.setSpacing(1)
+        welcome_layout.addWidget(welcome,2, Qt.AlignTop)
 
         iconOpenMs = QPixmap("../view/IconOpenMS_small.png")
         iconLabel = QLabel()
         iconLabel.setPixmap(iconOpenMs)
+        
+        welcome_layout.addWidget(iconLabel,4,Qt.AlignTop)
+        #welcome_layout.setSpacing()
+        #welcome_layout.setAlignment(Qt.AlignTop)
+        #welcome_layout.addStretch(2)
 
-        icon_layout = QVBoxLayout()
-        icon_layout.addWidget(iconLabel, 2)
-        icon_layout.addWidget(QWidget(), 8)
+        #centered
+        center_layout = QVBoxLayout()
+        center_layout.addWidget(xmlText,4,Qt.AlignTop)
+        #center_layout.addStretch(1)
+        center_layout.addWidget(experimentalText,4)
+        #center_layout.addStretch(1)
+        center_layout.addWidget(fastaText,4)
+        #center_layout.addStretch(1)
+        center_layout.addWidget(specText,4)
+        #center_layout.addStretch(1)
+        #center_layout.setSpacing(1)
+        #center_layout.setAlignment(Qt.AnchorTop)
+
+        #icon_layout = QVBoxLayout()
+        #icon_layout.addWidget(iconLabel, 1)
+        #icon_layout.addStretch(9)
 
         central_layout = QHBoxLayout()
         #central_layout.addWidget(QWidget(), 8)
-        central_layout.addLayout(welcome_layout,4)
-        central_layout.addLayout(center_layout, 4)
-        central_layout.addLayout(icon_layout, 2)
+        central_layout.addLayout(welcome_layout,5)
+        central_layout.addLayout(center_layout, 5)
+        #central_layout.addLayout(icon_layout, 2)
 
         self.welcome.setLayout(central_layout)
 
