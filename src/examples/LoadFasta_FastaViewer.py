@@ -55,7 +55,7 @@ class LoadFasta_FastaViewer:
                     # if a Protein Accesion (ID) was found
                     if len(bounds) >= 1:
 
-                        # if = 1, then the protein accession start at character 1 
+                        # check if protein accession starts at character 1 
                         if len(bounds) == 1:
                             key = (seqs[1:bounds[0]])
                         else:
@@ -201,7 +201,7 @@ def main():
     # for testing purposes only
     # use your own path for it
     dictKeyAccession, proteinList, proteinNameList, proteinOSList, dictKeyAccessionDECOY, proteinListDECOY, proteinNameListDECOY, proteinOSListDECOY = LoadFasta_FastaViewer.protein_dictionary(
-        "path/to/file.fasta")
+        "path/to/file.fasta", "extra_decoy_pattern_to_check_for")
 
     proteinnameSub = input("Name: ")
 
