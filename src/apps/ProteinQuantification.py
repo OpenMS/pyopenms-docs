@@ -184,33 +184,16 @@ class ProteinQuantification(QMainWindow):
         iconLabel.setPixmap(iconOpenMs)
 
         welcome_layout.addWidget(iconLabel, 4, Qt.AlignTop)
-        # welcome_layout.setSpacing()
-        # welcome_layout.setAlignment(Qt.AlignTop)
-        # welcome_layout.addStretch(2)
-
-        # centered
         center_layout = QVBoxLayout()
         center_layout.addWidget(xmlText, 4, Qt.AlignTop)
-        # center_layout.addStretch(1)
         center_layout.addWidget(experimentalText, 4)
-        # center_layout.addStretch(1)
         center_layout.addWidget(fastaText, 4)
-        # center_layout.addStretch(1)
         center_layout.addWidget(specText, 4)
         center_layout.addWidget(mzTabText, 4)
-        # center_layout.addStretch(1)
-        # center_layout.setSpacing(1)
-        # center_layout.setAlignment(Qt.AnchorTop)
-
-        # icon_layout = QVBoxLayout()
-        # icon_layout.addWidget(iconLabel, 1)
-        # icon_layout.addStretch(9)
 
         central_layout = QHBoxLayout()
-        # central_layout.addWidget(QWidget(), 8)
         central_layout.addLayout(welcome_layout, 5)
         central_layout.addLayout(center_layout, 5)
-        # central_layout.addLayout(icon_layout, 2)
 
         self.welcome.setLayout(central_layout)
 
