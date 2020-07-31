@@ -323,18 +323,21 @@ class ConfigView(QWidget):
         Checks if the edit is corresponding to the type
         """
         if types != "":
-            try:
-                float(newvalue)
-                if len(newvalue.split('.')) == 2:
-                    valtype = "double"
-                else:
-                    valtype = "int"
-            except ValueError:
-                valtype = "string"
-            if valtype not in types:
-                typechecked = False
-            else:
+            if "-file" in types:
                 typechecked = True
+            else:
+                try:
+                    float(newvalue)
+                    if len(newvalue.split('.')) == 2:
+                        valtype = "double"
+                    else:
+                        valtype = "int"
+                except ValueError:
+                    valtype = "string"
+                if valtype not in types:
+                    typechecked = False
+                else:
+                    typechecked = True
         else:
             typechecked = True
 
