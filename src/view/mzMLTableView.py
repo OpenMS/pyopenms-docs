@@ -174,14 +174,15 @@ class mzMLTableView(QWidget):
 
         self.drawtableactive = False
 
-    def importBtn(self):
+    def importBtn(self, file: str = ""):
         """
         Imports table files, currently working are csv and tsv
         """
         options = QFileDialog.Options()
-        file, _ = QFileDialog.getOpenFileName(
-            self, "QFileDialog.getOpenFileName()", "",
-            "All Files (*);;tsv (*.tsv);; csv (*.csv)", options=options)
+        if not file:
+            file, _ = QFileDialog.getOpenFileName(
+                self, "QFileDialog.getOpenFileName()", "",
+                "All Files (*);;tsv (*.tsv);; csv (*.csv)", options=options)
 
         if file:
             df = fh.importTable(self, file)
