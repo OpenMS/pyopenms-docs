@@ -158,9 +158,7 @@ class ProteinQuantification(QMainWindow):
                          "spectrafiles, which are located in your "
                          "projectfolder.")
         specText.setFont(normalFont)
-        iconOpenMs = QPixmap("../view/IconOpenMS.png")
-        iconLabel = QLabel()
-        iconLabel.setPixmap(iconOpenMs)
+
         welcome_layout = QVBoxLayout()
         welcome_layout.addWidget(title)
         welcome_layout.addWidget(welcome)
@@ -170,9 +168,19 @@ class ProteinQuantification(QMainWindow):
         welcome_layout.addWidget(specText)
         welcome_layout.setSpacing(1)
 
+        iconOpenMs = QPixmap("../view/IconOpenMS_small.png")
+        iconLabel = QLabel()
+        iconLabel.setPixmap(iconOpenMs)
+
+        icon_layout = QVBoxLayout()
+        icon_layout.addWidget(iconLabel, 2)
+        icon_layout.addWidget(QWidget(), 8)
+
         central_layout = QHBoxLayout()
-        central_layout.addLayout(welcome_layout)
-        central_layout.addWidget(iconLabel)
+        central_layout.addWidget(QWidget(), 3)
+        central_layout.addLayout(welcome_layout, 5)
+        central_layout.addLayout(icon_layout, 2)
+
         self.welcome.setLayout(central_layout)
 
         self.setCentralWidget(self.view)
