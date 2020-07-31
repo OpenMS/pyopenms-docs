@@ -34,6 +34,7 @@ booleans_dictionary = {
         "ini_path" : False
         }
 
+
 class Files_Number_Handler():
 
     #gets a folder path as an argument and searches for files that end with
@@ -106,8 +107,6 @@ class Files_Number_Handler():
 
             mzML_files = []
             idXML_files= []
-            mzMLLoaded = 0
-            idXMLLoaded = 0
             fileslist = sorted(os.listdir(folder_path))
             for file in fileslist:
                 if file.endswith(".mzML"):
@@ -123,7 +122,6 @@ class Files_Number_Handler():
                 User_Warning.setText("No mzML and idXML files found. Pleas select a different folder.")
                 User_Warning.setWindowTitle("Information")
                 Information = User_Warning.exec_()
-
 
 
             if  len(mzML_files) == 0 and len(idXML_files) != 0:
@@ -147,41 +145,30 @@ class Files_Number_Handler():
                 Files_Number_Handler.Dictionary_Change_Boolean('mzML')
                 Files_Number_Handler.Dictionary_Change_Boolean('idXML')
 
-
-
             return idXML_files,mzML_files
+
 
     #checks if array contains only on element, it is important because if
     #more than 1 file exists user needs to select the file he wants to use
 
     def Check_If_More_Than_One(arraytotest):
-        if len(arraytotest)>1:
-            return True
-        else :
-            return False
+        return len(arraytotest) > 1
 
     def Check_If_Less_Than_One(arraytotest):
-        if len(arraytotest)==0:
-            return True
-        else :
-            return False
-    def Check_If_One(arraytotest) :
-        if len(arraytotest) == 1:
-            return True
-        else:
-            return False
+        return len(arraytotest) == 0
+
+    def Check_If_One(arraytotest):
+        return len(arraytotest) == 1
 
 
         #used to save paths of files when loaded manually from a tab widget
 
-    def Dictionary_Change_File(file_type,file_path):
-        global files_dictionary
+    def Dictionary_Change_File(file_type, file_path):
         files_dictionary[file_type] = file_path
 
         #used to return the values of the dictionary
 
     def Dictionary_Return_Value(file_type):
-        global files_dictionary
         return files_dictionary[file_type]
 
         #changes the value to true if file loaded,
@@ -189,11 +176,9 @@ class Files_Number_Handler():
         #in to the dictionary manually
 
     def Dictionary_Change_Boolean(file_type):
-        global booleans_dictionary
         booleans_dictionary[file_type] = True
 
         #returns the boolean for the file
 
     def Dictionary_Return_Boolean(file_type):
-        global booleans_dictionary
         return booleans_dictionary[file_type]
