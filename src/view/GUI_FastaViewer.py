@@ -8,12 +8,14 @@ from PyQt5.QtWidgets import (QWidget, QToolTip,
                              QGridLayout, QScrollArea, QPlainTextEdit,
                              QDesktopWidget, QLabel, QRadioButton,
                              QGroupBox, QSizePolicy, QCheckBox, QFileDialog,
-                             QTextEdit, QTextBrowser)
+                             QTextEdit, QTextBrowser, QInputDialog)
 from PyQt5.QtGui import QFont, QColor, QTextCharFormat, QTextCursor
 from PyQt5.QtCore import Qt, QUrl
 # from dictionaries import Dict
 sys.path.insert(0, '../examples')
 from LoadFasta_FastaViewer import LoadFasta_FastaViewer  # NOQA: E402
+from FilesNumberHandler import Files_Number_Handler
+
 
 
 class GUI_FastaViewer(QMainWindow):
@@ -114,7 +116,7 @@ class GUI_FastaViewer(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        """Gets self and creates creates the User Interface
+        """Gets self and creates the User Interface
 
         Parameters
         ----------
@@ -125,15 +127,20 @@ class GUI_FastaViewer(QMainWindow):
         -------
         nothing
         """
-        # creating Buttons
 
+        # creating Buttons
         self.searchButtonP = QtWidgets.QPushButton(self)
-        self.searchButtonP.setText("search")
+        self.searchButtonP.setText("Search")
         self.searchButtonP.clicked.connect(self.searchClicked)
 
         self.loadbutton = QtWidgets.QPushButton(self)
-        self.loadbutton.setText("load")
-        self.loadbutton.clicked.connect(self.loadFile)
+        self.loadbutton.setText("Load")
+        self.loadbutton.clicked.connect(self.loadPath)
+
+        self.changeReversePattern = QtWidgets.QPushButton(self)
+        self.changeReversePattern.setText("Add Decoy Pattern")
+        self.changeReversePattern.clicked.connect(self.user_Dialog_ChangeReversePattern)
+        self.changeReversePattern.setFixedWidth(166)
 
         # creating testboxes for the buttons
         self.boxPro = QLineEdit(self)
@@ -158,16 +165,17 @@ class GUI_FastaViewer(QMainWindow):
         self.set2 = QHBoxLayout()
         self.radioname = QRadioButton("Name")
         self.radioid = QRadioButton("ID")
-        self.radioseq = QRadioButton("sequence")
+        self.radioseq = QRadioButton("Sequence")
         self.radioname.setChecked(True)
         self.decoycheck = QCheckBox("Decoy search", self)
         self.datalabel = QLabel()
-        self.datalabel.setText("Data not loaded")
+        self.datalabel.setText("Fasta not loaded")
         self.set2.addWidget(self.radioname)
         self.set2.addWidget(self.radioid)
         self.set2.addWidget(self.radioseq)
         self.set2.addWidget(self.decoycheck)
-        self.set2.addWidget(self.datalabel)
+        self.set2.addStretch(1)
+        self.set2.addWidget(self.changeReversePattern)
 
         # set 3 contains the table and the result box
         self.set3 = QHBoxLayout()
@@ -177,10 +185,13 @@ class GUI_FastaViewer(QMainWindow):
         self.main_layout.addLayout(self.set1)
         self.main_layout.addLayout(self.set2)
         self.main_layout.addLayout(self.set3)
+        self.main_layout.addWidget(self.datalabel)
 
         self.mainwidget.setLayout(self.main_layout)
         self.setCentralWidget(self.mainwidget)
         self.setWindowTitle('Protein Viewer')
+
+        self.extra_pattern = ''
 
         # defining some colors to marked searched sequences
         self.color = QColor(255, 0, 0)
@@ -232,8 +243,30 @@ class GUI_FastaViewer(QMainWindow):
         cut = oldstring.split(proteinseq)
         return cut
     # defining the function for load button to get path of database
+    def clearFastaViewer(self):
+        self.tw.clear()
 
-    def loadFile(self):
+    def loadPath(self):
+        self.filename = QFileDialog.getOpenFileName()
+        #saving the file path in the dictionary
+        Files_Number_Handler.Dictionary_Change_File("fasta", self.filename[0])
+        Files_Number_Handler.Dictionary_Change_Boolean("fasta")
+        self.loadFile(self.filename[0])
+
+
+    # creates a user dialog to change default reverse pattern
+    def user_Dialog_ChangeReversePattern(self):
+        text, okPressed = QInputDialog.getText(self, "Add reverse pattern", "Add:", QLineEdit.Normal, "")
+        if okPressed and text != '':
+            self.extra_pattern = text
+
+
+    def option_selected(self,button):
+        global Option_selected
+        Option_selected = button.text()
+
+
+    def loadFile(self, fasta_path):
         """Gets QMainWindow and opens a QFileDialog and loads path
 
     Parameters
@@ -247,46 +280,27 @@ class GUI_FastaViewer(QMainWindow):
     nothing , it changes the QMainWindow so that the user can see that a file
     has been loaded
     """
-        self.filename = QFileDialog.getOpenFileName()
-        self.path = self.filename[0]
+
         self.fileloaded = 1
+
         # loading the lists before searching in order to make the search faster
+
         self.dictKeyAccession, self.proteinList, self.proteinNameList, self.proteinOSList, self.dictKeyAccessionDECOY, self.proteinListDECOY, self.proteinNameListDECOY, self.proteinOSListDECOY = LoadFasta_FastaViewer.protein_dictionary(
-            self.path)
-        self.datalabel.setText("Data loaded")
+            fasta_path, self.extra_pattern)
+        self.datalabel.setText("Fasta loaded")
         for i in range(len(self.dictKeyAccession)):
             ID = list(self.dictKeyAccession.keys())[i]
             Proteinname = self.proteinNameList[i]
             OS = self.proteinOSList[i]
-            self.createParentItem(ID,OS,Proteinname)
-        self.tw.itemClicked.connect(self.clickTreeItem)
-
-    # defining a function to creat TreeItems
-    def createParentItem(self, ID, OS,Proteinname):
-        """Creates a TreeItem with 3 columns (ID, OS, Proteinname).
-
-    Parameters
-    ----------
-    self : QMainWindow
-        the MainWindow of the class
-    ID : The specific protein accesion
-        which is needed for the link to the database
-    OS: The organism from where the protein is from
-    Proteinname : The name of the protein
-
-
-    Returns
-    -------
-    nothing , it changes the Treewidget
-    and creates a TreeItem with three columns
-    """
             self.cg = QtWidgets.QTreeWidgetItem(self.tw)
             self.cg.setData(0, 0, ID)
             self.cg.setData(1, 0, OS)
             self.cg.setData(2, 0, Proteinname)
+        self.tw.itemClicked.connect(self.clickTreeItem)
 
+    # defining a function to creat TreeItems
 
-    def createChildTreeItem(self, item, ID, Protein):
+    def createTreeItem(self, item, ID, Protein):
         """Gets a TreeItem and creats two child Items, a Qlabel and a QTextEdit.
     Firs Child Item holds a QTextEdit with the given Protein sequence.
     Second Cild Item holds a QLabel with a hyperlink to the database UniProt.
@@ -331,12 +345,12 @@ class GUI_FastaViewer(QMainWindow):
         self.tw.setItemWidget(
             self.cgChild2, 0, self.link)
 
-    # methode when TreeItem was cklicked
+    # method when TreeItem was cklicked
 
     def clickTreeItem(self, item):
         '''Gets a QTreeWidgetItem and its ID data of the first
         collumn. The ID and the corresponding protein sequence are
-        handed to the createChildTreeItem method.
+        handed to the createTreeItem method.
 
         Parameters
         ----------
@@ -355,7 +369,7 @@ class GUI_FastaViewer(QMainWindow):
             ID = item.data(0, 0)
             index = list(self.dictKeyAccession.keys()).index(ID)
             Protein = self.proteinList[index]
-            self.createChildTreeItem(item, ID, Protein)
+            self.createTreeItem(item, ID, Protein)
 
     def clickTreeItemDecoy(self, item):
         '''Does the same as clickTreeItem but
@@ -367,9 +381,9 @@ class GUI_FastaViewer(QMainWindow):
             ID = item.data(0, 0)
             index = list(self.dictKeyAccessionDECOY).index(ID)
             Protein = self.proteinListDECOY[index]
-            self.createChildTreeItem(item, ID, Protein)
+            self.createTreeItem(item, ID, Protein)
 
-    def createChildTreeItemSeqSearch(self, item, ID, Protein):
+    def createTreeItemSeqSearch(self, item, ID, Protein):
         """Gets a TreeItem and creats two child Items and a Qlabel.
         Firs Child Item holds a QTextEdit with the given Protein sequence.
         Second Cild Item holds a QLabel with a hyperlink to the database UniProt.
@@ -411,7 +425,7 @@ class GUI_FastaViewer(QMainWindow):
     def clickTreeItemSeqSearch(self, item):
         '''Gets a QTreeWidgetItem and its ID data of the first
         collumn. The ID and the corresponding QTextEdit widget with the
-        protein sequence are handed to the createChildTreeItem method.
+        protein sequence are handed to the createTreeItem method.
 
         Parameters
         ----------
@@ -428,7 +442,7 @@ class GUI_FastaViewer(QMainWindow):
         if num == 0:
             ID = item.data(0, 0)
             Protein = self.SequencSearchDict.get(ID)
-            self.createChildTreeItemSeqSearch(item, ID, Protein)
+            self.createTreeItemSeqSearch(item, ID, Protein)
 
     def clickTreeItemSeqSearchDecoy(self, item):
         '''Does the same as clickTreeItemSeqSearch but
@@ -439,7 +453,7 @@ class GUI_FastaViewer(QMainWindow):
         if num == 0:
             ID = item.data(0, 0)
             Protein = self.SequencSearchDictDECOY.get(ID)
-            self.createChildTreeItemSeqSearch(item, ID, Protein)
+            self.createTreeItemSeqSearch(item, ID, Protein)
 
     # defining the searchClicked method for the searchButtonP
 
@@ -510,7 +524,10 @@ class GUI_FastaViewer(QMainWindow):
                         index]
                     Proteinname = self.proteinNameListDECOY[index]
                     OS = self.proteinOSListDECOY[index]
-                    self.createParentItem(ID,OS,Proteinname)
+                    self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+                    self.cg.setData(0, 0, ID)
+                    self.cg.setData(1, 0, OS)
+                    self.cg.setData(2, 0, Proteinname)
 
             header = self.tw.header()
             header.setSectionResizeMode(
@@ -529,7 +546,10 @@ class GUI_FastaViewer(QMainWindow):
                     Proteinname = self.proteinNameList[index]
                     OS = self.proteinOSList[index]
                     self.dummy = ID
-                    self.createParentItem(ID,OS,Proteinname)
+                    self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+                    self.cg.setData(0, 0, ID)
+                    self.cg.setData(1, 0, OS)
+                    self.cg.setData(2, 0, Proteinname)
 
             header = self.tw.header()
             header.setSectionResizeMode(
@@ -545,7 +565,6 @@ class GUI_FastaViewer(QMainWindow):
                 "No matching protein accession found in database.")
             self.msg.setWindowTitle("Error")
             x = self.msg.exec_()
-
 
     def sequenceSearch(self):
         """Gets self and searches for Protein based on sequence
@@ -565,7 +584,9 @@ class GUI_FastaViewer(QMainWindow):
         """
         atLeastOneProteinFound = False
         protein_sub_sequence = self.boxPro.text()
+
         # dictionaries with ID as key and corresponding QTextEdit with protein sequence as value
+
         self.SequencSearchDict = {}
         self.SequencSearchDictDECOY = {}
 
@@ -581,8 +602,10 @@ class GUI_FastaViewer(QMainWindow):
                     Proteinname = self.proteinNameListDECOY[index]
                     OS = self.proteinOSListDECOY[index]
 
-                    self.createParentItem(ID,OS,Proteinname)
-
+                    self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+                    self.cg.setData(0, 0, ID)
+                    self.cg.setData(1, 0, OS)
+                    self.cg.setData(2, 0, Proteinname)
 
                     self.textp = QTextEdit()
                     self.textp.resize(
@@ -594,14 +617,14 @@ class GUI_FastaViewer(QMainWindow):
                     )
 
                     for i in range(len(cuts)):
-                        # sofern wir ganz am Anfang der Liste sind
+                        # while we are at the beginning of the list
                         if (cuts[i] == '' and i == 0):
                             self.textp.setTextColor(self.color)
                             self.textp.insertPlainText(
                                 protein_sub_sequence)
                             self.textp.setTextColor(
                                 self.colorblack)
-                        # sofern wir mitten drin sind und der sub_string mehrfach auftaucht
+                        # if we are in the middle of the list and the sub_string appears more than once
                         elif (cuts[i] == ''):
                             self.textp.setTextColor(self.color)
                             self.textp.insertPlainText(
@@ -641,7 +664,10 @@ class GUI_FastaViewer(QMainWindow):
                     Proteinname = self.proteinNameList[index]
                     OS = self.proteinOSList[index]
 
-                    self.createParentItem(ID,OS,Proteinname)
+                    self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+                    self.cg.setData(0, 0, ID)
+                    self.cg.setData(1, 0, OS)
+                    self.cg.setData(2, 0, Proteinname)
 
                     self.textp = QTextEdit()
                     self.textp.resize(
@@ -653,14 +679,17 @@ class GUI_FastaViewer(QMainWindow):
                     )
 
                     for i in range(len(cuts)):
-                        # sofern wir ganz am Anfang der Liste sind
+                        # while we are at the beginning of the list
+
                         if (cuts[i] == '' and i == 0):
                             self.textp.setTextColor(self.color)
                             self.textp.insertPlainText(
                                 protein_sub_sequence)
                             self.textp.setTextColor(
                                 self.colorblack)
-                        # sofern wir mitten drin oder am Ende sind sind
+
+                        # while we are in the middle of the list
+
                         elif (cuts[i] == ''):
                             self.textp.setTextColor(self.color)
                             self.textp.insertPlainText(
@@ -724,7 +753,10 @@ class GUI_FastaViewer(QMainWindow):
                     Proteinname = protein_name
                     OS = self.proteinOSListDECOY[index]
 
-                    self.createParentItem(ID,OS,Proteinname)
+                    self.cg = QtWidgets.QTreeWidgetItem(self.tw)
+                    self.cg.setData(0, 0, ID)
+                    self.cg.setData(1, 0, OS)
+                    self.cg.setData(2, 0, Proteinname)
 
             header = self.tw.header()
             header.setSectionResizeMode(
@@ -743,7 +775,10 @@ class GUI_FastaViewer(QMainWindow):
                     Proteinname = self.proteinNameList[index]
                     OS = self.proteinOSList[index]
 
-                    self.createParentItem(ID,OS,Proteinname)
+                    self.cg = QtWidgets.QTreeWidgetItem(self.tw,)
+                    self.cg.setData(0, 0, ID)
+                    self.cg.setData(1, 0, OS)
+                    self.cg.setData(2, 0, Proteinname)
 
             header = self.tw.header()
             header.setSectionResizeMode(
