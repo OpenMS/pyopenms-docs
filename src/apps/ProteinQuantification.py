@@ -41,6 +41,8 @@ class ProteinQuantification(QMainWindow):
         # self.palette = self.palette()
         self.setPalette(self.palette)
         self.setTheme()
+        self.setAcceptDrops(True)
+        
 
     def initUI(self):
         '''
@@ -201,6 +203,8 @@ class ProteinQuantification(QMainWindow):
         self.center()
         self.setWindowTitle('Protein Quantification')
         self.show()
+        #print(self.view.count())
+        self.view.currentChanged.connect(self.onChange)
 
     def initVars(self):
         """
@@ -604,6 +608,55 @@ class ProteinQuantification(QMainWindow):
             p.setColor(QPalette.HighlightedText, Qt.black)
         self.setPalette(p)
 
+    def dragEnterEvent(self, event):
+        e = event
+        data = e.mimeData()
+        urls = data.urls()
+        
+        if urls and urls[0].scheme() == "file":
+            e.acceptProposedAction()
+        else:
+            e.ignore()
+
+    def dragMoveEvent(self, event):
+        e = event
+        data = e.mimeData()
+        urls = data.urls()
+        
+        if urls and urls[0].scheme() == "file":
+            e.acceptProposedAction()
+        else:
+            e.ignore()
+
+    def dropEvent(self, event):
+        e = event
+        data = e.mimeData()
+        urls = data.urls()
+        
+        if urls and urls[0].scheme() == "file":
+            if self.view.currentIndex()==2:
+                filepath = str(urls[0].path())[1:]
+                if filepath[-4:] == "mzML":
+                    self.tview.loadFile(filepath)
+                else:
+                    dialog = QMessageBox()
+                    dialog.setWindowTitle("Error: Invalid File")
+                    dialog.setText("Please only use .mzML files")
+                    dialog.setIcon(QMessageBox.Warning)
+                    dialog.exec_()
+            if self.view.currentIndex()==1:
+                #code goes here
+                files = [str(u.path())[1:] for u in urls]
+                self.cview.dragDropEvent(files)
+        else:
+            e.ignore()
+
+    def onChange(self):
+        """ this function detects if a tab has been changed.
+            for debugging purposes.
+        """
+        print(self.view.currentIndex())
+
     def switchTheme(self):
         """
         Toggles between dark and light theme.
@@ -611,7 +664,7 @@ class ProteinQuantification(QMainWindow):
 
         self.flag = not self.flag
         self.setTheme()
-
+    
 
 class PopupWindow(QMainWindow):
     """
