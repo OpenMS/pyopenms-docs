@@ -134,6 +134,9 @@ class GUI_FastaViewer(QMainWindow):
         self.loadbutton = QtWidgets.QPushButton(self)
         self.loadbutton.setText("load")
         self.loadbutton.clicked.connect(self.loadFile)
+        self.loadbutton.setDisabled(True)
+        self.loadbutton.setToolTip("The load button does not work. Files"
+                                   " can be loaded via drag & drop")
 
         # creating testboxes for the buttons
         self.boxPro = QLineEdit(self)
