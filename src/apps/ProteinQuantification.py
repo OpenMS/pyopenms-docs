@@ -44,7 +44,7 @@ class ProteinQuantification(QMainWindow):
 
     def initUI(self):
         '''
-        sets the window with all applications and widgets
+        Sets the window with all applications and widgets.
         '''
         self.view = QTabWidget()
         self.welcome = QWidget()
@@ -106,57 +106,57 @@ class ProteinQuantification(QMainWindow):
         normalFont = QFont("Helvetica", 11)
         boldFont = QFont("Helvetica", 14, QFont.Bold)
         title = QLabel()
-        title.setText("Welcome: Get started with your Proteinquantifcation!")
+        title.setText("<center align='justify'>Welcome: Get started with your Proteinquantifcation!</center>")
         title.setFont(boldFont)
         title.setMaximumHeight(30)
         welcome = QLabel()
-        welcome.setText("This application performs a ProteomicsLFQ "
-                        "Proteinquantification. \nThe files, needed to "
-                        "run have to be loaded into "
-                        "the first three tabs,\nnamed: XML-Viewer, "
-                        "Experimental-Design, Fasta-Viewer \nThe result "
-                        "will then be displayed in the last tab: "
-                        "mzTab-Viewer.\n"
-                        "If you want to look at the spectras used for the "
-                        "quantification\ngive the Spec-Viewer tab a visit.\n\n"
-                        "Following tabs are part of this application:\n")
+        welcome.setText("<center align='justify'>This application performs a ProteomicsLFQ-"
+                        "Proteinquantification. <br>The files, needed to "
+                        "run have to be loaded into"
+                        "<br>XML-Viewer, "
+                        "Experimental-Design and Fasta-Viewer-Tabs respectively. <br>The mzTab-Viewer-Tab will then display the result."
+                        "<br>"
+                        "You can look at the spectras used for the "
+                        "quantification<br>in the Spec-Viewer-Tab.<br><br>"
+                        "The following tabs are part of this application:<br></center>")
         welcome.setFont(normalFont)
 
         xmlText = QLabel()
-
-        xmlText.setText("XML Viewer: This application allows you to load, edit"
-                        " and save your\nconfiguration file for"
-                        "your Experiment. If no config file is present "
-                        "a\ndefault file is written and used. "
-                        "You can also modify that configuration\n"
-                        "file if needed. "
-                        "The configurationfile should be a .ini file.")
+        xmlText.setText("<center align='justify'><b>XML Viewer:</b><br>In this tab you can load, edit"
+                        " and save your Experiments config-file.<br>"
+                        "If no config-file is provided, "
+                        "<br>a default file will be generated.<br>"
+                        "If necessary, this generated config-file can be modified.<br>"
+                        "This Application only accepts '.ini'-files as config-files.</center>")
         xmlText.setFont(normalFont)
 
         experimentalText = QLabel()
-        experimentalText.setText("Experimental Design: Here a table of your"
-                                 " experimental design can\nbe loaded, "
+        experimentalText.setText("<center align='justify'><b>Experimental Design:</b><br>In this tab a table of your"
+                                 " experimental design can<br>be loaded, "
                                  "and modified. "
-                                 "You are able to edit specifics like number\n"
-                                 "of files, fractions or groups.\n.tsv files"
-                                 "can be directly loaded as table or single "
-                                 ".mzml files can be\nincluded and the design "
-                                 "set manually.")
+                                 "You can edit specifics like number<br>"
+                                 "of files, fractions or groups.<br>'.tsv'-files"
+                                 "can be directly loaded as a table.<br> You can also add single "
+                                 "'.mzml'-files to the table,<br>either"
+                                 " via drag'n'drop, or with the 'add file'-button.<br>"
+                                 "In the textfield, you can filter the table by the"
+                                 "'Spectra Filepath'-column.<br>"
+                                 "You can set the design manually.</center>")
         experimentalText.setFont(normalFont)
 
         fastaText = QLabel()
-        fastaText.setText("Fasta Viewer: This viewer allows the user to load "
-                          "a fasta file\nand search for information about the"
-                          "sequences such as\nprotein IDs and accession"
-                          " numbers.")
+        fastaText.setText("<center align='justify'><b>Fasta Viewer:</b><br>In this tab you can load "
+                          "a fasta file<br>and search for information about the"
+                          "sequences such as<br>protein-IDs and accession-"
+                          "numbers.</center>")
         fastaText.setFont(normalFont)
 
         specText = QLabel()
-        specText.setText("Spectrum Viewer: The Spectrum Viewer enables you to "
-                         "look at\nthe mzML spectras your Mass Spectrometer "
-                         "measured for your\nsamples. It loads all "
+        specText.setText("<center align='justify'><b>Spectrum Viewer:</b><br>This tab enables you to "
+                         "look at<br>the mzML-spectras your Mass-Spectrometer "
+                         "measured for your<br>samples.<br>It loads all "
                          "spectrafiles, which are located in your "
-                         "projectfolder.")
+                         "projectfolder.</center>")
         specText.setFont(normalFont)
 
         welcome_layout = QVBoxLayout()
@@ -444,10 +444,10 @@ class ProteinQuantification(QMainWindow):
                 self.tsvfiles = glob.glob('*.tsv')
                 if len(self.tsvfiles) > 1:
                     QMessageBox.about(self, "Sorry!",
-                                            "Where are multiple .tsv "
+                                            "There are multiple '.tsv-'"
                                             "files in the specified folder. "
-                                            "Please choose the one supposed "
-                                            "to be used")
+                                            "Please choose the one you intent "
+                                            "to use.")
                     dial = QFileDialog(self)
                     newFilePath = dial.getOpenFileName(self,
                                                        "Choose .tsv",
@@ -459,7 +459,7 @@ class ProteinQuantification(QMainWindow):
                     else:
                         QMessageBox.about(self, "Sorry!",
                                                 "Nothing was choosen. "
-                                                "Therefor no .tsv was "
+                                                "Therefore no '.tsv'-file was "
                                                 "loaded. ")
                         self.tsvfiles = []
                 for file in self.tsvfiles:
@@ -470,23 +470,23 @@ class ProteinQuantification(QMainWindow):
                     self.tablefile_loaded = True
 
             except TypeError:
-                "No tsv or csv file could be loaded."
+                "No '.tsv' or '.csv'-file could be loaded."
 
             if self.tablefile_loaded is False:
                 try:
                     self.tview.loadDir(filePath)
                     self.tablefile_loaded = True
                 except TypeError:
-                    print("Could not load .mzMl files")
+                    print("Could not load '.mzMl'-files.")
 
             try:
                 self.iniFiles = glob.glob('*.ini')
                 if len(self.iniFiles) > 1:
                     QMessageBox.about(self, "Sorry!",
-                                            "There are multiple .ini "
+                                            "There are multiple '.ini'-"
                                             "files in the specified folder. "
-                                            "Please choose the one supposed "
-                                            "to be used")
+                                            "Please choose the one you intent "
+                                            "to use.")
                     dial = QFileDialog(self)
                     newFilePath = dial.getOpenFileName(self,
                                                        "Choose .ini",
@@ -498,7 +498,7 @@ class ProteinQuantification(QMainWindow):
                     else:
                         QMessageBox.about(self, "Sorry!",
                                                 "Nothing was choosen. "
-                                                "Therefore, no .ini was "
+                                                "Therefore no '.ini'-file was "
                                                 "loaded. ")
                         self.iniFiles = []
                 for file in self.iniFiles:
@@ -506,7 +506,7 @@ class ProteinQuantification(QMainWindow):
                     self.loaded_ini = file
                     self.ini_loaded = True
             except TypeError:
-                print("Could not load .ini file")
+                print("Could not load .ini file.")
 
             if self.ini_loaded is False:
                 try:
@@ -522,7 +522,7 @@ class ProteinQuantification(QMainWindow):
                         self.loaded_ini = file
                         self.ini_loaded = True
                 except TypeError:
-                    print("Could not write and load default ini file.")
+                    print("Could not write and load default '.ini'-file.")
 
             try:
                 self.fastafiles = glob.glob('*fasta')
@@ -530,10 +530,10 @@ class ProteinQuantification(QMainWindow):
                     self.multipleFilesPopup("fasta")
                     """
                     QMessageBox.about(self, "Sorry!",
-                                            "There are multiple .fasta "
+                                            "There are multiple '.fasta'-"
                                             "files in the specified folder. "
-                                            "Please choose the one supposed "
-                                            "to be used")
+                                            "Please choose the one you intent "
+                                            "to use.")
                     dial = QFileDialog(self)
                     newFilePath = dial.getOpenFileName(self,
                                                        "Choose .fasta",
@@ -554,12 +554,12 @@ class ProteinQuantification(QMainWindow):
                     self.loaded_fasta = file
                     self.fasta_loaded = True
             except TypeError:
-                print("Could not load .fasta file")
+                print("Could not load '.fasta'-file.")
 
     def setTheme(self):
         """
-        sets theme based on flag state, light or dark modes are possible
-        default is light theme
+        Sets theme based on flag state, light or dark modes are possible.
+        Default is light theme.
         """
         p = self.palette
         if not self.flag:
@@ -596,7 +596,7 @@ class ProteinQuantification(QMainWindow):
 
     def switchTheme(self):
         """
-        Toggles between dark and light theme
+        Toggles between dark and light theme.
         """
 
         self.flag = not self.flag
@@ -605,7 +605,7 @@ class ProteinQuantification(QMainWindow):
 
 class PopupWindow(QMainWindow):
     """
-    Popup window with checkboxes for outputfiles
+    Popup window with checkboxes for outputfiles.
     """
 
     def __init__(self):
@@ -616,7 +616,7 @@ class PopupWindow(QMainWindow):
 
     def center(self):
         """
-        centers the widget to the screen
+        Centers the widget to the screen.
         """
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
