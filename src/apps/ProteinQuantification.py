@@ -640,6 +640,8 @@ class ProteinQuantification(QMainWindow):
                 filepath = self.urlHandler(urls[0].path())
                 if filepath[-4:] == "mzML":
                     self.tview.loadFile(filepath)
+                if (filepath[-3:] == "tsv") or (filepath[-3:] == "csv"):
+                    self.tview.importBtn(filepath)
                 else:
                     dialog = QMessageBox()
                     dialog.setWindowTitle("Error: Invalid File")
