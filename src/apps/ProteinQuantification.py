@@ -1,4 +1,4 @@
-import sys, os, glob
+import sys, os, glob, platform
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget, \
      QTabWidget, QAction, QInputDialog, QMessageBox, QFileDialog, \
      QWidget, QLabel, QVBoxLayout, QCheckBox, QHBoxLayout
@@ -637,7 +637,7 @@ class ProteinQuantification(QMainWindow):
         
         if urls and urls[0].scheme() == "file":
             if self.view.currentIndex()==2:
-                filepath = str(urls[0].path())[1:]
+                filepath = self.urlHandler(urls[0].path())
                 if filepath[-4:] == "mzML":
                     self.tview.loadFile(filepath)
                 else:
@@ -647,10 +647,10 @@ class ProteinQuantification(QMainWindow):
                     dialog.setIcon(QMessageBox.Warning)
                     dialog.exec_()
             if self.view.currentIndex()==1:
-                files = [str(u.path())[1:] for u in urls]
+                files = [self.urlHandler(u.path()) for u in urls]
                 self.cview.dragDropEvent(files)
             if self.view.currentIndex()==3:
-                filepath = str(urls[0].path())[1:]
+                filepath = self.urlHandler(urls[0].path())
                 if filepath[-5:] == "fasta":
                     self.fview.loadFile(filepath)
                 else:
@@ -661,6 +661,16 @@ class ProteinQuantification(QMainWindow):
                     dialog.exec_()
         else:
             e.ignore()
+
+    def urlHandler(self,url):
+        opsys = platform.system()
+        if(opsys=="Linux"):
+            return str(url)
+        if(opsys=="Windows"):
+            return str(url)[1:]
+        if(opsys=="Darwin"):
+            return str(url) #to be tested
+
 
     def onChange(self):
         """ this function detects if a tab has been changed.
