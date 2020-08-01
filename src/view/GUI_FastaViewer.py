@@ -247,11 +247,16 @@ class GUI_FastaViewer(QMainWindow):
         self.tw.clear()
 
     def loadPath(self):
+        self.clearFastaViewer()
         self.filename = QFileDialog.getOpenFileName()
-        #saving the file path in the dictionary
-        Files_Number_Handler.Dictionary_Change_File("fasta", self.filename[0])
-        Files_Number_Handler.Dictionary_Change_Boolean("fasta")
-        self.loadFile(self.filename[0])
+        # if 'cancel' was pressed
+        if self.filename[0] == '':
+            pass
+        else:
+            # saving the file path in the dictionary
+            Files_Number_Handler.Dictionary_Change_File("fasta", self.filename[0])
+            Files_Number_Handler.Dictionary_Change_Boolean("fasta")
+            self.loadFile(self.filename[0])
 
 
     # creates a user dialog to change default reverse pattern
