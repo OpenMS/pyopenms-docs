@@ -266,11 +266,6 @@ class GUI_FastaViewer(QMainWindow):
             self.extra_pattern = text
 
 
-    def option_selected(self,button):
-        global Option_selected
-        Option_selected = button.text()
-
-
     def loadFile(self, fasta_path):
         """Gets QMainWindow and opens a QFileDialog and loads path
 
