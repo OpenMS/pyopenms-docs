@@ -37,19 +37,26 @@ class Specviewer(QMainWindow):
         self.setWindowTitle('pyOpenMSViewer')
         # self.center()
         
-        # layout
-        self.buttons = QVBoxLayout(self)
-        self.loadbtn = QPushButton('Load')
-        self.loadbtn.setMaximumWidth(80)
-        self.loadbtn.clicked.connect(self.openFileDialog)
-        
-
-        #self.setMainMenu()
         self.centerWidget =  QWidget(self)
         self.setCentralWidget(self.centerWidget)
-        self.windowLay = QVBoxLayout(self.centerWidget)
-        self.buttons = QVBoxLayout(self.centerWidget)
-        self.buttons.addWidget(self.loadbtn)
+        #main
+        mainLayout = QVBoxLayout(self.centerWidget)
+
+        #buttons
+        buttons = QVBoxLayout()
+        loadbtn = QPushButton('Load')
+        loadbtn.setMaximumWidth(80)
+        loadbtn.clicked.connect(self.openFileDialog)
+        buttons.addWidget(loadbtn)
+        
+        mainLayout.addLayout(buttons)
+
+        
+        #graph
+        self.windowLay = QVBoxLayout()
+        mainLayout.addLayout(self.windowLay)
+
+        
         # default widget <- per spectrum
         self.setScanBrowserWidget()
         
