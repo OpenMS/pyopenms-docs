@@ -33,7 +33,7 @@ class MultipleSpecView(QWidget):
         self.setLayout(layout)
         self.resize(1280, 720)
 
-    def fillTable(self, projectdir: str):
+    def fillTable(self, projectdir: str=""):
         """
         Uses the project directory to access all mzML files
         Loads all mzML files in the table
