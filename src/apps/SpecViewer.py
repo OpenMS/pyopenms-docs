@@ -98,9 +98,11 @@ class Specviewer(QMainWindow):
         for i in reversed(range(layout.count())): 
             layout.itemAt(i).widget().setParent(None)
 
-    def openFileDialog(self):
-        fileName, _ = QFileDialog.getOpenFileName(self,
+    def openFileDialog(self, fileName: str = ""):
+        if not fileName:
+            fileName, _ = QFileDialog.getOpenFileName(self,
                                 "Open File ", "", "mzML Files (*.mzML)")
+
         if fileName:
             print('opening...', fileName)
             self.setScanBrowserWidget()
