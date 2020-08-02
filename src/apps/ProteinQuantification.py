@@ -70,7 +70,7 @@ class ProteinQuantification(QMainWindow):
         parametersMenu = menubar.addMenu('Parameters')
         loadAction = QAction(QIcon("Icons/load_icon.png"),
                              "&Load Project", self)
-        loadAction.setShortcut("Ctrl+L")
+        loadAction.setShortcut("Ctrl+O")
         saveAction = QAction(QIcon("Icons/save_icon.png"),
                              "&Save Project", self)
         saveAction.setShortcut("Ctrl+S")
@@ -709,8 +709,9 @@ class ProteinQuantification(QMainWindow):
             return str(url)  # to be tested
 
     def onChange(self):
-        """ this function detects if a tab has been changed.
-            for debugging purposes.
+        """
+        this function detects if a tab has been changed.
+        for debugging purposes.
         """
         print(self.view.currentIndex())
 
