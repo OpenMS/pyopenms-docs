@@ -7,7 +7,7 @@ import re
 
 class Descriptions:
     """
-    Filehandler class that provides support for file and directory interaction.
+    Provides Descriptions for proteinquantification
     """
     def __init__(self, descriptions):
         self.descriptions = descriptions
