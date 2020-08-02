@@ -140,4 +140,4 @@ src/view/TableWidget.py
 .DS_Store
 
 #ignore docs on dev
-/docs
+/docs/
