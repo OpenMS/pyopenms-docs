@@ -3,7 +3,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
         QHBoxLayout, QWidget, QDesktopWidget, \
         QAction, QFileDialog, QTableView, QSplitter, \
         QMenu, QAbstractItemView, QPushButton
-from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, QPoint, QRegExp
+from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, \
+     QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, QPoint, QRegExp
 
 import pyqtgraph as pg
 from pyqtgraph import PlotWidget
@@ -37,8 +38,8 @@ LadderAnnoStruct = namedtuple(
                             text_label_list color",
 )
 
-pg.setConfigOption("background", "w")  # white background
-pg.setConfigOption("foreground", "k")  # black peaks
+pg.setConfigOption('background', 'w')  # white background
+pg.setConfigOption('foreground', 'k')  # black peaks
 
 
 class Specviewer(QMainWindow):
@@ -51,27 +52,25 @@ class Specviewer(QMainWindow):
     def initUI(self):
         self.setWindowTitle("pyOpenMSViewer")
         # self.center()
-        
-        self.centerWidget =  QWidget(self)
+
+        self.centerWidget = QWidget(self)
         self.setCentralWidget(self.centerWidget)
-        #main
+        # main
         mainLayout = QVBoxLayout(self.centerWidget)
 
-        #buttons
+        # buttons
         buttons = QVBoxLayout()
         loadbtn = QPushButton('Load')
         loadbtn.setMaximumWidth(80)
         loadbtn.clicked.connect(self.openFileDialog)
         buttons.addWidget(loadbtn)
-        
+
         mainLayout.addLayout(buttons)
 
-        
-        #graph
+        # graph
         self.windowLay = QVBoxLayout()
         mainLayout.addLayout(self.windowLay)
 
-        
         # default widget <- per spectrum
         self.setScanBrowserWidget()
 
@@ -81,42 +80,43 @@ class Specviewer(QMainWindow):
         self.scanbrowser = ScanBrowserWidget(self)
         self.windowLay.addWidget(self.scanbrowser)
 
-    #def setMainMenu(self):
+    # def setMainMenu(self):
     #    mainMenu = self.menuBar()
     #    mainMenu.setNativeMenuBar(False)
-    #    
+    #
     #    self.titleMenu = mainMenu.addMenu('PyOpenMS')
     #    self.fileMenu = mainMenu.addMenu('File')
     #    # helpMenu = mainMenu.addMenu('Help')
     #    self.toolMenu = mainMenu.addMenu('Tools')
-    #    
+    #
     #    self.setTitleMenu()
     #    self.setFileMenu()
     #    self.setToolMenu()
-    #    
-    #def setTitleMenu(self):
+    #
+    # def setTitleMenu(self):
     #    self.setExitButton()
-    #    
-    #def setFileMenu(self):
+    #
+    # def setFileMenu(self):
     #    # open mzml file
     #    mzmlOpenAct = QAction('Open file', self)
     #    mzmlOpenAct.setShortcut('Ctrl+O')
     #    mzmlOpenAct.setStatusTip('Open new file')
     #    mzmlOpenAct.triggered.connect(self.openFileDialog)
     #    self.fileMenu.addAction(mzmlOpenAct)
-    #    
-    #def setToolMenu(self):
+    #
+    # def setToolMenu(self):
     #    # for overriding
     #    return
-    
+
     def clearLayout(self, layout):
         for i in reversed(range(layout.count())):
             layout.itemAt(i).widget().setParent(None)
 
-    def openFileDialog(self):
-        fileName, _ = QFileDialog.getOpenFileName(
-            self, "Open File ", "", "mzML Files (*.mzML)"
-        )
+    def openFileDialog(self, fileName: str = ""):
+        if not fileName:
+            fileName, _ = QFileDialog.getOpenFileName(self,
+                                "Open File ", "", "mzML Files (*.mzML)")
+
         if fileName:
             print("opening...", fileName)
             self.setScanBrowserWidget()
@@ -139,7 +139,7 @@ class Specviewer(QMainWindow):
         event.accept()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = App()
     ex.show()

@@ -38,7 +38,6 @@ class ProteinQuantification(QMainWindow):
         self.initVars()
         # flag for themetoggle
         self.flag = False
-        # self.palette = self.palette()
         self.setPalette(self.palette)
         self.setTheme()
         self.setAcceptDrops(True)
@@ -54,6 +53,7 @@ class ProteinQuantification(QMainWindow):
         self.sview = MultipleSpecView()
         self.fview = GUI_FastaViewer()
         self.xview = mzTabTableWidget()
+        
 
         self.view.addTab(self.welcome, 'Welcome')
         self.view.addTab(self.cview, 'XML-Viewer')
@@ -442,7 +442,7 @@ class ProteinQuantification(QMainWindow):
                                         "Table has been saved as: " +
                                         tablePath.split("/")[-1])
 
-    def loadFunction(self, file):
+    def loadFunction(self, filePath: str=""):
         """
         loads all files (.tsv .ini, .fasta) from a given
         directory.
@@ -452,11 +452,12 @@ class ProteinQuantification(QMainWindow):
         If no .ini file is present default ini file is written
         and is loaded automatically
         """
-        dlg = QFileDialog(self)
-        filePath = dlg.getExistingDirectory()
+        if not filePath:
+            dlg = QFileDialog(self)
+            filePath = dlg.getExistingDirectory()
         self.loaded_dir = filePath
         self.sview.fillTable(filePath)
-        if filePath != '':
+        if filePath:
             try:
                 self.tsvfiles = glob.glob('*.tsv')
                 if len(self.tsvfiles) > 1:
@@ -635,33 +636,68 @@ class ProteinQuantification(QMainWindow):
         urls = data.urls()
 
         if urls and urls[0].scheme() == "file":
-            if self.view.currentIndex() == 2:
+            #welcome page
+            if self.view.currentIndex() == 0:
+                filetype = "directory"
                 filepath = self.urlHandler(urls[0].path())
-                if filepath[-4:] == "mzML":
-                    self.tview.loadFile(filepath)
-                elif (filepath[-3:] == "tsv") or (filepath[-3:] == "csv"):
-                    self.tview.importBtn(filepath)
+                if os.path.isdir(filepath):
+                    self.loadFunction(filepath)
                 else:
-                    dialog = QMessageBox()
-                    dialog.setWindowTitle("Error: Invalid File")
-                    dialog.setText("Please only use '.mzML'-files")
-                    dialog.setIcon(QMessageBox.Warning)
-                    dialog.exec_()
-            if self.view.currentIndex() == 1:
+                    self.displayDragNDropError(filetype)
+            #xmlviewer
+            elif self.view.currentIndex() == 1:
                 files = [self.urlHandler(u.path()) for u in urls]
                 self.cview.dragDropEvent(files)
-            if self.view.currentIndex() == 3:
+            #experimental design
+            elif self.view.currentIndex() == 2:
+                filetype = ["mzML","tsv","csv"]
                 filepath = self.urlHandler(urls[0].path())
-                if filepath[-5:] == "fasta":
+                if filepath[-4:] == filetype[0]:
+                    self.tview.loadFile(filepath)
+                elif (filepath[-3:] == filetype[1]) or (filepath[-3:] ==filetype[2]):
+                    self.tview.importBtn(filepath)
+                else:
+                    self.displayDragNDropError("",filetype)
+            #fasta viewer
+            elif self.view.currentIndex() == 3:
+                filepath = self.urlHandler(urls[0].path())
+                filetype = "fasta"
+                if filepath[-5:] == filetype:
                     self.fview.loadFile(filepath)
                 else:
-                    dialog = QMessageBox()
-                    dialog.setWindowTitle("Error: Invalid File")
-                    dialog.setText("Please only use '.fasta'-files")
-                    dialog.setIcon(QMessageBox.Warning)
-                    dialog.exec_()
+                    self.displayDragNDropError(filetype)
+                    
+            #specviewer
+            elif self.view.currentIndex() == 4:
+                filetype = "mzML"
+                filepath = self.urlHandler(urls[0].path())
+                if filepath[-4:] == filetype:
+                    self.sview.sview.openFileDialog(filepath)
+                else:
+                    self.displayDragNDropError(filetype)
         else:
             e.ignore()
+    def displayDragNDropError(self, filetype:str, mul:list=[]):
+        """ 
+        displays an error message in a messagebox detailing what went wrong
+        """
+        message = ""
+        if not mul:
+            if filetype == "directory":
+                message = "a directory to load a project"
+            else:
+                message = "'."+filetype +"'-files"
+        else:
+            message += "'."+mul[0]+"'"
+            for file in mul[1:-1]:
+                message += ", '."+file +"'"
+            message += " or "+mul[-1] + "'-files"
+        dialog = QMessageBox()
+        dialog.setWindowTitle("Error: Invalid File")
+        dialog.setText("Please only use " + message)
+        dialog.setIcon(QMessageBox.Warning)
+        dialog.exec_()
+
 
     def urlHandler(self, url):
         opsys = platform.system()
