@@ -1,4 +1,14 @@
 import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, \
+        QHBoxLayout, QWidget, QDesktopWidget, \
+        QAction, QFileDialog, QTableView, QSplitter, \
+        QMenu, QAbstractItemView, QPushButton
+from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal, QItemSelectionModel, QSortFilterProxyModel, QSignalMapper, QPoint, QRegExp
+
+import pyqtgraph as pg
+from pyqtgraph import PlotWidget
+
+import numpy as np
 from collections import namedtuple
 
 import pyqtgraph as pg
@@ -41,13 +51,27 @@ class Specviewer(QMainWindow):
     def initUI(self):
         self.setWindowTitle("pyOpenMSViewer")
         # self.center()
-
-        # layout
-        self.setMainMenu()
-        self.centerWidget = QWidget(self)
+        
+        self.centerWidget =  QWidget(self)
         self.setCentralWidget(self.centerWidget)
-        self.windowLay = QVBoxLayout(self.centerWidget)
+        #main
+        mainLayout = QVBoxLayout(self.centerWidget)
 
+        #buttons
+        buttons = QVBoxLayout()
+        loadbtn = QPushButton('Load')
+        loadbtn.setMaximumWidth(80)
+        loadbtn.clicked.connect(self.openFileDialog)
+        buttons.addWidget(loadbtn)
+        
+        mainLayout.addLayout(buttons)
+
+        
+        #graph
+        self.windowLay = QVBoxLayout()
+        mainLayout.addLayout(self.windowLay)
+
+        
         # default widget <- per spectrum
         self.setScanBrowserWidget()
 
@@ -57,34 +81,34 @@ class Specviewer(QMainWindow):
         self.scanbrowser = ScanBrowserWidget(self)
         self.windowLay.addWidget(self.scanbrowser)
 
-    def setMainMenu(self):
-        mainMenu = self.menuBar()
-        mainMenu.setNativeMenuBar(False)
-
-        self.titleMenu = mainMenu.addMenu("PyOpenMS")
-        self.fileMenu = mainMenu.addMenu("File")
-        # helpMenu = mainMenu.addMenu('Help')
-        self.toolMenu = mainMenu.addMenu("Tools")
-
-        self.setTitleMenu()
-        self.setFileMenu()
-        self.setToolMenu()
-
-    def setTitleMenu(self):
-        self.setExitButton()
-
-    def setFileMenu(self):
-        # open mzml file
-        mzmlOpenAct = QAction("Open file", self)
-        mzmlOpenAct.setShortcut("Ctrl+O")
-        mzmlOpenAct.setStatusTip("Open new file")
-        mzmlOpenAct.triggered.connect(self.openFileDialog)
-        self.fileMenu.addAction(mzmlOpenAct)
-
-    def setToolMenu(self):
-        # for overriding
-        return
-
+    #def setMainMenu(self):
+    #    mainMenu = self.menuBar()
+    #    mainMenu.setNativeMenuBar(False)
+    #    
+    #    self.titleMenu = mainMenu.addMenu('PyOpenMS')
+    #    self.fileMenu = mainMenu.addMenu('File')
+    #    # helpMenu = mainMenu.addMenu('Help')
+    #    self.toolMenu = mainMenu.addMenu('Tools')
+    #    
+    #    self.setTitleMenu()
+    #    self.setFileMenu()
+    #    self.setToolMenu()
+    #    
+    #def setTitleMenu(self):
+    #    self.setExitButton()
+    #    
+    #def setFileMenu(self):
+    #    # open mzml file
+    #    mzmlOpenAct = QAction('Open file', self)
+    #    mzmlOpenAct.setShortcut('Ctrl+O')
+    #    mzmlOpenAct.setStatusTip('Open new file')
+    #    mzmlOpenAct.triggered.connect(self.openFileDialog)
+    #    self.fileMenu.addAction(mzmlOpenAct)
+    #    
+    #def setToolMenu(self):
+    #    # for overriding
+    #    return
+    
     def clearLayout(self, layout):
         for i in reversed(range(layout.count())):
             layout.itemAt(i).widget().setParent(None)

@@ -42,7 +42,6 @@ class ProteinQuantification(QMainWindow):
         self.setPalette(self.palette)
         self.setTheme()
         self.setAcceptDrops(True)
-        
 
     def initUI(self):
         '''
@@ -203,7 +202,7 @@ class ProteinQuantification(QMainWindow):
         self.center()
         self.setWindowTitle('Protein Quantification')
         self.show()
-        #print(self.view.count())
+        # print(self.view.count())
         self.view.currentChanged.connect(self.onChange)
 
     def initVars(self):
@@ -614,7 +613,7 @@ class ProteinQuantification(QMainWindow):
         e = event
         data = e.mimeData()
         urls = data.urls()
-        
+
         if urls and urls[0].scheme() == "file":
             e.acceptProposedAction()
         else:
@@ -624,7 +623,7 @@ class ProteinQuantification(QMainWindow):
         e = event
         data = e.mimeData()
         urls = data.urls()
-        
+
         if urls and urls[0].scheme() == "file":
             e.acceptProposedAction()
         else:
@@ -634,13 +633,13 @@ class ProteinQuantification(QMainWindow):
         e = event
         data = e.mimeData()
         urls = data.urls()
-        
+
         if urls and urls[0].scheme() == "file":
-            if self.view.currentIndex()==2:
+            if self.view.currentIndex() == 2:
                 filepath = self.urlHandler(urls[0].path())
                 if filepath[-4:] == "mzML":
                     self.tview.loadFile(filepath)
-                if (filepath[-3:] == "tsv") or (filepath[-3:] == "csv"):
+                elif (filepath[-3:] == "tsv") or (filepath[-3:] == "csv"):
                     self.tview.importBtn(filepath)
                 else:
                     dialog = QMessageBox()
@@ -648,10 +647,10 @@ class ProteinQuantification(QMainWindow):
                     dialog.setText("Please only use '.mzML'-files")
                     dialog.setIcon(QMessageBox.Warning)
                     dialog.exec_()
-            if self.view.currentIndex()==1:
+            if self.view.currentIndex() == 1:
                 files = [self.urlHandler(u.path()) for u in urls]
                 self.cview.dragDropEvent(files)
-            if self.view.currentIndex()==3:
+            if self.view.currentIndex() == 3:
                 filepath = self.urlHandler(urls[0].path())
                 if filepath[-5:] == "fasta":
                     self.fview.loadFile(filepath)
@@ -664,15 +663,14 @@ class ProteinQuantification(QMainWindow):
         else:
             e.ignore()
 
-    def urlHandler(self,url):
+    def urlHandler(self, url):
         opsys = platform.system()
-        if(opsys=="Linux"):
+        if(opsys == "Linux"):
             return str(url)
-        if(opsys=="Windows"):
+        if(opsys == "Windows"):
             return str(url)[1:]
-        if(opsys=="Darwin"):
-            return str(url) #to be tested
-
+        if(opsys == "Darwin"):
+            return str(url)  # to be tested
 
     def onChange(self):
         """ this function detects if a tab has been changed.
@@ -687,7 +685,7 @@ class ProteinQuantification(QMainWindow):
 
         self.flag = not self.flag
         self.setTheme()
-    
+
 
 class PopupWindow(QMainWindow):
     """
