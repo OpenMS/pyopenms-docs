@@ -15,7 +15,7 @@ from tableDataFrame import TableDataFrame as Tdf  # noqa E402
 sys.path.append(os.getcwd() + '/../controller')
 from filehandler import FileHandler as fh  # noqa E402
 sys.path.insert(0, '../examples')
-
+from descriptions import Descriptions as desc
 
 class ProteinQuantification(QMainWindow):
     """
@@ -29,7 +29,6 @@ class ProteinQuantification(QMainWindow):
     and inspected
     Sixth Tab: mzTabTable view - The result of the ProteomicsLFQ
     is displayed
-
     """
 
     def __init__(self):
@@ -41,26 +40,20 @@ class ProteinQuantification(QMainWindow):
         self.setPalette(self.palette)
         self.setTheme()
         self.setAcceptDrops(True)
-
+        
     def initUI(self):
         '''
         Sets the window with all applications and widgets.
         '''
+        descriptions = desc.descriptions
+        widgetlist = {"Welcome":[QWidget(),"welcome"],"XML-Viewer":[ConfigView(),"cview"],"Experimental-Design":[mzMLTableView(),"tview"],"Fasta-Viewer":[GUI_FastaViewer(),"fview"],"Spec-Viewer":[MultipleSpecView(),"sview"],"mzTab-Viewer":[mzTabTableWidget(),"xview"]}
         self.view = QTabWidget()
-        self.welcome = QWidget()
-        self.cview = ConfigView()
-        self.tview = mzMLTableView()
-        self.sview = MultipleSpecView()
-        self.fview = GUI_FastaViewer()
-        self.xview = mzTabTableWidget()
-        
+        for wname in widgetlist:
+            a = widgetlist[wname][0]
+            setattr(self, widgetlist[wname][1],a )
+            self.view.addTab(a, wname)
 
-        self.view.addTab(self.welcome, 'Welcome')
-        self.view.addTab(self.cview, 'XML-Viewer')
-        self.view.addTab(self.tview, 'Experimental-Design')
-        self.view.addTab(self.fview, 'Fasta-Viewer')
-        self.view.addTab(self.sview, 'Spec-Viewer')
-        self.view.addTab(self.xview, 'mzTab-Viewer')
+        self.view.setTabEnabled(5, False)
 
         self.palette = QPalette()
 
@@ -96,87 +89,18 @@ class ProteinQuantification(QMainWindow):
         saveAction.triggered.connect(self.saveFunction)
         loadAction.triggered.connect(self.loadFunction)
 
-        # themeswitcher
+        #themeswitcher
         settingsMenu = menubar.addMenu('Settings')
         switchThemeAction = QAction('Change Theme', self)
         settingsMenu.addAction(switchThemeAction)
         switchThemeAction.triggered.connect(self.switchTheme)
 
         # Welcome Tab
-
         normalFont = QFont("Helvetica", 11)
-
         welcome = QLabel()
-        welcome.setText("<h4 align='justify'>Welcome: Get started with your"
-                        " Proteinquantifcation!</h4>"
-                        "<div align='justify'>This application performs a "
-                        "ProteomicsLFQ - Proteinquantification. <br>"
-                        "The files, needed to "
-                        "run the application have to be loaded into"
-                        "<br>XML-Viewer, "
-                        "Experimental-Design and Fasta-Viewer-Tabs, "
-                        "respectively. <br>Finally, the mzTab-Viewer-Tab "
-                        " will show the result."
-                        "<br>"
-                        "You can look at the spectra used for the "
-                        "quantification<br>in the Spec-Viewer-Tab.</div>"
-                        )
+        welcome.setText(descriptions["welcome"])
         welcome.setFont(normalFont)
-
-        xmlText = QLabel()
-        xmlText.setText("<div align='justify'><b>XML Viewer:</b><br>In this"
-                        " tab you can load, edit"
-                        " and save your experiments config-file.<br>"
-                        "If no config-file is provided, "
-                        "a default file will be generated,<br>"
-                        "which you can modify for the quantification.<br>"
-                        "This application only accepts '.ini'-files as "
-                        "config-files.</div>")
-        xmlText.setFont(normalFont)
-
-        experimentalText = QLabel()
-        experimentalText.setText("<div align='justify'><b>Experimental "
-                                 "Design:</b><br>The Experimental-Design-Tab"
-                                 " enables you to load and edit an "
-                                 "experimental design.<br>"
-                                 "You can edit specifics like number<br>"
-                                 "of files, fractions or groups.<br>'.tsv'"
-                                 "-files can be directly loaded as a "
-                                 "table.<br> You can also add single "
-                                 "'.mzml'-files to the table,<br>either"
-                                 " via drag'n'drop, or with the 'add file'"
-                                 "-button.<br> You can filter the files "
-                                 "using the textfield in the upper right "
-                                 "corner.</div>")
-        experimentalText.setFont(normalFont)
-
-        fastaText = QLabel()
-        fastaText.setText("<div align='justify'><b>Fasta Viewer:</b><br>In "
-                          "this tab you can load a fasta file<br>and search "
-                          "for information about the sequences such "
-                          "as<br>protein-IDs and accession-numbers.</div>")
-        fastaText.setFont(normalFont)
-
-        specText = QLabel()
-        specText.setText("<div align='justify'><b>Spectrum Viewer:</b><br>This"
-                         " tab enables you to look at<br>the mzML-spectra "
-                         "your Mass-Spectrometer measured for your"
-                         "<br>samples.<br>It loads all spectra files, "
-                         "which are"
-                         " located in your project folder.</div>")
-        specText.setFont(normalFont)
-
-        mzTabText = QLabel()
-        mzTabText.setText("<div align='justify'><b>MzTab Viewer:</b><br>The "
-                          "results of your analysis is visualized "
-                          "in the mzTab-Viewer.<br>"
-                          "Information about the identified sequences, such as"
-                          " retention time, <br>charge or mass to charge ratio"
-                          " are listed in the table.</div>")
-        mzTabText.setFont(normalFont)
-
         welcome_layout = QVBoxLayout()
-        # left
         welcome_layout.addWidget(welcome, 2, Qt.AlignTop)
 
         iconOpenMs = QPixmap("Icons/IconOpenMS.png")
@@ -185,11 +109,17 @@ class ProteinQuantification(QMainWindow):
 
         welcome_layout.addWidget(iconLabel, 4, Qt.AlignTop)
         center_layout = QVBoxLayout()
-        center_layout.addWidget(xmlText, 4, Qt.AlignTop)
-        center_layout.addWidget(experimentalText, 4)
-        center_layout.addWidget(fastaText, 4)
-        center_layout.addWidget(specText, 4)
-        center_layout.addWidget(mzTabText, 4)
+        view= self.view
+        
+        for i in range(1,view.count()):
+            print(view.tabText(i))
+            label = QLabel()
+            label.setText(descriptions[view.tabText(i)])
+            label.setFont(normalFont)
+            if i==1:
+                center_layout.addWidget(label,4,Qt.AlignTop)
+            else:
+                center_layout.addWidget(label,4)
 
         central_layout = QHBoxLayout()
         central_layout.addLayout(welcome_layout, 5)
@@ -320,6 +250,7 @@ class ProteinQuantification(QMainWindow):
         runs the processing from the GUI in a Terminal
         based on the ProteomicsLFQ command of OpenMS
         """
+        self.view.setTabEnabled(5, True)
         self.saveFunction()
         self.procdone = False
         outfileprefix, ok = QInputDialog.getText(self,
@@ -327,7 +258,9 @@ class ProteinQuantification(QMainWindow):
                                                  "Please specify a prefix " +
                                                  "for the outputfiles")
         if ok:
+            
             projectfolder = self.loaded_dir
+            
             mzMLExpLayout = self.tview.getDataFrame()
             try:
                 mzMLfiles = mzMLExpLayout['Spectra_Filepath']
@@ -372,6 +305,7 @@ class ProteinQuantification(QMainWindow):
                                   "performed and outputfiles saved to " +
                                   "projectfolder")
                 mztabfile = outfileprefix + ".mzTab.tmp"
+                print(mztabfile)
                 try:
                     self.xview.readFile(mztabfile)
                     self.loaded_mztab = mztabfile
@@ -380,6 +314,7 @@ class ProteinQuantification(QMainWindow):
                 except FileNotFoundError:
                     QMessageBox.about(self, "Warning", "Some Error occurred " +
                                       "and no mzTab could be found.")
+        
 
     def saveFunction(self):
         """
