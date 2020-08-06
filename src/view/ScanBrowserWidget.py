@@ -8,8 +8,7 @@ from PyQt5.QtWidgets import (
     QSplitter,
 )
 from ScanTableWidget import ScanTableWidget
-
-from src.view.SpectrumWidget import SpectrumWidget
+from SpectrumWidget import SpectrumWidget
 
 
 class ScanBrowserWidget(QWidget):

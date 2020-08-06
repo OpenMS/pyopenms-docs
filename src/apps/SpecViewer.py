@@ -1,4 +1,4 @@
-import sys
+import sys, os
 from collections import namedtuple
 
 import pyqtgraph as pg
@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import (
     QFileDialog,
 )
 
-sys.path.insert(0, "../view")
+sys.path.insert(0, "../view/")
 from ScanBrowserWidget import ScanBrowserWidget
 
 # structure for annotation (here for reference)

@@ -41,7 +41,7 @@ from PyQt5.QtWidgets import (
 from matplotlib import cm
 from pyqtgraph import PlotWidget
 
-sys.path.insert(0, "../view")
+sys.path.insert(0, "../view/")
 from SpecViewer import ScanBrowserWidget, App
 
 # import pyopenms.Constants
