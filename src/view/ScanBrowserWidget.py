@@ -1,4 +1,3 @@
-import pyopenms
 from PyQt5.QtCore import (
     Qt,
 )
@@ -21,12 +20,14 @@ class ScanBrowserWidget(QWidget):
         for i in reversed(range(layout.count())):
             layout.itemAt(i).widget().setParent(None)
 
-    def loadFile(self, file_path):
+    # def loadFile(self, file_path):
+    def loadMSExperiment(self, exp):
         self.isAnnoOn = False
         self.msexperimentWidget = QSplitter(Qt.Vertical)
 
         # data processing
-        scans = self.readMS(file_path)
+        # scans = self.readMS(file_path)
+        scans = exp
 
         # set Widgets
         self.spectrum_widget = SpectrumWidget()
@@ -38,12 +39,6 @@ class ScanBrowserWidget(QWidget):
 
         # default : first row selected.
         self.scan_widget.table_view.selectRow(0)
-
-    def readMS(self, file_path):
-        # Later: process other types of file
-        exp = pyopenms.MSExperiment()
-        pyopenms.MzMLFile().load(file_path, exp)
-        return exp
 
     def redrawPlot(self):
         # set new spectrum and redraw

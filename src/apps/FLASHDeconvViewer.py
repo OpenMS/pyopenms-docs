@@ -699,7 +699,8 @@ class App_FDV(App):
                 print("Calculate with AVG mass")
 
             self.setOpenMSWidget()
-            self.scanbrowser.loadFile(self.mzmlPath)
+            exp = self.readMS(self.mzmlPath)
+            self.scanbrowser.loadMSExperiment(exp)
             self.scanbrowser.annotation_FLASHDeconv(self.massPath)
 
 

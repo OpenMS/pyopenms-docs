@@ -1,4 +1,5 @@
-import sys, os
+import sys
+import pyopenms
 from collections import namedtuple
 
 import pyqtgraph as pg
@@ -95,7 +96,14 @@ class App(QMainWindow):
         if fileName:
             print("opening...", fileName)
             self.setScanBrowserWidget()
-            self.scanbrowser.loadFile(fileName)
+            exp = self.readMS(fileName)
+            self.scanbrowser.loadMSExperiment(exp)
+
+    def readMS(self, file_path):
+        # Later: process other types of file
+        exp = pyopenms.MSExperiment()
+        pyopenms.MzMLFile().load(file_path, exp)
+        return exp
 
     def center(self):
         qr = self.frameGeometry()
