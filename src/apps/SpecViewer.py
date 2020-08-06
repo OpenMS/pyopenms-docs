@@ -101,10 +101,13 @@ class App(QMainWindow):
 
     def readMS(self, file_path):
         # Later: process other types of file
-        exp = pyopenms.MSExperiment()
-        pyopenms.MzMLFile().load(file_path, exp)
+        # exp = pyopenms.MSExperiment()
+        # pyopenms.MzMLFile().load(file_path, exp)
+        # return exp
+        exp = pyopenms.OnDiscMSExperiment()
+        exp.openFile(file_path)
         return exp
-
+        
     def center(self):
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
