@@ -211,7 +211,7 @@ class ScanTableModel(QAbstractTableModel):
 
     def getScanListAsArray(self, ms_experiment):
         scanArr = []
-        for index, spec in enumerate(ms_experiment):
+        for index, spec in enumerate(ms_experiment.getMetaData()):
             MSlevel = "MS" + str(spec.getMSLevel())
             RT = spec.getRT()
             prec_mz = "-"

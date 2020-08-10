@@ -41,7 +41,7 @@ from PyQt5.QtWidgets import (
 from matplotlib import cm
 from pyqtgraph import PlotWidget
 
-sys.path.insert(0, "../view")
+sys.path.insert(0, "../view/")
 from SpecViewer import ScanBrowserWidget, App
 
 # import pyopenms.Constants
@@ -699,7 +699,8 @@ class App_FDV(App):
                 print("Calculate with AVG mass")
 
             self.setOpenMSWidget()
-            self.scanbrowser.loadFile(self.mzmlPath)
+            exp = self.readMS(self.mzmlPath)
+            self.scanbrowser.loadMSExperiment(exp)
             self.scanbrowser.annotation_FLASHDeconv(self.massPath)
 
 
