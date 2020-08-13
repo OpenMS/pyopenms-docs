@@ -10,6 +10,7 @@ import pyqtgraph as pg
 from pyqtgraph import PlotWidget
 
 import numpy as np
+
 from collections import namedtuple
 
 import pyqtgraph as pg
@@ -25,6 +26,7 @@ from PyQt5.QtWidgets import (
 
 sys.path.insert(0, "../view")
 from ScanBrowserWidget import ScanBrowserWidget  # noqa: E402
+
 
 # structure for annotation (here for reference)
 PeakAnnoStruct = namedtuple(
@@ -120,8 +122,15 @@ class Specviewer(QMainWindow):
         if fileName:
             print("opening...", fileName)
             self.setScanBrowserWidget()
-            self.scanbrowser.loadFile(fileName)
+            exp = self.readMS(fileName)
+            self.scanbrowser.loadMSExperiment(exp)
 
+    def readMS(self, file_path):
+        # Later: process other types of file
+        exp = pyopenms.OnDiscMSExperiment()
+        exp.openFile(file_path)
+        return exp
+        
     def center(self):
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()

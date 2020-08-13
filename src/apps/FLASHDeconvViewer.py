@@ -41,8 +41,9 @@ from PyQt5.QtWidgets import (
 from matplotlib import cm
 from pyqtgraph import PlotWidget  # noqa: E402
 
-sys.path.insert(0, "../view")
-from SpecViewer import ScanBrowserWidget, App  # noqa: E402
+
+sys.path.insert(0, "../view/")
+from SpecViewer import ScanBrowserWidget, App
 
 # import pyopenms.Constants
 # define Constant locally until bug in pyOpenMS is fixed
@@ -699,7 +700,8 @@ class App_FDV(App):
                 print("Calculate with AVG mass")
 
             self.setOpenMSWidget()
-            self.scanbrowser.loadFile(self.mzmlPath)
+            exp = self.readMS(self.mzmlPath)
+            self.scanbrowser.loadMSExperiment(exp)
             self.scanbrowser.annotation_FLASHDeconv(self.massPath)
 
 
