@@ -18,9 +18,11 @@ interactive session without consulting the documentation.
     p = Param()
     p.setValue("param1", 4.0, "This is value 1")
     p.setValue("param2", 5.0, "This is value 2")
+    p.setValue("param3", [b"H:+:0.6",b"Na:+:0.2",b"K:+:0.2"], "This is value 3 (StringList)")
     print( p[b"param1"] )
     p[b"param1"] += 3 # add three to the parameter value
     print( p[b"param1"] )
+    print( p[b"param3"] )
 
 
 The parameters can then be accessed as 
