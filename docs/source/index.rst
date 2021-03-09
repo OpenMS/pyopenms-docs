@@ -32,7 +32,7 @@ Please see the appendix of the official `pyOpenMS Manual
 <http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ for a complete documentation
 of the pyOpenMS API and all wrapped classes.
 
-Note: the current documentation relates to the 2.5.0 release of pyOpenMS.
+Note: the current documentation relates to the 2.6.0 release of pyOpenMS.
 
 
 .. toctree::
