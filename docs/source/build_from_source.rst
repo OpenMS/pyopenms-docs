@@ -51,7 +51,7 @@ threads. You can then configure pyOpenMS:
     make pyopenms
 
 Build pyOpenMS (now there should be pyOpenMS specific build targets).
-Afterwards, test that all wen well by running the tests:
+Afterwards, test that all went well by running the tests:
 
 .. code-block:: bash
 
