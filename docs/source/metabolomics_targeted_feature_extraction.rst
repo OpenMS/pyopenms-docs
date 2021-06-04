@@ -1,7 +1,7 @@
 Metabolomics - targeted feature extraction
 ==========================================
 
-FeatureFinderAlgorithmMetaboIdent performs MS1-based targeted feature extraction based on user provided compounds, which are 
+``FeatureFinderAlgorithmMetaboIdent`` performs MS1-based targeted feature extraction based on user provided compounds, which are 
 specified in an assay library (a tab-separated text file). Detected ``Features`` are stored in a ``FeatureMap`` which can be 
 stored in a ``FeatureXMLFile``. This tool is useful for the targeted extraction of ``Features`` for a well defined set of compounds 
 with known sum formulas and retention times. 
@@ -13,6 +13,7 @@ The pyOpenMS ``FeatureFinderAlgorithmMetaboIdent`` needs a list of ``FeatureFind
 ``run`` function. We could create that list ourselves or use the following function to read an assay library as ``.tsv`` file:
 
 .. code-block:: python
+
   import csv
 
   def metaboTableFromFile(path_to_library_file):
@@ -79,6 +80,7 @@ formats in the `Reading MS data formats <other_file_handling.html>`_ section.
 We can get a quick overview on the detected features by plotting them using the following function:
 
 .. code-block:: python
+
   import matplotlib.pyplot as plt
   from mpl_toolkits.mplot3d import axes3d
 
@@ -104,7 +106,5 @@ We can get a quick overview on the detected features by plotting them using the 
       ax.set_xlabel('m/z')
       ax.set_zlabel('intensity (cps)')
       plt.show()
-
-Which will create a graph with out data:
 
 .. image:: img/ffmid_graph.png
