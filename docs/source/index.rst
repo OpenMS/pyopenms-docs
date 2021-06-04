@@ -83,6 +83,12 @@ Note: the current documentation relates to the 2.6.0 release of pyOpenMS.
 
 .. toctree::
    :maxdepth: 2
+   :caption: OpenMS Tools
+
+   feature_finder_metabo_ident
+
+.. toctree::
+   :maxdepth: 2
    :caption: Advanced Topics
    
    mzMLFileFormat
