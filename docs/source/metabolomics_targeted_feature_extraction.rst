@@ -8,7 +8,8 @@ with known sum formulas and retention times.
 For more information on the format of the assay library and available parameters visit the `FeatureFinderMetaboIdent documentation
 <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/experimental/feature/proteomic_lfq/html/a15547.html>`_.
 
-The pyOpenMS ``FeatureFinderAlgorithmMetaboIdent`` needs a list of ``FeatureFinderMetaboIdentCompound`` objects as an assay libray for it's 
+
+The pyOpenMS ``FeatureFinderAlgorithmMetaboIdent`` needs a list of ``FeatureFinderMetaboIdentCompound`` objects as an assay libray for it's
 ``run`` function. We could create that list ourselves or use the following function to read an assay library as ``.tsv`` file:
 
 .. code-block:: python
