@@ -1,9 +1,10 @@
-FeatureFinderMetaboIdent
-========================
+Metabolomics - targeted feature extraction
+==========================================
 
-This tool detects quantitative features in MS1 data for a list of targets specified in an assay library (a tab-separated text file). 
-Detected ``Features`` are stored in a ``FeatureMap`` which can be stored in a ``FeatureXMLFile``. This tool is useful for the targeted
-extraction of ``Features`` for a well defined set of compounds with known sum formulas and retention times. 
+FeatureFinderAlgorithmMetaboIdent performs MS1-based targeted feature extraction based on user provided compounds, which are 
+specified in an assay library (a tab-separated text file). Detected ``Features`` are stored in a ``FeatureMap`` which can be 
+stored in a ``FeatureXMLFile``. This tool is useful for the targeted extraction of ``Features`` for a well defined set of compounds 
+with known sum formulas and retention times. 
 For more information on the format of the assay library and available parameters visit the `FeatureFinderMetaboIdent documentation
 <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/experimental/feature/proteomic_lfq/html/a15547.html>`_.
 
@@ -59,9 +60,9 @@ Now we can use the following code to detect features with ``FeatureFinderAlgorit
 
   # edit some parameters
   params = ff.getParameters()
-  params[b'extract:mz_window'] = 5.0
-  params[b'extract:rt_window'] = 20.0
-  params[b'detect:peak_width'] = 3.0
+  params[b'extract:mz_window'] = 5.0 # 5 ppm
+  params[b'extract:rt_window'] = 20.0 # 20 seconds
+  params[b'detect:peak_width'] = 3.0 # 3 seconds
   ff.setParameters(params)
 
   # run the FeatureFinderMetaboIdent with the metabo_table and store results in fm

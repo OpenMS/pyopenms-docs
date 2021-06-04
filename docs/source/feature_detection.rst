@@ -16,7 +16,7 @@ FeatureFinders are available in OpenMS:
   - FeatureFinderIdentification  
   - FeatureFinderIsotopeWavelet  
   - FeatureFinderMetabo
-  - `FeatureFinderMetaboIdent <feature_finder_metabo_ident.html>`_
+  - FeatureFinderAlgorithmMetaboIdent
   - FeatureFinderSuperHirn
 
 All of the algorithms above are for proteomics data with the exception of
