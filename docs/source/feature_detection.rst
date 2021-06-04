@@ -15,12 +15,13 @@ FeatureFinders are available in OpenMS:
   - FeatureFinderCentroided      
   - FeatureFinderIdentification  
   - FeatureFinderIsotopeWavelet  
-  - FeatureFinderMetabo   
+  - FeatureFinderMetabo
+  - FeatureFinderAlgorithmMetaboIdent
   - FeatureFinderSuperHirn
 
 All of the algorithms above are for proteomics data with the exception of
-FeatureFinderMetabo which works on metabolomics data. One of the most commonly
-used FeatureFinders is the FeatureFinderCentroided which works on (high
+FeatureFinderMetabo and FeatureFinderMetaboIdent which work on metabolomics data. One of the most commonly
+used FeatureFinders is the FeatureFinderCentroided and FeatureFinderIdentification which both work on (high
 resolution) centroided data. We can use the following code to find ``Features``
 in MS data:
 

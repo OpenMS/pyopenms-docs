@@ -80,6 +80,7 @@ Note: the current documentation relates to the 2.6.0 release of pyOpenMS.
    feature_detection
    peptide_search
    chromatographic_analysis
+   metabolomics_targeted_feature_extraction
 
 .. toctree::
    :maxdepth: 2
