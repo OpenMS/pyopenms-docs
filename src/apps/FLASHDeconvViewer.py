@@ -39,7 +39,8 @@ from PyQt5.QtWidgets import (
     QDialogButtonBox,
 )
 from matplotlib import cm
-from pyqtgraph import PlotWidget
+from pyqtgraph import PlotWidget  # noqa: E402
+
 
 sys.path.insert(0, "../view/")
 from SpecViewer import ScanBrowserWidget, App

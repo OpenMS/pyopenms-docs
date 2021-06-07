@@ -1,3 +1,5 @@
-.idea
-.pyc
-.DS_Store
+*.idea
+*.pyc
+*.DS_Store
+*.tmp
+**/__pycache__/

@@ -194,6 +194,7 @@ class SpectrumWidget(PlotWidget):
             anno.clear()
         for pos in self._ladder_anno_labels[key]:
             pos.setPos(0, 0)
+
         del self._ladder_anno_lines[key]
         del self._ladder_anno_labels[key]
 
