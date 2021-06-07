@@ -12,7 +12,7 @@ For more information on the format of the assay library and available parameters
 The pyOpenMS ``FeatureFinderAlgorithmMetaboIdent`` needs a list of ``FeatureFinderMetaboIdentCompound`` objects as an assay libray for it's
 ``run`` function. We could create that list ourselves or use the following function to read an assay library as ``.tsv`` file:
 
-.. list-table:: Title
+.. list-table:: tsv file
    :widths: 50 30 15 15 15 15 15 
    :header-rows: 1
 
