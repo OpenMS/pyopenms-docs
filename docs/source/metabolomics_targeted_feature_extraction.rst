@@ -13,6 +13,7 @@ The pyOpenMS ``FeatureFinderAlgorithmMetaboIdent`` needs a list of ``FeatureFind
 ``run`` function. We could create that list ourselves or use the following function to read an assay library as ``.tsv`` file:
 
 .. list-table:: tsv file
+
    :widths: 50 30 15 15 15 15 15 
    :header-rows: 1
 
