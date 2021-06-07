@@ -12,60 +12,16 @@ For more information on the format of the assay library and available parameters
 The pyOpenMS ``FeatureFinderAlgorithmMetaboIdent`` needs a list of ``FeatureFinderMetaboIdentCompound`` objects as an assay libray for it's
 ``run`` function. We could create that list ourselves or use the following function to read an assay library as ``.tsv`` file:
 
-.. list-table:: tsv file
-
+.. csv-table:: Coupounds tsv file
    :widths: 50 30 15 15 15 15 15 
-   :header-rows: 1
+   :header: "CompoundName", "SumFormula", "Mass", "Charge", "RetentionTime", "RetentionTimeRange", "IsoDistribution"
 
-   * - CompoundName
-     - SumFormula
-     - Mass
-     - Charge
-     - RetentionTime
-     - RetentionTimeRange
-     - IsoDistribution
-   * - 2'-O-methylcytidine
-     - C10H15N3O5
-     - 0
-     - 1
-     - 207.6
-     - 0
-     - 0
-   * - 5-formylcytidine
-     - C10O6N3H13
-     - 0
-     - 1
-     - 269.4
-     - 0
-     - 0
-   * - 5-methyluridine
-     - C10H14N2O6
-     - 0
-     - 1
-     - 291.6
-     - 0
-     - 0
-   * - adenosine
-     - C10H13N5O4
-     - 0
-     - 1
-     - 220.8
-     - 0
-     - 0
-   * - deoxyadenosine
-     - C10H13N5O3
-     - 0
-     - 1
-     - 243
-     - 0
-     - 0   
-   * - inosine
-     - C10H12N4O5
-     - 0
-     - 1
-     - 264
-     - 0
-     - 0
+   "2'-O-methylcytidine", "C10H15N3O5",0,1,207.6,0,0
+   "5-formylcytidine", "C10O6N3H13",0,1,269.4,0,0
+   "5-methyluridine", "C10H14N2O6",0,1,291.6,0,0
+   "adenosine","C10H13N5O4",0,1,220.8,0,0
+   "deoxyadenosine","C10H13N5O3",0,1,243.0,0,0
+   "inosine","C10H12N4O5",0,1,264.0,0,0
 
 .. code-block:: python
 
