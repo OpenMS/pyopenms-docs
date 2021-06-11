@@ -255,3 +255,47 @@ properties of Python list comprehensions (``s.getMSLevel() == 1``) and computes
 the sum over all peaks (right ``sum``) and the sum over all spectra (left
 ``sum``) to retrieve the TIC).
 
+One can access the retention times and intensities of the TIC in different ways
+and generate a 2D graph using matplotlib: 
+
+.. code-block:: python
+
+    from pyopenms import *
+    import matplotlib.pyplot as plt
+    from urllib.request import urlretrieve
+
+    # retrieve MS data
+    gh = 'https://raw.githubusercontent.com/OpenMS/OpenMS/develop'
+    urlretrieve (gh+'/src/tests/topp/FeatureFinderMetaboIdent_1_input.mzML',
+                'ms_data.mzML')
+
+    # load MS data into MSExperiment()
+    exp = MSExperiment()
+    MzMLFile().load("ms_data.mzML", exp)
+
+    # get TIC data with exp.getTIC() function
+    tic = exp.getTIC()
+    retention_times, intensities = tic.get_peaks()
+
+    # get TIC data using list comprehensions
+    retention_times = [spec.getRT() for spec in exp]
+    intensities = [sum(spec.get_peaks()[1]) for spec in exp if spec.getMSLevel() == 1]
+
+    # get TIC data looping over spectra in MSExperiment()
+    retention_times = []
+    intensities = []
+    for spec in exp:
+        if spec.getMSLevel() == 1:
+            retention_times.append(spec.getRT())
+            intensities.append(sum(spec.get_peaks()[1]))
+
+    # plot retention times and intensities and add labels
+    plt.plot(retention_times, intensities)
+
+    plt.title('TIC')
+    plt.xlabel('time (s)')
+    plt.ylabel('intensity (cps)')
+
+    plt.show()
+
+.. image:: img/TIC2D.png
