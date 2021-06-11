@@ -299,4 +299,4 @@ and generate a 2D graph using ``matplotlib``:
 
     plt.show()
 
-.. image:: img/TIC2D.png
+.. image:: img/TICPlot.png
