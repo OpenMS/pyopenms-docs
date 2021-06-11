@@ -224,7 +224,6 @@ With this information, we can write a function that calculates the total ion
 current (TIC) for a given ms level: 
 
 .. code-block:: python
-    :linenos:
 
     # Calculates total ion chromatogram of an LC-MS/MS experiment
     def calcTIC(exp, mslevel):
@@ -240,7 +239,6 @@ current (TIC) for a given ms level:
 To calculate a TIC we would now call the function:
 
 .. code-block:: python
-   :linenos:
 
     >>> calcTIC(exp, 1)
     240.0
