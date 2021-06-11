@@ -271,3 +271,21 @@ capability, which shows the peak over retention time:
 Note how the annotation using precursor and production mass of our XIC
 chromatogram is displayed in the viewer.
 
+We can also visualize the resulting data using ``matplotlib``. Here we can plot every
+chromatogram in our ``MSExperiment`` and label it with it's native ID.
+
+.. code-block:: python
+    :linenos:
+
+    import matplotlib.pyplot as plt
+
+    for chrom in exp.getChromatograms():
+        retention_times, intensities = chrom.get_peaks()
+        plt.plot(retention_times, intensities, label = chrom.getNativeID())
+
+    plt.xlabel('time (s)')
+    plt.ylabel('intensity (cps)')
+    plt.legend()
+    plt.show()
+
+.. image:: img/ChromPlot.png
