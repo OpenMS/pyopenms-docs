@@ -256,7 +256,7 @@ the sum over all peaks (right ``sum``) and the sum over all spectra (left
 ``sum``) to retrieve the TIC).
 
 One can access the retention times and intensities of the TIC in different ways
-and generate a 2D graph using matplotlib: 
+and generate a 2D graph using ``matplotlib``: 
 
 .. code-block:: python
 
@@ -268,20 +268,21 @@ and generate a 2D graph using matplotlib:
     gh = 'https://raw.githubusercontent.com/OpenMS/OpenMS/develop'
     urlretrieve (gh+'/src/tests/topp/FeatureFinderMetaboIdent_1_input.mzML',
                 'ms_data.mzML')
-
+    
     # load MS data into MSExperiment()
     exp = MSExperiment()
     MzMLFile().load("ms_data.mzML", exp)
-
-    # get TIC data with exp.getTIC() function
+    
+    # choose one of the following three methods to access the TIC data
+    # 1) get TIC data with exp.getTIC() function
     tic = exp.getTIC()
     retention_times, intensities = tic.get_peaks()
 
-    # get TIC data using list comprehensions
+    # 2) get TIC data using list comprehensions
     retention_times = [spec.getRT() for spec in exp]
     intensities = [sum(spec.get_peaks()[1]) for spec in exp if spec.getMSLevel() == 1]
 
-    # get TIC data looping over spectra in MSExperiment()
+    # 3) get TIC data looping over spectra in MSExperiment()
     retention_times = []
     intensities = []
     for spec in exp:
