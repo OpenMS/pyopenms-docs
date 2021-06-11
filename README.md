@@ -19,3 +19,7 @@ versions of OpenMS, covering Linux/Mac/Windows.
 Documentation
 =============
 The pyOpenMS documentation is also contained in this repository, see [docs/README.md](docs/README.md)
+
+Jupyter Notebooks
+=============
+Are created by CI and stored in master+ipynb
