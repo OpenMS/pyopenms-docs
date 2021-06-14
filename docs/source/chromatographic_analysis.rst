@@ -104,3 +104,7 @@ Which leads to the following smoothed chromatographic traces:
 
 .. image:: img/chroms_filter.png
 
+.. image:: ./img/launch_binder.jpg
+   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/chromatographic_analysis.ipynb
+   :alt: Launch Binder
+

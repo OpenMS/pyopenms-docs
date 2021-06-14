@@ -158,4 +158,6 @@ library (you can install BioPython with ``pip install biopython``):
     print("The RNA sequence", str(oligo), "has mass", oligo.getMonoWeight(), "and \n"
       "translates to the protein sequence", str(aaseq), "which has mass", aaseq.getMonoWeight() )
 
-
+.. image:: ./img/launch_binder.jpg
+   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/nasequences.ipynb
+   :alt: Launch Binder

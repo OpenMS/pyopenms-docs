@@ -135,4 +135,6 @@ As we can see, using a smaller precursor mass tolerance leads the algorithm to
 find only one hit instead of two. Similarly, if we use the wrong enzyme for
 the digestion (e.g. ``p[b'enzyme'] = "Formic_acid"``), we find no results.
 
-
+.. image:: ./img/launch_binder.jpg
+   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/peptide_search.ipynb
+   :alt: Launch Binder

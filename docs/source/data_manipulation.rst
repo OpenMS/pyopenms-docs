@@ -178,5 +178,9 @@ Make sure you do not forget ``del consumer`` since otherwise the final part of
 the mzML may not get written to disk (and the consumer is still waiting for new
 data).
 
+.. image:: ./img/launch_binder.jpg
+   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/data_manipulation.ipynb
+   :alt: Launch Binder
+
 
 

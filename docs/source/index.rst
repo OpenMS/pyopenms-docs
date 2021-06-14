@@ -108,3 +108,7 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
+
+.. image:: ./img/launch_binder.jpg
+   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/index.ipynb
+   :alt: Launch Binder
