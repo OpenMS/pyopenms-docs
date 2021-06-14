@@ -195,6 +195,34 @@ traces first increase and then decrease in intensity:
 
 .. image:: img/spectrum2.png
 
+We can also visualize our spectrum with ``matplotlib`` using the following function:
+
+.. code-block:: python
+
+    import matplotlib.pyplot as plt
+
+    def plot_spectrum(spectrum):
+        # plot every peak in spectrum and annotate with it's m/z
+        for mz, i in zip(*spectrum.get_peaks()):
+            plt.plot([mz, mz], [0, i], color = 'black')
+            plt.text(mz, i, str(mz))
+        
+        # for the title add RT and Precursor m/z if available
+        title = ''
+        if spectrum.getRT() >= 0:
+            title += 'RT: ' + str(spectrum.getRT())
+        if len(spectrum.getPrecursors()) >= 1:
+            title += '   Precursor m/z: ' + str(spectrum.getPrecursors()[0].getMZ())
+
+        plt.title(title)
+        plt.ylabel('intensity')
+        plt.xlabel('m/z')
+        plt.ylim(bottom=0)
+
+        plt.show()
+
+.. image:: img/SpectrumPlot.png
+
 Chromatogram
 ************
 
