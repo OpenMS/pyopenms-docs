@@ -126,6 +126,34 @@ about the S/N for the peak (S/N = 15) and its annotation as ``y15++`` in the sta
 bar below when the user clicks on the peak at 401.5 *m/z* as shown in the
 screenshot.
 
+We can also visualize our spectrum with ``matplotlib`` using the following function:
+
+.. code-block:: python
+
+    import matplotlib.pyplot as plt
+
+    def plot_spectrum(spectrum):
+        # plot every peak in spectrum and annotate with it's m/z
+        for mz, i in zip(*spectrum.get_peaks()):
+            plt.plot([mz, mz], [0, i], color = 'black')
+            plt.text(mz, i, str(mz))
+        
+        # for the title add RT and Precursor m/z if available
+        title = ''
+        if spectrum.getRT() >= 0:
+            title += 'RT: ' + str(spectrum.getRT())
+        if len(spectrum.getPrecursors()) >= 1:
+            title += '   Precursor m/z: ' + str(spectrum.getPrecursors()[0].getMZ())
+
+        plt.title(title)
+        plt.ylabel('intensity')
+        plt.xlabel('m/z')
+        plt.ylim(bottom=0)
+
+        plt.show()
+
+.. image:: img/SpectrumPlot.png
+
 LC-MS/MS Experiment
 *******************
 
@@ -194,34 +222,6 @@ viewer capability, which shows the six scans over retention time where the
 traces first increase and then decrease in intensity:
 
 .. image:: img/spectrum2.png
-
-We can also visualize our spectrum with ``matplotlib`` using the following function:
-
-.. code-block:: python
-
-    import matplotlib.pyplot as plt
-
-    def plot_spectrum(spectrum):
-        # plot every peak in spectrum and annotate with it's m/z
-        for mz, i in zip(*spectrum.get_peaks()):
-            plt.plot([mz, mz], [0, i], color = 'black')
-            plt.text(mz, i, str(mz))
-        
-        # for the title add RT and Precursor m/z if available
-        title = ''
-        if spectrum.getRT() >= 0:
-            title += 'RT: ' + str(spectrum.getRT())
-        if len(spectrum.getPrecursors()) >= 1:
-            title += '   Precursor m/z: ' + str(spectrum.getPrecursors()[0].getMZ())
-
-        plt.title(title)
-        plt.ylabel('intensity')
-        plt.xlabel('m/z')
-        plt.ylim(bottom=0)
-
-        plt.show()
-
-.. image:: img/SpectrumPlot.png
 
 Chromatogram
 ************
