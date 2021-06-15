@@ -259,3 +259,6 @@ into memory):
 This approach is now memory efficient in cases where computation should only occur
 on part of the data or the whole data may not fit into memory.
 
+.. image:: ./img/launch_binder.jpg
+   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/file_handling.ipynb
+   :alt: Launch Binder

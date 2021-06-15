@@ -119,3 +119,7 @@ We can get a quick overview on the detected features by plotting them using the 
       plt.show()
 
 .. image:: img/ffmid_graph.png
+
+.. image:: ./img/launch_binder.jpg
+   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/metabolomics_targeted_feature_extraction.ipynb
+   :alt: Launch Binder

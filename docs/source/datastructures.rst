@@ -317,3 +317,8 @@ chromatogram in our ``MSExperiment`` and label it with it's native ID.
     plt.show()
 
 .. image:: img/ChromPlot.png
+
+.. image:: ./img/launch_binder.jpg
+   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/datastructures.ipynb
+   :alt: Launch Binder
+

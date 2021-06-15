@@ -298,3 +298,7 @@ and generate a 2D graph using ``matplotlib``:
     plt.show()
 
 .. image:: img/TICPlot.png
+
+.. image:: ./img/launch_binder.jpg
+   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/getting_started.ipynb
+   :alt: Launch Binder

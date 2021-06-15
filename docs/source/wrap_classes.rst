@@ -334,3 +334,6 @@ Make sure that you *always* declare your objects (all C++ and all Cython
 objects need to be declared) using ``cdef`` Type name. Otherwise you get ``Cannot
 convert ... to Python object`` errors.
 
+.. image:: ./img/launch_binder.jpg
+   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/wrap_classes.ipynb
+   :alt: Launch Binder

@@ -147,3 +147,6 @@ Spectrum Tagger
     b"PTIDE" in tags  # True
     b"PTIDEF" in tags # False
 
+.. image:: ./img/launch_binder.jpg
+   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/mass_decomposition.ipynb
+   :alt: Launch Binder

@@ -65,3 +65,7 @@ Further questions
 In case the above instructions did not work, please refer to the `Wiki Page
 <https://github.com/OpenMS/OpenMS/wiki/pyOpenMS>`_, contact the development
 team on github or send an email to the OpenMS mailing list.
+
+.. image:: ./img/launch_binder.jpg
+   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/build_from_source.ipynb
+   :alt: Launch Binder

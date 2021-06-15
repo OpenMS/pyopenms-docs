@@ -193,3 +193,6 @@ compression scheme introduced an inaccuracy of 10e-10 while the PIC (positive
 integer compression) can only store positive integers and results in greater
 loss of accuracy. 
 
+.. image:: ./img/launch_binder.jpg
+   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/mzMLFileFormat.ipynb
+   :alt: Launch Binder

@@ -134,3 +134,7 @@ singly and double charged peaks of the b, y and a series creating 44 different
 individual fragment ion peaks as well as neutral losses adding an additional
 102 peaks (neutral losses easily recognizable by their 10-fold lower intensity
 in the simulated spectrum).
+
+.. image:: ./img/launch_binder.jpg
+   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/theoreticalspectrumgenerator.ipynb
+   :alt: Launch Binder

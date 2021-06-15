@@ -1,0 +1,4 @@
+rst2ipynb==0.2.3
+Sphinx==4.0.2
+sphinx-gallery==0.9.0
+pyopenms
