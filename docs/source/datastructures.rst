@@ -226,6 +226,7 @@ traces first increase and then decrease in intensity:
 Alternatively we can visualize our data directly with Python. For smaller data sets
 we can use ``matplotlib`` to generate a 2D scatter plot with the peak intensities
 represented by a colorbar. With this plot we can zoom in and inspect our data in more detail.
+
 The following example figures were generated using a `mzML file <https://github.com/OpenMS/OpenMS/blob/develop/src/tests/topp/FeatureFinderMetaboIdent_1_input.mzML>`_ provided by OpenMS.
 
 .. code-block:: python
