@@ -223,6 +223,83 @@ traces first increase and then decrease in intensity:
 
 .. image:: img/spectrum2.png
 
+Alternatively we can visualize our data directly with Python. For smaller data sets
+we can use ``matplotlib`` to generate a 2D scatter plot with the peak intensities
+represented by a colorbar. With this plot we can zoom in and inspect our data in more detail.
+The following example figures were generated using a `mzML file <https://github.com/OpenMS/OpenMS/blob/develop/src/tests/topp/FeatureFinderMetaboIdent_1_input.mzML>`_ provided by OpenMS.
+
+.. code-block:: python
+
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import matplotlib.colors as colors
+
+    def plotSpectra2D(exp, ms_level=1, marker_size = 5):
+        exp.updateRanges()
+        print('collecting peak data...')
+        for spec in exp:
+            if spec.getMSLevel() == ms_level:
+                mz, intensity = spec.get_peaks()
+                p = intensity.argsort() # sort by intensity to plot highest on top
+                rt = np.full([mz.shape[0]], spec.getRT(), float)
+                plt.scatter(rt, mz[p], c = intensity[p], cmap = 'afmhot_r', s=marker_size, 
+                            norm=colors.LogNorm(exp.getMinInt()+1, exp.getMaxInt()))
+        plt.clim(exp.getMinInt()+1, exp.getMaxInt())
+        plt.xlabel('time (s)')
+        plt.ylabel('m/z')
+        plt.colorbar()
+        print('showing plot...')
+        plt.show() # slow for larger data sets
+
+.. image:: img/Spectra2D.png
+
+.. image:: img/Spectra2DDetails.png
+
+For larger data sets this will be too slow since every individual peak gets displayed.
+However, we can use ``BilinearInterpolation`` which produces an overview image of our spectra.
+This can be useful for a brief visual inspection of your sample in quality control.
+
+.. code-block:: python
+
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    def plot2DSpectraOverview(experiment):
+        rows = 200.0
+        cols = 200.0
+        exp.updateRanges()
+
+        bilip = BilinearInterpolation()
+        tmp = bilip.getData()
+        tmp.resize(int(rows), int(cols), float())
+        bilip.setData(tmp)
+        bilip.setMapping_0(0.0, exp.getMinRT(), rows-1, exp.getMaxRT())
+        bilip.setMapping_1(0.0, exp.getMinMZ(), cols-1, exp.getMaxMZ())
+        print('collecting peak data...')
+        for spec in exp:
+            if spec.getMSLevel() == 1:
+                mzs, ints = spec.get_peaks()
+                rt = spec.getRT()
+                for i in range(0, len(mzs)):
+                    bilip.addValue(rt, mzs[i], ints[i])
+
+        data = np.ndarray(shape=(int(cols), int(rows)), dtype=np.float64)
+        for i in range(int(rows)):
+            for j in range(int(cols)):
+                data[i][j] = bilip.getData().getValue(i,j)
+
+        plt.imshow(np.rot90(data), cmap='gist_heat_r')
+        plt.xlabel('retention time (s)')
+        plt.ylabel('m/z')
+        plt.xticks(np.linspace(0,int(rows),20, dtype=int), 
+                np.linspace(exp.getMinRT(),exp.getMaxRT(),20, dtype=int))
+        plt.yticks(np.linspace(0,int(cols),20, dtype=int),
+                np.linspace(exp.getMinMZ(),exp.getMaxMZ(),20, dtype=int)[::-1])
+        print('showing plot...')
+        plt.show()
+
+.. image:: img/Spectra2DOverview.png
+
 Chromatogram
 ************
 
