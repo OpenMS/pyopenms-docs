@@ -235,7 +235,7 @@ The following example figures were generated using a `mzML file <https://github.
     import matplotlib.pyplot as plt
     import matplotlib.colors as colors
 
-    def plotSpectra2D(exp, ms_level=1, marker_size = 5):
+    def plot_spectra_2D(exp, ms_level=1, marker_size = 5):
         exp.updateRanges()
         print('collecting peak data...')
         for spec in exp:
@@ -265,7 +265,7 @@ This can be useful for a brief visual inspection of your sample in quality contr
     import numpy as np
     import matplotlib.pyplot as plt
 
-    def plot2DSpectraOverview(experiment):
+    def plot_spectra_2D_overview(experiment):
         rows = 200.0
         cols = 200.0
         exp.updateRanges()
