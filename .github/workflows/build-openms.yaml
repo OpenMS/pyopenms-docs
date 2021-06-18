@@ -1,7 +1,10 @@
 name: Building latest pyopenms package
 
 on:
-  push
+  # this runs on the develop branch
+  schedule:
+    - cron: '0 0 * * *'
+
 jobs:
 
   build-lnx:
