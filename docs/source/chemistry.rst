@@ -121,6 +121,7 @@ The isotope distribution of oxygen and sulfur can be displayed with the followin
 
 .. code-block:: python
 
+    import math
     from matplotlib import pyplot as plt
 
     def plotDistribution(distribution):
