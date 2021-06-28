@@ -271,12 +271,17 @@ algorithm [1]_ :
     methanol = EmpiricalFormula("CH3OH")
     ethanol = EmpiricalFormula("CH2") + methanol
 
+    methanol_isoDist = {"mass": [], "abundance": []}
+    ethanol_isoDist = {"mass": [], "abundance": []}
+
     print("Coarse Isotope Distribution:")
     isotopes = ethanol.getIsotopeDistribution( CoarseIsotopePatternGenerator(4) )
     prob_sum = sum([iso.getIntensity() for iso in isotopes.getContainer()])
     print("This covers", prob_sum, "probability")
     for iso in isotopes.getContainer():
         print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        methanol_isoDist["mass"].append(iso.getMZ())
+        methanol_isoDist["abundance"].append((iso.getIntensity() * 100))
 
     print("Fine Isotope Distribution:")
     isotopes = ethanol.getIsotopeDistribution( FineIsotopePatternGenerator(1e-3) )
@@ -284,6 +289,8 @@ algorithm [1]_ :
     print("This covers", prob_sum, "probability")
     for iso in isotopes.getContainer():
         print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        ethanol_isoDist["mass"].append(iso.getMZ())
+        ethanol_isoDist["abundance"].append((iso.getIntensity() * 100))
 
 which produces
 
@@ -302,6 +309,30 @@ which produces
     Isotope 47.0452201914 has abundance 2.110501006245613 %
     Isotope 47.0481419395 has abundance 0.06732848123647273 %
     Isotope 48.046119191399995 has abundance 0.20049810409545898 %
+
+Together with the plotDistribution() function from above and the extra code:
+
+.. code-block:: python
+    
+    plt.figure(figsize=(10,7))
+
+    plt.subplot(1,2,1)
+    plt.title("Isotopic distribution of methanol")
+    plotDistribution(methanol_isoDist)
+    plt.xlabel("Atomic mass (u)")
+    plt.ylabel("Relative abundance (%)")
+
+    plt.subplot(1,2,2)
+    plt.title("Isotopic distribution of ethanol")
+    plotDistribution(ethanol_isoDist)
+    plt.xlabel("Atomic mass (u)")
+    plt.ylabel("Relative abundance (%)")
+
+    plt.savefig("methanol_ethanol_isoDistribution.png")
+
+we can produce the following visualization
+
+.. image:: img/methanol_ethanol_isoDistribution.png
 
 
 The result calculated with the ``FineIsotopePatternGenerator``
