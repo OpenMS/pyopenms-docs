@@ -81,17 +81,24 @@ We can also inspect the full isotopic distribution of oxygen and sulfur:
 .. code-block:: python
 
     from pyopenms import *
+    
     edb = ElementDB()
+    oxygen_isoDist = {"mass": [], "abundance": []}
+    sulfur_isoDist = {"mass": [], "abundance": []}
 
     oxygen = edb.getElement("O")
     isotopes = oxygen.getIsotopeDistribution()
     for iso in isotopes.getContainer():
         print ("Oxygen isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        oxygen_isoDist["mass"].append(iso.getMZ())
+        oxygen_isoDist["abundance"].append((iso.getIntensity() * 100))
 
     sulfur = edb.getElement("S")
     isotopes = sulfur.getIsotopeDistribution()
     for iso in isotopes.getContainer():
         print ("Sulfur isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        sulfur_isoDist["mass"].append(iso.getMZ())
+        sulfur_isoDist["abundance"].append((iso.getIntensity() * 100))
 
 OpenMS can compute isotopic distributions for individual elements which contain
 information for all stable elements.  The current values in the file are
@@ -110,7 +117,41 @@ abundance:
 		Sulfur isotope 33.967867 has abundance 4.2899999767541885 %
 		Sulfur isotope 35.967081 has abundance 0.019999999494757503 %
 
+The isotope distribution of oxygen and sulfur can be displayed with the following extra code:
 
+.. code-block:: python
+
+    from matplotlib import pyplot as plt
+
+    def plotDistribution(distribution):
+        for i in range(0, len(distribution["mass"])):
+            plt.vlines(x=distribution["mass"][i], ymin=0, ymax=distribution["abundance"][i])
+            plt.text(x=distribution["mass"][i] , y=(distribution["abundance"][i] + 2), 
+                s='%0.3f' % (distribution["abundance"][i]), va='center', ha='center')
+        plt.ylim([0, 110])
+        plt.xticks(range(math.ceil(distribution["mass"][0]) - 1,
+                 math.ceil(distribution["mass"][-1]) + 2))
+                 
+                
+    plt.figure(figsize=(10,7))
+
+    plt.subplot(1,2,1)
+    plt.title("Isotopic distribution of oxygen")
+    plotDistribution(oxygen_isoDist)
+    plt.xlabel("Atomic mass (u)")
+    plt.ylabel("Relative abundance (%)")
+
+    plt.subplot(1,2,2)
+    plt.title("Isotopic distribution of sulfur")
+    plotDistribution(sulfur_isoDist)
+    plt.xlabel("Atomic mass (u)")
+    plt.ylabel("Relative abundance (%)")
+
+    plt.show()
+
+which produces
+
+.. image:: img/oxygen_sulfur_isoDistribution.png
 
 .. _Mass Defect Section:
 Mass Defect
