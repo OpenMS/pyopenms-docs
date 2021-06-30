@@ -55,7 +55,10 @@ Open it and add your new function *with the correct indentation*:
 - You can inject documentation that will be shown when calling ``help()`` in the function by adding ``wrap-doc:Your documentation`` as a comment after the function:
 
   - Ex: ``void modifyWidget() nogil except + # wrap-doc:This changes your widget``
-
+  - Warning: For a single-line comment, there should not be a space between wrap-doc and the following comment.
+  - Note: The space between the hash and wrap-doc (# wrap-doc) is not necessary, but used for consitentcy.
+  - Note: Please start the comment with a caplital letter.
+  
 See the next section for a SimpleExample_ and a more AdvancedExample_ of a wrapped class with several functions.
 
 How to wrap new classes
