@@ -81,17 +81,24 @@ We can also inspect the full isotopic distribution of oxygen and sulfur:
 .. code-block:: python
 
     from pyopenms import *
+    
     edb = ElementDB()
+    oxygen_isoDist = {"mass": [], "abundance": []}
+    sulfur_isoDist = {"mass": [], "abundance": []}
 
     oxygen = edb.getElement("O")
     isotopes = oxygen.getIsotopeDistribution()
     for iso in isotopes.getContainer():
         print ("Oxygen isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        oxygen_isoDist["mass"].append(iso.getMZ())
+        oxygen_isoDist["abundance"].append((iso.getIntensity() * 100))
 
     sulfur = edb.getElement("S")
     isotopes = sulfur.getIsotopeDistribution()
     for iso in isotopes.getContainer():
         print ("Sulfur isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        sulfur_isoDist["mass"].append(iso.getMZ())
+        sulfur_isoDist["abundance"].append((iso.getIntensity() * 100))
 
 OpenMS can compute isotopic distributions for individual elements which contain
 information for all stable elements.  The current values in the file are
@@ -110,7 +117,64 @@ abundance:
 		Sulfur isotope 33.967867 has abundance 4.2899999767541885 %
 		Sulfur isotope 35.967081 has abundance 0.019999999494757503 %
 
+The isotope distribution of oxygen and sulfur can be displayed with the following extra code:
 
+.. code-block:: python
+
+    import math
+    from matplotlib import pyplot as plt
+
+    # very simple overlappping correction of annotations
+    def adjustText(x1, y1, x2, y2):
+        if y1 > y2:
+            plt.annotate('%0.3f' % (y2), xy=(x2, y2), xytext=(x2+0.5,y2+9),
+                         textcoords='data',
+                         arrowprops=dict(arrowstyle="->", color='r', lw=0.5),
+                         horizontalalignment='right', verticalalignment='top')
+        else:
+            plt.annotate('%0.3f' % (y1), xy=(x1, y1), xytext=(x1+0.5,y1+9),
+                         textcoords='data',
+                         arrowprops=dict(arrowstyle="->", color='r', lw=0.5),
+                         horizontalalignment='right', verticalalignment='top')
+
+
+    def plotDistribution(distribution):
+        n = len(distribution["mass"])
+        for i in range(0, n):
+            plt.vlines(x=distribution["mass"][i], ymin=0, ymax=distribution["abundance"][i])
+            if int(distribution["mass"][i - 1]) == int(distribution["mass"][i]) \
+                    and i != 0:
+                adjustText(distribution["mass"][i - 1], distribution["abundance"][i - 1],
+                           distribution["mass"][i], distribution["abundance"][i])
+            else:
+                plt.text(x=distribution["mass"][i],
+                         y=(distribution["abundance"][i] + 2),
+                         s='%0.3f' % (distribution["abundance"][i]), va='center',
+                         ha='center')
+        plt.ylim([0, 110])
+        plt.xticks(range(math.ceil(distribution["mass"][0]) - 2,
+                         math.ceil(distribution["mass"][-1]) + 2))
+                 
+                
+    plt.figure(figsize=(10,7))
+
+    plt.subplot(1,2,1)
+    plt.title("Isotopic distribution of oxygen")
+    plotDistribution(oxygen_isoDist)
+    plt.xlabel("Atomic mass (u)")
+    plt.ylabel("Relative abundance (%)")
+
+    plt.subplot(1,2,2)
+    plt.title("Isotopic distribution of sulfur")
+    plotDistribution(sulfur_isoDist)
+    plt.xlabel("Atomic mass (u)")
+    plt.ylabel("Relative abundance (%)")
+
+    plt.show()
+
+which produces
+
+.. image:: img/oxygen_sulfur_isoDistribution.png
 
 .. _Mass Defect Section:
 Mass Defect
@@ -229,12 +293,17 @@ algorithm [1]_ :
     methanol = EmpiricalFormula("CH3OH")
     ethanol = EmpiricalFormula("CH2") + methanol
 
+    methanol_isoDist = {"mass": [], "abundance": []}
+    ethanol_isoDist = {"mass": [], "abundance": []}
+
     print("Coarse Isotope Distribution:")
     isotopes = ethanol.getIsotopeDistribution( CoarseIsotopePatternGenerator(4) )
     prob_sum = sum([iso.getIntensity() for iso in isotopes.getContainer()])
     print("This covers", prob_sum, "probability")
     for iso in isotopes.getContainer():
         print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        methanol_isoDist["mass"].append(iso.getMZ())
+        methanol_isoDist["abundance"].append((iso.getIntensity() * 100))
 
     print("Fine Isotope Distribution:")
     isotopes = ethanol.getIsotopeDistribution( FineIsotopePatternGenerator(1e-3) )
@@ -242,6 +311,8 @@ algorithm [1]_ :
     print("This covers", prob_sum, "probability")
     for iso in isotopes.getContainer():
         print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        ethanol_isoDist["mass"].append(iso.getMZ())
+        ethanol_isoDist["abundance"].append((iso.getIntensity() * 100))
 
 which produces
 
@@ -260,6 +331,30 @@ which produces
     Isotope 47.0452201914 has abundance 2.110501006245613 %
     Isotope 47.0481419395 has abundance 0.06732848123647273 %
     Isotope 48.046119191399995 has abundance 0.20049810409545898 %
+
+Together with the plotDistribution() function from above and the extra code:
+
+.. code-block:: python
+    
+    plt.figure(figsize=(10,7))
+
+    plt.subplot(1,2,1)
+    plt.title("Isotopic distribution of methanol")
+    plotDistribution(methanol_isoDist)
+    plt.xlabel("Atomic mass (u)")
+    plt.ylabel("Relative abundance (%)")
+
+    plt.subplot(1,2,2)
+    plt.title("Isotopic distribution of ethanol")
+    plotDistribution(ethanol_isoDist)
+    plt.xlabel("Atomic mass (u)")
+    plt.ylabel("Relative abundance (%)")
+
+    plt.savefig("methanol_ethanol_isoDistribution.png")
+
+we can produce the following visualization
+
+.. image:: img/methanol_ethanol_isoDistribution.png
 
 
 The result calculated with the ``FineIsotopePatternGenerator``
