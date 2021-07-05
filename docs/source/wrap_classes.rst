@@ -54,8 +54,11 @@ Open it and add your new function *with the correct indentation*:
 - Public members are simply added with  ``Type member_name``
 - You can inject documentation that will be shown when calling ``help()`` in the function by adding ``wrap-doc:Your documentation`` as a comment after the function:
 
-  - Ex: ``void modifyWidget() nogil except + #wrap-doc:This changes your widget``
-
+  - Ex: ``void modifyWidget() nogil except + # wrap-doc:This changes your widget``
+  - Warning: For a single-line comment, there should not be a space between wrap-doc and the following comment.
+  - Note: The space between the hash and wrap-doc (# wrap-doc) is not necessary, but used for consistency.
+  - Note: Please start the comment with a caplital letter.
+  
 See the next section for a SimpleExample_ and a more AdvancedExample_ of a wrapped class with several functions.
 
 How to wrap new classes
@@ -83,8 +86,8 @@ to get you started. Start with the following structure:
           ClassName() nogil except +
           ClassName(ClassName) nogil except +
 
-          Int getValue() nogil except + #wrap-doc:Gets value (between 0 and 5)
-          void setValue(Int v) nogil except + #wrap-doc:Sets value (between 0 and 5)
+          Int getValue() nogil except + # wrap-doc:Gets value (between 0 and 5)
+          void setValue(Int v) nogil except + # wrap-doc:Sets value (between 0 and 5)
 
 
 - make sure to use ``ClassName:`` instead of ``ClassName(DefaultParamHandler):`` to
