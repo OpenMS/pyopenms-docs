@@ -81,6 +81,11 @@ jobs:
               
               mv wheelhouse/* $GITHUB_WORKSPACE/data/wheelhouse/
             popd
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: latest pyopenMS build
+        path: data/wheelhouse/        
     - name: Commit files
       run: |
         git config --local user.email "rahulagrawal799110@gmail.com"
