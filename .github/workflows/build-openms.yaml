@@ -3,7 +3,7 @@ name: Building latest pyopenms package
 on:
   # this runs on the develop branch
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '5 0 * 8 *'
 
 jobs:
 
@@ -21,7 +21,6 @@ jobs:
     - name: Clone OpsnMS
       run: |
         git clone https://github.com/OpenMS/OpenMS.git
-
     - name: Build on manylinux2014
       shell: bash
       run: |
@@ -96,3 +95,4 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: "master+ipynb"
+        force: true
