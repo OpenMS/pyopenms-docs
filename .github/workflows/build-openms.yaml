@@ -78,7 +78,6 @@ jobs:
               for whl in wheelhouse_tmp/pyopenms*.whl; do
                 auditwheel repair "$whl" -w wheelhouse/
               done
-              
               mv wheelhouse/* $GITHUB_WORKSPACE/data/wheelhouse/
             popd
     - name: Upload Artifact
@@ -97,4 +96,3 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: "master+ipynb"
-        force: true
