@@ -1,5 +1,5 @@
 
-name: Generating ipnb Notebooks
+name: Generating Jupyter Notebooks
 
 on:
   push:
@@ -33,7 +33,7 @@ jobs:
         pip install rst2ipynb
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         
-    - name: Installing System Dependenies
+    - name: Generating docs
       run: |
         cd docs/
         make doc
@@ -42,11 +42,10 @@ jobs:
       run: |
         git config --local user.email "rahulagrawal799110@gmail.com"
         git config --local user.name "rahul799"
-        git add .
+        git add docs/*
         git commit -m "ipynb notebooks generated" -a
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: "master+ipynb"
-        force: true
