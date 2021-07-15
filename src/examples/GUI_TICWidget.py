@@ -36,7 +36,7 @@ if __name__ == "__main__":
     exp = pyopenms.MSExperiment()
     pyopenms.MzMLFile().load("../data/190509_Ova_native_25ngul_R.mzML", exp)
     example_widget = TICWidget(ex)
-    example_widget.setTIC(exp.getTIC())
+    example_widget.setTIC(exp.calculateTIC())
     mouse_click_test = TestMouseClick()
     example_widget.sigRTClicked.connect(mouse_click_test.printRT)
     example_widget.sigSeleRTRegionChangeFinished.connect(

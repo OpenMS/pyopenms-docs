@@ -272,8 +272,8 @@ and generate a 2D graph using ``matplotlib``:
     MzMLFile().load("ms_data.mzML", exp)
     
     # choose one of the following three methods to access the TIC data
-    # 1) get TIC data with exp.getTIC() function
-    tic = exp.getTIC()
+    # 1) recalculate TIC data with the calculateTIC() function
+    tic = exp.calculateTIC()
     retention_times, intensities = tic.get_peaks()
 
     # 2) get TIC data using list comprehensions

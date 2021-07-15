@@ -153,7 +153,7 @@ class ControllerWidget(QWidget):
         return exp
 
     def drawTic(self, scans):
-        self.tic_widget.setTIC(scans.getTIC())
+        self.tic_widget.setTIC(scans.calculateTIC())
 
     def ticToTable(self, rt):
         # connect Tic info to table, and select specific row
