@@ -75,6 +75,7 @@ Note: the current documentation relates to the 2.6.0 release of pyOpenMS.
    parameter_handling
    algorithms
    smoothing
+   normalization
    mass_decomposition
    deisotoping
    feature_detection
