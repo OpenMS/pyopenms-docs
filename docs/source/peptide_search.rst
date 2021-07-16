@@ -135,6 +135,62 @@ As we can see, using a smaller precursor mass tolerance leads the algorithm to
 find only one hit instead of two. Similarly, if we use the wrong enzyme for
 the digestion (e.g. ``p[b'enzyme'] = "Formic_acid"``), we find no results.
 
+More detailed example
+*********************
+
+Now include some additional decoy database generation step as well as subsequent FDR filtering.
+
+.. code-block:: python
+
+    from urllib.request import urlretrieve
+    # from urllib import urlretrieve  # use this code for Python 2.x
+    from pyopenms import *
+    gh = "https://raw.githubusercontent.com/OpenMS/OpenMS/develop"
+    urlretrieve (gh +"/src/tests/topp/SimpleSearchEngine_1.mzML", "searchfile.mzML")
+    urlretrieve (gh +"/src/tests/topp/SimpleSearchEngine_1.fasta", "search.fasta")
+
+    # generate a protein database with additional decoy sequenes
+    targets = list()
+    decoys = list()
+    FASTAFile().load("search.fasta", targets) # read FASTA file into a list of FASTAEntrys
+    decoy_generator = DecoyGenerator()
+    for entry in targets:
+        rev_entry = FASTAEntry(entry) # copy entry
+        rev_entry.identifier = "DECOY_" + rev_entry.identifier # mark as decoy
+        aas = AASequence().fromString(rev_entry.sequence) # convert string into amino acid sequence
+        rev_entry.sequence = decoy_generator.reverseProtein(aas).toString() # reverse
+        decoys.append(rev_entry)
+
+    target_decoy_database = "search_td.fasta"
+    FASTAFile().store(target_decoy_database, targets + decoys) # store the database with appended decoy sequences
+
+    # Run SimpleSearchAlgorithm, store protein and peptide ids
+    protein_ids = []
+    peptide_ids = []
+
+    # set some custom search parameters
+    simplesearch = SimpleSearchEngineAlgorithm()
+    params = simplesearch.getDefaults()
+    score_annot = [b'fragment_mz_error_median_ppm', b'precursor_mz_error_ppm']
+    params.setValue(b'annotate:PSM', score_annot)
+    params.setValue(b'peptide:max_size', 30)
+    simplesearch.setParameters(params)
+
+    simplesearch.search(searchfile, target_decoy_database, protein_ids, peptide_ids)
+
+    # Annotate q-value
+    FalseDiscoveryRate().apply(peptide_ids)
+
+    # Filter by 1% PSM FDR (q-value < 0.01)
+    idfilter = IDFilter()
+    idfilter.filterHitsByScore(peptide_ids, 0.01)
+    idfilter.removeDecoyHits(peptide_ids)
+
+    # store PSM-FDR filtered 
+    IdXMLFile().store("searchfile_results_1perc_FDR.idXML", protein_ids, peptide_ids)
+
+
+
 .. image:: ./img/launch_binder.jpg
    :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/peptide_search.ipynb
    :alt: Launch Binder
