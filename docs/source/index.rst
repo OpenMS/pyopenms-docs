@@ -82,6 +82,7 @@ Note: the current documentation relates to the 2.6.0 release of pyOpenMS.
    peptide_search
    chromatographic_analysis
    metabolomics_targeted_feature_extraction
+   mzqc_export
 
 .. toctree::
    :maxdepth: 2
