@@ -2,7 +2,8 @@ Quality Control
 ===============
 
 With ``MzQCFile`` pyOpenMS provides a tool to export quality control data from an experiment to a mzQC file following the
-`HUPO-PSI specifications<https://github.com/HUPO-PSI/mzQC>`_. MzQC is a reporting and exchange format for mass spectrometry
+`HUPO-PSI specifications
+<https://github.com/HUPO-PSI/mzQC>`_. MzQC is a reporting and exchange format for mass spectrometry
 quality control data in JSON format.
 ``MzQCFile.store()`` requires, besides the ``input_file`` and ``output_file`` path, at least a ``MSExperiment``. Optionally, 
 a ``FeatureMap`` and/or lists of ``ProteinIdentification`` and ``PeptideIdentification`` can be provided to calculate additional
