@@ -1,9 +1,8 @@
-name: Building latest pyopenms package
+name: Building latest pyopenms package and generating jupyter Notebooks
 
 on:
-  # this runs on the develop branch
-  schedule:
-    - cron: '5 0 * 8 *'
+  push:
+    branches: [ master, merge-workflows ]
 
 jobs:
 
@@ -14,11 +13,40 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Installing System Dependenies
+      run: |
+        yum -y install epel-release
+        yum -y install pandoc --enablerepo=epel
+
+    - name: Install dependencies
+      run: |
+        pip3 install rst2ipynb
+        if [ -f requirements.txt ]; then pip3 install -r requirements.txt; fi
+
+    - name: Generating docs
+      run: |
+        cd docs/
+        make doc
+        
+    - name: Commit files
+      run: |
+        git config --local user.email "rahulagrawal799110@gmail.com"
+        git config --local user.name "rahul799"
+        git add docs/*
+        git commit -m "ipynb notebooks generated" -a
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: "master+ipynb"
+        force: true
+
     - name: Setup cmake
       uses: jwlawson/actions-setup-cmake@v1.9
       with:
         cmake-version: '3.20.x'
-    - name: Clone OpsnMS
+    - name: Clone OpenMS
       run: |
         git clone https://github.com/OpenMS/OpenMS.git
     - name: Build on manylinux2014
