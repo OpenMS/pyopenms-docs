@@ -83,8 +83,10 @@ to get you started. Start with the following structure:
           # wrap-inherits:
           #    DefaultParamHandler
 
+          # default constructor
           ClassName() nogil except +
-          ClassName(ClassName) nogil except +
+          # default copy constructor
+          ClassName(ClassName &) nogil except +
 
           Int getValue() nogil except + # wrap-doc:Gets value (between 0 and 5)
           void setValue(Int v) nogil except + # wrap-doc:Sets value (between 0 and 5)
@@ -96,19 +98,29 @@ to get you started. Start with the following structure:
 - always use ``cimport`` and not Python ``import``
 - always add default constructor AND copy constructor to the code (note that the C++
   compiler will add a default copy constructor to any class)
+  This will be wrapped as __copy__ and __deepcopy__ method in python:
+
+  .. code-block:: bash
+
+    def __copy__(self):
+     cdef ClassName rv = ClassName.__new__(ClassName)
+     rv.inst = shared_ptr[ClassName](new ClassName(deref(self.inst.get())))
+     return rv
+
+    def __deepcopy__(self, memo):
+       cdef ClassName rv = ClassName.__new__(ClassName)
+       rv.inst = shared_ptr[ClassName](new ClassName(deref(self.inst.get())))
+       return rv
+
+- Remember to include a copy constructor (even if none was declared in the C++
+  header file) since Cython will need it for certain operations. Otherwise you
+  might see error messages like ``item2.inst = shared_ptr[_ClassName](new _ClassName(deref(it_terms))) Call with wrong number of arguments``.
 - to expose a function to Python, copy the signature to your pxd file, e.g.
   ``DataValue getValue()`` and make sure you ``cimport`` all corresponding classes.
   Replace ``std::vector`` with the corresponding Cython vector, in this case
   ``libcpp_vector`` (see for example `PepXMLFile.pxd
   <https://github.com/OpenMS/OpenMS/blob/develop/src/pyOpenMS/pxds/PepXMLFile.pxd>`_)
-- Remember to include a copy constructor (even if none was declared in the C++
-  header file) since Cython will need it for certain operations. Otherwise you
-  might see error messages like ``item2.inst = shared_ptr[_ClassName](new _ClassName(deref(it_terms))) Call with wrong number of arguments``.
-- you can add documentation that will show up in the interactive Python documentation (using ``help()``) using the ``wreap-doc`` qualifier
-
-.. , so there is always
-  one if it is not declared, see http://www.cplusplus.com/articles/y8hv0pDG/ "The
-  implicit copy constructor does a member-wise copy of the source object.")
+- you can add documentation that will show up in the interactive Python documentation (using ``help()``) using the ``wrap-doc`` qualifier
 
 .. _AdvancedExample:
 
@@ -135,7 +147,7 @@ how to handle a templated class with template ``T`` and static methods:
           #   ClassNameY := ClassName[Y]
 
           ClassName() nogil except +
-          ClassName(ClassName[T]) nogil except + # wrap-ignore
+          ClassName(ClassName[T] &) nogil except + # wrap-ignore
 
           void method_name(int param1, double param2) nogil except +
           T method_returns_template_param() nogil except +
@@ -202,7 +214,7 @@ faults in the program.
           # wrap-hash:
           #   getFullId().c_str()
 
-          ClassName(ClassName[T]) nogil except + # wrap-ignore
+          ClassName(ClassName[T] &) nogil except + # wrap-ignore
 
           void method_name(int param1, double param2) nogil except +
 
@@ -278,7 +290,7 @@ Further considerations and limitations:
 
 - Iterators: some limitations apply, see MSExperiment.pxd for an example
 
-- copy-constructor becomes __copy__ in Python
+- copy-constructor becomes __copy__/__deepcopy__ in Python
 
 - shared pointers: is handled automatically, check DataAccessHelper using ``shared_ptr[Spectrum]``. Use ``from smart_ptr cimport shared_ptr`` as import statement
 
