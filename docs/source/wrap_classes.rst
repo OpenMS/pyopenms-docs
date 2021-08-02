@@ -85,7 +85,7 @@ to get you started. Start with the following structure:
 
           # default constructor
           ClassName() nogil except +
-          # default copy constructor
+          # copy constructor
           ClassName(ClassName &) nogil except +
 
           Int getValue() nogil except + # wrap-doc:Gets value (between 0 and 5)
@@ -93,11 +93,12 @@ to get you started. Start with the following structure:
 
 
 - make sure to use ``ClassName:`` instead of ``ClassName(DefaultParamHandler):`` to
-  wrap a class that does not inherit from another class and also remove the two
-  comments regarding inheritance below that line.
+  wrap a class that does not inherit from another class (e.g., DefaultParamHandler)
+  and also remove the two comments regarding inheritance below that line.
 - always use ``cimport`` and not Python ``import``
 - always add default constructor AND copy constructor to the code (note that the C++
-  compiler will add a default copy constructor to any class)
+  compiler will add a default copy constructor to any class even if not 
+  specified in the header)
   This will be wrapped as __copy__ and __deepcopy__ method in python:
 
   .. code-block:: bash
