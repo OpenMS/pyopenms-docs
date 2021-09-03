@@ -46,6 +46,7 @@ which produces all y single charged ions:
 which you could plot with:
 
 .. code-block:: python
+
     import matplotlib.pyplot as plt
     plt.bar(spec1.get_peaks()[0], spec1.get_peaks()[1], snap=False) # snap ensures that all bars are rendered
 
@@ -98,6 +99,13 @@ peaks), here we will just show the first few peaks:
         y2-H3N1++ is generated at m/z 144.07113725387103
         y2++ is generated at m/z 152.58441180172102
         [...]
+
+which you again can visualize with:
+
+.. code-block:: python
+
+    import matplotlib.pyplot as plt
+    plt.bar(spec2.get_peaks()[0], spec2.get_peaks()[1], snap=False) # snap ensures that all bars are rendered
 
 The first example shows how to put peaks of a certain type, y-ions in this case, into
 a spectrum. The second spectrum is filled with a complete fragment ion spectrum
