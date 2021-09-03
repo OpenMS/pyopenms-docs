@@ -43,6 +43,11 @@ which produces all y single charged ions:
     y7+ is generated at m/z 756.3998821574709
     y8+ is generated at m/z 903.4682964445709
 
+which you could plot with:
+
+.. code-block:: python
+    import matplotlib.pyplot as plt
+    plt.bar(spec1.get_peaks()[0], spec1.get_peaks()[1], snap=False) # snap ensures that all bars are rendered
 
 Full fragment ion spectrum
 **************************
