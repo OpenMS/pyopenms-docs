@@ -34,8 +34,7 @@ This will print search engine output including the number of peptides and
 proteins in the database and how many spectra were matched to peptides and
 proteins:
 
-.. code-block:: python
-
+::
     Peptide statistics
     
       unmatched                : 0 (0 %)
@@ -43,7 +42,7 @@ proteins:
         match to target DB only: 2 (100 %)
         match to decoy DB only : 0 (0 %)
         match to both          : 0 (0 %)
-    
+
 
 PSM inspection
 **************
