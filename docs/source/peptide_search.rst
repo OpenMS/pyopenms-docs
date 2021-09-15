@@ -37,7 +37,7 @@ proteins: ::
     
       unmatched                : 0 (0 %)
       target/decoy:
-        match to target DB only: 2 (100 %)
+        match to target DB only: 3 (100 %)
         match to decoy DB only : 0 (0 %)
         match to both          : 0 (0 %)
 
