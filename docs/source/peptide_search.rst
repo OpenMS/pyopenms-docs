@@ -145,14 +145,13 @@ Now include some additional decoy database generation step as well as subsequent
     from urllib.request import urlretrieve
     # from urllib import urlretrieve  # use this code for Python 2.x
     from pyopenms import *
-    gh = "https://raw.githubusercontent.com/OpenMS/OpenMS/develop"
-    urlretrieve (gh +"share/OpenMS/examples/BSA/BSA1.mzML", "searchfile.mzML")
-    urlretrieve (gh +"share/OpenMS/examples/TOPPAS/data/BSA_Identification/18Protein_SoCe_Tr_detergents_trace.fasta", "search.fasta")
+    searchfile = "../../data/BSA1.mzML"
+    searchdb = "../../data/18Protein_SoCe_Tr_detergents_trace.fasta"
 
     # generate a protein database with additional decoy sequenes
     targets = list()
     decoys = list()
-    FASTAFile().load("search.fasta", targets) # read FASTA file into a list of FASTAEntrys
+    FASTAFile().load(searchdb, targets) # read FASTA file into a list of FASTAEntrys
     decoy_generator = DecoyGenerator()
     for entry in targets:
         rev_entry = FASTAEntry(entry) # copy entry
@@ -176,7 +175,7 @@ Now include some additional decoy database generation step as well as subsequent
     params.setValue(b'peptide:max_size', 30)
     simplesearch.setParameters(params)
 
-    simplesearch.search("searchfile.mzML", target_decoy_database, protein_ids, peptide_ids)
+    simplesearch.search(searchfile, target_decoy_database, protein_ids, peptide_ids)
 
     # Annotate q-value
     FalseDiscoveryRate().apply(peptide_ids)
@@ -200,7 +199,7 @@ This is done by applying one of the available protein inference algorithms on th
     protein_ids = []
     peptide_ids = []
 
-    # Re-run search since we need to keep decoy hits
+    # Re-run search since we need to keep decoy hits for inference
     simplesearch.search(searchfile, target_decoy_database, protein_ids, peptide_ids)
 
     # Run inference
