@@ -77,6 +77,11 @@ We now set several of these properties in a current MSSpectrum:
     p.setCharge(4) # 4+ ion
     spectrum.setPrecursors( [p] )
 
+    # Add additional instrument settings (e.g. scan polarity)
+    InstrumentSettings = InstrumentSettings()
+    InstrumentSettings.setPolarity(IonSource.Polarity.POSITIVE)
+    spectrum.setInstrumentSettings(InstrumentSettings)
+
     # Add raw data to spectrum
     spectrum.set_peaks( ([401.5], [900]) )
 
@@ -101,17 +106,28 @@ We now set several of these properties in a current MSSpectrum:
 
     MzMLFile().store("testfile.mzML", exp)
 
+    # Check scan polarity
+    polarity = spectrum.getInstrumentSettings().getPolarity()
+    if (polarity == IonSource.Polarity.POSITIVE):
+      print("scan polarity: positive")
+    elif (polarity == IonSource.Polarity.NEGATIVE):
+      print("scan polarity: negative")
+
 We have created a single spectrum on line 3 and add meta information (drift
 time, retention time, MS level, precursor charge, isolation window and
-activation energy) on lines 4-13. We next add actual peaks into the spectrum (a
-single peak at 401.5 *m/z* and 900 intensity) on line 16 and on lines 19-26 add
-further meta information in the form of additional data arrays for each peak
-(e.g. one trace describes "Signal to Noise" for each peak and the second traces
-describes the "Peak annotation", identifying the peak at 401.5 *m/z* as a
-doubly charged y15 ion). Finally, we add the spectrum to a ``MSExperiment``
-container on lines 29-30 and store the container in using the ``MzMLFile``
-class in a file called "testfile.mzML" on line 37.  To ensure our viewer works
-as expected, we add a second spectrum to the file before storing the file.
+activation energy) on lines 4-13. In additon, we are able to add instrument
+settings (e.g. the polarity of the Ion source). We next add actual peaks
+into the spectrum (a single peak at 401.5 *m/z* and 900 intensity) on line 20
+and on lines 23-31 add further meta information in the form of additional
+data arrays for each peak (e.g. one trace describes "Signal to Noise" for each
+peak and the second traces describes the "Peak annotation", identifying the peak
+at 401.5 *m/z* as a doubly charged y15 ion). Finally, we add the spectrum to
+a ``MSExperiment`` container on lines 38-40 and store the container in using
+the ``MzMLFile`` class in a file called "testfile.mzML" on line 49. To ensure our
+viewer works as expected, we add a second spectrum to the file before storing the file.
+In some cases you might be intereset in the metadata prefiously added to a ``MSSpectrum``
+either by yourself or by loading a ``MzMLFile``. Line 44-49 show shot example on how to
+access and check the scan polarity.
 
 You can now open the resulting spectrum in a spectrum viewer. We use the OpenMS
 viewer ``TOPPView`` (which you will get when you install OpenMS from the
