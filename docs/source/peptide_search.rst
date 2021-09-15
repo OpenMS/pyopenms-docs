@@ -32,9 +32,7 @@ a fasta database of protein sequences:
 
 This will print search engine output including the number of peptides and
 proteins in the database and how many spectra were matched to peptides and
-proteins:
-
-::
+proteins: ::
     Peptide statistics
     
       unmatched                : 0 (0 %)
