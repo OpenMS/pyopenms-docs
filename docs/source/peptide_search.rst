@@ -146,8 +146,8 @@ Now include some additional decoy database generation step as well as subsequent
     # from urllib import urlretrieve  # use this code for Python 2.x
     from pyopenms import *
     gh = "https://raw.githubusercontent.com/OpenMS/OpenMS/develop"
-    urlretrieve (gh +"/src/tests/topp/SimpleSearchEngine_1.mzML", "searchfile.mzML")
-    urlretrieve (gh +"/src/tests/topp/SimpleSearchEngine_1.fasta", "search.fasta")
+    urlretrieve (gh +"share/OpenMS/examples/BSA/BSA1.mzML", "searchfile.mzML")
+    urlretrieve (gh +"share/OpenMS/examples/TOPPAS/data/BSA_Identification/18Protein_SoCe_Tr_detergents_trace.fasta", "search.fasta")
 
     # generate a protein database with additional decoy sequenes
     targets = list()
@@ -176,7 +176,7 @@ Now include some additional decoy database generation step as well as subsequent
     params.setValue(b'peptide:max_size', 30)
     simplesearch.setParameters(params)
 
-    simplesearch.search(searchfile, target_decoy_database, protein_ids, peptide_ids)
+    simplesearch.search("searchfile.mzML", target_decoy_database, protein_ids, peptide_ids)
 
     # Annotate q-value
     FalseDiscoveryRate().apply(peptide_ids)
@@ -189,7 +189,36 @@ Now include some additional decoy database generation step as well as subsequent
     # store PSM-FDR filtered 
     IdXMLFile().store("searchfile_results_1perc_FDR.idXML", protein_ids, peptide_ids)
 
+However, usually researchers are interested in the most confidently identified proteins.
+This so called _protein inference_ problem is a difficult problem because of often occurring shared/ambiguous peptides.
+To be able to calculate a target/decoy-based FDR on the protein level,
+we need to assign scores to proteins first (e.g. based on their observed peptides).
+This is done by applying one of the available protein inference algorithms on the peptide and protein IDs.
 
+.. code-block:: python
+
+    protein_ids = []
+    peptide_ids = []
+
+    # Re-run search since we need to keep decoy hits
+    simplesearch.search(searchfile, target_decoy_database, protein_ids, peptide_ids)
+
+    # Run inference
+    BasicProteinInferenceAlgorithm().run(peptide_ids, protein_ids)
+
+    # Annotate q-value on protein level
+    FalseDiscoveryRate().apply(protein_ids)
+
+    # Filter by 1% protein FDR (q-value < 0.01)
+    idfilter = IDFilter()
+    idfilter.filterHitsByScore(protein_ids, 0.01)
+    idfilter.removeDecoyHits(protein_ids)
+    # Restore valid references into the proteins
+    remove_peptides_without_reference = True
+    idfilter.updateProteinReferences(peptide_ids, protein_ids, remove_peptides_without_reference)
+
+    # store protein-FDR filtered 
+    IdXMLFile().store("searchfile_results_1perc_protFDR.idXML", protein_ids, peptide_ids)
 
 .. image:: ./img/launch_binder.jpg
    :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/peptide_search.ipynb
