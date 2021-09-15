@@ -189,7 +189,7 @@ Now include some additional decoy database generation step as well as subsequent
     IdXMLFile().store("searchfile_results_1perc_FDR.idXML", protein_ids, peptide_ids)
 
 However, usually researchers are interested in the most confidently identified proteins.
-This so called _protein inference_ problem is a difficult problem because of often occurring shared/ambiguous peptides.
+This so called *protein inference* problem is a difficult problem because of often occurring shared/ambiguous peptides.
 To be able to calculate a target/decoy-based FDR on the protein level,
 we need to assign scores to proteins first (e.g. based on their observed peptides).
 This is done by applying one of the available protein inference algorithms on the peptide and protein IDs.
