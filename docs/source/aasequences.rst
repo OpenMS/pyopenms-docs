@@ -8,17 +8,9 @@ Amino Acid Sequences
 
 The ``AASequence`` class handles amino acid sequences in OpenMS. A string of
 amino acid residues can be turned into a instance of ``AASequence`` to provide
-some commonly used operations and data. The implementation supports
-mathematical operations like addition or subtraction. Also, average and mono
-isotopic weight and isotope distributions are accessible.
+some commonly used operations like chemical formula, weight, and isotope distribution calculations.
 
-Weights, formulas and isotope distribution can be calculated depending on the
-charge state (additional proton count in case of positive ions) and ion type.
-Therefore, the class allows for a flexible handling of amino acid strings.
-
-A very simple example of handling amino acid sequence with AASequence is given
-in the next few lines, which also calculates the weight of the ``(M)`` and ``(M+2H)2+``
-ions.
+The example below shows how amino acid sequences can be created and how basic mass calculations are conducted.
 
 .. code-block:: python
     :linenos:
@@ -37,7 +29,7 @@ ions.
     # some mass calculations
     mfull = seq.getMonoWeight() # weight of M
     mprecursor = seq.getMonoWeight(Residue.ResidueType.Full, 2) # weight of M+2H
-    mz = seq.getMonoWeight(Residue.ResidueType.Full, 2) / 2.0 # m/z of M+2H
+    mz = seq.getMonoWeight(Residue.ResidueType.Full, 2) / 2.0 # m/z of [M+2H]2+
     
     print()
     print("Monoisotopic mass of peptide [M] is", mfull)
@@ -281,13 +273,13 @@ an influence on ``getMonoWeight()`` and ``getAverageWeight()``!
 Proteins
 ********
 
-Protein sequences can be accessed through the ``FASTAEntry`` object and can be
-read and stored on disk using a ``FASTAFile``:
+Protein sequences, can be loaded from and stored in FASTA protein databases using ``FASTAFile``.
+The example below shows how protein sequences can be stored in FASTA files and loaded back in pyOpenMS:
 
 .. code-block:: python
 
         from pyopenms import *
-        bsa = FASTAEntry()
+        bsa = FASTAEntry() # one entry in a FASTA file
         bsa.sequence = "MKWVTFISLLLLFSSAYSRGVFRRDTHKSEIAHRFKDLGE"
         bsa.description = "BSA Bovine Albumin (partial sequence)"
         bsa.identifier = "BSA"
