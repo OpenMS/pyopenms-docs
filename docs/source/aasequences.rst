@@ -1,6 +1,8 @@
 Peptides and Proteins
 =====================
 
+Sequences of amino acids form peptides and proteins.
+
 Amino Acid Sequences
 ********************
 
@@ -22,14 +24,17 @@ ions.
     :linenos:
 
     from pyopenms import *
-    seq = AASequence.fromString("DFPIANGER")
-    prefix = seq.getPrefix(4)
-    suffix = seq.getSuffix(5)
-    concat = seq + seq
+    seq = AASequence.fromString("DFPIANGER") # create AASequence object from string representation
+    prefix = seq.getPrefix(4) # extract prefix of length 4
+    suffix = seq.getSuffix(5) # extract suffix of length 5
+    concat = seq + seq # concatenate two sequences
 
+    # print string representation of sequences
     print(seq)
     print(concat)
     print(suffix)
+    
+    # some mass calculations
     mfull = seq.getMonoWeight() # weight of M
     mprecursor = seq.getMonoWeight(Residue.ResidueType.Full, 2) # weight of M+2H
     mz = seq.getMonoWeight(Residue.ResidueType.Full, 2) / 2.0 # m/z of M+2H
@@ -39,14 +44,15 @@ ions.
     print("Monoisotopic mass of peptide precursor [M+2H]2+ is", mprecursor)
     print("Monoisotopic m/z of [M+2H]2+ is", mz)
     
-Which prints the amino acid sequence on line 7 as well as the result of
-concatenating two sequences or taking the suffix of a sequence (lines 8 and 9).
-On line 10 we compute the mass of the full peptide (``[M]``), on line 11 we
-compute the mass of the peptide precursor (``[M+2H]2+``) while on line 12 we
-compute the ``m/z`` value of the peptide precursor (``[M+2H]2+``). The mass of
-the peptide precursor is shifted by two protons that are now attached to the
-molecules as charge carriers (note that the proton mass of 1.007276 u is
+Which prints the amino acid sequence as well as the result of
+concatenating two sequences or taking the suffix of a sequence.
+We then compute the mass of the full peptide (``[M]``), the mass of the 
+peptide precursor (``[M+2H]2+``) and ``m/z`` value of the 
+peptide precursor (``[M+2H]2+``). 
+Note that, the mass of the peptide precursor is shifted by two protons that are now attached to the
+molecules as charge carriers. (Detail: the proton mass of 1.007276 u is
 slightly different from the mass of an uncharged hydrogen atom at 1.007825 u).
+We can easily calculate the charged weight of a ``(M+2H)2+`` ion and compute *m/z* simply dividing by the charge.
 
 .. code-block:: python
 
@@ -87,14 +93,12 @@ Which will print
     Arginine : 174.1116764466
 
 
-Fragment ions
-~~~~~~~~~~~~~
+Molecular formula
+~~~~~~~~~~~~~~~~~
 
-Note how we can easily calculate the charged weight of a ``(M+2H)2+`` ion on line 11
-and compute *m/z* on line 12 -- simply dividing by the charge.
-We can now combine our knowledge of ``AASequence`` with what we learned above
+We can now combine our knowledge of ``AASequence`` with what we learned in
 about ``EmpiricalFormula`` to get accurate mass and isotope distributions from
-the amino acid sequence:
+the amino acid sequence. But first, let's get the formula of peptide:
 
 .. code-block:: python
     :linenos:
@@ -103,8 +107,10 @@ the amino acid sequence:
     seq = AASequence.fromString("DFPIANGER")
     seq_formula = seq.getFormula()
     print("Peptide", seq, "has molecular formula", seq_formula)
-    print("="*35)
 
+
+Isotope patterns
+~~~~~~~~~~~~~~~~
 
 We now want to print the coarse (e.g., peaks only at nominal masses) distribution.
 
@@ -116,7 +122,9 @@ We now want to print the coarse (e.g., peaks only at nominal masses) distributio
     for iso in coarse_isotopes.getContainer():
         print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
 
-If we calculate the isotopic fine structure we can reveal addtional peaks.
+For most applications in computational proteomics, the coarse isotope distribution is sufficient.
+But if we deal with very high resolution instruments, we still might want to calculate the isotopic fine structure. 
+We use the FineIsotopePatternGenerator in OpenMS to reveal these addtional peaks:
 
 .. code-block:: python
     :linenos:
@@ -127,7 +135,7 @@ If we calculate the isotopic fine structure we can reveal addtional peaks.
         print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
 
 
-And plot the very dimilar looking distributions.
+And plot the very similar looking distributions using standard matplotlib functionality:
 
 .. code-block:: python
     :linenos:
@@ -159,6 +167,11 @@ And plot the very dimilar looking distributions.
 
 .. image:: img/DFPIANGER_isoDistribution.png
 
+Fragment ions
+~~~~~~~~~~~~~
+
+We can easily calculate different ion types for amino acid sequences:
+
 .. code-block:: python
     :linenos:
 
@@ -182,13 +195,9 @@ Which will produce
     y3 mz: 181.09514385
     y3 molecular formula: C13H24N6O6
 
+Easy, isn't it? To generate full theoretical spectra watch out for the more specialized
+(and faster) TheoreticalSpectrumGenerator which we will take a look at later.
 
-Note on lines 15 to 17 we need to remember that we are dealing with an ion of
-the x/y/z series since we used a suffix of the original peptide and using any
-other ion type will produce a different mass-to-charge ratio (and while "GER"
-would also be a valid "x3" ion, note that it *cannot* be a valid ion from the
-a/b/c series and therefore the mass on line 17 cannot refer to the same input
-peptide "DFPIANGER" since its "b3" ion would be "DFP" and not "GER"). 
 
 Modified Sequences
 ******************
