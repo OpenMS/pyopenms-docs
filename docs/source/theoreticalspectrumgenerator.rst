@@ -51,7 +51,10 @@ which you could plot with:
     import matplotlib.pyplot as plt
     plt.bar(spec1.get_peaks()[0], spec1.get_peaks()[1], snap=False) # snap ensures that all bars are rendered
     plt.xlabel("m/z")
-    plt.ylabel("intensity")    
+    plt.ylabel("intensity")
+    
+.. image:: img/DFPIANGER_theo.png
+
 
 Full fragment ion spectrum
 **************************
