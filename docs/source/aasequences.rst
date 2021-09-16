@@ -105,9 +105,58 @@ the amino acid sequence:
     print("Peptide", seq, "has molecular formula", seq_formula)
     print("="*35)
 
-    isotopes = seq_formula.getIsotopeDistribution( CoarseIsotopePatternGenerator(6) )
-    for iso in isotopes.getContainer():
+
+.. code-block:: python
+    :linenos:
+
+    # print coarse isotope distribution
+    coarse_isotopes = seq_formula.getIsotopeDistribution( CoarseIsotopePatternGenerator(6) )
+    for iso in coarse_isotopes.getContainer():
       print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+
+
+.. code-block:: python
+    :linenos:
+
+    # print fine structure of isotope distribution
+    fine_isotopes = seq_formula.getIsotopeDistribution( FineIsotopePatternGenerator(0.01) )
+    for iso in fine_isotopes.getContainer():
+      print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+
+
+Plot the distributions.
+
+.. code-block:: python
+    :linenos:
+
+    import math
+    from matplotlib import pyplot as plt
+
+    def plotIsotopeDistribution(isotope_distribution, title="Isotope distribution"):
+        plt.title(title)
+        distribution = {"mass": [], "abundance": []}
+        for iso in isotope_distribution.getContainer():    
+            distribution["mass"].append(iso.getMZ())
+            distribution["abundance"].append(iso.getIntensity() * 100)
+
+        bars = plt.bar(distribution["mass"], distribution["abundance"], width=0.01, snap=False) # snap ensures that all bars are rendered
+
+        plt.ylim([0, 110])
+        plt.xticks(range(math.ceil(distribution["mass"][0]) - 2,
+                         math.ceil(distribution["mass"][-1]) + 2))
+        plt.xlabel("Atomic mass (u)")
+        plt.ylabel("Relative abundance (%)")
+
+    plt.figure(figsize=(10,7))
+    plt.subplot(1,2,1)
+    plotIsotopeDistribution(coarse_isotopes, "Isotope distribution - coarse")
+    plt.subplot(1,2,2)
+    plotIsotopeDistribution(fine_isotopes, "Isotope distribution - fine structure")
+    plt.show()
+
+
+.. code-block:: python
+    :linenos:
 
     suffix = seq.getSuffix(3) # y3 ion "GER"
     print("="*35)
@@ -124,14 +173,6 @@ Which will produce
 
 .. code-block:: python
 
-    Peptide DFPIANGER has molecular formula C44H67N13O15
-    ===================================
-    Isotope 1017.4879641373 has abundance 56.81651830673218 %
-    Isotope 1018.4913189751 has abundance 30.52912950515747 %
-    Isotope 1019.4946738129 has abundance 9.802105277776718 %
-    Isotope 1020.4980286507 has abundance 2.3292064666748047 %
-    Isotope 1021.5013834885 has abundance 0.4492596257477999 %
-    Isotope 1022.5047383263 has abundance 0.07378293084912002 %
     ===================================
     y3 ion sequence: GER
     y3 mz: 181.09514385
