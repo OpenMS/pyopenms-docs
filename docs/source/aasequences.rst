@@ -106,6 +106,7 @@ the amino acid sequence:
     print("="*35)
 
 
+We now want to print the coarse (e.g., peaks only at nominal masses) distribution.
 .. code-block:: python
     :linenos:
 
@@ -114,17 +115,18 @@ the amino acid sequence:
     for iso in coarse_isotopes.getContainer():
       print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
 
+If we calculate the isotopic fine structure we can reveal addtional peaks.
 
 .. code-block:: python
     :linenos:
 
     # print fine structure of isotope distribution
-    fine_isotopes = seq_formula.getIsotopeDistribution( FineIsotopePatternGenerator(0.01) )
+    fine_isotopes = seq_formula.getIsotopeDistribution( FineIsotopePatternGenerator(0.01) ) # max 0.01 unexplained probability
     for iso in fine_isotopes.getContainer():
       print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
 
 
-Plot the distributions.
+And plot the very dimilar looking distributions.
 
 .. code-block:: python
     :linenos:
@@ -154,6 +156,7 @@ Plot the distributions.
     plotIsotopeDistribution(fine_isotopes, "Isotope distribution - fine structure")
     plt.show()
 
+.. image:: img/DFPIANGER_isoDistribution.png
 
 .. code-block:: python
     :linenos:
