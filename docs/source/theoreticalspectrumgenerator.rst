@@ -1,14 +1,15 @@
 TheoreticalSpectrumGenerator
 ============================
 
-This class implements a simple generator which generates tandem MS spectra from
-a given peptide charge combination. There are various options which influence
-the occurring ions and their intensities.
+Generating theoretical fragment spectra is central to many identification tasks in computational mass spectrometry.
+TheoreticalSpectrumGenerator can be configured to generate tandem MS spectra from
+a given peptide charge combination. There are various parameters which influence
+the generated ions e.g. simulating different fragmentation techniques.
 
 Y-ion spectrum
 **************
 
-First, we will generate a simple spectrum that only contains y ions
+First, we will generate a simple spectrum that only contains y-ions
 
 .. code-block:: python
 
@@ -22,7 +23,7 @@ First, we will generate a simple spectrum that only contains y ions
     p.setValue("add_b_ions", "false")
     p.setValue("add_metainfo", "true")
     tsg.setParameters(p)
-    tsg.getSpectrum(spec1, peptide, 1, 1)
+    tsg.getSpectrum(spec1, peptide, 1, 1) # charge range 1:1
 
     # Iterate over annotated ions and their masses
     print("Spectrum 1 of", peptide, "has", spec1.size(), "peaks.")
@@ -54,7 +55,7 @@ Full fragment ion spectrum
 **************************
 
 We can also produce additional peaks in the fragment ion spectrum, such as
-isotopic peaks, higher charge states, additional ion series or common neutral
+isotopic peaks, precursor peals, ions from higher charge states, additional ion series, or common neutral
 losses:
 
 .. code-block:: python
