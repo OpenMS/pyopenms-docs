@@ -50,6 +50,8 @@ which you could plot with:
 
     import matplotlib.pyplot as plt
     plt.bar(spec1.get_peaks()[0], spec1.get_peaks()[1], snap=False) # snap ensures that all bars are rendered
+    plt.xlabel("m/z")
+    plt.ylabel("intensity")    
 
 Full fragment ion spectrum
 **************************
@@ -107,6 +109,8 @@ which you again can visualize with:
 
     import matplotlib.pyplot as plt
     plt.bar(spec2.get_peaks()[0], spec2.get_peaks()[1], snap=False) # snap ensures that all bars are rendered
+    plt.xlabel("m/z")
+    plt.ylabel("intensity")    
 
 The first example shows how to put peaks of a certain type, y-ions in this case, into
 a spectrum. The second spectrum is filled with a complete fragment ion spectrum
