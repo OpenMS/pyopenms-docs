@@ -113,7 +113,9 @@ which you again can visualize with:
     import matplotlib.pyplot as plt
     plt.bar(spec2.get_peaks()[0], spec2.get_peaks()[1], snap=False) # snap ensures that all bars are rendered
     plt.xlabel("m/z")
-    plt.ylabel("intensity")    
+    plt.ylabel("intensity")
+
+.. image:: img/DFPIANGER_theo_full.png
 
 The first example shows how to put peaks of a certain type, y-ions in this case, into
 a spectrum. The second spectrum is filled with a complete fragment ion spectrum
