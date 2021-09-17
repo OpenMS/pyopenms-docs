@@ -276,8 +276,8 @@ objects to an EmpiricalFormula using ``getFormula()``, as tags will not be
 considered in this case (there exists no formula for them). However, they have
 an influence on ``getMonoWeight()`` and ``getAverageWeight()``! 
 
-Proteins
-********
+Proteins and FASTA files
+************************
 
 Protein sequences, can be loaded from and stored in FASTA protein databases using ``FASTAFile``.
 The example below shows how protein sequences can be stored in FASTA files and loaded back in pyOpenMS:
