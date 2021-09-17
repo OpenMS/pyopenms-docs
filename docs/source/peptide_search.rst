@@ -1,5 +1,5 @@
-Peptide Search 
-=============
+Peptide Search
+==============
 
 In MS-based proteomics, fragment ion spectra (MS2 spectra) are often
 interpreted by comparing them against a theoretical set of spectra generated
