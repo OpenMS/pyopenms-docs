@@ -22,9 +22,10 @@ The example below shows how amino acid sequences can be created and how basic ma
     concat = seq + seq # concatenate two sequences
 
     # print string representation of sequences
-    print(seq)
-    print(concat)
-    print(suffix)
+    print("Sequence:", seq)
+    print("Prefix:", prefix)
+    print("Suffix:", suffix)
+    print("Concatenated:", concat)
     
     # some mass calculations
     mfull = seq.getMonoWeight() # weight of M
@@ -52,9 +53,10 @@ We can easily calculate the charged weight of a ``(M+2H)2+`` ion and compute *m/
 
 .. code-block:: python
 
-    DFPIANGER
-    DFPIANGERDFPIANGER
-    ANGER
+    Sequence: DFPIANGER
+    Prefix: DFPI
+    Suffix: ANGER
+    Concatenated: DFPIANGERDFPIANGER
 
     Monoisotopic mass of peptide [M] is 1017.4879641373001
     Monoisotopic mass of peptide precursor [M+2H]2+ is 1019.5025170708421
