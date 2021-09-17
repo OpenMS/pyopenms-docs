@@ -32,7 +32,8 @@ a fasta database of protein sequences:
 
 This will print search engine output including the number of peptides and
 proteins in the database and how many spectra were matched to peptides and
-proteins: ::
+proteins:
+::
     Peptide statistics
     
       unmatched                : 0 (0 %)
@@ -142,8 +143,8 @@ Now include some additional decoy database generation step as well as subsequent
     from urllib.request import urlretrieve
     # from urllib import urlretrieve  # use this code for Python 2.x
     from pyopenms import *
-    searchfile = "../../data/BSA1.mzML"
-    searchdb = "../../data/18Protein_SoCe_Tr_detergents_trace.fasta"
+    searchfile = "../../src/data/BSA1.mzML"
+    searchdb = "../../src/data/18Protein_SoCe_Tr_detergents_trace.fasta"
 
     # generate a protein database with additional decoy sequenes
     targets = list()
