@@ -170,6 +170,8 @@ Iteration
     for spec in exp:
       print ("MS Level:", spec.getMSLevel())
 
+.. code-block:: python
+
     MS Level: 1
     MS Level: 2
     MS Level: 1
