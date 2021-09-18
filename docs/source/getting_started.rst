@@ -111,11 +111,12 @@ example file <http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzM
 
 .. code-block:: python
 
-    from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     from pyopenms import *
+    from urllib.request import urlretrieve
+    # download small example file
     urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML", "tiny.pwiz.1.1.mzML")
     exp = MSExperiment()
+    # load example file
     MzMLFile().load("tiny.pwiz.1.1.mzML", exp)
 
 which will load the content of the "tiny.pwiz.1.1.mzML" file into the ``exp``
