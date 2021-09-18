@@ -77,11 +77,6 @@ We now set several of these properties in a current MSSpectrum:
     p.setCharge(4) # 4+ ion
     spectrum.setPrecursors( [p] )
 
-    # Add additional instrument settings (e.g. scan polarity)
-    InstrumentSettings = InstrumentSettings()
-    InstrumentSettings.setPolarity(IonSource.Polarity.POSITIVE)
-    spectrum.setInstrumentSettings(InstrumentSettings)
-
     # Add raw data to spectrum
     spectrum.set_peaks( ([401.5], [900]) )
 
@@ -106,7 +101,13 @@ We now set several of these properties in a current MSSpectrum:
 
     MzMLFile().store("testfile.mzML", exp)
 
-    # Check scan polarity
+
+    # set additional instrument settings (e.g. scan polarity)
+    InstrumentSettings = InstrumentSettings()
+    InstrumentSettings.setPolarity(IonSource.Polarity.POSITIVE)
+    spectrum.setInstrumentSettings(InstrumentSettings)
+    
+    # get and check scan polarity
     polarity = spectrum.getInstrumentSettings().getPolarity()
     if (polarity == IonSource.Polarity.POSITIVE):
       print("scan polarity: positive")
