@@ -23,9 +23,9 @@ a fasta database of protein sequences:
     from urllib.request import urlretrieve
     # from urllib import urlretrieve  # use this code for Python 2.x
     from pyopenms import *
-    gh = "https://raw.githubusercontent.com/OpenMS/OpenMS/develop"
-    urlretrieve (gh +"/src/tests/topp/SimpleSearchEngine_1.mzML", "searchfile.mzML")
-    urlretrieve (gh +"/src/tests/topp/SimpleSearchEngine_1.fasta", "search.fasta")
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    urlretrieve (gh +"/src/data/SimpleSearchEngine_1.mzML", "searchfile.mzML")
+    urlretrieve (gh +"/src/data/SimpleSearchEngine_1.fasta", "search.fasta")
     protein_ids = []
     peptide_ids = []
     SimpleSearchEngineAlgorithm().search("searchfile.mzML", "search.fasta", protein_ids, peptide_ids) 

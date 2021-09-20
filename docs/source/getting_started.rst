@@ -107,19 +107,20 @@ File reading
 
 pyOpenMS supports a variety of different files through the implementations in
 OpenMS. In order to read mass spectrometric data, we can download the `mzML
-example file <http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML>`_
+example file:
 
 .. code-block:: python
 
     from pyopenms import *
     from urllib.request import urlretrieve
     # download small example file
-    urlretrieve ("http://proteowizard.sourceforge.net/example_data/tiny.pwiz.1.1.mzML", "tiny.pwiz.1.1.mzML")
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    urlretrieve (gh + "/src/data/tiny.mzML", "tiny.mzML")
     exp = MSExperiment()
     # load example file
-    MzMLFile().load("tiny.pwiz.1.1.mzML", exp)
+    MzMLFile().load("tiny.mzML", exp)
 
-which will load the content of the "tiny.pwiz.1.1.mzML" file into the ``exp``
+which will load the content of the "tiny.mzML" file into the ``exp``
 variable of type ``MSExperiment``.
 We can now inspect the properties of this object:
 
@@ -265,9 +266,8 @@ and generate a 2D graph using ``matplotlib``:
     from urllib.request import urlretrieve
 
     # retrieve MS data
-    gh = 'https://raw.githubusercontent.com/OpenMS/OpenMS/develop'
-    urlretrieve (gh+'/src/tests/topp/FeatureFinderMetaboIdent_1_input.mzML',
-                'ms_data.mzML')
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML", "ms_data.mzML")
     
     # load MS data into MSExperiment()
     exp = MSExperiment()

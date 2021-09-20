@@ -11,7 +11,8 @@ OpenMS has classes for proteolytic digestion which can be used as follows:
     from pyopenms import *
     from urllib.request import urlretrieve
     # from urllib import urlretrieve  # use this code for Python 2.x
-    urlretrieve ("http://www.uniprot.org/uniprot/P02769.fasta", "bsa.fasta")
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    urlretrieve (gh + "/src/data/P02769.fasta", "bsa.fasta")
 
     dig = ProteaseDigestion()
     dig.getEnzymeName() # Trypsin
@@ -48,7 +49,8 @@ cut our protein of interest:
     from pyopenms import *
     from urllib.request import urlretrieve
     # from urllib import urlretrieve  # use this code for Python 2.x
-    urlretrieve ("http://www.uniprot.org/uniprot/P02769.fasta", "bsa.fasta")
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    urlretrieve (gh + "/src/data/P02769.fasta", "bsa.fasta")
 
     dig = ProteaseDigestion()
     dig.setEnzyme('Lys-C')

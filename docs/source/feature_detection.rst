@@ -29,8 +29,8 @@ in MS data:
 
   from urllib.request import urlretrieve
   # from urllib import urlretrieve  # use this code for Python 2.x
-  gh = "https://raw.githubusercontent.com/OpenMS/OpenMS/develop"
-  urlretrieve (gh +"/src/tests/topp/FeatureFinderCentroided_1_input.mzML", "feature_test.mzML")
+  gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+  urlretrieve (gh +"/src/data/FeatureFinderCentroided_1_input.mzML", "feature_test.mzML")
 
   from pyopenms import *
 
