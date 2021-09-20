@@ -356,11 +356,7 @@ is highly analogous to the ``MSSpectrum`` container, but contains an array of
     # Access a peak by index
     print(chromatogram[2].getRT(), chromatogram[2].getIntensity())
 
-We now again add meta information to the chromatogram:
-
-.. code-block:: python
-    :linenos:
-
+    # We now again add meta information to the chromatogram:
     chromatogram.setNativeID("Trace XIC@405.2")
 
     # Store a precursor ion for the chromatogram
@@ -384,6 +380,18 @@ We now again add meta information to the chromatogram:
     exp.addChromatogram(chromatogram)
     MzMLFile().store("testfile3.mzML", exp)
 
+    # We can also visualize the resulting data using ``matplotlib``
+    import matplotlib.pyplot as plt
+
+    for chrom in exp.getChromatograms():
+        retention_times, intensities = chrom.get_peaks()
+        plt.plot(retention_times, intensities, label = chrom.getNativeID())
+
+    plt.xlabel('time (s)')
+    plt.ylabel('intensity (cps)')
+    plt.legend()
+    plt.show()
+
 This shows how the ``MSExperiment`` class can hold spectra as well as chromatograms.
 
 Again we can visualize the resulting data using ``TOPPView`` using its chromatographic viewer
@@ -396,20 +404,6 @@ chromatogram is displayed in the viewer.
 
 We can also visualize the resulting data using ``matplotlib``. Here we can plot every
 chromatogram in our ``MSExperiment`` and label it with it's native ID.
-
-.. code-block:: python
-    :linenos:
-
-    import matplotlib.pyplot as plt
-
-    for chrom in exp.getChromatograms():
-        retention_times, intensities = chrom.get_peaks()
-        plt.plot(retention_times, intensities, label = chrom.getNativeID())
-
-    plt.xlabel('time (s)')
-    plt.ylabel('intensity (cps)')
-    plt.legend()
-    plt.show()
 
 .. image:: img/ChromPlot.png
 
