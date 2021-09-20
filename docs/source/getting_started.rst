@@ -267,7 +267,7 @@ and generate a 2D graph using ``matplotlib``:
 
     # retrieve MS data
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
-    urlretrieve (gh + "/src/data//FeatureFinderMetaboIdent_1_input.mzML", "ms_data.mzML")
+    urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML", "ms_data.mzML")
     
     # load MS data into MSExperiment()
     exp = MSExperiment()
