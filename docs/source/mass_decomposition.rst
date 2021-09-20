@@ -113,7 +113,7 @@ produce 80 463 results while for a ``0.001`` tolerance, only 911 results are
 expected.
 
 Spectrum Tagger
-**************
+***************
 
 .. code-block:: python
     :linenos:

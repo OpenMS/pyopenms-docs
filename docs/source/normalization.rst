@@ -1,5 +1,5 @@
 Spectrum normalization 
-==========
+======================
 
 Another very basic spectrum processing step is normalization by base peak intensity (=the maximum intensity of a spectrum).
 
