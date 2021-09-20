@@ -50,9 +50,9 @@ Now we can use the following code to detect features with ``FeatureFinderAlgorit
 
   from urllib.request import urlretrieve
 
-  gh = "https://raw.githubusercontent.com/OpenMS/OpenMS/develop"
-  urlretrieve (gh +"/src/tests/topp/FeatureFinderMetaboIdent_1_input.mzML", "ms_data.mzML")
-  urlretrieve (gh +"/src/tests/topp/FeatureFinderMetaboIdent_1_input.tsv", "library.tsv")
+  gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+  urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML", "ms_data.mzML")
+  urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_input.tsv", "library.tsv")
 
   from pyopenms import *
 

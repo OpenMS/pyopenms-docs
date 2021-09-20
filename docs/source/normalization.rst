@@ -7,8 +7,8 @@ Another very basic spectrum processing step is normalization by base peak intens
 
   from urllib.request import urlretrieve
   from pyopenms import *
-  gh = "https://raw.githubusercontent.com/OpenMS/OpenMS/develop"
-  urlretrieve (gh +"/share/OpenMS/examples/peakpicker_tutorial_1_baseline_filtered.mzML", "tutorial.mzML")
+  gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+  urlretrieve (gh + "/src/data/peakpicker_tutorial_1_baseline_filtered.mzML", "tutorial.mzML")
 
   exp = MSExperiment()
   normalizer = Normalizer()

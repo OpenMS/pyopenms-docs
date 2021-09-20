@@ -98,8 +98,8 @@ state:
 
     from urllib.request import urlretrieve
     # from urllib import urlretrieve  # use this code for Python 2.x
-    gh = "https://raw.githubusercontent.com/OpenMS/OpenMS/develop"
-    urlretrieve (gh +"/share/OpenMS/examples/BSA/BSA1.mzML", "BSA1.mzML")
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    urlretrieve (gh + "/src/data/BSA1.mzML", "BSA1.mzML")
 
     from pyopenms import *
 
