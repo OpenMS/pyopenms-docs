@@ -55,6 +55,22 @@ which you could plot with:
     
 .. image:: img/DFPIANGER_theo.png
 
+or also add ion names
+
+.. code-block:: python
+
+    mz,i = spec1.get_peaks()
+    annot = spec1.getStringDataArrays()[0]
+    bars = plt.bar(mz, i, snap=False) # snap ensures that all bars are rendered
+    idx = 0
+    for rect in bars:
+        height = rect.get_height()
+        plt.text(rect.get_x() + rect.get_width() / 2.0, height, annot[idx].decode(), ha='center', va='bottom', rotation=90)
+        idx += 1
+    plt.ylim(top=1.2)
+    plt.xlabel("m/z")
+    plt.ylabel("intensity")
+
 
 Full fragment ion spectrum
 **************************
