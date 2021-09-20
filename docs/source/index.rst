@@ -90,7 +90,6 @@ Note: the current documentation relates to the 2.7.0 release of pyOpenMS.
    
    mzMLFileFormat
 
-
 .. toctree::
    :maxdepth: 2
    :caption: R language

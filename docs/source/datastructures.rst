@@ -171,6 +171,101 @@ We can also visualize our spectrum with ``matplotlib`` using the following funct
 
 .. image:: img/SpectrumPlot.png
 
+Chromatogram
+************
+
+An additional container for raw data is the ``MSChromatogram`` container, which
+is highly analogous to the ``MSSpectrum`` container, but contains an array of
+``ChromatogramPeak`` and is derived from ``ChromatogramSettings``:
+
+.. code-block:: python
+    :linenos:
+
+    from pyopenms import *
+    import numpy as np
+
+    def gaussian(x, mu, sig):
+        return np.exp(-np.power(x - mu, 2.) / (2 * np.power(sig, 2.)))
+
+    # Create new chromatogram 
+    chromatogram = MSChromatogram()
+
+    # Set raw data (RT and intensity)
+    rt = range(1500, 500, -100)
+    i = [gaussian(rtime, 1000, 150) for rtime in rt]
+    chromatogram.set_peaks([rt, i])
+
+    # Sort the peaks according to ascending retention time
+    chromatogram.sortByPosition()
+
+    # Iterate over chromatogram of those peaks
+    for p in chromatogram:
+        print(p.getRT(), p.getIntensity())
+
+    # More efficient peak access with get_peaks()
+    for rt, i in zip(*chromatogram.get_peaks()):
+        print(rt, i)
+
+    # Access a peak by index
+    print(chromatogram[2].getRT(), chromatogram[2].getIntensity())
+
+We now again add meta information to the chromatogram:
+
+.. code-block:: python
+    :linenos:
+
+    chromatogram.setNativeID("Trace XIC@405.2")
+
+    # Store a precursor ion for the chromatogram
+    p = Precursor()
+    p.setIsolationWindowLowerOffset(1.5)
+    p.setIsolationWindowUpperOffset(1.5) 
+    p.setMZ(405.2) # isolation at 405.2 +/- 1.5 Th
+    p.setActivationEnergy(40) # 40 eV
+    p.setCharge(2) # 2+ ion
+    p.setMetaValue("description", chromatogram.getNativeID())
+    p.setMetaValue("peptide_sequence", chromatogram.getNativeID())
+    chromatogram.setPrecursor(p)
+
+    # Also store a product ion for the chromatogram (e.g. for SRM)
+    p = Product()
+    p.setMZ(603.4) # transition from 405.2 -> 603.4
+    chromatogram.setProduct(p)
+
+    # Store as mzML
+    exp = MSExperiment()
+    exp.addChromatogram(chromatogram)
+    MzMLFile().store("testfile3.mzML", exp)
+
+This shows how the ``MSExperiment`` class can hold spectra as well as chromatograms.
+
+Again we can visualize the resulting data using ``TOPPView`` using its chromatographic viewer
+capability, which shows the peak over retention time:
+
+.. image:: img/chromatogram1.png
+
+Note how the annotation using precursor and production mass of our XIC
+chromatogram is displayed in the viewer.
+
+We can also visualize the resulting data using ``matplotlib``. Here we can plot every
+chromatogram in our ``MSExperiment`` and label it with it's native ID.
+
+.. code-block:: python
+    :linenos:
+
+    import matplotlib.pyplot as plt
+
+    for chrom in exp.getChromatograms():
+        retention_times, intensities = chrom.get_peaks()
+        plt.plot(retention_times, intensities, label = chrom.getNativeID())
+
+    plt.xlabel('time (s)')
+    plt.ylabel('intensity (cps)')
+    plt.legend()
+    plt.show()
+
+.. image:: img/ChromPlot.png
+
 LC-MS/MS Experiment
 *******************
 
@@ -318,102 +413,6 @@ This can be useful for a brief visual inspection of your sample in quality contr
 
 .. image:: img/Spectra2DOverview.png
 
-Chromatogram
-************
-
-An additional container for raw data is the ``MSChromatogram`` container, which
-is highly analogous to the ``MSSpectrum`` container, but contains an array of
-``ChromatogramPeak`` and is derived from ``ChromatogramSettings``:
-
-.. code-block:: python
-    :linenos:
-
-    from pyopenms import *
-    import numpy as np
-
-    def gaussian(x, mu, sig):
-        return np.exp(-np.power(x - mu, 2.) / (2 * np.power(sig, 2.)))
-
-    # Create new chromatogram 
-    chromatogram = MSChromatogram()
-
-    # Set raw data (RT and intensity)
-    rt = range(1500, 500, -100)
-    i = [gaussian(rtime, 1000, 150) for rtime in rt]
-    chromatogram.set_peaks([rt, i])
-
-    # Sort the peaks according to ascending retention time
-    chromatogram.sortByPosition()
-
-    # Iterate over chromatogram of those peaks
-    for p in chromatogram:
-        print(p.getRT(), p.getIntensity())
-
-    # More efficient peak access with get_peaks()
-    for rt, i in zip(*chromatogram.get_peaks()):
-        print(rt, i)
-
-    # Access a peak by index
-    print(chromatogram[2].getRT(), chromatogram[2].getIntensity())
-
-We now again add meta information to the chromatogram:
-
-.. code-block:: python
-    :linenos:
-
-    chromatogram.setNativeID("Trace XIC@405.2")
-
-    # Store a precursor ion for the chromatogram
-    p = Precursor()
-    p.setIsolationWindowLowerOffset(1.5)
-    p.setIsolationWindowUpperOffset(1.5) 
-    p.setMZ(405.2) # isolation at 405.2 +/- 1.5 Th
-    p.setActivationEnergy(40) # 40 eV
-    p.setCharge(2) # 2+ ion
-    p.setMetaValue("description", chromatogram.getNativeID())
-    p.setMetaValue("peptide_sequence", chromatogram.getNativeID())
-    chromatogram.setPrecursor(p)
-
-    # Also store a product ion for the chromatogram (e.g. for SRM)
-    p = Product()
-    p.setMZ(603.4) # transition from 405.2 -> 603.4
-    chromatogram.setProduct(p)
-
-    # Store as mzML
-    exp = MSExperiment()
-    exp.addChromatogram(chromatogram)
-    MzMLFile().store("testfile3.mzML", exp)
-
-This shows how the ``MSExperiment`` class can hold spectra as well as chromatograms.
-
-Again we can visualize the resulting data using ``TOPPView`` using its chromatographic viewer
-capability, which shows the peak over retention time:
-
-.. image:: img/chromatogram1.png
-
-Note how the annotation using precursor and production mass of our XIC
-chromatogram is displayed in the viewer.
-
-We can also visualize the resulting data using ``matplotlib``. Here we can plot every
-chromatogram in our ``MSExperiment`` and label it with it's native ID.
-
-.. code-block:: python
-    :linenos:
-
-    import matplotlib.pyplot as plt
-
-    for chrom in exp.getChromatograms():
-        retention_times, intensities = chrom.get_peaks()
-        plt.plot(retention_times, intensities, label = chrom.getNativeID())
-
-    plt.xlabel('time (s)')
-    plt.ylabel('intensity (cps)')
-    plt.legend()
-    plt.show()
-
-.. image:: img/ChromPlot.png
-
 .. image:: ./img/launch_binder.jpg
    :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/datastructures.ipynb
    :alt: Launch Binder
-
