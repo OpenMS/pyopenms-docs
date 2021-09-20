@@ -218,16 +218,17 @@ slower):
 TIC calculation
 ^^^^^^^^^^^^^^^
 
-Here, we will apply what we have learned to calculate the total ion current. 
+Here, we will apply what we have learned to calculate the total ion chromatogram (TIC). The TIC is a 
+chromatogram created by summing up intensities of all mass spectral peaks belonging to the same ms run.
 While some mzML files already contain a pre-computed TIC, we will show you how to calculate the TIC for MS1
 and MS2 spectra separately (generally only MS1 TIC is provided).
 
 With this information, we can write a function that calculates the total ion
-current (TIC) for a given ms level: 
+chromatogram (TIC) for a given ms level: 
 
 .. code-block:: python
 
-    # Calculates total ion current of an LC-MS/MS experiment
+    # Calculates total ion chromatogram of an LC-MS/MS experiment
     def calcTIC(exp, mslevel):
         tic = 0
         # Iterate through all spectra of the experiment
