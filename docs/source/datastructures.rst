@@ -209,8 +209,7 @@ is highly analogous to the ``MSSpectrum`` container, but contains an array of
     # Access a peak by index
     print(chromatogram[2].getRT(), chromatogram[2].getIntensity())
 
-    # Add meta information to the chromatogram:
-
+    # Add meta information to the chromatogram
     chromatogram.setNativeID("Trace XIC@405.2")
 
     # Store a precursor ion for the chromatogram
@@ -234,7 +233,7 @@ is highly analogous to the ``MSSpectrum`` container, but contains an array of
     exp.addChromatogram(chromatogram)
     MzMLFile().store("testfile3.mzML", exp)
 
-    # Visualize the resulting data using ``matplotlib``
+    # Visualize the resulting data using matplotlib
     import matplotlib.pyplot as plt
 
     for chrom in exp.getChromatograms():
