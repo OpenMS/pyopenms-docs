@@ -90,7 +90,7 @@ Which will print
     Glutamate : 147.05315928710002
     Arginine : 174.1116764466
 
-The peptide N- and C-Terminus as well as the residues themself can be modified.
+The N- and C-Terminus as well as the residues themself can be modified.
 The example below shows how to check fo such modifications.
 
 .. code-block:: python
