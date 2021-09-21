@@ -114,7 +114,8 @@ and for ``consensusXML``
 ..     msquant = MSQuantifications()
 ..     msquant.addConsensusMap(consensus_features)
 ..     MzQuantMLFile().store("file.mzquant", msquant)
-.. 
+..
+
 Transition data (TraML)
 -------------------------------------------------------
 

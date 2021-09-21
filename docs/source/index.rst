@@ -89,7 +89,7 @@ Note: the current documentation relates to the 2.7.0 release of pyOpenMS.
    :caption: Advanced Topics
    
    mzMLFileFormat
-
+   memory_management
 
 .. toctree::
    :maxdepth: 2

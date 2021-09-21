@@ -175,9 +175,9 @@ which produces
 .. image:: img/oxygen_sulfur_isoDistribution.png
 
 .. _Mass Defect Section:
+
 Mass Defect
 ~~~~~~~~~~~
-
 
 .. NOTE::
    While all isotopes are created by adding one or more neutrons to the
