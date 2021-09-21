@@ -25,4 +25,4 @@ A sample is measured over the retention time of the chromatography and the mass-
 
 .. image:: img/introduction_MS.png
 
-% TODO: add explanation MS1 and MS2 and their usage (quantification/identification)
+In proteomics and metabolomics usually the MS1 intenstiy is used for quantification of an analyte. The assessment of a correct quantification based on the MS1 mass-to-charge and the isotope pattern is rahter difficult. To increase the chance of correct identification, another mass spectrometry method called tandem MS (MS/MS) helps with the assessment of the analyte substructure. Here, the precursor and all peaks within a distinct mass window (e.g. 0.7 Da) relative to the precursor apex are isolated, cleaved and measured. For example, by collision induced dissozation (CID), were kinetically exited precursor molecules are fragmented by collision with neutral/intert gas (e.g. Argon). These fragments from a specific analyte, stored in a MS2 spectrum, can help with identification and/or - depending on the actual analysis method - can be used for quantification.
