@@ -1,7 +1,7 @@
 Introduction
 ============
 
-As indicated in the summary, pyOpenMS is a python library for Liquid Chromatography-Mass Spectrometry (LC-MS) data analsis.
+pyOpenMS is a python library for Liquid Chromatography-Mass Spectrometry (LC-MS) data analsis.
 
 This introduction is aimed at users new to the field of LC-MS data analysis and will cover some basics in terms of data generation.
 
@@ -9,9 +9,11 @@ How to handle the data analysis, available data structures, algorithms and more 
 
 Liquid Chromatography
 ---------------------
-The aim of LC is to reduce the complexity of the measured sample. A LC system is comprised of solvent/eluent, pump, injection valve, column and a dectector. The column (stationary phase) has certain physicochemical properties and is used in combination with a solvent/eluent (mobile phase). The method is very versatile due to the various combination of stationary and mobile phases. In most cases reverse-phase chromatography is used in Proteomics (study of peptides and proteins) and Metabolomics (study of small molecues). Here, separation is based on hydrophobicity using a hydrophobic material as a stationary phase (e.g. C18) and a hydrophilic mobile phase (e.g. Acetonitrile). Hydrophobic analytes interact stronger with the column and therefore are retained longer. These interactions are reflected in the retention time of a certain analyte. Nowadays, this setup is enhanced by using pressure in combination with small diameter columns, also called high-performance liquid chromatography (HPCL). The mobile phase is pumped with very high pressure in a small diameter leads to an increase in sensitivity by increasing the singal-to-noise ratio. The resolution of the chromatography is basically dependent on column length, inner diamter, praticle size, stationary phase, flow rate, pressure and temperature, as well as the composition of the mobile phase. In addition different gradients can be used which vary in time and the concentration slope of the solvent/eluent, which can be optimized to fit the experimental needs.
+The aim of LC is to reduce the complexity of the measured sample by separating analytes based on their physicochemical properties. Separating analytes in time ensures
+that a manageable amount of analytes elute at the same time. A LC system in comprised of solvent/eluent, pump, injection valve, column and a dectector. The column (stationary phase) has certain physicochemical properties and is used in combination with a solvent/eluent (mobile phase). The method is very versatile due to the various combination of stationary and mobile phases. In most cases reverse-phase chromatography is used in Proteomics (study of peptides and proteins) and Metabolomics (study of small molecues). Here, separation is based on hydrophobicity using a hydrophobic material as a stationary phase (e.g. C18) and a hydrophilic mobile phase (e.g. Acetonitrile). Hydrophobic analytes interact stronger with the column and are therefore retained longer. These interactions are reflected in the retention time of a certain analyte. Nowadays, this setup is enhanced by using pressure in combination with small diameter columns, also called high-performance liquid chromatography (HPCL). The mobile phase is pumped with very high pressure in a small diameter leads to an increase in sensitivity by increasing the singal-to-noise ratio. The resolution of the chromatography is basically dependent on column length, inner diamter, praticle size, stationary phase, flow rate, pressure and temperature, as well as the composition of the mobile phase. In addition different gradients can be used which vary in time and the concentration slope of the solvent/eluent, which can be optimized to fit the experimental needs.
 
 .. image:: img/introduction_LC.png
+
 
 Mass Spectrometry 
 -----------------
