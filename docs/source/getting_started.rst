@@ -216,15 +216,14 @@ slower):
     4.0
     2.0
 
-TIC calculation
-^^^^^^^^^^^^^^^
+Total ion current calculation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Here, we will apply what we have learned to calculate the total ion current. 
-While some mzML files already contain a pre-computed TIC, we will show you how to calculate the TIC for MS1
-and MS2 spectra separately (generally only MS1 TIC is provided).
+Here, we will apply what we have learned to calculate the total ion current (TIC). The TIC represents the
+summed intensity across the entire range of masses being detected at every point in the analysis. 
+Basically, we calculate the total ion current of the whole experiment.
 
-With this information, we can write a function that calculates the total ion
-current (TIC) for a given ms level: 
+With this information, we can write a function that calculates the TIC for a given ms level: 
 
 .. code-block:: python
 
@@ -256,8 +255,18 @@ properties of Python list comprehensions (``s.getMSLevel() == 1``) and computes
 the sum over all peaks (right ``sum``) and the sum over all spectra (left
 ``sum``) to retrieve the TIC).
 
-One can access the retention times and intensities of the TIC in different ways
-and generate a 2D graph using ``matplotlib``: 
+Total ion current chromatogram
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The total ion current is visualized over the retention time, to allow for the inspection
+of areas with general high intensity (usually multiple analytes were measured there).
+This can help the experimentalist to optimize the chromatography for a better
+seperation in a specific area.
+
+While some mzML files already contain a pre-computed total ion current chromatogram (TIC), 
+we will show you how to calculate the TIC for MS1. One can access the retention times and 
+intensities of the TIC in different ways and generate a total ion current chromatogram 
+(2D graph) using ``matplotlib``:
 
 .. code-block:: python
 
