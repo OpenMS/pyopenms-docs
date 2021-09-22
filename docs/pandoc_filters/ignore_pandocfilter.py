@@ -14,6 +14,7 @@ e.g.
 
 from pandocfilters import CodeBlock, Image, Null, toJSONFilter, Str
 
+
 def ignore(key, value, format, meta):
     if key == 'CodeBlock':
         [[ident, classes, keyvals], code] = value
