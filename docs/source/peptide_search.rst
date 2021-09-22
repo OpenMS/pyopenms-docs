@@ -222,3 +222,4 @@ This is done by applying one of the available protein inference algorithms on th
 .. image:: ./img/launch_binder.jpg
    :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/peptide_search.ipynb
    :alt: Launch Binder
+   :class: ignore

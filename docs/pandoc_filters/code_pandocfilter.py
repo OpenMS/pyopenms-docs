@@ -1,10 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 Pandoc filter to convert code blocks of certain language classes to code class
 """
 
-from pandocfilters import *
+from pandocfilters import CodeBlock, toJSONFilter
 
 def addCodeClass(key, value, format, meta):
   if key == 'CodeBlock':
@@ -13,6 +13,7 @@ def addCodeClass(key, value, format, meta):
       classes.remove("python")
       classes.append("code")
     return CodeBlock([ident, classes, keyvals], code)
+
 
 if __name__ == "__main__":
   toJSONFilter(addCodeClass)
