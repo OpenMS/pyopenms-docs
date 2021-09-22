@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
 """
-Pandoc filter to convert links to relative html pages (originally for readthedocs) to
-point to ipynbs now.
+Pandoc filter to convert links to relative html pages
+(originally for readthedocs) to point to ipynbs now.
 """
 
-import os
 from pandocfilters import Link, toJSONFilter
 
 
@@ -14,8 +13,9 @@ def transformLink(key, value, _, meta):
         [ident, classes, keyvals], alttext, [dest, typef] = value
         link, sep, rest = dest.partition("#")  # for anchors
         # TODO better checks? use urllib?
-        if not (link.startswith("http://") or link.startswith("https://") or link.startswith("ftp://")) and link.endswith(".html"):
-            link = link.replace(".html",".ipynb")
+        if not (link.startswith("http://") or link.startswith("https://")
+         or link.startswith("ftp://")) and link.endswith(".html"):
+            link = link.replace(".html", ".ipynb")
             dest = link + sep + rest
         return Link([ident, classes, keyvals], alttext, [dest, typef])
 
