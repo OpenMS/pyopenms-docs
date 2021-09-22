@@ -49,7 +49,7 @@ PSM inspection
 **************
 
 We can now investigate the individual hits as we have done before in the
-`Identification tutorial <datastructures_id.html#peptideidentification>`_.
+`Identification tutorial <datastructures_id.html#PeptideIdentification>`_.
 
 .. code-block:: python
 
