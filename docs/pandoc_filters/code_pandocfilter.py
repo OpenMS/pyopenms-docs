@@ -7,7 +7,7 @@ Pandoc filter to convert code blocks of certain language classes to code class
 from pandocfilters import CodeBlock, toJSONFilter
 
 
-def addCodeClass(key, value, format, meta):
+def addCodeClass(key, value, _, meta):
     if key == 'CodeBlock':
         [[ident, classes, keyvals], code] = value
         if "python" in classes:

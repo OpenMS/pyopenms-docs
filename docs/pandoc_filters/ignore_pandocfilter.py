@@ -15,7 +15,7 @@ e.g.
 from pandocfilters import CodeBlock, Image, Null, toJSONFilter, Str
 
 
-def ignore(key, value, format, meta):
+def ignore(key, value, _, meta):
     if key == 'CodeBlock':
         [[ident, classes, keyvals], code] = value
         if "ignore" in classes:
