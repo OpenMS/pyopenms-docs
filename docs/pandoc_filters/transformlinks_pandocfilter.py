@@ -13,10 +13,7 @@ def transformLink(key, value, _, meta):
         [ident, classes, keyvals], alttext, [dest, typef] = value
         link, sep, rest = dest.partition("#")  # for anchors
         # TODO better checks? use urllib?
-        if not (link.startswith("http://") or
-              link.startswith("https://") or
-              link.startswith("ftp://")) and
-              link.endswith(".html"):
+        if not (link.startswith("http://") or link.startswith("https://") or link.startswith("ftp://")) and link.endswith(".html"):
             link = link.replace(".html", ".ipynb")
             dest = link + sep + rest
         return Link([ident, classes, keyvals], alttext, [dest, typef])
