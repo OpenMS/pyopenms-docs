@@ -31,6 +31,9 @@ We now only generate digestion products with a length of 7 to 40.
 
     # only create peptides of length 7-40
     dig.digest(bsa, result, 7, 40)
+    # print the results
+    for s in result:
+        print(s.toString())    
 
 Enzymatic digestion is often not perfect and sometimes enzymes miss cutting a peptide.
 We now allow up to two missed cleavages.
@@ -41,8 +44,7 @@ We now allow up to two missed cleavages.
     dig.setMissedCleavages(2)
     # only create peptides of length 7-40
     dig.digest(bsa, result, 7, 40)
-
-    # print all peptides
+    # print the results
     for s in result:
         print(s.toString())
     
