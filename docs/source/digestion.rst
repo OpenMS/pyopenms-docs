@@ -18,12 +18,22 @@ OpenMS has classes for proteolytic digestion which can be used as follows:
     dig.getEnzymeName() # Trypsin
     bsa = "".join([l.strip() for l in open("bsa.fasta").readlines()[1:]])
     bsa = AASequence.fromString(bsa)
+    # create all digestion products
     result = []
     dig.digest(bsa, result)
     print(result[4].toString())
     len(result) # 82 peptides
 
+.. code-block:: python
 
+    # only create peptides of length 8-40
+    dig.digest(bsa, result, 7, 40)
+
+    # print all peptides
+    for s in result:
+        print(s.toString())
+    
+    
 Proteolytic Digestion with Lys-C
 ********************************
 
