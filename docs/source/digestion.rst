@@ -36,6 +36,7 @@ Enzymatic digestion is often not perfect and sometimes enzymes miss cutting a pe
 We now allow up to two missed cleavages.
 
 .. code-block:: python
+
     # Allow two missed cleavages
     dig.setMissedCleavages(2)
     # only create peptides of length 7-40
