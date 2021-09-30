@@ -24,9 +24,21 @@ OpenMS has classes for proteolytic digestion which can be used as follows:
     print(result[4].toString())
     len(result) # 82 peptides
 
+Very short peptides or even single amino acid digestion products are often discarded as they usually contain little information (e.g., can't be used to identify proteins).
+We now only generate digestion products with a length of 7 to 40.
+
 .. code-block:: python
 
-    # only create peptides of length 8-40
+    # only create peptides of length 7-40
+    dig.digest(bsa, result, 7, 40)
+
+Enzymatic digestion is often not perfect and sometimes enzymes miss cutting a peptide.
+We now allow up to two missed cleavages.
+
+.. code-block:: python
+    # Allow two missed cleavages
+    dig.setMissedCleavages(2)
+    # only create peptides of length 7-40
     dig.digest(bsa, result, 7, 40)
 
     # print all peptides
