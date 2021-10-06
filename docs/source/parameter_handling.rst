@@ -29,15 +29,15 @@ The parameters can then be accessed as
 
 .. code-block:: python
 
-    >>> p.asDict()
+    p.asDict()
     {'param2': 4.0, 'param1': 7.0}
-    >>> p.values()
+    p.values()
     [4.0, 7.0]
-    >>> p.keys()
+    p.keys()
     ['param1', 'param2']
-    >>> p.items()
+    p.items()
     [('param1', 7.0), ('param2', 4.0)]
-    >>> p.exists("param1")
+    p.exists("param1")
     True
 
 .. image:: ./img/launch_binder.jpg
