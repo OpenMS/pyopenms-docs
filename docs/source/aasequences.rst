@@ -94,25 +94,27 @@ The N- and C-Terminus as well as the residues themself can be modified.
 The example below shows how to check fo such modifications.
 
 .. code-block:: python
+    :linenos:
 
-seq = AASequence.fromString("C[143]PKCK(Label:13C(6)15N(2))CR")
+    seq = AASequence.fromString("C[143]PKCK(Label:13C(6)15N(2))CR")
 
-# check if AASequence has a N- or C-terminal modification
-if seq.hasNTerminalModification():
-    print("N-Term Modification: ", seq.getNTerminalModification().getFullId())
-if seq.hasCTerminalModification():
-    print("C-Term Modification: ", seq.getCTerminalModification().getFullId())
-# iterate over all residues and look for modifications
-for aa in seq:
-    if (aa.isModified()):
-       print(aa.getName(), ":", aa.getMonoWeight(), ":", aa.getModificationName())
-    else:
-       print(aa.getName(), ":", aa.getMonoWeight())
+    # check if AASequence has a N- or C-terminal modification
+    if seq.hasNTerminalModification():
+        print("N-Term Modification: ", seq.getNTerminalModification().getFullId())
+    if seq.hasCTerminalModification():
+        print("C-Term Modification: ", seq.getCTerminalModification().getFullId())
+    # iterate over all residues and look for modifications
+    for aa in seq:
+        if (aa.isModified()):
+        print(aa.getName(), ":", aa.getMonoWeight(), ":", aa.getModificationName())
+        else:
+        print(aa.getName(), ":", aa.getMonoWeight())
 
 Which will print:
 
 .. code-block:: python
-    N-Term Modification:  Pyro-carbamidomethyl (N-term C)
+
+    N-Term Modification: Pyro-carbamidomethyl (N-term C)
     Cysteine : 121.01974995329999
     Proline : 115.06332928709999
     Lysine : 146.1055284466
@@ -243,6 +245,7 @@ peptide "DFPIAMGER" with an oxidized methionine. There are multiple ways to spec
 
 
 .. code-block:: python
+    :linenos:
 
         from pyopenms import *
         seq = AASequence.fromString("PEPTIDESEKUEM(Oxidation)CER")
@@ -289,6 +292,7 @@ respectively, but ``".DFPIAMGER(Phospho)."`` will be interpreted as a
 phosphorylation of the last arginine at its side chain:
 
 .. code-block:: python
+    :linenos:
 
         from pyopenms import *
         s = AASequence.fromString(".(Dimethyl)DFPIAMGER.")
@@ -314,6 +318,7 @@ Protein sequences, can be loaded from and stored in FASTA protein databases usin
 The example below shows how protein sequences can be stored in FASTA files and loaded back in pyOpenMS:
 
 .. code-block:: python
+    :linenos:
 
         from pyopenms import *
         bsa = FASTAEntry() # one entry in a FASTA file
@@ -333,6 +338,7 @@ The example below shows how protein sequences can be stored in FASTA files and l
 Afterwards, the ``example.fasta`` file can be read again from disk:
 
 .. code-block:: python
+    :linenos:
 
         from pyopenms import *
         entries = []

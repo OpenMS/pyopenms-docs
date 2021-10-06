@@ -34,6 +34,11 @@ of the pyOpenMS API and all wrapped classes.
 
 Note: the current documentation relates to the 2.7.0 release of pyOpenMS.
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Introduction
+
+   introduction
 
 .. toctree::
    :maxdepth: 2
