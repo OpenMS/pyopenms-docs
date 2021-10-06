@@ -12,9 +12,9 @@ OpenMS has many chemical and physical constants built in:
 
 .. code-block:: python
 
-    >>> import pyopenms
-    >>> help(pyopenms.Constants)
-    >>> print ("Avogadro's number is", pyopenms.Constants.AVOGADRO)
+    import pyopenms
+    help(pyopenms.Constants)
+    print ("Avogadro's number is", pyopenms.Constants.AVOGADRO)
 
 which provides access to constants such as Avogadro's number or the electron
 mass.
@@ -451,21 +451,21 @@ basicity and pk values are also available.
 
 .. code-block:: python
 
-    >>> from pyopenms import *
-    >>> lys = ResidueDB().getResidue("Lysine")
-    >>> lys.getName()
+    from pyopenms import *
+    lys = ResidueDB().getResidue("Lysine")
+    lys.getName()
     'Lysine'
-    >>> lys.getThreeLetterCode()
+    lys.getThreeLetterCode()
     'LYS'
-    >>> lys.getOneLetterCode()
+    lys.getOneLetterCode()
     'K'
-    >>> lys.getAverageWeight()
+    lys.getAverageWeight()
     146.18788276708443
-    >>> lys.getMonoWeight()
+    lys.getMonoWeight()
     146.1055284466
-    >>> lys.getPka()
+    lys.getPka()
     2.16
-    >>> lys.getFormula().toString()
+    lys.getFormula().toString()
     u'C6H14N2O2'
 
 As we can see, OpenMS knows common amino acids like lysine as well as
@@ -536,25 +536,25 @@ same class. Currently, support for RNA is implemented.
 
 .. code-block:: python
 
-    >>> from pyopenms import *
-    >>> uridine = RibonucleotideDB().getRibonucleotide(b"U")
-    >>> uridine.getName()
+    from pyopenms import *
+    uridine = RibonucleotideDB().getRibonucleotide(b"U")
+    uridine.getName()
     'uridine'
-    >>> uridine.getCode()
+    uridine.getCode()
     'U'
-    >>> uridine.getAvgMass()
+    uridine.getAvgMass()
     244.2043
-    >>> uridine.getMonoMass()
+    uridine.getMonoMass()
     244.0695
-    >>> uridine.getFormula().toString()
+    uridine.getFormula().toString()
     'C9H12N2O6'
-    >>> uridine.isModified()
+    uridine.isModified()
     False
     >>>
-    >>> methyladenosine = RibonucleotideDB().getRibonucleotide(b"m1A")
-    >>> methyladenosine.getName()
+    methyladenosine = RibonucleotideDB().getRibonucleotide(b"m1A")
+    methyladenosine.getName()
     '1-methyladenosine'
-    >>> methyladenosine.isModified()
+    methyladenosine.isModified()
     True
 
 .. We could also showcase the "get alternatives" method

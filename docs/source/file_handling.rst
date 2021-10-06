@@ -125,10 +125,10 @@ which can the be used as follows:
 
 .. code-block:: python
 
-    >>> from pyopenms import *
-    >>> filename = b"test.mzML"
-    >>> consumer = MSCallback()
-    >>> MzMLFile().transform(filename, consumer)
+    from pyopenms import *
+    filename = b"test.mzML"
+    consumer = MSCallback()
+    MzMLFile().transform(filename, consumer)
     Read a spectrum
     Read a spectrum
     Read a spectrum
