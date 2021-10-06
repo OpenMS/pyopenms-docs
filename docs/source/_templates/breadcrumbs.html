@@ -3,7 +3,7 @@
 {% block breadcrumbs_aside %}  
   <li class="wy-breadcrumbs-aside">
     {%- if hasdoc(pagename) and display_vcs_links %}
-      <a href="https://mybinder.org/v2/gh/{{ github_user }}/{{ github_repo }}/master+ipynb?urlpath=lab/tree/{{ conf_py_path }}{{ pagename }}.ipynb"> <img alt="Launch Binder" src="https://github.com/jupyterhub/binderhub/blob/0df2ffc7901dc1047e71ade456d1126ae93b4c00/binderhub/static/images/badge_logo.svg"></a>
+      <a href="https://mybinder.org/v2/gh/{{ github_user|default("OpenMS") }}/{{ github_repo|default("pyopenms-extra") }}/master+ipynb?urlpath=lab/tree/{{ conf_py_path }}{{ pagename }}.ipynb"> <img alt="Launch Binder" src="https://raw.githubusercontent.com/jupyterhub/binderhub/2d03d9972a0921549fc523efd8f1a2fffde1dba1/binderhub/static/images/badge_logo.svg"></a>
       {%- if display_github %}
         {%- if check_meta and 'github_url' in meta %}
           <!-- User defined GitHub URL -->
