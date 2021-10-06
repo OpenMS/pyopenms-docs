@@ -307,13 +307,13 @@ certain conditions:
 .. code-block:: python
 
 
-		>>> # Sum intensity of all spectra between RT 2.0 and 3.0
-		>>> print(sum([p.getIntensity() for s in exp
+		# Sum intensity of all spectra between RT 2.0 and 3.0
+		print(sum([p.getIntensity() for s in exp
 		...              if s.getRT() >= 2.0 and s.getRT() <= 3.0 for p in s]))
 		700.0
-		>>> 87.5 * 8
+		87.5 * 8
 		700.0
-		>>> 
+		
 
 We can again store the resulting experiment containing the six spectra as mzML
 using the ``MzMLFile`` object:

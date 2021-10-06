@@ -11,11 +11,11 @@ interpretations within a narrow mass band of 0.05 Th:
 
 .. code-block:: python
 
-    >>> AASequence.fromString("MM").getMonoWeight(Residue.ResidueType.Internal, 0)
+    AASequence.fromString("MM").getMonoWeight(Residue.ResidueType.Internal, 0)
     262.08097003420005
-    >>> AASequence.fromString("VY").getMonoWeight(Residue.ResidueType.Internal, 0)
+    AASequence.fromString("VY").getMonoWeight(Residue.ResidueType.Internal, 0)
     262.1317435742
-    >>> AASequence.fromString("DF").getMonoWeight(Residue.ResidueType.Internal, 0)
+    AASequence.fromString("DF").getMonoWeight(Residue.ResidueType.Internal, 0)
     262.0953584466
 
 As you can see, already for relatively simple two-amino acid combinations,
