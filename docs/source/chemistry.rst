@@ -181,8 +181,7 @@ Mass Defect
 
 .. NOTE::
    While all isotopes are created by adding one or more neutrons to the
-   nucleus, this leads to different observed masses due to the `mass defect
-   <https://en.wikipedia.org/wiki/Nuclear_binding_energy#Mass_defect>`_, which
+   nucleus, this leads to different observed masses due to the `mass defect <https://en.wikipedia.org/wiki/Nuclear_binding_energy#Mass_defect>`_, which
    describes the difference between the mass of an atom and the mass of
    its constituent particles. For example, the mass difference between 12C and
    13C is slightly different than the mass difference between 14N and 15N, even

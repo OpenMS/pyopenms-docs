@@ -12,7 +12,7 @@ Most signal processing algorithms follow a similar pattern in OpenMS.
 
 In many cases, the processing algorithms have a set of parameters that can be
 adjusted. These are accessible through ``getParameters()`` and yield a
-``Param`` object (see `Parameter handling<parameter_handling.html>`_) which can
+``Param`` object (see `Parameter handling <parameter_handling.html>`_) which can
 be manipulated. After changing parameters, one can use ``setParameters()`` to
 propagate the new parameters to the algorithm:
 
