@@ -286,5 +286,6 @@ or we can use a for-loop (note that we use zero-based indices as custom in Pytho
     }
 
 .. image:: ./img/launch_binder.jpg
+   :class: ignore
    :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/pyopenms_in_r.ipynb
    :alt: Launch Binder
