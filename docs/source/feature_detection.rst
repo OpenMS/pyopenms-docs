@@ -8,16 +8,13 @@ profile in the time dimension and an isotopic pattern in the m/z dimension (see
 `previous section <deisotoping.html>`_ for the 1-dimensional problem).
 OpenMS has multiple tools that can identify these features in 2-dimensional
 data, these tools are called `FeatureFinder`.  Currently the following
-FeatureFinders are available in OpenMS:
+FeatureFinders are available in pyOpenMS:
 
-  - FeatureFinderMultiplex
-  - FeatureFinderMRM
-  - FeatureFinderCentroided      
-  - FeatureFinderIdentification  
-  - FeatureFinderIsotopeWavelet  
-  - FeatureFinderMetabo
+  - FeatureFinderMultiplexAlgorithm
+  - FeatureFinderIdentificationAlgorithm  
+  - FeatureFinderAlgorithmIsotopeWavelet  
+  - FeatureFindingMetabo
   - FeatureFinderAlgorithmMetaboIdent
-  - FeatureFinderSuperHirn
 
 All of the algorithms above are for proteomics data with the exception of
 FeatureFinderMetabo and FeatureFinderMetaboIdent which work on metabolomics data. One of the most commonly
