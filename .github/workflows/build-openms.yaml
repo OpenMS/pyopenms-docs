@@ -16,11 +16,12 @@ jobs:
     - name: Installing System Dependenies
       run: |
         yum -y install epel-release
-        yum -y install pandoc --enablerepo=epel
+        wget https://github.com/jgm/pandoc/releases/download/2.14.2/pandoc-2.14.2-linux-amd64.tar.gz
+        tar -xvf pandoc-2.14.2-linux-amd64.tar.gz
+        cp pandoc-2.14.2/bin/pandoc /usr/bin/pandoc
 
     - name: Install dependencies
       run: |
-        pip3 install rst2ipynb
         if [ -f requirements.txt ]; then pip3 install -r requirements.txt; fi
 
     - name: Generating docs

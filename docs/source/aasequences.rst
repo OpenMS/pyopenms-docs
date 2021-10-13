@@ -95,23 +95,24 @@ The example below shows how to check fo such modifications.
 
 .. code-block:: python
 
-seq = AASequence.fromString("C[143]PKCK(Label:13C(6)15N(2))CR")
+    seq = AASequence.fromString("C[143]PKCK(Label:13C(6)15N(2))CR")
 
-# check if AASequence has a N- or C-terminal modification
-if seq.hasNTerminalModification():
-    print("N-Term Modification: ", seq.getNTerminalModification().getFullId())
-if seq.hasCTerminalModification():
-    print("C-Term Modification: ", seq.getCTerminalModification().getFullId())
-# iterate over all residues and look for modifications
-for aa in seq:
-    if (aa.isModified()):
-       print(aa.getName(), ":", aa.getMonoWeight(), ":", aa.getModificationName())
-    else:
-       print(aa.getName(), ":", aa.getMonoWeight())
+    # check if AASequence has a N- or C-terminal modification
+    if seq.hasNTerminalModification():
+        print("N-Term Modification: ", seq.getNTerminalModification().getFullId())
+    if seq.hasCTerminalModification():
+        print("C-Term Modification: ", seq.getCTerminalModification().getFullId())
+    # iterate over all residues and look for modifications
+    for aa in seq:
+        if (aa.isModified()):
+        print(aa.getName(), ":", aa.getMonoWeight(), ":", aa.getModificationName())
+        else:
+        print(aa.getName(), ":", aa.getMonoWeight())
 
 Which will print:
 
-.. code-block:: python
+.. code-block:: output
+
     N-Term Modification:  Pyro-carbamidomethyl (N-term C)
     Cysteine : 121.01974995329999
     Proline : 115.06332928709999
