@@ -1,4 +1,4 @@
-TheoreticalSpectrumGenerator
+Fragment spectrum generation
 ============================
 
 Generating theoretical fragment spectra is central to many identification tasks in computational mass spectrometry.
@@ -71,6 +71,8 @@ or also add ion names
     plt.xlabel("m/z")
     plt.ylabel("intensity")
 
+    
+.. image:: img/tsg_ion_names.png
 
 Full fragment ion spectrum
 **************************

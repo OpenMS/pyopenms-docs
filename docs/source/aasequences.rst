@@ -94,6 +94,7 @@ The N- and C-Terminus as well as the residues themself can be modified.
 The example below shows how to check fo such modifications.
 
 .. code-block:: python
+    :linenos:
 
     seq = AASequence.fromString("C[143]PKCK(Label:13C(6)15N(2))CR")
 
@@ -244,6 +245,7 @@ peptide "DFPIAMGER" with an oxidized methionine. There are multiple ways to spec
 
 
 .. code-block:: python
+    :linenos:
 
         from pyopenms import *
         seq = AASequence.fromString("PEPTIDESEKUEM(Oxidation)CER")
@@ -290,6 +292,7 @@ respectively, but ``".DFPIAMGER(Phospho)."`` will be interpreted as a
 phosphorylation of the last arginine at its side chain:
 
 .. code-block:: python
+    :linenos:
 
         from pyopenms import *
         s = AASequence.fromString(".(Dimethyl)DFPIAMGER.")
@@ -315,6 +318,7 @@ Protein sequences, can be loaded from and stored in FASTA protein databases usin
 The example below shows how protein sequences can be stored in FASTA files and loaded back in pyOpenMS:
 
 .. code-block:: python
+    :linenos:
 
         from pyopenms import *
         bsa = FASTAEntry() # one entry in a FASTA file
@@ -334,6 +338,7 @@ The example below shows how protein sequences can be stored in FASTA files and l
 Afterwards, the ``example.fasta`` file can be read again from disk:
 
 .. code-block:: python
+    :linenos:
 
         from pyopenms import *
         entries = []

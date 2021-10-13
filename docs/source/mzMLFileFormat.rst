@@ -33,7 +33,7 @@ Let's investigate the file ``test.mzML`` and look at line 197:
 
 .. code-block:: python
 
-    >>> print( open("test.mzML").readlines()[197].strip() )
+    print( open("test.mzML").readlines()[197].strip() )
     <binary>AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQAAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA=</binary>
 
 We see that line 197 in the ``test.mzML`` file contains the ``binary`` XML tag
@@ -44,7 +44,7 @@ by looking at some more context (lines 193 to 199 of the file):
 
 .. code-block:: python
 
-    >>> print( "".join( open("test.mzML").readlines()[193:199]) )
+    print( "".join( open("test.mzML").readlines()[193:199]) )
     <binaryDataArray encodedLength="108" dataProcessingRef="CompassXtract_x0020_processing">
       <cvParam cvRef="MS" accession="MS:1000523" name="64-bit float" value=""/>
       <cvParam cvRef="MS" accession="MS:1000576" name="no compression" value=""/>

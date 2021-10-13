@@ -30,8 +30,8 @@ function:
 
 .. code-block:: python
 
-    >>> from pyopenms import *
-    >>> help(MSExperiment)
+    from pyopenms import *
+    help(MSExperiment)
 
     class MSExperiment(builtins.object)
      |  Cython implementation of _MSExperiment
@@ -73,8 +73,8 @@ documentation of the base classes:
 
 .. code-block:: python
 
-    >>> from pyopenms import *
-    >>> help(ExperimentalSettings)
+    from pyopenms import *
+    help(ExperimentalSettings)
     Help on class ExperimentalSettings in module pyopenms.pyopenms_4:
 
     class ExperimentalSettings(builtins.object)
@@ -91,12 +91,10 @@ documentation of the base classes:
 We could now continue our investigation by reading the documentation of the
 base classes ``DocumentIdentifier`` and ``MetaInfoInterface``, but we will
 leave this exercise for the interested reader.  In order to get more
-information about the wrapped functions, we can also consult the `pyOpenMS
-manual <http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ which references to
+information about the wrapped functions, we can also consult the `pyOpenMS manual <http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ which references to
 all wrapped functions. For a more complete documentation of the underlying
 wrapped methods, please consult the official OpenMS documentation, in this case
-the `MSExperiment documentation
-<https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1MSExperiment.html>`_.
+the `MSExperiment documentation <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1MSExperiment.html>`_.
 
 
 First look at data
@@ -106,7 +104,7 @@ File reading
 ^^^^^^^^^^^^
 
 pyOpenMS supports a variety of different files through the implementations in
-OpenMS. In order to read mass spectrometric data, we can download the `mzML
+OpenMS. In order to read mass spectrometric data, we can download the `mzML`
 example file:
 
 .. code-block:: python
@@ -126,7 +124,7 @@ We can now inspect the properties of this object:
 
 .. code-block:: python
 
-    >>> help(exp)
+    help(exp)
 
     class MSExperiment(builtins.object)
      |  Cython implementation of _MSExperiment
@@ -154,9 +152,9 @@ which indicates that the variable ``exp`` has (among others) the functions
 
 .. code-block:: python
 
-    >>> exp.getNrSpectra()
+    exp.getNrSpectra()
     4
-    >>> exp.getNrChromatograms()
+    exp.getNrChromatograms()
     2
 
 and indeed we see that we get information about the underlying MS data. We can
@@ -182,7 +180,7 @@ This iterates through all available spectra, we can also access spectra through 
 
 .. code-block:: python
 
-    >>> print ("MS Level:", exp[1].getMSLevel())
+    print ("MS Level:", exp[1].getMSLevel())
     MS Level: 2
 
 Note that ``spec[1]`` will access the *second* spectrum (arrays start at
@@ -190,9 +188,9 @@ Note that ``spec[1]`` will access the *second* spectrum (arrays start at
 
 .. code-block:: python
 
-    >>> spec = exp[1]
-    >>> mz, intensity = spec.get_peaks()
-    >>> sum(intensity)
+    spec = exp[1]
+    mz, intensity = spec.get_peaks()
+    sum(intensity)
     110
 
 Which will access the data using a numpy array, storing the *m/z* information
@@ -202,7 +200,7 @@ slower):
 
 .. code-block:: python
 
-    >>> for peak in spec:
+    for peak in spec:
     ...   print (peak.getIntensity())
     ...
 
@@ -245,11 +243,11 @@ To calculate a TIC we would now call the function:
 
 .. code-block:: python
 
-    >>> calcTIC(exp, 1)
+    calcTIC(exp, 1)
     240.0
-    >>> sum([sum(s.get_peaks()[1]) for s in exp if s.getMSLevel() == 1])
+    sum([sum(s.get_peaks()[1]) for s in exp if s.getMSLevel() == 1])
     240.0
-    >>> calcTIC(exp, 2)
+    calcTIC(exp, 2)
     110.0
 
 Note how one can compute the same property using list comprehensions in Python
