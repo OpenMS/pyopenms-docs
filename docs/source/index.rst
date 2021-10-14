@@ -28,12 +28,6 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
   - post-processing tools such as percolator, MSStats, Fido
   - metabolomics tools such as SIRIUS, CSI:FingerId
 
-Please see the appendix of the official `pyOpenMS Manual
-<http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ for a complete documentation
-of the pyOpenMS API and all wrapped classes.
-
-Note: the current documentation relates to the 2.7.0 release of pyOpenMS.
-
 .. toctree::
    :maxdepth: 2
    :caption: Introduction
