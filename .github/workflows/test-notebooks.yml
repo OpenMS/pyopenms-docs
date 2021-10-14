@@ -1,0 +1,25 @@
+name: Building latest pyopenms package and generating jupyter Notebooks
+
+on:
+  push:
+    branches: [ master+ipynb ]
+
+jobs:
+
+  build-lnx:
+    runs-on: ubuntu-latest
+    container: openms/manylinux:latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        pip3 install jupyter
+        if [ -f requirements.txt ]; then pip3 install -r requirements.txt; fi
+
+    - name: Testing notebooks
+      run: |
+        for f in . do
+          jupyter nbconvert --to notebook --inplace --execute $f
+        done
