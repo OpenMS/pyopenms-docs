@@ -1,3 +1,5 @@
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/OpenMS/pyopenms-extra/Building%20latest%20pyopenms%20package%20and%20generating%20jupyter%20Notebooks/master?label=pyopenms-build)
+
 pyOpenMS Extra
 =============
 
