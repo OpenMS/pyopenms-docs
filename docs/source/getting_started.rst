@@ -169,7 +169,7 @@ Iteration
     for spec in exp:
       print ("MS Level:", spec.getMSLevel())
 
-.. code-block:: python
+.. code-block:: output
 
     MS Level: 1
     MS Level: 2
@@ -203,6 +203,9 @@ slower):
     for peak in spec:
     ...   print (peak.getIntensity())
     ...
+
+.. code-block:: output
+
     20.0
     18.0
     16.0
@@ -309,5 +312,6 @@ intensities of the TIC in different ways and generate a total ion current chroma
 .. image:: img/TICPlot.png
 
 .. image:: ./img/launch_binder.jpg
+   :class: ignore
    :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/getting_started.ipynb
    :alt: Launch Binder

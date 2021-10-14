@@ -58,7 +58,7 @@ file produced above in the TOPPView software:
 
 However, our output above contains more information than only retention time:
 
-.. code-block:: bash
+.. code-block:: output
 
   Feature for group tr_gr1 with precursor m/z 500.0
     Feature found at RT = 3119.091968219877 with library dot product 0.9924204062692046
@@ -105,6 +105,7 @@ Which leads to the following smoothed chromatographic traces:
 .. image:: img/chroms_filter.png
 
 .. image:: ./img/launch_binder.jpg
+   :class: ignore
    :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/chromatographic_analysis.ipynb
    :alt: Launch Binder
 

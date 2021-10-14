@@ -35,5 +35,6 @@ significantly and will prepare the data for downstream processing, such as
 peak-picking.
 
 .. image:: ./img/launch_binder.jpg
+   :class: ignore
    :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/smoothing.ipynb
    :alt: Launch Binder

@@ -51,7 +51,7 @@ molecules as charge carriers. (Detail: the proton mass of 1.007276 u is
 slightly different from the mass of an uncharged hydrogen atom at 1.007825 u).
 We can easily calculate the charged weight of a ``(M+2H)2+`` ion and compute *m/z* simply dividing by the charge.
 
-.. code-block:: python
+.. code-block:: output
 
     Sequence: DFPIANGER
     Prefix: DFPI
@@ -77,7 +77,7 @@ The ``AASequence`` object also allows iterations directly in Python:
     
 Which will print
 
-.. code-block:: python
+.. code-block:: output
 
     The peptide DFPIANGER consists of the following amino acids:
     Aspartate : 133.0375092233
@@ -112,9 +112,9 @@ The example below shows how to check fo such modifications.
 
 Which will print:
 
-.. code-block:: python
+.. code-block:: output
 
-    N-Term Modification: Pyro-carbamidomethyl (N-term C)
+    N-Term Modification:  Pyro-carbamidomethyl (N-term C)
     Cysteine : 121.01974995329999
     Proline : 115.06332928709999
     Lysine : 146.1055284466
@@ -219,7 +219,7 @@ We can easily calculate different ion types for amino acid sequences:
 
 Which will produce
 
-.. code-block:: python
+.. code-block:: output
 
     ===================================
     y3 ion sequence: GER
@@ -263,7 +263,7 @@ peptide "DFPIAMGER" with an oxidized methionine. There are multiple ways to spec
 
 The above code outputs:
 
-.. code-block:: python
+.. code-block:: output
 
     PEPTIDESEKUEMCER
     PEPTIDESEKUEM(Oxidation)CER
@@ -349,6 +349,7 @@ Afterwards, the ``example.fasta`` file can be read again from disk:
           print (e.identifier, e.sequence)
 
 .. image:: ./img/launch_binder.jpg
+   :class: ignore
    :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/aasequences.ipynb
    :alt: Launch Binder
 

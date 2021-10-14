@@ -130,6 +130,7 @@ We can now use it to cut an oligo:
       print (ribo.getCode(), ribo.getMonoMass(), ribo.isModified())
 
 .. image:: ./img/launch_binder.jpg
+   :class: ignore
    :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/digestion.ipynb
    :alt: Launch Binder
 

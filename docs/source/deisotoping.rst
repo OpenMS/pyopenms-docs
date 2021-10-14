@@ -130,7 +130,7 @@ state:
 
 which produces the following output
 
-.. code-block:: python
+.. code-block:: output
 
   140
   41
@@ -171,5 +171,6 @@ has many application in practice (e.g. single mass spectra, fragment ion
 spectra in DDA etc.).
 
 .. image:: ./img/launch_binder.jpg
+   :class: ignore
    :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/deisotoping.ipynb
    :alt: Launch Binder

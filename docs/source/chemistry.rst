@@ -58,7 +58,7 @@ their natural abundance. Therefore, one mole of oxygen (O2) weighs slightly
 more than a mole of only its monoisotopic isotope since natural oxygen is a
 mixture of multiple isotopes.
 
-.. code-block:: python
+.. code-block:: output
     
     Oxygen
     O
@@ -104,7 +104,7 @@ average abundances found in nature, which may differ depending on location. The
 above code outputs the isotopes of oxygen and sulfur as well as their
 abundance:
 
-.. code-block:: python
+.. code-block:: output
 
 		Oxygen isotope 15.994915 has abundance 99.75699782371521 %
 		Oxygen isotope 16.999132 has abundance 0.03800000122282654 %
@@ -261,7 +261,7 @@ code.
 
 which produces
 
-.. code-block:: python
+.. code-block:: output
 
     Ethanol chemical formula: C2H6O1
     Ethanol composition: {b'C': 2, b'H': 6, b'O': 1}
@@ -313,7 +313,7 @@ algorithm [1]_ :
 
 which produces
 
-.. code-block:: python
+.. code-block:: output
 
     Coarse Isotope Distribution:
     This covers 0.9999999753596569 probability
@@ -394,7 +394,7 @@ We can also decrease our cutoff and ask for more isotopes to be calculated:
 
 which produces
 
-.. code-block:: python
+.. code-block:: output
 
   Fine Isotope Distribution:
   This covers 0.9999993089130612 probability
@@ -428,6 +428,8 @@ nearest integer:
     isotopes = ethanol.getIsotopeDistribution( CoarseIsotopePatternGenerator(5, True) )
     for iso in isotopes.getContainer():
         print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+
+.. code-block:: output
 
     Isotope 46.0 has abundance 97.56627082824707 %
     Isotope 47.0 has abundance 2.214994840323925 %
@@ -492,7 +494,7 @@ modifications. It contains UniMod as well as PSI modifications.
     print(ox.getDiffFormula())
 
 
-.. code-block:: python
+.. code-block:: output
 
     UniMod:35
     35
@@ -514,7 +516,7 @@ is identical to the one of Oxygen by itself):
 
 Which will print the isotopic pattern of the modification (Oxygen):
 
-.. code-block:: python
+.. code-block:: output
 
   15.994915 : 0.9975699782371521
   16.998269837800002 : 0.0003800000122282654
@@ -565,5 +567,6 @@ same class. Currently, support for RNA is implemented.
     Anal Chem. 2017 Mar 21;89(6):3272-3277. `doi: 10.1021/acs.analchem.6b01459. <http://doi.org/10.1021/acs.analchem.6b01459>`_
 
 .. image:: ./img/launch_binder.jpg
+   :class: ignore
    :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/chemistry.ipynb
    :alt: Launch Binder

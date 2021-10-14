@@ -49,7 +49,7 @@ PSM inspection
 **************
 
 We can now investigate the individual hits as we have done before in the
-`Identification tutorial <datastructures_id.html#peptideidentification>`_.
+`Identification tutorial <datastructures_id.html#PeptideIdentification>`_.
 
 .. code-block:: python
 
@@ -220,5 +220,7 @@ This is done by applying one of the available protein inference algorithms on th
     IdXMLFile().store("searchfile_results_1perc_protFDR.idXML", protein_ids, peptide_ids)
 
 .. image:: ./img/launch_binder.jpg
+   :class: ignore
    :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/peptide_search.ipynb
    :alt: Launch Binder
+   :class: ignore
