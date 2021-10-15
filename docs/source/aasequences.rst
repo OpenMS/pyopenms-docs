@@ -335,7 +335,7 @@ The example below shows how protein sequences can be stored in FASTA files and l
         f = FASTAFile()
         f.store("example.fasta", entries)
 
-Afterwards, the ``example.fasta`` file can be read again from disk:
+Afterwards, the ``example.fasta`` file can be read again from the disk:
 
 .. code-block:: python
     :linenos:
