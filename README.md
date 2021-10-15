@@ -9,7 +9,7 @@ the OpenMS API to enable rapid algorithm development and workflow development.
 pyOpenMS supports the Proteomics Standard Initiative (PSI) formats for MS data. 
 
 These utils contain documentation, installation instructions and example code
-that show the different functions of pyOpenMS.
+that show different functions of pyOpenMS.
 
 Installation
 =============
