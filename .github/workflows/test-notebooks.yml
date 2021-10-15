@@ -1,4 +1,4 @@
-name: Building latest pyopenms package and generating jupyter Notebooks
+name: Test code in notebooks
 
 on:
   push:
