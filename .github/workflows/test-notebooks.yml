@@ -25,6 +25,7 @@ jobs:
 
     - name: Testing notebooks
       run: |
-        for f in . do
+        for f in source/docs/*.ipynb
+        do
           jupyter nbconvert --to notebook --inplace --execute $f
         done
