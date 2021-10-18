@@ -168,6 +168,9 @@ We can also visualize our spectrum with ``matplotlib`` using the following funct
         plt.ylim(bottom=0)
 
         plt.show()
+   
+   # plotting out spectrum that was defined earlier
+   plot_spectrum(spectrum) 
 
 .. image:: img/SpectrumPlot.png
 
@@ -357,6 +360,14 @@ The following example figures were generated using a `mzML file <https://github.
         plt.colorbar()
         print('showing plot...')
         plt.show() # slow for larger data sets
+   
+   from urllib.request import urlretrieve
+   
+   urlretrieve('https://raw.githubusercontent.com/OpenMS/OpenMS/develop/src/tests/topp/FeatureFinderMetaboIdent_1_input.mzML', 'test.mzML')
+   exp = MSExperiment()
+   MzMLFile().load('test.mzML', exp)
+   
+   plot_spectra_2D(exp)
 
 .. image:: img/Spectra2D.png
 
@@ -404,6 +415,8 @@ This can be useful for a brief visual inspection of your sample in quality contr
                 np.linspace(exp.getMinMZ(),exp.getMaxMZ(),20, dtype=int)[::-1])
         print('showing plot...')
         plt.show()
+   
+   plot_spectra_2D_overview(exp)
 
 .. image:: img/Spectra2DOverview.png
 
