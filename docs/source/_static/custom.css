@@ -2,3 +2,15 @@
 div.highlight-python td.code pre {
          padding-left: 0px;
 }
+
+/* For a sticky header, so binder buttons etc. can always be clicked */
+div[aria-label="breadcrumbs navigation"] {
+    top: 0;
+    position: sticky;
+    background: #fcfcfc;
+}
+
+/* If a parent has overflow, sticky position does not work */
+body {
+    overflow-x: unset;
+}
