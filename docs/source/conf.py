@@ -153,3 +153,5 @@ texinfo_documents = [
 
 def setup(app):
     app.add_stylesheet('custom.css')
+    # Change the sourcedir programmatically because Read the Docs always call it with `.`
+    app.srcdir = 'docs/source'
