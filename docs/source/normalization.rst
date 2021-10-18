@@ -13,16 +13,9 @@ Let's first load the raw data.
 
   gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
   urlretrieve (gh + "/src/data/peakpicker_tutorial_1_baseline_filtered.mzML", "tutorial.mzML")
-
   exp = MSExperiment()
   MzMLFile().load("tutorial.mzML", exp)
-
-  def plot_spectrum(spectrum):
-      for mz, i in zip(*spectrum.get_peaks()):
-          plt.plot([mz, mz], [0, i], color = 'black')
-          plt.text(mz, i, str(mz))
-
-  plot_spectrum(exp.getSpectrum(0))
+  plt.bar(exp.getSpectrum(0).get_peaks()[0], exp.getSpectrum(0).get_peaks()[1], snap=False)
 
 
 Now we apply the normalization.
@@ -35,7 +28,7 @@ Now we apply the normalization.
   normalizer.setParameters(param)
 
   normalizer.filterPeakMap(exp)
-  plot_spectrum(exp.getSpectrum(0))
+  plt.bar(exp.getSpectrum(0).get_peaks()[0], exp.getSpectrum(0).get_peaks()[1], snap=False)  
 
 
 Another way of normalizing is by TIC (total ion count) of the spectrum, which scales intensities
