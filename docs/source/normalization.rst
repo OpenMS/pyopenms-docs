@@ -17,7 +17,7 @@ Another very basic spectrum processing step is normalization by base peak intens
   normalizer.setParameters(param)
 
   MzMLFile().load("tutorial.mzML", exp)
-  normalizer.filterExperiment(exp)
+  normalizer.filterPeakMap(exp)
   MzMLFile().store("tutorial.normalized.mzML", exp)
 
 We can now again load our data into TOPPView to observe the effect of base peak normalization.
