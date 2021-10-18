@@ -1,4 +1,6 @@
-![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/OpenMS/pyopenms-extra/Building%20latest%20pyopenms%20package%20and%20generating%20jupyter%20Notebooks/master?label=pyopenms-build)
+[![Documentation Status](https://readthedocs.org/projects/pyopenms/badge/?version=latest)](https://pyopenms.readthedocs.io/en/latest/?badge=latest)
+[![Building latest pyopenms package and generating jupyter Notebooks](https://github.com/OpenMS/pyopenms-extra/actions/workflows/build-openms.yaml/badge.svg)](https://github.com/OpenMS/pyopenms-extra/actions/workflows/build-openms.yaml)
+[![Test code in notebooks](https://github.com/OpenMS/pyopenms-extra/actions/workflows/test-notebooks.yml/badge.svg)](https://github.com/OpenMS/pyopenms-extra/actions/workflows/test-notebooks.yml)
 
 pyOpenMS Extra
 =============
