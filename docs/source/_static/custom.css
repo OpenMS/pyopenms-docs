@@ -10,11 +10,9 @@ div[aria-label="Page navigation"] {
     background: #fcfcfc;
 }
 
-/* Adjust scroll behaviour for anchors to sticky header */
-a.headerlink {
-  padding-top: 40px;
-  margin-top: 30px;
-  display: inline-block; /* required for webkit browsers */
+/* Adjust scroll behaviour for anchors in section headers to sticky header */
+section {
+    scroll-margin-top: 60px;
 }
 
 /* If a parent has overflow, sticky position does not work */
