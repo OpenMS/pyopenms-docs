@@ -13,14 +13,16 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - uses: r-lib/actions/setup-pandoc@v1
+      with:
+        pandoc-version: '2.14.2'
+
     - uses: actions/setup-python@v2
       with:
         python-version: '3.7' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         
     - name: Installing Dependenies
       run: |
-        sudo apt-get update -y
-        sudo apt-get install -y pandoc
         wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed
         mv Linux-wheels.zip\?status=completed Linux-wheels.zip
         unzip Linux-wheels.zip
