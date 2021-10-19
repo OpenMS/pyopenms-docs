@@ -29,8 +29,9 @@ jobs:
     
     - name: Generating notebooks
       run: |
-        cd docs/source
-        ./generate_ipynb.sh
+        pushd docs/source
+          ./generate_ipynb.sh
+        popd
 
     
     - name: Testing notebooks
