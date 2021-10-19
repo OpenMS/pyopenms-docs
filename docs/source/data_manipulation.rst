@@ -130,8 +130,3 @@ between 125 and 132 which contains quantitative ions for a TMT experiment.
 
 Similarly we could change line 13 to only report peaks above a certain
 intensity or to only report the top N peaks in a spectrum.
-
-.. image:: ./img/launch_binder.jpg
-   :class: ignore
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/data_manipulation.ipynb
-   :alt: Launch Binder

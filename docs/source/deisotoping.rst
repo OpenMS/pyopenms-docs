@@ -170,7 +170,3 @@ here. However, not all data is 2 dimensional and the algorithm discussed here
 has many application in practice (e.g. single mass spectra, fragment ion
 spectra in DDA etc.).
 
-.. image:: ./img/launch_binder.jpg
-   :class: ignore
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/deisotoping.ipynb
-   :alt: Launch Binder

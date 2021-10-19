@@ -419,8 +419,3 @@ This can be useful for a brief visual inspection of your sample in quality contr
    plot_spectra_2D_overview(exp)
 
 .. image:: img/Spectra2DOverview.png
-
-.. image:: ./img/launch_binder.jpg
-   :class: ignore
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/datastructures.ipynb
-   :alt: Launch Binder

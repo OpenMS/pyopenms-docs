@@ -566,7 +566,3 @@ same class. Currently, support for RNA is implemented.
     IsoSpec: Hyperfast Fine Structure Calculator.
     Anal Chem. 2017 Mar 21;89(6):3272-3277. `doi: 10.1021/acs.analchem.6b01459. <http://doi.org/10.1021/acs.analchem.6b01459>`_
 
-.. image:: ./img/launch_binder.jpg
-   :class: ignore
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/chemistry.ipynb
-   :alt: Launch Binder

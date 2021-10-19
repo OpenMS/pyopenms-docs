@@ -160,8 +160,3 @@ quantitative data directly and it supports direct iteration in Python:
        # slightly different RT and m/z
        for fh in cfeature.getFeatureList():
          print(" -- Feature", fh.getMapIndex(), fh.getIntensity(), fh.getRT())
-
-.. image:: ./img/launch_binder.jpg
-   :class: ignore
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/datastructures_quant.ipynb
-   :alt: Launch Binder
