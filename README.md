@@ -28,4 +28,4 @@ The generated documentation is available here: https://pyopenms.readthedocs.io/e
 
 Jupyter Notebooks
 =============
-Are created by CI and stored in master+ipynb to not clutter the master branch
+Are created by CI and stored in master+ipynb to not clutter the master branch.
