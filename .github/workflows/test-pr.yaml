@@ -19,7 +19,7 @@ jobs:
         
     - name: Installing Dependenies
       run: |
-        wget https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed
+        wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed
         mv Linux-wheels.zip\?status=completed Linux-wheels.zip
         unzip Linux-wheels.zip
         python3 -m pip install pyopenms_nightly-*-cp37-cp37m-manylinux2014_x86_64.whl
@@ -30,7 +30,7 @@ jobs:
     - name: Generating notebooks
       run: |
         cd docs/
-        make docs
+        ./generate_ipynb.sh
     
     - name: Testing notebooks
       run: |
