@@ -1,10 +1,13 @@
+
+name: Linting flake8
+
 on: [pull_request]
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: grantmcconnaughey/lintly-flake8-github-action@v1.0
         with:
           # The GitHub API token to create reviews with
