@@ -10,13 +10,16 @@ on:
 
 jobs:
 
-  build-lnx:
+  test-lnx-py37:
     runs-on: ubuntu-latest
-    container: openms/manylinux:latest
 
     steps:
     - uses: actions/checkout@v2
-
+    
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.7' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
