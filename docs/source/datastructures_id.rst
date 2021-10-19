@@ -183,8 +183,3 @@ which we would do as follows:
       print(" - Mapping to proteins:", [ev.getProteinAccession() for ev in hit.getPeptideEvidences() ] )
 
 You can inspect the ``out.idXML`` XML file produced here, and you will find a ``<ProteinHit>`` entry for the protein that we stored and two ``<PeptideHit>`` entries for the two peptides stored on disk.
-
-.. image:: ./img/launch_binder.jpg
-   :class: ignore
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/datastructures_id.ipynb
-   :alt: Launch Binder

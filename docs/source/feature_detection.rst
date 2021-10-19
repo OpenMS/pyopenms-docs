@@ -82,8 +82,3 @@ inspecting ``help(f)`` or by consulting the Manual.
 Note: the output file that we have written (``output.featureXML``) is an
 OpenMS-internal XML format for storing features. You can learn more about file
 formats in the `Reading MS data formats <other_file_handling.html>`_ section.
-
-.. image:: ./img/launch_binder.jpg
-   :class: ignore
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/feature_detection.ipynb
-   :alt: Launch Binder

@@ -132,8 +132,3 @@ experiments (SRM / MRM / PRM / DIA).
     targeted_exp = TargetedExperiment()
     TraMLFile().load("test.TraML", targeted_exp)
     TraMLFile().store("test.out.TraML", targeted_exp)
-
-.. image:: ./img/launch_binder.jpg
-   :class: ignore
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/other_file_handling.ipynb
-   :alt: Launch Binder

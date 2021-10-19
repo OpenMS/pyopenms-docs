@@ -45,7 +45,3 @@ Using the same example file as before, we can apply this approach as follows:
     gf.filterExperiment(exp)
     MzMLFile().store("test.filtered.mzML", exp)
 
-.. image:: ./img/launch_binder.jpg
-   :class: ignore
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/algorithms.ipynb
-   :alt: Launch Binder

@@ -40,7 +40,3 @@ The parameters can then be accessed as
     >>> p.exists("param1")
     True
 
-.. image:: ./img/launch_binder.jpg
-   :class: ignore
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/parameter_handling.ipynb
-   :alt: Launch Binder
