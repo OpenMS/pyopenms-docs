@@ -19,8 +19,8 @@ jobs:
         
     - name: Installing Dependenies
       run: |
-        apt-get update -y
-        apt-get install -y pandoc
+        sudo apt-get update -y
+        sudo apt-get install -y pandoc
         wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed
         mv Linux-wheels.zip\?status=completed Linux-wheels.zip
         unzip Linux-wheels.zip
