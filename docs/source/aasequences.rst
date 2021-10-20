@@ -72,7 +72,7 @@ The ``AASequence`` object also allows iterations directly in Python:
 
     print("The peptide", str(seq), "consists of the following amino acids:")
     for aa in seq:
-      print(aa.getName(), ":", aa.getMonoWeight())
+        print(aa.getName(), ":", aa.getMonoWeight())
     
 Which will print
 

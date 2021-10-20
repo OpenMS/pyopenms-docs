@@ -27,6 +27,7 @@ elements commonly used in mass spectrometry.
 
 .. code-block:: python
 
+    from pyopenms import *
     edb = ElementDB()
 
     edb.hasElement("O")
