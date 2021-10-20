@@ -42,7 +42,6 @@ retaining only spectra that are not MS1 spectra (e.g.\ MS2, MS3 or MSn spectra):
 .. code-block:: python
   :linenos:
 
-  from pyopenms import *
   inp = MSExperiment()
   MzMLFile().load("test.mzML", inp)
 
@@ -72,7 +71,6 @@ thus only retaining MS scans in which we are interested in:
 .. code-block:: python
   :linenos:
 
-  from pyopenms import *
   inp = MSExperiment()
   MzMLFile().load("test.mzML", inp)
   scan_nrs = [0, 2, 5, 7]
@@ -104,7 +102,6 @@ We can easily filter our data accordingly:
 .. code-block:: python
   :linenos:
 
-  from pyopenms import *
   inp = MSExperiment()
   MzMLFile().load("test.mzML", inp)
 

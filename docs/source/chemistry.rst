@@ -27,8 +27,6 @@ elements commonly used in mass spectrometry.
 
 .. code-block:: python
 
-    from pyopenms import *
-
     edb = ElementDB()
 
     edb.hasElement("O")
@@ -78,7 +76,6 @@ We can also inspect the full isotopic distribution of oxygen and sulfur:
 
 .. code-block:: python
 
-    from pyopenms import *
     
     edb = ElementDB()
     oxygen_isoDist = {"mass": [], "abundance": []}
@@ -189,7 +186,6 @@ Mass Defect
 
    .. code-block:: python
 
-       from pyopenms import *
        edb = ElementDB()
        isotopes = edb.getElement("C").getIsotopeDistribution().getContainer()
        carbon_isotope_difference = isotopes[1].getMZ() - isotopes[0].getMZ()
@@ -216,7 +212,6 @@ Mass Defect
 
    .. code-block:: python
 
-       from pyopenms import *
        from pyopenms.Constants import *
 
        helium = ElementDB().getElement("He")
@@ -250,8 +245,6 @@ code.
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
-
     methanol = EmpiricalFormula("CH3OH")
     water = EmpiricalFormula("H2O")
     ethanol = EmpiricalFormula("CH2") + methanol
@@ -284,8 +277,6 @@ patterns and FineIsotopePatternGenerator which is based on the IsoSpec
 algorithm [1]_ :
 
 .. code-block:: python
-
-    from pyopenms import *
 
     methanol = EmpiricalFormula("CH3OH")
     ethanol = EmpiricalFormula("CH2") + methanol
@@ -380,8 +371,6 @@ We can also decrease our cutoff and ask for more isotopes to be calculated:
 
 .. code-block:: python
 
-    from pyopenms import *
-
     methanol = EmpiricalFormula("CH3OH")
     ethanol = EmpiricalFormula("CH2") + methanol
 
@@ -452,7 +441,6 @@ basicity and pk values are also available.
 
 .. code-block:: python
 
-    from pyopenms import *
     lys = ResidueDB().getResidue("Lysine")
     lys.getName()
     'Lysine'
@@ -483,7 +471,6 @@ modifications. It contains UniMod as well as PSI modifications.
 
 .. code-block:: python
 
-    from pyopenms import *
     ox = ModificationsDB().getModification("Oxidation")
     print(ox.getUniModAccession())
     print(ox.getUniModRecordId())
@@ -537,7 +524,6 @@ same class. Currently, support for RNA is implemented.
 
 .. code-block:: python
 
-    from pyopenms import *
     uridine = RibonucleotideDB().getRibonucleotide(b"U")
     uridine.getName()
     'uridine'

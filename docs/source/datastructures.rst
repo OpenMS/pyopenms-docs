@@ -55,15 +55,12 @@ information attached to the spectrum including retention time, the ms level
 
 .. code-block:: python
 
-  from pyopenms import *
   help(MSSpectrum)
 
 We now set several of these properties in a current MSSpectrum:
 
 .. code-block:: python
     :linenos:
-
-    from pyopenms import *
 
     spectrum = MSSpectrum()
     spectrum.setDriftTime(25) # 25 ms
@@ -184,7 +181,6 @@ is highly analogous to the ``MSSpectrum`` container, but contains an array of
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
     import numpy as np
 
     def gaussian(x, mu, sig):

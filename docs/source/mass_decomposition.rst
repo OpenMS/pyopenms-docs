@@ -77,7 +77,6 @@ possible amino acid combinations for that mass within a given tolerance:
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
     import sys
 
     # Example for mass decomposition (mass explanation)
@@ -117,8 +116,6 @@ Spectrum Tagger
 
 .. code-block:: python
     :linenos:
-
-    from pyopenms import *
 
     tsg = TheoreticalSpectrumGenerator()
     param = tsg.getParameters()

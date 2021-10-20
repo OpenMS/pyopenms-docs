@@ -68,7 +68,6 @@ The ``AASequence`` object also allows iterations directly in Python:
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
     seq = AASequence.fromString("DFPIANGER")
 
     print("The peptide", str(seq), "consists of the following amino acids:")
@@ -134,7 +133,6 @@ the amino acid sequence. But first, let's get the formula of peptide:
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
     seq = AASequence.fromString("DFPIANGER")
     seq_formula = seq.getFormula()
     print("Peptide", seq, "has molecular formula", seq_formula)
@@ -247,7 +245,6 @@ peptide "DFPIAMGER" with an oxidized methionine. There are multiple ways to spec
 .. code-block:: python
     :linenos:
 
-        from pyopenms import *
         seq = AASequence.fromString("PEPTIDESEKUEM(Oxidation)CER")
         print(seq.toUnmodifiedString())
         print(seq.toString())
@@ -294,7 +291,6 @@ phosphorylation of the last arginine at its side chain:
 .. code-block:: python
     :linenos:
 
-        from pyopenms import *
         s = AASequence.fromString(".(Dimethyl)DFPIAMGER.")
         print(s, s.hasNTerminalModification())
         s = AASequence.fromString(".DFPIAMGER.(Label:18O(2))")
@@ -320,7 +316,6 @@ The example below shows how protein sequences can be stored in FASTA files and l
 .. code-block:: python
     :linenos:
 
-        from pyopenms import *
         bsa = FASTAEntry() # one entry in a FASTA file
         bsa.sequence = "MKWVTFISLLLLFSSAYSRGVFRRDTHKSEIAHRFKDLGE"
         bsa.description = "BSA Bovine Albumin (partial sequence)"
@@ -340,7 +335,6 @@ Afterwards, the ``example.fasta`` file can be read again from the disk:
 .. code-block:: python
     :linenos:
 
-        from pyopenms import *
         entries = []
         f = FASTAFile()
         f.load("example.fasta", entries)

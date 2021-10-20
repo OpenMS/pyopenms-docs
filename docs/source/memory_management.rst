@@ -26,7 +26,6 @@ by using
 .. code-block:: python
   :linenos:
 
-  from pyopenms import *
   od_exp = OnDiscMSExperiment()
   od_exp.openFile("test.mzML")
 
