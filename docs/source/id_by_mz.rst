@@ -6,6 +6,24 @@ The resulting data gets processed in a pandas data frame with feature filtering 
 of remaining missing values.
 Compounds detected during accurate mass search will be annoted in the resulting dataframe.
 
+Imports
+*******
+
+.. code-block:: python
+
+    import os
+    import shutil
+    import requests
+
+    import pandas as pd
+    from pyopenms import *
+
+    import numpy as np
+
+    from sklearn.impute import KNNImputer
+    from sklearn.preprocessing import FunctionTransformer
+    from sklearn.pipeline import Pipeline
+
 User Input
 **********
 Important: 
@@ -65,24 +83,6 @@ Important:
     allowed_missing_values = 1
     min_feature_quality = 0.8
     n_nearest_neighbours = 2 # default: 2; for KNN imputation of missing values
-
-Imports
-*******
-
-.. code-block:: python
-
-    import os
-    import shutil
-    import requests
-
-    import pandas as pd
-    from pyopenms import *
-
-    import numpy as np
-
-    from sklearn.impute import KNNImputer
-    from sklearn.preprocessing import FunctionTransformer
-    from sklearn.pipeline import Pipeline
 
 Download Example Data
 *********************
@@ -360,13 +360,9 @@ out: result DataFrame with new identifications column, where compound names and 
 
     result_df['identifications'] = pd.Series(['' for x in range(len(result_df.index))])
 
-    for rt, mz, description, adduct in zip(id_df['retention_time'],
-                                        id_df['exp_mass_to_charge'],
-                                        id_df['description'],
-                                        id_df['opt_global_adduct_ion']):
-
+    for rt, mz, description, adduct in zip(id_df['retention_time'], id_df['exp_mass_to_charge'], id_df['description'], id_df['opt_global_adduct_ion']):
         indices = result_df.loc[(round(result_df['mz'], 6) == round(float(mz), 6)) & (round(result_df['RT'], 6) == round(float(rt), 6))].index.tolist()
         for index in indices:
             result_df.loc[index,'identifications'] += '[' + description + ' : ' + adduct + ']'
-        
+
     result_df.to_csv(os.path.join(files, 'result.tsv'), sep = '\t', index = False)
