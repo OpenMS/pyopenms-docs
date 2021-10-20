@@ -50,7 +50,6 @@ Putting this together, a small filtering program would look like this:
     """
     Script to read mzML data and filter out all MS1 spectra
     """
-    from pyopenms import *
     exp = MSExperiment()
     MzMLFile().load("test.mzML", exp)
 
@@ -72,7 +71,6 @@ data into memory:
 
 .. code-block:: python
 
-    from pyopenms import *
     od_exp = OnDiscMSExperiment()
     od_exp.openFile("test.mzML")
     meta_data = od_exp.getMetaData()
@@ -125,7 +123,6 @@ which can the be used as follows:
 
 .. code-block:: python
 
-    from pyopenms import *
     filename = b"test.mzML"
     consumer = MSCallback()
     MzMLFile().transform(filename, consumer)
@@ -142,8 +139,6 @@ spectrum or chromatogram is read from disk, the function ``consumeSpectrum`` or
 use this to implement a simple filtering function for mass spectra:
 
 .. code-block:: python
-
-    from pyopenms import *
 
     class FilteringConsumer():
         """
@@ -201,8 +196,6 @@ directly mapped into memory when requested. You can use this feature as follows:
 
 .. code-block:: python
 
-    from pyopenms import *
-
     # First load data and cache to disk
     exp = MSExperiment()
     MzMLFile().load("test.mzML", exp)
@@ -237,8 +230,6 @@ cached to disk. This is not very efficient and we can use the
 into memory):
 
 .. code-block:: python
-
-    from pyopenms import *
 
     # First cache to disk
     # Note: writing meta data to myCache2.mzML is required
