@@ -85,6 +85,12 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
 
 .. toctree::
    :maxdepth: 2
+   :caption: Example Workflows
+
+   id_by_mz
+
+.. toctree::
+   :maxdepth: 2
    :caption: Advanced Topics
    
    mzMLFileFormat
