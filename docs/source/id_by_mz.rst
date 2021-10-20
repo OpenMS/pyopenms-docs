@@ -357,6 +357,7 @@ in: result DataFrame without identifications (result_df) and Identifications Dat
 out: result DataFrame with new identifications column, where compound names and adduct are stored [name : adduct]
 
 .. code-block:: python
+
     result_df['identifications'] = pd.Series(['' for x in range(len(result_df.index))])
 
     for rt, mz, description, adduct in zip(id_df['retention_time'],
