@@ -10,7 +10,7 @@ User Input
 **********
 Important: 
 ``files`` directory containing your mzML files
-``accurate_mass_search_params`` for your compounds create custom `db:mapping` and `db:struct` files as well as adduct lists
+``accurate_mass_search_params`` for your compounds create custom ``db:mapping`` and ``db:struct`` files as well as adduct lists
 
 .. code-block:: python
 
@@ -108,6 +108,7 @@ This cell is important only for the example workflow.
 Reading mzML files and Centroiding
 **********************************
 in: MS data (files); information if already centroided (already_centroided)
+
 out: centroided mzML files in a subfolder 'centroid' (files)
 
 .. code-block:: python
@@ -133,6 +134,7 @@ out: centroided mzML files in a subfolder 'centroid' (files)
 Feature Detection
 *****************
 in: centroided mzML files (files)
+
 out: list with FeatureMaps (feature_maps)
 
 .. code-block:: python
@@ -257,6 +259,7 @@ will be obsolete when implemented in pyopenms directly
 Feature Linking
 ***************
 in: list with FeatureMaps (feature_maps)
+
 out: ConsensusMap (consensus_map)
 
 .. code-block:: python
@@ -279,6 +282,7 @@ out: ConsensusMap (consensus_map)
 ConsensusMap to pandas DataFrame
 ********************************
 in: ConsensusMap (consensus_map)
+
 out: DataFrame with RT, mz and quality (result_df)
 
 .. code-block:: python
@@ -293,6 +297,7 @@ out: DataFrame with RT, mz and quality (result_df)
 Accurate Mass Search
 ********************
 in: ConsensusMap (consensus_map)
+
 out: DataFrame with identifications (id_df)
 
 .. code-block:: python
@@ -325,6 +330,7 @@ out: DataFrame with identifications (id_df)
 Data Filtering and Imputation
 *****************************
 in: unfiltered result DataFrame (result_df)
+
 out: features below minimum quality and with too many missing values removed, remaining missing values imputated with KNN algorithm (result_df)
 
 .. code-block:: python
@@ -347,6 +353,7 @@ out: features below minimum quality and with too many missing values removed, re
 Annotate features with identified compounds
 *******************************************
 in: result DataFrame without identifications (result_df) and Identifications DataFrame (id_df)
+
 out: result DataFrame with new identifications column, where compound names and adduct are stored [name : adduct]
 
 .. code-block:: python
