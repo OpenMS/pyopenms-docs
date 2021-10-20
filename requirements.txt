@@ -1,3 +1,5 @@
 pyopenms
 matplotlib
 adjustText
+sklearn
+requests
