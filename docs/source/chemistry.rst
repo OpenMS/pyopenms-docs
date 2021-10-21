@@ -77,7 +77,6 @@ We can also inspect the full isotopic distribution of oxygen and sulfur:
 
 .. code-block:: python
 
-    
     edb = ElementDB()
     oxygen_isoDist = {"mass": [], "abundance": []}
     sulfur_isoDist = {"mass": [], "abundance": []}
@@ -104,14 +103,14 @@ abundance:
 
 .. code-block:: output
 
-Oxygen isotope 15.994915 has abundance 99.75699782371521 %
-Oxygen isotope 16.999132 has abundance 0.03800000122282654 %
-Oxygen isotope 17.999169 has abundance 0.20500000100582838 %
+	Oxygen isotope 15.994915 has abundance 99.75699782371521 %
+	Oxygen isotope 16.999132 has abundance 0.03800000122282654 %
+	Oxygen isotope 17.999169 has abundance 0.20500000100582838 %
 
-Sulfur isotope 31.97207073 has abundance 94.92999911308289 %
-Sulfur isotope 32.971458 has abundance 0.7600000128149986 %
-Sulfur isotope 33.967867 has abundance 4.2899999767541885 %
-Sulfur isotope 35.967081 has abundance 0.019999999494757503 %
+	Sulfur isotope 31.97207073 has abundance 94.92999911308289 %
+	Sulfur isotope 32.971458 has abundance 0.7600000128149986 %
+	Sulfur isotope 33.967867 has abundance 4.2899999767541885 %
+	Sulfur isotope 35.967081 has abundance 0.019999999494757503 %
 
 The isotope distribution of oxygen and sulfur can be displayed with the following extra code:
 
