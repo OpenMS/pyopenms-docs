@@ -104,14 +104,14 @@ abundance:
 
 .. code-block:: output
 
-		Oxygen isotope 15.994915 has abundance 99.75699782371521 %
-		Oxygen isotope 16.999132 has abundance 0.03800000122282654 %
-		Oxygen isotope 17.999169 has abundance 0.20500000100582838 %
+Oxygen isotope 15.994915 has abundance 99.75699782371521 %
+Oxygen isotope 16.999132 has abundance 0.03800000122282654 %
+Oxygen isotope 17.999169 has abundance 0.20500000100582838 %
 
-		Sulfur isotope 31.97207073 has abundance 94.92999911308289 %
-		Sulfur isotope 32.971458 has abundance 0.7600000128149986 %
-		Sulfur isotope 33.967867 has abundance 4.2899999767541885 %
-		Sulfur isotope 35.967081 has abundance 0.019999999494757503 %
+Sulfur isotope 31.97207073 has abundance 94.92999911308289 %
+Sulfur isotope 32.971458 has abundance 0.7600000128149986 %
+Sulfur isotope 33.967867 has abundance 4.2899999767541885 %
+Sulfur isotope 35.967081 has abundance 0.019999999494757503 %
 
 The isotope distribution of oxygen and sulfur can be displayed with the following extra code:
 
@@ -198,7 +198,7 @@ Mass Defect
        print ("Relative deviation:", 100*(carbon_isotope_difference -
                nitrogen_isotope_difference)/carbon_isotope_difference, "%")
 
-   .. code-block:: python
+   .. code-block:: output
        
        Mass difference between 12C and 13C: 1.003355
        Mass difference between 14N and 15N: 0.997035
@@ -386,18 +386,18 @@ which produces
 
 .. code-block:: output
 
-  Fine Isotope Distribution:
-  This covers 0.9999993089130612 probability
-  Isotope 46.0418651914 has abundance 97.5662887096405 %
-  Isotope 47.0452201914 has abundance 2.110501006245613 %
-  Isotope 47.046082191400004 has abundance 0.03716550418175757 %
-  Isotope 47.0481419395 has abundance 0.06732848123647273 %
-  Isotope 48.046119191399995 has abundance 0.20049810409545898 %
-  Isotope 48.0485751914 has abundance 0.011413302854634821 %
-  Isotope 48.0494371914 has abundance 0.0008039440217544325 %
-  Isotope 48.0514969395 has abundance 0.0014564131561201066 %
-  Isotope 49.049474191399995 has abundance 0.004337066275184043 %
-  Isotope 49.0523959395 has abundance 0.00013835959862262825 %
+	Fine Isotope Distribution:
+	This covers 0.9999993089130612 probability
+	Isotope 46.0418651914 has abundance 97.5662887096405 %
+	Isotope 47.0452201914 has abundance 2.110501006245613 %
+	Isotope 47.046082191400004 has abundance 0.03716550418175757 %
+	Isotope 47.0481419395 has abundance 0.06732848123647273 %
+	Isotope 48.046119191399995 has abundance 0.20049810409545898 %
+	Isotope 48.0485751914 has abundance 0.011413302854634821 %
+	Isotope 48.0494371914 has abundance 0.0008039440217544325 %
+	Isotope 48.0514969395 has abundance 0.0014564131561201066 %
+	Isotope 49.049474191399995 has abundance 0.004337066275184043 %
+	Isotope 49.0523959395 has abundance 0.00013835959862262825 %
 
 Here we can observe more peaks and now also see the heavy oxygen peak at
 ``47.04608`` with a delta mass of ``1.004217`` (difference between 16O and 17O) at an
@@ -443,19 +443,22 @@ basicity and pk values are also available.
 .. code-block:: python
 
     lys = ResidueDB().getResidue("Lysine")
-    lys.getName()
+    print(lys.getName())
+    print(lys.getThreeLetterCode())
+    print(lys.getOneLetterCode())
+    print(lys.getAverageWeight())
+    print(lys.getMonoWeight())
+    print(lys.getPka())
+    print(lys.getFormula().toString())
+
+.. code-block:: output
+
     'Lysine'
-    lys.getThreeLetterCode()
     'LYS'
-    lys.getOneLetterCode()
     'K'
-    lys.getAverageWeight()
     146.18788276708443
-    lys.getMonoWeight()
     146.1055284466
-    lys.getPka()
     2.16
-    lys.getFormula().toString()
     u'C6H14N2O2'
 
 As we can see, OpenMS knows common amino acids like lysine as well as
@@ -526,25 +529,27 @@ same class. Currently, support for RNA is implemented.
 .. code-block:: python
 
     uridine = RibonucleotideDB().getRibonucleotide(b"U")
-    uridine.getName()
-    'uridine'
-    uridine.getCode()
-    'U'
-    uridine.getAvgMass()
-    244.2043
-    uridine.getMonoMass()
-    244.0695
-    uridine.getFormula().toString()
-    'C9H12N2O6'
-    uridine.isModified()
-    False
-    >>>
+    print(uridine.getName())
+    print(uridine.getCode())
+    print(uridine.getAvgMass())
+    print(uridine.getMonoMass())
+    print(uridine.getFormula().toString())
+    print(uridine.isModified())
     methyladenosine = RibonucleotideDB().getRibonucleotide(b"m1A")
-    methyladenosine.getName()
-    '1-methyladenosine'
-    methyladenosine.isModified()
-    True
+    print(methyladenosine.getName())
+    print(methyladenosine.isModified())
+	
+.. code-block:: output
 
+    'uridine'
+    'U'
+    244.2043
+    244.0695
+    'C9H12N2O6'
+    False
+    '1-methyladenosine'
+    True
+	
 .. We could also showcase the "get alternatives" method
 .. for alt in RibonucleotideDB().getRibonucleotideAlternatives(b"mmA?"):  print(alt.getName())
 
