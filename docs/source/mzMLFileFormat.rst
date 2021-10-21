@@ -59,7 +59,6 @@ array which is from the second spectrum in the file:
 
 .. code-block:: python
 
-    from pyopenms import *
     exp = MSExperiment()
     MzMLFile().load("test.mzML", exp)
 
@@ -103,7 +102,6 @@ Alternatively, we could also use pyOpenMS to decode the same data:
     encoded_data = b"AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQ" +\
         b"AAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA="
 
-    from pyopenms import *
     out = []
     Base64().decode64(encoded_data, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, out, False)
     print( out )
@@ -118,7 +116,6 @@ This allows us thus to manually decode the data. We can use pyOpenMS to encode a
     encoded_data = b"AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQ" +\
         b"AAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA="
 
-    from pyopenms import *
     out = []
     Base64().decode64(encoded_data, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, out, False)
     print( out )
@@ -158,7 +155,6 @@ original input data exactly:
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
     data = [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0 + 1e-8]
     print(data)
     # [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.00000001]

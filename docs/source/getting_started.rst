@@ -30,7 +30,6 @@ function:
 
 .. code-block:: python
 
-    from pyopenms import *
     help(MSExperiment)
 
     class MSExperiment(builtins.object)
@@ -73,7 +72,6 @@ documentation of the base classes:
 
 .. code-block:: python
 
-    from pyopenms import *
     help(ExperimentalSettings)
     Help on class ExperimentalSettings in module pyopenms.pyopenms_4:
 
@@ -109,7 +107,6 @@ example file:
 
 .. code-block:: python
 
-    from pyopenms import *
     from urllib.request import urlretrieve
     # download small example file
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
@@ -271,7 +268,6 @@ intensities of the TIC in different ways and generate a total ion current chroma
 
 .. code-block:: python
 
-    from pyopenms import *
     import matplotlib.pyplot as plt
     from urllib.request import urlretrieve
 

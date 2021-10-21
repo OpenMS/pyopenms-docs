@@ -55,9 +55,6 @@ second isotopic peak is the highest in intensity and the
 
 .. code-block:: python
 
-
-    from pyopenms import *
-
     charge = 4
     seq = AASequence.fromString("DFPIANGERDFPIANGERDFPIANGERDFPIANGER")
     seq_formula = seq.getFormula() + EmpiricalFormula("H" + str(charge))
@@ -100,8 +97,6 @@ state:
     # from urllib import urlretrieve  # use this code for Python 2.x
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/BSA1.mzML", "BSA1.mzML")
-
-    from pyopenms import *
 
     e = MSExperiment()
     MzMLFile().load("BSA1.mzML", e)

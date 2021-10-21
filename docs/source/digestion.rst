@@ -57,7 +57,6 @@ file and can be accessed using the ``EnzymesDB`` object
 
 .. code-block:: python
 
-    from pyopenms import *
     names = []
     ProteaseDB().getAllNames(names)
     len(names) # at least 25 by default
@@ -71,7 +70,6 @@ cut our protein of interest:
 
 .. code-block:: python
 
-    from pyopenms import *
     from urllib.request import urlretrieve
     # from urllib import urlretrieve  # use this code for Python 2.x
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
@@ -97,7 +95,6 @@ file and can be accessed using the ``RNaseDB`` object
 
 .. code-block:: python
 
-    from pyopenms import *
     db = RNaseDB()
     names = []
     db.getAllNames(names)
@@ -112,7 +109,6 @@ We can now use it to cut an oligo:
 
 .. code-block:: python
 
-    from pyopenms import *
     oligo = NASequence.fromString("pAUGUCGCAG");
 
     dig = RNaseDigestion()
