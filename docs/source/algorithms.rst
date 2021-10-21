@@ -33,15 +33,20 @@ pattern are ``GaussFilter``, ``SavitzkyGolayFilter`` as well as the spectral fil
 ``BernNorm``, ``MarkerMower``, ``NLargest``, ``Normalizer``, ``ParentPeakMower``, ``Scaler``,
 ``SpectraMerger``, ``SqrtMower``, ``ThresholdMower``, ``WindowMower``.
 
-Using the same example file as before, we can apply this approach as follows: 
+Using the same example file as before, we can execute a GaussFilter on our test data as follows: 
 
 .. code-block:: python
 
     from pyopenms import *
+    from urllib.request import urlretrieve
+
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
 
     exp = MSExperiment()
     gf = GaussFilter()
-    MzMLFile().load("test.mzML", exp)
+    exp = MSExperiment()
+    MzMLFile().load('test.mzML', exp)    
     gf.filterExperiment(exp)
-    MzMLFile().store("test.filtered.mzML", exp)
+    # MzMLFile().store("test.filtered.mzML", exp)
 
