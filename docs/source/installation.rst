@@ -62,7 +62,7 @@ type the two commands above (on Windows you may potentially have to use
 ``C:\Python37\Scripts\pip.exe`` in case ``pip`` is not in your system path).
 
 Nightly/ CI wheels
-*******************
+-------------------
 
 Additionally, you can also install pyOpenMS from the command line with the CI wheels
 directly downloaded from the `Github Action page <https://github.com/OpenMS/OpenMS/actions/runs/1365671352>`_
