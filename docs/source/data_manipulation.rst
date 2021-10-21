@@ -12,12 +12,12 @@ data, such as filtering. First we will download some sample data.
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
 
+
 Filtering Spectra
 *******************
 
-
 We will filter the "test.mzML" file by only retaining spectra that match a
-certain identifier:
+certain identifier
 
 .. code-block:: python
   :linenos:
@@ -32,6 +32,7 @@ certain identifier:
       e.addSpectrum(s)
 
   MzMLFile().store("test_filtered.mzML", e)
+
 
 Filtering by MS level
 ~~~~~~~~~~~~~~~~~~~~~
@@ -76,11 +77,11 @@ thus only retaining MS scans in which we are interested in:
 It would also be easy to read the scan numbers from a file where each scan
 number is on its own line, thus replacing line 4 with:
 
-.. code-block:: python
+.. code-block:: output
   :linenos:
   :lineno-start: 4
 
-  scan_nrs = [int(k) for k in open("scan_nrs.txt")]
+  scan_nrs = [int(k) for k in open("../scan_nrs.txt")]
 
 
 Filtering Spectra and Peaks

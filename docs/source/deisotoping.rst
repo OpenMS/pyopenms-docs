@@ -80,8 +80,6 @@ second isotopic peak is the highest in intensity and the
     for p in s:
       print(p.getMZ(), p.getIntensity() )
 
-.. Deisotoper.deisotopeAndSingleCharge(s, 10, True, "none", 1, 5, True, 2, 10, True, True)
-
 
 Full spectral de-isotoping
 **************************
@@ -102,7 +100,10 @@ state:
     MzMLFile().load("BSA1.mzML", e)
     s = e[214]
     s.setFloatDataArrays([])
-    Deisotoper.deisotopeAndSingleCharge(s, 0.1, False, 1, 3, True, 2, 10, True, True)
+    Deisotoper.deisotopeAndSingleCharge(s, 0.1, False, 1, 3, True,
+                                        min_isotopes, max_isotopes,
+                                        True, True, True, 
+                                        use_decreasing_model, start_intensity_check, False)
 
     print(e[214].size())
     print(s.size())
@@ -117,10 +118,7 @@ state:
     maxvalue = max([p.getIntensity() for p in s])
     for p in s:
       if p.getIntensity() > 0.25 * maxvalue:
-        print(p.getMZ(), p.getIntensity() )
-
-
-.. Deisotoper.deisotopeAndSingleChargeDefault(s, 0.1, False)
+        print(p.getMZ(), p.getIntensity())
 
 
 which produces the following output
