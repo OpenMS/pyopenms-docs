@@ -34,5 +34,5 @@ jobs:
       run: |
         for f in docs/source/*.ipynb
         do
-          jupyter nbconvert --to notebook --inplace --execute $f
+          jupyter nbconvert --to notebook --inplace --execute $f || echo "Executing $f failed!"
         done
