@@ -13,12 +13,17 @@ interpretations within a narrow mass band of 0.05 Th:
 
     from pyopenms import *
 
-    AASequence.fromString("MM").getMonoWeight(Residue.ResidueType.Internal, 0)
+    print(AASequence.fromString("MM").getMonoWeight(Residue.ResidueType.Internal, 0))
+    print(AASequence.fromString("VY").getMonoWeight(Residue.ResidueType.Internal, 0))
+    print(AASequence.fromString("DF").getMonoWeight(Residue.ResidueType.Internal, 0))
+    
+
+.. code-block:: output
+
     262.08097003420005
-    AASequence.fromString("VY").getMonoWeight(Residue.ResidueType.Internal, 0)
     262.1317435742
-    AASequence.fromString("DF").getMonoWeight(Residue.ResidueType.Internal, 0)
     262.0953584466
+    
 
 As you can see, already for relatively simple two-amino acid combinations,
 multiple explanations may exist. OpenMS provides an algorithm to compute all
@@ -35,7 +40,7 @@ potential amino acid combitions that explain a certain mass in the
     decomps = []
     md_alg.getDecompositions(decomps, 262.0953584466)
     for d in decomps:
-      print(d.toExpandedString().decode()) 
+      print(d.toExpandedString()) 
 
 Which outputs the three potential compositions for the mass ``262.0953584466``.
 Note that every single combination of amino acids is only printed once, e.g.
@@ -59,7 +64,7 @@ residues equals the target mass:
       for r in residues:
         new_mass = mass_sum + r.getMonoWeight(Residue.ResidueType.Internal)
         if new_mass < mass + 0.05:
-          recursive_mass_decomposition(new_mass, peptide + r.getOneLetterCode().decode())
+          recursive_mass_decomposition(new_mass, peptide + r.getOneLetterCode())
       
     print("Mass explanations by naive algorithm:")
     recursive_mass_decomposition(0, "")
@@ -74,7 +79,7 @@ Stand-alone Program
 We can use pyOpenMS to write a short program that takes a mass and outputs all
 possible amino acid combinations for that mass within a given tolerance:
 
-.. code-block:: python
+.. code-block:: output
     :linenos:
 
     import sys
