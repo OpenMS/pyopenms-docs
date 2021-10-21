@@ -53,19 +53,10 @@ retaining only spectra that are not MS1 spectra (e.g.\ MS2, MS3 or MSn spectra):
   MzMLFile().store("test_filtered.mzML", e)
 
 
-Note that we can easily replace line 7 with more complicated criteria, such as
-filtering by MS level and scan identifier at the same time:
-
-.. code-block:: python
-  :linenos:
-  :lineno-start: 7
-
-  if s.getMSLevel() > 1 and s.getNativeID().startswith("scan="):
-
 Filtering by scan number
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Or we could use an external list of scan numbers to filter by scan numbers,
+In a slightly more complex example we could use a list of scan numbers to filter by scan numbers,
 thus only retaining MS scans in which we are interested in:
 
 .. code-block:: python

@@ -32,6 +32,8 @@ function:
 
     help(MSExperiment)
 
+.. code-block:: output
+
     class MSExperiment(builtins.object)
      |  Cython implementation of _MSExperiment
      |   -- Inherits from ['ExperimentalSettings', 'RangeManager2']

@@ -11,6 +11,8 @@ interpretations within a narrow mass band of 0.05 Th:
 
 .. code-block:: python
 
+    from pyopenms import *
+
     AASequence.fromString("MM").getMonoWeight(Residue.ResidueType.Internal, 0)
     262.08097003420005
     AASequence.fromString("VY").getMonoWeight(Residue.ResidueType.Internal, 0)
@@ -25,8 +27,6 @@ potential amino acid combitions that explain a certain mass in the
 
 .. code-block:: python
 
-
-    from pyopenms import *
     md_alg = MassDecompositionAlgorithm()
     param = md_alg.getParameters()
     param.setValue("tolerance", 0.05)

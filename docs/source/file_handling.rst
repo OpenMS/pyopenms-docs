@@ -121,7 +121,7 @@ chromatograms as they are read from the disk. A simple implementation could look
 
 which can the be used as follows:
 
-.. code-block:: python
+.. code-block:: output
 
     filename = b"test.mzML"
     consumer = MSCallback()
@@ -138,7 +138,7 @@ spectrum or chromatogram is read from disk, the function ``consumeSpectrum`` or
 ``consumeChromatogram`` is called and a specific action is performed. We can
 use this to implement a simple filtering function for mass spectra:
 
-.. code-block:: python
+.. code-block:: output
 
     class FilteringConsumer():
         """

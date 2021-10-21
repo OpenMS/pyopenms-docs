@@ -32,11 +32,11 @@ First we create a spectrum and insert peaks with descending mass-to-charge ratio
 
     # Iterate over spectrum of those peaks
     for p in spectrum:
-        print(p.getMZ(), p.getIntensity())
+      print(p.getMZ(), p.getIntensity())
 
     # More efficient peak access with get_peaks()
     for mz, i in zip(*spectrum.get_peaks()):
-        print(mz, i)
+      print(mz, i)
 
     # Access a peak by index
     print(spectrum[2].getMZ(), spectrum[2].getIntensity())
@@ -305,10 +305,11 @@ certain conditions:
 
 .. code-block:: python
 
-
 		# Sum intensity of all spectra between RT 2.0 and 3.0
-		print(sum([p.getIntensity() for s in exp
-		...              if s.getRT() >= 2.0 and s.getRT() <= 3.0 for p in s]))
+		print(sum([p.getIntensity() for s in exp if s.getRT() >= 2.0 and s.getRT() <= 3.0 for p in s]))
+
+.. code-block:: output
+
 		700.0
 		87.5 * 8
 		700.0

@@ -1,11 +1,11 @@
 Algorithms 
 ==========
 
-Most signal processing algorithms follow a similar pattern in OpenMS.
+Many signal processing algorithms follow a similar pattern in OpenMS.
 
-.. code-block:: python
+.. code-block:: pseudocode
 
-  algorithm = AlgorithmClass()
+  algorithm = NameOfTheAlgorithmClass()
   exp = MSExperiment()
   # populate exp, for example load from file
   algorithm.filterExperiment(exp)
@@ -16,9 +16,9 @@ adjusted. These are accessible through ``getParameters()`` and yield a
 be manipulated. After changing parameters, one can use ``setParameters()`` to
 propagate the new parameters to the algorithm:
 
-.. code-block:: python
+.. code-block:: pseudocode
 
-  algorithm = AlgorithmClass()
+  algorithm = NameOfTheAlgorithmClass()
   param = algorithm.getParameters()
   param.setValue("algo_parameter", "new_value")
   algorithm.setParameters(param)

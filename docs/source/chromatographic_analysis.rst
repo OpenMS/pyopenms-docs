@@ -96,7 +96,7 @@ to provide smooth chromatograms, you can apply a filter using pyOpenMS:
 
     sg = SavitzkyGolayFilter()
     sg.filterExperiment(chroms)
-    MzMLFile().store(chroms, "chrom.filter.mzML")
+    # MzMLFile().store("chrom.filter.mzML", chroms)
 
 
 Which leads to the following smoothed chromatographic traces:

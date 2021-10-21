@@ -105,9 +105,9 @@ The example below shows how to check fo such modifications.
     # iterate over all residues and look for modifications
     for aa in seq:
         if (aa.isModified()):
-        print(aa.getName(), ":", aa.getMonoWeight(), ":", aa.getModificationName())
+            print(aa.getName(), ":", aa.getMonoWeight(), ":", aa.getModificationName())
         else:
-        print(aa.getName(), ":", aa.getMonoWeight())
+            print(aa.getName(), ":", aa.getMonoWeight())
 
 Which will print:
 

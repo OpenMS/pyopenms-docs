@@ -129,7 +129,7 @@ DNA, RNA and Protein
 We can also work with DNA and RNA sequences in combination with the BioPython
 library (you can install BioPython with ``pip install biopython``):
 
-.. code-block:: python
+.. code-block:: pseudocode
     :linenos:
 
     from Bio.Seq import Seq
