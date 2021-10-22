@@ -9,7 +9,6 @@ You can store and load identification data from an `idXML` file as follows:
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     from pyopenms import *
     gh = gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/IdXMLFile_whole.idXML", "test.idXML")
@@ -23,7 +22,6 @@ You can store and load identification data from an `mzIdentML` file as follows:
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     gh = gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/MzIdentML_3runs.mzid", "test.mzid")
     protein_ids = []
@@ -39,7 +37,6 @@ You can store and load identification data from a TPP `pepXML` file as follows:
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     gh = gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/PepXMLFile_test.pepxml", "test.pepxml")
     protein_ids = []
@@ -53,7 +50,6 @@ You can load (storing is not supported) identification data from a TPP `protXML`
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     gh = gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/ProtXMLFile_input_1.protXML", "test.protXML")
     protein_ids = ProteinIdentification()
@@ -80,7 +76,6 @@ as follows:
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     gh = gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/FeatureFinderCentroided_1_output.featureXML", "test.featureXML")
     features = FeatureMap()
@@ -92,7 +87,6 @@ and for ``consensusXML``
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     gh = gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/ConsensusXMLFile_1.consensusXML", "test.consensusXML")
     consensus_features = ConsensusMap()
@@ -119,7 +113,6 @@ experiments (SRM / MRM / PRM / DIA).
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/ConvertTSVToTraML_output.TraML", "test.TraML")
     targeted_exp = TargetedExperiment()
