@@ -52,7 +52,7 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
    :maxdepth: 2
    :caption: Mass Spectrometry Concepts
 
-   datastructures
+   datastructures_peak
    chemistry
    aasequences
    nasequences
@@ -61,12 +61,6 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
    digestion
    datastructures_id
    datastructures_quant
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Simple Data Manipulation
-
-   data_manipulation
 
 .. toctree::
    :maxdepth: 2
