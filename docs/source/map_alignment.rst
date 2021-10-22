@@ -11,7 +11,7 @@ Different map alignment algorithms are available in pyOpenMS:
 - MapAlignmentAlgorithmKD
 - MapAlignmentTransformer
 
-To perform a simple linear alignment we can employ the algorithm the MapAlignmentAlgorithmPoseClustering. In the example below it is used for the alignment of feature maps.
+To perform a simple linear alignment we can employ the algorithm MapAlignmentAlgorithmPoseClustering. In the example below it is used for the alignment of feature maps.
 
 Download Example Data
 *********************
@@ -21,12 +21,13 @@ Download Example Data
     from pyopenms import *
     from urllib.request import urlretrieve
 
-    base_url = 'https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/examples/FRACTIONS/'
+    base_url = 'https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master/src/data/'
 
     feature_files = ['BSA1_F1.featureXML', 'BSA2_F1.featureXML', 'BSA3_F1.featureXML']
 
     feature_maps = []
 
+    # download the feature files and store feature maps in list (feature_maps)
     for feature_file in feature_files:
         urlretrieve (base_url + feature_file, feature_file)
         feature_map = FeatureMap()
@@ -40,12 +41,14 @@ From the list of feature maps, the one with the largest number of features is se
 
 .. code-block:: python
 
+    #set ref_index to feature map index with largest number of features
     ref_index = [i[0] for i in sorted(enumerate([fm.size() for fm in feature_maps]), key=lambda x:x[1])][-1]
 
     aligner = MapAlignmentAlgorithmPoseClustering()
 
     aligner.setReference(feature_maps[ref_index])
 
+    # perform alignment and transformation of feature maps to the reference map (exclude reference map)
     for feature_map in feature_maps[:ref_index] + feature_maps[ref_index+1:]:
         trafo = TransformationDescription()
         aligner.align(feature_map, trafo)
