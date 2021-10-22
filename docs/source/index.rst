@@ -10,7 +10,7 @@ pyOpenMS is an open-source Python library for mass spectrometry, specifically fo
 
 PyOpenMS provides functionality that is commonly used in computational mass
 spectrometry.  The pyOpenMS package contains Python bindings for a large part of the OpenMS
-library (http://www.open-ms.de) for mass spectrometry based proteomics. It thus
+library (http://www.openms.de) for mass spectrometry based proteomics. It thus
 provides facile access to a feature-rich, open-source algorithm
 library for mass-spectrometry based proteomics analysis. 
 

@@ -48,7 +48,7 @@ Open it and add your new function *with the correct indentation*:
     - Ex: ``T*`` will stay ``T*`` (indicating ``T`` needs to copied back to Python)
     - One exception is ``OpenMS::String``, you can leave ``const String&`` as-is
 - STL constructs are replaced with Cython constructs: ``std::vector<X>`` becomes ``libcpp_vector[ X ]`` etc. 
-- Most complex STL constructs can be wrapped even if they are nested, however mixing them with user-defined types does not always work, see Limitations_ below. Nested ``std::vector`` constructs work well even with user-defined (OpenMS-defined) types. However, ``std::map<String, X>`` does not work (since ``String`` is user-defined, however a primitive C++ type such as ``std::map<std::string, X>`` would work).
+- Most complex STL constructs can be wrapped even if they are nested, however mixing them with user-defined types does not always work, see `Limitations <#Limitations>`_ below. Nested ``std::vector`` constructs work well even with user-defined (OpenMS-defined) types. However, ``std::map<String, X>`` does not work (since ``String`` is user-defined, however a primitive C++ type such as ``std::map<std::string, X>`` would work).
 - Python cannot pass primitive data types by reference (therefore no ``int& res1``)
 - Replace ``boost::shared_ptr<X>`` with ``shared_ptr[X]`` and add ``from smart_ptr cimport shared_ptr`` to the top
 - Public members are simply added with  ``Type member_name``
@@ -271,7 +271,7 @@ itself, allowing us to call C++ functions on both pointers. This makes it easy
 to generate the required iterators and process the container efficiently.
 
 
-.. _Limitations:
+.. _Limitations Section:
 
 Considerations and limitations
 ------------------------------

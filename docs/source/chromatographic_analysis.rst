@@ -5,7 +5,7 @@ In targeted proteomics, such as SRM / MRM / PRM / DIA applications, groups of
 chromatograms need to be analyzed frequently. OpenMS provides several powerful
 tools for analysis of chromatograms. Most of them are part of the OpenSWATH
 suite of tools and are also discussed in the `OpenSwath documentation
-<www.openswath.org>`_.
+<https://www.openswath.org>`_.
 
 Peak Detection
 **************
