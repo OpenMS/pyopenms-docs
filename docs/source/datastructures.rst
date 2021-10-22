@@ -315,7 +315,7 @@ certain conditions:
 		700.0
 		
 
-We can again store the resulting experiment containing the six spectra as mzML
+We could store the resulting experiment containing the six spectra as mzML
 using the ``MzMLFile`` object:
 
 .. code-block:: python
@@ -427,6 +427,7 @@ when dealing with spectra data.
 But first, we will load some test data:
 
 .. code-block:: python
+
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
 
@@ -445,14 +446,14 @@ We will filter the data from "test.mzML" file by only retaining
 only spectra that are not MS1 spectra (e.g.\ MS2, MS3 or MSn spectra):
 
 .. code-block:: python
-  :linenos:
+    :linenos:
 
-  filtered = MSExperiment()
-  for s in inp:
-    if s.getMSLevel() > 1:
-      filtered.addSpectrum(s)
+    filtered = MSExperiment()
+    for s in inp:
+        if s.getMSLevel() > 1:
+            filtered.addSpectrum(s)
 
-  # filtered now only contains spectra with MS level > 2
+    # filtered now only contains spectra with MS level > 2
 
 
 Filtering by scan number
