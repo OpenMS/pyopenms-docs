@@ -110,6 +110,11 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
    build_from_source
    wrap_classes
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Support
+
+   support
 
 
 Indices and tables
