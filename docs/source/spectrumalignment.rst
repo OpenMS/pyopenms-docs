@@ -8,6 +8,7 @@ In this example, we take an observed (measured) spectrum and align a theoretical
 First we load a (chemically modified) peptide:
 
 .. code-block:: python
+
     from urllib.request import urlretrieve
     from pyopenms import *
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
@@ -25,6 +26,7 @@ First we load a (chemically modified) peptide:
 Now we generate the theoretical spectrum of that peptide:
 
 .. code-block:: python
+
     tsg = TheoreticalSpectrumGenerator()
     theo_spectrum = MSSpectrum()
     p = tsg.getParameters()
@@ -39,6 +41,7 @@ Now we generate the theoretical spectrum of that peptide:
 Now we want to find matching peaks between observed and theoretical spectrum.
 
 .. code-block:: python
+
   alignment = []
   spa = SpectrumAlignment()
   p = spa.getParameters()
@@ -52,6 +55,7 @@ Now we want to find matching peaks between observed and theoretical spectrum.
 The alignment contains a list of matched peak indices. We can simply inspect matching peaks with:
 
 .. code-block:: python
+
   # Print matching ions and mz from theoretical spectrum
   print("Number of matched peaks: " + str(len(alignment)))
   print("ion\ttheo. m/z\tobserved m/z")
