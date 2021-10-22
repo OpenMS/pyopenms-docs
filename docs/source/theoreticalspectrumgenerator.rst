@@ -32,7 +32,7 @@ First, we will generate a simple spectrum that only contains y-ions
 
 which produces all y single charged ions:
 
-.. code-block:: python
+.. code-block:: output
 
     Spectrum 1 of DFPIANGER has 8 peaks.
     y1+ is generated at m/z 175.118952913371
@@ -104,7 +104,7 @@ losses:
 which outputs all 146 peaks that are generated (this is without isotopic
 peaks), here we will just show the first few peaks:
 
-.. code-block:: python
+.. code-block:: output
 
         Spectrum 2 of DFPIANGER has 146 peaks.
         y1-C1H2N1O1++ is generated at m/z 66.05629515817103
@@ -175,7 +175,3 @@ singly and double charged peaks of the b, y and a series creating 44 different
 individual fragment ion peaks as well as neutral losses adding an additional
 102 peaks (neutral losses easily recognizable by their 10-fold lower intensity
 in the simulated spectrum).
-
-.. image:: ./img/launch_binder.jpg
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/theoreticalspectrumgenerator.ipynb
-   :alt: Launch Binder

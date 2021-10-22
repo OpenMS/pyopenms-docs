@@ -61,7 +61,6 @@ quantitative data directly and it supports direct iteration in Python:
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
     fmap = FeatureMap()
     FeatureXMLFile().load("test.featureXML", fmap)
     for feature in fmap:
@@ -79,7 +78,6 @@ represented by a ``ConsensusFeature``
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
     feature = ConsensusFeature()
     feature.setMZ( 500.9 )
     feature.setCharge(2)
@@ -150,7 +148,6 @@ quantitative data directly and it supports direct iteration in Python:
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
     cmap = ConsensusMap()
     ConsensusXMLFile().load("test.consensusXML", cmap)
     for cfeature in cmap:
@@ -160,7 +157,3 @@ quantitative data directly and it supports direct iteration in Python:
        # slightly different RT and m/z
        for fh in cfeature.getFeatureList():
          print(" -- Feature", fh.getMapIndex(), fh.getIntensity(), fh.getRT())
-
-.. image:: ./img/launch_binder.jpg
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/datastructures_quant.ipynb
-   :alt: Launch Binder

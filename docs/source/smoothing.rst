@@ -7,7 +7,6 @@ further analysis
 .. code-block:: python
 
   from urllib.request import urlretrieve
-  # from urllib import urlretrieve  # use this code for Python 2.x
   from pyopenms import *
   gh = "https://raw.githubusercontent.com/OpenMS/OpenMS/develop"
   urlretrieve (gh +"/share/OpenMS/examples/peakpicker_tutorial_1_baseline_filtered.mzML", "tutorial.mzML")
@@ -34,6 +33,3 @@ In the screenshot above we see the original data (red) and the smoothed data
 significantly and will prepare the data for downstream processing, such as
 peak-picking.
 
-.. image:: ./img/launch_binder.jpg
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/smoothing.ipynb
-   :alt: Launch Binder

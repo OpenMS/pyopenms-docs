@@ -21,7 +21,6 @@ a fasta database of protein sequences:
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     from pyopenms import *
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh +"/src/data/SimpleSearchEngine_1.mzML", "searchfile.mzML")
@@ -49,7 +48,7 @@ PSM inspection
 **************
 
 We can now investigate the individual hits as we have done before in the
-`Identification tutorial <datastructures_id.html#peptideidentification>`_.
+`Identification tutorial <datastructures_id.html#PeptideIdentification>`_.
 
 .. code-block:: python
 
@@ -143,8 +142,6 @@ Now include some additional decoy database generation step as well as subsequent
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
-    from pyopenms import *
     searchfile = "../../src/data/BSA1.mzML"
     searchdb = "../../src/data/18Protein_SoCe_Tr_detergents_trace.fasta"
 
@@ -219,6 +216,3 @@ This is done by applying one of the available protein inference algorithms on th
     # store protein-FDR filtered 
     IdXMLFile().store("searchfile_results_1perc_protFDR.idXML", protein_ids, peptide_ids)
 
-.. image:: ./img/launch_binder.jpg
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/peptide_search.ipynb
-   :alt: Launch Binder

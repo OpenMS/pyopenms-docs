@@ -8,16 +8,15 @@ data, such as filtering. First we will download some sample data.
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
+
 
 Filtering Spectra
 *******************
 
-
 We will filter the "test.mzML" file by only retaining spectra that match a
-certain identifier:
+certain identifier
 
 .. code-block:: python
   :linenos:
@@ -33,6 +32,7 @@ certain identifier:
 
   MzMLFile().store("test_filtered.mzML", e)
 
+
 Filtering by MS level
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -42,7 +42,6 @@ retaining only spectra that are not MS1 spectra (e.g.\ MS2, MS3 or MSn spectra):
 .. code-block:: python
   :linenos:
 
-  from pyopenms import *
   inp = MSExperiment()
   MzMLFile().load("test.mzML", inp)
 
@@ -54,25 +53,15 @@ retaining only spectra that are not MS1 spectra (e.g.\ MS2, MS3 or MSn spectra):
   MzMLFile().store("test_filtered.mzML", e)
 
 
-Note that we can easily replace line 7 with more complicated criteria, such as
-filtering by MS level and scan identifier at the same time:
-
-.. code-block:: python
-  :linenos:
-  :lineno-start: 7
-
-  if s.getMSLevel() > 1 and s.getNativeID().startswith("scan="):
-
 Filtering by scan number
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Or we could use an external list of scan numbers to filter by scan numbers,
+In a slightly more complex example we could use a list of scan numbers to filter by scan numbers,
 thus only retaining MS scans in which we are interested in:
 
 .. code-block:: python
   :linenos:
 
-  from pyopenms import *
   inp = MSExperiment()
   MzMLFile().load("test.mzML", inp)
   scan_nrs = [0, 2, 5, 7]
@@ -87,11 +76,11 @@ thus only retaining MS scans in which we are interested in:
 It would also be easy to read the scan numbers from a file where each scan
 number is on its own line, thus replacing line 4 with:
 
-.. code-block:: python
+.. code-block:: output
   :linenos:
   :lineno-start: 4
 
-  scan_nrs = [int(k) for k in open("scan_nrs.txt")]
+  scan_nrs = [int(k) for k in open("../scan_nrs.txt")]
 
 
 Filtering Spectra and Peaks
@@ -104,7 +93,6 @@ We can easily filter our data accordingly:
 .. code-block:: python
   :linenos:
 
-  from pyopenms import *
   inp = MSExperiment()
   MzMLFile().load("test.mzML", inp)
 
@@ -130,7 +118,3 @@ between 125 and 132 which contains quantitative ions for a TMT experiment.
 
 Similarly we could change line 13 to only report peaks above a certain
 intensity or to only report the top N peaks in a spectrum.
-
-.. image:: ./img/launch_binder.jpg
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/data_manipulation.ipynb
-   :alt: Launch Binder

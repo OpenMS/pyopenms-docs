@@ -61,6 +61,27 @@ again make sure to download the 64bit release. You can then open a shell and
 type the two commands above (on Windows you may potentially have to use
 ``C:\Python37\Scripts\pip.exe`` in case ``pip`` is not in your system path).
 
+Nightly/ CI wheels
+------------------
+
+Additionally, you can also install nightly builds of pyOpenMS from the command line.
+Visit the GitHub page that contains the action to build the nightly wheels: https://github.com/OpenMS/OpenMS/actions/workflows/pyopenms-wheels.yml .
+Click on e.g., the newest nightly build on the top to get access to artefacts.
+
+.. image:: img/githubActionWheels.png
+
+Download the corresponding wheel for OSX, Linux, or Windows. Unzip
+the folder and select the supported Python version for your environment.
+The supported Python version is denoted as ``cp3X`` in the wheel file name. 
+
+.. code-block:: bash
+
+  pip install your-package.whl --no-cache-dir
+
+You can then open a shell and type the command above. Note that the Github Action page
+contains unstable builds and may not list a download for your operating system. 
+
+
 Source
 ******
 
@@ -74,7 +95,3 @@ Wrap Classes
 
 In order to wrap new classes in pyOpenMS, read the following `guide
 <wrap_classes.html>`_.
-
-.. image:: ./img/launch_binder.jpg
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/installation.ipynb
-   :alt: Launch Binder

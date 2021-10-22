@@ -32,11 +32,11 @@ First we create a spectrum and insert peaks with descending mass-to-charge ratio
 
     # Iterate over spectrum of those peaks
     for p in spectrum:
-        print(p.getMZ(), p.getIntensity())
+      print(p.getMZ(), p.getIntensity())
 
     # More efficient peak access with get_peaks()
     for mz, i in zip(*spectrum.get_peaks()):
-        print(mz, i)
+      print(mz, i)
 
     # Access a peak by index
     print(spectrum[2].getMZ(), spectrum[2].getIntensity())
@@ -55,15 +55,12 @@ information attached to the spectrum including retention time, the ms level
 
 .. code-block:: python
 
-  from pyopenms import *
   help(MSSpectrum)
 
 We now set several of these properties in a current MSSpectrum:
 
 .. code-block:: python
     :linenos:
-
-    from pyopenms import *
 
     spectrum = MSSpectrum()
     spectrum.setDriftTime(25) # 25 ms
@@ -168,6 +165,9 @@ We can also visualize our spectrum with ``matplotlib`` using the following funct
         plt.ylim(bottom=0)
 
         plt.show()
+   
+   # plotting out spectrum that was defined earlier
+   plot_spectrum(spectrum) 
 
 .. image:: img/SpectrumPlot.png
 
@@ -181,7 +181,6 @@ is highly analogous to the ``MSSpectrum`` container, but contains an array of
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
     import numpy as np
 
     def gaussian(x, mu, sig):
@@ -306,10 +305,11 @@ certain conditions:
 
 .. code-block:: python
 
-
 		# Sum intensity of all spectra between RT 2.0 and 3.0
-		print(sum([p.getIntensity() for s in exp
-		...              if s.getRT() >= 2.0 and s.getRT() <= 3.0 for p in s]))
+		print(sum([p.getIntensity() for s in exp if s.getRT() >= 2.0 and s.getRT() <= 3.0 for p in s]))
+
+.. code-block:: output
+
 		700.0
 		87.5 * 8
 		700.0
@@ -357,6 +357,14 @@ The following example figures were generated using a `mzML file <https://github.
         plt.colorbar()
         print('showing plot...')
         plt.show() # slow for larger data sets
+   
+   from urllib.request import urlretrieve
+   
+   urlretrieve('https://raw.githubusercontent.com/OpenMS/OpenMS/develop/src/tests/topp/FeatureFinderMetaboIdent_1_input.mzML', 'test.mzML')
+   exp = MSExperiment()
+   MzMLFile().load('test.mzML', exp)
+   
+   plot_spectra_2D(exp)
 
 .. image:: img/Spectra2D.png
 
@@ -404,9 +412,7 @@ This can be useful for a brief visual inspection of your sample in quality contr
                 np.linspace(exp.getMinMZ(),exp.getMaxMZ(),20, dtype=int)[::-1])
         print('showing plot...')
         plt.show()
+   
+   plot_spectra_2D_overview(exp)
 
 .. image:: img/Spectra2DOverview.png
-
-.. image:: ./img/launch_binder.jpg
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/datastructures.ipynb
-   :alt: Launch Binder

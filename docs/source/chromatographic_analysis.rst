@@ -19,7 +19,6 @@ about the targeted peptides:
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     from pyopenms import *
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/OpenSwathAnalyzer_1_input_chrom.mzML", "chrom.mzML")
@@ -58,7 +57,7 @@ file produced above in the TOPPView software:
 
 However, our output above contains more information than only retention time:
 
-.. code-block:: bash
+.. code-block:: output
 
   Feature for group tr_gr1 with precursor m/z 500.0
     Feature found at RT = 3119.091968219877 with library dot product 0.9924204062692046
@@ -96,15 +95,11 @@ to provide smooth chromatograms, you can apply a filter using pyOpenMS:
 
     sg = SavitzkyGolayFilter()
     sg.filterExperiment(chroms)
-    MzMLFile().store(chroms, "chrom.filter.mzML")
+    # MzMLFile().store("chrom.filter.mzML", chroms)
 
 
 Which leads to the following smoothed chromatographic traces:
 
 
 .. image:: img/chroms_filter.png
-
-.. image:: ./img/launch_binder.jpg
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/chromatographic_analysis.ipynb
-   :alt: Launch Binder
 

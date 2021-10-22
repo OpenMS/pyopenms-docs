@@ -11,7 +11,6 @@ spectrometric data is using the ``MzMLFile`` class:
 
     from pyopenms import *
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
     exp = MSExperiment()
@@ -50,7 +49,6 @@ Putting this together, a small filtering program would look like this:
     """
     Script to read mzML data and filter out all MS1 spectra
     """
-    from pyopenms import *
     exp = MSExperiment()
     MzMLFile().load("test.mzML", exp)
 
@@ -72,7 +70,6 @@ data into memory:
 
 .. code-block:: python
 
-    from pyopenms import *
     od_exp = OnDiscMSExperiment()
     od_exp.openFile("test.mzML")
     meta_data = od_exp.getMetaData()
@@ -123,9 +120,8 @@ chromatograms as they are read from the disk. A simple implementation could look
 
 which can the be used as follows:
 
-.. code-block:: python
+.. code-block:: output
 
-    from pyopenms import *
     filename = b"test.mzML"
     consumer = MSCallback()
     MzMLFile().transform(filename, consumer)
@@ -141,9 +137,7 @@ spectrum or chromatogram is read from disk, the function ``consumeSpectrum`` or
 ``consumeChromatogram`` is called and a specific action is performed. We can
 use this to implement a simple filtering function for mass spectra:
 
-.. code-block:: python
-
-    from pyopenms import *
+.. code-block:: output
 
     class FilteringConsumer():
         """
@@ -201,8 +195,6 @@ directly mapped into memory when requested. You can use this feature as follows:
 
 .. code-block:: python
 
-    from pyopenms import *
-
     # First load data and cache to disk
     exp = MSExperiment()
     MzMLFile().load("test.mzML", exp)
@@ -238,8 +230,6 @@ into memory):
 
 .. code-block:: python
 
-    from pyopenms import *
-
     # First cache to disk
     # Note: writing meta data to myCache2.mzML is required
     cacher = MSDataCachedConsumer("myCache2.mzML.cached")
@@ -259,7 +249,3 @@ into memory):
 
 This approach is now memory efficient in cases where computation should only occur
 on part of the data or the whole data may not fit into memory.
-
-.. image:: ./img/launch_binder.jpg
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/file_handling.ipynb
-   :alt: Launch Binder

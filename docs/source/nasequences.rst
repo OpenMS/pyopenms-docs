@@ -37,7 +37,7 @@ OpenMS also supports the representation of RNA oligonucleotides using the
 
 Which will output
 
-.. code-block:: python
+.. code-block:: output
 
 
     AAUGCAAUGG
@@ -65,7 +65,6 @@ The ``NASequence`` object also allows iterations directly in Python:
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
     oligo = NASequence.fromString("AAUGCAAUGG")
     print("The oligonucleotide", str(oligo), "consists of the following nucleotides:")
     for ribo in oligo:
@@ -79,7 +78,6 @@ Similarly to before for amino acid sequences, we can also generate internal frag
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
     oligo = NASequence.fromString("AAUGCAAUGG")
     suffix = oligo.getSuffix(4)
 
@@ -107,7 +105,6 @@ sequence as follows:
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
     oligo_mod = NASequence.fromString("A[m1A][Gm]A")
     seq_formula = oligo_mod.getFormula()
     print("RNA Oligo", oligo_mod, "has molecular formula", 
@@ -132,10 +129,9 @@ DNA, RNA and Protein
 We can also work with DNA and RNA sequences in combination with the BioPython
 library (you can install BioPython with ``pip install biopython``):
 
-.. code-block:: python
+.. code-block:: pseudocode
     :linenos:
 
-    from pyopenms import *
     from Bio.Seq import Seq
     from Bio.Alphabet import IUPAC
     bsa = FASTAEntry()
@@ -157,7 +153,3 @@ library (you can install BioPython with ``pip install biopython``):
 
     print("The RNA sequence", str(oligo), "has mass", oligo.getMonoWeight(), "and \n"
       "translates to the protein sequence", str(aaseq), "which has mass", aaseq.getMonoWeight() )
-
-.. image:: ./img/launch_binder.jpg
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/nasequences.ipynb
-   :alt: Launch Binder

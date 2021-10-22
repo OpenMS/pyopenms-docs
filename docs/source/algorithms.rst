@@ -1,11 +1,11 @@
 Algorithms 
 ==========
 
-Most signal processing algorithms follow a similar pattern in OpenMS.
+Many signal processing algorithms follow a similar pattern in OpenMS.
 
-.. code-block:: python
+.. code-block:: pseudocode
 
-  algorithm = AlgorithmClass()
+  algorithm = NameOfTheAlgorithmClass()
   exp = MSExperiment()
   # populate exp, for example load from file
   algorithm.filterExperiment(exp)
@@ -16,9 +16,9 @@ adjusted. These are accessible through ``getParameters()`` and yield a
 be manipulated. After changing parameters, one can use ``setParameters()`` to
 propagate the new parameters to the algorithm:
 
-.. code-block:: python
+.. code-block:: pseudocode
 
-  algorithm = AlgorithmClass()
+  algorithm = NameOfTheAlgorithmClass()
   param = algorithm.getParameters()
   param.setValue("algo_parameter", "new_value")
   algorithm.setParameters(param)
@@ -33,18 +33,20 @@ pattern are ``GaussFilter``, ``SavitzkyGolayFilter`` as well as the spectral fil
 ``BernNorm``, ``MarkerMower``, ``NLargest``, ``Normalizer``, ``ParentPeakMower``, ``Scaler``,
 ``SpectraMerger``, ``SqrtMower``, ``ThresholdMower``, ``WindowMower``.
 
-Using the same example file as before, we can apply this approach as follows: 
+Using the same example file as before, we can execute a GaussFilter on our test data as follows: 
 
 .. code-block:: python
 
     from pyopenms import *
+    from urllib.request import urlretrieve
+
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
 
     exp = MSExperiment()
     gf = GaussFilter()
-    MzMLFile().load("test.mzML", exp)
+    exp = MSExperiment()
+    MzMLFile().load('test.mzML', exp)    
     gf.filterExperiment(exp)
-    MzMLFile().store("test.filtered.mzML", exp)
+    # MzMLFile().store("test.filtered.mzML", exp)
 
-.. image:: ./img/launch_binder.jpg
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/algorithms.ipynb
-   :alt: Launch Binder

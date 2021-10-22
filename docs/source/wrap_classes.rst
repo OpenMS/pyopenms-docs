@@ -131,7 +131,7 @@ A further example
 A slightly more complicated class could look like this, where we demonstrate
 how to handle a templated class with template ``T`` and static methods:
 
-.. code-block:: python
+.. code-block:: pseudocode
 
   from xxx cimport *
   from AbstractBaseClass cimport *
@@ -205,7 +205,7 @@ delete it when the lifetime of the Python object ends. This is done through
 ``wrap-manual-memory`` and failing to doing so could lead to segmentation
 faults in the program.
 
-.. code-block:: python
+.. code-block:: pseudocode
 
   from xxx cimport *
   cdef extern from "<OpenMS/path/to/header/Classname.h>" namespace "OpenMS":
@@ -233,7 +233,7 @@ obtain a pointer to an object of C++ type ``Classname``.
 
 We then have to provide such an object (``addons/Classname.pyx``):
 
-.. code-block:: python
+.. code-block:: pseudocode
 
     # This will go into the header (no empty lines below is *required*)
     # NOTE: _Classname is the C++ class while Classname is the Python class
@@ -349,7 +349,3 @@ comment to the pxd file. See the example above, some additional examples, look i
 Make sure that you *always* declare your objects (all C++ and all Cython
 objects need to be declared) using ``cdef`` Type name. Otherwise you get ``Cannot
 convert ... to Python object`` errors.
-
-.. image:: ./img/launch_binder.jpg
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/wrap_classes.ipynb
-   :alt: Launch Binder

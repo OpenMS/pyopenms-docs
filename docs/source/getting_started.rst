@@ -30,8 +30,9 @@ function:
 
 .. code-block:: python
 
-    from pyopenms import *
     help(MSExperiment)
+
+.. code-block:: output
 
     class MSExperiment(builtins.object)
      |  Cython implementation of _MSExperiment
@@ -73,8 +74,10 @@ documentation of the base classes:
 
 .. code-block:: python
 
-    from pyopenms import *
     help(ExperimentalSettings)
+    
+.. code-block:: output
+
     Help on class ExperimentalSettings in module pyopenms.pyopenms_4:
 
     class ExperimentalSettings(builtins.object)
@@ -90,9 +93,7 @@ documentation of the base classes:
 
 We could now continue our investigation by reading the documentation of the
 base classes ``DocumentIdentifier`` and ``MetaInfoInterface``, but we will
-leave this exercise for the interested reader.  In order to get more
-information about the wrapped functions, we can also consult the `pyOpenMS manual <http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ which references to
-all wrapped functions. For a more complete documentation of the underlying
+leave this exercise for the interested reader. For a more complete documentation of the underlying
 wrapped methods, please consult the official OpenMS documentation, in this case
 the `MSExperiment documentation <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1MSExperiment.html>`_.
 
@@ -109,7 +110,6 @@ example file:
 
 .. code-block:: python
 
-    from pyopenms import *
     from urllib.request import urlretrieve
     # download small example file
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
@@ -125,6 +125,8 @@ We can now inspect the properties of this object:
 .. code-block:: python
 
     help(exp)
+
+.. code-block:: output
 
     class MSExperiment(builtins.object)
      |  Cython implementation of _MSExperiment
@@ -152,9 +154,11 @@ which indicates that the variable ``exp`` has (among others) the functions
 
 .. code-block:: python
 
-    exp.getNrSpectra()
+    print(exp.getNrSpectra())
+    print(exp.getNrChromatograms())
+
+.. code-block:: output
     4
-    exp.getNrChromatograms()
     2
 
 and indeed we see that we get information about the underlying MS data. We can
@@ -169,7 +173,7 @@ Iteration
     for spec in exp:
       print ("MS Level:", spec.getMSLevel())
 
-.. code-block:: python
+.. code-block:: output
 
     MS Level: 1
     MS Level: 2
@@ -181,6 +185,9 @@ This iterates through all available spectra, we can also access spectra through 
 .. code-block:: python
 
     print ("MS Level:", exp[1].getMSLevel())
+
+.. code-block:: output
+
     MS Level: 2
 
 Note that ``spec[1]`` will access the *second* spectrum (arrays start at
@@ -190,7 +197,10 @@ Note that ``spec[1]`` will access the *second* spectrum (arrays start at
 
     spec = exp[1]
     mz, intensity = spec.get_peaks()
-    sum(intensity)
+    print(sum(intensity))
+    
+.. code-block:: output
+
     110
 
 Which will access the data using a numpy array, storing the *m/z* information
@@ -201,8 +211,10 @@ slower):
 .. code-block:: python
 
     for peak in spec:
-    ...   print (peak.getIntensity())
-    ...
+        print (peak.getIntensity())
+
+.. code-block:: output
+
     20.0
     18.0
     16.0
@@ -240,11 +252,14 @@ To calculate a TIC we would now call the function:
 
 .. code-block:: python
 
-    calcTIC(exp, 1)
+    print(calcTIC(exp, 1))
+    print(sum([sum(s.get_peaks()[1]) for s in exp if s.getMSLevel() == 1]))
+    print(calcTIC(exp, 2))
+    
+.. code-block:: output
+
     240.0
-    sum([sum(s.get_peaks()[1]) for s in exp if s.getMSLevel() == 1])
     240.0
-    calcTIC(exp, 2)
     110.0
 
 Note how one can compute the same property using list comprehensions in Python
@@ -268,7 +283,6 @@ intensities of the TIC in different ways and generate a total ion current chroma
 
 .. code-block:: python
 
-    from pyopenms import *
     import matplotlib.pyplot as plt
     from urllib.request import urlretrieve
 
@@ -307,7 +321,3 @@ intensities of the TIC in different ways and generate a total ion current chroma
     plt.show()
 
 .. image:: img/TICPlot.png
-
-.. image:: ./img/launch_binder.jpg
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/getting_started.ipynb
-   :alt: Launch Binder

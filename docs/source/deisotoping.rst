@@ -55,9 +55,6 @@ second isotopic peak is the highest in intensity and the
 
 .. code-block:: python
 
-
-    from pyopenms import *
-
     charge = 4
     seq = AASequence.fromString("DFPIANGERDFPIANGERDFPIANGERDFPIANGER")
     seq_formula = seq.getFormula() + EmpiricalFormula("H" + str(charge))
@@ -83,8 +80,6 @@ second isotopic peak is the highest in intensity and the
     for p in s:
       print(p.getMZ(), p.getIntensity() )
 
-.. Deisotoper.deisotopeAndSingleCharge(s, 10, True, "none", 1, 5, True, 2, 10, True, True)
-
 
 Full spectral de-isotoping
 **************************
@@ -97,17 +92,17 @@ state:
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/BSA1.mzML", "BSA1.mzML")
-
-    from pyopenms import *
 
     e = MSExperiment()
     MzMLFile().load("BSA1.mzML", e)
     s = e[214]
     s.setFloatDataArrays([])
-    Deisotoper.deisotopeAndSingleCharge(s, 0.1, False, 1, 3, True, 2, 10, True, True)
+    Deisotoper.deisotopeAndSingleCharge(s, 0.1, False, 1, 3, True,
+                                        min_isotopes, max_isotopes,
+                                        True, True, True, 
+                                        use_decreasing_model, start_intensity_check, False)
 
     print(e[214].size())
     print(s.size())
@@ -122,15 +117,12 @@ state:
     maxvalue = max([p.getIntensity() for p in s])
     for p in s:
       if p.getIntensity() > 0.25 * maxvalue:
-        print(p.getMZ(), p.getIntensity() )
-
-
-.. Deisotoper.deisotopeAndSingleChargeDefault(s, 0.1, False)
+        print(p.getMZ(), p.getIntensity())
 
 
 which produces the following output
 
-.. code-block:: python
+.. code-block:: output
 
   140
   41
@@ -170,6 +162,3 @@ here. However, not all data is 2 dimensional and the algorithm discussed here
 has many application in practice (e.g. single mass spectra, fragment ion
 spectra in DDA etc.).
 
-.. image:: ./img/launch_binder.jpg
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/deisotoping.ipynb
-   :alt: Launch Binder

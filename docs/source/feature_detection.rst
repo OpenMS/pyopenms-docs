@@ -12,20 +12,22 @@ FeatureFinders are available in pyOpenMS:
 
   - FeatureFinderMultiplexAlgorithm
   - FeatureFinderIdentificationAlgorithm  
-  - FeatureFinderAlgorithmIsotopeWavelet  
+  - FeatureFinderAlgorithmIsotopeWavelet 
+  - FeatureFinderAlgorithmPicked
+  - FeatureFinder
   - FeatureFindingMetabo
   - FeatureFinderAlgorithmMetaboIdent
+  - FeatureFinderMetaboIdentCompound
 
 All of the algorithms above are for proteomics data with the exception of
-FeatureFinderMetabo and FeatureFinderMetaboIdent which work on metabolomics data. One of the most commonly
-used FeatureFinders is the FeatureFinderCentroided and FeatureFinderIdentification which both work on (high
+FeatureFindingMetabo, FeatureFinderMetaboIdent and FeatureFinderMetaboIdentCompound which work on metabolomics data. Two of the most commonly
+used FeatureFinders in OpenMS are the FeatureFinder and FeatureFinderIdentificationAlgorithm which both work on (high
 resolution) centroided data. We can use the following code to find ``Features``
 in MS data:
 
 .. code-block:: python
 
   from urllib.request import urlretrieve
-  # from urllib import urlretrieve  # use this code for Python 2.x
   gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
   urlretrieve (gh +"/src/data/FeatureFinderCentroided_1_input.mzML", "feature_test.mzML")
 
@@ -82,7 +84,3 @@ inspecting ``help(f)`` or by consulting the Manual.
 Note: the output file that we have written (``output.featureXML``) is an
 OpenMS-internal XML format for storing features. You can learn more about file
 formats in the `Reading MS data formats <other_file_handling.html>`_ section.
-
-.. image:: ./img/launch_binder.jpg
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/feature_detection.ipynb
-   :alt: Launch Binder

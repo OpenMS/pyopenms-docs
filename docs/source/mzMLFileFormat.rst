@@ -25,7 +25,6 @@ Binary encoding
 
     from pyopenms import *
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
 
@@ -34,6 +33,9 @@ Let's investigate the file ``test.mzML`` and look at line 197:
 .. code-block:: python
 
     print( open("test.mzML").readlines()[197].strip() )
+    
+.. code-block:: output
+
     <binary>AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQAAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA=</binary>
 
 We see that line 197 in the ``test.mzML`` file contains the ``binary`` XML tag
@@ -45,6 +47,9 @@ by looking at some more context (lines 193 to 199 of the file):
 .. code-block:: python
 
     print( "".join( open("test.mzML").readlines()[193:199]) )
+    
+.. code-block:: output
+
     <binaryDataArray encodedLength="108" dataProcessingRef="CompassXtract_x0020_processing">
       <cvParam cvRef="MS" accession="MS:1000523" name="64-bit float" value=""/>
       <cvParam cvRef="MS" accession="MS:1000576" name="no compression" value=""/>
@@ -59,12 +64,14 @@ array which is from the second spectrum in the file:
 
 .. code-block:: python
 
-    from pyopenms import *
     exp = MSExperiment()
     MzMLFile().load("test.mzML", exp)
 
     print( exp.getSpectrum(1).get_peaks()[0] )
-    # [ 0.  2.  4.  6.  8. 10. 12. 14. 16. 18.]
+
+.. code-block:: output
+
+    [ 0.  2.  4.  6.  8. 10. 12. 14. 16. 18.]
 
 We now see that the data encoded describes 10 m/z data points that are equally
 spaced in intervals of two, starting from 0 m/z and ending at 18 m/z (note:
@@ -88,7 +95,10 @@ first use pure Python functions :
     out = struct.unpack('<%sd' % (len(raw_data) // 8), raw_data)
     # struct.unpack('<%sf' % (len(raw_data) // 4), raw_data) # for 32 bit data
     print(out)
-    # (0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0)
+    
+.. code-block:: output
+
+    (0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0)
 
 The code above uses the ``base64`` package on line 5 to decode the encoded data
 to raw binary data. On line 6, we use the ``struct`` package to transform the
@@ -103,11 +113,13 @@ Alternatively, we could also use pyOpenMS to decode the same data:
     encoded_data = b"AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQ" +\
         b"AAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA="
 
-    from pyopenms import *
     out = []
     Base64().decode64(encoded_data, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, out, False)
     print( out )
-    # [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0]
+    
+.. code-block:: output
+
+    [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0]
 
 This allows us thus to manually decode the data. We can use pyOpenMS to encode and decode 32 and 64 bit values:
 
@@ -118,28 +130,31 @@ This allows us thus to manually decode the data. We can use pyOpenMS to encode a
     encoded_data = b"AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQ" +\
         b"AAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA="
 
-    from pyopenms import *
     out = []
     Base64().decode64(encoded_data, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, out, False)
     print( out )
-    # [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0]
-
+    
     data = String()
     Base64().encode64(out, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, data, False)
     print (data)
-    # b'AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQAAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA='
+    
     Base64().encode64(out, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, data, True)
     print (data)
-    # b'eJxjYEABDhBKAEpLQGkFKK0CpTWgtA6UNoDSRg4AZlQDYw=='
-
 
     data = String()
     Base64().encode32(out, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, data, False)
     print (data)
-    # b'AAAAAAAAAEAAAIBAAADAQAAAAEEAACBBAABAQQAAYEEAAIBBAACQQQ=='
+    
     Base64().encode32(out, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, data, True)
     print (data)
-    # b'eJxjYAADBwaGBiA+AMQMjgwMCkDsAMQJQNwAxBMcAVbKBVc='
+
+.. code-block:: output
+
+    [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0]
+    b'AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQAAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA='
+    b'eJxjYEABDhBKAEpLQGkFKK0CpTWgtA6UNoDSRg4AZlQDYw=='
+    b'AAAAAAAAAEAAAIBAAADAQAAAAEEAACBBAABAQQAAYEEAAIBBAACQQQ=='
+    b'eJxjYAADBwaGBiA+AMQMjgwMCkDsAMQJQNwAxBMcAVbKBVc='
 
 Note how encoding the data with 64 bit precision results in an output string of
 length 108 characters that is about twice as long compared to encoding the data
@@ -158,10 +173,8 @@ original input data exactly:
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
     data = [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0 + 1e-8]
     print(data)
-    # [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.00000001]
     r = []
 
     c = NumpressConfig()
@@ -169,20 +182,24 @@ original input data exactly:
     res = String()
     MSNumpressCoder().encodeNP(data, res, False, c)
     print(res)
-    # b'Qc////+AAAAAAAAA/v//f4iIiIew'
+    
     MSNumpressCoder().decodeNP(res, r, False, c)
     print(r)
-    # [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.00000001024455]
-
 
     c.np_compression = MSNumpressCoder.NumpressCompression.PIC
     MSNumpressCoder().encodeNP(data, res, False, c)
     print(res)
-    # b'hydHZ4enx+YBYhA='
+    
     MSNumpressCoder().decodeNP(res, r, False, c)
     print(r)
-    # [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0]
 
+.. code-block:: output
+
+    [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.00000001]
+    b'Qc////+AAAAAAAAA/v//f4iIiIew'
+    [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.00000001024455]
+    b'hydHZ4enx+YBYhA='
+    [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0]
 
 Note how the lossy numpress compression leads to even shorter data, with 16
 characters for PIC compression and 28 characters for linear compression. This
@@ -193,7 +210,3 @@ Different numpress compression schemes result in different accuracy, the LINEAR
 compression scheme introduced an inaccuracy of 10e-10 while the PIC (positive
 integer compression) can only store positive integers and results in greater
 loss of accuracy. 
-
-.. image:: ./img/launch_binder.jpg
-   :target: https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/mzMLFileFormat.ipynb
-   :alt: Launch Binder
