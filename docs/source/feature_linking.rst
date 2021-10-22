@@ -48,9 +48,10 @@ All ``FeatureMap`` objects will be combined in a ``ConsensusMap``.
 
     file_descriptions = consensus_map.getColumnHeaders()
 
+    # collect information about input maps
     for i, feature_map in enumerate(feature_maps):
         file_description = file_descriptions.get(i, ColumnHeader())
-        file_description.filename = feature_map.getMetaValue('spectra_data')[0].decode()
+        file_description.filename = feature_map.getDataProcessing()[0].getMetaValue('parameter: in')[:-5]
         file_description.size = feature_map.size()
         file_description.unique_id = feature_map.getUniqueId()
         file_descriptions[i] = file_description
