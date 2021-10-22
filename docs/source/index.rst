@@ -52,7 +52,7 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
    :maxdepth: 2
    :caption: Mass Spectrometry Concepts
 
-   datastructures
+   datastructures_peak
    chemistry
    aasequences
    nasequences
