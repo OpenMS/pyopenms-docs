@@ -59,6 +59,8 @@ Plotting RTs prior and after alignment for each transformed feature map.
 
 .. code-block:: python
 
+    import plotly.graph_objects as go
+
     for fm in feature_maps[:ref_index] + feature_maps[ref_index+1:]:
         fig = go.Figure()
 
