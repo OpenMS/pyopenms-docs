@@ -85,5 +85,5 @@ Note: the output file that we have written (``output.featureXML``) is an
 OpenMS-internal XML format for storing features. You can learn more about file
 formats in the `Reading MS data formats <other_file_handling.html>`_ section.
 
-[1]:https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_FeatureFinderCentroided.html
-[2]:https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_FeatureFinderIdentification.html
+[1]: https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_FeatureFinderCentroided.html
+[2]: https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_FeatureFinderIdentification.html
