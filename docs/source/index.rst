@@ -57,6 +57,7 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
    aasequences
    nasequences
    theoreticalspectrumgenerator
+   spectrumalignment
    digestion
    datastructures_id
    datastructures_quant

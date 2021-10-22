@@ -15,7 +15,7 @@ First we load a (chemically modified) peptide:
 
     exp = MSExperiment()
     # Load mzML file and obtain spectrum for peptide YIC(Carbamidomethyl)DNQDTISSK
-    MzMLFile().load("observed", exp)
+    MzMLFile().load("observed.mzML", exp)
     
     # Get first spectrum
     spectra = exp.getSpectra()
@@ -43,11 +43,11 @@ Now we want to find matching peaks between observed and theoretical spectrum.
   spa = SpectrumAlignment()
   p = spa.getParameters()
   # use 0.5 Da tolerance (Note: for high-resolution data we could also use ppm by setting the is_relative_tolerance value to true)
-  p.setValue(b"tolerance", 0.5)
-  p.setValue(b"is_relative_tolerance", b"false")  
+  p.setValue("tolerance", 0.5)
+  p.setValue("is_relative_tolerance", "false")  
   spa.setParameters(p)
   # align both spectra
-  spa.getSpectrumAlignment(alignment, theo_spectrum, spectrum)
+  spa.getSpectrumAlignment(alignment, theo_spectrum, observed_spectrum)
 
 The alignment contains a list of matched peak indices. We can simply inspect matching peaks with:
 
@@ -57,8 +57,10 @@ The alignment contains a list of matched peak indices. We can simply inspect mat
   print("ion\ttheo. m/z\tobserved m/z")
 
   for theo_idx, obs_idx in alignment:
-      ion_name = theo_spectrum.getStringDataArrays()[0][theo_idx]
-      ion_charge = theo_spectrum.getIntegerDataArrays()[0][theo_idx]      
-      print(ion_name + "\t" + ion_charge + "\t" + str(theo_spectrum[theo_idx].getMZ()) 
-        + "\t" + str(spectrum[obs_idx].getMZ()))
-      
+      ion_name = theo_spectrum.getStringDataArrays()[0][theo_idx].decode()
+      ion_charge = theo_spectrum.getIntegerDataArrays()[0][theo_idx]
+      print(ion_name + "\t" + str(ion_charge) + "\t"
+        + str(theo_spectrum[theo_idx].getMZ())
+        + "\t" + str(observed_spectrum[obs_idx].getMZ()))
+        
+              
