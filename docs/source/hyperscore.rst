@@ -7,7 +7,7 @@ we can use HyperScore.
 Background
 **********
 
-HyperScore computes the (ln transformed) X!Tandem HyperScore of theoretical spectrum,
+HyperScore computes the (ln transformed) X!Tandem HyperScore of a theoretical spectrum,
 calculated from a peptide/oligonucleotide sequence, with an experimental spectrum,
 loaded from an mzML file.
 
