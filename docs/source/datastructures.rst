@@ -416,3 +416,91 @@ This can be useful for a brief visual inspection of your sample in quality contr
    plot_spectra_2D_overview(exp)
 
 .. image:: img/Spectra2DOverview.png
+
+
+Examples: 
+=========
+
+Here we will look at some code snippets that might come in handy
+when dealing with spectra data.
+
+But first, we will load some test data:
+
+.. code-block:: python
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
+
+    inp = MSExperiment()
+    MzMLFile().load("test.mzML", inp)
+
+
+Filtering Spectra
+*****************
+
+
+Filtering Spectra by MS level
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We will filter the data from "test.mzML" file by only retaining 
+only spectra that are not MS1 spectra (e.g.\ MS2, MS3 or MSn spectra):
+
+.. code-block:: python
+  :linenos:
+
+  filtered = MSExperiment()
+  for s in inp:
+    if s.getMSLevel() > 1:
+      filtered.addSpectrum(s)
+
+  # filtered now only contains spectra with MS level > 2
+
+
+Filtering by scan number
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+We could also use a list of scan numbers as filter criterium 
+to only retain a list of MS scans we are interested in:
+
+.. code-block:: python
+  :linenos:
+
+  scan_nrs = [0, 2, 5, 7]
+
+  filtered = MSExperiment()
+  for k, s in enumerate(inp):
+    if k in scan_nrs:
+      filtered.addSpectrum(s)
+
+
+Filtering Spectra and Peaks
+***************************
+
+Suppose we are interested in only in a small m/z window of our fragment ion spectra.
+We can easily filter our data accordingly:
+
+.. code-block:: python
+  :linenos:
+
+  mz_start = 6.0
+  mz_end = 12.0
+  filtered = MSExperiment()
+  for s in inp:
+    if s.getMSLevel() > 1:
+      filtered_mz = []
+      filtered_int = []
+      for mz, i in zip(*s.get_peaks()):
+        if mz > mz_start and mz < mz_end:
+          filtered_mz.append(mz)
+          filtered_int.append(i)
+      s.set_peaks((filtered_mz, filtered_int))
+      filtered.addSpectrum(s)
+
+    # filtered only contains only fragment spectra with peaks in range [mz_start, mz_end]
+ 
+
+Note that in a real-world application, we would set the ``mz_start`` and
+``mz_end`` parameter to an actual area of interest, for example the area
+between 125 and 132 which contains quantitative ions for a TMT experiment.
+
+Similarly we could only retain peaks above a certain
+intensity or keep only the top N peaks in each spectrum.

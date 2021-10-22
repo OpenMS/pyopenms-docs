@@ -64,12 +64,6 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
 
 .. toctree::
    :maxdepth: 2
-   :caption: Simple Data Manipulation
-
-   data_manipulation
-
-.. toctree::
-   :maxdepth: 2
    :caption: OpenMS Algorithms
 
    parameter_handling
