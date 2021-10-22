@@ -64,10 +64,7 @@ With a few lines of Python, we are able to run powerful algorithms available in
 OpenMS. The resulting data is held in memory (a ``FeatureMap`` object) and can be
 inspected directly using the ``help(features)`` comment. It reveals that the
 object supports iteration (through the ``__iter__`` function) as well as direct
-access (through the ``__getitem__`` function).  We can also inspect the entry
-for ``FeatureMap`` in the `pyOpenMS manual
-<http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ and learn about the same
-functions. This means we write code that uses direct access and iteration in
+access (through the ``__getitem__`` function). This means we write code that uses direct access and iteration in
 Python as follows:
 
 .. code-block:: python
