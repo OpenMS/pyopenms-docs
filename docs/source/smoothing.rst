@@ -7,7 +7,6 @@ further analysis
 .. code-block:: python
 
   from urllib.request import urlretrieve
-  # from urllib import urlretrieve  # use this code for Python 2.x
   from pyopenms import *
   gh = "https://raw.githubusercontent.com/OpenMS/OpenMS/develop"
   urlretrieve (gh +"/share/OpenMS/examples/peakpicker_tutorial_1_baseline_filtered.mzML", "tutorial.mzML")

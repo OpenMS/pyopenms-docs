@@ -57,6 +57,7 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
    aasequences
    nasequences
    theoreticalspectrumgenerator
+   spectrumalignment
    digestion
    datastructures_id
    datastructures_quant
@@ -78,6 +79,7 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
    mass_decomposition
    deisotoping
    feature_detection
+   map_alignment
    peptide_search
    chromatographic_analysis
    metabolomics_targeted_feature_extraction
@@ -88,6 +90,12 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
    :caption: Example Workflows
 
    id_by_mz
+
+.. toctree::
+   :maxdepth: 2
+   :caption: How to contribute
+
+   contribute
 
 .. toctree::
    :maxdepth: 2
@@ -109,6 +117,11 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
    build_from_source
    wrap_classes
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Support
+
+   support
 
 
 Indices and tables

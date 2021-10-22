@@ -21,7 +21,6 @@ a fasta database of protein sequences:
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     from pyopenms import *
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh +"/src/data/SimpleSearchEngine_1.mzML", "searchfile.mzML")
@@ -143,7 +142,6 @@ Now include some additional decoy database generation step as well as subsequent
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     searchfile = "../../src/data/BSA1.mzML"
     searchdb = "../../src/data/18Protein_SoCe_Tr_detergents_trace.fasta"
 

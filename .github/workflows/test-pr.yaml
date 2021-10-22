@@ -12,7 +12,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
+    
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v10.1
+      with:
+          path: docs/source
+          files: |
+            \.rst$
+      
     - uses: r-lib/actions/setup-pandoc@v1
       with:
         pandoc-version: '2.14.2'
@@ -37,10 +45,8 @@ jobs:
           ./generate_ipynb.sh
         popd
 
-
-    - name: Testing notebooks
+    - name: List all modified files
       run: |
-        for f in docs/source/*.ipynb
-        do
-          jupyter nbconvert --to notebook --inplace --execute $f
+        for file in ${{ steps.changed-files.outputs.all_modified_files }}; do
+          jupyter nbconvert --to notebook --inplace --execute ${file%.rst}.ipynb
         done

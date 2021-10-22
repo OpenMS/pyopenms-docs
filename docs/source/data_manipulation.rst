@@ -8,7 +8,6 @@ data, such as filtering. First we will download some sample data.
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
 

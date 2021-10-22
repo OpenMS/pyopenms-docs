@@ -3,11 +3,12 @@ div.highlight-python td.code pre {
          padding-left: 0px;
 }
 
-/* For a sticky header, so binder buttons etc. can always be clicked */
+/* For a sticky header, so binder buttons etc. can always be clicked. z-index 1000 to stay on top of other relative divs like code snippets */
 div[aria-label="Page navigation"] {
     top: 0;
     position: sticky;
     background: #fcfcfc;
+    z-index: 1000;
 }
 
 /* Adjust scroll behaviour for anchors in section headers to sticky header */

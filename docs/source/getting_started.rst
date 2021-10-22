@@ -93,9 +93,7 @@ documentation of the base classes:
 
 We could now continue our investigation by reading the documentation of the
 base classes ``DocumentIdentifier`` and ``MetaInfoInterface``, but we will
-leave this exercise for the interested reader.  In order to get more
-information about the wrapped functions, we can also consult the `pyOpenMS manual <http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ which references to
-all wrapped functions. For a more complete documentation of the underlying
+leave this exercise for the interested reader. For a more complete documentation of the underlying
 wrapped methods, please consult the official OpenMS documentation, in this case
 the `MSExperiment documentation <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1MSExperiment.html>`_.
 
