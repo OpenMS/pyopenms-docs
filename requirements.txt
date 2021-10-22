@@ -1,5 +1,6 @@
 pyopenms
 matplotlib
+plotly
 pandas
 adjustText
 sklearn
