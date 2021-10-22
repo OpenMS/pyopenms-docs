@@ -20,8 +20,8 @@ FeatureFinders are available in pyOpenMS:
   - FeatureFinderMetaboIdentCompound
 
 All of the algorithms above are for proteomics data with the exception of
-FeatureFindingMetabo, FeatureFinderMetaboIdent and FeatureFinderMetaboIdentCompound which work on metabolomics data. One of the most commonly
-used FeatureFinders in OpenMS is the [FeatureFinderCentroided](https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_FeatureFinderCentroided.html) and [FeatureFinderIdentification](https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_FeatureFinderIdentification.html) which both work on (high
+FeatureFindingMetabo, FeatureFinderMetaboIdent and FeatureFinderMetaboIdentCompound which work on metabolomics data. Two of the most commonly
+used FeatureFinders in OpenMS are the FeatureFinder and FeatureFinderIdentificationAlgorithm which both work on (high
 resolution) centroided data. We can use the following code to find ``Features``
 in MS data:
 
