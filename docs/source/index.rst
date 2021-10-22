@@ -77,6 +77,7 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
    normalization
    mass_decomposition
    deisotoping
+   map_alignment
    feature_detection
    peptide_search
    chromatographic_analysis
