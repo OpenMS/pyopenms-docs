@@ -220,7 +220,7 @@ will be obsolete when implemented in pyopenms directly
             return pd.DataFrame(mdarr).set_index('id')
 
 Feature Map Retention Time Alignment
-********************************
+************************************
 in: unaligned feature maps (feature_maps)
 
 out: feature maps aligned on the first feature map in the list (feature_maps)
