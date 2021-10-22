@@ -24,7 +24,7 @@ loaded from an mzML file.
 Generate a theoretical spectrum
 *******************************
 
-We now use the TheoreticalSpectrumGenerator generate a theoretical spectrum for the sequence we are interested in,
+We now use the TheoreticalSpectrumGenerator to generate a theoretical spectrum for the sequence we are interested in,
 ``RPGADSDIGGFGGLFDLAQAGFR``, and compare the peaks to a spectra from our file.
 
 
