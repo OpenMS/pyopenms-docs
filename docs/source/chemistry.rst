@@ -351,7 +351,7 @@ Hydrogen clearly distinguished while the coarse (unit resolution)
 isotopic distribution contains summed probabilities for each isotopic peak
 without the hyperfine resolution.  
 
-Please refer to our previous discussion on the `mass defect <#mass-defect>`_ to understand the
+Please refer to our previous discussion on the `mass defect <#Mass-Defect>`_ to understand the
 results of the hyperfine algorithm and why different elements produce slightly
 different masses.
 In this example, the hyperfine isotopic distribution will 

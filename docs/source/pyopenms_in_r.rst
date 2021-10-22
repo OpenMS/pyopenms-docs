@@ -91,7 +91,7 @@ In this case, the help function indicates that the ``idXML$load()`` function req
        - an empty vector for pyopenms.ProteinIdentification objects
        - an empty vector for pyopenms.PeptideIdentification objects
 
-In order to read peptide identification data, we can download the `idXML example file <https://github.com/OpenMS/OpenMS/raw/develop/master/OpenMS/examples/BSA/BSA1_OMSSA.idXML.mzML>`_
+In order to read peptide identification data, we can download the `idXML example file <https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/examples/BSA/BSA1_OMSSA.idXML>`_
 
 Creating an empty R ``list()`` unfortunately is not equal to the empty python ``list []``.
 
@@ -131,11 +131,11 @@ Reading an mzML File
 
 pyOpenMS supports a variety of different files through the implementations in
 OpenMS. In order to read mass spectrometric data, we can download the `mzML
-example file <https://github.com/OpenMS/OpenMS/raw/develop/master/OpenMS/examples/BSA/BSA1.mzML>`_
+example file <https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/examples/BSA/BSA1.mzML>`_
 
 .. code-block:: R
 
-    download.file("https://github.com/OpenMS/OpenMS/raw/master/share/OpenMS/examples/BSA/BSA1.mzML", "BSA1.mzML")
+    download.file("https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/examples/BSA/BSA1.mzML", "BSA1.mzML")
 
     library(reticulate)
     ropenms=import("pyopenms", convert = FALSE)
