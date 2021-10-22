@@ -11,7 +11,7 @@ Different map alignment algorithms are available in pyOpenMS:
 - MapAlignmentAlgorithmKD
 - MapAlignmentTransformer
 
-A commonly used algorithm is the MapAlignmentAlgorithmPoseClustering. In the example below it is used for the alignment of feature maps.
+To perform a simple linear alignment we can employ the algorithm the MapAlignmentAlgorithmPoseClustering. In the example below it is used for the alignment of feature maps.
 
 Download Example Data
 *********************
