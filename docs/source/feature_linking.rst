@@ -7,7 +7,7 @@ It is, thus, advisable to perform a map alignment before feature linking.
 
 Optionally, identification data can be considered to prevent linking of features with different identifications.
 
-.. image:: img/map_alignment_illustration.png
+.. image:: img/linking_illustration.png
 
 Different feature grouping algorithms with slightly different implementations are runtime characteristics 
 are available in pyOpenMS:
