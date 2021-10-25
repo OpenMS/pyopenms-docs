@@ -418,8 +418,8 @@ This can be useful for a brief visual inspection of your sample in quality contr
 .. image:: img/Spectra2DOverview.png
 
 
-Examples: 
-=========
+Example: Filtering Spectra
+**************************
 
 Here we will look at some code snippets that might come in handy
 when dealing with spectra data.
@@ -433,10 +433,6 @@ But first, we will load some test data:
 
     inp = MSExperiment()
     MzMLFile().load("test.mzML", inp)
-
-
-Filtering Spectra
-*****************
 
 
 Filtering Spectra by MS level
@@ -474,7 +470,7 @@ to only retain a list of MS scans we are interested in:
 
 
 Filtering Spectra and Peaks
-***************************
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Suppose we are interested in only in a small m/z window of our fragment ion spectra.
 We can easily filter our data accordingly:
@@ -505,3 +501,6 @@ between 125 and 132 which contains quantitative ions for a TMT experiment.
 
 Similarly we could only retain peaks above a certain
 intensity or keep only the top N peaks in each spectrum.
+
+For more advanced filtering tasks pyOpenMS provides special algorithm classes.
+We will take a closer look at some of them in the algorithm section.
