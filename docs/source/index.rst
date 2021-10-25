@@ -36,15 +36,10 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
 
 .. toctree::
    :maxdepth: 2
-   :caption: Installation
+   :caption: Getting started
 
    installation
-
-.. toctree::
-   :maxdepth: 2
-   :caption: First steps
-
-   getting_started
+   first_steps
 
 .. toctree::
    :maxdepth: 2
@@ -93,7 +88,7 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
 .. toctree::
    :maxdepth: 2
    :caption: Advanced Topics
-   
+
    file_handling
    other_file_handling   
    mzMLFileFormat

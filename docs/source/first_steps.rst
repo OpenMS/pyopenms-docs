@@ -1,8 +1,5 @@
-Getting Started
-===============
-
 Import pyopenms
-***************
+===============
 
 After installation, you should be able to import pyopenms as a package
 
@@ -22,7 +19,7 @@ interact with the OpenMS library and, for example, read and write mzML files:
 which will create an empty mzML file called `testfile.mzML`.
 
 Getting help
-************
+============
 
 There are multiple ways to get information about the available functions and
 methods. We can inspect individual pyOpenMS objects through the ``help``
@@ -99,10 +96,10 @@ the `MSExperiment documentation <https://abibuilder.informatik.uni-tuebingen.de/
 
 
 First look at data
-******************
+==================
 
 File reading
-^^^^^^^^^^^^
+************
 
 pyOpenMS supports a variety of different files through the implementations in
 OpenMS. In order to read mass spectrometric data, we can download the `mzML`
@@ -166,7 +163,7 @@ iterate through the spectra as follows:
 
 
 Iteration
-^^^^^^^^^
+*********
 
 .. code-block:: python
 
@@ -227,7 +224,7 @@ slower):
     2.0
 
 Total ion current calculation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*****************************
 
 Here, we will apply what we have learned to calculate the total ion current (TIC). The TIC represents the
 summed intensity across the entire range of masses being detected at every point in the analysis. 
@@ -269,7 +266,7 @@ the sum over all peaks (right ``sum``) and the sum over all spectra (left
 ``sum``) to retrieve the TIC).
 
 Total ion current chromatogram
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+******************************
 
 The total ion current is visualized over the retention time, to allow for the inspection
 of areas with general high intensity (usually multiple analytes were measured there).
