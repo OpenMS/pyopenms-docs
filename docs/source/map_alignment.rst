@@ -3,6 +3,11 @@ Map Alignment
 
 The pyOpenMS map alignment algorithms transform different maps (peak maps, feature maps) to a common retention time axis.
 
+.. image:: img/map_alignment_illustration.png
+
+Note: Creating a consensus map from the aligned maps is performed by a feature linking algorithm (see next chapter).
+
+
 Different map alignment algorithms are available in pyOpenMS:
 
 - MapAlignmentAlgorithmPoseClustering

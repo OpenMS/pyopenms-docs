@@ -8,6 +8,9 @@ from a FASTA database. OpenMS contains a (simple) implementation of such a
 generated from an enzymatic or chemical digest of a proteome (e.g. tryptic
 digest). 
 
+.. image:: img/database_search_illustration.png
+
+
 SimpleSearch
 ************
 
