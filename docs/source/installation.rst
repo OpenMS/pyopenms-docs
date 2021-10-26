@@ -1,5 +1,19 @@
-pyOpenMS Installation
-=====================
+Installation
+============
+
+
+Try online
+----------
+
+You can try out pyOpenMS in your browser. Just navigate to a topic you are interested in
+by clicking in the menu bar. Then click on the "Try online with Binder" button.
+
+.. image:: img/binderIntegration.gif
+
+Note that the first start of binder might take a bit. While binder is perfect
+for trying pyOpenMS it only offers a limited amount of memory. You should install
+the pyOpenMS binaries on your PC for serious data processing.
+
 
 Binaries
 ********
