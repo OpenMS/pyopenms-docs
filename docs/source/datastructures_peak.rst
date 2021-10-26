@@ -62,42 +62,25 @@ We now set several of these properties in a current MSSpectrum:
 .. code-block:: python
     :linenos:
 
+    # create spectrum and set properties
     spectrum = MSSpectrum()
     spectrum.setDriftTime(25) # 25 ms
     spectrum.setRT(205.2) # 205.2 s
     spectrum.setMSLevel(3) # MS3
+    
+    # Add peak(s) to spectrum
+    spectrum.set_peaks( ([401.5], [900]) )
+    
+    # create precursor information
     p = Precursor()
+    p.setMZ(600) # isolation at 600 +/- 1.5 Th
     p.setIsolationWindowLowerOffset(1.5)
     p.setIsolationWindowUpperOffset(1.5) 
-    p.setMZ(600) # isolation at 600 +/- 1.5 Th
     p.setActivationEnergy(40) # 40 eV
     p.setCharge(4) # 4+ ion
+    
+    # and store precursor in spectrum
     spectrum.setPrecursors( [p] )
-
-    # Add raw data to spectrum
-    spectrum.set_peaks( ([401.5], [900]) )
-
-    # Additional data arrays / peak annotations
-    fda = FloatDataArray()
-    fda.setName("Signal to Noise Array")
-    fda.push_back(15)
-    sda = StringDataArray()
-    sda.setName("Peak annotation")
-    sda.push_back("y15++")
-    spectrum.setFloatDataArrays( [fda] )
-    spectrum.setStringDataArrays( [sda] )
-
-    # Add spectrum to MSExperiment
-    exp = MSExperiment()
-    exp.addSpectrum(spectrum)
-
-    # Add second spectrum and store as mzML file
-    spectrum2 = MSSpectrum()
-    spectrum2.set_peaks( ([1, 2], [1, 2]) )
-    exp.addSpectrum(spectrum2)
-
-    MzMLFile().store("testfile.mzML", exp)
-
 
     # set additional instrument settings (e.g. scan polarity)
     InstrumentSettings = InstrumentSettings()
@@ -111,29 +94,44 @@ We now set several of these properties in a current MSSpectrum:
     elif (polarity == IonSource.Polarity.NEGATIVE):
       print("scan polarity: negative")
 
-We have created a single spectrum on line 3 and add meta information (drift
+    # Optional: additional data arrays / peak annotations
+    fda = FloatDataArray()
+    fda.setName("Signal to Noise Array")
+    fda.push_back(15)
+    sda = StringDataArray()
+    sda.setName("Peak annotation")
+    sda.push_back("y15++")
+    spectrum.setFloatDataArrays( [fda] )
+    spectrum.setStringDataArrays( [sda] )
+
+    # Add spectrum to MSExperiment
+    exp = MSExperiment()
+    exp.addSpectrum(spectrum)
+
+    # Add second spectrum to the MSExperiment
+    spectrum2 = MSSpectrum()
+    spectrum2.set_peaks( ([1, 2], [1, 2]) )
+    exp.addSpectrum(spectrum2)
+
+    # store spectra in mzML file
+    MzMLFile().store("testfile.mzML", exp)
+
+
+We have created a single spectrum and set basic spectrum properties (drift
 time, retention time, MS level, precursor charge, isolation window and
-activation energy) on lines 4-13. In additon, we are able to add instrument
-settings (e.g. the polarity of the Ion source). We next add actual peaks
-into the spectrum (a single peak at 401.5 *m/z* and 900 intensity) on line 20
-and on lines 23-31 add further meta information in the form of additional
-data arrays for each peak (e.g. one trace describes "Signal to Noise" for each
-peak and the second traces describes the "Peak annotation", identifying the peak
-at 401.5 *m/z* as a doubly charged y15 ion). Finally, we add the spectrum to
-a ``MSExperiment`` container on lines 38-40 and store the container in using
-the ``MzMLFile`` class in a file called "testfile.mzML" on line 49. To ensure our
-viewer works as expected, we add a second spectrum to the file before storing the file.
-In some cases you might be intereset in the metadata prefiously added to a ``MSSpectrum``
-either by yourself or by loading a ``MzMLFile``. Line 44-49 show shot example on how to
-access and check the scan polarity.
+activation energy). Additional instrument settings allow to set e.g. the polarity of the Ion source).
+We next add actual peaks into the spectrum (a single peak at 401.5 *m/z* and 900 intensity).
+Additional metadata can be stored in data arrays for each peak 
+(e.g. use cases care peak annotations or  "Signal to Noise" values for each
+peak. Finally, we add the spectrum to an ``MSExperiment`` container to save it using the ``MzMLFile`` class in a file called "testfile.mzML". 
 
 You can now open the resulting spectrum in a spectrum viewer. We use the OpenMS
 viewer ``TOPPView`` (which you will get when you install OpenMS from the
-official website) and look at our MS3 spectrum:
+official website) and look at our spectrum:
 
 .. image:: img/spectrum1.png
 
-TOPPView displays our MS3 spectrum with its single peak at 401.5 *m/z* and it
+TOPPView displays our spectrum with its single peak at 401.5 *m/z* and it
 also correctly displays its retention time at 205.2 seconds and precursor
 isolation target of 600.0 *m/z*.  Notice how TOPPView displays the information
 about the S/N for the peak (S/N = 15) and its annotation as ``y15++`` in the status
