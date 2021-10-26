@@ -4,39 +4,7 @@ pyOpenMS Installation
 Binaries
 ********
 
-Spyder
-------
-
-On Microsoft Windows, we recommend to use pyopenms together with Anaconda and
-the Spyder interface which you can download from the `Official Anaconda
-repository <https://www.anaconda.com/distribution/>`_. After installation,
-select the "Anaconda Powershell Prompt" from the start menu and enter the
-following command:
-
-.. code-block:: bash
-
-  pip install pyopenms
-
-which should result in the following output:
-
-.. image:: img/anaconda_prompt.png
-
-Once successfully installed, you can open the "Spyder" graphical user interface
-and pyopenms will be available:
-
-.. image:: img/spyder.png
-
-Note the console window (lower right) with the ``import pyopenms`` command,
-which was executed without error. Next, the Python script on the right was
-executed and the output is also shown on the console window.
-You can now use pyopenms within the Spyder environment,
-either `moving on with the pyOpenMS Tutorial <getting_started.html>`_ 
-or familiarize yourself first with the Spyder environment using
-the `Online Spyder Documentation <https://docs.spyder-ide.org/>`_.
-
-.. Recommendation: In order to enable interactive plots that allow zooming, we recommend to change the default plotting backend in Spyder. Go to Tools > preferences > IPython console > Graphics > Graphics backend and then change "Backend" to "Automatic".
-.. NOTE: this currently does not work, see https://github.com/spyder-ide/spyder/issues/9227
-.. NOTE: this means currently there is no interactive plotting with Spyder :-(
+We recommend to use pyOpenMS in PyCharm as it works well with source code documentation.
 
 Command Line
 ------------
@@ -82,16 +50,16 @@ You can then open a shell and type the command above. Note that the Github Actio
 contains unstable builds and may not list a download for your operating system. 
 
 
-Source
-******
+Source (advanced users)
+***********************
 
 To install pyOpenMS from :index:`source`, you will first have to compile OpenMS
 successfully on your platform of choice and then follow the `building from
 source <build_from_source.html>`_ instructions. Note that this may be
 non-trivial and *is not recommended* for most users.
 
-Wrap Classes
-************
+Wrap Classes (advanced users)
+*****************************
 
 In order to wrap new classes in pyOpenMS, read the following `guide
 <wrap_classes.html>`_.
