@@ -95,6 +95,8 @@ out: centroided mzML files in a subfolder 'centroid' (files)
                 PeakPickerHiRes().pickExperiment(exp_raw, exp_centroid)
                 
                 MzMLFile().store(os.path.join(files, 'centroid', file), exp_centroid)
+                
+                del exp_raw
 
         files = os.path.join(files, 'centroid')
 
