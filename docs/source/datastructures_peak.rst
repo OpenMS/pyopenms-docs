@@ -357,8 +357,10 @@ The following example figures were generated using a `mzML file <https://github.
         plt.show() # slow for larger data sets
    
    from urllib.request import urlretrieve
-   
-   urlretrieve('https://raw.githubusercontent.com/OpenMS/OpenMS/develop/src/tests/topp/FeatureFinderMetaboIdent_1_input.mzML', 'test.mzML')
+
+   gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+   urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML", "test.mzML")
+
    exp = MSExperiment()
    MzMLFile().load('test.mzML', exp)
    

@@ -29,7 +29,7 @@ in MS data:
 
   from urllib.request import urlretrieve
   gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
-  urlretrieve (gh +"/src/data/FeatureFinderCentroided_1_input.mzML", "feature_test.mzML")
+  urlretrieve (gh + "/src/data/FeatureFinderCentroided_1_input.mzML", "feature_test.mzML")
 
   from pyopenms import *
 

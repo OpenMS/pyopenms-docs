@@ -23,7 +23,7 @@ loaded from an mzML file.
     from urllib.request import urlretrieve
     from pyopenms import *
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
-    urlretrieve (gh +"/src/data/SimpleSearchEngine_1.mzML", "searchfile.mzML")
+    urlretrieve (gh + "/src/data/SimpleSearchEngine_1.mzML", "searchfile.mzML")
 
 Generate a theoretical spectrum
 *******************************
