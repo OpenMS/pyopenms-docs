@@ -42,7 +42,7 @@ type the two commands above (on Windows you may potentially have to use
 Nightly/ CI wheels
 ------------------
 
-Additionally, you can also install nightly builds of pyOpenMS from the command line.
+If you want the newest features you can also install nightly builds of pyOpenMS.
 Visit the GitHub page that contains the action to build the nightly wheels: https://github.com/OpenMS/OpenMS/actions/workflows/pyopenms-wheels.yml .
 Click on e.g., the newest nightly build on the top to get access to artefacts.
 
@@ -61,7 +61,7 @@ contains unstable builds and may not list a download for your operating system.
 
 
 Source (advanced users)
-***********************
+-----------------------
 
 To install pyOpenMS from :index:`source`, you will first have to compile OpenMS
 successfully on your platform of choice and then follow the `building from
@@ -69,7 +69,7 @@ source <build_from_source.html>`_ instructions. Note that this may be
 non-trivial and *is not recommended* for most users.
 
 Wrap Classes (advanced users)
-*****************************
+-----------------------------
 
 In order to wrap new classes in pyOpenMS, read the following `guide
 <wrap_classes.html>`_.
