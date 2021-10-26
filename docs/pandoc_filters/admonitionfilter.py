@@ -4,7 +4,6 @@
 Pandoc filter to convert divs with class="admonition" to ipynb
 """
 
-import sys
 from pandocfilters import toJSONFilter, RawBlock, Div, stringify
 
 # from: https://docutils.sourceforge.io/docs/ref/rst/directives.html#admonitions
@@ -41,10 +40,10 @@ def html(x):
     return RawBlock('html', x)
 
 
-def admonitions(key, value, format, meta):
+def admonitions(key, value, fmt, meta):
     if key == 'Div':
         [[ident, classes, kvs], contents] = value
-        if any(item in classes for item in admonition_types) and format == "ipynb":
+        if any(item in classes for item in admonition_types) and fmt == "ipynb":
             header = stringify(contents[0])
             admonition_subtype = "notfound"
             if "admonition" not in classes:
@@ -54,11 +53,11 @@ def admonitions(key, value, format, meta):
                     if subtype in header.lower():
                         admonition_subtype = subtype
                         break
-            newcontents = [html('<div style="background-color: ' +
-                                admonition_colors[admonition_subtype] +
-                                '; margin: 10px 0px; padding:12px;"><p style="font-size: x-large"><i class="' +
-                                admonition_icons[admonition_subtype] + '"></i> <b>' +
-                                header + '</b></p>')] + contents[1:] + [html('</div>')]
+            newcontents = [html('<div style="background-color: '
+                                + admonition_colors[admonition_subtype]
+                                + '; margin: 10px 0px; padding:12px;"><p style="font-size: x-large"><i class="'
+                                + admonition_icons[admonition_subtype] + '"></i> <b>'
+                                + header + '</b></p>')] + contents[1:] + [html('</div>')]
             return Div([ident, classes, kvs], newcontents)
 
 
