@@ -22,7 +22,7 @@ proteomics and metabolomics quality metrics.
     output_file = 'result.mzQC'
 
     # load mzML file in MSExperiment
-    urlretrieve(gh + "/src/data/QCCalculator_input.mzML", 'input.mzML')
+    urlretrieve (gh + "/src/data/QCCalculator_input.mzML", 'input.mzML')
     exp = MSExperiment()
     MzMLFile().load('input.mzML', exp)
 
@@ -34,13 +34,13 @@ proteomics and metabolomics quality metrics.
 
     feature_map = FeatureMap()
     # OPTIONAL: load featureXML file in FeatureMap()
-    urlretrieve(gh + "/src/data/FeatureFinderMetaboIdent_1_output.featureXML", 'features.featureXML')
+    urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_output.featureXML", 'features.featureXML')
     FeatureXMLFile().load('features.featureXML', feature_map)
 
     prot_ids = [] # list of ProteinIdentification()
     pep_ids = [] # list of PeptideIdentification()
     # OPTIONAL: get protein and peptide identifications from idXML file
-    urlretrieve(gh + "/src/data/OpenPepXL_output.idXML", 'ids.idXML')
+    urlretrieve (gh + "/src/data/OpenPepXL_output.idXML", 'ids.idXML')
     IdXMLFile().load('ids.idXML', prot_ids, pep_ids)
 
     # create MzQCFile object and use store() to calculate and write the mzQC file
