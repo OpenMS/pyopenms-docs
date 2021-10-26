@@ -25,3 +25,9 @@ A sample is measured over the retention time of the chromatography and the mass-
 .. image:: img/introduction_MS.png
 
 In proteomics and metabolomics, the MS1 intensity is often used for the quantification of an analyte. Identification based on the MS1 mass-to-charge and the isotope pattern is highly ambiguous. To improve identification, tandem mass spectrometry (MS/MS) can be applied to assess the analyte substructure. To this end, the precursor ion is isolated and kinetically fragmented using an inert gas (e.g., Argon). Fragments produced by collision-induced fragmentation (CID) are stored in an MS2 (MS/MS) spectrum and provide information that helps to resolve the ambiguities in identification. Alternatively, MS/MS spectra can be used for quantification.
+
+
+How to use Binder Integration
+-----------------------------
+
+.. image:: img/binderIntegration.gif
