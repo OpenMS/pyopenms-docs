@@ -7,9 +7,46 @@ This introduction is aimed at users new to the field of LC-MS data analysis and 
 
 How to handle the data analysis, available data structures, algorithms and more are covered in the various subsections of this documentation.
 
+Introduction
+============
+
+Proteomics and metabolomics are interdisciplinary research fields that study struc-
+ture, function, and interaction of proteins and metabolites. They employ large-scale
+
+experimental techniques that allow acquiring data at the level of cellular systems to
+whole organisms. One of the main analytical method to identify, characterize or quantify
+proteins and metabolites is mass spectrometry (MS) combined with chromatographic
+separation.
+
+In mass spectrometry-based proteomics and metabolomics, biological samples are
+extracted, prepared, and separated to reduce sample complexity. The separated analytes
+are ionized and measured in the mass spectrometer. Mass and abundance of ions are
+stored in mass spectra and used to identify and quantify the analytes in the sample
+using computational methods. The quantity and identity of analytes can then be used,
+for instance, in biomarker discovery, medical diagnostics, or basic research.
+
+
 Liquid Chromatography
 ---------------------
-LC aims to reduce the complexity of the measured sample by separating analytes based on their physicochemical properties. Separating analytes in time ensures that a manageable amount of analytes elute at the same time. A LC system is comprised of solvent/eluent, pump, injection valve, column and a detector. The column (stationary phase) has certain physicochemical properties and is used in combination with a solvent/eluent (mobile phase). The method is very versatile due to the various combination of stationary and mobile phases. In most cases, reverse-phase chromatography is used in Proteomics (study of peptides and proteins) and Metabolomics (study of small molecules). Here, separation is based on hydrophobicity using a hydrophobic material as a stationary phase (e.g. C18) and a hydrophilic mobile phase (e.g. Acetonitrile). Hydrophobic analytes interact stronger with the column and are therefore retained longer. These interactions are reflected in the retention time of a certain analyte. Nowadays, this setup is enhanced by using pressure in combination with small diameter columns, also called high-performance liquid chromatography (HPLC). The mobile phase is pumped with very high pressure in small diameter beads to an increase in sensitivity by increasing the signal-to-noise ratio. The resolution of the chromatography is dependent on column length, inner diameter, particle size, stationary phase, flow rate, pressure and temperature, as well as the composition of the mobile phase. In addition, different gradients can be used which vary in time and the concentration slope of the solvent/eluent, which can be optimized to fit the experimental needs.
+LC aims to reduce the complexity of the measured sample by separating analytes 
+based on their physicochemical properties. Separating analytes in time ensures that 
+a manageable amount of analytes elute at the same time.
+In mass spectrometry-based proteomics, (high-pressure) liquid chromatographic
+separation techniques (HPLC) are methods of choice to achieve a high degree of
+separation. In HPLC, peptides are separated on a column. Solved in a pressurized liquid (mobile phase)
+they are pumped through a solid adsorbent material (stationary phase) packet into a
+capillary column. Physicochemical properties of each peptide determine how strongly it
+interacts with the stationary phase. The most commonly HPLC technique in proteomics
+and metabolomics uses reversed-phase chromatography (RPC) columns. RPC employs a hydrophobic
+stationary phase like octadecyl (C18), a nonpolar carbon chain bonded to a silica base,
+and a polar mobile phase. Polar molecules interact weakly with the stationary phase
+and elute earlier, while non-polar molecules are retained. Interaction can be further
+modulated by changing the gradient of solvent concentration in the mobile phase
+over time. Elution times in LC are inherently prone to variation, for example, due
+to fluctuations in the flow rate of the mobile phase or change of column. Retention
+time shifts between runs may be compensated using computational chromatographic 
+retention time alignment methods. In the LC-MS setup, the column is directly coupled
+to the ion source of the mass spectrometer.
 
 .. image:: img/introduction_LC.png
 
