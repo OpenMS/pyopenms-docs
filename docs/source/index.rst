@@ -63,7 +63,6 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
    algorithms
    smoothing
    normalization
-   mass_decomposition
    deisotoping
    feature_detection
    map_alignment
@@ -72,6 +71,7 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
    chromatographic_analysis
    metabolomics_targeted_feature_extraction
    mzqc_export
+   mass_decomposition
 
 .. toctree::
    :maxdepth: 2
@@ -93,17 +93,7 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
    other_file_handling   
    mzMLFileFormat
    memory_management
-
-.. toctree::
-   :maxdepth: 2
-   :caption: R language
-
    pyopenms_in_r
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Developers
-
    build_from_source
    wrap_classes
 
