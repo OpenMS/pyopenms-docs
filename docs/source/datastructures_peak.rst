@@ -463,13 +463,13 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
     # calculate the precursor purity in a 10 ppm precursor isolation window
     purity_score = PrecursorPurity().computePrecursorPurity(ms1_spectrum, ms2_precursor, 10, True)
 
-    print(purity_score.total_intensity)
-    print(purity_score.target_intensity)
-    print(purity_score.signal_proportion)
-    print(purity_score.target_peak_count)
-    print(purity_score.residual_peak_count)
+    print(purity_score.total_intensity) # 9098343.890625
+    print(purity_score.target_intensity) # 7057944.0
+    print(purity_score.signal_proportion) # 0.7757394186070014
+    print(purity_score.target_peak_count) # 1
+    print(purity_score.residual_peak_count) # 4
 
-We could assess that we have three other peaks apart from our precursor within our precursor isolation window.
+We could assess that we have four other non-isotopic peaks apart from our precursor and is isotope peaks within our precursor isolation window.
 The signal proportion was roughly 78% based on the measured intensities.
 
 
