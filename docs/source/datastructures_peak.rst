@@ -469,7 +469,7 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
     print(purity_score.target_peak_count) # 1
     print(purity_score.residual_peak_count) # 4
 
-We could assess that we have four other non-isotopic peaks apart from our precursor and is isotope peaks within our precursor isolation window.
+We could assess that we have four other non-isotopic peaks apart from our precursor and its isotope peaks within our precursor isolation window.
 The signal proportion was roughly 78% based on the measured intensities.
 
 
