@@ -12,7 +12,6 @@ Introduction
 
 Proteomics and metabolomics are interdisciplinary research fields that study struc-
 ture, function, and interaction of proteins and metabolites. They employ large-scale
-
 experimental techniques that allow acquiring data at the level of cellular systems to
 whole organisms. One of the main analytical method to identify, characterize or quantify
 proteins and metabolites is mass spectrometry (MS) combined with chromatographic
@@ -53,12 +52,39 @@ to the ion source of the mass spectrometer.
 
 Mass Spectrometry 
 -----------------
-A mass spectrometer (MS) measures ionized particles in mass-to-charge (m/z) space.  It consists of an ion source, a mass analyzer and an ion detector. The MS can be coupled to an LC System (LC-MS) to reduce the sample complexity before measuring the analyte. We will shortly explain the function based on a qTof instrument. It consists of an electrospray ionization (ESI) ion source and three quadrupoles (Q1-3) mass analyzers coupled to a time-of-flight (TOF) detector.
-
-An MS instrument can measure charged particles, there, the ESI comes into play, which ionizes the analytes. The instrument discussed here has three quadrupole mass analyzers. A quadrupole consists of four parallel metal rods, where an oscillating electric field is applied. The ionized particles are piped to the mass analyzer, which stabilizes the flight path of charged particles with a specific mass-to-charge ratio. Ions with a different mass-to-charge will be expelled, due to their unstable trajectories, unless the frequency is changed to allow these ions through the quadrupole. In the case of the qTOF, the filtered ions are forwarded to a time-of-flight (TOF) detector. It records the time of flight between the extraction pulse and the hit onto the detector. The charge and mass can be calculated from the flight time and the applied acceleration voltage.
-
-A sample is measured over the retention time of the chromatography and the mass-to-charge span on the instrumental. The measurement of one sample is an MS run and produces an MS map.
+MS is an analytical technique used to determine the mass of molecules. In order to
+achieve highly accurate and sensitive mass measurements at the atomic scale, mass
+spectrometers manipulate charged particles using magnetic and electrostatic fields.
 
 .. image:: img/introduction_MS.png
+
+In a typical mass spectrometer, three principal components can be identified:
+
+* Ion Source: A mass spectrometer only handles ions. Thus, charge needs first be transferred to
+uncharged particles. The component responsible for the ionization is the ion source. Different
+types of ion sources and ionization techniques exist with electrospray ionization (ESI)
+being currently the most widely used ionization technique for mass spectrometry-based
+proteomics.
+
+* Mass Analyzer: Most commonly used mass analyzer in proteomics are time-of-flight (TOF)
+mass analyzers, quadrupole mass filters, and orbitrap analyzers. In TOF mass analyzers,
+the ions are accelerated in an electric field. The flight time of an ion allows calculating
+the velocity which in turn is used to calculate the mass-to-charge ratio (m/z). Varying
+the electric field allows filtering certain mass-to-charge ratios before they enter the
+detector. In quadrupole mass filters, ions pass through an oscillating electric field created by
+four parallel rods. For a particular voltage, only ions in a certain mass-to-charge range
+will reach the detector. The orbitrap is an ion trap mass analyzer (and detector) that traps ions in orbital
+motion between a barrel-like outer electrode and a spindle-like central electrode
+allowing for prolonged mass measurement. As a result of the prolonged
+mass measurements, a high mass resolution can be achieved.
+
+* Detector: The last component of the mass spectrometer is the detector. It determines the abundance 
+of ions that passed through the mass analyzer. Ion intensities (a value that relates to its abundance) 
+and the mass-to-charge ratio are recorded in a mass spectrum.
+
+A sample is measured over the retention time of the chromatography typically resulting in tens of thousands of spectra. 
+The measurement of one sample is called an MS run and the set of spectra called an MS or peakmap.
+
+.. image:: img/spectrum_peakmap.png
 
 In proteomics and metabolomics, the MS1 intensity is often used for the quantification of an analyte. Identification based on the MS1 mass-to-charge and the isotope pattern is highly ambiguous. To improve identification, tandem mass spectrometry (MS/MS) can be applied to assess the analyte substructure. To this end, the precursor ion is isolated and kinetically fragmented using an inert gas (e.g., Argon). Fragments produced by collision-induced fragmentation (CID) are stored in an MS2 (MS/MS) spectrum and provide information that helps to resolve the ambiguities in identification. Alternatively, MS/MS spectra can be used for quantification.
