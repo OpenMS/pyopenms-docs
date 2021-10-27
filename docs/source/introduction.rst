@@ -3,11 +3,10 @@ Introduction
 
 pyOpenMS is a python library for Liquid Chromatography-Mass Spectrometry (LC-MS) data analysis.
 
-This introduction is aimed at users new to the field of LC-MS data analysis and will cover some basics in terms of data generation.
-
+Note: This introduction is aimed at users new to the field of LC-MS data analysis and will introduce some basics terms and concepts.
 How to handle the data analysis, available data structures, algorithms and more are covered in the various subsections of this documentation.
 
-Introduction
+Background
 ============
 
 Proteomics and metabolomics are interdisciplinary research fields that study struc-
@@ -60,30 +59,13 @@ spectrometers manipulate charged particles using magnetic and electrostatic fiel
 
 In a typical mass spectrometer, three principal components can be identified:
 
-* Ion Source: A mass spectrometer only handles ions. Thus, charge needs first be transferred to
-uncharged particles. The component responsible for the ionization is the ion source. Different
-types of ion sources and ionization techniques exist with electrospray ionization (ESI)
-being currently the most widely used ionization technique for mass spectrometry-based
-proteomics.
+* Ion Source: A mass spectrometer only handles ions. Thus, charge needs first be transferred to uncharged particles. The component responsible for the ionization is the ion source. Different types of ion sources and ionization techniques exist with electrospray ionization (ESI) being currently the most widely used ionization technique for mass spectrometry-based proteomics.
 
-* Mass Analyzer: Most commonly used mass analyzer in proteomics are time-of-flight (TOF)
-mass analyzers, quadrupole mass filters, and orbitrap analyzers. In TOF mass analyzers,
-the ions are accelerated in an electric field. The flight time of an ion allows calculating
-the velocity which in turn is used to calculate the mass-to-charge ratio (m/z). Varying
-the electric field allows filtering certain mass-to-charge ratios before they enter the
-detector. In quadrupole mass filters, ions pass through an oscillating electric field created by
-four parallel rods. For a particular voltage, only ions in a certain mass-to-charge range
-will reach the detector. The orbitrap is an ion trap mass analyzer (and detector) that traps ions in orbital
-motion between a barrel-like outer electrode and a spindle-like central electrode
-allowing for prolonged mass measurement. As a result of the prolonged
-mass measurements, a high mass resolution can be achieved.
+* Mass Analyzer: Most commonly used mass analyzer in proteomics are time-of-flight (TOF) mass analyzers, quadrupole mass filters, and orbitrap analyzers. In TOF mass analyzers, the ions are accelerated in an electric field. The flight time of an ion allows calculating the velocity which in turn is used to calculate the mass-to-charge ratio (m/z). Varying the electric field allows filtering certain mass-to-charge ratios before they enter the detector. In quadrupole mass filters, ions pass through an oscillating electric field created by four parallel rods. For a particular voltage, only ions in a certain mass-to-charge range will reach the detector. The orbitrap is an ion trap mass analyzer (and detector) that traps ions in orbital motion between a barrel-like outer electrode and a spindle-like central electrode allowing for prolonged mass measurement. As a result of the prolonged mass measurements, a high mass resolution can be achieved.
 
-* Detector: The last component of the mass spectrometer is the detector. It determines the abundance 
-of ions that passed through the mass analyzer. Ion intensities (a value that relates to its abundance) 
-and the mass-to-charge ratio are recorded in a mass spectrum.
+* Detector: The last component of the mass spectrometer is the detector. It determines the abundance of ions that passed through the mass analyzer. Ion intensities (a value that relates to its abundance) and the mass-to-charge ratio are recorded in a mass spectrum.
 
-A sample is measured over the retention time of the chromatography typically resulting in tens of thousands of spectra. 
-The measurement of one sample is called an MS run and the set of spectra called an MS or peakmap.
+A sample is measured over the retention time of the chromatography typically resulting in tens of thousands of spectra. The measurement of one sample is called an MS run and the set of spectra called an MS or peakmap.
 
 .. image:: img/spectrum_peakmap.png
 
