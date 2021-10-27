@@ -1,5 +1,5 @@
 Smoothing 
-==========
+=========
 
 In many applications, mass spectrometric data should be smoothed first before
 further analysis

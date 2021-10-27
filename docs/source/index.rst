@@ -62,6 +62,7 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
    parameter_handling
    algorithms
    smoothing
+   centroiding
    normalization
    deisotoping
    feature_detection
