@@ -14,7 +14,7 @@ library (http://www.openms.de) for mass spectrometry based proteomics. It thus
 provides facile access to a feature-rich, open-source algorithm
 library for mass-spectrometry based proteomics analysis. 
 
-pyOpenMS facilitates the execution of common tasks in protoemics (and other mass spectrometric fields) such as 
+pyOpenMS facilitates the execution of common tasks in proteomics (and other mass spectrometric fields) such as 
 
 - file handling (mzXML, mzML, TraML, mzTab, fasta, pepxml, protxml, mzIdentML among others)
 - chemistry (mass calculation, peptide fragmentation, isotopic abundances)
