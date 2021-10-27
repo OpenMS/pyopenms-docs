@@ -537,7 +537,8 @@ same class. Currently, support for RNA is implemented.
     methyladenosine = RibonucleotideDB().getRibonucleotide(b"m1A")
     print(methyladenosine.getName())
     print(methyladenosine.isModified())
-	
+
+
 .. code-block:: output
 
     'uridine'
