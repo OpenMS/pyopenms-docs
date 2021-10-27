@@ -274,7 +274,7 @@ OpenMS can also generate theoretical isotopic distributions from analytes
 represented as ``EmpiricalFormula``. Currently there are two algorithms
 implemented, CoarseIsotopePatternGenerator which produces unit mass isotope
 patterns and FineIsotopePatternGenerator which is based on the IsoSpec
-algorithm [1]_ :
+algorithm (doi: 10.1021/acs.analchem.6b01459) :
 
 .. code-block:: python
 
@@ -549,11 +549,3 @@ same class. Currently, support for RNA is implemented.
     '1-methyladenosine'
     True
 	
-.. We could also showcase the "get alternatives" method
-.. for alt in RibonucleotideDB().getRibonucleotideAlternatives(b"mmA?"):  print(alt.getName())
-
-
-.. code-block:: output
-
-    Łącki MK, Startek M, Valkenborg D, Gambin A. IsoSpec: Hyperfast Fine Structure Calculator. Anal Chem. 2017 Mar 21;89(6):3272-3277. doi: 10.1021/acs.analchem.6b01459
-
