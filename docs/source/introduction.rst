@@ -67,6 +67,8 @@ In a typical mass spectrometer, three principal components can be identified:
 
 A sample is measured over the retention time of the chromatography typically resulting in tens of thousands of spectra. The measurement of one sample is called an MS run and the set of spectra called an MS or peakmap.
 
-.. image:: img/spectrum_peakmap.png
+.. figure:: img/spectrum_peakmap.png
+
+            Left: spectrum with peaks (m/z and intensity values), Right: spectra stacked in retention time yield a peak map.
 
 In proteomics and metabolomics, the MS1 intensity is often used for the quantification of an analyte. Identification based on the MS1 mass-to-charge and the isotope pattern is highly ambiguous. To improve identification, tandem mass spectrometry (MS/MS) can be applied to assess the analyte substructure. To this end, the precursor ion is isolated and kinetically fragmented using an inert gas (e.g., Argon). Fragments produced by collision-induced fragmentation (CID) are stored in an MS2 (MS/MS) spectrum and provide information that helps to resolve the ambiguities in identification. Alternatively, MS/MS spectra can be used for quantification.
