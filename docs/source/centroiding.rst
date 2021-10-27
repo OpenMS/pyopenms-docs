@@ -27,8 +27,10 @@ Using the PeakPickerHiRes algorithm, we can convert data from profile to centroi
 and by storing only centroided data. Thus, many algorithms and tools assume that centroided data is provided.
 
 .. code-block:: python
+
     centroided_spectra = MSExperiment()
     PeakPickerHiRes().pickExperiment(profile_spectra, centroided_spectra)
     plt.bar(centroided_spectra[0].get_peaks()[0], centroided_spectra[0].get_peaks()[1], snap=False) # but only plot the first one
+    
 
 After centroding, a single m/z value for every isotopic peak is retained.
