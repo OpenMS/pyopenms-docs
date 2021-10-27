@@ -435,6 +435,8 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
 
 .. code-block:: python
 
+    from urllib.request import urlretrieve
+    
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/PrecursorPurity_input.mzML", "PrecursorPurity_input.mzML")
 
