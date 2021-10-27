@@ -63,22 +63,40 @@ From the list of feature maps, the one with the largest number of features is se
 Visualization
 *************
 
-Plotting RTs prior and after alignment for each transformed feature map.
+Plotting consensus maps with features before and after alignment. 
 
 .. code-block:: python
 
-    import plotly.graph_objects as go
+    import matplotlib.pyplot as plt
+    import numpy as np
 
-    for fm in feature_maps[:ref_index] + feature_maps[ref_index+1:]:
-        fig = go.Figure()
+    fmaps = [feature_maps[ref_index]] + feature_maps[:ref_index] + feature_maps[ref_index+1:]
 
-        fig.add_trace(go.Scatter(x=[f.getMetaValue('original_RT') for f in fm],y=[f.getMZ() for f in fm],
-                                mode='markers', name='original RT'))
+    fig = plt.figure(figsize=(10,5))
 
-        fig.add_trace(go.Scatter(x=[f.getRT() for f in fm], y=[f.getMZ() for f in fm],
-                                mode='markers', name='aligned RT'))
+    ax = fig.add_subplot(1, 2, 1)
+    ax.set_title('consensus map before alignment')
+    ax.set_ylabel('m/z')
+    ax.set_xlabel('RT')
 
-        fig.update_layout(title = fm.getDataProcessing()[0].getMetaValue('parameter: out'), xaxis_title = 'RT', yaxis_title = 'm/z')
-        fig.show()
+    # use alpha value to display feature intensity
+    ax.scatter([f.getRT() for f in fmaps[0]], [f.getMZ() for f in fmaps[0]], 
+                alpha = np.asarray([f.getIntensity() for f in fmaps[0]])/max([f.getIntensity() for f in fmaps[0]]))
+
+    for fm in fmaps[1:]:
+        ax.scatter([f.getMetaValue('original_RT') for f in fm], [f.getMZ() for f in fm],
+                    alpha = np.asarray([f.getIntensity() for f in fm])/max([f.getIntensity() for f in fm]))
+
+    ax = fig.add_subplot(1,2,2)
+    ax.set_title('consensus map after alignment')
+    ax.set_xlabel('RT')
+
+    for fm in fmaps:
+        ax.scatter([f.getRT() for f in fm], [f.getMZ() for f in fm],
+                    alpha = np.asarray([f.getIntensity() for f in fm])/max([f.getIntensity() for f in fm]))
+
+    fig.tight_layout()
+    fig.legend([fmap.getDataProcessing()[0].getMetaValue('parameter: out')[:-11] for fmap in fmaps], loc = 'lower center')
+    fig.show()
 
 .. image:: img/map_alignment.png
