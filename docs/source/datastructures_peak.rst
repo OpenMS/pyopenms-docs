@@ -418,7 +418,7 @@ This can be useful for a brief visual inspection of your sample in quality contr
 .. image:: img/Spectra2DOverview.png
 
 
-Example: Precusor Purity
+Example: Precursor Purity
 **************************
 
 When an MS/MS spectrum is generated, the precursor from the MS1 spectrum is gathered, fragmented and measured.
