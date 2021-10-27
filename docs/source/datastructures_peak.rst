@@ -418,6 +418,63 @@ This can be useful for a brief visual inspection of your sample in quality contr
 .. image:: img/Spectra2DOverview.png
 
 
+Example: Precursor Purity
+**************************
+
+When an MS/MS spectrum is generated, the precursor from the MS1 spectrum is gathered, fragmented and measured.
+In practice, the instrument gathers the ions in a user-defined window around the precursor m/z - the so-called
+precursor isolation window.
+
+.. image:: img/precursor_isolation_window.png
+
+In some cases, the precursor isolation window contains contaminant peaks from other analytes.
+Depending on the analysis requirements, this can lead to issues in quantification for example, for
+isobaric experiments.
+
+Here, we can assess the purity of the precursor to filter spectra with a score below our expectation.
+
+.. code-block:: python
+
+    from urllib.request import urlretrieve
+    
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    urlretrieve (gh + "/src/data/PrecursorPurity_input.mzML", "PrecursorPurity_input.mzML")
+
+    exp = MSExperiment()
+    MzMLFile().load("PrecursorPurity_input.mzML", exp)
+
+    # for this example, we check which are MS2 spectra and choose one of them
+    for element in exp:
+        print(element.getMSLevel())
+
+    # get the precursor information from the MS2 spectrum at index 3
+    ms2_precursor = Precursor()
+    ms2_precursor = exp[3].getPrecursors()[0];
+
+    # get the previous recorded MS1 spectrum
+    isMS1 = False;
+    i = 3 # start at the index of the MS2 spectrum
+    while isMS1 == False:
+        if exp[i].getMSLevel() == 1:
+            isMS1 = True
+        else:
+            i -= 1
+
+    ms1_spectrum = exp[i]
+
+    # calculate the precursor purity in a 10 ppm precursor isolation window
+    purity_score = PrecursorPurity().computePrecursorPurity(ms1_spectrum, ms2_precursor, 10, True)
+
+    print(purity_score.total_intensity) # 9098343.890625
+    print(purity_score.target_intensity) # 7057944.0
+    print(purity_score.signal_proportion) # 0.7757394186070014
+    print(purity_score.target_peak_count) # 1
+    print(purity_score.residual_peak_count) # 4
+
+We could assess that we have four other non-isotopic peaks apart from our precursor and its isotope peaks within our precursor isolation window.
+The signal of the isotopic peaks correspond to roughly 78% of all intensities in the precursor isolation window.
+
+
 Example: Filtering Spectra
 **************************
 
