@@ -553,7 +553,7 @@ same class. Currently, support for RNA is implemented.
 .. for alt in RibonucleotideDB().getRibonucleotideAlternatives(b"mmA?"):  print(alt.getName())
 
 
-.. [1] Łącki MK, Startek M, Valkenborg D, Gambin A.
-    IsoSpec: Hyperfast Fine Structure Calculator.
-    Anal Chem. 2017 Mar 21;89(6):3272-3277. `doi: 10.1021/acs.analchem.6b01459. <http://doi.org/10.1021/acs.analchem.6b01459>`_
+.. code-block:: output
+
+    Łącki MK, Startek M, Valkenborg D, Gambin A. IsoSpec: Hyperfast Fine Structure Calculator. Anal Chem. 2017 Mar 21;89(6):3272-3277. doi: 10.1021/acs.analchem.6b01459
 
