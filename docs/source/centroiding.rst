@@ -16,11 +16,17 @@ First, we load some profile data:
     import matplotlib.pyplot as plt
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
-    urlretrieve (gh +"/src/data/peakpicker_tutorial_1_baseline_filtered.mzML", "tutorial.mzML")
-    profile_spectra = MSExperiment()
-    MzMLFile().load("tutorial.mzML", profile_spectra) # centroid all spectra,
-    plt.bar(profile_spectra[0].get_peaks()[0], profile_spectra[0].get_peaks()[1], snap=False) # but only plot the first one
+    urlretrieve (gh +"/src/data/PeakPickerHiRes_input.mzML", "tutorial.mzML")
 
+    profile_spectra = MSExperiment()
+    MzMLFile().load("tutorial.mzML", profile_spectra) 
+
+Let's zoom in on an isotopic pattern in profile mode and plot it.
+
+.. code-block:: python
+
+    plt.xlim(771.8,774) # zoom into isotopic pattern
+    plt.plot(profile_spectra[0].get_peaks()[0], profile_spectra[0].get_peaks()[1]) # plot the first spectrum
 
 Because of the limited resolution of MS instruments, peak shapes resemble a gaussian distribution that spreads in the m/z dimension.
 Using the PeakPickerHiRes algorithm, we can convert data from profile to centroided mode. Usually, not much information is lost
@@ -29,8 +35,10 @@ and by storing only centroided data. Thus, many algorithms and tools assume that
 .. code-block:: python
 
     centroided_spectra = MSExperiment()
-    PeakPickerHiRes().pickExperiment(profile_spectra, centroided_spectra)
-    plt.bar(centroided_spectra[0].get_peaks()[0], centroided_spectra[0].get_peaks()[1], snap=False) # but only plot the first one
+    PeakPickerHiRes().pickExperiment(profile_spectra, centroided_spectra) # pick all spectra
+    
+    plt.xlim(771.8,774) # zoom into isotopic pattern
+    plt.stem(centroided_spectra[0].get_peaks()[0], centroided_spectra[0].get_peaks()[1]) # plot as vertical lines
     
 
 After centroding, a single m/z value for every isotopic peak is retained.
