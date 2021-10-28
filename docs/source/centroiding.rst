@@ -3,9 +3,9 @@ Centroiding
 
 MS instruments typically allow storing spectra in profile mode (several data points per m/z peak)
 or in the more codensed centroid mode (one data point per m/z peak). The process of converting
-a profile spectrum into a centroided one is called peak centroiding peak picking.
+a profile spectrum into a centroided one is called peak centroiding or peak picking.
 
-Note: The term peak picking is ambigious as it is also used for feature detection.
+Note: The term peak picking is ambiguous as it is also used for feature detection (i.e. 3D "peak" finding).
 
 First, we load some profile data:
 
