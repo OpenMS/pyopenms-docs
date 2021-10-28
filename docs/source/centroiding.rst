@@ -45,4 +45,6 @@ Using the PeakPickerHiRes algorithm, we can convert data from profile to centroi
     
 .. image:: img/centroided_data.png
 
-After centroding, a single m/z value for every isotopic peak is retained.
+After centroding, a single m/z value for every isotopic peak is retained. By plotting the centroided data as stem plot
+we discover that (in addition to the isotopic peaks) some low intensity peaks (intensity at approx. 4k) were present in the profile data.
+
