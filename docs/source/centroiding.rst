@@ -25,14 +25,15 @@ Let's zoom in on an isotopic pattern in profile mode and plot it.
 
 .. code-block:: python
 
-    plt.xlim(771.8,774) # zoom into isotopic pattern
+    plt.xlim(771.8, 774) # zoom into isotopic pattern
     plt.plot(profile_spectra[0].get_peaks()[0], profile_spectra[0].get_peaks()[1]) # plot the first spectrum
 
 .. image:: img/profile_data.png
 
-Because of the limited resolution of MS instruments, peak shapes resemble a gaussian distribution that spreads in the m/z dimension.
+Because of the limited resolution of MS instruments m/z measurements are not of unlimited precision. 
+Consequently, peak shapes spreads in the m/z dimension and resemble a gaussian distribution.
 Using the PeakPickerHiRes algorithm, we can convert data from profile to centroided mode. Usually, not much information is lost
-and by storing only centroided data. Thus, many algorithms and tools assume that centroided data is provided.
+ by storing only centroided data. Thus, many algorithms and tools assume that centroided data is provided.
 
 .. code-block:: python
 
