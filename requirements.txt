@@ -5,3 +5,7 @@ pandas
 adjustText
 sklearn
 requests
+bokeh
+nbserverproxy
+jupyter-server-proxy
+

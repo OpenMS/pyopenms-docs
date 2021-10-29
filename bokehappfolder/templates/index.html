@@ -1,0 +1,42 @@
+{% extends base %}
+
+{% block title %}Mass-spec viewer{% endblock %}
+{% block preamble %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<!-- Warning: 0.132 breaks our coloring of the 3D view.. Dont know why. Seems to still work in CodePen. -->
+<script src="https://unpkg.com/three@0.131.3/build/three.js"></script>
+<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+<script src="https://threejs.org/examples/jsm/utils/BufferGeometryUtils.js"></script>
+<script src="https://mrdoob.github.io/stats.js/build/stats.js"></script>
+<script src="https://mevedia.com/share/ExtendMaterial.js?v1"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+<!-- KNIME only -->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.2/iframeResizer.contentWindow.min.js"></script>-->
+<script src="bokehappfolder/static/js/my.js"></script>
+{% endblock %}
+{% block postamble %}
+  <style>
+    {% include 'styles.css' %}
+  </style>
+{% endblock %}
+
+{% block contents %}
+  <div class="content" style="background-color: white;">
+    <h1>Spectrum Viewer</h1>
+
+    <p>This is an example for viewing mass-spectra with pyOpenMS, Bokeh, Holoviews, Datashader and ThreeJS.
+    Zoom into less than 100.000 points to update the exemplary 3D View below.</p>
+
+    {{ super() }}
+
+    <p>3D View: Right-click on a peak to start measuring. Right-click another to finalize. Zoom with mouse-wheel,
+    pan with right-click + movement, turn camera with left-click + movement.</p>
+
+    <div id="threedplot" class="threedplot">
+      <div style="position:absolute;" id="info"></div>
+      <div style="position:absolute; top: 45px;" id="distanceMZPlace">Distance MZ: Select peak</div>
+      <div style="position:absolute; top: 65px;" id="distanceRTPlace">Distance RT: Select peak</div>
+      <!--<input style="position:absolute; top: 85px;" type="file" id="up" />-->
+    </div>
+  </div>
+{% endblock %}
