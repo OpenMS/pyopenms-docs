@@ -271,7 +271,7 @@ Visualization of RTs before and after alignment
                     alpha = np.asarray([f.getIntensity() for f in fm])/max([f.getIntensity() for f in fm]))
 
     fig.tight_layout()
-    fig.legend([fmap.getDataProcessing()[0].getMetaValue('parameter: out')[:-11] for fmap in fmaps], loc = 'lower center')
+    fig.legend([fmap.getMetaValue('spectra_data')[0].decode() for fmap in fmaps], loc = 'lower center')
     fig.show()
 
 Feature Linking
