@@ -4,13 +4,13 @@
 
 c.ServerProxy.servers = {
     'massspecviewer': {
-        'command': ['python3', '-m', 'bokeh', 'serve', 'bokehappfolder', '-p', '{port}','--allow-websocket-origin=*'],
+        'command': ['python3', '-m', 'bokeh', 'serve', 'bokehappfolder', '--port', '{port}','--allow-websocket-origin=*'],
         'port': 3333,
         'timeout': 120,
-        #'launcher_entry': {
-        #    'enabled': True,
-        #    'icon_path': '/home/jovyan/.jupyter/open-refine-logo.svg',
-        #    'title': 'OpenRefine',
-        #},
+        'launcher_entry': {
+            'enabled': True,
+            'icon_path': '/home/jovyan/.jupyter/OpenMS.svg',
+            'title': 'pyOpenMS MS Viewer',
+        },
     },
 }
