@@ -140,7 +140,7 @@ def modify_doc(doc):
         #file = "/Volumes/Data/UPS1/mzML/UPS1_250amol_R1.mzML"
         file = str(Path(__file__).resolve().parent) + "/static/data/BSA1.mzML"
         #fxmlfile = None
-        fxmlfile = str(Path(__file__).resolve().parent) + "/static/data/BSA1_F1_idmapped.featureXML" "/Users/pfeuffer/git/OpenMS-fixes-src/share/OpenMS/examples/FRACTIONS/BSA1_F1_idmapped.featureXML"
+        fxmlfile = str(Path(__file__).resolve().parent) + "/static/data/BSA1_F1_idmapped.featureXML"
 
     jsupdateinfo = '''
         renderAllCDS(data, xr.start, xr.end, yr.start, yr.end);
