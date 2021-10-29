@@ -4,9 +4,10 @@
 
 c.ServerProxy.servers = {
     'massspecviewer': {
-        'command': ['python3', '-m', 'bokeh', 'serve', 'bokehappfolder', '--address', '0.0.0.0', '--port', '{port}', '--prefix', '{base_url}/proxy/{port}', '--allow-websocket-origin=*', '--use-xheaders'],
+        'command': ['python3', '-m', 'bokeh', 'serve', 'bokehappfolder', "--allow-websocket-origin=*", "--port", f"{port}", "--prefix", "{base_url}bokehappfolder", "--disable-index-redirect"],
         'port': 3333,
-        'timeout': 120,
+        'timeout': 300,
+        'absolute_url': True,
         'launcher_entry': {
             'enabled': True,
             'icon_path': '/home/jovyan/OpenMS.svg',
