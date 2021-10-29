@@ -6,4 +6,6 @@ adjustText
 sklearn
 requests
 bokeh
+datashader
+holoviews
 jupyter-server-proxy
