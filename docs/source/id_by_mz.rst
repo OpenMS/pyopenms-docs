@@ -389,11 +389,3 @@ out: result DataFrame with new identifications column, where compound names and 
     result_df.to_csv(os.path.join(files, 'result.tsv'), sep = '\t', index = False)
     result_df
 
-Visualization of consensus features with identified compounds
-*************************************************************
-
-.. code-block:: python
-
-    fig = px.scatter(result_df, x="RT", y="mz", hover_name='identifications')
-    fig.update_layout(title="Consensus features with identifications (hover)")
-    fig.show()
