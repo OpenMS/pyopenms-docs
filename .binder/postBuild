@@ -13,3 +13,5 @@ mv .binder/bokehserverextension.py ${NB_PYTHON_PREFIX}/lib/python*/site-packages
 
 # Enable Bokeh extension
 jupyter serverextension enable --sys-prefix bokehserverextension
+
+jupyter labextension install @jupyterlab/server-proxy
