@@ -4,7 +4,7 @@
 
 c.ServerProxy.servers = {
     'massspecviewer': {
-        'command': ['python3', '-m', 'bokeh', 'serve', 'bokehfolderapp', '-p', '{port}','--allow-websocket-origin=*'],
+        'command': ['python3', '-m', 'bokeh', 'serve', 'bokehappfolder', '-p', '{port}','--allow-websocket-origin=*'],
         'port': 3333,
         'timeout': 120,
         #'launcher_entry': {
