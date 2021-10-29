@@ -3,7 +3,7 @@
 # Traitlet configuration file for jupyter-notebook.
 
 c.ServerProxy.servers = {
-    'masspecviewer': {
+    'massspecviewer': {
         'command': ['python3', '-m', 'bokeh', 'serve', 'bokehfolderapp', '-p', '{port}','--allow-websocket-origin=*'],
         'port': 3333,
         'timeout': 120,
