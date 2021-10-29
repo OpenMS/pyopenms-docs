@@ -6,14 +6,16 @@ from functools import reduce, partial
 from pathlib import Path
 from time import perf_counter
 import sys
+import os
 
 #from numba import jit
 #from numba.experimental import jitclass
+#import panel as pn
+
 import bokeh.layouts
 import datashader
 import numpy as np
 from bokeh.models import ColumnDataSource, CustomJS, Button, Select, Div
-import panel as pn
 from bokeh.plotting import curdoc
 from holoviews.plotting.util import process_cmap
 from holoviews.streams import Selection1D
@@ -21,7 +23,7 @@ from numpy import log
 from pyopenms import MSExperiment, PeakMap, MzMLFile, PeakFileOptions, SignalToNoiseEstimatorMedian, PeakSpectrum, DRange1, \
     DPosition1, FeatureMap, Feature, PeptideIdentification, PeptideHit, FeatureXMLFile
 import pandas as pd
-import os
+
 import holoviews as hv
 import holoviews.operation.datashader as hd
 from holoviews import opts, dim
@@ -109,7 +111,7 @@ class MSCallback:
         #if s.getMSLevel() == 2:
             self.q.put((s.getRT(), point[0], point[1]) for point in zip(*s.get_peaks()))
 
-pn.extension()
+#pn.extension()
 hv.extension('bokeh')
 renderer = hv.renderer('bokeh').instance(mode='server')
 spectradf = pd.DataFrame()
