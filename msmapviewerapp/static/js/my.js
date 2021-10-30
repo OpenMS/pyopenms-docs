@@ -32,7 +32,7 @@ $(document).ready(function(){
     var container = renderer.domElement.parentElement;
     renderer.setSize(container.getBoundingClientRect().width, container.getBoundingClientRect().height);
     camera.aspect = container.getBoundingClientRect().width/container.getBoundingClientRect().height;
-    $.getJSON("bokehappfolder/static/data/feature.json", function(d) {
+    $.getJSON("msmapviewerapp/static/data/feature.json", function(d) {
       renderAll(d);
     });
 });
