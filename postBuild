@@ -5,9 +5,6 @@ mv Linux-wheels.zip\?status=completed Linux-wheels.zip
 unzip Linux-wheels.zip
 pip install pyopenms_nightly-*-cp37-cp37m-manylinux2014_x86_64.whl
 
-# for interactive updating/zooming of datashader plots
-jupyter labextension install @pyviz/jupyterlab_pyviz
-
 # Those should be enabled by default on binder. For serving
 #jupyter serverextension enable --sys-prefix jupyter_server_proxy
 #jupyter labextension install @jupyterlab/server-proxy
