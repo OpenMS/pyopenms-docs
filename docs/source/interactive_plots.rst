@@ -1,5 +1,5 @@
-Peptides and Proteins
-=====================
+Interactive plots
+=================
 
 With special plotting libraries like holoviews and datashader for big data visualization as
 well as bokeh for interactivenss, we can use the functionality of pyopenms to quickly
