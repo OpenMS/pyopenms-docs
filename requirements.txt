@@ -8,6 +8,5 @@ requests
 bokeh
 datashader
 holoviews
-pyviz
 pyviz_comms
 jupyter-server-proxy
