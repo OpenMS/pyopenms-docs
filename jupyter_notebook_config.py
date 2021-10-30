@@ -4,7 +4,7 @@
 
 c.ServerProxy.servers = {
     'msbokehapps': {
-        'command': ['python3', '-m', 'bokeh', 'serve', 'bokehappfolder', "--allow-websocket-origin=*", "--port", "{port}", "--prefix", "{base_url}msbokehapps", "--disable-index-redirect", "--log-file", "/home/jovyan/bokehlog.txt"],
+        'command': ['python3', '-m', 'bokeh', 'serve', 'msmapviewerapp', "--allow-websocket-origin=*", "--port", "{port}", "--prefix", "{base_url}msbokehapps", "--disable-index-redirect", "--log-file", "/home/jovyan/bokehlog.txt"],
         'timeout': 300,
         'absolute_url': True,
         'launcher_entry': {
