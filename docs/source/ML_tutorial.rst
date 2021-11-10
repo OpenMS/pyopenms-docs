@@ -27,6 +27,7 @@ First, we import all neccessary libraries for this tutorial.
     import string
     from collections import Counter
     import numpy as np
+    from urllib.request import urlretrieve
 
 Once we have imported all libraries successfully, we are going to store the dataset in a variable.
 
