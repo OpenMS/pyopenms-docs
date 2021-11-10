@@ -15,17 +15,15 @@ Imports
     import shutil
     import requests
 
-    import pandas as pd
     from pyopenms import *
 
+    import pandas as pd
     import numpy as np
+    import matplotlib.pyplot as plt
 
     from sklearn.impute import KNNImputer
     from sklearn.preprocessing import FunctionTransformer
     from sklearn.pipeline import Pipeline
-
-    import plotly.graph_objects as go
-    import plotly.express as px
 
 User Input
 **********
@@ -247,16 +245,34 @@ Visualization of RTs before and after alignment
 
 .. code-block:: python
 
-    for fm in feature_maps[:ref_index] + feature_maps[ref_index+1:]:
-        fig = go.Figure()
+    fmaps = [feature_maps[ref_index]] + feature_maps[:ref_index] + feature_maps[ref_index+1:]
 
-        fig.add_trace(go.Scatter(x=[f.getMetaValue('original_RT') for f in fm],y=[f.getMZ() for f in fm],
-                                mode='markers', name='original RT'))
-        fig.add_trace(go.Scatter(x=[f.getRT() for f in fm], y=[f.getMZ() for f in fm],
-                                mode='markers', name='aligned RT'))
+    fig = plt.figure(figsize=(10,5))
 
-        fig.update_layout(title = fm.getMetaValue('spectra_data')[0].decode(), xaxis_title = 'RT', yaxis_title = 'm/z')
-        fig.show()
+    ax = fig.add_subplot(1, 2, 1)
+    ax.set_title('consensus map before alignment')
+    ax.set_ylabel('m/z')
+    ax.set_xlabel('RT')
+
+    # use alpha value to display feature intensity
+    ax.scatter([f.getRT() for f in fmaps[0]], [f.getMZ() for f in fmaps[0]], 
+                alpha = np.asarray([f.getIntensity() for f in fmaps[0]])/max([f.getIntensity() for f in fmaps[0]]))
+
+    for fm in fmaps[1:]:
+        ax.scatter([f.getMetaValue('original_RT') for f in fm], [f.getMZ() for f in fm],
+                    alpha = np.asarray([f.getIntensity() for f in fm])/max([f.getIntensity() for f in fm]))
+
+    ax = fig.add_subplot(1,2,2)
+    ax.set_title('consensus map after alignment')
+    ax.set_xlabel('RT')
+
+    for fm in fmaps:
+        ax.scatter([f.getRT() for f in fm], [f.getMZ() for f in fm],
+                    alpha = np.asarray([f.getIntensity() for f in fm])/max([f.getIntensity() for f in fm]))
+
+    fig.tight_layout()
+    fig.legend([fmap.getMetaValue('spectra_data')[0].decode() for fmap in fmaps], loc = 'lower center')
+    fig.show()
 
 Feature Linking
 ***************
@@ -373,11 +389,3 @@ out: result DataFrame with new identifications column, where compound names and 
     result_df.to_csv(os.path.join(files, 'result.tsv'), sep = '\t', index = False)
     result_df
 
-Visualization of consensus features with identified compounds
-*************************************************************
-
-.. code-block:: python
-
-    fig = px.scatter(result_df, x="RT", y="mz", hover_name='identifications')
-    fig.update_layout(title="Consensus features with identifications (hover)")
-    fig.show()
