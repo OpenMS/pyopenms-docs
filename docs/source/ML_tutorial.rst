@@ -20,6 +20,10 @@ At first we will be importing all the neccessary libraries that are needed in th
 
 .. code-block:: python
 
+    !pip install seaborn
+
+.. code-block:: python
+
     import pandas as pd
     import seaborn as sns
     import matplotlib.pyplot as plt
