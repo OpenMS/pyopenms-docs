@@ -98,6 +98,7 @@ pyOpenMS facilitates the execution of common tasks in proteomics (and other mass
    build_from_source
    wrap_classes
    interactive_plots
+   ML_tutorial
 
 .. toctree::
    :maxdepth: 2
