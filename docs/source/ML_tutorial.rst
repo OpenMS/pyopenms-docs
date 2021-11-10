@@ -62,8 +62,8 @@ Explore the top 5 rows of the dataset by using head() method on pandas DataFrame
 .. code-block:: output
 
         sequence	    RT	        charge
-    0	EEETVAK	        399.677766	2
-    1	EQEEQQQQEGHNNK	624.555300	3
+    0	EEETVAK	            399.677766	2
+    1	EQEEQQQQEGHNNK	    624.555300	3
     2	SHGGHTVISK	    625.797960	3
     3	SGTHNMYK	    625.982520	2
     4	AARPTRPDK	    626.073300	3
