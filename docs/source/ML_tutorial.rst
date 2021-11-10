@@ -4,19 +4,15 @@ Interfacing with ML libraries
 Overview
 --------
 
-Retention time is an important parameter for identification in untargeted LC-MS screening. 
-Precise retention time prediction facilitates the annotation process and is well known for proteomics. 
-However, the lack of available experimental information for a long time has limited the prediction 
-accuracy for small molecules. Recently introduced large databases for small-molecule retention times make 
-possible reliable machine learning–based predictions for the whole diversity of compounds.
-
 Machine Learning is the field of study that gives computers the capability to learn without 
 being explicitly programmed. Machine learning (ML) is well known for its powerful ability to recognize 
 patterns and signals. Recently, the mass spectrometry community has embraced ML techniques for large-scale data analysis.
 
-In this tutorial we will try to predict the retention time from Amino Acid sequence data using the Machine Learning models
+Predicting accurate retention times has shown to improve identification in bottom-up proteomics.
 
-At first we will be importing all the neccessary libraries that are needed in this tutorial.
+In this tutorial we will predict the retention time from amino acid sequence data using simple machine learning methods.
+
+First, we import all neccessary libraries for this tutorial.
 
 .. code-block:: python
 
@@ -32,20 +28,21 @@ At first we will be importing all the neccessary libraries that are needed in th
     from collections import Counter
     import numpy as np
 
-Once we have imported all the libraries successfully, we are going to import the dataset and store it in a variable.
+Once we have imported all libraries successfully, we are going to store the dataset in a variable.
 
 .. code-block:: python
 
     tsv_data = pd.read_csv('pyOpenMS_ML_Tutorial.tsv', sep='\t', skiprows=17)
 
-Here we have used a tsv file that contains three columns **sequence** , **charge** and **retention** time. 
-Before we move forward lets try to understand more about our data
+Here we have prepared a tsv file that contains three columns **sequence** , **charge** and **retention** time.
+Note that this table could also be easily created from identification data as produced in previous chapters.
 
-a. Sequence - Amino acids are molecules that combine to form proteins. The arrangement of amino acids in a protein is reffered as amino acid sequence. 
-b. Retention time (RT) - is a measure of the time taken for a solute to pass through a chromatography column.
+Before we move forward lets try to understand more about our data:
 
-From the amino acid sequence some of the information can be derived which will be used to 
-train our machine learning model.
+a. Sequence - Chains of amino acids form peptides or proteins. The arrangement of amino acids is reffered as amino acid sequence. The composition and order of amino acids affect the physicochemical properties of the peptide and lead to different retention in the column.
+b. Retention time (RT) - is the time taken for an analyte to pass through a chromatography column.
+
+From the amino acid sequence we can derive additional properties (machine learning features) used to train our machine learning model.
 
 We can easily check for its shape by using the tsv_data.shape attribute, 
 which will return the size of the dataset.
@@ -82,15 +79,11 @@ As the RT column is our response variable, we will be storing it seperately as Y
 Preprocessing
 -------------
 
-Data preprocessing is an important task, it's a technique that try to extract 
-information from chunks of data. Databases can get incredibly massive 
-and usually contain data of all sorts, from comments left on social 
-media to numbers coming from analytic dashboards. That vast amount of 
-information is heterogenous by nature, which means that they don’t share the same structure – 
-that’s if they have a structure to begin with.
+Cleaning data before applying a machine learning method keeps the relevant 
+information in potentially massive amount of data. 
 
-Here we will try to extract all the information from the amino acid 
-sequences using the data preprocessing techniques. Some of the parameters that can be derived are
+Here we will apply some simple preprocessing to extract novel machine learning features from the amino acid 
+sequences. Some of the parameters that can be derived are
 
 1. {Alphabet}_count = The count of Amino Acids in the sequence.
 2. {Alphabet}_freq = The count of Amino Acids divided by the total length of the sequence.
@@ -117,7 +110,7 @@ As we have all the column names, now we will start populating it.
 
     df = df.astype( dtype = pdcols)
 
-    #For populating the {alphabet}_count columns
+    # For populating the {alphabet}_count columns
     def count(row):
         counts = Counter(row["sequence"])
         for count in counts:
@@ -136,9 +129,10 @@ As we have all the column names, now we will start populating it.
     3	SGTHNMYK	    0	    0	    0	    0	    0	    0	    1	    1	    0	    ...	    0.0	        0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    2	    8
     4	AARPTRPDK	    2	    0	    0	    1	    0	    0	    0	    0	    0	    ...	    0.0	        0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    3	    9
 
-Till here, we have completed all the data preprocessing step. We have deduced a good amount of information from the amino acid sequences.
+Now we have completed all the data preprocessing steps. We have deduced a good amount of information from the amino acid sequences
+that might have influence on the retention time in the column.
 
-As we have finished the data preprocessing, now we are good to proceed on building the Machine Learning Model.
+Now we are good to proceed on building the machine learning model.
 
 Modelling
 ---------
@@ -160,7 +154,7 @@ Modelling
     test_df = df.copy()
     test_df = test_df.drop("sequence", axis=1)
 
-Now, we will create the train and test set for cross-validation of the results 
+Now, we create the train and test set for cross-validation of the results 
 using the ``train_test_split`` function from sklearn's model_selection module with test_size 
 size equal to 30% of the data. Also, to maintain reproducibility of the results, a random_state is also assigned.
 
@@ -182,27 +176,27 @@ Fit the regressor to the training set and make predictions on the test set using
     xg_reg.fit(X_train, Y_train)
     Y_pred = xg_reg.predict(X_test)
 
-Compute the rmse by invoking the mean_sqaured_error function from sklearn's metrics module.
+Compute the mean squared error (mse) by invoking the mean_sqaured_error function from sklearn's metrics module.
 
 .. code-block:: python
 
-    rmse = np.sqrt(mean_squared_error(Y_test, Y_pred))
-    print("RMSE: %f" % (rmse))
+    mse = np.sqrt(mean_squared_error(Y_test, Y_pred))
+    print("MSE: %f" % (mse))
 
 .. code-block:: output
 
     RMSE: 437.017290
 
-Store the **Actual** v/s **Predicted** value in pandas dataframe and print.
+Store the **Observed** v/s **Predicted** value in pandas dataframe and print.
 
 .. code-block:: python
 
-    k = pd.DataFrame({'Actual': Y_test.values.flatten(), 'Predicted': Y_pred.flatten()})
+    k = pd.DataFrame({'Observed': Y_test.values.flatten(), 'Predicted': Y_pred.flatten()})
     print(k)
 
 .. code-block:: output
 
-                Actual	Predicted
+                Observed	Predicted
     0	        3652.28442	3927.141846
     1	        4244.80320	4290.294434
     2	        3065.19054	3703.156982
@@ -215,19 +209,20 @@ Store the **Actual** v/s **Predicted** value in pandas dataframe and print.
     4767	5515.94682	5491.597168
     4768	2257.63092	2258.312988
 
-We will now generate a **Actual** v/s **Predicted** plot that gives a high level overview about the model performance. 
-We can clearly see that only few outliers are there and most of them lie in between the central axis which clearly represents that actual and predicted value won't differ much.
+We will now generate a **Observed** v/s **Predicted** plot that gives a high level overview about the model performance. 
+We can clearly see that only few outliers are there and most of them lie in between the central axis.
+This means that prediction actually worked and actual and predicted value won't differ too much.
 
 .. code-block:: python
 
-    sns.lmplot(x="Actual", y="Predicted", data=k, scatter_kws={'alpha':0.2,'s':5})
+    sns.lmplot(x="Observed", y="Predicted", data=k, scatter_kws={'alpha':0.2,'s':5})
 
 .. image:: img/ml_tutorial_predicted_vs_actual.png
 
 .. code-block:: python
 
-    p = sns.kdeplot(data=k["Actual"]-k["Predicted"], fill=True)
-    p.set(xlabel = "Actual-Predicted (s)")
+    p = sns.kdeplot(data=k["Observed"]-k["Predicted"], fill=True)
+    p.set(xlabel = "Observed-Predicted (s)")
 
 .. image:: img/ml_tutorial_kdplot.png
     
@@ -237,7 +232,7 @@ k-fold cross validation via the cv() method. All we have to do is specify the nf
 
 .. code-block:: python
 
-    # Performing k-Fold cross validation
+    # Performing k-fold cross validation
     X = np.arange(10)
     ss = ShuffleSplit(n_splits=5, test_size=0.25, random_state=0)
     performance_df = pd.DataFrame()
@@ -255,7 +250,7 @@ k-fold cross validation via the cv() method. All we have to do is specify the nf
         
         predictions = Regressor.predict(X_test_Kfold)
         
-        df = pd.DataFrame({'Actual': y_test_Kfold.flatten(), 'Predicted': predictions.flatten()})
+        df = pd.DataFrame({'Observed': y_test_Kfold.flatten(), 'Predicted': predictions.flatten()})
         
         print("Fold-" + str(counter))
         print("---------------------")
@@ -265,7 +260,7 @@ k-fold cross validation via the cv() method. All we have to do is specify the nf
 
     Fold-1
     ---------------------
-            Actual    Predicted
+            Observed    Predicted
     0     1845.17346  2051.894043
     1     1155.68124  1911.122192
     2     2847.94272  2753.223145
@@ -281,7 +276,7 @@ k-fold cross validation via the cv() method. All we have to do is specify the nf
     [1940 rows x 2 columns]
     Fold-2
     ---------------------
-            Actual    Predicted
+            Observed    Predicted
     0     3476.56062  4075.536377
     1     4009.78704  4022.654785
     2     2847.94272  2779.675293
@@ -297,7 +292,7 @@ k-fold cross validation via the cv() method. All we have to do is specify the nf
     [1912 rows x 2 columns]
     Fold-3
     ---------------------
-            Actual    Predicted
+            Observed    Predicted
     0     2052.18066  2237.868896
     1     4336.45050  3622.901367
     2     2317.39104  2496.773438
@@ -313,7 +308,7 @@ k-fold cross validation via the cv() method. All we have to do is specify the nf
     [1939 rows x 2 columns]
     Fold-4
     ---------------------
-            Actual    Predicted
+            Observed    Predicted
     0     1762.89840  1691.997803
     1     1292.39622  1418.658325
     2     1914.00468  1779.962769
@@ -329,7 +324,7 @@ k-fold cross validation via the cv() method. All we have to do is specify the nf
     [1990 rows x 2 columns]
     Fold-5
     ---------------------
-            Actual    Predicted
+            Observed    Predicted
     0     2790.00414  3010.381592
     1     3476.56062  3972.215820
     2     1845.17346  1901.611572
@@ -343,3 +338,8 @@ k-fold cross validation via the cv() method. All we have to do is specify the nf
     1979  1888.41552  2342.040771
 
     [1980 rows x 2 columns]
+
+That's it, we trained a simple machine learning model to predict peptide retention times from peptide data.
+
+Sophisticated machine models integrate retention time data from many experiments add additional properties 
+(or even learn them from data) of peptides to achieve lower prediction errors.
