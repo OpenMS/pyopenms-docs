@@ -36,8 +36,8 @@ Once we have imported all the libraries successfully, we are going to import the
 Here we have used a tsv file that contains three columns **sequence** , **charge** and **retention** time. 
 Before we move forward lets try to understand more about our data
 
-Sequence - Amino acids are molecules that combine to form proteins. The arrangement of amino acids 
-in a protein is reffered as amino acid sequence. Retention time (RT) - is a measure of the time taken for a solute to pass through a chromatography column.
+a. Sequence - Amino acids are molecules that combine to form proteins. The arrangement of amino acids in a protein is reffered as amino acid sequence. 
+b. Retention time (RT) - is a measure of the time taken for a solute to pass through a chromatography column.
 
 From the amino acid sequence some of the information can be derived which will be used to 
 train our machine learning model.
