@@ -104,6 +104,8 @@ corresponding ``PeptideHit`` objects:
   ev.setProteinAccession("sp|MyAccession")
   ev.setAABefore(b"R")
   ev.setAAAfter(b"P")
+  ev.setStart(123) # start and end position in the protein
+  ev.setEnd(141)
   peptide_hit.setPeptideEvidences([ev])
 
   # create a new PeptideHit (second best PSM, lower score)
