@@ -185,7 +185,7 @@ Compute the mean squared error (mse) by invoking the mean_sqaured_error function
 
 .. code-block:: output
 
-    RMSE: 437.017290
+    MSE: 437.017290
 
 Store the **Observed** v/s **Predicted** value in pandas dataframe and print.
 
