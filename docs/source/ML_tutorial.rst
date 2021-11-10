@@ -21,6 +21,7 @@ At first we will be importing all the neccessary libraries that are needed in th
 .. code-block:: python
 
     !pip install seaborn
+    !pip install xgboost
 
 .. code-block:: python
 
