@@ -125,11 +125,11 @@ As we have all the column names, now we will start populating it.
 .. code-block:: output
 
     sequence	        A_count	B_count	C_count	D_count	E_count	F_count	G_count	H_count	I_count	...	    S_freq	T_freq	U_freq	V_freq	W_freq	X_freq	Y_freq	Z_freq	charge	length
-    0	EEETVAK	            1	    0	    0	    0	    3	    0	    0	    0	    0	    ...	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    2	    7
-    1	EQEEQQQQEGHNNK	    0	    0	    0	    0	    4	    0	    1	    1	    0	    ...	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    3	    14
-    2	SHGGHTVISK	    0	    0	    0	    0	    0	    0	    2	    2	    1	    ...	    0.0 0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    3	    10
-    3	SGTHNMYK	    0	    0	    0	    0	    0	    0	    1	    1	    0	    ...	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    2	    8
-    4	AARPTRPDK	    2	    0	    0	    1	    0	    0	    0	    0	    0	    ...	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    3	    9
+    0	EEETVAK	            1	    0	    0	    0	    3	    0	    0	    0	    0	    ...	    0.0	        0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    2	    7
+    1	EQEEQQQQEGHNNK	    0	    0	    0	    0	    4	    0	    1	    1	    0	    ...	    0.0	        0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    3	    14
+    2	SHGGHTVISK	    0	    0	    0	    0	    0	    0	    2	    2	    1	    ...	    0.0     0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    3	    10
+    3	SGTHNMYK	    0	    0	    0	    0	    0	    0	    1	    1	    0	    ...	    0.0	        0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    2	    8
+    4	AARPTRPDK	    2	    0	    0	    1	    0	    0	    0	    0	    0	    ...	    0.0	        0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    3	    9
 
 Till here, we have completed all the data preprocessing step. We have deduced a good amount of information from the amino acid sequences.
 
