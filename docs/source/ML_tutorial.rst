@@ -176,16 +176,16 @@ Fit the regressor to the training set and make predictions on the test set using
     xg_reg.fit(X_train, Y_train)
     Y_pred = xg_reg.predict(X_test)
 
-Compute the mean squared error (mse) by invoking the mean_sqaured_error function from sklearn's metrics module.
+Compute the root mean square error (rmse) using the mean_sqaured_error function from sklearn's metrics module.
 
 .. code-block:: python
 
-    mse = np.sqrt(mean_squared_error(Y_test, Y_pred))
-    print("MSE: %f" % (mse))
+    rmse = np.sqrt(mean_squared_error(Y_test, Y_pred))
+    print("RMSE: %f" % (rmse))
 
 .. code-block:: output
 
-    MSE: 437.017290
+    RMSE: 437.017290
 
 Store the **Observed** v/s **Predicted** value in pandas dataframe and print.
 
