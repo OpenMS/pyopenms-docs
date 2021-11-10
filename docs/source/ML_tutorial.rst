@@ -213,13 +213,13 @@ Store the **Observed** v/s **Predicted** value in pandas dataframe and print.
 
 We will now generate a **Observed** v/s **Predicted** plot that gives a high level overview about the model performance. 
 We can clearly see that only few outliers are there and most of them lie in between the central axis.
-This means that prediction actually worked and actual and predicted value won't differ too much.
+This means that prediction actually worked and observed and predicted value won't differ too much.
 
 .. code-block:: python
 
     sns.lmplot(x="Observed", y="Predicted", data=k, scatter_kws={'alpha':0.2,'s':5})
 
-.. image:: img/ml_tutorial_predicted_vs_actual.png
+.. image:: img/ml_tutorial_predicted_vs_observed.png
 
 .. code-block:: python
 
