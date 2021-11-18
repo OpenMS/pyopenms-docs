@@ -17,6 +17,27 @@ and the peptide sequence). Each ``PeptideHit`` also contains a vector of
 ``PeptideEvidence`` objects which store the reference to one or more (in the case the
 peptide maps to multiple proteins) proteins and the position therein.
 
+.. NOTE::
+   It is important to notice that Protein Ids are linked to Peptide Ids by using `setIdentifier` method. Similarly `getIdentifier` can be used to check the link between them.
+
+   .. code-block:: python
+
+       protein_id = ProteinIdentification()
+       peptide_id = PeptideIdentification()
+       
+       # Sets the Identifier
+       protein_id.setIdentifier("IdentificationRun1")
+       peptide_id.setIdentifier("IdentificationRun1")
+
+       # Prints the Identifier
+       print("Protein Identifier -",protein_id.getIdentifier())
+       print("Peptide Identifier -",peptide_id.getIdentifier())
+    
+    .. code-block:: output
+       
+       Protein Identifier - IdentificationRun1
+       Peptide Identifier - IdentificationRun1
+
 ProteinIdentification
 **********************
 
