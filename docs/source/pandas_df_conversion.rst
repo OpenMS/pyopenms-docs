@@ -7,8 +7,6 @@ Required imports for the examples:
 
 .. code-block:: python
 
-    import sys
-    sys.path.insert(0, '/home/axel/dev/OpenMS-build/pyOpenMS')
     from pyopenms import *
     from urllib.request import urlretrieve
     url = 'https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master/src/data/'
