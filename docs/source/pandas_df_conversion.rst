@@ -217,7 +217,7 @@ PeptideIdentifications
 
         **decode_ontology :** default True
         
-        decode meta value names
+        if meta values contain CV identifer (e.g., from PSI-MS) they will be automatically decoded into the human readable CV term name.
 
         **default_missing_values :** default {bool: False, int: -9999, float: np.nan, str: ''}
         
