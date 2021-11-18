@@ -51,7 +51,8 @@ Now we can use the following code to detect features with ``FeatureFinderAlgorit
   from urllib.request import urlretrieve
 
   gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
-  urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML", "ms_data.mzML")
+  mzML_path = gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML"
+  urlretrieve (mzML_path, "ms_data.mzML")
   urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_input.tsv", "library.tsv")
 
   from pyopenms import *
@@ -77,8 +78,8 @@ Now we can use the following code to detect features with ``FeatureFinderAlgorit
   params[b'detect:peak_width'] = 3.0 # 3 seconds
   ff.setParameters(params)
 
-  # run the FeatureFinderMetaboIdent with the metabo_table and store results in fm
-  ff.run(metabo_table, fm)
+  # run the FeatureFinderMetaboIdent with the metabo_table and mzML file path -> store results in fm
+  ff.run(metabo_table, fm, mzML_path)
 
   # save FeatureMap to file
   FeatureXMLFile().store('detected_features.featureXML', fm)
