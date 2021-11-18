@@ -33,7 +33,7 @@ peptide maps to multiple proteins) proteins and the position therein.
        print("Protein Identifier -",protein_id.getIdentifier())
        print("Peptide Identifier -",peptide_id.getIdentifier())
     
-    .. code-block:: output
+   .. code-block:: output
        
        Protein Identifier - IdentificationRun1
        Peptide Identifier - IdentificationRun1
