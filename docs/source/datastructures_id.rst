@@ -18,7 +18,9 @@ and the peptide sequence). Each ``PeptideHit`` also contains a vector of
 peptide maps to multiple proteins) proteins and the position therein.
 
 .. NOTE::
-   It is important to notice that Protein Ids are linked to Peptide Ids by using `setIdentifier` method. Similarly `getIdentifier` can be used to check the link between them.
+   Protein Ids are linked to Peptide Ids by a common identifier (e.g., a unique string of time and date of the search).
+   The Identifier can be set using the `setIdentifier` method. Similarly `getIdentifier` can be used to check the link between them.
+   With the link one can retrieve search meta data (which is stored at the protein level) for individual Peptide Ids.
 
    .. code-block:: python
 
@@ -30,8 +32,8 @@ peptide maps to multiple proteins) proteins and the position therein.
        peptide_id.setIdentifier("IdentificationRun1")
 
        # Prints the Identifier
-       print("Protein Identifier -",protein_id.getIdentifier())
-       print("Peptide Identifier -",peptide_id.getIdentifier())
+       print("Protein Identifier -", protein_id.getIdentifier())
+       print("Peptide Identifier -", peptide_id.getIdentifier())
     
    .. code-block:: output
        
