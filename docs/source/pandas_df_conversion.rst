@@ -162,20 +162,20 @@ ConsensusMap
 
 .. code-block:: python
 
-    urlretrieve(url+'ConsensusXMLFile_1.consensusXML', 'ConsensusXMLFile_1.consensusXML')
+    urlretrieve(url+'ProteomicsLFQ_1_out.consensusXML', 'ProteomicsLFQ_1_out.consensusXML')
     consensus_map = ConsensusMap()
-    ConsensusXMLFile().load('ConsensusXMLFile_1.consensusXML', consensus_map)
+    ConsensusXMLFile().load('ProteomicsLFQ_1_out.consensusXML', consensus_map)
 
     df = consensus_map.get_df()
     df.head(2)
     
 .. csv-table:: consensus_map.get_df()
-   :widths: 2 10 20 20 20 20 30 30
-   :header:     , "sequence",	"charge",	"RT",	"mz",	"quality",	"data/MapAlignmentFeatureMap1.xml",	"data/MapAlignmentFeatureMap2.xml"
+   :widths: 2 10 20 20 20 20 30 10 30
+   :header:     , "sequence",	"charge",	"RT",	"mz",	"quality",	"/Users/pfeuffer/git/OpenMS-fixes-src/share/OpenMS/examples/FRACTIONS/BSA1_F1.mzML",   "...",	"/Users/pfeuffer/git/OpenMS-fixes-src/share/OpenMS/examples/FRACTIONS/BSA1_F2.mzML"
             "id"
 
-   "0",	"A",	"0",	"1273.27",	"904.470",	"1.1",	"31253900.0",	"0.0"
-   "1",	"E",	"0",	"1248.33",	"897.449",	"1.2",	"25917900.0",	"25917900.0"
+   "2935923263525422257",	"DGDIEAEISR",	"3",	"1523.370634",	"368.843773",	"0.000000", "0.0",	"...",  "0.0"
+   "10409195546240342212",	"SHC(Carbamidomethyl)IAEVEK",	"3",	"1552.032973",	"358.174576",	"0.491247", "1358151.0",   "...",	"0.0"
 
 .. code-block:: python
 
@@ -183,12 +183,12 @@ ConsensusMap
     df.head(2)
 
 .. csv-table:: consensus_map.get_intensity_df()
-   :widths: 2 30 30
-   :header:     , "data/MapAlignmentFeatureMap1.xml",	"data/MapAlignmentFeatureMap2.xml"
+   :widths: 20 30 10 30
+   :header:     , "/Users/pfeuffer/git/OpenMS-fixes-src/share/OpenMS/examples/FRACTIONS/BSA1_F1.mzML",   "...",	"/Users/pfeuffer/git/OpenMS-fixes-src/share/OpenMS/examples/FRACTIONS/BSA1_F2.mzML"
             "id"
 
-   "0",	"31253900.0",	"0.0"
-   "1",	"25917900.0",	"25917900.0"
+   "2935923263525422257",	"0.0",	"...",  "0.0"
+   "10409195546240342212",	"1358151.0",   "...",	"0.0"
 
 .. code-block:: python
 
@@ -196,12 +196,12 @@ ConsensusMap
     df.head(2)
 
 .. csv-table:: consensus_map.get_metadata_df()
-   :widths: 2 10 20 20 20 20
+   :widths: 20 20 20 20 20 20
    :header:     , "sequence",	"charge",	"RT",	"mz",	"quality"
             "id"
 
-   "0",	"A",	"0",	"1273.27",	"904.470",	"1.1"
-   "1",	"E",	"0",	"1248.33",	"897.449",	"1.2"
+   "2935923263525422257",	"DGDIEAEISR",	"3",	"1523.370634",	"368.843773",	"0.000000"
+   "10409195546240342212",	"SHC(Carbamidomethyl)IAEVEK",	"3",	"1552.032973",	"358.174576",	"0.491247"
 
 PeptideIdentifications
 **********************
