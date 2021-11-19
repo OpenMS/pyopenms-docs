@@ -83,9 +83,9 @@ We now set several of these properties in a current MSSpectrum:
     spectrum.setPrecursors( [p] )
 
     # set additional instrument settings (e.g. scan polarity)
-    InstrumentSettings = InstrumentSettings()
-    InstrumentSettings.setPolarity(IonSource.Polarity.POSITIVE)
-    spectrum.setInstrumentSettings(InstrumentSettings)
+    IS = InstrumentSettings()
+    IS.setPolarity(IonSource.Polarity.POSITIVE)
+    spectrum.setInstrumentSettings(IS)
     
     # get and check scan polarity
     polarity = spectrum.getInstrumentSettings().getPolarity()
