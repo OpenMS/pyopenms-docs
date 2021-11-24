@@ -93,6 +93,7 @@ pyOpenMS facilitates the execution of common tasks in proteomics (and other mass
    file_handling
    other_file_handling   
    mzMLFileFormat
+   pandas_df_conversion
    memory_management
    pyopenms_in_r
    build_from_source
