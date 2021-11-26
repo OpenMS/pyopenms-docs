@@ -44,7 +44,7 @@ The parameters can then be accessed as
 .. code-block:: python
  
     # print all data inside Param
-    def printAll(x):
+    def printParamKeyAndValues(p):
       if (x.size()):
         for i in x.keys():
           print("Key: ", i, "Value: ", x[i])
