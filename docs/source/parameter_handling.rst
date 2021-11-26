@@ -41,49 +41,51 @@ The parameters can then be accessed as
     True
     
     
+The param object can be copy and merge in to other param object as 
+ 
 .. code-block:: python
  
-    # print all data inside Param
+    # print the key and values pairs stored in a Param object
     def printParamKeyAndValues(p):
-      if (x.size()):
-        for i in x.keys():
-          print("Key: ", i, "Value: ", x[i])
-
+      if (p.size()):
+        for i in p.keys():
+          print("Key:",i, "Value:",p[i])
       else :
           print("no data availabe")
 
-
     new_p = Param()
-    if (p.empty() == False): #check p is not empty
-      new_p = p               #new soft copy of p generate with name "p"
+    if (p.empty() == False): # check p is not empty
+      new_p = p              # new deep copy of p generate with name "new_p"
 
-    #adding 3 more keys with different names
+    # we will add 4 more keys to the new_p
     new_p.setValue("param2", 9.0, "This is value 9")
     new_p.setValue("example1", 6.0, "This is value 6")
     new_p.setValue("example2", 8.0, "This is value 8")
     new_p.setValue("example3", 10.0, "This is value 10")
 
-    #new_p merge in p, p will update same key entries
+    # names "example1", "example2" , "example3" keys will added to p, but "param2" will update the value
     p.merge(new_p)
-    print(" print All inside p after merge new_p ")
-    printAll(p) #print all data 
-    
-    
+    print(" print the key  and values pairs stored in a Param object p ")
+    printParamKeyAndValues(p)  
+
+In param object the keys values can be remove by key_name or prefix as
 
 .. code-block:: python
  
-    print(" print All inside new_p ")
-    printAll(new_p) #print all data
+    print(" print the key  and values pairs stored in a Param object new_p ")
+    printParamKeyAndValues(new_p)
 
+    # We now call the remove method with the key of the entry "example3", we want to delete "example3"
     new_p.remove("example3")
-    print(" print All inside new_p  after remove function ")
-    printAll(new_p) #print all data
+    print(" print the key  and values pairs stored in a Param object new_p ")
+    printParamKeyAndValues(new_p) 
 
+    # We now call the removeAll method with the prefix of key "exam", we want to delete All keys with prefix "exam"
     new_p.removeAll("exam")
-    print(" print All inside new_p  after remove all with prefix exam ")
-    printAll(new_p) #print all data
+    print(" print the key  and values pairs stored in a Param object new_p")
+    printParamKeyAndValues(new_p) 
 
-    if (p == new_p):
-      new_p.clear() #clear all entries
-    print(" print All inside new_p  after clear function ")
-    printAll(new_p) #print all data
+    if (p == new_p): # check p is equal to new_p
+      new_p.clear() # we want to delete all keys from new_p
+    print(" check new_p keys and values deleted ")
+    printParamKeyAndValues(new_p) # All keys of new_p deleted
