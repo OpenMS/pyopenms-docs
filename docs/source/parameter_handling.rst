@@ -49,7 +49,7 @@ The param object can be copy and merge in to other param object as
     def printParamKeyAndValues(p):
       if (p.size()):
         for i in p.keys():
-          print("Key:",i, "Value:",p[i])
+          print("Key:", i, "Value:", p[i])
       else :
           print("no data availabe")
 
@@ -72,20 +72,19 @@ In param object the keys values can be remove by key_name or prefix as
 
 .. code-block:: python
  
-    print(" print the key  and values pairs stored in a Param object new_p ")
-    printParamKeyAndValues(new_p)
-
-    # We now call the remove method with the key of the entry "example3", we want to delete "example3"
+    # We now call the remove method with key of the entry we want to delete ("example3")
     new_p.remove("example3")
-    print(" print the key  and values pairs stored in a Param object new_p ")
+    print("Key and values pairs after removing the entry with key: example3")
     printParamKeyAndValues(new_p) 
 
-    # We now call the removeAll method with the prefix of key "exam", we want to delete All keys with prefix "exam"
+    # We now want to delete all keys with prefix "exam"
     new_p.removeAll("exam")
-    print(" print the key  and values pairs stored in a Param object new_p")
+    print("Key and value pairs after removing all entries with keys starting with: exam")
     printParamKeyAndValues(new_p) 
 
+    # we can compare Param objects for identical content
     if (p == new_p): # check p is equal to new_p
-      new_p.clear() # we want to delete all keys from new_p
-    print(" check new_p keys and values deleted ")
+      new_p.clear() # Example: delete all keys from new_p
+      
+    print("Keys and values after deleting all entries.")
     printParamKeyAndValues(new_p) # All keys of new_p deleted
