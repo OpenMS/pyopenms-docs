@@ -10,14 +10,12 @@ OpenMS has multiple tools that can identify these features in 2-dimensional
 data, these tools are called `FeatureFinder`.  Currently the following
 FeatureFinders are available in pyOpenMS:
 
-  - FeatureFinderMultiplexAlgorithm
-  - FeatureFinderIdentificationAlgorithm  
-  - FeatureFinderAlgorithmIsotopeWavelet 
-  - FeatureFinderAlgorithmPicked
-  - FeatureFinder
-  - FeatureFindingMetabo
-  - FeatureFinderAlgorithmMetaboIdent
-  - FeatureFinderMetaboIdentCompound
+  - FeatureFinderMultiplexAlgorithm (e.g., SILAC, Dimethyl labeling, (and label-free), identification free feature detection of peptides)
+  - FeatureFinderAlgorithmPicked (Label-free, identification free feature detection of peptides)
+  - FeatureFinderIdentificationAlgorithm (Label-free identification-guided feature detection of peptides)
+  - FeatureFinderAlgorithmIsotopeWavelet (old instruments)
+  - FeatureFindingMetabo (Label-free, identification free feature detection of metabolites)
+  - FeatureFinderAlgorithmMetaboIdent (Label-free, identification guided feature detection of metabolites)
 
 All of the algorithms above are for proteomics data with the exception of
 FeatureFindingMetabo, FeatureFinderMetaboIdent and FeatureFinderMetaboIdentCompound which work on metabolomics data. Two of the most commonly
