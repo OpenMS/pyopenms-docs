@@ -1,8 +1,7 @@
 Query MSExperiment with MassQL
 ==============================
 
-The Python module ``massql`` allows queries in mass spectrometry data (MS1 and MS2
-data frames) in a SQL like fashion. 
+MassQL is a powerful, SQL-like query language for mass spectrometry data.
 For further information visit the `MassQL documentation
 <https://mwang87.github.io/MassQueryLanguage_Documentation/>`_.
 
