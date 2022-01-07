@@ -10,4 +10,5 @@ datashader
 holoviews
 pyviz_comms
 jupyter-server-proxy
-massql==0.0.10
+matchms
+massql
