@@ -10,4 +10,4 @@ datashader
 holoviews
 pyviz_comms
 jupyter-server-proxy
-massql
+massql==0.0.10
