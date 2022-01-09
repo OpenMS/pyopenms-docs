@@ -43,14 +43,7 @@ Nightly/ CI wheels
 
 If you want the newest features you can also install nightly builds of pyOpenMS.
 
-To download the latest nightly build execute the command below
-
-.. code-block:: bash
-
-  wget https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed
-  mv Linux-wheels.zip\?status=completed Linux-wheels.zip
-  
-or if you want to download from the browser than visit the GitHub page that contains the action to build the nightly wheels: https://github.com/OpenMS/OpenMS/actions/workflows/pyopenms-wheels.yml .
+Visit the GitHub page that contains the action to build the nightly wheels: https://github.com/OpenMS/OpenMS/actions/workflows/pyopenms-wheels.yml
 Click on e.g., the newest nightly build on the top to get access to artefacts.
 
 .. image:: img/githubActionWheels.png
@@ -58,6 +51,14 @@ Click on e.g., the newest nightly build on the top to get access to artefacts.
 Download the corresponding wheel for OSX, Linux, or Windows. Unzip
 the folder and select the supported Python version for your environment.
 The supported Python version is denoted as ``cp3X`` in the wheel file name. 
+
+
+.. code-block:: bash
+
+  wget https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed
+  mv Linux-wheels.zip\?status=completed Linux-wheels.zip
+  
+On Linux, you can also directly download latest nightly build by executing the above command.
 
 .. code-block:: bash
 
