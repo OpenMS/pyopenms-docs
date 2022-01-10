@@ -52,14 +52,13 @@ Download the corresponding wheel for OSX, Linux, or Windows. Unzip
 the folder and select the supported Python version for your environment.
 The supported Python version is denoted as ``cp3X`` in the wheel file name. 
 
+On Linux, you can also directly download latest nightly build by executing the commands below.
 
 .. code-block:: bash
 
   wget https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed
   mv Linux-wheels.zip\?status=completed Linux-wheels.zip
   
-On Linux, you can also directly download latest nightly build by executing the above command.
-
 .. code-block:: bash
 
   pip install your-package.whl --no-cache-dir
