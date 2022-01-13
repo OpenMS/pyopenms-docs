@@ -8,18 +8,12 @@ jobs:
 
   build-lnx:
     runs-on: ubuntu-latest
-    container: openms/manylinux:latest
 
     steps:
     - uses: actions/checkout@v2
     
-    - uses: actions/setup-python@v2
-      with:
-        python-version: '3.7' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-
-    - name: Installing System Dependenies
+    - name: Installing pandoc
       run: |
-        yum -y install epel-release
         wget https://github.com/jgm/pandoc/releases/download/2.14.2/pandoc-2.14.2-linux-amd64.tar.gz
         tar -xvf pandoc-2.14.2-linux-amd64.tar.gz
         cp pandoc-2.14.2/bin/pandoc /usr/bin/pandoc
