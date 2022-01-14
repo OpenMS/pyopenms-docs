@@ -8,17 +8,15 @@ jobs:
 
   build-lnx:
     runs-on: ubuntu-latest
-    container: openms/manylinux:latest
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Installing System Dependenies
+    
+    - name: Installing pandoc
       run: |
-        yum -y install epel-release
         wget https://github.com/jgm/pandoc/releases/download/2.14.2/pandoc-2.14.2-linux-amd64.tar.gz
         tar -xvf pandoc-2.14.2-linux-amd64.tar.gz
-        cp pandoc-2.14.2/bin/pandoc /usr/bin/pandoc
+        sudo cp pandoc-2.14.2/bin/pandoc /usr/bin/pandoc
 
     - name: Install dependencies
       run: |

@@ -10,24 +10,24 @@ OpenMS has multiple tools that can identify these features in 2-dimensional
 data, these tools are called `FeatureFinder`.  Currently the following
 FeatureFinders are available in pyOpenMS:
 
-  - FeatureFinderMultiplexAlgorithm
-  - FeatureFinderIdentificationAlgorithm  
-  - FeatureFinderAlgorithmIsotopeWavelet  
-  - FeatureFindingMetabo
-  - FeatureFinderAlgorithmMetaboIdent
+  - FeatureFinderMultiplexAlgorithm (e.g., SILAC, Dimethyl labeling, (and label-free), identification free feature detection of peptides)
+  - FeatureFinderAlgorithmPicked (Label-free, identification free feature detection of peptides)
+  - FeatureFinderIdentificationAlgorithm (Label-free identification-guided feature detection of peptides)
+  - FeatureFinderAlgorithmIsotopeWavelet (old instruments)
+  - FeatureFindingMetabo (Label-free, identification free feature detection of metabolites)
+  - FeatureFinderAlgorithmMetaboIdent (Label-free, identification guided feature detection of metabolites)
 
 All of the algorithms above are for proteomics data with the exception of
-FeatureFinderMetabo and FeatureFinderMetaboIdent which work on metabolomics data. One of the most commonly
-used FeatureFinders is the FeatureFinderCentroided and FeatureFinderIdentification which both work on (high
+FeatureFindingMetabo, FeatureFinderMetaboIdent and FeatureFinderMetaboIdentCompound which work on metabolomics data. Two of the most commonly
+used FeatureFinders in OpenMS are the FeatureFinder and FeatureFinderIdentificationAlgorithm which both work on (high
 resolution) centroided data. We can use the following code to find ``Features``
 in MS data:
 
 .. code-block:: python
 
   from urllib.request import urlretrieve
-  # from urllib import urlretrieve  # use this code for Python 2.x
   gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
-  urlretrieve (gh +"/src/data/FeatureFinderCentroided_1_input.mzML", "feature_test.mzML")
+  urlretrieve (gh + "/src/data/FeatureFinderCentroided_1_input.mzML", "feature_test.mzML")
 
   from pyopenms import *
 
@@ -62,10 +62,7 @@ With a few lines of Python, we are able to run powerful algorithms available in
 OpenMS. The resulting data is held in memory (a ``FeatureMap`` object) and can be
 inspected directly using the ``help(features)`` comment. It reveals that the
 object supports iteration (through the ``__iter__`` function) as well as direct
-access (through the ``__getitem__`` function).  We can also inspect the entry
-for ``FeatureMap`` in the `pyOpenMS manual
-<http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ and learn about the same
-functions. This means we write code that uses direct access and iteration in
+access (through the ``__getitem__`` function). This means we write code that uses direct access and iteration in
 Python as follows:
 
 .. code-block:: python

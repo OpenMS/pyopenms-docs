@@ -1,13 +1,19 @@
 Scoring spectra with HyperScore
 ===============================
 
-In the event that we want to generate scores from directly comparing theoretical and experimental spectra,
-we can use HyperScore.
+In the chapter on spectrum alignment we showed how to determine matching peaks between theoretical and experimental spectra.
+For many use cases we might actually not be interested in obtaining the list of matched peaks but would like to have
+a simple, single score that indicates how "well" the two spectra matched.
+The HyperScore is a method to assign a spectrum match score to spectrum matches.
+
+
 
 Background
 **********
 
+
 HyperScore computes the (ln transformed) X!Tandem HyperScore of theoretical spectrum,
+
 calculated from a peptide/oligonucleotide sequence, with an experimental spectrum,
 loaded from an mzML file.
 
@@ -19,12 +25,15 @@ loaded from an mzML file.
     from urllib.request import urlretrieve
     from pyopenms import *
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
-    urlretrieve (gh +"/src/data/SimpleSearchEngine_1.mzML", "searchfile.mzML")
+
+    urlretrieve (gh + "/src/data/SimpleSearchEngine_1.mzML", "searchfile.mzML")
+
 
 Generate a theoretical spectrum
 *******************************
 
-We now use the TheoreticalSpectrumGenerator generate a theoretical spectrum for the sequence we are interested in,
+
+We now use the TheoreticalSpectrumGenerator to generate a theoretical spectrum for the sequence we are interested in,
 ``RPGADSDIGGFGGLFDLAQAGFR``, and compare the peaks to a spectra from our file.
 
 

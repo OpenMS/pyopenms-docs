@@ -17,6 +17,29 @@ and the peptide sequence). Each ``PeptideHit`` also contains a vector of
 ``PeptideEvidence`` objects which store the reference to one or more (in the case the
 peptide maps to multiple proteins) proteins and the position therein.
 
+.. NOTE::
+   Protein Ids are linked to Peptide Ids by a common identifier (e.g., a unique string of time and date of the search).
+   The Identifier can be set using the `setIdentifier` method. Similarly `getIdentifier` can be used to check the link between them.
+   With the link one can retrieve search meta data (which is stored at the protein level) for individual Peptide Ids.
+
+   .. code-block:: python
+
+       protein_id = ProteinIdentification()
+       peptide_id = PeptideIdentification()
+       
+       # Sets the Identifier
+       protein_id.setIdentifier("IdentificationRun1")
+       peptide_id.setIdentifier("IdentificationRun1")
+
+       # Prints the Identifier
+       print("Protein Identifier -", protein_id.getIdentifier())
+       print("Peptide Identifier -", peptide_id.getIdentifier())
+    
+   .. code-block:: output
+       
+       Protein Identifier - IdentificationRun1
+       Peptide Identifier - IdentificationRun1
+
 ProteinIdentification
 **********************
 
@@ -104,6 +127,8 @@ corresponding ``PeptideHit`` objects:
   ev.setProteinAccession("sp|MyAccession")
   ev.setAABefore(b"R")
   ev.setAAAfter(b"P")
+  ev.setStart(123) # start and end position in the protein
+  ev.setEnd(141)
   peptide_hit.setPeptideEvidences([ev])
 
   # create a new PeptideHit (second best PSM, lower score)

@@ -14,7 +14,7 @@ library (http://www.openms.de) for mass spectrometry based proteomics. It thus
 provides facile access to a feature-rich, open-source algorithm
 library for mass-spectrometry based proteomics analysis. 
 
-pyOpenMS facilitates the execution of common tasks in protoemics (and other mass spectrometric fields) such as 
+pyOpenMS facilitates the execution of common tasks in proteomics (and other mass spectrometric fields) such as 
 
 - file handling (mzXML, mzML, TraML, mzTab, fasta, pepxml, protxml, mzIdentML among others)
 - chemistry (mass calculation, peptide fragmentation, isotopic abundances)
@@ -36,36 +36,24 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
 
 .. toctree::
    :maxdepth: 2
-   :caption: Installation
+   :caption: Getting started
 
    installation
-
-.. toctree::
-   :maxdepth: 2
-   :caption: First steps
-
-   getting_started
-   file_handling
-   other_file_handling
+   first_steps
 
 .. toctree::
    :maxdepth: 2
    :caption: Mass Spectrometry Concepts
 
-   datastructures
+   datastructures_peak
    chemistry
    aasequences
    nasequences
    theoreticalspectrumgenerator
+   spectrumalignment
    digestion
    datastructures_id
    datastructures_quant
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Simple Data Manipulation
-
-   data_manipulation
 
 .. toctree::
    :maxdepth: 2
@@ -74,14 +62,17 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
    parameter_handling
    algorithms
    smoothing
+   centroiding
    normalization
-   mass_decomposition
    deisotoping
    feature_detection
+   map_alignment
+   feature_linking
    peptide_search
    chromatographic_analysis
    metabolomics_targeted_feature_extraction
    mzqc_export
+   mass_decomposition
 
 .. toctree::
    :maxdepth: 2
@@ -91,24 +82,31 @@ pyOpenMS facilitates the execution of common tasks in protoemics (and other mass
 
 .. toctree::
    :maxdepth: 2
+   :caption: How to contribute
+
+   contribute
+
+.. toctree::
+   :maxdepth: 2
    :caption: Advanced Topics
-   
+
+   file_handling
+   other_file_handling   
    mzMLFileFormat
+   pandas_df_conversion
+   massql
    memory_management
-
-.. toctree::
-   :maxdepth: 2
-   :caption: R language
-
    pyopenms_in_r
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Developers
-
    build_from_source
    wrap_classes
+   interactive_plots
+   ML_tutorial
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Support
+
+   support
 
 
 Indices and tables

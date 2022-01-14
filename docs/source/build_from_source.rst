@@ -4,7 +4,7 @@ Build from source
 To install pyOpenMS from :index:`source`, you will first have to compile OpenMS
 successfully on your platform of choice (note that for MS Windows you will need
 to match your compiler and Python version). Please follow the `official
-documenation
+documentation
 <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/index.html>`_
 in order to compile OpenMS for your platform. Next you will need to install the
 following software packages

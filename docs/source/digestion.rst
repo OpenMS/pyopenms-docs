@@ -10,7 +10,6 @@ OpenMS has classes for proteolytic digestion which can be used as follows:
 
     from pyopenms import *
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/P02769.fasta", "bsa.fasta")
 
@@ -71,7 +70,6 @@ cut our protein of interest:
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    # from urllib import urlretrieve  # use this code for Python 2.x
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve (gh + "/src/data/P02769.fasta", "bsa.fasta")
 

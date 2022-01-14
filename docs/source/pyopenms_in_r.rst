@@ -119,10 +119,6 @@ Therefore in this case we need to use the ``reticulate::r_to_py()`` and ``reticu
 
     [1] "Sequence: SHC(Carbamidomethyl)IAEVEK"
 
-In order to get more information about the wrapped functions, we can also 
-consult the `pyOpenMS manual <http://proteomics.ethz.ch/pyOpenMS_Manual.pdf>`_ 
-which references to all wrapped functions.
-
 An example use case
 *******************
 

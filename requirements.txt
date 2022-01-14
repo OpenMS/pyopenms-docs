@@ -5,3 +5,9 @@ pandas
 adjustText
 sklearn
 requests
+bokeh
+datashader
+holoviews
+pyviz_comms
+jupyter-server-proxy
+massql

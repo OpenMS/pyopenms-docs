@@ -15,10 +15,11 @@ Imports
     import shutil
     import requests
 
-    import pandas as pd
     from pyopenms import *
 
+    import pandas as pd
     import numpy as np
+    import matplotlib.pyplot as plt
 
     from sklearn.impute import KNNImputer
     from sklearn.preprocessing import FunctionTransformer
@@ -35,54 +36,17 @@ Important:
     files = os.path.join(os.getcwd(), 'IdByMz_Example')
     already_centroided = False
 
-    feature_finder_params = { # defaults in comments
-        b'debug': b'false', # b'false'
-        b'intensity:bins': 10, # 10
-        b'mass_trace:mz_tolerance': 0.03, # 0.03
-        b'mass_trace:min_spectra': 10, # 10
-        b'mass_trace:max_missing': 1, # 1
-        b'mass_trace:slope_bound': 0.1, # 0.1
-        b'isotopic_pattern:charge_low': 1, # 1
-        b'isotopic_pattern:charge_high': 4, # 4
-        b'isotopic_pattern:mz_tolerance': 0.03, # 0.03
-        b'isotopic_pattern:intensity_percentage': 10.0, # 10
-        b'isotopic_pattern:intensity_percentage_optional': 0.1, # 0.1
-        b'isotopic_pattern:mass_window_width': 25.0, # 25.0
-        b'isotopic_pattern:abundance_12C': 98.93, # 98.93
-        b'isotopic_pattern:abundance_14N': 99.632, # 99.632
-        b'seed:min_score': 0.8, # 0.8
-        b'fit:max_iterations': 500, # 500
-        b'feature:min_score': 0.7, # 0.7
-        b'feature:min_isotope_fit': 0.8, # 0.8
-        b'feature:min_trace_score': 0.5, # 0.5
-        b'feature:min_rt_span': 0.333, # 0.333
-        b'feature:max_rt_span': 2.5, # 2.5
-        b'feature:rt_shape': b'symmetric', # b'symmetric
-        b'feature:max_intersection': 0.35, # 0.35
-        b'feature:reported_mz': b'monoisotopic', # b'monoisotopic'
-        b'user-seed:rt_tolerance': 5.0, # 5.0
-        b'user-seed:mz_tolerance': 1.1, # 1.1
-        b'user-seed:min_score': 0.5, # 0.5
-        b'debug:pseudo_rt_shift': 500.0 # 500.0
-    }
-
     accurate_mass_search_params = { # defaults in comments
-        b'mass_error_value': 5.0, # 5.0
-        b'mass_error_unit': b'ppm', # b'ppm'
         b'ionization_mode': b'negative', # b'positive'
-        b'isotopic_similarity': b'false', # b'false'
         b'positive_adducts': str.encode(os.path.join(files, 'PositiveAdducts.tsv')), # b'CHEMISTRY/PositiveAdducts.tsv'
         b'negative_adducts': str.encode(os.path.join(files, 'NegativeAdducts.tsv')), # b'CHEMISTRY/NegativeAdducts.tsv'
-        b'use_feature_adducts': b'false', # b'false'
-        b'keep_unidentified_masses': b'false', # b'false'
         b'db:mapping': [str.encode(os.path.join(files, 'HMDBMappingFile.tsv'))], # b'CHEMISTRY/HMDBMappingFile.tsv'
         b'db:struct': [str.encode(os.path.join(files, 'HMDB2StructMapping.tsv'))], # b'CHEMISTRY/HMDB2StructMapping.tsv'
-        b'mzTab:exportIsotopeIntensities': b'false' # b'false'
     }
 
     allowed_missing_values = 1
     min_feature_quality = 0.8
-    n_nearest_neighbours = 2 # default: 2; for KNN imputation of missing values
+    n_nearest_neighbours = 2
 
 Download Example Data
 *********************
@@ -93,16 +57,17 @@ This cell is important only for the example workflow.
     if not os.path.isdir(os.path.join(os.getcwd(), 'IdByMz_Example')):
         os.mkdir(os.path.join(os.getcwd(), 'IdByMz_Example'))
 
-    urls = ['https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Tutorials/Data/latest/Example_Data/Metabolomics/datasets/2012_02_03_PStd_050_1.mzML',
-            'https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Tutorials/Data/latest/Example_Data/Metabolomics/datasets/2012_02_03_PStd_050_2.mzML',
-            'https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Tutorials/Data/latest/Example_Data/Metabolomics/datasets/2012_02_03_PStd_050_3.mzML',
-            'https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Tutorials/Data/latest/Example_Data/Metabolomics/databases/PositiveAdducts.tsv',
-            'https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Tutorials/Data/latest/Example_Data/Metabolomics/databases/NegativeAdducts.tsv',
-            'https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Tutorials/Data/latest/Example_Data/Metabolomics/databases/HMDBMappingFile.tsv',
-            'https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Tutorials/Data/latest/Example_Data/Metabolomics/databases/HMDB2StructMapping.tsv']
+    base = 'https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Tutorials/Data/latest/Example_Data/Metabolomics/'
+    urls = ['datasets/2012_02_03_PStd_050_1.mzML',
+            'datasets/2012_02_03_PStd_050_2.mzML',
+            'datasets/2012_02_03_PStd_050_3.mzML',
+            'databases/PositiveAdducts.tsv',
+            'databases/NegativeAdducts.tsv',
+            'databases/HMDBMappingFile.tsv',
+            'databases/HMDB2StructMapping.tsv']
 
     for url in urls:
-        request = requests.get(url, allow_redirects=True)
+        request = requests.get(base + url, allow_redirects=True)
         open(os.path.join(files, os.path.basename(url)), 'wb').write(request.content)
 
 Reading mzML files and Centroiding
@@ -128,6 +93,8 @@ out: centroided mzML files in a subfolder 'centroid' (files)
                 PeakPickerHiRes().pickExperiment(exp_raw, exp_centroid)
                 
                 MzMLFile().store(os.path.join(files, 'centroid', file), exp_centroid)
+                
+                del exp_raw
 
         files = os.path.join(files, 'centroid')
 
@@ -149,15 +116,11 @@ out: list with FeatureMaps (feature_maps)
             exp.updateRanges()
 
             feature_finder = FeatureFinder()
+            params = feature_finder.getParameters('centroided')
             feature_map = FeatureMap()
-
-            params = Param()
-            for key, value in feature_finder_params.items():
-                params.setValue(key, value)
 
             feature_finder.run('centroided', exp, feature_map, params, FeatureMap())
 
-            # fm.setUniqueIds()
             feature_map.setPrimaryMSRunPath([str.encode(file[:-5])])
 
             feature_maps.append(feature_map)
@@ -256,6 +219,61 @@ will be obsolete when implemented in pyopenms directly
             mdarr = np.fromiter(iter=gen(self, extractMetaData), dtype=mddtypes, count=cnt)
             return pd.DataFrame(mdarr).set_index('id')
 
+Feature Map Retention Time Alignment
+************************************
+in: unaligned feature maps (feature_maps)
+
+out: feature maps aligned on the first feature map in the list (feature_maps)
+
+.. code-block:: python
+
+    # get in index of feature map with highest number of features in feature map list
+    ref_index = [i[0] for i in sorted(enumerate([fm.size() for fm in feature_maps]), key=lambda x:x[1])][-1]
+
+    aligner = MapAlignmentAlgorithmPoseClustering()
+
+    aligner.setReference(feature_maps[ref_index])
+
+    for feature_map in feature_maps[:ref_index] + feature_maps[ref_index+1:]:
+        trafo = TransformationDescription()
+        aligner.align(feature_map, trafo)
+        transformer = MapAlignmentTransformer()
+        transformer.transformRetentionTimes(feature_map, trafo, True) # store original RT as meta value
+
+Visualization of RTs before and after alignment
+***********************************************
+
+.. code-block:: python
+
+    fmaps = [feature_maps[ref_index]] + feature_maps[:ref_index] + feature_maps[ref_index+1:]
+
+    fig = plt.figure(figsize=(10,5))
+
+    ax = fig.add_subplot(1, 2, 1)
+    ax.set_title('consensus map before alignment')
+    ax.set_ylabel('m/z')
+    ax.set_xlabel('RT')
+
+    # use alpha value to display feature intensity
+    ax.scatter([f.getRT() for f in fmaps[0]], [f.getMZ() for f in fmaps[0]], 
+                alpha = np.asarray([f.getIntensity() for f in fmaps[0]])/max([f.getIntensity() for f in fmaps[0]]))
+
+    for fm in fmaps[1:]:
+        ax.scatter([f.getMetaValue('original_RT') for f in fm], [f.getMZ() for f in fm],
+                    alpha = np.asarray([f.getIntensity() for f in fm])/max([f.getIntensity() for f in fm]))
+
+    ax = fig.add_subplot(1,2,2)
+    ax.set_title('consensus map after alignment')
+    ax.set_xlabel('RT')
+
+    for fm in fmaps:
+        ax.scatter([f.getRT() for f in fm], [f.getMZ() for f in fm],
+                    alpha = np.asarray([f.getIntensity() for f in fm])/max([f.getIntensity() for f in fm]))
+
+    fig.tight_layout()
+    fig.legend([fmap.getMetaValue('spectra_data')[0].decode() for fmap in fmaps], loc = 'lower center')
+    fig.show()
+
 Feature Linking
 ***************
 in: list with FeatureMaps (feature_maps)
@@ -293,6 +311,7 @@ out: DataFrame with RT, mz and quality (result_df)
 
     result_df = pd.concat([meta_data, intensities], axis=1)
     result_df.reset_index(drop=True, inplace=True)
+    result_df
 
 Accurate Mass Search
 ********************
@@ -304,10 +323,9 @@ out: DataFrame with identifications (id_df)
 
     accurate_mass_search = AccurateMassSearchEngine()
 
-    params = Param()
+    params = accurate_mass_search.getParameters()
     for key, value in accurate_mass_search_params.items():
         params.setValue(key, value)
-
     accurate_mass_search.setParameters(params)
 
     mztab = MzTab()
@@ -326,6 +344,8 @@ out: DataFrame with identifications (id_df)
     id_df.reset_index(drop=True, inplace=True)
 
     os.remove(os.path.join(files, 'ids.tsv'))
+
+    id_df
 
 Data Filtering and Imputation
 *****************************
@@ -349,6 +369,7 @@ out: features below minimum quality and with too many missing values removed, re
                         ("pandarizer",FunctionTransformer(lambda x: pd.DataFrame(x, columns = result_df.columns)))])
 
     result_df = imputer.fit_transform(result_df)
+    result_df
 
 Annotate features with identified compounds
 *******************************************
@@ -360,9 +381,11 @@ out: result DataFrame with new identifications column, where compound names and 
 
     result_df['identifications'] = pd.Series(['' for x in range(len(result_df.index))])
 
-    for rt, mz, description, adduct in zip(id_df['retention_time'], id_df['exp_mass_to_charge'], id_df['description'], id_df['opt_global_adduct_ion']):
+    for rt, mz, description in zip(id_df['retention_time'], id_df['exp_mass_to_charge'], id_df['description']):
         indices = result_df.loc[(round(result_df['mz'], 6) == round(float(mz), 6)) & (round(result_df['RT'], 6) == round(float(rt), 6))].index.tolist()
         for index in indices:
-            result_df.loc[index,'identifications'] += '[' + description + ' : ' + adduct + ']'
-
+            result_df.loc[index,'identifications'] += description + '; '
+        
     result_df.to_csv(os.path.join(files, 'result.tsv'), sep = '\t', index = False)
+    result_df
+
