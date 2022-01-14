@@ -58,13 +58,13 @@ Open it and add your new function *with the correct indentation*:
   - Warning: For a single-line comment, there should not be a space between wrap-doc and the following comment.
   - Note: The space between the hash and wrap-doc (# wrap-doc) is not necessary, but used for consistency.
   - Note: Please start the comment with a caplital letter.
-  
-See the next section for a SimpleExample_ and a more AdvancedExample_ of a wrapped class with several functions.
+
+See the next section for a `simple example <#Simple-Example>`_ and a more AdvancedExample_ of a wrapped class with several functions.
 
 How to wrap new classes
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-.. _SimpleExample:
+.. _Simple Example:
 
 A simple example
 ----------------
