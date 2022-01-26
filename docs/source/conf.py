@@ -21,9 +21,9 @@ import os
 # sys.path.insert(0, os.path.abspath('.'))
 
 os.system('ls -l')
-os.system('wget https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed')
+os.system('wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed')
 os.system('mv Linux-wheels.zip\?status=completed Linux-wheels.zip')
-os.system('unzip Linux-wheels.zip')
+os.system('unzip Linux-wheels.zip && rm Linux-wheels.zip')
 os.system('python3 -m pip install pyopenms_nightly-*-cp37-cp37m-manylinux2014_x86_64.whl')
 
 # -- General configuration ------------------------------------------------
