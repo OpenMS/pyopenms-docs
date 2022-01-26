@@ -35,7 +35,7 @@ os.system('python3 -m pip install pyopenms_nightly-*-cp37-cp37m-manylinux2014_x8
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx_copybutton']
+extensions = ['sphinx_copybutton','sphinx.ext.autodoc']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
