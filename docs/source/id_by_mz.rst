@@ -125,100 +125,6 @@ out: list with FeatureMaps (feature_maps)
 
             feature_maps.append(feature_map)
 
-ConsensusMap with ability to export pandas DataFrames with intensity and meta values
-************************************************************************************
-will be obsolete when implemented in pyopenms directly
-
-.. code-block:: python
-
-    class ConsensusMapDF(ConsensusMap):
-        def __init__(self):
-            super().__init__()
-
-        def get_intensity_df(self):
-            labelfree = self.getExperimentType() == "label-free"
-            filemeta = self.getColumnHeaders()  # type: dict[int, ColumnHeader]
-            labels = list(set([header.label for header in
-                            filemeta.values()]))  # TODO could be more efficient. Do we require same channels in all files?
-            files = list(set([header.filename for header in filemeta.values()]))
-            label_to_idx = {k: v for v, k in enumerate(labels)}
-            file_to_idx = {k: v for v, k in enumerate(files)}
-
-            def gen(cmap: ConsensusMap, fun):
-                for f in cmap:
-                    yield from fun(f)
-
-            if not labelfree:
-                # TODO write two functions for LF and labelled. One has only one channel, the other has only one file per CF
-                def extractRowBlocksChannelWideFileLong(f: ConsensusFeature):
-                    subfeatures = f.getFeatureList()  # type: list[FeatureHandle]
-                    filerows = defaultdict(lambda: [0] * len(labels))  # TODO use numpy array?
-                    for fh in subfeatures:
-                        header = filemeta[fh.getMapIndex()]
-                        row = filerows[header.filename]
-                        row[label_to_idx[header.label]] = fh.getIntensity()
-                    return (f.getUniqueId(), filerows)
-
-                def extractRowsChannelWideFileLong(f: ConsensusFeature):
-                    uniqueid, rowdict = extractRowBlocksChannelWideFileLong(f)
-                    for file, row in rowdict.items():
-                        row.append(file)
-                        yield tuple([uniqueid] + row)
-
-                if len(labels) == 1:
-                    labels[0] = "intensity"
-                dtypes = [('id', np.dtype('uint64'))] + list(zip(labels, ['f'] * len(labels)))
-                dtypes.append(('file', 'U300'))
-                # For TMT we know that every feature can only be from one file, since feature = PSM
-                #cnt = 0
-                #for f in self:
-                #    cnt += f.size()
-
-                intyarr = np.fromiter(iter=gen(self, extractRowsChannelWideFileLong), dtype=dtypes, count=self.size())
-                return pd.DataFrame(intyarr).set_index('id')
-            else:
-                # Specialized for LabelFree which has to have only one channel
-                def extractRowBlocksChannelLongFileWideLF(f: ConsensusFeature):
-                    subfeatures = f.getFeatureList()  # type: list[FeatureHandle]
-                    row = [0.] * len(files)  # TODO use numpy array?
-                    for fh in subfeatures:
-                        header = filemeta[fh.getMapIndex()]
-                        row[file_to_idx[header.filename]] = fh.getIntensity()
-                    yield tuple([f.getUniqueId()] + row)
-
-                dtypes = [('id', np.dtype('uint64'))] + list(zip(files, ['f'] * len(files)))
-                # cnt = self.size()*len(files) # TODO for this to work, we would need to fill with NAs for CFs that do not go over all files
-                cnt = self.size()
-
-                intyarr = np.fromiter(iter=gen(self, extractRowBlocksChannelLongFileWideLF), dtype=dtypes, count=cnt)
-                return pd.DataFrame(intyarr).set_index('id')
-
-        def get_metadata_df(self):
-            def gen(cmap: ConsensusMap, fun):
-                for f in cmap:
-                    yield from fun(f)
-
-            def extractMetaData(f: ConsensusFeature):
-                # subfeatures = f.getFeatureList()  # type: list[FeatureHandle]
-                pep = f.getPeptideIdentifications()  # type: list[PeptideIdentification]
-                if len(pep) != 0:
-                    hits = pep[0].getHits()
-                    if len(hits) != 0:
-                        besthit = hits[0]  # type: PeptideHit
-                        # TODO what else
-                        yield f.getUniqueId(), besthit.getSequence().toString(), f.getCharge(), f.getRT(), f.getMZ(), f.getQuality()
-                    else:
-                        yield f.getUniqueId(), None, f.getCharge(), f.getRT(), f.getMZ(), f.getQuality()
-                else:
-                    yield f.getUniqueId(), None, f.getCharge(), f.getRT(), f.getMZ(), f.getQuality()
-
-            cnt = self.size()
-
-            mddtypes = [('id', np.dtype('uint64')), ('sequence', 'U200'), ('charge', 'i4'), ('RT', np.dtype('double')), ('mz', np.dtype('double')),
-                        ('quality', 'f')]
-            mdarr = np.fromiter(iter=gen(self, extractMetaData), dtype=mddtypes, count=cnt)
-            return pd.DataFrame(mdarr).set_index('id')
-
 Feature Map Retention Time Alignment
 ************************************
 in: unaligned feature maps (feature_maps)
@@ -284,7 +190,7 @@ out: ConsensusMap (consensus_map)
 
     feature_grouper = FeatureGroupingAlgorithmQT()
 
-    consensus_map = ConsensusMapDF()
+    consensus_map = ConsensusMap()
     file_descriptions = consensus_map.getColumnHeaders()
 
     for i, feature_map in enumerate(feature_maps):
