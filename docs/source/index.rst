@@ -70,7 +70,6 @@ pyOpenMS facilitates the execution of common tasks in proteomics (and other mass
    feature_linking
    peptide_search
    chromatographic_analysis
-   metabolomics_targeted_feature_extraction
    mzqc_export
    mass_decomposition
 
