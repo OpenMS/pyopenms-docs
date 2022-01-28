@@ -112,16 +112,44 @@ out: list with FeatureMaps (feature_maps)
         
         if file.endswith('.mzML'):
             exp = MSExperiment()
-            MzMLFile().load(os.path.join(files, file), exp)
-            exp.updateRanges()
+            MzMLFile().load("ms_data.mzML", exp)
 
-            feature_finder = FeatureFinder()
-            params = feature_finder.getParameters('centroided')
+            exp.sortSpectra(True)
+
+            mass_traces = []
+            mtd = MassTraceDetection()
+            mtd_params = mtd.getDefaults()
+            mtd_params.setValue("mass_error_ppm", 5.0) # set according to your instrument mass error
+            mtd_params.setValue("noise_threshold_int", 3000.0) # adjust to noise level in your data
+            mtd.setParameters(mtd_params)
+            mtd.run(exp, mass_traces, 0)
+
+            mass_traces_split = []
+            mass_traces_final = []
+            epd = ElutionPeakDetection()
+            epd_params = epd.getDefaults()
+            epd_params.setValue("width_filtering", "fixed")
+            epd.setParameters(epd_params)
+            epd.detectPeaks(mass_traces, mass_traces_split)
+
+            if epd.getParameters().getValue("width_filtering") == "auto":
+                epd.filterByPeakWidth(mass_traces_split, mass_traces_final)
+            else:
+                mass_traces_final = mass_traces_split
+
             feature_map = FeatureMap()
+            feat_chrom = []
+            ffm = FeatureFindingMetabo()
+            ffm_params = ffm.getDefaults()
+            ffm_params.setValue("isotope_filtering_model", "none")
+            ffm_params.setValue("remove_single_traces", "true") # set false to keep features with only one mass trace
+            ffm_params.setValue("mz_scoring_by_elements", "false")
+            ffm_params.setValue("report_convex_hulls", "true")
+            ffm.setParameters(ffm_params)
+            ffm.run(mass_traces_final, feature_map, feat_chrom)
 
-            feature_finder.run('centroided', exp, feature_map, params, FeatureMap())
-
-            feature_map.setPrimaryMSRunPath([str.encode(file[:-5])])
+            feature_map.setUniqueIds()
+            feature_map.setPrimaryMSRunPath([file[:-5].encode()])
 
             feature_maps.append(feature_map)
 
