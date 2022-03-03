@@ -46,6 +46,7 @@ If you want the newest features you can also install nightly builds of pyOpenMS.
 You can either directly download the latest nightly build by executing the commands below.
 
 .. code-block:: bash
+
   MY_OS="Linux" # or "macOS" or "Windows" (case-sensitive)
   wget https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/${MY_OS}-wheels.zip\?status\=completed
   mv ${MY_OS}-wheels.zip\?status=completed ${MY_OS}-wheels.zip
