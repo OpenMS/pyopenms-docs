@@ -16,10 +16,15 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
+import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+os.system('ls -l')
+os.system('wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed')
+os.system('mv Linux-wheels.zip\?status=completed Linux-wheels.zip')
+os.system('unzip Linux-wheels.zip && rm Linux-wheels.zip')
+os.system('python3 -m pip install pyopenms_nightly-*-cp37-cp37m-manylinux2014_x86_64.whl')
 
 # -- General configuration ------------------------------------------------
 
@@ -30,7 +35,7 @@
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx_copybutton']
+extensions = ['sphinx_copybutton','sphinx.ext.autodoc']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
