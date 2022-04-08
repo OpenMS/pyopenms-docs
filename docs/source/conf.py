@@ -52,7 +52,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'pyOpenMS'
-copyright = u'2021, OpenMS Team'
+copyright = u'2022, OpenMS Team'
 author = u'OpenMS Team'
 
 # The version info for the project you're documenting, acts as replacement for
