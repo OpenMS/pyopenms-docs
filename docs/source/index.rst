@@ -103,9 +103,9 @@ pyOpenMS facilitates the execution of common tasks in proteomics (and other mass
    
 .. toctree::
    :maxdepth: 2
-   :caption: All classes
+   :caption: Full API documentation
 
-   autodoc   
+   apidoc   
 
 .. toctree::
    :maxdepth: 2
