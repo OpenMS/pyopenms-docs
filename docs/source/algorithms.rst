@@ -93,7 +93,7 @@ In order to have a better picture of the algorithms, each one will be introduced
     There are 90 spectra after merging. 
 
 
-As predicated, the number of scans decreased after merged MS spectra. The modified data structure can be stored on disk:
+As predicated, the number of scans decreased after merging MS spectra. The modified data structure can be stored on disk:
 
 .. code-block:: python
 
