@@ -116,7 +116,7 @@ The merging of spectra with similar precursors progresses likewise:
     # MzMLFile().store("mergedBlockWise.mzML", exp)
 
 
-``SpectraMerger`` presents a method to average experimental data over neighbouring spectra. The averaging types to be used by the method are either "gaussian" or "tophat":
+``SpectraMerger`` presents a method to average experimental data over neighbouring spectra. The averaging types to be used by the method are either ``gaussian`` or ``tophat``:
 
 .. code-block:: python 
 
@@ -131,4 +131,4 @@ The merging of spectra with similar precursors progresses likewise:
     # store modified data 
     # MzMLFile().store("mergedPrecursors.mzML", exp)
 
-The OpenMS documentation lists the `parameters <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1SpectraMerger.html#a714276597bcee3d240e385e32717a6b3>`_ in``SpectraMerger``. More information about parameter handling can be found in the `section before <parameter_handling.html>`_. 
+The OpenMS documentation lists the `parameters <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1SpectraMerger.html#a714276597bcee3d240e385e32717a6b3>`_ in ``SpectraMerger``. More information about parameter handling can be found in the `section before <parameter_handling.html>`_. 
