@@ -58,6 +58,7 @@ Spectra Merge Algorithm
 The pyOpenMS spectra merge algorithms allows the merge of several spectra by either increasing S/N ratio (for MS1 and above) or merging scans which stem from similar precursors (for MS2 and above). In any case, the number of scans will be reduced. In addition, pyOpenMS provides the method to average spectra. 
 
 Different spectra merge algorithms are available in pyOpenMS:
+
 - mergeSpectraBlockWise
 - mergeSpectraPrecursors
 - average (over neighbouring spectra for MS1 or above)
@@ -82,7 +83,7 @@ In order to have a better picture of the algorithms, each one will be introduced
     sm.mergeSpectraBlockWise(exp)
 
     spectraMB = exp.getSpectra()
-    print(f"There are {len(spectraMB)} spectra after merge")
+    print(f"There are {len(spectraMB)} spectra after merging")
 
 
 .. code-block:: output 
@@ -107,15 +108,9 @@ The merging of spectra with similar precursors progresses likewise:
     exp = MSExperiment()
     MzMLFile().load('test.mzML', exp)
 
-    spectra = exp.getSpectra()
-    print(f"The number of spectra before merge is {len(spectra)}")
-
     # merge spectra with similar precursors 
     sm = SpectraMerger()
     sm.mergeSpectraPrecursors(exp)
-
-    spectraMP = exp.getSpectra()
-    print(f"The number of spectra after merge is {len(spectraMP)}")
 
     # store modified data 
     # MzMLFile().store("mergedBlockWise.mzML", exp)
