@@ -131,4 +131,4 @@ The merging of spectra with similar precursors progresses likewise:
     # store modified data 
     # MzMLFile().store("mergedBlockWise.mzML", exp)
 
-The OpenMS documentation lists the `parameters <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1SpectraMerger.html#a714276597bcee3d240e385e32717a6b3>`_ in``SpectraMerger``. More information about parameter handling can be found in the :index: `section before`. 
+The OpenMS documentation lists the `parameters <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1SpectraMerger.html#a714276597bcee3d240e385e32717a6b3>`_ in``SpectraMerger``. More information about parameter handling can be found in the `section before <parameter_handling.html>`_. 
