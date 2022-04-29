@@ -358,7 +358,7 @@ The following example figures were generated using a `mzML file <https://github.
    
    from urllib.request import urlretrieve
 
-   gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+   gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
    urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML", "test.mzML")
 
    exp = MSExperiment()
@@ -437,7 +437,7 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
 
     from urllib.request import urlretrieve
     
-    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve (gh + "/src/data/PrecursorPurity_input.mzML", "PrecursorPurity_input.mzML")
 
     exp = MSExperiment()
@@ -485,7 +485,7 @@ But first, we will load some test data:
 
 .. code-block:: python
 
-    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
 
     inp = MSExperiment()

@@ -2,3 +2,4 @@
 .pyc
 .DS_Store
 docs/source/_build/
+docs/build/

@@ -11,7 +11,6 @@ The HyperScore is a method to assign a spectrum match score to spectrum matches.
 Background
 **********
 
-
 HyperScore computes the (ln transformed) X!Tandem HyperScore of theoretical spectrum,
 
 calculated from a peptide/oligonucleotide sequence, with an experimental spectrum,
@@ -24,8 +23,8 @@ loaded from an mzML file.
 
     from urllib.request import urlretrieve
     from pyopenms import *
-    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
 
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve (gh + "/src/data/SimpleSearchEngine_1.mzML", "searchfile.mzML")
 
 

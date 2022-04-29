@@ -267,8 +267,48 @@ case, we illustrated how to make ethanol by adding a ``CH2`` methyl group to an
 existing methanol molecule. Note that OpenMS describes sum formulae with the
 ``EmpiricalFormula`` object and does store structural information in this class.
 
+Isotopes
+~~~~~~~~
+
+Specific isotopes can be incorporated into a molecular formula using bracket
+notation. For example, ethanol with one or two C13 can be specified using ``(13)C`` as follows:
+
+.. code-block:: python
+    :linenos:
+
+    ethanol = EmpiricalFormula("C2H6O")
+    print("Ethanol chemical formula:", ethanol.toString())
+    print("Ethanol composition:", ethanol.getElementalComposition())
+    print("Ethanol weight:", ethanol.getMonoWeight())
+
+    ethanol = EmpiricalFormula("(13)C1CH6O")
+    print("Ethanol chemical formula:", ethanol.toString())
+    print("Ethanol composition:", ethanol.getElementalComposition())
+    print("Ethanol weight:", ethanol.getMonoWeight())
+
+    ethanol = EmpiricalFormula("(13)C2H6O")
+    print("Ethanol chemical formula:", ethanol.toString())
+    print("Ethanol composition:", ethanol.getElementalComposition())
+    print("Ethanol weight:", ethanol.getMonoWeight())
+
+which produces
+
+.. code-block:: output
+
+  Ethanol chemical formula: C2H6O1
+  Ethanol composition: {b'C': 2, b'H': 6, b'O': 1}
+  Ethanol weight: 46.0418651914
+
+  Ethanol chemical formula: (13)C1C1H6O1
+  Ethanol composition: {b'(13)C': 1, b'C': 1, b'H': 6, b'O': 1}
+  Ethanol weight: 47.0452201914
+
+  Ethanol chemical formula: (13)C2H6O1
+  Ethanol composition: {b'(13)C': 2, b'H': 6, b'O': 1}
+  Ethanol weight: 48.0485751914
+
 Isotopic Distributions
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 OpenMS can also generate theoretical isotopic distributions from analytes
 represented as ``EmpiricalFormula``. Currently there are two algorithms

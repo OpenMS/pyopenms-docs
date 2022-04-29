@@ -40,7 +40,7 @@ Using the same example file as before, we can execute a GaussFilter on our test 
     from pyopenms import *
     from urllib.request import urlretrieve
 
-    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
 
     exp = MSExperiment()

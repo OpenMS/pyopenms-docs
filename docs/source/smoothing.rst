@@ -8,7 +8,7 @@ further analysis
 
   from urllib.request import urlretrieve
   from pyopenms import *
-  gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+  gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
   urlretrieve (gh +"/src/data/peakpicker_tutorial_1_baseline_filtered.mzML", "tutorial.mzML")
 
   exp = MSExperiment()
