@@ -15,11 +15,12 @@ jobs:
     
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v10.1
+      uses: tj-actions/changed-files@v19
       with:
           path: docs/source
           files: |
-            \.rst$
+            !_templates/*
+            *.rst
       
     - uses: r-lib/actions/setup-pandoc@v1
       with:
