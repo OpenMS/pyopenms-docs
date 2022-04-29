@@ -80,7 +80,7 @@ interactively zoomed-in if you execute the code in a notebook
 
 
 With this you can also easily create whole dashboards like the one
-hosted `here <https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=msbokehapps>`_ on a Binder instance.
+hosted `here <https://mybinder.org/v2/gh/OpenMS/pyopenms-docs/master+ipynb?urlpath=msbokehapps>`_ on a Binder instance.
 If you are reading/executing this on Binder already, execute the next cell to get a link to your current instance.
 
 .. code-block:: python

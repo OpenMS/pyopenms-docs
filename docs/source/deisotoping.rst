@@ -92,7 +92,7 @@ state:
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve (gh + "/src/data/BSA1.mzML", "BSA1.mzML")
 
     e = MSExperiment()

@@ -10,7 +10,7 @@ Required imports for the examples:
     from pyopenms import *
     import pandas as pd
     from urllib.request import urlretrieve
-    url = 'https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master/src/data/'
+    url = 'https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master/src/data/'
 
 MSExperiment
 ************

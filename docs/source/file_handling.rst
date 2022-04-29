@@ -11,7 +11,7 @@ spectrometric data is using the ``MzMLFile`` class:
 
     from pyopenms import *
     from urllib.request import urlretrieve
-    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
     exp = MSExperiment()
     MzMLFile().load("test.mzML", exp)

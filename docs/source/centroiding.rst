@@ -15,7 +15,7 @@ First, we load some profile data:
     from pyopenms import *
     import matplotlib.pyplot as plt
 
-    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve (gh +"/src/data/PeakPickerHiRes_input.mzML", "tutorial.mzML")
 
     profile_spectra = MSExperiment()
