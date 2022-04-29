@@ -12,15 +12,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v19
+      uses: tj-actions/changed-files@v10.1
       with:
           path: docs/source
           files: |
-            !_templates/*
-            *.rst
+            \.rst$
+
       
     - uses: r-lib/actions/setup-pandoc@v1
       with:
