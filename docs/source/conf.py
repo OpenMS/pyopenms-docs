@@ -19,12 +19,23 @@
 import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
+from platform import python_version_tuple
+from sys import platform
 
-os.system('ls -l')
-os.system('wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed')
-os.system('mv Linux-wheels.zip\?status=completed Linux-wheels.zip')
-os.system('unzip Linux-wheels.zip && rm Linux-wheels.zip')
-os.system('python3 -m pip install pyopenms_nightly-*-cp37-cp37m-manylinux2014_x86_64.whl')
+if platform == "linux" or platform == "linux2":
+    OS = "Linux"
+elif platform == "darwin":
+    OS = "macOS"
+elif platform == "win32":
+    OS = "Windows"
+
+majmin = str(python_version_tuple()[0]) + str(python_version_tuple()[1]) 
+
+os.system(f'ls pyopenms_nightly-*-cp{majmin}*.whl || \
+    (wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/{OS}-wheels.zip\?status\=completed && \
+    mv {OS}-wheels.zip\?status=completed {OS}-wheels.zip && \
+    unzip {OS}-wheels.zip && rm {OS}-wheels.zip)')
+os.system(f'python3 -m pip install pyopenms_nightly-*-cp{majmin}*.whl')
 
 # -- General configuration ------------------------------------------------
 
