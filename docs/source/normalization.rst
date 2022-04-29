@@ -11,7 +11,7 @@ Let's first load the raw data.
   from pyopenms import *
   import matplotlib.pyplot as plt
 
-  gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+  gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
   urlretrieve (gh + "/src/data/peakpicker_tutorial_1_baseline_filtered.mzML", "tutorial.mzML")
   exp = MSExperiment()
   MzMLFile().load("tutorial.mzML", exp)

@@ -109,7 +109,7 @@ example file:
 
     from urllib.request import urlretrieve
     # download small example file
-    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve (gh + "/src/data/tiny.mzML", "tiny.mzML")
     exp = MSExperiment()
     # load example file
@@ -284,7 +284,7 @@ intensities of the TIC in different ways and generate a total ion current chroma
     from urllib.request import urlretrieve
 
     # retrieve MS data
-    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML", "ms_data.mzML")
     
     # load MS data into MSExperiment()

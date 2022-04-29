@@ -26,7 +26,7 @@ Download Example Data
     from pyopenms import *
     from urllib.request import urlretrieve
 
-    base_url = 'https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master/src/data/'
+    base_url = 'https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master/src/data/'
 
     feature_files = ['BSA1_F1.featureXML', 'BSA2_F1.featureXML', 'BSA3_F1.featureXML']
 

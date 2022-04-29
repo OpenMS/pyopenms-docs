@@ -45,7 +45,7 @@ Load an example file into a ``MSExperiment`` and get the MS1 and MS2 data frames
     from massql import msql_engine
 
     from urllib.request import urlretrieve
-    url = 'https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master/src/data/'
+    url = 'https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master/src/data/'
 
     urlretrieve(url+'small.mzML', 'small.mzML')
 

@@ -28,7 +28,7 @@ resolution) centroided data. We can use the following code to find ``Features`` 
 .. code-block:: python
 
   from urllib.request import urlretrieve
-  gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+  gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
   urlretrieve (gh + "/src/data/FeatureFinderCentroided_1_input.mzML", "feature_test.mzML")
 
   from pyopenms import *
@@ -92,7 +92,7 @@ For the untargeted detection of small molecule features we can use the ``Feature
   from pyopenms import *
   from urllib.request import urlretrieve
 
-  gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+  gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
   mzML_path = gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML"
   urlretrieve(mzML_path, "ms_data.mzML")
 
@@ -189,7 +189,7 @@ Now we can use the following code to detect features with ``FeatureFinderAlgorit
   from urllib.request import urlretrieve
   from pyopenms import *
 
-  gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
+  gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
   mzML_path = gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML"
   urlretrieve (mzML_path, "ms_data.mzML")
   urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_input.tsv", "library.tsv")
