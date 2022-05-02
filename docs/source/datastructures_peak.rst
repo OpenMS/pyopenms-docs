@@ -348,8 +348,8 @@ The following example figures were generated using a `mzML file <https://github.
                 p = intensity.argsort() # sort by intensity to plot highest on top
                 rt = np.full([mz.shape[0]], spec.getRT(), float)
                 plt.scatter(rt, mz[p], c = intensity[p], cmap = 'afmhot_r', s=marker_size, 
-                            norm=colors.LogNorm(exp.getMinInt()+1, exp.getMaxInt()))
-        plt.clim(exp.getMinInt()+1, exp.getMaxInt())
+                            norm=colors.LogNorm(exp.getMinIntensity()+1, exp.getMaxIntensity()))
+        plt.clim(exp.getMinIntensity()+1, exp.getMaxIntensity())
         plt.xlabel('time (s)')
         plt.ylabel('m/z')
         plt.colorbar()
