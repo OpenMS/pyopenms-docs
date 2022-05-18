@@ -55,7 +55,7 @@ Using the same example file as before, we can execute a GaussFilter on our test 
 Spectra Merge Algorithm
 *************************
 
-The pyOpenMS spectra merge algorithms allows the merge of several spectra by either increasing S/N ratio (for MS1 and above) or merging scans which stem from similar precursors (for MS2 and above). In any case, the number of scans will be reduced. In addition, pyOpenMS provides the method to average spectra. 
+The pyOpenMS spectra merge algorithms allows the merge of several spectra by either increasing S/N ratio (for MS1 and above) or merging scans which stem from similar precursors (for MS2 and above). In any case, the number of scans will be reduced. Some of the methods available for merging average spectra. 
 
 Different spectra merge algorithms are available in pyOpenMS:
 
@@ -76,47 +76,70 @@ In order to have a better picture of the algorithms, each one will be introduced
     MzMLFile().load('test.mzML', exp)
 
     spectra = exp.getSpectra()
-    print(f"There are {len(spectra)} spectra before merging.\n")
+    spectra_ms1 = [s for s in spectra if s.getMSLevel() == 1]
+    print(f'Number of MS1 spectra before merge are {len(spectra_ms1)}')
 
-    # merges blocks of MS or MS2 spectra
-    sm = SpectraMerger()
-    sm.mergeSpectraBlockWise(exp)
+    # merges blocks of MS1 or MS2 spectra
+    merger = SpectraMerger()
 
-    spectraMB = exp.getSpectra()
-    print(f"There are {len(spectraMB)} spectra after merging")
+    merger.mergeSpectraBlockWise(exp)
+
+    spectraMerged = exp.getSpectra()
+    spectra_ms1 = [s for s in spectra if s.getMSLevel() == 1]
+    print(f'Number of MS1 spectra after merge are {len(spectra_ms1)}')
 
 
 .. code-block:: output 
   
-    There are 236 spectra before merging.
+    Number of MS1 spectra before merge are 183
 
-    There are 90 spectra after merging. 
+    Number of MS1 spectra after merge are 37
 
 
-As predicated, the number of scans decreased after merging MS spectra. The modified data structure can be stored on disk:
+Per default, the method ``mergeSpectraBlockWise`` of SpectraMerger merges MS1 spectra blockwise. Before the merge, we had 183 MS1 spectra. Now, we have 37 MS1 spectra left, because per default setting SpectraMerger always merges 5 consectutive spectra into a block. 
+
+The modified data structure can be stored on disk:
 
 .. code-block:: python
 
     MzMLFile().store("mergedBlockWise.mzML", exp)
 
 
-The merging of spectra with similar precursors progresses likewise:
+SpectraMerger includes the method ``mergeSpectraPrecursors`` which allows the merging of spectra with similar precursors. This is only limited to the merging of MS2 or above spectra, because precursor ions are found in MS2 (starting). 
 
 .. code-block:: python 
 
     # load MS data and store as MSExperiment object
     exp = MSExperiment()
     MzMLFile().load('test.mzML', exp)
+
+    spectra = exp.getSpectra()
+
+    # only spectra with ms_level ≠ 1
+    spectra_ms = [s for s in spectra if s.getMSLevel() != 1]
+    print(f'Number of spectra (not MS1) before merge are {len(spectra_ms)}')
 
     # merge spectra with similar precursors 
-    sm = SpectraMerger()
-    sm.mergeSpectraPrecursors(exp)
+    merger = SpectraMerger()
+    merger.mergeSpectraPrecursors(exp)
+
+    spectraMerged = exp.getSpectra()
+    spectra_ms = [s for s in spectra if s.getMSLevel() != 1]
+    print(f'Number of spectra (not MS1) after merge are {len(spectra_ms)}')
 
     # store modified data 
-    # MzMLFile().store("mergedBlockWise.mzML", exp)
+    # MzMLFile().store("mergedSimiPrecursors.mzML", exp)
+
+.. code-block:: output
+
+    Number of spectra (not MS1) before merge are 53
+
+    Number of spectra (not MS1) after merge are 53
+
+We see that the number of MS2 spectra before and after the merge do not change. This means that the hierarchical clustering with single linkage of the basic LC-MS feature (here only RT and M/Z of the precursors) did not produce any clusters (blocks to merge). 
 
 
-``SpectraMerger`` presents a method to average experimental data over neighbouring spectra. The averaging types to be used by the method are either ``gaussian`` or ``tophat``:
+SpectraMerger presents a method ``average`` to average experimental data over neighbouring spectra. The block of neighbouring spectra depends on the averaging type: ``gaussian`` or ``tophat``. The gaussian type checks for a weight < cutoff value, whereas tophat averages over a range (by default 5 steps left and right from the scan). Per default SpectraMerger averages MS1 spectra. 
 
 .. code-block:: python 
 
@@ -124,11 +147,51 @@ The merging of spectra with similar precursors progresses likewise:
     exp = MSExperiment()
     MzMLFile().load('test.mzML', exp)
 
+    # number of MS1 spectra before averaging
+    spectra_ms1 = [s for s in spectra if s.getMSLevel() == 1]
+    print(f'Number of MS1 spectra before averaging are {len(spectra_ms1)}')
+
+    # a MS1 spectrum 
+    spectrumIdx = 12
+    observed_spectrum = exp.getSpectra()[spectrumIdx]
+    obs_mz, obs_int = observed_spectrum.get_peaks()
+    print(f'Number of peaks: {len(obs_int)}')
+    print(f'Intensity of unchanged spectrum {obs_int}')
+    print(f'M/Z of unchanged spectrum {obs_mz} \n')
+
     # average spectra with gaussian
-    sm = SpectraMerger()
-    sm.average(exp, "gaussian")  
+    merger = SpectraMerger()
+    merger.average(exp, "gaussian")
+
+    # number of MS1 spectra after averaging
+    spectra_ms1 = [s for s in spectra if s.getMSLevel() == 1]
+    print(f'Number of MS1 spectra after averaging are {len(spectra_ms1)}')
+
+    # a MS1 spectrum after averaging
+    averaged_spectrum = exp.getSpectra()[spectrumIdx]
+    avg_mz, avg_int = averaged_spectrum.get_peaks()
+    print(f'Number of peaks: {len(avg_int)}')
+    print(f'Intensity of averaged spectrum {avg_int}')
+    print(f'M/Z of averaged spectrum {avg_mz}')  
 
     # store modified data 
     # MzMLFile().store("mergedPrecursors.mzML", exp)
+
+.. code-block:: output
+
+    Number of MS1 spectra before averaging are 183
+    Number of peaks: 1691
+    Intensity of unchanged spectrum [1278.0497 1913.4033 2004.5872 ... 2452.4668 2296.3455 2902.3096]
+    M/Z of unchanged spectrum [ 360.04589844  361.04638672  361.2098999  ... 1451.59777832 1470.85119629
+     1474.65161133] 
+
+    Number of MS1 spectra after averaging are 183
+    Number of peaks: 24575
+    Intensity of averaged spectrum [134.91116    38.43053    89.57599   ...   3.5365791 152.8209
+      12.315695 ]
+    M/Z of averaged spectrum [ 360.04589844  360.12536621  360.1282959  ... 1498.15087891 1498.69824219
+     1498.99194336]
+
+The result shows no difference in the before and after spectra number, but the we have now a change in the m/z and intensity of peaks. This has to do with the fact that the method averages each spectra over a selected number of neighbouring spectra (downstream and upstream from current spectrum) and normalizes the weights assigned to the selected spectra. 
 
 The OpenMS documentation lists the `parameters <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1SpectraMerger.html#a714276597bcee3d240e385e32717a6b3>`_ in ``SpectraMerger``. More information about parameter handling can be found in the `section before <parameter_handling.html>`_. 
