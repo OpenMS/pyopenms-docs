@@ -105,7 +105,7 @@ The modified data structure can be stored on disk:
     MzMLFile().store("mergedBlockWise.mzML", exp)
 
 
-SpectraMerger includes the method ``mergeSpectraPrecursors`` which allows the merging of spectra with similar precursors. This is only limited to the merging of MS2 or above spectra, because precursor ions are found in MS2 (starting). 
+SpectraMerger includes the method ``mergeSpectraPrecursors`` which allows the merging of spectra with similar precursors. This is only limited to the merging of MS2, because precursor ions are found in MS2. 
 
 .. code-block:: python 
 
@@ -115,26 +115,26 @@ SpectraMerger includes the method ``mergeSpectraPrecursors`` which allows the me
 
     spectra = exp.getSpectra()
 
-    # only spectra with ms_level ≠ 1
-    spectra_ms = [s for s in spectra if s.getMSLevel() != 1]
-    print(f'Number of spectra (not MS1) before merge are {len(spectra_ms)}')
+    # only spectra with ms_level = 2
+    spectra_ms2 = [s for s in spectra if s.getMSLevel() == 2]
+    print(f'Number of MS2 spectra before merge are {len(spectra_ms2)}')
 
     # merge spectra with similar precursors 
     merger = SpectraMerger()
     merger.mergeSpectraPrecursors(exp)
 
     spectraMerged = exp.getSpectra()
-    spectra_ms = [s for s in spectra if s.getMSLevel() != 1]
-    print(f'Number of spectra (not MS1) after merge are {len(spectra_ms)}')
+    spectra_ms2 = [s for s in spectra if s.getMSLevel() == 2]
+    print(f'Number of MS2 spectra after merge are {len(spectra_ms2)}')
 
     # store modified data 
     # MzMLFile().store("mergedSimiPrecursors.mzML", exp)
 
 .. code-block:: output
 
-    Number of spectra (not MS1) before merge are 53
+    Number of MS2 spectra before merge are 53
 
-    Number of spectra (not MS1) after merge are 53
+    Number of MS2 spectra after merge are 53
 
 We see that the number of MS2 spectra before and after the merge do not change. This means that the hierarchical clustering with single linkage of the basic LC-MS feature (here only RT and M/Z of the precursors) did not produce any clusters (blocks to merge). 
 
