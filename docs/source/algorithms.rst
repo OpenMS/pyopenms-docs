@@ -175,7 +175,7 @@ SpectraMerger presents a method ``average`` to average experimental data over ne
     print(f'M/Z of averaged spectrum {avg_mz}')  
 
     # store modified data 
-    # MzMLFile().store("mergedPrecursors.mzML", exp)
+    # MzMLFile().store("averagedData.mzML", exp)
 
 .. code-block:: output
 
