@@ -60,9 +60,9 @@ MSExperiment
 
 .. csv-table:: exp.get_df(long=True)
    :widths: 2 20 20 20
-   :header: , "RT",	"mz", "inty"
+   :header: "",	"RT",	"mz", "inty"
 
-   "0", "1501.41394", "300.089752",	"3431.026123"
+   "0",	"1501.41394",	"300.089752",	"3431.026123"
    "1",	"1501.41394",	"300.181335",	"1181.808960"
 
 PeptideIdentifications
@@ -109,10 +109,10 @@ PeptideIdentifications
     
 .. csv-table:: peptide_identifications_to_df(pep_ids)
    :widths: 2 20 10 20 20 10 20 20 20 20 20 20 20 20 20 20
-   :header: , "id",	"RT",	"mz",	"q-value",	"charge",	"protein_accession",	"start",	"end",	"NuXL:z2 mass",	"NuXL:z3 mass",	"...", "isotope_error",	"NuXL:peptide_mass_z0",	"NuXL:XL_U",	"NuXL:sequence_score"
+   :header: "",	"id",	"RT",	"mz",	"q-value",	"charge",	"protein_accession",	"start",	"end",	"NuXL:z2 mass",	"NuXL:z3 mass",	"...", "isotope_error",	"NuXL:peptide_mass_z0",	"NuXL:XL_U",	"NuXL:sequence_score"
 
-    "0",	"OpenNuXL_2019-12-04T16:39:43_1021782429466859437",	"900.425415",	"414.730865",	"0.368649",	"4",	"DECOY_sp|Q86UQ0|ZN589_HUMAN",	"255",	"267",	"828.458069",	"552.641113",	"...", "0",	"1654.901611",	"0",	"0.173912"
-    "1",	"OpenNuXL_2019-12-04T16:39:43_7293634134684008928",	"903.565186",	"506.259521",	"0.422779",	"2",	"sp|P61313|RL15_HUMAN",	"179",	"187",	"0.0",	"0.0",	"...", "0",	"1010.504639",	"0",	"0.290786"
+    "0",	"OpenNuXL_2019-12-04T16:39:43_1021782429466859437",	"900.425415",	"414.730865",	"0.368649",	"4",	"DECOY_sp|Q86UQ0|ZN589_HUMAN",	"255",	"267",	"828.458069",	"552.641113",	"...",	"0",	"1654.901611",	"0",	"0.173912"
+    "1",	"OpenNuXL_2019-12-04T16:39:43_7293634134684008928",	"903.565186",	"506.259521",	"0.422779",	"2",	"sp|P61313|RL15_HUMAN",	"179",	"187",	"0.0",	"0.0",	"...",	"0",	"1010.504639",	"0",	"0.290786"
 
 FeatureMap
 **********
@@ -156,9 +156,8 @@ FeatureMap
     df.head(2)
     
 .. csv-table:: feature_map.get_df()
-   :widths: 2 20 20 20 20 5 20 20 20 20 20 20 20 20
-   :header: 	, "peptide_sequence",	"peptide_score",	"ID_filename",	"ID_native_id", "charge",	"RT",	"mz",	"RTstart",	"RTend",	"mzstart",	"mzend",	"quality",	"intensity"
-            "id"
+   :widths: 20 20 20 20 20 5 20 20 20 20 20 20 20 20
+   :header: "id",	"peptide_sequence",	"peptide_score",	"ID_filename",	"ID_native_id",	"charge",	"RT",	"mz",	"RTstart",	"RTend",	"mzstart",	"mzend",	"quality",	"intensity"
 
    "9650885788371886430",	"LVTDLTK",	"0.000000",	"unknown",	"spectrum=1270",	"2",	"1942.600083",	"395.239277",	"1932.484009",	"1950.834351",	"395.239199",	"397.245758",	"0.808494",	"157572000.0"
    "18416216708636999474",	"DDSPDLPK",	"0.034483",	"unknown",	"spectrum=1167",	"2",	"1749.138335",	"443.711224",	"1735.693115",	"1763.343506",	"443.711122",	"445.717531",	"0.893553",	"54069300.0"
@@ -170,11 +169,10 @@ FeatureMap
     df.head(2)
 
 .. csv-table:: feature_map.get_df(meta_values = 'all', export_peptide_identifications = False)
-   :widths: 2  5 20 20 20 20 20 20 20 20 20 20 20 20 20 20
-   :header: 	, "charge",	"RT",	"mz",	"RTstart",	"RTend",	"mzstart",	"mzend",	"quality",	"intensity", "FWHM", "spectrum_index", "spectrum_native_id", "label", "score_correlation",	"score_fit"
-            "id"
+   :widths: 20 5 20 20 20 20 20 20 20 20 20 20 20 20 20 20
+   :header: "id",	"charge",	"RT",	"mz",	"RTstart",	"RTend",	"mzstart",	"mzend",	"quality",	"intensity",	"FWHM",	"spectrum_index",	"spectrum_native_id",	"label",	"score_correlation",	"score_fit"
 
-   "9650885788371886430",	"2",	"1942.600083",	"395.239277",	"1932.484009",	"1950.834351",	"395.239199",	"397.245758",	"0.808494",	"157572000.0", "10.061090",	"259",	"spectrum=1270",	"168",	"0.989969",	"0.660286"
+   "9650885788371886430",	"2",	"1942.600083",	"395.239277",	"1932.484009",	"1950.834351",	"395.239199",	"397.245758",	"0.808494",	"157572000.0",	"10.061090",	"259",	"spectrum=1270",	"168",	"0.989969",	"0.660286"
    "18416216708636999474",	"2",	"1749.138335",	"443.711224",	"1735.693115",	"1763.343506",	"443.71112",	"445.717531",	"0.893553",	"54069300.0", "14.156094",	"156",	"spectrum=1167",	"169",	"0.999002",	"0.799234"
 
 .. code-block:: python
@@ -183,12 +181,11 @@ FeatureMap
     df.head(2)
 
 .. csv-table:: feature_map.get_df(meta_values = [b'FWHM', b'label'])
-   :widths: 2 5 20 20 20 20 20 20 20 20 20 20
-   :header: 	, "charge",	"RT",	"mz",	"RTstart",	"RTend",	"mzstart",	"mzend",	"quality",	"intensity", "FWHM", "label"
-            "id"
+   :widths: 20 5 20 20 20 20 20 20 20 20 20 20
+   :header: "id",	"charge",	"RT",	"mz",	"RTstart",	"RTend",	"mzstart",	"mzend",	"quality",	"intensity", "FWHM",	"label"
 
-   "9650885788371886430",   "2",	"1942.600083",	"395.239277",	"1932.484009",	"1950.834351",	"395.239199",	"397.245758",	"0.808494",	"157572000.0", "10.061090", "168"
-   "18416216708636999474",  "2",	"1749.138335",	"443.711224",	"1735.693115",	"1763.343506",	"443.71112",	"445.717531",	"0.893553",	"54069300.0", "14.156094",	"169"
+   "9650885788371886430",	"2",	"1942.600083",	"395.239277",	"1932.484009",	"1950.834351",	"395.239199",	"397.245758",	"0.808494",	"157572000.0",	"10.061090",	"168"
+   "18416216708636999474",	"2",	"1749.138335",	"443.711224",	"1735.693115",	"1763.343506",	"443.71112",	"445.717531",	"0.893553",	"54069300.0",	"14.156094",	"169"
 
 **Extract assigned peptide identifications from a feature map**
 
@@ -288,11 +285,9 @@ ConsensusMap
     
 .. csv-table:: consensus_map.get_df()
    :widths: 2 10 20 20 20 20 30 10 30
-   :header:     , "sequence",	"charge",	"RT",	"mz",	"quality",	"/Users/pfeuffer/git/OpenMS-fixes-src/share/OpenMS/examples/FRACTIONS/BSA1_F1.mzML",   "...",	"/Users/pfeuffer/git/OpenMS-fixes-src/share/OpenMS/examples/FRACTIONS/BSA1_F2.mzML"
-            "id"
-
-   "2935923263525422257",	"DGDIEAEISR",	"3",	"1523.370634",	"368.843773",	"0.000000", "0.0",	"...",  "0.0"
-   "10409195546240342212",	"SHC(Carbamidomethyl)IAEVEK",	"3",	"1552.032973",	"358.174576",	"0.491247", "1358151.0",   "...",	"0.0"
+   :header: "id",	"sequence",	"charge",	"RT",	"mz",	"quality",	"BSA1_F1.mzML",	"...",	"BSA1_F2.mzML"
+   "2935923263525422257",	"DGDIEAEISR",	"3",	"1523.370634",	"368.843773",	"0.000000",	"0.0",	"...",	"0.0"
+   "10409195546240342212",	"SHC(Carbamidomethyl)IAEVEK",	"3",	"1552.032973",	"358.174576",	"0.491247",	"1358151.0",	"...",	"0.0"
 
 .. code-block:: python
 
@@ -301,11 +296,10 @@ ConsensusMap
 
 .. csv-table:: consensus_map.get_intensity_df()
    :widths: 20 30 10 30
-   :header:     , "/Users/pfeuffer/git/OpenMS-fixes-src/share/OpenMS/examples/FRACTIONS/BSA1_F1.mzML",   "...",	"/Users/pfeuffer/git/OpenMS-fixes-src/share/OpenMS/examples/FRACTIONS/BSA1_F2.mzML"
-            "id"
+   :header: "id",	"BSA1_F1.mzML",	"...",	"BSA1_F2.mzML"
 
-   "2935923263525422257",	"0.0",	"...",  "0.0"
-   "10409195546240342212",	"1358151.0",   "...",	"0.0"
+   "2935923263525422257",	"0.0",	"...",	"0.0"
+   "10409195546240342212",	"1358151.0",	"...",	"0.0"
 
 .. code-block:: python
 
@@ -314,8 +308,7 @@ ConsensusMap
 
 .. csv-table:: consensus_map.get_metadata_df()
    :widths: 20 20 20 20 20 20
-   :header:     , "sequence",	"charge",	"RT",	"mz",	"quality"
-            "id"
+   :header: "id",	"sequence",	"charge",	"RT",	"mz",	"quality"
 
    "2935923263525422257",	"DGDIEAEISR",	"3",	"1523.370634",	"368.843773",	"0.000000"
    "10409195546240342212",	"SHC(Carbamidomethyl)IAEVEK",	"3",	"1552.032973",	"358.174576",	"0.491247"
