@@ -55,7 +55,9 @@ Using the same example file as before, we can execute a GaussFilter on our test 
 Spectra Merge Algorithm
 *************************
 
-The pyOpenMS spectra merge algorithms allows the merge of several spectra by either increasing S/N ratio (for MS1 and above) or merging scans which stem from similar precursors (for MS2 and above). In any case, the number of scans will be reduced. Some of the methods available for merging average spectra. 
+Spectra merge algorithms merge several spectra to e.g., improve spectrum quality by increasing S/N ratio.
+Merging is usually done block wise (for MS1 and above) or (for MS2 and above) based on similar precursors.
+In any case, the number of scans will be reduced. Some methods allow to smooth or average spectra. 
 
 Different spectra merge algorithms are available in pyOpenMS:
 
@@ -63,7 +65,9 @@ Different spectra merge algorithms are available in pyOpenMS:
 - mergeSpectraPrecursors
 - average (over neighbouring spectra for MS1 or above)
 
-In order to have a better picture of the algorithms, each one will be introduced by an example below. We will use another example file compared to above and start with an example of merging spectra blockwise:
+Let's take a look at the different algorithms in the examples below. 
+
+Our first example merges MS1 spectra blockwise:
 
 .. code-block:: python
 
