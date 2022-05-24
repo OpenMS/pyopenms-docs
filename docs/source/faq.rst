@@ -1,4 +1,3 @@
-
 Frequently Asked Questions
 ==========================
 
@@ -13,7 +12,7 @@ Add an entry to ``src/pyOpenMS/pxds/CLASS_NAME.pxd`` with the signature of your 
 How can I wrap a new class with pyOpenMS?
 -----------------------------------------
 
-Create a new file ``src/pyOpenMS/pxds/CLASS_NAME.pxd`` and use the `procedure outlined <https://github.com/OpenMS/OpenMS/wiki/pyOpenMS#--wrapping-classes>`_. 
+Create a new file ``src/pyOpenMS/pxds/CLASS_NAME.pxd`` and use the `procedure outlined <https://pyopenms.readthedocs.io/en/latest/wrap_classes.html?#how-pyopenms-wraps-python-classes>`_. 
 
 
 Can I use multiple output parameters?
