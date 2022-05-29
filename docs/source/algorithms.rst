@@ -100,7 +100,7 @@ Our first example merges MS1 spectra blockwise:
     Number of MS1 spectra after merge are 37
 
 
-Per default, the method ``mergeSpectraBlockWise`` of SpectraMerger merges MS1 spectra blockwise. Before the merge, we had 183 MS1 spectra. Now, we have 37 MS1 spectra left, because per default SpectraMerger always merges 5 consectutive spectra into a block. 
+Per default, the method ``mergeSpectraBlockWise`` of SpectraMerger merges 5 consectutive MS1 spectra into a block. Before the merge, we had 183 MS1 spectra. Now, we have 37 MS1 spectra left. 
 
 The modified data structure can be stored on disk:
 
@@ -143,7 +143,7 @@ SpectraMerger includes the method ``mergeSpectraPrecursors`` which allows the me
 We see that the number of MS2 spectra before and after the merge do not change. This means that the hierarchical clustering with single linkage of the basic LC-MS feature (here only RT and M/Z of the precursors) did not produce any clusters (blocks to merge). 
 
 
-SpectraMerger presents a method ``average`` to average experimental data over neighbouring spectra. The block of neighbouring spectra depends on the averaging type: ``gaussian`` or ``tophat``. The gaussian type checks for a weight < cutoff value, whereas tophat averages over a range (by default 5 steps left and right from each selected scan). Per default SpectraMerger averages MS1 spectra. 
+SpectraMerger presents a method ``average`` to average experimental data over neighbouring spectra. The block of neighbouring spectra depends on the averaging type: ``gaussian`` or ``tophat``. The gaussian type checks for a weight < cutoff value, whereas tophat averages over a range (by default 5 steps left and right from each scan). Per default SpectraMerger averages MS1 spectra. 
 
 .. code-block:: python 
 
@@ -196,6 +196,6 @@ SpectraMerger presents a method ``average`` to average experimental data over ne
     M/Z of averaged spectrum [ 360.04589844  360.12536621  360.1282959  ... 1498.15087891 1498.69824219
      1498.99194336]
 
-The result shows no difference in the before and after spectra number, but the we have now a change in the m/z and intensity of peaks. This has to do with the fact that the method averages each spectra over a selected number of neighbouring spectra (downstream and upstream from current selected spectrum) and normalizes the weights assigned to the selected spectra. 
+The result shows no difference in the before and after spectra number, but now we have a change in the m/z's and intensities of the example MS1 spectrum. This has to do with the fact that the method averages each MS1 spectra in the data over a selected number of neighbouring spectra (here gaussian type) and normalizes the weights for all to be averaged spectra blocks. 
 
 The OpenMS documentation lists the `parameters <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1SpectraMerger.html#a714276597bcee3d240e385e32717a6b3>`_ in ``SpectraMerger``. More information about parameter handling can be found in the `section before <parameter_handling.html>`_. 
