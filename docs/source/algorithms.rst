@@ -56,7 +56,7 @@ Spectra Merge Algorithm
 *************************
 
 Spectra merge algorithms merge several spectra to e.g., improve spectrum quality by increasing S/N ratio.
-Merging is usually done block wise (for MS1 and above) or (for MS2 and above) based on similar precursors.
+Merging is usually done block wise (for MS1 and above) or (for MS2) based on similar precursors.
 In any case, the number of scans will be reduced. Some methods allow to smooth or average spectra. 
 
 Different spectra merge algorithms are available in pyOpenMS:
@@ -83,7 +83,7 @@ Our first example merges MS1 spectra blockwise:
     spectra_ms1 = [s for s in spectra if s.getMSLevel() == 1]
     print(f'Number of MS1 spectra before merge are {len(spectra_ms1)}')
 
-    # merges blocks of MS1 or MS2 spectra
+    # merges blocks of MS1
     merger = SpectraMerger()
 
     merger.mergeSpectraBlockWise(exp)
@@ -100,7 +100,7 @@ Our first example merges MS1 spectra blockwise:
     Number of MS1 spectra after merge are 37
 
 
-Per default, the method ``mergeSpectraBlockWise`` of SpectraMerger merges MS1 spectra blockwise. Before the merge, we had 183 MS1 spectra. Now, we have 37 MS1 spectra left, because per default setting SpectraMerger always merges 5 consectutive spectra into a block. 
+Per default, the method ``mergeSpectraBlockWise`` of SpectraMerger merges MS1 spectra blockwise. Before the merge, we had 183 MS1 spectra. Now, we have 37 MS1 spectra left, because per default SpectraMerger always merges 5 consectutive spectra into a block. 
 
 The modified data structure can be stored on disk:
 
@@ -109,7 +109,7 @@ The modified data structure can be stored on disk:
     MzMLFile().store("mergedBlockWise.mzML", exp)
 
 
-SpectraMerger includes the method ``mergeSpectraPrecursors`` which allows the merging of spectra with similar precursors. This is only limited to the merging of MS2, because precursor ions are found in MS2. 
+SpectraMerger includes the method ``mergeSpectraPrecursors`` which allows the merging of spectra with similar precursors. The data must have MS2 spectra for the precursor information. 
 
 .. code-block:: python 
 
@@ -143,7 +143,7 @@ SpectraMerger includes the method ``mergeSpectraPrecursors`` which allows the me
 We see that the number of MS2 spectra before and after the merge do not change. This means that the hierarchical clustering with single linkage of the basic LC-MS feature (here only RT and M/Z of the precursors) did not produce any clusters (blocks to merge). 
 
 
-SpectraMerger presents a method ``average`` to average experimental data over neighbouring spectra. The block of neighbouring spectra depends on the averaging type: ``gaussian`` or ``tophat``. The gaussian type checks for a weight < cutoff value, whereas tophat averages over a range (by default 5 steps left and right from the scan). Per default SpectraMerger averages MS1 spectra. 
+SpectraMerger presents a method ``average`` to average experimental data over neighbouring spectra. The block of neighbouring spectra depends on the averaging type: ``gaussian`` or ``tophat``. The gaussian type checks for a weight < cutoff value, whereas tophat averages over a range (by default 5 steps left and right from each selected scan). Per default SpectraMerger averages MS1 spectra. 
 
 .. code-block:: python 
 
@@ -155,7 +155,7 @@ SpectraMerger presents a method ``average`` to average experimental data over ne
     spectra_ms1 = [s for s in spectra if s.getMSLevel() == 1]
     print(f'Number of MS1 spectra before averaging are {len(spectra_ms1)}')
 
-    # a MS1 spectrum 
+    # example MS1 spectrum 
     spectrumIdx = 12
     observed_spectrum = exp.getSpectra()[spectrumIdx]
     obs_mz, obs_int = observed_spectrum.get_peaks()
@@ -171,7 +171,7 @@ SpectraMerger presents a method ``average`` to average experimental data over ne
     spectra_ms1 = [s for s in spectra if s.getMSLevel() == 1]
     print(f'Number of MS1 spectra after averaging are {len(spectra_ms1)}')
 
-    # a MS1 spectrum after averaging
+    # example MS1 spectrum after averaging
     averaged_spectrum = exp.getSpectra()[spectrumIdx]
     avg_mz, avg_int = averaged_spectrum.get_peaks()
     print(f'Number of peaks: {len(avg_int)}')
@@ -196,6 +196,6 @@ SpectraMerger presents a method ``average`` to average experimental data over ne
     M/Z of averaged spectrum [ 360.04589844  360.12536621  360.1282959  ... 1498.15087891 1498.69824219
      1498.99194336]
 
-The result shows no difference in the before and after spectra number, but the we have now a change in the m/z and intensity of peaks. This has to do with the fact that the method averages each spectra over a selected number of neighbouring spectra (downstream and upstream from current spectrum) and normalizes the weights assigned to the selected spectra. 
+The result shows no difference in the before and after spectra number, but the we have now a change in the m/z and intensity of peaks. This has to do with the fact that the method averages each spectra over a selected number of neighbouring spectra (downstream and upstream from current selected spectrum) and normalizes the weights assigned to the selected spectra. 
 
 The OpenMS documentation lists the `parameters <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1SpectraMerger.html#a714276597bcee3d240e385e32717a6b3>`_ in ``SpectraMerger``. More information about parameter handling can be found in the `section before <parameter_handling.html>`_. 
