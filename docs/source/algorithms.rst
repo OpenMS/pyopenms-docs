@@ -56,7 +56,7 @@ Spectra Merge Algorithm
 *************************
 
 Spectra merge algorithms merge several spectra to e.g., improve spectrum quality by increasing S/N ratio.
-Merging is usually done block wise (for MS1 and above) or (for MS2) based on similar precursors.
+Merging is usually done block wise (for MS1 and above) or (for MS2 and above) based on similar precursors.
 In any case, the number of scans will be reduced. Some methods allow to smooth or average spectra. 
 
 Different spectra merge algorithms are available in pyOpenMS:
@@ -119,7 +119,7 @@ SpectraMerger includes the method ``mergeSpectraPrecursors`` which allows the me
 
     spectra = exp.getSpectra()
 
-    # only spectra with ms_level = 2
+    # spectra with ms_level = 2
     spectra_ms2 = [s for s in spectra if s.getMSLevel() == 2]
     print(f'Number of MS2 spectra before merge are {len(spectra_ms2)}')
 
