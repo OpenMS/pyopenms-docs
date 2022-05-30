@@ -196,6 +196,6 @@ SpectraMerger presents a method ``average`` to average experimental data over ne
     M/Z of averaged spectrum [ 360.04589844  360.12536621  360.1282959  ... 1498.15087891 1498.69824219
      1498.99194336]
 
-The result shows no difference in the before and after spectra number, but now we have a change in the m/z's and intensities of the example MS1 spectrum. This has to do with the fact that the method averages each MS1 spectra in the data over a selected number of neighbouring spectra (here gaussian type) and normalizes the weights for all to be averaged spectra blocks. 
+If averaging is used, the the number of spectra doesn't change. Instead, m/z's and intensities of the example MS1 spectrum have been changed. The method calculates an average spectrum by averaging MS1 spectra over a selected number of neighbouring spectra. Note: Weights follow a gaussian distribution (add up to 1.0). 
 
 The OpenMS documentation lists the `parameters <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1SpectraMerger.html#a714276597bcee3d240e385e32717a6b3>`_ in ``SpectraMerger``. More information about parameter handling can be found in the `section before <parameter_handling.html>`_. 
