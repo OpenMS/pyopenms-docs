@@ -109,7 +109,7 @@ The modified data structure can be stored on disk:
     MzMLFile().store("mergedBlockWise.mzML", exp)
 
 
-SpectraMerger includes the method ``mergeSpectraPrecursors`` which allows the merging of spectra with similar precursors. The data must have MS2 spectra for the precursor information. 
+SpectraMerger includes the method ``mergeSpectraPrecursors`` which allows the merging of spectra with similar precursors. Note: the data needs to contain MS2 spectra with annotated precursor information.
 
 .. code-block:: python 
 
