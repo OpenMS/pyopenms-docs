@@ -57,7 +57,7 @@ Spectra Merge Algorithm
 
 Spectra merge algorithms merge several spectra to e.g., improve spectrum quality by increasing S/N ratio.
 Merging is usually done block wise (for MS1 and above) or (for MS2 and above) based on similar precursors.
-In any case, the number of scans will be reduced. Some methods allow to smooth or average spectra. 
+Some methods allow to smooth or average spectra. 
 
 Different spectra merge algorithms are available in pyOpenMS:
 
@@ -100,7 +100,7 @@ Our first example merges MS1 spectra blockwise:
     Number of MS1 spectra after merge are 37
 
 
-Per default, the method ``mergeSpectraBlockWise`` of SpectraMerger merges 5 consectutive MS1 spectra into a block. Before the merge, we had 183 MS1 spectra. Now, we have 37 MS1 spectra left. 
+Per default, the method ``mergeSpectraBlockWise`` of SpectraMerger merges 5 consectutive MS1 spectra into a block. Before the merge, we had 183 MS1 spectra. Now, we have 37 MS1 spectra left. In any case, the number of scans will be reduced. 
 
 The modified data structure can be stored on disk:
 
@@ -143,7 +143,7 @@ SpectraMerger includes the method ``mergeSpectraPrecursors`` which allows the me
 In this example the number of MS2 spectra before and after the merge do not change. This means that precursors were to dissimilar in RT and m/z. 
 
 
-SpectraMerger presents a method ``average`` to average experimental data over neighbouring spectra. The block of neighbouring spectra depends on the averaging type: ``gaussian`` or ``tophat``. The gaussian type checks for a weight < cutoff value, whereas tophat averages over a range (by default 5 steps left and right from each scan). Per default SpectraMerger averages MS1 spectra. 
+SpectraMerger presents a method ``average`` to average experimental data over neighbouring spectra. The block of neighbouring spectra depends on the averaging type: ``gaussian`` or ``tophat``. The gaussian type checks for a weight < cutoff value, whereas tophat averages over a range (by default a window of 5 scans left and right from each current scan). Per default SpectraMerger averages MS1 spectra. 
 
 .. code-block:: python 
 
