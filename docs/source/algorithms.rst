@@ -140,7 +140,7 @@ SpectraMerger includes the method ``mergeSpectraPrecursors`` which allows the me
 
     Number of MS2 spectra after merge are 53
 
-We see that the number of MS2 spectra before and after the merge do not change. This means that the hierarchical clustering with single linkage of the basic LC-MS feature (here only RT and M/Z of the precursors) did not produce any clusters (blocks to merge). 
+In this example the number of MS2 spectra before and after the merge do not change. This means that precursors were to dissimilar in RT and m/z. 
 
 
 SpectraMerger presents a method ``average`` to average experimental data over neighbouring spectra. The block of neighbouring spectra depends on the averaging type: ``gaussian`` or ``tophat``. The gaussian type checks for a weight < cutoff value, whereas tophat averages over a range (by default 5 steps left and right from each scan). Per default SpectraMerger averages MS1 spectra. 
