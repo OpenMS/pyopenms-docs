@@ -143,7 +143,7 @@ SpectraMerger includes the method ``mergeSpectraPrecursors`` which allows the me
 In this example the number of MS2 spectra before and after the merge do not change. This means that precursors were to dissimilar in RT and m/z. 
 
 
-SpectraMerger presents a method ``average`` to average experimental data over neighbouring spectra. The block of neighbouring spectra depends on the averaging type: ``gaussian`` or ``tophat``. The gaussian type checks for a weight < cutoff value, whereas tophat averages over a range (by default a window of 5 scans left and right from each current scan). Per default SpectraMerger averages MS1 spectra. 
+SpectraMerger presents a method ``average`` to average experimental data over neighbouring spectra. The block of neighbouring spectra depends on the averaging type: ``gaussian`` or ``tophat``. The gaussian type checks for a weight < cutoff value, whereas tophat averages over a range (± 5 neighboring spectra). Per default SpectraMerger averages MS1 spectra. 
 
 .. code-block:: python 
 
