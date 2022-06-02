@@ -112,6 +112,7 @@ pyOpenMS facilitates the execution of common tasks in proteomics (and other mass
    :caption: Support
 
    support
+   faq
 
 
 Indices and tables
