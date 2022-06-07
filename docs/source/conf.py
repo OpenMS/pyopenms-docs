@@ -29,7 +29,7 @@ elif platform == "darwin":
 elif platform == "win32":
     OS = "Windows"
 
-majmin = str(python_version_tuple()[0]) + str(python_version_tuple()[1]) 
+majmin = str(python_version_tuple()[0]) + str(python_version_tuple()[1])
 
 os.system(f'ls pyopenms_nightly-*-cp{majmin}*.whl || \
     (wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/{OS}-wheels.zip\?status\=completed && \
@@ -49,6 +49,8 @@ os.system(f'python3 -m pip install pyopenms_nightly-*-cp{majmin}*.whl')
 extensions = ['sphinx_copybutton', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary',]
 autosummary_generate = True
 autosummary_imported_members = True
+
+html_theme = 'furo'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
