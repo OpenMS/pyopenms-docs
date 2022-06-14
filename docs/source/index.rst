@@ -72,12 +72,14 @@ pyOpenMS facilitates the execution of common tasks in proteomics (and other mass
    chromatographic_analysis
    mzqc_export
    mass_decomposition
+   GNPS_export
 
 .. toctree::
    :maxdepth: 2
    :caption: Example Workflows
 
    id_by_mz
+   metabolomics_preprocessing
 
 .. toctree::
    :maxdepth: 2
