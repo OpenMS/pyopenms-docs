@@ -7,6 +7,7 @@ In addition, there are optional steps such as adduct detection and annotation of
 .. image:: img/metabolomics-preprocessing.png
 
 First, download two example ``mzML`` files.
+
 .. code-block:: python
 
     from urllib.request import urlretrieve
