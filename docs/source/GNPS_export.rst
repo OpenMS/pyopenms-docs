@@ -11,8 +11,8 @@ First, download two example ``mzML`` files that have been map aligned based on a
 
     from urllib.request import urlretrieve
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/Metabolomics_1.mzML", "Metabolomics_1_aligned.mzML")
-    urlretrieve (gh + "/src/data/Metabolomics_2.mzML", "Metabolomics_2_aligned.mzML")
+    urlretrieve (gh + "/src/data/Metabolomics_1_aligned.mzML", "Metabolomics_1_aligned.mzML")
+    urlretrieve (gh + "/src/data/Metabolomics_2_aligned.mzML", "Metabolomics_2_aligned.mzML")
     urlretrieve (gh + "/src/data/UntargetedMetabolomics.consensusXML", "UntargetedMetabolomics.consensusXML")
 
 
