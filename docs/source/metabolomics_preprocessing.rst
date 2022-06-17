@@ -20,6 +20,7 @@ For each ``mzML`` file do mass trace, elution peak and feature detection.
 .. code-block:: python
 
     from pyopenms import *
+    import os
 
     mzML_files = ["Metabolomics_1.mzML", "Metabolomics_2.mzML"]
 
@@ -101,6 +102,7 @@ Align ``mzML`` files aligment based on ``FeatureMap`` alignment (optional, only 
         trafo_description = trafos[file]
         transformer.transformRetentionTimes(exp, trafo_description, True)
         MzMLFile().store(file[:-5]+"_aligned.mzML", exp)
+    mzML_files = [file[:-5]+"_aligned.mzML" for file in mzML_files]
 
 Map MS2 spectra to features as ``PeptideIdentification`` objects (optional, only for GNPS).
 
@@ -110,7 +112,9 @@ Map MS2 spectra to features as ``PeptideIdentification`` objects (optional, only
     use_centroid_rt = False
     use_centroid_mz = True
     mapper = IDMapper()
-    for exp in aligned_experiments:
+    for file in mzML_files:
+        exp = MSExperiment()
+        MzMLFile().load(file, exp)
         for i, feature_map in enumerate(feature_maps):
             if feature_map.getMetaValue("spectra_data")[0].decode() == exp.getMetaValue("mzML_path"):
                 peptide_ids = []
