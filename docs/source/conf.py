@@ -32,11 +32,11 @@ elif platform == "win32":
 
 majmin = str(python_version_tuple()[0]) + str(python_version_tuple()[1]) 
 
-subprocess.Popen(f'find . -name "pyopenms_nightly-*-cp{majmin}*.whl" || \
-    (wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/{OS}-wheels.zip\?status\=completed && \
-    mv {OS}-wheels.zip\?status=completed {OS}-wheels.zip && \
-    unzip {OS}-wheels.zip && rm {OS}-wheels.zip)')
-subprocess.Popen(f'find . -name "pyopenms_nightly-*-cp{majmin}*.whl" -exec python3 -m pip install \{\} \\;')
+subprocess.Popen('find . -name "pyopenms_nightly-*-cp{0}*.whl" || \
+    (wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/{1}-wheels.zip\?status\=completed && \
+    mv {1}-wheels.zip\?status=completed {1}-wheels.zip && \
+    unzip {1}-wheels.zip && rm {1}-wheels.zip)'.format(majmin,OS))
+subprocess.Popen('find . -name "pyopenms_nightly-*-cp{0}*.whl" -exec python3 -m pip install {{}} \\;'.format(majmin))
 
 # -- General configuration ------------------------------------------------
 
