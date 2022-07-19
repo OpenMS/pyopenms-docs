@@ -20,7 +20,7 @@ import os
 import subprocess
 import glob
 import shutil
-import urllib
+import urllib.request
 import contextlib
 
 # import sys
