@@ -52,14 +52,14 @@ def download_file(url, filename, timeout=45):
             print('Warning: Non-existing file or connection error')
             return None
 
-if (len(glob.glob('pyopenms_nightly-*-cp{0}*.whl'.format(majmin))) == 0)
+if (len(glob.glob('pyopenms_nightly-*-cp{0}*.whl'.format(majmin))) == 0):
     download_file("https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/{0}-wheels.zip\?status\=completed".format(OS), "wheels.zip")
     shutil.unpack_archive("wheels.zip", ".")
     os.remove("wheels.zip")
     
 matching_wheels = glob.glob('pyopenms_nightly-*-cp{0}*.whl'.format(majmin))
 
-if (len(matching_wheels) >= 1)
+if (len(matching_wheels) >= 1):
     subprocess.Popen('python3 -m pip install {0}'.format(matching_wheels[0]))
 else:
     print("Warning: Even after downloading GitHub artifacts, no nightly pyopenms wheel could be found.")
