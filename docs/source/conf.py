@@ -54,7 +54,7 @@ def download_file(url, filename, timeout=45):
             return None
 
 if (len(glob.glob('pyopenms_nightly-*-cp{0}*.whl'.format(majmin))) == 0):
-    download_file("https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/{0}-wheels.zip\?status\=completed".format(OS), "wheels.zip")
+    download_file("https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/{0}-wheels.zip?status=completed".format(OS), "wheels.zip")
     shutil.unpack_archive("wheels.zip", ".")
     os.remove("wheels.zip")
     
