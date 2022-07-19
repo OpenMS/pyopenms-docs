@@ -61,7 +61,7 @@ if (len(glob.glob('pyopenms_nightly-*-cp{0}*.whl'.format(majmin))) == 0):
 matching_wheels = glob.glob('pyopenms_nightly-*-cp{0}*.whl'.format(majmin))
 
 if (len(matching_wheels) >= 1):
-    subprocess.Popen('python3 -m pip install {0}'.format(matching_wheels[0]))
+    subprocess.Popen('{0} -m pip install {1}'.format(sys.executable, matching_wheels[0]))
 else:
     print("Warning: Even after downloading GitHub artifacts, no nightly pyopenms wheel could be found.")
 
