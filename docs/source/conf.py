@@ -21,6 +21,7 @@ import subprocess
 import glob
 import shutil
 import urllib
+import contextlib
 
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
