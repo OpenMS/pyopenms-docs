@@ -49,6 +49,5 @@ Now you can export your all files for FBMN and IIMN.
     GNPSMetaValueFile().store(consensus_map, "MetaValueTable.tsv")
 
     # for IIMN
-    iimn = IonIdentityMolecularNetworking()
-    consensus_map = iimn.annotateConsensusMap(consensus_map)
+    IonIdentityMolecularNetworking.annotateConsensusMap(consensus_map)
     iimn.writeSupplementaryPairTable(consensus_map, "SupplementaryPairTable.csv")
