@@ -58,7 +58,7 @@ if (len(glob.glob('pyopenms_nightly-*-cp{0}*.whl'.format(majmin))) == 0):
     download_file("https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/{0}-wheels.zip?status=completed".format(OS), "wheels.zip")
     shutil.unpack_archive("wheels.zip", ".")
     os.remove("wheels.zip")
-    
+
 matching_wheels = glob.glob('pyopenms_nightly-*-cp{0}*.whl'.format(majmin))
 
 if (len(matching_wheels) >= 1):
@@ -75,7 +75,15 @@ else:
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx_copybutton', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary',]
+extensions = [
+    'sphinx_copybutton',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'notfound.extension',
+    'sphinx_inline_tabs',
+    'sphinx_search.extension',
+]
+
 autosummary_generate = True
 autosummary_imported_members = True
 
@@ -118,7 +126,7 @@ language = None
 exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+# pygments_style = 'sphinx'
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
@@ -128,10 +136,30 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinxdoc'
-html_theme = 'alabaster'
-html_theme = 'haiku'
-html_theme = 'sphinx_rtd_theme'
+html_theme = 'furo'
+
+html_favicon = '../assets/logo/OpenMS_transparent_background.png'
+html_logo = '../assets/logo/OpenMS_transparent_background.png'
+
+html_theme_options = {
+    "navigation_with_keys": True,
+    "light_css_variables": {
+        "font-stack--monospace": "Consolas, monospace",
+        "font-size--small": "90%",
+        "toc-font-size": "87.5%",
+        "color-announcement-background": "#bbbbbb",
+        "color-announcement-text": "#ffffff"
+    },
+    "announcement": """
+    <a style=\"text-decoration: none;\"
+       href=\"https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/index.ipynb\">
+       Try Online With Binder
+    </a>
+    """,
+}
+pygments_style = 'sas'
+
+pygments_dark_style = 'rrt'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the

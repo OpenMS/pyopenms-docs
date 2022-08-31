@@ -2,7 +2,7 @@ Reading Raw MS data
 ===================
 
 mzML files in memory
-********************
+#####################
 
 As discussed in the last section, the most straight forward way to load mass
 spectrometric data is using the ``MzMLFile`` class:
@@ -62,7 +62,7 @@ Putting this together, a small filtering program would look like this:
     MzMLFile().store("filtered.mzML", exp)
 
 indexed mzML files
-******************
+##################
 
 Since pyOpenMS 2.4, you can open, read and inspect files that use the
 indexedMzML standard. This allows users to read MS data without loading all
@@ -95,7 +95,7 @@ This approach is memory efficient in cases where computation should only occur
 on part of the data or the whole data may not fit into memory.
 
 mzML files as streams
-*********************
+#####################
 
 In some instances it is impossible or inconvenient to load all data from an
 mzML file directly into memory. OpenMS offers streaming-based access to mass
@@ -187,7 +187,7 @@ only occur on part of the data or the whole data may not fit into memory.
 
 
 cached mzML files
-*********************
+#################
 
 In addition, since pyOpenMS 2.4 the user can efficiently cache mzML files to disk which
 provides very fast access with minimal overhead in memory. Basically the data

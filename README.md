@@ -22,10 +22,19 @@ versions of OpenMS, covering Linux/Mac/Windows.
 
 Documentation
 =============
+
 The readthedocs pyOpenMS documentation is generated from the master branch of this repository, see [docs/README.md](docs/README.md)
 
 The generated documentation is available here: https://pyopenms.readthedocs.io/en/latest/
 
+## Browse pyOpenMS documentation offline
+
+1. Download latest [PDF](https://pyopenms.readthedocs.io/_/downloads/en/latest/pdf/).
+2. Download latest [HTMLZip](https://pyopenms.readthedocs.io/_/downloads/en/latest/htmlzip/).
+
 Jupyter Notebooks
 =============
-Are created by CI and stored in master+ipynb to not clutter the master branch
+
+Jupyter Notebooks can be browsed online at our [Binder](https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/index.ipynb). These notebooks are
+automatically updated by our CI and stored in master+ipynb for proper segregation
+from the stable master branch.

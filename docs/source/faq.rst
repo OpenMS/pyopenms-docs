@@ -1,7 +1,7 @@
 Frequently Asked Questions
 ==========================
 
-.. contents:: The following is a list of common questions asked about pyOpenMS.
+The following is a list of common questions asked about pyOpenMS.
 
 How can I wrap a new method with pyOpenMS?
 ------------------------------------------
