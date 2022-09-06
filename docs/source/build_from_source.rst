@@ -57,7 +57,12 @@ Afterwards, test that all went well by running the tests:
 
     ctest -R pyopenms
 
-Which should execute all the tests and return with all tests passing.
+Which should execute all the tests and return with all tests passing. Finally, change
+to the ``pyOpenMS`` directory and add the module to your Python system:
+
+.. code-block:: bash
+
+    python3 setup.py install
 
 Further questions 
 *****************
