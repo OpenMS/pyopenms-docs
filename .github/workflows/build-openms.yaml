@@ -14,8 +14,8 @@ jobs:
     
     - name: Installing pandoc
       run: |
-        wget https://github.com/jgm/pandoc/releases/download/2.14.2/pandoc-2.14.2-linux-amd64.tar.gz
-        tar -xvf pandoc-2.14.2-linux-amd64.tar.gz
+        wget -q https://github.com/jgm/pandoc/releases/download/2.14.2/pandoc-2.14.2-linux-amd64.tar.gz
+        tar -xf pandoc-2.14.2-linux-amd64.tar.gz
         sudo cp pandoc-2.14.2/bin/pandoc /usr/bin/pandoc
 
     - name: Install dependencies
