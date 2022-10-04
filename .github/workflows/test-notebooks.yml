@@ -34,5 +34,10 @@ jobs:
       run: |
         for f in docs/source/*.ipynb
         do
-          jupyter nbconvert --to notebook --inplace --execute $f || echo "Executing $f failed!"
+          jupyter nbconvert --to notebook --inplace --execute $f || (echo "$f" >> failed_nbs.txt)
         done
+        if [ -f "failed_nbs.txt" ]; then
+          echo "Some notebooks failed to run. Please check logs."
+          cat failed_nbs.txt
+          exit 1
+        fi
