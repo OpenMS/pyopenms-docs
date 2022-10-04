@@ -50,8 +50,13 @@ jobs:
           ./generate_ipynb.sh
         popd
 
-    - name: List all modified files
+    - name: Execute all notebooks generated from modified files
       run: |
         for file in ${{ steps.changed-files.outputs.all_modified_files }}; do
-          jupyter nbconvert --to notebook --inplace --execute ${file%.rst}.ipynb
+          jupyter nbconvert --to notebook --inplace --execute ${file%.rst}.ipynb || (echo "${file%.rst}" >> failed_nbs.txt)
         done
+        if [ -f "failed_nbs.txt" ]; then
+          echo "Some notebooks failed to run. Please check logs."
+          cat failed_nbs.txt
+          exit 1
+        fi
