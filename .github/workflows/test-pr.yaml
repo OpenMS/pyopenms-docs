@@ -20,11 +20,10 @@ jobs:
           path: docs/source
           files: |
             \.rst$
-
       
     - uses: r-lib/actions/setup-pandoc@v1
       with:
-        pandoc-version: '2.14.2'
+        pandoc-version: '2.19.2'
 
     - uses: actions/setup-python@v2
       with:
