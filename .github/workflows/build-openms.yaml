@@ -12,11 +12,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Installing pandoc
-      run: |
-        wget -q https://github.com/jgm/pandoc/releases/download/2.14.2/pandoc-2.14.2-linux-amd64.tar.gz
-        tar -xf pandoc-2.14.2-linux-amd64.tar.gz
-        sudo cp pandoc-2.14.2/bin/pandoc /usr/bin/pandoc
+    - uses: r-lib/actions/setup-pandoc@v1
+      with:
+        pandoc-version: '2.19.2'
 
     - name: Install dependencies
       run: |
