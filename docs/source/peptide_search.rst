@@ -203,15 +203,22 @@ This is done by applying one of the available protein inference algorithms on th
     simplesearch.search(searchfile, target_decoy_database, protein_ids, peptide_ids)
 
     # Run inference
-    BasicProteinInferenceAlgorithm().run(peptide_ids, protein_ids)
+    bpia = BasicProteinInferenceAlgorithm()
+    params = bpia.getDefaults()
+    # FDR with groups currently not supported in pyopenms
+    params.setValue("annotate_indistinguishable_groups", "false")
+    bpia.setParameters(params)
+    bpia.run(peptide_ids, protein_ids)
+
 
     # Annotate q-value on protein level
+    # Removes decoys in default settings
     FalseDiscoveryRate().apply(protein_ids)
 
-    # Filter by 1% protein FDR (q-value < 0.01)
+    # Filter targets by 1% protein FDR (q-value < 0.01)
     idfilter = IDFilter()
     idfilter.filterHitsByScore(protein_ids, 0.01)
-    idfilter.removeDecoyHits(protein_ids)
+
     # Restore valid references into the proteins
     remove_peptides_without_reference = True
     idfilter.updateProteinReferences(peptide_ids, protein_ids, remove_peptides_without_reference)
