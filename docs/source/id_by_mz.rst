@@ -41,7 +41,7 @@ Execute this cell only for the example workflow.
     if not os.path.isdir(os.path.join(os.getcwd(), 'IdByMz_Example')):
         os.mkdir(os.path.join(os.getcwd(), 'IdByMz_Example'))
 
-    base = 'https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Tutorials/Data/latest/Example_Data/Metabolomics/'
+    base = 'https://abibuilder.cs.uni-tuebingen.de/archive/openms/Tutorials/Data/latest/Example_Data/Metabolomics/'
     urls = ['datasets/2012_02_03_PStd_050_1.mzML',
             'datasets/2012_02_03_PStd_050_2.mzML',
             'datasets/2012_02_03_PStd_050_3.mzML',
