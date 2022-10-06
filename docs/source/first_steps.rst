@@ -92,7 +92,7 @@ We could now continue our investigation by reading the documentation of the
 base classes ``DocumentIdentifier`` and ``MetaInfoInterface``, but we will
 leave this exercise for the interested reader. For a more complete documentation of the underlying
 wrapped methods, please consult the official OpenMS documentation, in this case
-the `MSExperiment documentation <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1MSExperiment.html>`_.
+the `MSExperiment documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1MSExperiment.html>`_.
 
 
 First look at data
