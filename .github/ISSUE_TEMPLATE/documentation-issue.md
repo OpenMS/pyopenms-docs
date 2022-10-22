@@ -1,6 +1,6 @@
 ---
 name: Documentation issue
-about: Create a report if there is a problem with the documentation
+about: Create a report if there is a problem with the documentation. E.g., unclear, typography, not reproducible or incomplete
 title: ''
 labels: 'documentation'
 assignees: ''
