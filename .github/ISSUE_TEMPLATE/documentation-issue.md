@@ -9,12 +9,12 @@ assignees: ''
 
 **Describe the problem you encountered**
 
-<!— Please tell us briefly the problem you had —>
+<!-- Please tell us briefly the problem you had -->
 
 **Screenshot**
 
-<!- Please, attach a screenshot of the documentation error ->
+<!-- Please, attach a screenshot of the documentation error -->
 
 **Documentation version**
 
-<!- Tell us what documentation version you are using ->
+<!-- Tell us what documentation version you are using -->
