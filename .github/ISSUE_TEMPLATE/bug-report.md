@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report when something isn't working
+about: Create a report when something isn't working with your python code using pyopenms
 title: ''
 labels: 'bug'
 assignees: ''
