@@ -27,6 +27,13 @@ Steps to reproduce the behavior:
  - OS:
  - OS Version:
  - Python version:
+ - pyopenms version:
+ - How did you install pyopenms? Please cross a box with an X.
+     - [ ] conda::bioconda: Specify your conda/mamba command and/or your environment with `conda list`.
+     - [ ] conda::openms: Specify your conda/mamba command and/or your environment with `conda list`.
+     - [ ] pip
+     - [ ] nightly wheel
+     - [ ] built from source
  
 
 **Additional context**
