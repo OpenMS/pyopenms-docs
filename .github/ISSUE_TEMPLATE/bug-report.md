@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **Describe the problem you encountered**
-<!— Please tell us briefly the problem you had —>
+<!-- Please tell us briefly the problem you had -->
 
 **To Reproduce**
 Steps to reproduce the behavior:
@@ -18,10 +18,10 @@ Steps to reproduce the behavior:
 4. See error
 
 **What should be happening**
-<!- Please tell us briefly what was supposed to happen ->
+<!-- Please tell us briefly what was supposed to happen -->
 
 **Screenshots**
-<!- Please add a screenshot showing the bug ->
+<!-- Please add a screenshot showing the bug -->
 
 **System information:**
  - OS:
@@ -30,4 +30,4 @@ Steps to reproduce the behavior:
  
 
 **Additional context**
-Add any other context about the problem here.
+<!-- Add any other context about the problem here. -->
