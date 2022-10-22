@@ -25,7 +25,7 @@ Steps to reproduce the behavior:
 
 **System information:**
  - OS:
- - Version:
+ - OS Version:
  - Python version:
  
 
