@@ -2,8 +2,8 @@
 [![Building latest pyopenms package and generating jupyter Notebooks](https://github.com/OpenMS/pyopenms-docs/actions/workflows/build-openms.yaml/badge.svg)](https://github.com/OpenMS/pyopenms-docs/actions/workflows/build-openms.yaml)
 [![Test code in notebooks](https://github.com/OpenMS/pyopenms-docs/actions/workflows/test-notebooks.yml/badge.svg)](https://github.com/OpenMS/pyopenms-docs/actions/workflows/test-notebooks.yml)
 
-pyOpenMS Docs
-=============
+pyOpenMS Documentation
+======================
 
 pyOpenMS are the Python bindings to the OpenMS open-source C++ library for
 LC-MS data management and analyses. The Python bindings cover a large part of
