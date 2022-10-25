@@ -1,8 +1,12 @@
-name: Building latest pyopenms package and generating jupyter Notebooks
+name: Building latest jupyter Notebooks and push to master+ipynb
 
 on:
+  schedule:
+    # Trigger 5:30 UTC
+    - cron:  '30 5 * * *'
   push:
     branches: [ master, merge-workflows ]
+  workflow_dispatch:
 
 jobs:
 
@@ -10,9 +14,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     
-    - uses: r-lib/actions/setup-pandoc@v1
+    - uses: r-lib/actions/setup-pandoc@v2
       with:
         pandoc-version: '2.19.2'
 
