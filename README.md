@@ -1,5 +1,5 @@
 [![Documentation Status](https://readthedocs.org/projects/pyopenms/badge/?version=latest)](https://pyopenms.readthedocs.io/en/latest/?badge=latest)
-[![Building latest pyopenms package and generating jupyter Notebooks](https://github.com/OpenMS/pyopenms-docs/actions/workflows/build-openms.yaml/badge.svg)](https://github.com/OpenMS/pyopenms-docs/actions/workflows/build-openms.yaml)
+[![Build notebooks from master and push to master+ipynb](https://github.com/OpenMS/pyopenms-docs/actions/workflows/build-push-notebooks.yaml/badge.svg)](https://github.com/OpenMS/pyopenms-docs/actions/workflows/build-openms.yaml)
 [![Test code in notebooks](https://github.com/OpenMS/pyopenms-docs/actions/workflows/test-notebooks.yml/badge.svg)](https://github.com/OpenMS/pyopenms-docs/actions/workflows/test-notebooks.yml)
 
 pyOpenMS Documentation

@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Get changed files
       id: changed-files
@@ -21,11 +21,11 @@ jobs:
           files: |
             \.rst$
       
-    - uses: r-lib/actions/setup-pandoc@v1
+    - uses: r-lib/actions/setup-pandoc@v2
       with:
         pandoc-version: '2.19.2'
 
-    - uses: actions/setup-python@v2
+    - uses: actions/setup-python@v4
       with:
         python-version: '3.7' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         
