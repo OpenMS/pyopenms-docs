@@ -24,6 +24,7 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         python3 -m pip install --upgrade jupyter
+        echo "DSAJLDKASJDLASDASLÖ"
         wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed
         mv Linux-wheels.zip\?status=completed Linux-wheels.zip
         unzip Linux-wheels.zip
