@@ -1,3 +1,4 @@
+// Below script is used by PiWik Analytics tool to generate dashboards.
 <script type="text/javascript">
 (function(window, document, dataLayerName, id) {
 window[dataLayerName]=window[dataLayerName]||[],window[dataLayerName].push({start:(new Date).getTime(),event:"stg.start"});var scripts=document.getElementsByTagName('script')[0],tags=document.createElement('script');
