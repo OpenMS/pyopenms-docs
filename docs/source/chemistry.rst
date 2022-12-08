@@ -243,7 +243,7 @@ addition and subtraction. A simple example is given in the next few lines of
 code.
 
 .. code-block:: python
-    :linenos:
+    
 
     methanol = EmpiricalFormula("CH3OH")
     water = EmpiricalFormula("H2O")
@@ -274,7 +274,7 @@ Specific isotopes can be incorporated into a molecular formula using bracket
 notation. For example, ethanol with one or two C13 can be specified using ``(13)C`` as follows:
 
 .. code-block:: python
-    :linenos:
+    
 
     ethanol = EmpiricalFormula("C2H6O")
     print("Ethanol chemical formula:", ethanol.toString())
