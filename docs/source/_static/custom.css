@@ -41,6 +41,8 @@ body {
     content: "\f008";
   }
 
+  /*terms with tooltips*/
+
   a.hxr-hoverxref {
     text-decoration: underline;
     text-decoration-style: dotted;

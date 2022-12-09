@@ -177,7 +177,7 @@ In a quadropole analyzer, you can set the quadropole voltage so that ions with a
 
 Refer to the image below for a diagrammatic representation of the quadrupole analyzer.
 
-.. image:: img/introduction/quadrupole-analyzer.png)
+.. image:: img/introduction/quadrupole-analyzer.png
 
 .. raw:: html
 
@@ -193,7 +193,7 @@ In a time-of-flight analyzer, ions are extracted from the ion source through an 
 
 Refer to the image below for a diagrammatic representation of the TOF analyzer.
 
-.. image:: img/introduction/TOF.png)
+.. image:: img/introduction/TOF.png
 
 Lighter ions fly faster than heavier ions of the same charge and will arrive earlier at the detector. Therefore, an ion’s time of flight depends on the ion’s mass.  The ion's time of flight is also dependant on the ion's charge. This can be demonstrated by using the following equations:
 1. Potential energy is transferred to an ion with charge **q** accelerated by an electrostatic field with voltage.
@@ -227,7 +227,7 @@ Therefore,, **t**, for a given instrument's path length, **s**, depends on an io
 .. raw:: html
 
     <div class="admonition video">
-    <p class="admonition-title">**Video**</p>
+    <p class="admonition-title">Video</p>
     For more information on TOF analyzers, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1262.00">view this video</a>.
     </div>
 
@@ -246,7 +246,7 @@ The orbitrap analyzer is the most frequently used analyzer in mass spectrometry 
 .. raw:: html
 
     <div class="admonition video">
-    <p class="admonition-title">**Video**</p>
+    <p class="admonition-title">Video</p>
     For more information on orbitrap analyzers, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1572.96).
     </div>
 
@@ -259,7 +259,7 @@ With MS2, ions called **precursor ions** are isolated and fragmented into ion fr
 .. raw:: html
 
     <div class="admonition video">
-    <p class="admonition-title">**Video**</p>
+    <p class="admonition-title">Video</p>
     For more information on MS2, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1650.00).
     </div>
 
@@ -281,7 +281,7 @@ Collision-induced dissociation is a method to fragment peptides using an inert g
 .. raw:: html
 
     <div class="admonition video">
-    <p class="admonition-title">**Video**</p>
+    <p class="admonition-title">Video</p>
     For more information on CID, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1757.45).
     </div>
 
@@ -305,7 +305,7 @@ The image below includes a spectrum at a given retention time (left) and a peak 
 .. raw:: html
 
     <div class="admonition video">
-    <p class="admonition-title">**Video**</p>
+    <p class="admonition-title">Video</p>
     For more information on a *specific* application of LC-MS, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141014_002_cpm_0001?t=946.20).
     </div>
 
@@ -336,7 +336,7 @@ Isobaric labeling, is a technique where peptides and proteins are labeled with c
 .. raw:: html
 
     <div class="admonition video">
-    <p class="admonition-title">**Video**</p>
+    <p class="admonition-title">Video</p>
     For more information on isobaric labeling, view the following links:
     <ul>
     <li><a href="https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=1108.15">Video 1</a>
@@ -363,7 +363,7 @@ OpenMS contains tools that analyze data from SILAC experiments.
 .. raw:: html
 
     <div class="admonition video">
-    <p class="admonition-title">**Video**</p>
+    <p class="admonition-title">Video</p>
     For more information on SILAC, view the following links:
     <ul>
     <li><a href="https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=18.25">Video 1</a></li>
@@ -388,7 +388,7 @@ LFQ includes the following steps:
 .. raw:: html
 
     <div class="admonition video">
-    <p class="admonition-title">**Video**</p>
+    <p class="admonition-title">Video</p>
     For more information on LFQ, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=2115.00).
     For more information on the steps involved in LFQ, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=2230.18)
     </div>
@@ -409,6 +409,6 @@ OpenMS contains a number of feature finding algorithms.
 .. raw:: html
 
     <div class="admonition video">
-    <p class="admonition-title">**Video**</p>
+    <p class="admonition-title">Video</p>
     For more information on feature finding, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=2670.44).
     </div>
