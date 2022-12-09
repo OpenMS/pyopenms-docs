@@ -3,7 +3,7 @@ Background
 
 Proteomics and metabolomics focus on complex interactions within biological systems; the former is centered on proteins while the latter is based on metabolites. To understand these interactions, we need to accurately identify the different biological components involved. 
 
-:term:`Liquid chromatography` (LC) and :term:`mass spectrometry` (MS) are the analytical techniques used to isolate and identify biological components in proteomics and metabolomics. LC-MS data can be difficult to analyze manually given its amount and complexity. Therefore, we need specialized software that can analyze high-throughput LC-MS data quickly and accurately. 
+:term:`sphinx:Liquid chromatography` (LC) and :term:`sphinx:mass spectrometry` (MS) are the analytical techniques used to isolate and identify biological components in proteomics and metabolomics. LC-MS data can be difficult to analyze manually given its amount and complexity. Therefore, we need specialized software that can analyze high-throughput LC-MS data quickly and accurately. 
 
 Why use OpenMS
 --------------
@@ -40,7 +40,7 @@ An LC setup is made up of the following components:
 * **A pump** which transports the liquid solution.
 * **A stationary phase** which is a solid, homogeneous substance.
 * **A column** that contains the stationary phase. 
-* **A detector** that plots the time it takes for the analyte to escape the column (retention time) against the analyte's concentration. This plot is called a **chromatogram**.
+* **A detector** that plots the time it takes for the analyte to escape the column (:term:`retention time`) against the analyte's concentration. This plot is called a **chromatogram**.
 
 Refer to the image below for a diagrammatic representation of an LC setup. 
 
@@ -48,7 +48,7 @@ Refer to the image below for a diagrammatic representation of an LC setup.
 
 How does LC work?
 `````````````````
-The liquid solution containing the analytes is pumped through a column that is attached to the stationary phase. Analytes are separated based on how strongly they interact with each phase. Some analytes will interact strongly with the mobile phase while others will be strongly attracted to the stationary phase, depending on their physical or chemical properties. The stronger an analyte's attraction is to the mobile phase, the faster it will leave the column. The time it takes for an analyte to escape from the column is called the analyte's {term}`retention time`. As a result of their differing attractions to the mobile and stationary phases, different analytes will have different retention times, which is how separation occurs. 
+The liquid solution containing the analytes is pumped through a column that is attached to the stationary phase. Analytes are separated based on how strongly they interact with each phase. Some analytes will interact strongly with the mobile phase while others will be strongly attracted to the stationary phase, depending on their physical or chemical properties. The stronger an analyte's attraction is to the mobile phase, the faster it will leave the column. The time it takes for an analyte to escape from the column is called the analyte's :term:`retention time`. As a result of their differing attractions to the mobile and stationary phases, different analytes will have different retention times, which is how separation occurs. 
 
 The retention times for each analyte are recorded by a detector. The most common detector used is the mass spectrometer, which we discuss later. However, other detection methods exist, such as:
 
@@ -97,7 +97,7 @@ There are three key components in a mass spectrometer:
 
 * An **ion source**, which generates ions from the incoming sample. All mass spectrometry techniques rely on ionized molecules to control their movement in an electric field.
 * A **mass analyzer**, which separates the ions according to their mass-to-charge (m/z) ratio. There are several types such as time of flight (TOF), orbitrap and quadrupole mass analyzers. Depending on the mass analyzer, OpenMS offers calibration tools, so that highly accurate results can be achieved.
-* A **detector**, which scans ions at a given time point producing a {term}`mass spectrum`, where the intensity is plotted against the m/z. 
+* A **detector**, which scans ions at a given time point producing a :term:`mass spectrum`, where the intensity is plotted against the m/z. 
 
 Refer to the image below for a diagrammatic representation of the key components in MS.
 
@@ -106,7 +106,7 @@ Refer to the image below for a diagrammatic representation of the key components
 Ion source
 ::::::::::
 
-We want the analytes to move through the electrostatic and electromagnetic fields in the mass analyzer. To achieve this objective, we need to convert them to ions by charging them. There are a number of ways to charge our analytes including:
+We want the analytes to move through the electrostatic and electromagnetic fields in the mass analyzer. To achieve this objective, we need to convert them to :term:`ions <ion>` by charging them. There are a number of ways to charge our analytes including:
 
 * Electrospray Ionization (ESI)
 * Matrix Assisted Laser Desorption/Ionization (MALDI)
@@ -254,7 +254,7 @@ Identifying molecules with Tandem Mass Spectrometry (MS2)
 `````````````````````````````````````````````````````````
 To get better results, we can use two mass analyzers sequentially to generate and analyze ions. This technique is called **tandem mass spectrometry** or MS/MS (MS2). Tandem mass spectrometry is especially useful for linear polymers like proteins, RNA and DNA. 
 
-With MS2, ions called **precursor ions** are isolated and fragmented into ion fragments or **product ions**. A {term}`mass spectrum` is recorded for both the precursor and the product ions.
+With MS2, ions called **precursor ions** are isolated and fragmented into ion fragments or **product ions**. A :term:`mass spectrum` is recorded for both the precursor and the product ions.
 
 .. raw:: html
 
@@ -276,7 +276,7 @@ CID is the most frequently used fragmentation technique and will therefore be di
 Collision-induced dissociation
 ::::::::::::::::::::::::::::::
 
-Collision-induced dissociation is a method to fragment peptides using an inert gas such as argon or helium. Selected primary or precursor ions enter a collision cell filled with the inert gas. The application of the inert gas on the precursor ions causes the precursor ions that reach the energy threshold to fragment into smaller, product ions and or neutral losses.  A {term}`mass spectrum` is recorded for both the precursor ions and the product ions. The {term}`mass spectrum` for the precursor ions will give you the mass for the entire peptide while the product ions will inform you about it’s amino acid composition. 
+Collision-induced dissociation is a method to fragment peptides using an inert gas such as argon or helium. Selected primary or precursor ions enter a collision cell filled with the inert gas. The application of the inert gas on the precursor ions causes the precursor ions that reach the energy threshold to fragment into smaller, product ions and or neutral losses.  A :term:`mass spectrum` is recorded for both the precursor ions and the product ions. The :term:`mass spectrum` for the precursor ions will give you the mass for the entire peptide while the product ions will inform you about it’s amino acid composition. 
 
 .. raw:: html
 
@@ -296,7 +296,7 @@ Refer to the image below for a diagrammatic representation of the LC-MS setup.
 
 From the LC-MS setup, a set of spectra called a peak map is produced. In a peak map, each spectrum represents the ions detected at a particular retention time. Each peak in a spectrum has a retention time, mass-to-charge and intensity dimension.
 
-From the LC-MS setup, a series of spectra are 'stacked' together to form what is known as a peak map. Each spectrum in a peak map is a collection of data points called {term}`peaks <peak>` which indicate the retention time, mass-to-charge and intensity of each detected ion. Analyzing peak maps is difficult as different compounds can elute at the same time which means that peaks can overlap. Therefore, sophisticated techniques are required for the accurate identification and quantification of molecules. 
+From the LC-MS setup, a series of spectra are 'stacked' together to form what is known as a peak map. Each spectrum in a peak map is a collection of data points called :term:`peaks <peak>` which indicate the retention time, mass-to-charge and intensity of each detected ion. Analyzing peak maps is difficult as different compounds can elute at the same time which means that peaks can overlap. Therefore, sophisticated techniques are required for the accurate identification and quantification of molecules. 
 
 The image below includes a spectrum at a given retention time (left) and a peak map (right).
 
