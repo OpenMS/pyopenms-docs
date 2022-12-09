@@ -11,7 +11,7 @@ OpenMS is an open-source, C++ framework for analyzing large volumes of mass spec
 
 .. note::
 
-    OpenMS in recent times has been expanded to support a wide variety of mass spectrometry experiments. To design your analysis solution, `contact the OpenMS team <https://openms.github.io/community/>` today.
+    OpenMS in recent times has been expanded to support a wide variety of mass spectrometry experiments. To design your analysis solution, `contact the OpenMS team <https://openms.github.io/community/>`_ today.
 
 To use OpenMS effectively, an understanding of chromatography and mass spectrometry is required as many of the algorithms are based on these techniques. 
 This section provides a detailed explanation on LC and MS, and how they are combined to identify and quantify substances. 
@@ -43,7 +43,7 @@ An LC setup is made up of the following components:
 
 Refer to the image below for a diagrammatic representation of an LC setup. 
 
-![schematic illustration of an LC setup](../images/introduction/lc-components.png)
+..image:: img/introduction/lc-components.png
 
 How does LC work?
 `````````````````
@@ -58,10 +58,12 @@ High performance liquid chromatography (HPLC)
 `````````````````````````````````````````````
 HPLC is the most commonly used technique for separating proteins and metabolites. In HPLC, a high-pressured pump is used to transport a liquid (solvent) containing the molecules of interest through a thin capillary column. The stationary phase is ‘packed’ into the column. 
 
-<div class="admonition video">
-<p class="admonition-title">**Video**</p>
-For more information on HPLC, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_001_cpm_0001?t=699.69).
-</div>
+.. raw:: html
+
+    <div class="admonition video">
+    <p class="admonition-title">**Video**</p>
+    For more information on HPLC, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_001_cpm_0001?t=699.69">view this video</a>.
+    </div>
 
 Several variations of HPLC exist such as:
 - Reversed-phase (RP) chromatography
@@ -74,10 +76,12 @@ Special case of HPLC: Reversed-phase (RP) chromatography
 
 RP chromatography is the most commony type of HPLC with biological samples. In reversed-phase liquid chromatography, the solid phase is modified to become hydrophobic, when it is originally hydrophilic, hence the term ‘reversed-phase’. The liquid phase is a mixture of water and an organic solvent. The separation of molecules happens based on the following behavior: hydrophilic analytes have a high affinity to the mobile phase and escape the column quickly  while hydrophobic analytes have a high affinity towards the organic solvent and therefore, take a longer time to escape the column.
 
-<div class="admonition video">
-<p class="admonition-title">**Video**</p>
-For more information on RP chromatography, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_001_cpm_0001?t=1399.85).
-</div>
+.. raw:: html
+
+    <div class="admonition video">
+    <p class="admonition-title">**Video**</p>
+    For more information on RP chromatography, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_001_cpm_0001?t=1399.85">view this video</a>.
+    </div>
 
 Mass spectrometry (MS)
 ----------------------
@@ -88,9 +92,10 @@ Key components of MS
 `````````````````````
 
 There are three key components in a mass spectrometer:
-- An **ion source**, which generates ions from the incoming sample. All mass spectrometry techniques rely on ionized molecules to control their movement in an electric field.
-- A **mass analyzer**, which separates the ions according to their mass-to-charge (m/z) ratio. There are several types such as time of flight (TOF), orbitrap and quadrupole mass analyzers. Depending on the mass analyzer, OpenMS offers calibration tools, so that highly accurate results can be achieved.
-- A **detector**, which scans ions at a given time point producing a {term}`mass spectrum`, where the intensity is plotted against the m/z. 
+
+* An **ion source**, which generates ions from the incoming sample. All mass spectrometry techniques rely on ionized molecules to control their movement in an electric field.
+* A **mass analyzer**, which separates the ions according to their mass-to-charge (m/z) ratio. There are several types such as time of flight (TOF), orbitrap and quadrupole mass analyzers. Depending on the mass analyzer, OpenMS offers calibration tools, so that highly accurate results can be achieved.
+* A **detector**, which scans ions at a given time point producing a {term}`mass spectrum`, where the intensity is plotted against the m/z. 
 
 Refer to the image below for a diagrammatic representation of the key components in MS.
 
@@ -100,9 +105,10 @@ Ion source
 ::::::::::
 
 We want the analytes to move through the electrostatic and electromagnetic fields in the mass analyzer. To achieve this objective, we need to convert them to ions by charging them. There are a number of ways to charge our analytes including:
-- Electrospray Ionization (ESI)
-- Matrix Assisted Laser Desorption/Ionization (MALDI)
-- Electron Impact Ionization (EI)
+
+* Electrospray Ionization (ESI)
+* Matrix Assisted Laser Desorption/Ionization (MALDI)
+* Electron Impact Ionization (EI)
 
 In proteomics and metabolomics, ESI and MALDI are used because they are soft ionization techniques. A soft ionization technique is one which charges analytes while keeping the molecules of interest largely intact, so that they can be characterized easily at a later stage. Hard ionization techniques such as EI shatter analytes in smaller fragments, making it difficult to characterize large molecules. 
 
@@ -123,10 +129,12 @@ Refer to the image below for a diagrammatic representation of the steps in ESI.
 
 ![a simplified, schematic representation of ESI](../images/introduction/electrospray-ionization.png)
 
-<div class="admonition video">
-<p class="admonition-title">**Video**</p>
-For more information on ESI, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=624.28).
-</div>
+.. raw:: html
+
+    <div class="admonition video">
+    <p class="admonition-title">**Video**</p>
+    For more information on ESI, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=624.28).
+    </div>
 
 Matrix Assisted Laser Desorption/Ionization (MALDI)
 '''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -141,10 +149,12 @@ Refer to the image below for a diagrammatic representation of the steps in MALDI
 
 ![a simplified, schematic representation of MALDI](../images/introduction/MALDI.png)
 
-<div class="admonition video">
-<p class="admonition-title">**Video**</p>
-For more information on MALDI, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=838.40).
-</div>
+.. raw:: html
+
+    <div class="admonition video">
+    <p class="admonition-title">**Video**</p>
+    For more information on MALDI, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=838.40).
+    </div>
 
 Mass analyzer
 :::::::::::::
@@ -167,10 +177,12 @@ Refer to the image below for a diagrammatic representation of the quadrupole ana
 
 ![a simplified, schematic representation of the quadrupole analyzer](../images/introduction/quadrupole-analyzer.png)
 
-<div class="admonition video">
-<p class="admonition-title">**Video**</p>
-For more information on quadrupole analyzers, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1477.00).
-</div>
+.. raw:: html
+
+    <div class="admonition video">
+    <p class="admonition-title">**Video**</p>
+    For more information on quadrupole analyzers, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1477.00).
+    </div>
 
 Time-of-Flight (TOF)
 ''''''''''''''''''''
@@ -183,6 +195,7 @@ Refer to the image below for a diagrammatic representation of the TOF analyzer.
 
 Lighter ions fly faster than heavier ions of the same charge and will arrive earlier at the detector. Therefore, an ion’s time of flight depends on the ion’s mass.  The ion's time of flight is also dependant on the ion's charge. This can be demonstrated by using the following equations:
 1. Potential energy is transferred to an ion with charge **q** accelerated by an electrostatic field with voltage.
+
 .. math::
 
     \begin{equation} E_p = qU_a
@@ -209,10 +222,12 @@ Therefore,, **t**, for a given instrument's path length, **s**, depends on an io
     \begin{equation} t = \frac{s}{v} = \frac{s}{\sqrt{\frac{2qU_a}{m}}}
     \end{equation}
 
-<div class="admonition video">
-<p class="admonition-title">**Video**</p>
-For more information on TOF analyzers, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1262.00).
-</div>
+.. raw:: html
+
+    <div class="admonition video">
+    <p class="admonition-title">**Video**</p>
+    For more information on TOF analyzers, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1262.00).
+    </div>
 
 Orbitrap
 ''''''''
@@ -226,10 +241,12 @@ The orbitrap analyzer is the most frequently used analyzer in mass spectrometry 
 
 , where *k* is a constant.
 
-<div class="admonition video">
-<p class="admonition-title">**Video**</p>
-For more information on orbitrap analyzers, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1572.96).
-</div>
+.. raw:: html
+
+    <div class="admonition video">
+    <p class="admonition-title">**Video**</p>
+    For more information on orbitrap analyzers, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1572.96).
+    </div>
 
 Identifying molecules with Tandem Mass Spectrometry (MS2)
 `````````````````````````````````````````````````````````
@@ -237,10 +254,12 @@ To get better results, we can use two mass analyzers sequentially to generate an
 
 With MS2, ions called **precursor ions** are isolated and fragmented into ion fragments or **product ions**. A {term}`mass spectrum` is recorded for both the precursor and the product ions.
 
-<div class="admonition video">
-<p class="admonition-title">**Video**</p>
-For more information on MS2, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1650.00).
-</div>
+.. raw:: html
+
+    <div class="admonition video">
+    <p class="admonition-title">**Video**</p>
+    For more information on MS2, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1650.00).
+    </div>
 
 Different fragmentation techniques to fragment peptides exist:
 
@@ -257,10 +276,12 @@ Collision-induced dissociation
 
 Collision-induced dissociation is a method to fragment peptides using an inert gas such as argon or helium. Selected primary or precursor ions enter a collision cell filled with the inert gas. The application of the inert gas on the precursor ions causes the precursor ions that reach the energy threshold to fragment into smaller, product ions and or neutral losses.  A {term}`mass spectrum` is recorded for both the precursor ions and the product ions. The {term}`mass spectrum` for the precursor ions will give you the mass for the entire peptide while the product ions will inform you about it’s amino acid composition. 
 
-<div class="admonition video">
-<p class="admonition-title">**Video**</p>
-For more information on CID, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1757.45).
-</div>
+.. raw:: html
+
+    <div class="admonition video">
+    <p class="admonition-title">**Video**</p>
+    For more information on CID, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1757.45).
+    </div>
 
 LC-MS
 -----
@@ -279,9 +300,12 @@ The image below includes a spectrum at a given retention time (left) and a peak 
 
 ![peak map](../images/introduction/spectrum_peakmap.png)
 
-<div class="admonition video">
-<p class="admonition-title">**Video**</p>
-For more information on a *specific* application of LC-MS, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141014_002_cpm_0001?t=946.20).
+.. raw:: html
+
+    <div class="admonition video">
+    <p class="admonition-title">**Video**</p>
+    For more information on a *specific* application of LC-MS, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141014_002_cpm_0001?t=946.20).
+    </div>
 
 Improving identification and quantification
 -------------------------------------------
@@ -307,16 +331,18 @@ Isobaric labeling
 
 Isobaric labeling, is a technique where peptides and proteins are labeled with chemical groups that have an identical mass, but vary in terms of of distribution of heavy isotopes in their structure. 
 
-<div class="admonition video">
-<p class="admonition-title">**Video**</p>
-For more information on isobaric labeling, view the following links:
-<ul>
-<li><a href="https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=1108.15">Video 1</a>
-</li>
-<li><a href="https://timms.uni-tuebingen.de:/tp/UT_20141202_002_cpm_0001?t=311.78">Video 2</a>
-</li>
-<ul>
-</div>
+.. raw:: html
+
+    <div class="admonition video">
+    <p class="admonition-title">**Video**</p>
+    For more information on isobaric labeling, view the following links:
+    <ul>
+    <li><a href="https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=1108.15">Video 1</a>
+    </li>
+    <li><a href="https://timms.uni-tuebingen.de:/tp/UT_20141202_002_cpm_0001?t=311.78">Video 2</a>
+    </li>
+    <ul>
+    </div>
 
 OpenMS contains tools that analyze data from isobaric labeling experiments. 
 
@@ -332,14 +358,16 @@ In SILAC, the labeled amino acids are fed to the cell culture. The labels are in
 
 OpenMS contains tools that analyze data from SILAC experiments. 
 
-<div class="admonition video">
-<p class="admonition-title">**Video**</p>
-For more information on SILAC, view the following links:
-<ul>
-<li><a href="https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=18.25">Video 1</a></li>
-<li><a href="https://timms.uni-tuebingen.de:/tp/UT_20141202_001_cpm_0001?t=540.13">Video 2</a></li>
-</ul>
-</div>
+.. raw:: html
+
+    <div class="admonition video">
+    <p class="admonition-title">**Video**</p>
+    For more information on SILAC, view the following links:
+    <ul>
+    <li><a href="https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=18.25">Video 1</a></li>
+    <li><a href="https://timms.uni-tuebingen.de:/tp/UT_20141202_001_cpm_0001?t=540.13">Video 2</a></li>
+    </ul>
+    </div>
 
 Label-free quantification (LFQ)
 ```````````````````````````````
@@ -355,11 +383,13 @@ LFQ includes the following steps:
 6. **Identify feature groups**, called {term}`consensus features <consensus feature>`.
 7. **Quantify consensus features**. 
 
-<div class="admonition video">
-<p class="admonition-title">**Video**</p>
-For more information on LFQ, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=2115.00).
-For more information on the steps involved in LFQ, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=2230.18)
-</div>
+.. raw:: html
+
+    <div class="admonition video">
+    <p class="admonition-title">**Video**</p>
+    For more information on LFQ, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=2115.00).
+    For more information on the steps involved in LFQ, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=2230.18)
+    </div>
 
 Feature finding
 :::::::::::::::
@@ -374,7 +404,9 @@ The above steps are iterative; we repeat these steps until no improvement can be
 
 OpenMS contains a number of feature finding algorithms.
 
-<div class="admonition video">
-<p class="admonition-title">**Video**</p>
-For more information on feature finding, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=2670.44).
-</div>
+.. raw:: html
+
+    <div class="admonition video">
+    <p class="admonition-title">**Video**</p>
+    For more information on feature finding, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=2670.44).
+    </div>

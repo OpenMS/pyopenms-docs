@@ -27,20 +27,15 @@ body {
 
 /*background css*/
 
-
-  .video {
-    border-left: .2rem solid var(--color-video);
-  }
-  
   div.admonition.video p:first-of-type {
     background-color:  #96735d;
   }
 
   div.admonition.video p {
-    background-color: #dac6aa;
+    background: #dac6aa !important;
   }
   div.admonition.video p::before {
-    background-color: rgb(88, 60, 25);
+    background-color: #96735d;
     font-family: FontAwesome;
     content: "\f008";
   }
