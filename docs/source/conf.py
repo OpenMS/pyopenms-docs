@@ -75,10 +75,14 @@ else:
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx_copybutton', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary',]
+extensions = ['sphinx_copybutton', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary', 'hoverxref.extension']
 autosummary_generate = True
 autosummary_imported_members = True
 autodoc_docstring_signature = True
+
+#for tooltips on glossary terms
+hoverxref_roles = ['term']
+hoverxref_role_types = {'term':'tooltip'}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

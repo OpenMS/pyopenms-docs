@@ -3,7 +3,7 @@ Background
 
 Proteomics and metabolomics focus on complex interactions within biological systems; the former is centered on proteins while the latter is based on metabolites. To understand these interactions, we need to accurately identify the different biological components involved. 
 
-{term}`Liquid chromatography` (LC) and {term}`mass spectrometry` (MS) are the analytical techniques used to isolate and identify biological components in proteomics and metabolomics. LC-MS data can be difficult to analyze manually given its amount and complexity. Therefore, we need specialized software that can analyze high-throughput LC-MS data quickly and accurately. 
+:term:`Liquid chromatography` (LC) and :term:`mass spectrometry` (MS) are the analytical techniques used to isolate and identify biological components in proteomics and metabolomics. LC-MS data can be difficult to analyze manually given its amount and complexity. Therefore, we need specialized software that can analyze high-throughput LC-MS data quickly and accurately. 
 
 Why use OpenMS
 --------------
@@ -101,7 +101,7 @@ There are three key components in a mass spectrometer:
 
 Refer to the image below for a diagrammatic representation of the key components in MS.
 
-.. image:: img/introduction/mass-spectrometry-components.png)
+.. image:: img/introduction/mass-spectrometry-components.png
 
 Ion source
 ::::::::::
@@ -129,13 +129,13 @@ ESI can be broken down into the following steps.
 
 Refer to the image below for a diagrammatic representation of the steps in ESI.
 
-![a simplified, schematic representation of ESI](../images/introduction/electrospray-ionization.png)
+.. image:: img/introduction/electrospray-ionization.png
 
 .. raw:: html
 
     <div class="admonition video">
     <p class="admonition-title">**Video**</p>
-    For more information on ESI, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=624.28).
+    For more information on ESI, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=624.28">view this video</a>.
     </div>
 
 Matrix Assisted Laser Desorption/Ionization (MALDI)
@@ -149,13 +149,13 @@ MALDI can be broken down into the following steps:
 
 Refer to the image below for a diagrammatic representation of the steps in MALDI.
 
-![a simplified, schematic representation of MALDI](../images/introduction/MALDI.png)
+.. image:: img/introduction/MALDI.png
 
 .. raw:: html
 
     <div class="admonition video">
     <p class="admonition-title">**Video**</p>
-    For more information on MALDI, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=838.40).
+    For more information on MALDI, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=838.40">view this video</a>.
     </div>
 
 Mass analyzer
@@ -177,13 +177,13 @@ In a quadropole analyzer, you can set the quadropole voltage so that ions with a
 
 Refer to the image below for a diagrammatic representation of the quadrupole analyzer.
 
-![a simplified, schematic representation of the quadrupole analyzer](../images/introduction/quadrupole-analyzer.png)
+.. image:: img/introduction/quadrupole-analyzer.png)
 
 .. raw:: html
 
     <div class="admonition video">
     <p class="admonition-title">**Video**</p>
-    For more information on quadrupole analyzers, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1477.00).
+    For more information on quadrupole analyzers, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1477.00">view this video</a>.
     </div>
 
 Time-of-Flight (TOF)
@@ -193,7 +193,7 @@ In a time-of-flight analyzer, ions are extracted from the ion source through an 
 
 Refer to the image below for a diagrammatic representation of the TOF analyzer.
 
-![a simplified, schematic representation of TOF](../images/introduction/TOF.png)
+.. image:: img/introduction/TOF.png)
 
 Lighter ions fly faster than heavier ions of the same charge and will arrive earlier at the detector. Therefore, an ion’s time of flight depends on the ion’s mass.  The ion's time of flight is also dependant on the ion's charge. This can be demonstrated by using the following equations:
 1. Potential energy is transferred to an ion with charge **q** accelerated by an electrostatic field with voltage.
@@ -228,7 +228,7 @@ Therefore,, **t**, for a given instrument's path length, **s**, depends on an io
 
     <div class="admonition video">
     <p class="admonition-title">**Video**</p>
-    For more information on TOF analyzers, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1262.00).
+    For more information on TOF analyzers, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1262.00">view this video</a>.
     </div>
 
 Orbitrap
@@ -379,10 +379,10 @@ LFQ includes the following steps:
 
 1. **Conduct replicate experiments**.
 2. **Generate LC-MS maps** for each experiment.
-3. **Find features** in all LC-MS maps. A {term}`feature` is a collection of peaks that belong to a chemical compound.
+3. **Find features** in all LC-MS maps. A :term:`feature` is a collection of peaks that belong to a chemical compound.
 4. **Align maps** to address shifts in retention times.
 5. **Match corresponding features** in different maps. We refer to this as **grouping** or **linking**.
-6. **Identify feature groups**, called {term}`consensus features <consensus feature>`.
+6. **Identify feature groups**, called :term:`consensus features <consensus feature>`.
 7. **Quantify consensus features**. 
 
 .. raw:: html
