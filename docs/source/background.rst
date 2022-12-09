@@ -11,7 +11,7 @@ OpenMS is an open-source, C++ framework for analyzing large volumes of mass spec
 
 .. note::
 
-    OpenMS in recent times has been expanded to support a wide variety of mass spectrometry experiments. To design your analysis solution, [contact the OpenMS team](https://openms.github.io/community/) today.
+    OpenMS in recent times has been expanded to support a wide variety of mass spectrometry experiments. To design your analysis solution, `contact the OpenMS team <https://openms.github.io/community/>` today.
 
 To use OpenMS effectively, an understanding of chromatography and mass spectrometry is required as many of the algorithms are based on these techniques. 
 This section provides a detailed explanation on LC and MS, and how they are combined to identify and quantify substances. 
@@ -22,10 +22,10 @@ Liquid chromatography (LC)
 Chromatography is a technique used by life scientists to separate molecules based on a specific physical or chemical property. 
 
 .. raw:: html
-    
+
     <div class="admonition video">
-    <p class="admonition-title">**Video**</p>
-    For more information on chromatography, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_001_cpm_0001?t=210.00).
+    <p class="admonition-title">Video</p>
+    For more information on chromatography, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_001_cpm_0001?t=210.00">view this video</a>.
     </div>
 
 There are many types of chromatography, but this section focuses on LC as it is widely used in proteomics and metabolomics. 
@@ -183,30 +183,32 @@ Refer to the image below for a diagrammatic representation of the TOF analyzer.
 
 Lighter ions fly faster than heavier ions of the same charge and will arrive earlier at the detector. Therefore, an ion’s time of flight depends on the ion’s mass.  The ion's time of flight is also dependant on the ion's charge. This can be demonstrated by using the following equations:
 1. Potential energy is transferred to an ion with charge **q** accelerated by an electrostatic field with voltage.
-```{math}
- \begin{equation} E_p = qU_a
- \end{equation}
-```
+.. math::
+
+    \begin{equation} E_p = qU_a
+    \end{equation}
+
 2. The potential energy is converted to kinetic energy as the ion accelerates.
 
-```{math}
- \begin{equation} E_p = E_k = \frac{1}{2}mv^2
- \end{equation}
-```
+.. math::
+
+    \begin{equation} E_p = E_k = \frac{1}{2}mv^2
+    \end{equation}
 
 3. We know that for a given path,**s**, from extraction to the detector, the time of flight, **t** is equal to:
 
-```{math}
- \begin{equation} t = \frac{s}{v}
- \end{equation}
-```
+.. math::
+
+    \begin{equation} t = \frac{s}{v}
+    \end{equation}
 
 Therefore,, **t**, for a given instrument's path length, **s**, depends on an ion's charge and mass. 
 
-```{math}
- \begin{equation} t = \frac{s}{v} = \frac{s}{\sqrt{\frac{2qU_a}{m}}}
- \end{equation}
-```
+.. math::
+
+    \begin{equation} t = \frac{s}{v} = \frac{s}{\sqrt{\frac{2qU_a}{m}}}
+    \end{equation}
+
 <div class="admonition video">
 <p class="admonition-title">**Video**</p>
 For more information on TOF analyzers, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1262.00).
@@ -217,10 +219,11 @@ Orbitrap
 
 The orbitrap analyzer is the most frequently used analyzer in mass spectrometry for proteomic and metabolomic applications. It consists of two outer electrodes and a central electrode. Ions are captured inside the analyzer because of an applied electrostatic field. The ions in the orbitrap analyzer oscillate around the central electrode along the axis of the electrostatic field at a set frequency, ω. This frequency is used to determine the mass-to-charge ratio using the following formula:
 
-```{math}
- \begin{equation} ω = \sqrt{\frac{kz}{m}}
- \end{equation}
-```
+.. math::
+
+    \begin{equation} ω = \sqrt{\frac{kz}{m}}
+    \end{equation}
+
 , where *k* is a constant.
 
 <div class="admonition video">
