@@ -11,3 +11,4 @@ holoviews
 pyviz_comms
 jupyter-server-proxy
 massql
+sphinx-hoverxref

@@ -1,9 +1,10 @@
 OpenMS Glossary
-==============
+===============
 
 A glossary of common terms used throughout OpenMS documentation.
 
 .. glossary::
+
     :sorted:
 
 LC-MS
