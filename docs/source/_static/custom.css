@@ -31,9 +31,10 @@ body {
     background-color:  #96735d;
   }
 
-  div.admonition.video p {
+  div.admonition.video {
     background: #dac6aa !important;
   }
+  
   div.admonition.video p::before {
     background-color: #96735d;
     font-family: FontAwesome;

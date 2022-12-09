@@ -43,7 +43,7 @@ An LC setup is made up of the following components:
 
 Refer to the image below for a diagrammatic representation of an LC setup. 
 
-..image:: img/introduction/lc-components.png
+.. image:: img/introduction/lc-components.png
 
 How does LC work?
 `````````````````
@@ -99,7 +99,7 @@ There are three key components in a mass spectrometer:
 
 Refer to the image below for a diagrammatic representation of the key components in MS.
 
-![schematic illustration of a mass spectrometer](../images/introduction/mass-spectrometry-components.png)
+.. image:: img/introduction/mass-spectrometry-components.png)
 
 Ion source
 ::::::::::
