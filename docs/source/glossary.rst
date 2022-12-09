@@ -4,11 +4,16 @@ OpenMS Glossary
 A glossary of common terms used throughout OpenMS documentation.
 
 .. glossary::
-
     :sorted:
 
 LC-MS
-  <a href="background.html#liquid-chromatography-lc">Liquid Chromatography(LC)</a> and <a href="background.html#mass-spectrometry">Mass Spectrometry(MS)</a>.
+  Liquid Chromatography-Mass Spectrometry. 
+
+Liquid chromatography
+  An analytical technique used to separate molecules of interest.
+
+mass spectrometry
+  An analytical technique used to identify and quantify molecules of interest.
 
 peptides
   A short chain of amino acids.
@@ -24,22 +29,19 @@ Mass
   a measure of the force of gravity on that object.
 
 ion
-  Any {term}`atom` or group of atoms that bears one or more positive or negative electrical charges. Positively charged are cations, negavtively charged anions.
-
-ions
-  See {term}`ion`.
+  Any :term:`atom` or group of atoms that bears one or more positive or negative electrical charges. Positively charged are cations, negavtively charged anions.
 
 electrospray ionization (ESI)
   A technique used in mass spectrometry to produce ions.
 
 MS^2
-  See {term}`MS/MS`.
+  See :term:`MS/MS`.
 
 atom
   An atom is the smallest unit of ordinary matter that forms a chemical element.
 
 electrospray ionization
-  A technique used in mass spectrometry to produce ions using an electrospray in which a high voltage is applied to a liquid to create an {term}`aerosol`.
+  A technique used in mass spectrometry to produce ions using an electrospray in which a high voltage is applied to a liquid to create an :term:`aerosol`.
 
 aerosol
   An aerosol is a suspension of fine solid particles or liquid droplets in air or another gas.
@@ -84,10 +86,10 @@ pyOpenMS
   metabolomics data in Python. For pyOpenMS documentaion visit [this](https://pyopenms.readthedocs.io/en/latest/) link.
 
 TOPP Tools
-  All {term}`TOPP` tools can be found [here](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_documentation.html).
+  All :term:`TOPP` tools can be found [here](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_documentation.html).
 
 UTILS
-  Besides {term}`TOPP`, OpenMS offers a range of other tools. They are not included in {term}`TOPP` as they are not part of typical analysis pipelines. More information is present in [OpenMS UTILS Documentation](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/UTILS_documentation.html).
+  Besides :term:`TOPP`, OpenMS offers a range of other tools. They are not included in :term:`TOPP` as they are not part of typical analysis pipelines. More information is present in [OpenMS UTILS Documentation](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/UTILS_documentation.html).
 
 TOPPView
   TOPPView is a viewer for MS and HPLC-MS data. More information is available in [TOPPView documentation](../openms-applications-and-tools/visualize-with-openms.md).
@@ -103,7 +105,7 @@ proteins
   muscle to the enzymes that catalyze the digestion of food to synthesizing and replicating DNA.
 
 Mascot
-  Identifies peptides in MS/MS spectra via Mascot. Please find more information in the {term}`TOPP` [Documentation](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_MascotAdapter.html).
+  Identifies peptides in MS/MS spectra via Mascot. Please find more information in the :term:`TOPP` [Documentation](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_MascotAdapter.html).
 
 HPLC-MS
   Data produced by High performance liquid chromatography (HPLC) separates components of a mixture, whereas mass
@@ -137,10 +139,10 @@ ProteoWizard
   ProteoWizard is a set of open-source, cross-platform tools and libraries for proteomics data analyses. It provides a framework for unified mass spectrometry data file access and performs standard chemistry and LCMS dataset computations.
 
 PepNovo
-  PepNovo is a de novo sequencing algorithm for {term}`MS/MS` {term}`spectra`.
+  PepNovo is a de novo sequencing algorithm for :term:`MS/MS` :term:`spectra`.
 
 de novo peptide sequencing
-  A peptide’s amino acid sequence is inferred directly from the precursor peptide mass and tandem mass spectrum ({term}`MS/MS` or {term}`MS^3`) fragment ions, without comparison to a reference proteome.
+  A peptide’s amino acid sequence is inferred directly from the precursor peptide mass and tandem mass spectrum (:term:`MS/MS` or :term:`MS^3`) fragment ions, without comparison to a reference proteome.
 
 TOPPAS
   An assistant for GUI-driven TOPP workflow design. It is recommended to use OpenMS through the KNIME plugins.
@@ -191,7 +193,7 @@ consensus feature
   Features from replicate experiments with similar retention times and m/z values are linked and considered a consensus feature. A consensus feature contains information on the common retention time and m/z values as well as intensities for each sample. OpenMS represents a consensus feature using the class [ConsensusFeature](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1ConsensusFeature.html).
 
 consensus map
-  A consensus map is a collection of {term}`consensus features` identified from mass spectra across replicate experiments. One consensus map can contain many consensus features. OpenMS represents a consensus map using the class [ConsensusMap](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1ConsensusMap.html).
+  A consensus map is a collection of :term:`consensus features` identified from mass spectra across replicate experiments. One consensus map can contain many consensus features. OpenMS represents a consensus map using the class [ConsensusMap](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1ConsensusMap.html).
 
 peak
   A single raw data point in a chromatogram or a mass spectrum. OpenMS represents a peak in a chromatogram using the class [ChromatogramPeak](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1ChromatogramPeak.html). OpenMS represents a single, one-dimensional peak in a mass spectrum using the class [PeakID](https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1Peak1D.html)
