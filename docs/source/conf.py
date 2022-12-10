@@ -81,8 +81,9 @@ autosummary_imported_members = True
 autodoc_docstring_signature = True
 
 #configure tooltips
-hoverxref_roles = ['term']
-hoverxref_role_types = {'term':'tooltip'}
+hoverxref_roles = ['term',]
+hoverxref_role_types = {'term':'tooltip',}
+hoverxref_tooltip_lazy = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
