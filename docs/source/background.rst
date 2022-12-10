@@ -291,7 +291,7 @@ Liquid chromatography is often coupled with mass spectrometry to reduce complexi
 
 Refer to the image below for a diagrammatic representation of the LC-MS setup.
 
-![lc-ms setup](../images/introduction/lc-ms-setup.png)
+.. image:: img/introduction/lc-ms-setup.png
 
 From the LC-MS setup, a set of spectra called a peak map is produced. In a peak map, each spectrum represents the ions detected at a particular retention time. Each peak in a spectrum has a retention time, mass-to-charge and intensity dimension.
 
@@ -299,7 +299,7 @@ From the LC-MS setup, a series of spectra are 'stacked' together to form what is
 
 The image below includes a spectrum at a given retention time (left) and a peak map (right).
 
-![peak map](../images/introduction/spectrum_peakmap.png)
+.. image:: img/introduction/spectrum_peakmap.png
 
 .. raw:: html
 
