@@ -41,11 +41,6 @@ body {
     content: "\f008";
   }
 
-  div.admonition.note p::before {
-    font-family: FontAwesome !important; 
-    content: "\f249" !important;
-  }
-
   /*terms with tooltips*/
 
   a.hxr-hoverxref {
