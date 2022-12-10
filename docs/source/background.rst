@@ -2,8 +2,7 @@ Background
 ==========
 
 Proteomics and metabolomics focus on complex interactions within biological systems; the former is centered on proteins while the latter is based on metabolites. To understand these interactions, we need to accurately identify the different biological components involved. 
-
-:term:`sphinx:Liquid chromatography` (LC) and :term:`sphinx:mass spectrometry` (MS) are the analytical techniques used to isolate and identify biological components in proteomics and metabolomics. LC-MS data can be difficult to analyze manually given its amount and complexity. Therefore, we need specialized software that can analyze high-throughput LC-MS data quickly and accurately. 
+:term:`Liquid chromatography` (LC) and :term:`mass spectrometry` (MS) are the analytical techniques used to isolate and identify biological components in proteomics and metabolomics. LC-MS data can be difficult to analyze manually given its amount and complexity. Therefore, we need specialized software that can analyze high-throughput LC-MS data quickly and accurately. 
 
 Why use OpenMS
 --------------
@@ -63,7 +62,7 @@ HPLC is the most commonly used technique for separating proteins and metabolites
 .. raw:: html
 
     <div class="admonition video">
-    <p class="admonition-title">**Video**</p>
+    <p class="admonition-title">Video</p>
     For more information on HPLC, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_001_cpm_0001?t=699.69">view this video</a>.
     </div>
 
@@ -81,7 +80,7 @@ RP chromatography is the most commony type of HPLC with biological samples. In r
 .. raw:: html
 
     <div class="admonition video">
-    <p class="admonition-title">**Video**</p>
+    <p class="admonition-title">Video</p>
     For more information on RP chromatography, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_001_cpm_0001?t=1399.85">view this video</a>.
     </div>
 
@@ -95,8 +94,8 @@ Key components of MS
 
 There are three key components in a mass spectrometer:
 
-* An **ion source**, which generates ions from the incoming sample. All mass spectrometry techniques rely on ionized molecules to control their movement in an electric field.
-* A **mass analyzer**, which separates the ions according to their mass-to-charge (m/z) ratio. There are several types such as time of flight (TOF), orbitrap and quadrupole mass analyzers. Depending on the mass analyzer, OpenMS offers calibration tools, so that highly accurate results can be achieved.
+* An **ion source**, which generates :term:`ions <ion>` from the incoming sample. All mass spectrometry techniques rely on ionized molecules to control their movement in an electric field.
+* A **mass analyzer**, which separates the :term:`ions <ion>` according to their mass-to-charge (m/z) ratio. There are several types such as time of flight (TOF), orbitrap and quadrupole mass analyzers. Depending on the mass analyzer, OpenMS offers calibration tools, so that highly accurate results can be achieved.
 * A **detector**, which scans ions at a given time point producing a :term:`mass spectrum`, where the intensity is plotted against the m/z. 
 
 Refer to the image below for a diagrammatic representation of the key components in MS.
@@ -134,7 +133,7 @@ Refer to the image below for a diagrammatic representation of the steps in ESI.
 .. raw:: html
 
     <div class="admonition video">
-    <p class="admonition-title">**Video**</p>
+    <p class="admonition-title">Video</p>
     For more information on ESI, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=624.28">view this video</a>.
     </div>
 
@@ -154,7 +153,7 @@ Refer to the image below for a diagrammatic representation of the steps in MALDI
 .. raw:: html
 
     <div class="admonition video">
-    <p class="admonition-title">**Video**</p>
+    <p class="admonition-title">Video</p>
     For more information on MALDI, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=838.40">view this video</a>.
     </div>
 
@@ -182,7 +181,7 @@ Refer to the image below for a diagrammatic representation of the quadrupole ana
 .. raw:: html
 
     <div class="admonition video">
-    <p class="admonition-title">**Video**</p>
+    <p class="admonition-title">Video</p>
     For more information on quadrupole analyzers, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1477.00">view this video</a>.
     </div>
 
@@ -247,7 +246,7 @@ The orbitrap analyzer is the most frequently used analyzer in mass spectrometry 
 
     <div class="admonition video">
     <p class="admonition-title">Video</p>
-    For more information on orbitrap analyzers, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1572.96).
+    For more information on orbitrap analyzers, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1572.96">view this video</a>.
     </div>
 
 Identifying molecules with Tandem Mass Spectrometry (MS2)
@@ -260,7 +259,7 @@ With MS2, ions called **precursor ions** are isolated and fragmented into ion fr
 
     <div class="admonition video">
     <p class="admonition-title">Video</p>
-    For more information on MS2, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1650.00).
+    For more information on MS2, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1650.00">view this video</a>.
     </div>
 
 Different fragmentation techniques to fragment peptides exist:
@@ -282,7 +281,7 @@ Collision-induced dissociation is a method to fragment peptides using an inert g
 
     <div class="admonition video">
     <p class="admonition-title">Video</p>
-    For more information on CID, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1757.45).
+    For more information on CID, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1757.45">view this video</a>.
     </div>
 
 LC-MS
@@ -306,7 +305,7 @@ The image below includes a spectrum at a given retention time (left) and a peak 
 
     <div class="admonition video">
     <p class="admonition-title">Video</p>
-    For more information on a *specific* application of LC-MS, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141014_002_cpm_0001?t=946.20).
+    For more information on a *specific* application of LC-MS, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141014_002_cpm_0001?t=946.20">view this video<a/>.
     </div>
 
 Improving identification and quantification
@@ -389,8 +388,8 @@ LFQ includes the following steps:
 
     <div class="admonition video">
     <p class="admonition-title">Video</p>
-    For more information on LFQ, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=2115.00).
-    For more information on the steps involved in LFQ, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=2230.18)
+    For more information on LFQ, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=2115.00">view this video</a>.
+    For more information on the steps involved in LFQ, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=2230.18">view this video</a>.
     </div>
 
 Feature finding
@@ -410,5 +409,5 @@ OpenMS contains a number of feature finding algorithms.
 
     <div class="admonition video">
     <p class="admonition-title">Video</p>
-    For more information on feature finding, [view this video](https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=2670.44).
+    For more information on feature finding, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141118_002_cpm_0001?t=2670.44">view this video</a>.
     </div>
