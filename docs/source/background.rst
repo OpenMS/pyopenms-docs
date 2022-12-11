@@ -163,9 +163,10 @@ Mass analyzer
 Once the analytes have been charged by the ion source, we want to now sort the analytes by their mass-to-charge ratio for easy identification.
 
 A number of mass analyzers exists. These include:
-- Quadrupole analyzer
-- Time-of-Flight analyzer
-- Orbitrap analyzer
+
+* Quadrupole analyzer
+* Time-of-Flight analyzer
+* Orbitrap analyzer
 
 The next sections describe each analyzer type in detail.
 
