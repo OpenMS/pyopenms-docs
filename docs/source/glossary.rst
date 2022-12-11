@@ -25,8 +25,7 @@ A glossary of common terms used throughout OpenMS documentation.
     An alkyl radical C(18)H(37) derived from an octadecane by removal of one hydrogen atom.
 
   Mass
-    Mass is a measure of the amount of matter that an object contains. In comparison to often used term weight, which is
-    a measure of the force of gravity on that object.
+    Mass is a measure of the amount of matter that an object contains. In comparison to often used term weight, which is a measure of the force of gravity on that object.
 
   ion
     Any :term:`atom` or group of atoms that bears one or more positive or negative electrical charges. Positively charged are cations, negavtively charged anions.
