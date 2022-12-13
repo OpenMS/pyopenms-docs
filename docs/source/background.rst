@@ -250,6 +250,10 @@ The orbitrap analyzer is the most frequently used analyzer in mass spectrometry 
     For more information on orbitrap analyzers, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1572.96">view this video</a>.
     </div>
 
+The following diagram is a conceptual representation of an orbitrap mass analyzer.
+
+.. image:: img/introduction/orbitrap.png
+
 Identifying molecules with Tandem Mass Spectrometry (MS2)
 `````````````````````````````````````````````````````````
 To get better results, we can use two mass analyzers sequentially to generate and analyze ions. This technique is called **tandem mass spectrometry** or MS/MS (MS2). Tandem mass spectrometry is especially useful for linear polymers like proteins, RNA and DNA. 
