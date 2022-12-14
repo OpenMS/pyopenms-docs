@@ -32,4 +32,4 @@ Are created by CI and stored in master+ipynb to not clutter the master branch.
 
 Binder integration
 =============
-Binder uses the Jupyter Notebooks in master+ipynb. The conda environment is described in environment.yml, the post-build event installs the nightly pyopenms wheel. Currently, only environment.yml is used by binder. The old (non-conda) configuration of the binder environment used requirements.txt and runtime.txt.
+Binder uses the Jupyter Notebooks in master+ipynb. The conda environment is described in environment.yml, the post-build event installs the nightly pyopenms wheel. Currently, only environment.yml is used by binder. Note: You can test a branch "jpfeuffer-patch-6" using https://mybinder.org/v2/gh/OpenMS/pyopenms-docs/jpfeuffer-patch-6 
