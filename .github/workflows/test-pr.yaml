@@ -29,9 +29,9 @@ jobs:
       with:
         pandoc-version: '2.19.2'
 
-    - uses: actions/setup-python@v4
-      with:
-        python-version: '3.7' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+#    - uses: actions/setup-python@v4
+#      with:
+#        python-version: '3.7' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         
     - name: Installing Dependencies
       run: |
