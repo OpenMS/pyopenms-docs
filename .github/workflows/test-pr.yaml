@@ -34,7 +34,7 @@ jobs:
         wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed
         mv Linux-wheels.zip\?status=completed Linux-wheels.zip
         unzip Linux-wheels.zip
-        python3 -m pip install pyopenms_nightly-*-cp37-cp37m-*_x86_64.whl
+        python3 -m pip install pyopenms_nightly-*-cp37-cp37*-*_x86_64.whl
         python3 -m pip install --upgrade pip
         python3 -m pip install --upgrade pandocfilters jupyter
         if [ -f requirements.txt ]; then
