@@ -1,7 +1,7 @@
 name: binder-env
 dependencies:
 - python=3.10
-- bioconda::pyopenms
+#- bioconda::pyopenms maybe not needed because we install it in a post-build event
 - pip
 
 - pip:
