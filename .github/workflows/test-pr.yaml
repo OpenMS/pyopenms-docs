@@ -13,6 +13,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10' # Version range or exact version of a Python version to use, using SemVer's version range syntax    
+
     - name: Get changed files
       id: changed-files
       uses: tj-actions/changed-files@v10.1
@@ -29,12 +33,12 @@ jobs:
       with:
         python-version: '3.7' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         
-    - name: Installing Dependenies
+    - name: Installing Dependencies
       run: |
         wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed
         mv Linux-wheels.zip\?status=completed Linux-wheels.zip
         unzip Linux-wheels.zip
-        python3 -m pip install pyopenms_nightly-*-cp37-cp37*-*_x86_64.whl
+        python3 -m pip install pyopenms_nightly-*-cp310-cp310*x86_64.whl
         python3 -m pip install --upgrade pip
         python3 -m pip install --upgrade pandocfilters jupyter
         if [ -f requirements.txt ]; then
