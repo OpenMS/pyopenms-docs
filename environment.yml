@@ -1,0 +1,20 @@
+name: binder-env
+dependencies:
+- python=3.10
+- anaconda
+- bioconda::pyopenms
+- pip
+
+- pip:
+  - matplotlib
+  - plotly
+  - pandas
+  - adjustText
+  - scikit-learn
+  - requests
+  - bokeh
+  - datashader
+  - holoviews
+  - pyviz_comms
+  - jupyter-server-proxy
+  - massql
