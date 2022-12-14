@@ -3,7 +3,7 @@ matplotlib
 plotly
 pandas
 adjustText
-sklearn
+scikit-learn
 requests
 bokeh
 datashader
