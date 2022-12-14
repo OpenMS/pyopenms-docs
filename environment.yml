@@ -1,10 +1,11 @@
 name: binder-env
+channels:
+  - conda-forge
+  - bioconda
+  - openms
 dependencies:
-- python=3.10
-#- bioconda::pyopenms maybe not needed because we install it in a post-build event
-- pip
-
-- pip:
+  - python=3.10
+  - pyopenms
   - matplotlib
   - plotly
   - pandas
