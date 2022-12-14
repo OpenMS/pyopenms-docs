@@ -1,7 +1,6 @@
 name: binder-env
 dependencies:
 - python=3.10
-- anaconda
 - bioconda::pyopenms
 - pip
 
