@@ -22,7 +22,7 @@ jobs:
       uses: tj-actions/changed-files@v34.6.1
       with:
           path: docs/source
-          #dir_names_max_depth: 1
+          dir_names_max_depth: 0
           files: |
             **/*.rst
       
