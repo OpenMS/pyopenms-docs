@@ -24,7 +24,7 @@ jobs:
           path: docs/source
           #dir_names_max_depth: 1
           files: |
-            \.rst$
+            *.rst$
       
     - uses: r-lib/actions/setup-pandoc@v2
       with:
