@@ -83,6 +83,7 @@ autodoc_docstring_signature = True
 #configure tooltips
 hoverxref_roles = ['term',]
 hoverxref_role_types = {'term':'tooltip',}
+#specific for pyopenms documentation
 hoverxref_tooltip_lazy = True
 
 # Add any paths that contain templates here, relative to this directory.
