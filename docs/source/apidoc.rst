@@ -16,6 +16,4 @@ This is an overview over all classes available in pyopenms
    :recursive:
 
    pyopenms.Constants
-   pyopenms.Plotting
-   pyopenms.dataframes
-   pyopenms.python_extras
+   pyopenms.plotting
