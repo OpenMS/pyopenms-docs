@@ -8,3 +8,5 @@ pip install pyopenms_nightly-*-cp310-cp310*.whl
 # Those should be enabled by default on binder. For serving
 #jupyter serverextension enable --sys-prefix jupyter_server_proxy
 #jupyter labextension install @jupyterlab/server-proxy
+
+cp jupyter_notebook_config.py ~/.jupyter/
