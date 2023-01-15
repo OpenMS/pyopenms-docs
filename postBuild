@@ -9,4 +9,4 @@ pip install pyopenms_nightly-*-cp310-cp310*.whl
 #jupyter serverextension enable --sys-prefix jupyter_server_proxy
 #jupyter labextension install @jupyterlab/server-proxy
 
-cp jupyter_notebook_config.py ~/.jupyter/
+mkdir -p  ~/.jupyter/ && cp jupyter_notebook_config.py ~/.jupyter/
