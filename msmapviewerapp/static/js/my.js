@@ -246,7 +246,11 @@ let m = THREE.extendMaterial(THREE.MeshPhongMaterial, {
         `
     },
     fragment: {
-        'gl_FragColor = vec4( outgoingLight, diffuseColor.a );' : 'gl_FragColor.rgb = vColor;'
+	// append code in the output fragment include of the meshphong material
+	// https://github.com/mrdoob/three.js/blob/dev/src/renderers/shaders/ShaderLib/meshphong.glsl.js#L117
+	'output_fragment': {
+	    'gl_FragColor = vec4( outgoingLight, diffuseColor.a );' : 'gl_FragColor.rgb = vColor;'
+	}
     }
 
 });
