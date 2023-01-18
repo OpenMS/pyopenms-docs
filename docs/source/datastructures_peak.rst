@@ -8,7 +8,7 @@ The most important container for raw data and peaks is ``MSSpectrum`` which we
 have already worked with in the `Getting Started <getting_started.html>`_
 tutorial.  ``MSSpectrum`` is a container for 1-dimensional peak data (a
 container of ``Peak1D``). You can access these objects directly, however it is
-faster to use the ``get_peaks()`` and ``set_peaks`` functions which use Python
+faster to use the ``get_peaks()`` and ``set_peaks()`` functions which use Python
 numpy arrays for raw data access. Meta-data is accessible through inheritance
 of the ``SpectrumSettings``  objects which handles meta data of a spectrum. 
 
@@ -23,8 +23,8 @@ First we create a spectrum and insert peaks with descending mass-to-charge ratio
 
     from pyopenms import *
     spectrum = MSSpectrum()
-    mz = range(1500, 500, -100)
-    i = [0 for mass in mz]
+    mz = range(500, 1500, 100)
+    i = [1 for mass in mz]
     spectrum.set_peaks([mz, i])
 
     # Sort the peaks according to ascending mass-to-charge ratio
@@ -138,36 +138,19 @@ about the S/N for the peak (S/N = 15) and its annotation as ``y15++`` in the sta
 bar below when the user clicks on the peak at 401.5 *m/z* as shown in the
 screenshot.
 
-We can also visualize our spectrum with ``matplotlib`` using the following function:
+We can also visualize our spectrum from before using the ``plot_spectrum`` function from the
+`spectrum_utils <https://github.com/bittremieux/spectrum_utils>`_ visualization library:
 
 .. code-block:: python
 
     import matplotlib.pyplot as plt
 
-    def plot_spectrum(spectrum):
-        # plot every peak in spectrum and annotate with it's m/z
-        for mz, i in zip(*spectrum.get_peaks()):
-            plt.plot([mz, mz], [0, i], color = 'black')
-            plt.text(mz, i, str(mz))
-        
-        # for the title add RT and Precursor m/z if available
-        title = ''
-        if spectrum.getRT() >= 0:
-            title += 'RT: ' + str(spectrum.getRT())
-        if len(spectrum.getPrecursors()) >= 1:
-            title += '   Precursor m/z: ' + str(spectrum.getPrecursors()[0].getMZ())
-
-        plt.title(title)
-        plt.ylabel('intensity')
-        plt.xlabel('m/z')
-        plt.ylim(bottom=0)
-
-        plt.show()
-   
-   # plotting out spectrum that was defined earlier
-   plot_spectrum(spectrum) 
+    plot_spectrum(spectrum)
+    plt.show()
 
 .. image:: img/SpectrumPlot.png
+
+
 
 Chromatogram
 ************

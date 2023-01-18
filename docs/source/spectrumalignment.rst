@@ -41,34 +41,10 @@ Now we can plot the observed and theoretical spectrum as a mirror plot:
 
 .. code-block:: python
 
-  import numpy as np
   from matplotlib import pyplot as plt
 
-  def mirror_plot(obs_mz, obs_int, theo_mz, theo_int, title):
-      obs_int = [element / max(obs_int) for element in obs_int] # relative intenstiy
-      theo_int = [element * -1 for element in theo_int] # invert the intensity for the mirror plot
-      plt.figure(figsize=(12,8))
-      plt.bar(obs_mz, obs_int, width = 3.0)
-      plt.bar(theo_mz, theo_int, width = 3.0)
-      plt.title(title)
-      plt.ylabel('intensity')
-      plt.xlabel('m/z')
-
-  obs_mz, obs_int = observed_spectrum.get_peaks()
-
-  # The mass-to-charge of our observed spectrum ranges from 200 - 800 m/z
-  print(min(obs_mz)) # 212.012451171875
-  print(max(obs_mz)) # 795.2837524414062
-
-  # We filter the peaks of the theoretical spectrum to fit the range (to reduce image complexity)
-  theo_mz, theo_int = [], []
-  for mz, intensity in zip(*theo_spectrum.get_peaks()):
-      if mz >= 200.0 and mz <= 800.0:
-          theo_mz.append(mz)
-          theo_int.append(intensity)
-
-  title = 'Observed vs theoretical spectrum'
-  mirror_plot(obs_mz, obs_int, theo_mz, theo_int, title)
+  mirror_plot_spectrum(observed_spectrum, theo_spectrum, spectrum_bottom_kws={"annotate_ions": False})
+  plt.show()
 
 which produces
 
@@ -107,15 +83,10 @@ The mirror plot can also be used to visualize the aligned spectrum:
 
 .. code-block:: python
 
-  theo_mz, theo_int, obs_mz, obs_int = [], [], [], []
-  for theo_idx, obs_idx in alignment:
-      theo_mz.append(theo_spectrum[theo_idx].getMZ())
-      theo_int.append(theo_spectrum[theo_idx].getIntensity())
-      obs_mz.append(observed_spectrum[obs_idx].getMZ())
-      obs_int.append(observed_spectrum[obs_idx].getIntensity())
+  from matplotlib import pyplot as plt
 
-  title = 'Observed vs theoretical spectrum (aligned)'
-  mirror_plot(obs_mz, obs_int, theo_mz, theo_int, title)
+  mirror_plot_spectrum(observed_spectrum, theo_spectrum, alignment=alignment, spectrum_bottom_kws={"annotate_ions": False})
+  plt.show()
 
 which produces
 
