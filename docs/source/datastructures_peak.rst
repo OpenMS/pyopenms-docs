@@ -20,7 +20,6 @@ First we create a spectrum and insert peaks with descending mass-to-charge ratio
 
 
 .. code-block:: python
-    :linenos:
 
     from pyopenms import *
     spectrum = MSSpectrum()
@@ -86,7 +85,7 @@ information attached to the spectrum including retention time, the ms level
 We now set several of these properties in a current MSSpectrum:
 
 .. code-block:: python
-    :linenos:
+
     # create spectrum and set properties
     spectrum = MSSpectrum()
     spectrum.setDriftTime(25) # 25 ms
@@ -209,7 +208,6 @@ is highly analogous to the ``MSSpectrum`` container, but contains an array of
 ``ChromatogramPeak`` and is derived from ``ChromatogramSettings``:
 
 .. code-block:: python
-    :linenos:
 
     import numpy as np
 
@@ -329,7 +327,6 @@ In the following code, we create an ``MSExperiment`` and populate it with
 several spectra:
 
 .. code-block:: python
-    :linenos:
 
     # The following examples creates an MSExperiment which holds six
     # MSSpectrum instances.
@@ -387,7 +384,6 @@ use list comprehensions to sum up intensities of all spectra that fulfill
 certain conditions:
 
 .. code-block:: python
-    :linenos:
 
     # Sum intensity of all spectra between RT 2.0 and 3.0
     print(sum([p.getIntensity() for s in exp if s.getRT() >= 2.0 and s.getRT() <= 3.0 for p in s]))
@@ -401,7 +397,6 @@ We could store the resulting experiment containing the six spectra as mzML
 using the ``MzMLFile`` object:
 
 .. code-block:: python
-    :linenos:
 
     # Store as mzML
     MzMLFile().store("testfile2.mzML", exp)
@@ -419,7 +414,6 @@ represented by a colorbar. With this plot we can zoom in and inspect our data in
 The following example figures were generated using a `mzML file <https://github.com/OpenMS/OpenMS/blob/develop/src/tests/topp/FeatureFinderMetaboIdent_1_input.mzML>`_ provided by OpenMS.
 
 .. code-block:: python
-    :linenos:
 
     import numpy as np
     import matplotlib.pyplot as plt
@@ -459,7 +453,6 @@ However, we can use ``BilinearInterpolation`` which produces an overview image o
 This can be useful for a brief visual inspection of your sample in quality control.
 
 .. code-block:: python
-    :linenos:
 
     import numpy as np
     import matplotlib.pyplot as plt
@@ -517,7 +510,6 @@ isobaric experiments.
 Here, we can assess the purity of the precursor to filter spectra with a score below our expectation.
 
 .. code-block:: python
-    :linenos:
 
     from urllib.request import urlretrieve
     
@@ -583,7 +575,6 @@ when dealing with spectra data.
 But first, we will load some test data:
 
 .. code-block:: python
-    :linenos:
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
@@ -599,7 +590,6 @@ We will filter the data from "test.mzML" file by only retaining
 only spectra that are not MS1 spectra (e.g.\ MS2, MS3 or MSn spectra):
 
 .. code-block:: python
-    :linenos:
 
     filtered = MSExperiment()
     for s in inp:
@@ -616,7 +606,6 @@ We could also use a list of scan numbers as filter criterium
 to only retain a list of MS scans we are interested in:
 
 .. code-block:: python
-  :linenos:
 
   scan_nrs = [0, 2, 5, 7]
 
@@ -633,7 +622,6 @@ Suppose we are interested in only in a small m/z window of our fragment ion spec
 We can easily filter our data accordingly:
 
 .. code-block:: python
-  :linenos:
 
   mz_start = 6.0
   mz_end = 12.0
