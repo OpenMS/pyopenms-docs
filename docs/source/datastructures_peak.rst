@@ -18,6 +18,7 @@ displayed.
 
 First we create a spectrum and insert peaks with descending mass-to-charge ratios: 
 
+
 .. code-block:: python
     :linenos:
 
@@ -43,7 +44,6 @@ First we create a spectrum and insert peaks with descending mass-to-charge ratio
 
 
 .. code-block:: output
-
     500.0 1.0
     600.0 1.0
     700.0 1.0
@@ -87,7 +87,6 @@ We now set several of these properties in a current MSSpectrum:
 
 .. code-block:: python
     :linenos:
-
     # create spectrum and set properties
     spectrum = MSSpectrum()
     spectrum.setDriftTime(25) # 25 ms
@@ -144,7 +143,6 @@ We now set several of these properties in a current MSSpectrum:
 
 
 .. code-block:: output
-
     600.0 0.028565499931573868
     700.0 0.1353352814912796
     800.0 0.4111122786998749
