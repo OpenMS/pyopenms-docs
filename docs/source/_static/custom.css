@@ -1,3 +1,7 @@
+:root {
+    --icon-video: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABmJLR0QA/wD/AP+gvaeTAAAA4klEQVRIie3VQUoDMRSA4W/UVheuWm+hlyjS3kMQhZ5g3PUOBRcivUDrGbyEbvQOrrrQhbSLSUHCFJPWAcX+EPII7+VP4JGwI4OiZq2LC+xvsN8nJnj7LvEGHbTwgn5Yn6EMcYlpiPshrxUOWIrYq5Ecqr9hTBHNK44Sao2w2GKM4g3rbvLj/F/JGR6bljzjHNeYNyWh6qA7XDYpKXCF+9SCg0zBKcbo5RTlSp4y8/FLW/jvSbpo4xUDVUc9qL6BIsyzEA9CXhsnqZIP2z317+sSv9LBEMcJopg5biX8jDvWsgTMLSq1OdtB+QAAAABJRU5ErkJggg==');
+    --color-video: rgb(88, 60, 25);
+  }
 
 div.highlight-python td.code pre {
          padding-left: 0px;
@@ -20,3 +24,36 @@ section {
 body {
     overflow-x: unset;
 }
+
+/*background css*/
+
+  div.admonition.video p:first-of-type {
+    background-color:  #96735d;
+  }
+
+  div.admonition.video {
+    background: #dac6aa !important;
+  }
+  
+  div.admonition.video p::before {
+    background-color: #96735d;
+    font-family: FontAwesome;
+    content: "\f008";
+  }
+
+  /*terms with tooltips*/
+
+  a.hxr-hoverxref {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--color-link-underline);
+    border-bottom: none;
+  }
+  
+  a.hxr-hoverxref:hover {
+    text-decoration-color: var(--color-link-underline--hover);
+  }
+
+
+
