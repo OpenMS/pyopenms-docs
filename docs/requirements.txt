@@ -4,3 +4,6 @@ sphinx_rtd_theme==1.1.1
 readthedocs-sphinx-search==0.1.2
 sphinx-copybutton==0.5.1
 sphinx-hoverxref
+
+--extra-index-url https://pypi.cs.uni-tuebingen.de/simple/
+pyopenms_nightly
