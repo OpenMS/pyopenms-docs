@@ -15,6 +15,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10' # Version range or exact version of a Python version to use, using SemVer's version range syntax
     
     - uses: r-lib/actions/setup-pandoc@v2
       with:
@@ -24,11 +28,11 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         python3 -m pip install --upgrade jupyter
-        echo "DSAJLDKASJDLASDASLÖ"
+        
         wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed
         mv Linux-wheels.zip\?status=completed Linux-wheels.zip
         unzip Linux-wheels.zip
-        python3 -m pip install pyopenms_nightly-*-cp37-cp37m-manylinux*x86_64.whl
+        python3 -m pip install pyopenms_nightly-*-cp310-cp310*x86_64.whl
         if [ -f requirements.txt ]; then
           grep -v "pyopenms" requirements.txt > reqs_nopyoms.txt
           python3 -m pip install --upgrade -r reqs_nopyoms.txt
