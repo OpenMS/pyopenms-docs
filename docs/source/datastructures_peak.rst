@@ -41,6 +41,32 @@ First we create a spectrum and insert peaks with descending mass-to-charge ratio
     # Access a peak by index
     print(spectrum[2].getMZ(), spectrum[2].getIntensity())
 
+
+.. code-block:: output
+
+    500.0 1.0
+    600.0 1.0
+    700.0 1.0
+    800.0 1.0
+    900.0 1.0
+    1000.0 1.0
+    1100.0 1.0
+    1200.0 1.0
+    1300.0 1.0
+    1400.0 1.0
+    500.0 1.0
+    600.0 1.0
+    700.0 1.0
+    800.0 1.0
+    900.0 1.0
+    1000.0 1.0
+    1100.0 1.0
+    1200.0 1.0
+    1300.0 1.0
+    1400.0 1.0
+    700.0 1.0
+
+
 Note how lines 11-12 (as well as line 19) use the direct access to the
 ``Peak1D`` objects (explicit iteration through the ``MSSpectrum`` object, which
 is convenient but slow since a new ``Peak1D`` object needs to be created each
@@ -115,6 +141,31 @@ We now set several of these properties in a current MSSpectrum:
 
     # store spectra in mzML file
     MzMLFile().store("testfile.mzML", exp)
+
+
+.. code-block:: output
+
+    600.0 0.028565499931573868
+    700.0 0.1353352814912796
+    800.0 0.4111122786998749
+    900.0 0.8007373809814453
+    1000.0 1.0
+    1100.0 0.8007373809814453
+    1200.0 0.4111122786998749
+    1300.0 0.1353352814912796
+    1400.0 0.028565499931573868
+    1500.0 0.003865920240059495
+    600.0 0.0285655
+    700.0 0.13533528
+    800.0 0.41111228
+    900.0 0.8007374
+    1000.0 1.0
+    1100.0 0.8007374
+    1200.0 0.41111228
+    1300.0 0.13533528
+    1400.0 0.0285655
+    1500.0 0.0038659202
+    800.0 0.4111122786998749
 
 
 We have created a single spectrum and set basic spectrum properties (drift
@@ -225,6 +276,31 @@ is highly analogous to the ``MSSpectrum`` container, but contains an array of
     plt.legend()
     plt.show()
 
+
+.. code-block:: output
+
+    600.0 0.028565499931573868
+    700.0 0.1353352814912796
+    800.0 0.4111122786998749
+    900.0 0.8007373809814453
+    1000.0 1.0
+    1100.0 0.8007373809814453
+    1200.0 0.4111122786998749
+    1300.0 0.1353352814912796
+    1400.0 0.028565499931573868
+    1500.0 0.003865920240059495
+    600.0 0.0285655
+    700.0 0.13533528
+    800.0 0.41111228
+    900.0 0.8007374
+    1000.0 1.0
+    1100.0 0.8007374
+    1200.0 0.41111228
+    1300.0 0.13533528
+    1400.0 0.0285655
+    1500.0 0.0038659202
+    800.0 0.4111122786998749
+
 This shows how the ``MSExperiment`` class can hold spectra as well as chromatograms.
 
 Again we can visualize the resulting data using ``TOPPView`` using its chromatographic viewer
@@ -274,7 +350,35 @@ several spectra:
     # Iterate over spectra
     for spectrum in exp:
         for peak in spectrum:
-            print (spectrum.getRT(), peak.getMZ(), peak.getIntensity())
+            print(spectrum.getRT(), peak.getMZ(), peak.getIntensity())
+
+
+.. code-block:: output
+
+    0.0 500.0 37.5
+    0.0 600.0 37.5
+    0.0 700.0 37.5
+    0.0 800.0 37.5
+    1.0 501.0 62.5
+    1.0 601.0 62.5
+    1.0 701.0 62.5
+    1.0 801.0 62.5
+    2.0 502.0 87.5
+    2.0 602.0 87.5
+    2.0 702.0 87.5
+    2.0 802.0 87.5
+    3.0 503.0 87.5
+    3.0 603.0 87.5
+    3.0 703.0 87.5
+    3.0 803.0 87.5
+    4.0 504.0 62.5
+    4.0 604.0 62.5
+    4.0 704.0 62.5
+    4.0 804.0 62.5
+    5.0 505.0 37.5
+    5.0 605.0 37.5
+    5.0 705.0 37.5
+    5.0 805.0 37.5
 
 
 In the above code, we create six instances of ``MSSpectrum`` (line 4), populate
@@ -285,21 +389,21 @@ use list comprehensions to sum up intensities of all spectra that fulfill
 certain conditions:
 
 .. code-block:: python
+    :linenos:
 
-		# Sum intensity of all spectra between RT 2.0 and 3.0
-		print(sum([p.getIntensity() for s in exp if s.getRT() >= 2.0 and s.getRT() <= 3.0 for p in s]))
+    # Sum intensity of all spectra between RT 2.0 and 3.0
+    print(sum([p.getIntensity() for s in exp if s.getRT() >= 2.0 and s.getRT() <= 3.0 for p in s]))
 
 .. code-block:: output
 
-		700.0
-		87.5 * 8
-		700.0
+    700.0
 		
 
 We could store the resulting experiment containing the six spectra as mzML
 using the ``MzMLFile`` object:
 
 .. code-block:: python
+    :linenos:
 
     # Store as mzML
     MzMLFile().store("testfile2.mzML", exp)
@@ -317,6 +421,7 @@ represented by a colorbar. With this plot we can zoom in and inspect our data in
 The following example figures were generated using a `mzML file <https://github.com/OpenMS/OpenMS/blob/develop/src/tests/topp/FeatureFinderMetaboIdent_1_input.mzML>`_ provided by OpenMS.
 
 .. code-block:: python
+    :linenos:
 
     import numpy as np
     import matplotlib.pyplot as plt
@@ -324,7 +429,6 @@ The following example figures were generated using a `mzML file <https://github.
 
     def plot_spectra_2D(exp, ms_level=1, marker_size = 5):
         exp.updateRanges()
-        print('collecting peak data...')
         for spec in exp:
             if spec.getMSLevel() == ms_level:
                 mz, intensity = spec.get_peaks()
@@ -336,7 +440,6 @@ The following example figures were generated using a `mzML file <https://github.
         plt.xlabel('time (s)')
         plt.ylabel('m/z')
         plt.colorbar()
-        print('showing plot...')
         plt.show() # slow for larger data sets
    
    from urllib.request import urlretrieve
@@ -358,6 +461,7 @@ However, we can use ``BilinearInterpolation`` which produces an overview image o
 This can be useful for a brief visual inspection of your sample in quality control.
 
 .. code-block:: python
+    :linenos:
 
     import numpy as np
     import matplotlib.pyplot as plt
@@ -373,7 +477,6 @@ This can be useful for a brief visual inspection of your sample in quality contr
         bilip.setData(tmp)
         bilip.setMapping_0(0.0, exp.getMinRT(), rows-1, exp.getMaxRT())
         bilip.setMapping_1(0.0, exp.getMinMZ(), cols-1, exp.getMaxMZ())
-        print('collecting peak data...')
         for spec in exp:
             if spec.getMSLevel() == 1:
                 mzs, ints = spec.get_peaks()
@@ -393,7 +496,6 @@ This can be useful for a brief visual inspection of your sample in quality contr
                 np.linspace(exp.getMinRT(),exp.getMaxRT(),20, dtype=int))
         plt.yticks(np.linspace(0,int(cols),20, dtype=int),
                 np.linspace(exp.getMinMZ(),exp.getMaxMZ(),20, dtype=int)[::-1])
-        print('showing plot...')
         plt.show()
    
    plot_spectra_2D_overview(exp)
@@ -417,6 +519,7 @@ isobaric experiments.
 Here, we can assess the purity of the precursor to filter spectra with a score below our expectation.
 
 .. code-block:: python
+    :linenos:
 
     from urllib.request import urlretrieve
     
@@ -431,8 +534,7 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
         print(element.getMSLevel())
 
     # get the precursor information from the MS2 spectrum at index 3
-    ms2_precursor = Precursor()
-    ms2_precursor = exp[3].getPrecursors()[0];
+    ms2_precursor = exp[3].getPrecursors()[0]
 
     # get the previous recorded MS1 spectrum
     isMS1 = False;
@@ -448,11 +550,27 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
     # calculate the precursor purity in a 10 ppm precursor isolation window
     purity_score = PrecursorPurity().computePrecursorPurity(ms1_spectrum, ms2_precursor, 10, True)
 
-    print(purity_score.total_intensity) # 9098343.890625
-    print(purity_score.target_intensity) # 7057944.0
-    print(purity_score.signal_proportion) # 0.7757394186070014
-    print(purity_score.target_peak_count) # 1
-    print(purity_score.residual_peak_count) # 4
+    print(purity_score.total_intensity)  # 9098343.890625
+    print(purity_score.target_intensity)  # 7057944.0
+    print(purity_score.signal_proportion)  # 0.7757394186070014
+    print(purity_score.target_peak_count)  # 1
+    print(purity_score.residual_peak_count)  # 4
+
+
+.. code-block:: output
+
+    1
+    2
+    2
+    2
+    2
+    2
+    1
+    9098343.890625
+    7057944.0
+    0.7757394186070014
+    1
+    4
 
 We could assess that we have four other non-isotopic peaks apart from our precursor and its isotope peaks within our precursor isolation window.
 The signal of the isotopic peaks correspond to roughly 78% of all intensities in the precursor isolation window.
@@ -467,6 +585,7 @@ when dealing with spectra data.
 But first, we will load some test data:
 
 .. code-block:: python
+    :linenos:
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
