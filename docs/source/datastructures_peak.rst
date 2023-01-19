@@ -8,7 +8,7 @@ The most important container for raw data and peaks is ``MSSpectrum`` which we
 have already worked with in the `Getting Started <getting_started.html>`_
 tutorial.  ``MSSpectrum`` is a container for 1-dimensional peak data (a
 container of ``Peak1D``). You can access these objects directly, however it is
-faster to use the ``get_peaks()`` and ``set_peaks()`` functions which use Python
+faster to use the ``get_peaks()`` and .. py:func:: set_peaks() functions which use Python
 numpy arrays for raw data access. Meta-data is accessible through inheritance
 of the ``SpectrumSettings``  objects which handles meta data of a spectrum. 
 
