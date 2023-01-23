@@ -44,7 +44,7 @@ which produces all y single charged ions:
     y7+ is generated at m/z 756.3998821574709
     y8+ is generated at m/z 903.4682964445709
 
-which you could plot with ``plot_spectrum``, automatically showing annotated ions.:
+which you could plot with :py:func:`~.plot_spectrum`, automatically showing annotated ions.:
 
 .. code-block:: python
 
@@ -126,10 +126,10 @@ the ``a/b/c`` ion series with the first fragment capable of ammonia loss being
 asparagine at position 6.
 
 
-The ``TheoreticalSpectrumGenerator``
+The :py:class:`~.TheoreticalSpectrumGenerator`
 has many parameters which have a detailed description located in the class
 documentation. Note how the ``add_metainfo`` parameter 
-populates the ``StringDataArray`` of the output spectrum, allowing us to
+populates the :py:class:`~.StringDataArray` of the output spectrum, allowing us to
 iterate over annotated ions and their masses.
 
 Visualization
@@ -141,7 +141,7 @@ DFPIANGER.mzML file that we produced above in TOPPView:
 .. image:: img/peptide_y_ions.png
 
 We can see all eight y ion peaks that are produced in the
-TheoreticalSpectrumGenerator and when we hover over one of the peaks (546 mz in
+:py:class:`~.TheoreticalSpectrumGenerator` and when we hover over one of the peaks (546 mz in
 this example) there is an annotation in the bottom left corner that indicates
 charge state and ion name (``y5+`` for every peak). The larger spectrum with
 146 peaks can also be interactively investigated with TOPPView (the second

@@ -4,11 +4,11 @@ MS Data
 Spectrum
 ********
 
-The most important container for raw data and peaks is ``MSSpectrum`` which we
+The most important container for raw data and peaks is :py:class:`~.MSSpectrum` which we
 have already worked with in the `Getting Started <getting_started.html>`_
-tutorial.  ``MSSpectrum`` is a container for 1-dimensional peak data (a
-container of ``Peak1D``). You can access these objects directly, by using an iterator or indexing.
-Meta-data is accessible through inheritance of the ``SpectrumSettings``
+tutorial. :py:class:`~.MSSpectrum` is a container for 1-dimensional peak data (a
+container of :py:class:`~.Peak1D`). You can access these objects directly, by using an iterator or indexing.
+Meta-data is accessible through inheritance of the :py:class:`~.SpectrumSettings`
 objects which handles meta data of a spectrum.
 
 In the following example program, a MSSpectrum is filled with peaks, sorted
@@ -54,11 +54,11 @@ First we create a spectrum and insert peaks with descending mass-to-charge ratio
 
 
 Note how lines 11-12 (as well as line 19) use the direct access to the
-``Peak1D`` objects (explicit iteration through the ``MSSpectrum`` object, which
-is convenient but slow since a new ``Peak1D`` object needs to be created each
+:py:class:`~.Peak1D` objects (explicit iteration through the :py:class:`~.MSSpectrum` object, which
+is convenient but slow since a new :py:class:`~.Peak1D` object needs to be created each
 time).
-The following example uses the faster access through numpy arrays with .. py:function:: get_peaks() or
-.. py:function:: set_peaks(). Direct iteration is only shown for demonstration purposes and should not be used in
+The following example uses the faster access through numpy arrays with :py:meth:`~.MSSpectrum.get_peaks` or
+:py:meth:`~.MSSpectrum.set_peaks`. Direct iteration is only shown for demonstration purposes and should not be used in
 production code.
 
 .. code-block:: python
@@ -83,8 +83,8 @@ production code.
     1400.0 1.0
 
 
-To discover the full set of functionality of ``MSSpectrum``, we use the
-``help()`` function. In particular, we find several important sets of meta
+To discover the full set of functionality of :py:class:`~.MSSpectrum`, we use the Python
+:py:func:`~.help` function. In particular, we find several important sets of meta
 information attached to the spectrum including retention time, the ms level
 (MS1, MS2, ...), precursor ion, ion mobility drift time and extra data arrays.
 
@@ -163,7 +163,8 @@ activation energy). Additional instrument settings allow to set e.g. the polarit
 We next add actual peaks into the spectrum (a single peak at 401.5 *m/z* and 900 intensity).
 Additional metadata can be stored in data arrays for each peak 
 (e.g. use cases care peak annotations or  "Signal to Noise" values for each
-peak. Finally, we add the spectrum to an ``MSExperiment`` container to save it using the ``MzMLFile`` class in a file called "testfile.mzML". 
+peak. Finally, we add the spectrum to an :py:class:`~.MSExperiment` container to save it using the
+:py:class:`~.MzMLFile` class in a file called "testfile.mzML".
 
 You can now open the resulting spectrum in a spectrum viewer. We use the OpenMS
 viewer ``TOPPView`` (which you will get when you install OpenMS from the
@@ -178,7 +179,7 @@ about the S/N for the peak (S/N = 15) and its annotation as ``y15++`` in the sta
 bar below when the user clicks on the peak at 401.5 *m/z* as shown in the
 screenshot.
 
-We can also visualize our spectrum from before using the ``plot_spectrum`` function from the
+We can also visualize our spectrum from before using the :py:func:`~.plot_spectrum` function from the
 `spectrum_utils <https://github.com/bittremieux/spectrum_utils>`_ visualization library:
 
 .. code-block:: python
@@ -196,9 +197,9 @@ We can also visualize our spectrum from before using the ``plot_spectrum`` funct
 Chromatogram
 ************
 
-An additional container for raw data is the ``MSChromatogram`` container, which
-is highly analogous to the ``MSSpectrum`` container, but contains an array of
-``ChromatogramPeak`` and is derived from ``ChromatogramSettings``:
+An additional container for raw data is the :py:class:`~.MSChromatogram` container, which
+is highly analogous to the :py:class:`~.MSSpectrum` container, but contains an array of
+:py:class:`~.ChromatogramPeak` and is derived from :py:class:`~.ChromatogramSettings`:
 
 .. code-block:: python
     :linenos:
@@ -296,7 +297,7 @@ is highly analogous to the ``MSSpectrum`` container, but contains an array of
     Access an individual peak by index
     800.0 0.4111122786998749
 
-This shows how the ``MSExperiment`` class can hold spectra as well as chromatograms.
+This shows how the :py:class:`~.MSExperiment` class can hold spectra as well as chromatograms.
 
 Again we can visualize the resulting data using ``TOPPView`` using its chromatographic viewer
 capability, which shows the peak over retention time:
@@ -307,7 +308,7 @@ Note how the annotation using precursor and production mass of our XIC
 chromatogram is displayed in the viewer.
 
 We can also visualize the resulting data using ``matplotlib``. Here we can plot every
-chromatogram in our ``MSExperiment`` and label it with it's native ID.
+chromatogram in our :py:class:`~.MSExperiment` and label it with it's native ID.
 
 .. image:: img/ChromPlot.png
 
@@ -315,14 +316,14 @@ LC-MS/MS Experiment
 *******************
 
 In OpenMS, LC-MS/MS injections are represented as so-called peak maps (using
-the ``MSExperiment`` class), which we have already encountered above. The
-``MSExperiment`` class can hold a list of ``MSSpectrum`` object (as well as a
-list of ``MSChromatogram`` objects, see below). The ``MSExperiment`` object
+the :py:class:`~.MSExperiment` class), which we have already encountered above. The
+:py:class:`~.MSExperiment` class can hold a list of :py:class:`~.MSSpectrum` object (as well as a
+list of :py:class:`~.MSChromatogram` objects, see below). The :py:class:`~.MSExperiment` object
 holds such peak maps as well as meta-data about the injection. Access to
-individual spectra is performed through ``MSExperiment.getSpectrum`` and
-``MSExperiment.getChromatogram``.
+individual spectra is performed through :py:meth:`~.MSExperiment.getSpectrum` and
+:py:meth:`~.MSExperiment.getChromatogram`.
 
-In the following code, we create an ``MSExperiment`` and populate it with
+In the following code, we create an :py:class:`~.MSExperiment` and populate it with
 several spectra:
 
 .. code-block:: python
@@ -383,9 +384,9 @@ several spectra:
     5.0 805.0 37.5
 
 
-In the above code, we create six instances of ``MSSpectrum`` (line 4), populate
+In the above code, we create six instances of :py:class:`~.MSSpectrum` (line 4), populate
 it with three peaks at 500, 900 and 100 *m/z* and append them to the
-``MSExperiment`` object (line 13).  We can easily iterate over the spectra in
+:py:class:`~.MSExperiment` object (line 13).  We can easily iterate over the spectra in
 the whole experiment by using the intuitive iteration on lines 16-19 or we can
 use list comprehensions to sum up intensities of all spectra that fulfill
 certain conditions:
@@ -402,7 +403,7 @@ certain conditions:
 		
 
 We could store the resulting experiment containing the six spectra as mzML
-using the ``MzMLFile`` object:
+using the :py:class:`~.MzMLFile` object:
 
 .. code-block:: python
     :linenos:
@@ -420,7 +421,9 @@ Alternatively we can visualize our data directly with Python. For smaller data s
 we can use ``matplotlib`` to generate a 2D scatter plot with the peak intensities
 represented by a colorbar. With this plot we can zoom in and inspect our data in more detail.
 
-The following example figures were generated using a `mzML file <https://github.com/OpenMS/OpenMS/blob/develop/src/tests/topp/FeatureFinderMetaboIdent_1_input.mzML>`_ provided by OpenMS.
+The following example figures were generated using a
+`mzML file <https://github.com/OpenMS/OpenMS/blob/develop/src/tests/topp/FeatureFinderMetaboIdent_1_input.mzML>`_
+provided by OpenMS.
 
 .. code-block:: python
     :linenos:
@@ -459,7 +462,7 @@ The following example figures were generated using a `mzML file <https://github.
 .. image:: img/Spectra2DDetails.png
 
 For larger data sets this will be too slow since every individual peak gets displayed.
-However, we can use ``BilinearInterpolation`` which produces an overview image of our spectra.
+However, we can use :py:class:`~.BilinearInterpolation` which produces an overview image of our spectra.
 This can be useful for a brief visual inspection of your sample in quality control.
 
 .. code-block:: python
@@ -533,7 +536,7 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
 
     # for this example, we check which are MS2 spectra and choose one of them
     for i, element in enumerate(exp):
-        print(i, "- MS", element.getMSLevel())
+        print(str(i) + ": MS" + str(element.getMSLevel()))
 
     # get the precursor information from the MS2 spectrum at index 3
     ms2_precursor = exp[3].getPrecursors()[0]
@@ -562,13 +565,13 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
 
 .. code-block:: output
 
-    0 - MS 1
-    1 - MS 2
-    2 - MS 2
-    3 - MS 2
-    4 - MS 2
-    5 - MS 2
-    6 - MS 1
+    0: MS1
+    1: MS2
+    2: MS2
+    3: MS2
+    4: MS2
+    5: MS2
+    6: MS1
 
     Purity scores
     total: 9098343.890625
