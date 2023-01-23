@@ -70,14 +70,32 @@ The alignment contains a list of matched peak indices. We can simply inspect mat
 
   # Print matching ions and mz from theoretical spectrum
   print("Number of matched peaks: " + str(len(alignment)))
-  print("ion\ttheo. m/z\tobserved m/z")
+    t = []
+    for theo_idx, obs_idx in alignment:
+        ion_name = theo_spectrum.getStringDataArrays()[0][theo_idx].decode()
+        ion_charge = theo_spectrum.getIntegerDataArrays()[0][theo_idx]
+        t.append([
+            ion_name, str(ion_charge),
+            str(theo_spectrum[theo_idx].getMZ()), str(observed_spectrum[obs_idx].getMZ())
+        ])
+    print(tabulate(t, headers=["ion", "charge", "theo. m/z", "observed m/z"]))
 
-  for theo_idx, obs_idx in alignment:
-      ion_name = theo_spectrum.getStringDataArrays()[0][theo_idx].decode()
-      ion_charge = theo_spectrum.getIntegerDataArrays()[0][theo_idx]
-      print(ion_name + "\t" + str(ion_charge) + "\t"
-        + str(theo_spectrum[theo_idx].getMZ())
-        + "\t" + str(observed_spectrum[obs_idx].getMZ()))
+.. code-block:: output
+
+    Number of matched peaks: 16
+    ion      charge    theo. m/z    observed m/z
+    -----  --------  -----------  --------------
+    y2+           1      234.145         234.123
+    y5++          2      268.158         268.105
+    b2+           1      277.155         277.246
+    y3+           1      321.177         321.297
+    y4+           1      434.261         434.288
+    b3+           1      437.185         437.291
+    y5+           1      535.309         535.189
+    b4+           1      552.212         552.338
+    b9++          2      562.24          562.421
+    y10++         2      584.251         584.412
+    y11++         2      640.793         640.954
 
 The mirror plot can also be used to visualize the aligned spectrum:
 
