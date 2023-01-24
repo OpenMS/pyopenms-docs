@@ -1,18 +1,16 @@
-
-name: Linting flakeheaven
-
+name: reviewdog-flakehell
 on: [push]
-
 jobs:
-  lint:
+  flakehell:
+    name: runner / flakehell
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: sailingpalmtree/reviewdog-flakehell-action@0.2
-      with:
-        github_token: ${{ secrets.github_token }}
-        # Change reviewdog reporter if you need [github-pr-check,github-check,github-pr-review].
-        reporter: github-push
-        # Change reporter level if you need.
-        # GitHub Status Check won't become failure with warning.
-        level: error
+      - uses: actions/checkout@v2
+      - uses: sailingpalmtree/reviewdog-flakehell-action@0.2
+        with:
+          github_token: ${{ secrets.github_token }}
+          # Change reviewdog reporter if you need [github-pr-check,github-check,github-pr-review].
+          reporter: github-check
+          # Change reporter level if you need.
+          # GitHub Status Check won't become failure with warning.
+          level: warning
