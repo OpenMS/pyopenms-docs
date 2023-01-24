@@ -6,6 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          python-version: '3.10'
       - uses: sailingpalmtree/reviewdog-flakehell-action@v1.0
         with:
           github_token: ${{ secrets.github_token }}
