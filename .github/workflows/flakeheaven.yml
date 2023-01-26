@@ -9,7 +9,6 @@ jobs:
     - uses: actions/setup-python@v4
       with:
         python-version: '3.10' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-        fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
 
     - name: Installing Dependencies
       run: pip install flakeheaven
@@ -20,12 +19,3 @@ jobs:
 
     - name: Running flakeheaven
       run: flakeheaven lint ${{ steps.changed-files.outputs.all_changed_files }}
-
-#    - uses: usama2490/lintly-flake8-github-action@v1.1
-#      with:
-#        # The GitHub API token to create reviews with
-#        token: ${{ secrets.GITHUB_TOKEN }}
-#        # Fail if "new" violations detected or "any", default "new"
-#        failIf: new
-#        # Additional arguments to pass to flake8, default "." (current directory)
-#        args: "--extend-ignore=E121,E123 --max-line-length=120 ."

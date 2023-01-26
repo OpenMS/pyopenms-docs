@@ -5,7 +5,6 @@ OpenMS provides several ways to find matching peaks between two spectra.
 The most basic one SpectrumAlignment returns a list of matching peak indices between a query and target spectrum.
 In this example, we take an observed (measured) spectrum and align a theoretical spectrum to it.
 
-
 First we load a (chemically modified) peptide:
 
 .. code-block:: python
