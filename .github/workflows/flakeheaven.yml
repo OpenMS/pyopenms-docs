@@ -9,12 +9,17 @@ jobs:
     - uses: actions/setup-python@v4
       with:
         python-version: '3.10' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
 
     - name: Installing Dependencies
       run: pip install flakeheaven
 
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v35
+
     - name: Running flakeheaven
-      run: flakeheaven lint
+      run: flakeheaven lint ${{ steps.changed-files.outputs.all_changed_files }}
 
 #    - uses: usama2490/lintly-flake8-github-action@v1.1
 #      with:
