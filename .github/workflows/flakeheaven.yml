@@ -11,7 +11,9 @@ jobs:
         python-version: '3.10' # Version range or exact version of a Python version to use, using SemVer's version range syntax
 
     - name: Installing Dependencies
-      run: pip install flakeheaven
+      run: |
+        pip install flakeheaven flake8-commas flake8-quotes flake8-bandit flake8-docstrings
+
 
     - name: Get changed files
       id: changed-files
