@@ -2,7 +2,7 @@
 # optionally inherit from remote config (or local if you want)
 base = "https://raw.githubusercontent.com/flakeheaven/flakeheaven/main/pyproject.toml"
 # specify any flake8 options. For example, exclude "example.py":
-#exclude = ["example.py"]
+exclude = ["pyproject.toml"]
 # make output nice
 format = "grouped"
 # 80 chars aren't enough in 21 century
