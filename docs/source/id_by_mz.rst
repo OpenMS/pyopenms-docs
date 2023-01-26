@@ -228,7 +228,7 @@ Visualization of RTs before and after alignment
 
 Feature Linking
 ***************
-in: list with :py:class:`~.FeatureMaps` (feature_maps)
+in: list of:py:class:`~.FeatureMap` (feature_maps)
 
 out: :py:class:`~.ConsensusMap` (consensus_map)
 
