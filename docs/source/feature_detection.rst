@@ -74,7 +74,7 @@ Python as follows:
       print (f.getRT(), f.getMZ())
 
 
-Each entry in the :py:class:`~.FeatureMap` is a so-called ``Feature`` and allows direct
+Each entry in the :py:class:`~.FeatureMap` is a so-called :py:class:`~.Feature` and allows direct
 access to the `m/z` and `RT` value from Python. Again, we can lear this by
 inspecting ``help(f)`` or by consulting the Manual.
 
