@@ -4,12 +4,13 @@ Example workflow for the processing of a set of mzML files (defined in the ``fil
 feature detection, feature linking and accurate mass search.
 The resulting data gets processed in a pandas data frame with feature filtering (missing values, quality) and imputation
 of remaining missing values.
-Compounds detected during accurate mass search will be annoted in the resulting dataframe.
+Compounds detected during accurate mass search will be annotated in the resulting dataframe.
 
 Imports and mzML file path
 **************************
 
 .. code-block:: python
+    :linenos:
 
     import os
     import shutil
@@ -37,6 +38,7 @@ Download Example Data
 Execute this cell only for the example workflow.
 
 .. code-block:: python
+    :linenos:
 
     if not os.path.isdir(os.path.join(os.getcwd(), 'IdByMz_Example')):
         os.mkdir(os.path.join(os.getcwd(), 'IdByMz_Example'))
@@ -63,6 +65,7 @@ in: path to MS data (files)
 out: path to centroided mzML files in a subfolder 'centroid' (files)
 
 .. code-block:: python
+    :linenos:
 
     if os.path.exists(os.path.join(files, "centroid")):
         shutil.rmtree(os.path.join(files, "centroid"))
@@ -84,11 +87,12 @@ out: path to centroided mzML files in a subfolder 'centroid' (files)
 
 Feature Detection
 *****************
-in: path to centroided mzML files (files)
+in: path to centroid mzML files (files)
 
-out: list with FeatureMaps (feature_maps)
+out: list with :py:class:`~.FeatureMaps` (feature_maps)
 
 .. code-block:: python
+    :linenos:
 
     feature_maps = []
 
@@ -145,11 +149,12 @@ out: list with FeatureMaps (feature_maps)
 
 Feature Map Retention Time Alignment
 ************************************
-in: unaligned feature maps (feature_maps)
+in: unaligned :py:class:`~.FeatureMaps` (feature_maps)
 
-out: feature maps aligned on the first feature map in the list (feature_maps)
+out: :py:class:`~.FeatureMaps` aligned on the first feature map in the list (feature_maps)
 
 .. code-block:: python
+    :linenos:
 
     # get in index of feature map with highest number of features in feature map list
     ref_index = [i[0] for i in sorted(
@@ -171,6 +176,7 @@ Visualization of RTs before and after alignment
 ***********************************************
 
 .. code-block:: python
+    :linenos:
 
     fmaps = (
         [feature_maps[ref_index]] + feature_maps[:ref_index] +
@@ -222,11 +228,12 @@ Visualization of RTs before and after alignment
 
 Feature Linking
 ***************
-in: list with FeatureMaps (feature_maps)
+in: list with :py:class:`~.FeatureMaps` (feature_maps)
 
-out: ConsensusMap (consensus_map)
+out: :py:class:`~.ConsensusMap` (consensus_map)
 
 .. code-block:: python
+    :linenos:
 
     feature_grouper = FeatureGroupingAlgorithmQT()
 
@@ -245,11 +252,12 @@ out: ConsensusMap (consensus_map)
 
 ConsensusMap to pandas DataFrame
 ********************************
-in: ConsensusMap (consensus_map)
+in: :py:class:`~.ConsensusMap` (consensus_map)
 
-out: DataFrame with RT, mz and quality from ConsensusMap (cm_df)
+out: DataFrame with RT, mz and quality from :py:class:`~.ConsensusMap` (cm_df)
 
 .. code-block:: python
+    :linenos:
 
     intensities = consensus_map.get_intensity_df()
 
@@ -261,11 +269,12 @@ out: DataFrame with RT, mz and quality from ConsensusMap (cm_df)
 
 Accurate Mass Search
 ********************
-in: ConsensusMap (consensus_map)
+in: :py:class:`~.ConsensusMap` (consensus_map)
 
-out: DataFrame with AccurateMassSearch results (ams_df)
+out: DataFrame with :py:class:`~.AccurateMassSearchEngine` results (ams_df)
 
 .. code-block:: python
+    :linenos:
 
     if files.endswith('centroid'):
         files = os.path.join(files, '..')
@@ -303,11 +312,13 @@ out: DataFrame with AccurateMassSearch results (ams_df)
 
 Data Filtering and Imputation
 *****************************
-in: unfiltered ConsensusMap DataFrame (cm_df)
+in: unfiltered :py:class:`~.ConsensusMap` DataFrame (cm_df)
 
-out: features below minimum quality and with too many missing values removed, remaining missing values imputated with KNN algorithm (cm_df)
+out: features below minimum quality and with too many missing values removed,
+remaining missing values imputed with KNN algorithm (cm_df)
 
 .. code-block:: python
+    :linenos:
 
     allowed_missing_values = 1
     min_feature_quality = 0.8
@@ -342,11 +353,12 @@ out: features below minimum quality and with too many missing values removed, re
 
 Annotate features with identified compounds
 *******************************************
-in: ConsensusMap DataFrame without identifications (cm_df) and AccurateMassSearch DataFrame (ams_df)
+in: :py:class:`~.ConsensusMap` DataFrame without identifications (cm_df) and AccurateMassSearch DataFrame (ams_df)
 
-out: ConsensusMap DataFrame with new identifications column (id_df)
+out: :py:class:`~.ConsensusMap` DataFrame with new identifications column (id_df)
 
 .. code-block:: python
+    :linenos:
     
     id_df = cm_df
 
@@ -373,6 +385,7 @@ Visualize consensus features with identifications
 *************************************************
 
 .. code-block:: python
+    :linenos:
     
     fig = px.scatter(id_df, x="RT", y="mz", hover_name="identifications")
     fig.update_layout(title="Consensus features with identifications (hover)")

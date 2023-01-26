@@ -11,7 +11,7 @@ container of :py:class:`~.Peak1D`). You can access these objects directly, by us
 Meta-data is accessible through inheritance of the :py:class:`~.SpectrumSettings`
 objects which handles meta data of a spectrum.
 
-In the following example program, a MSSpectrum is filled with peaks, sorted
+In the following example program, a :py:class:`~.MSSpectrum` is filled with peaks, sorted
 according to mass-to-charge ratio and a selection of peak positions is
 displayed.
 
@@ -91,7 +91,7 @@ information attached to the spectrum including retention time, the ms level
 .. code-block:: python
     :linenos:
 
-  help(MSSpectrum)
+    help(MSSpectrum)
 
 We now set several of these properties in a current MSSpectrum:
 
@@ -439,23 +439,24 @@ provided by OpenMS.
                 mz, intensity = spec.get_peaks()
                 p = intensity.argsort() # sort by intensity to plot highest on top
                 rt = np.full([mz.shape[0]], spec.getRT(), float)
-                plt.scatter(rt, mz[p], c = intensity[p], cmap = 'afmhot_r', s=marker_size, 
+                plt.scatter(rt, mz[p], c = intensity[p], cmap = 'afmhot_r', s=marker_size,
                             norm=colors.LogNorm(exp.getMinIntensity()+1, exp.getMaxIntensity()))
         plt.clim(exp.getMinIntensity()+1, exp.getMaxIntensity())
         plt.xlabel('time (s)')
         plt.ylabel('m/z')
         plt.colorbar()
         plt.show() # slow for larger data sets
-   
-   from urllib.request import urlretrieve
 
-   gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-   urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML", "test.mzML")
+    from urllib.request import urlretrieve
 
-   exp = MSExperiment()
-   MzMLFile().load('test.mzML', exp)
-   
-   plot_spectra_2D(exp)
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
+    urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML", "test.mzML")
+
+    exp = MSExperiment()
+    MzMLFile().load('test.mzML', exp)
+
+    plot_spectra_2D(exp)
+
 
 .. image:: img/Spectra2D.png
 
@@ -497,13 +498,13 @@ This can be useful for a brief visual inspection of your sample in quality contr
         plt.imshow(np.rot90(data), cmap='gist_heat_r')
         plt.xlabel('retention time (s)')
         plt.ylabel('m/z')
-        plt.xticks(np.linspace(0,int(rows),20, dtype=int), 
+        plt.xticks(np.linspace(0,int(rows),20, dtype=int),
                 np.linspace(exp.getMinRT(),exp.getMaxRT(),20, dtype=int))
         plt.yticks(np.linspace(0,int(cols),20, dtype=int),
                 np.linspace(exp.getMinMZ(),exp.getMaxMZ(),20, dtype=int)[::-1])
         plt.show()
-   
-   plot_spectra_2D_overview(exp)
+
+    plot_spectra_2D_overview(exp)
 
 .. image:: img/Spectra2DOverview.png
 
@@ -511,7 +512,7 @@ This can be useful for a brief visual inspection of your sample in quality contr
 Example: Precursor Purity
 **************************
 
-When an MS/MS spectrum is generated, the precursor from the MS1 spectrum is gathered, fragmented and measured.
+When an MS2 spectrum is generated, the precursor from the MS1 spectrum is gathered, fragmented and measured.
 In practice, the instrument gathers the ions in a user-defined window around the precursor m/z - the so-called
 precursor isolation window.
 

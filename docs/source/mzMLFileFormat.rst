@@ -22,6 +22,7 @@ Binary encoding
 :index:`To proceed <Binary encoding (mzML)>`, we will download an example file:
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
     from urllib.request import urlretrieve
@@ -31,6 +32,7 @@ Binary encoding
 Let's investigate the file ``test.mzML`` and look at line 197:
 
 .. code-block:: python
+    :linenos:
 
     print( open("test.mzML").readlines()[197].strip() )
     
@@ -45,6 +47,7 @@ that contains a long datastring that starts with ``AAAAA`` and ends with
 by looking at some more context (lines 193 to 199 of the file):
 
 .. code-block:: python
+    :linenos:
 
     print( "".join( open("test.mzML").readlines()[193:199]) )
     
@@ -63,6 +66,7 @@ bit data. We can now open the file with pyOpenMS and print the corresponding
 array which is from the second spectrum in the file:
 
 .. code-block:: python
+    :linenos:
 
     exp = MSExperiment()
     MzMLFile().load("test.mzML", exp)

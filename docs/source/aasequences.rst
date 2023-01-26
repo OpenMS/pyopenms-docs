@@ -6,8 +6,8 @@ Sequences of amino acids form peptides and proteins.
 Amino Acid Sequences
 ********************
 
-The ``AASequence`` class handles amino acid sequences in OpenMS. A string of
-amino acid residues can be turned into a instance of ``AASequence`` to provide
+The :py:class:`~.AASequence` class handles amino acid sequences in OpenMS. A string of
+amino acid residues can be turned into a instance of :py:class:`~.AASequence` to provide
 some commonly used operations like chemical formula, weight, and isotope distribution calculations.
 
 The example below shows how amino acid sequences can be created and how basic mass calculations are conducted.
@@ -63,7 +63,7 @@ We can easily calculate the charged weight of a ``(M+2H)2+`` ion and compute *m/
     Monoisotopic m/z of [M+2H]2+ is 509.7512585354211
 
 
-The ``AASequence`` object also allows iterations directly in Python:
+The :py:class:`~.AASequence` object also allows iterations directly in Python:
 
 .. code-block:: python
     :linenos:
@@ -126,8 +126,8 @@ Which will print:
 Molecular formula
 ~~~~~~~~~~~~~~~~~
 
-We can now combine our knowledge of ``AASequence`` with what we learned in
-about ``EmpiricalFormula`` to get accurate mass and isotope distributions from
+We can now combine our knowledge of :py:class:`~.AASequence` with what we learned in
+about :py:class:`~.EmpiricalFormula` to get accurate mass and isotope distributions from
 the amino acid sequence. But first, let's get the formula of peptide:
 
 .. code-block:: python
@@ -225,15 +225,15 @@ Which will produce
     y3 molecular formula: C13H24N6O6
 
 Easy, isn't it? To generate full theoretical spectra watch out for the more specialized
-(and faster) TheoreticalSpectrumGenerator which we will take a look at later.
+(and faster) :py:class:`~.TheoreticalSpectrumGenerator` which we will take a look at later.
 
 
 Modified Sequences
 ******************
 
-The ``AASequence`` class can also handle modifications, 
+The :py:class:`~.AASequence` class can also handle modifications,
 modifications are specified using a unique string identifier present in the
-``ModificationsDB`` in round brackets after the modified amino acid or by providing
+:py:class:`~.ModificationsDB` in round brackets after the modified amino acid or by providing
 the mass of the residue in square brackets. For example
 ``AASequence.fromString(".DFPIAM(Oxidation)GER.")`` creates an instance of the
 peptide "DFPIAMGER" with an oxidized methionine. There are multiple ways to specify modifications, and
@@ -303,14 +303,14 @@ specified using tags preceded by X: "X[weight]". This indicates a new amino
 acid ("X") with the specified weight, e.g. ``"RX[148.5]T"``. Note that this tag
 does not alter the amino acids to the left (R) or right (T). Rather, X
 represents an amino acid on its own. Be careful when converting such AASequence
-objects to an EmpiricalFormula using ``getFormula()``, as tags will not be
+objects to an EmpiricalFormula using :py:meth:`~.AASequence.getFormula`, as tags will not be
 considered in this case (there exists no formula for them). However, they have
-an influence on ``getMonoWeight()`` and ``getAverageWeight()``! 
+an influence on :py:meth:`~.AASequence.getMonoWeight` and :py:meth:`~.AASequence.getAverageWeight`!
 
 Proteins and FASTA files
 ************************
 
-Protein sequences, can be loaded from and stored in FASTA protein databases using ``FASTAFile``.
+Protein sequences, can be loaded from and stored in FASTA protein databases using :py:class:`~.FASTAFile`.
 The example below shows how protein sequences can be stored in FASTA files and loaded back in pyOpenMS:
 
 .. code-block:: python

@@ -3,8 +3,9 @@ Introduction
 
 pyOpenMS is a python library for Liquid Chromatography-Mass Spectrometry (LC-MS) data analysis.
 
-Note: This introduction is aimed at users new to the field of LC-MS data analysis and will introduce some basics terms and concepts.
-How to handle the data analysis, available data structures, algorithms and more are covered in the various subsections of this documentation.
+Note: This introduction is aimed at users new to the field of LC-MS data analysis and will introduce some basics terms
+and concepts. How to handle the data analysis, available data structures, algorithms and more are covered in the
+various subsections of this documentation.
 
 Background
 ============
@@ -72,4 +73,4 @@ A sample is measured over the retention time of the chromatography typically res
 
             Left: spectrum with peaks (m/z and intensity values), Right: spectra stacked in retention time yield a peak map. The spectrum in the peak map at the retention time indicated by the red line in the right panel is plotted as a spectrum (intensity over m/z) in the left panel.
 
-Identification of an analyte based on the mass spectrum (mass-to-charge ratio and isotope pattern) can be ambiguous. To improve identification, tandem mass spectrometry (MS/MS) can be applied to assess the analyte substructure. With MS/MS spectrometry, an ion is isolated, fragmented using an inert gas by collision-induced fragmentation (CID) and a second mass spectrum is recorded from the ion fragments. In this context, the primary ion is called the precursor ion, the primary spectrum is called an MS1 spectrum and and the spectrum from the fragments is called an MS2 (MS/MS) spectrum. Tandem mass spectrometry is especially useful for linear polymers like proteins, RNA and DNA and the fragments typically break the polymer into two parts. For example, peptides (short strands of amino acids, part of a protein) typically break between each of the amino acids, leading to a so-called ion ladder where the distance between each peak in the MS2 spectrum reveals the identity of the amino acid, as most amino acids have different masses.
+Identification of an analyte based on the mass spectrum (mass-to-charge ratio and isotope pattern) can be ambiguous. To improve identification, tandem mass spectrometry (MS2) can be applied to assess the analyte substructure. With MS2 spectrometry, an ion is isolated, fragmented using an inert gas by collision-induced fragmentation (CID) and a second mass spectrum is recorded from the ion fragments. In this context, the primary ion is called the precursor ion, the primary spectrum is called an MS1 spectrum and and the spectrum from the fragments is called an MS2 (MS/MS) spectrum. Tandem mass spectrometry is especially useful for linear polymers like proteins, RNA and DNA and the fragments typically break the polymer into two parts. For example, peptides (short strands of amino acids, part of a protein) typically break between each of the amino acids, leading to a so-called ion ladder where the distance between each peak in the MS2 spectrum reveals the identity of the amino acid, as most amino acids have different masses.

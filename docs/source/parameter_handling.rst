@@ -2,17 +2,18 @@ Parameter Handling
 ==================
 
 Parameter handling in OpenMS and pyOpenMS is usually implemented through inheritance
-from ``DefaultParamHandler`` and allow access to parameters through the ``Param`` object. This
+from :py:class:`~.DefaultParamHandler` and allow access to parameters through the :py:class:`~.Param` object. This
 means, the classes implement the methods ``getDefaults``, ``getParameters``, ``setParameters``
 which allows access to the default parameters, the current parameters and allows to set the
 parameters.
 
-The ``Param`` object that is returned can be manipulated through the ``setValue`` and ``getValue``
-methods (the ``exists`` method can be used to check for existence of a key). Using the
-``getDescription`` method, it is possible to get a help-text for each parameter value in an
+The :py:class:`~.Param` object that is returned can be manipulated through the :py:meth:`~.Param.setValue`
+and :py:meth:`~.Param.getValue` methods (the ``exists`` method can be used to check for existence of a key). Using the
+:py:meth:`~.Param.getDescription` method, it is possible to get a help-text for each parameter value in an
 interactive session without consulting the documentation.
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
     p = Param()

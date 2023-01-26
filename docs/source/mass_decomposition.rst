@@ -27,8 +27,8 @@ interpretations within a narrow mass band of 0.05 Th:
 
 As you can see, already for relatively simple two-amino acid combinations,
 multiple explanations may exist. OpenMS provides an algorithm to compute all
-potential amino acid combitions that explain a certain mass in the
-``MassDecompositionAlgorithm`` class:
+potential amino acid combinations that explain a certain mass in the
+:py:class:`~.MassDecompositionAlgorithm` class:
 
 .. code-block:: python
 

@@ -1,14 +1,16 @@
 Export to pandas DataFrame
 ==========================
 
-**NOTE: This feature is available only if using a version of pyOpenMS >= 3.0, at the time of writing this means using one of the nightly builds as described in the** `Installation Instructions
-<installation.html#nightly-ci-wheels>`_.
+**NOTE: This feature is available only if using a version of pyOpenMS >= 3.0, at the time of writing this means using
+one of the nightly builds as described in the** `Installation Instructions<installation.html#nightly-ci-wheels>`_.
 
-In pyOpenMS some data structures can be converted to a tabular format as a ``pandas.DataFrame``. This allows convenient access to data and meta values of spectra, features and identifications.
+In pyOpenMS some data structures can be converted to a tabular format as a ``pandas.DataFrame``.
+This allows convenient access to data and meta values of spectra, features and identifications.
 
 Required imports for the examples:
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
     import pandas as pd
@@ -37,6 +39,7 @@ MSExperiment
 **Examples:**
 
 .. code-block:: python
+    :linenos:
 
     urlretrieve(url+'BSA1.mzML', 'BSA1.mzML')
     exp = MSExperiment()
@@ -54,6 +57,7 @@ MSExperiment
 
 
 .. code-block:: python
+    :linenos:
 
     df = exp.get_df(long=True)
     df.head(2)
@@ -98,6 +102,7 @@ PeptideIdentifications
 **Example:**
 
 .. code-block:: python
+    :linenos:
 
     urlretrieve(url+'small.idXML', 'small.idXML')
     prot_ids = []
@@ -147,6 +152,7 @@ FeatureMap
 **Examples:**
    
 .. code-block:: python
+    :linenos:
 
     urlretrieve(url+'BSA1_F1_idmapped.featureXML', 'BSA1_F1_idmapped.featureXML')
     feature_map = FeatureMap()
@@ -164,6 +170,7 @@ FeatureMap
 
 
 .. code-block:: python
+    :linenos:
 
     df = feature_map.get_df(meta_values = 'all', export_peptide_identifications = False)
     df.head(2)
@@ -176,6 +183,7 @@ FeatureMap
    "18416216708636999474",	"2",	"1749.138335",	"443.711224",	"1735.693115",	"1763.343506",	"443.71112",	"445.717531",	"0.893553",	"54069300.0", "14.156094",	"156",	"spectrum=1167",	"169",	"0.999002",	"0.799234"
 
 .. code-block:: python
+    :linenos:
 
     df = feature_map.get_df(meta_values = [b'FWHM', b'label'])
     df.head(2)
@@ -208,8 +216,10 @@ Peptide identifications can be mapped to their corresponding features in a ``Fea
         
         list of PeptideIdentification objects
 
-A ``DataFrame`` can be created on the resulting list of ``PeptideIdentification`` objects using ``pyopenms.peptide_identifications_to_df(assigned_peptides)``. 
-Feature map and peptide data frames contain columns, on which they can be merged together to contain the complete information for peptides and features in a single data frame.
+A ``DataFrame`` can be created on the resulting list of :py:class:`~.PeptideIdentification` objects using
+``pyopenms.peptide_identifications_to_df(assigned_peptides)``.
+Feature map and peptide data frames contain columns, on which they can be merged together to contain the complete
+information for peptides and features in a single data frame.
 
 The columns for unambiguously merging the data frames:
 
@@ -217,7 +227,7 @@ The columns for unambiguously merging the data frames:
 
 - ``ID_native_id``: the feature spectrum native identifier
 
-- ``ID_filename``: the filename (primary MS run path) of the corresponding ``ProteinIdentification``
+- ``ID_filename``: the filename (primary MS run path) of the corresponding :py:class:`~.ProteinIdentification`
 
 **Example:**
 
@@ -275,6 +285,7 @@ ConsensusMap
 **Examples:**
 
 .. code-block:: python
+    :linenos:
 
     urlretrieve(url+'ProteomicsLFQ_1_out.consensusXML', 'ProteomicsLFQ_1_out.consensusXML')
     consensus_map = ConsensusMap()
