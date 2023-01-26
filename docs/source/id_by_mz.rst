@@ -89,7 +89,7 @@ Feature Detection
 *****************
 in: path to centroid mzML files (files)
 
-out: list with :py:class:`~.FeatureMaps` (feature_maps)
+out: list of :py:class:`~.FeatureMap` (feature_maps)
 
 .. code-block:: python
     :linenos:
