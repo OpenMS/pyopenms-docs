@@ -1,7 +1,7 @@
 name: Linting flakeheaven
 on: [push]
 jobs:
-  lint:
+  linting:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -12,6 +12,9 @@ jobs:
 
     - name: Installing Dependencies
       run: pip install flakeheaven
+
+    - name: Running flakeheaven
+      run: flakeheaven lint
 
 #    - uses: usama2490/lintly-flake8-github-action@v1.1
 #      with:
