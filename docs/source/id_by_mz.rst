@@ -151,7 +151,7 @@ Feature Map Retention Time Alignment
 ************************************
 in: unaligned list of :py:class:`~.FeatureMap` (feature_maps)
 
-out: :py:class:`~.FeatureMaps` aligned on the first feature map in the list (feature_maps)
+out: list of :py:class:`~.FeatureMap` aligned to the first feature map in the list (feature_maps)
 
 .. code-block:: python
     :linenos:
