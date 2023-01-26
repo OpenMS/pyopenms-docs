@@ -175,7 +175,7 @@ Storage on disk
 ***************
 
 Finally, we can store the peptide and protein identification data in a
-:py:class:`~.idXML` file (a OpenMS internal file format which we have previously
+:py:class:`~.IdXMLFile` (a OpenMS internal file format which we have previously
 discussed `here
 <other_file_handling.html#identification-data-idxml-mzidentml-pepxml-protxml>`_)
 which we would do as follows:
