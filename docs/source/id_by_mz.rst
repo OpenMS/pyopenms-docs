@@ -149,7 +149,7 @@ out: list of :py:class:`~.FeatureMap` (feature_maps)
 
 Feature Map Retention Time Alignment
 ************************************
-in: unaligned :py:class:`~.FeatureMaps` (feature_maps)
+in: unaligned list of :py:class:`~.FeatureMap` (feature_maps)
 
 out: :py:class:`~.FeatureMaps` aligned on the first feature map in the list (feature_maps)
 
