@@ -141,7 +141,7 @@ Metabolomics - targeted
 
 ``FeatureFinderAlgorithmMetaboIdent`` performs MS1-based **targeted feature extraction** based on user provided compounds, which are 
 specified in an assay library (a tab-separated text file). Detected ``Features`` are stored in a :py:class:`~.FeatureMap` which can be
-stored in a ``FeatureXMLFile``. This tool is useful for the targeted extraction of ``Features`` for a well defined set of compounds 
+stored in a :py:class:`~.FeatureXMLFile`. This tool is useful for the targeted extraction of ``Features`` for a well-defined set of compounds 
 with known sum formulas and retention times. 
 For more information on the format of the assay library and available parameters visit the `FeatureFinderMetaboIdent documentation
 <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/UTILS_FeatureFinderMetaboIdent.html>`_.
