@@ -1,0 +1,24 @@
+name: Build and Test sphinx
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10' # Version range or exact version of a Python version to use, using SemVer's version range syntax    
+
+    - name: Installing Dependencies
+      run: pip install -r docs/requirements.txt
+    
+    - name: Generate html
+      run: cd docs && make html
