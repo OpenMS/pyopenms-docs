@@ -7,34 +7,50 @@ A glossary of common terms used throughout OpenMS documentation.
   :sorted:
 
   LC-MS
-    Liquid Chromatography-Mass Spectrometry. 
+    Liquid chromatography-coupled mass spectrometry. 
 
-  Liquid chromatography
+  liquid chromatography
     An analytical technique used to separate molecules of interest.
 
+  MS
   mass spectrometry
-    An analytical technique used to identify and quantify molecules of interest.
+    Mass spectrometry is an analytical technique used to identify and quantify molecules of interest.
 
   peptides
     A short chain of amino acids.
 
-  FASTA format
+  FASTA
     A text-based format for representing nucleotide or amino acid sequences.
 
-  octadecyl (C18)
-    An alkyl radical C(18)H(37) derived from an octadecane by removal of one hydrogen atom.
+  C18
+  octadecyl
+    Octadecyl (C18) is an alkyl radical C(18)H(37) derived from an octadecane by removal of one hydrogen atom.
 
-  Mass
+  mass
     Mass is a measure of the amount of matter that an object contains. In comparison to often used term weight, which is a measure of the force of gravity on that object.
 
   ion
     Any :term:`atom` or group of atoms that bears one or more positive or negative electrical charges. Positively charged are cations, negavtively charged anions.
 
-  electrospray ionization (ESI)
-    A technique used in mass spectrometry to produce ions.
+  ESI
+  electrospray ionization
+    Electrospray ionization (ESI) is a technique used in mass spectrometry to produce :term:`ions <ion>`.
 
+  MS1
+    First stage in mass spectrometry. A sample is injected into the mass spectrometer, ionized, accelerated and analyzed by mass spectrometry. Produces so-called survey scans.
+
+  MS2
   MS^2
-    See :term:`MS/MS`.
+  MS/MS
+  tandem mass spectrometry
+    Tandem mass spectrometry is a technique where two or more mass analyzers are coupled together using an additional reaction step to increase their abilities to analyse chemical samples.
+
+  MS2 spectrum
+  MS^2 spectrum
+  MS/MS spectrum
+  tandem mass spectrum
+    Precursor ions from MS1 spectra are selectively fragmented and analyzed by a second stage of mass spectrometry (:term:`MS2`) to
+    generate the spectra of the ion's fragments.
 
   atom
     An atom is the smallest unit of ordinary matter that forms a chemical element.
@@ -45,8 +61,9 @@ A glossary of common terms used throughout OpenMS documentation.
   aerosol
     An aerosol is a suspension of fine solid particles or liquid droplets in air or another gas.
 
-  time-of-flight (TOF)
-    A measurement of the time taken by an object, particle of wave (be it acoustic, electromagnetic, e.t.c) to travel a distance through a medium.
+  TOF
+  time-of-flight
+    Time-of-flight (TOF) is the time taken by an object, particle of wave (be it acoustic, electromagnetic, e.t.c) to travel a distance through a medium. This measurement can be used by mass analyzers to calculate the mass of an accelerated ion.
 
   quadrupole mass filters
     A mass filter allowing one mass channel at a time to reach the detector as the mass range is scanned.
@@ -56,22 +73,13 @@ A glossary of common terms used throughout OpenMS documentation.
     spindle-like electrode that traps ions in an orbital motion around the spindle.
     A high resoltion mass spectrometry analyzer.
 
-  MS(1)
-    First stage to get a spectra. A sample is injected into the mass spectrometer, ionized, accelerated and analyzed by mass spectrometry.
-
-  MS(2)
-    Ions from MS1 spectra are then selectively fragmented and analyzed by a second stage of mass spectrometry (MS2) to
-    generate the spectra for the ion fragments.
-
-  MS/MS
-    Tandem mass spectrometry, MS^2^, a technique where two or more mass analyzers are coupled together using an additional reaction step to increase their abilities to analyse chemical samples.
-
   collision-induced dissociation (CID)
     A mass spectrometry technique to induce fragmentation of selected ions in the gas phase. Also known as Collision
     induced dissociation.
 
   TOPP
-    The OpenMS Pipeline.
+  the OpenMS Pipeline
+    The OpenMS Pipeline is a set of chainable tools to create pipelines for mass spectrometry analysis.
 
   MSGFPlusAdapter
     Adapter for the MS-GF+ protein identification (database search) engine. More information is available in the `OpenMS API reference documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_MSGFPlusAdapter.html>`_.
@@ -81,6 +89,7 @@ A glossary of common terms used throughout OpenMS documentation.
     spectrometry data. More information is available in the `OpenMS API reference documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_LuciphorAdapter.html>`_.
 
   pyOpenMS
+  pyopenms
     pyOpenMS is an open-source Python library for mass spectrometry, specifically for the analysis of proteomics and
     metabolomics data in Python. 
 
@@ -93,7 +102,7 @@ A glossary of common terms used throughout OpenMS documentation.
   TOPPView
     TOPPView is a viewer for MS and HPLC-MS data. 
 
-  Nightly Snapshot
+  nightly snapshot
     Untested installers and containers are known as the nightly snapshot.
 
   proteomics
@@ -111,14 +120,17 @@ A glossary of common terms used throughout OpenMS documentation.
     spectrometry (MS) offers the detection tools to identify them.
 
   mzML
+  mzml
     The mzML format is an open, XML-based format for mass spectrometer output files, developed with the full participation
     of vendors and researchers in order to create a single open format that would be supported by all software.
 
   mzData
+  mzdata
     mzData was the first attempt by the Proteomics Standards Initiative (PSI) from the Human Proteome Organization (HUPO)
     to create a standardized format for Mass Spectrometry data. This format is now deprecated, and replaced by mzML.
 
   mzXML
+  mzxml
     mzXML is an open data format for storage and exchange of mass spectroscopy data, developed at the SPC/Institute for
     Systems Biology.
 
