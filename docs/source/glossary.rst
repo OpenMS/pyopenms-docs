@@ -7,6 +7,7 @@ A glossary of common terms used throughout OpenMS documentation.
   :sorted:
 
   LC-MS
+  LCMS
     Liquid Chromatography-Mass Spectrometry. 
 
   Liquid chromatography
