@@ -13,6 +13,7 @@ interact with the OpenMS library and, for example, read and write mzML files:
 .. code-block:: python
 
     from pyopenms import *
+
     exp = MSExperiment()
     MzMLFile().store("testfile.mzML", exp)
 
@@ -72,7 +73,6 @@ documentation of the base classes:
 .. code-block:: python
 
     help(ExperimentalSettings)
-    
 .. code-block:: output
 
     Help on class ExperimentalSettings in module pyopenms.pyopenms_4:
@@ -108,9 +108,10 @@ example file:
 .. code-block:: python
 
     from urllib.request import urlretrieve
+
     # download small example file
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/tiny.mzML", "tiny.mzML")
+    urlretrieve(gh + "/src/data/tiny.mzML", "tiny.mzML")
     exp = MSExperiment()
     # load example file
     MzMLFile().load("tiny.mzML", exp)
@@ -155,6 +156,7 @@ which indicates that the variable ``exp`` has (among others) the functions
     print(exp.getNrChromatograms())
 
 .. code-block:: output
+    
     4
     2
 
@@ -168,7 +170,7 @@ Iteration
 .. code-block:: python
 
     for spec in exp:
-      print ("MS Level:", spec.getMSLevel())
+        print("MS Level:", spec.getMSLevel())
 
 .. code-block:: output
 
@@ -181,7 +183,7 @@ This iterates through all available spectra, we can also access spectra through 
 
 .. code-block:: python
 
-    print ("MS Level:", exp[1].getMSLevel())
+    print("MS Level:", exp[1].getMSLevel())
 
 .. code-block:: output
 
@@ -195,7 +197,6 @@ Note that ``spec[1]`` will access the *second* spectrum (arrays start at
     spec = exp[1]
     mz, intensity = spec.get_peaks()
     print(sum(intensity))
-    
 .. code-block:: output
 
     110
@@ -208,7 +209,7 @@ slower):
 .. code-block:: python
 
     for peak in spec:
-        print (peak.getIntensity())
+        print(peak.getIntensity())
 
 .. code-block:: output
 
@@ -252,7 +253,6 @@ To calculate a TIC we would now call the function:
     print(calcTIC(exp, 1))
     print(sum([sum(s.get_peaks()[1]) for s in exp if s.getMSLevel() == 1]))
     print(calcTIC(exp, 2))
-    
 .. code-block:: output
 
     240.0
@@ -285,12 +285,14 @@ intensities of the TIC in different ways and generate a total ion current chroma
 
     # retrieve MS data
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML", "ms_data.mzML")
-    
+    urlretrieve(
+        gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML", "ms_data.mzML"
+    )
+
     # load MS data into MSExperiment()
     exp = MSExperiment()
     MzMLFile().load("ms_data.mzML", exp)
-    
+
     # choose one of the following three methods to access the TIC data
     # 1) recalculate TIC data with the calculateTIC() function
     tic = exp.calculateTIC()
@@ -298,7 +300,9 @@ intensities of the TIC in different ways and generate a total ion current chroma
 
     # 2) get TIC data using list comprehensions
     retention_times = [spec.getRT() for spec in exp]
-    intensities = [sum(spec.get_peaks()[1]) for spec in exp if spec.getMSLevel() == 1]
+    intensities = [
+        sum(spec.get_peaks()[1]) for spec in exp if spec.getMSLevel() == 1
+    ]
 
     # 3) get TIC data looping over spectra in MSExperiment()
     retention_times = []
@@ -311,9 +315,9 @@ intensities of the TIC in different ways and generate a total ion current chroma
     # plot retention times and intensities and add labels
     plt.plot(retention_times, intensities)
 
-    plt.title('TIC')
-    plt.xlabel('time (s)')
-    plt.ylabel('intensity (cps)')
+    plt.title("TIC")
+    plt.xlabel("time (s)")
+    plt.ylabel("intensity (cps)")
 
     plt.show()
 

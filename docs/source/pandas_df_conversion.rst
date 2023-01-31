@@ -13,7 +13,8 @@ Required imports for the examples:
     from pyopenms import *
     import pandas as pd
     from urllib.request import urlretrieve
-    url = 'https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master/src/data/'
+
+    url = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master/src/data/"
 
 MSExperiment
 ************
@@ -38,13 +39,12 @@ MSExperiment
 
 .. code-block:: python
 
-    urlretrieve(url+'BSA1.mzML', 'BSA1.mzML')
+    urlretrieve(url + "BSA1.mzML", "BSA1.mzML")
     exp = MSExperiment()
-    MzMLFile().load('BSA1.mzML', exp)
+    MzMLFile().load("BSA1.mzML", exp)
 
-    df = exp.get_df() # default: long = False
+    df = exp.get_df()  # default: long = False
     df.head(2)
-    
 .. csv-table:: exp.get_df()
    :widths: 2 10 50 50
    :header: ,"RT", "mzarray", "intarray"
@@ -99,14 +99,13 @@ PeptideIdentifications
 
 .. code-block:: python
 
-    urlretrieve(url+'small.idXML', 'small.idXML')
+    urlretrieve(url + "small.idXML", "small.idXML")
     prot_ids = []
     pep_ids = []
-    IdXMLFile().load('small.idXML', prot_ids, pep_ids)
+    IdXMLFile().load("small.idXML", prot_ids, pep_ids)
 
     df = peptide_identifications_to_df(pep_ids)
     df.head(2)
-    
 .. csv-table:: peptide_identifications_to_df(pep_ids)
    :widths: 2 20 10 20 20 10 20 20 20 20 20 20 20 20 20 20
    :header: "",	"id",	"RT",	"mz",	"q-value",	"charge",	"protein_accession",	"start",	"end",	"NuXL:z2 mass",	"NuXL:z3 mass",	"...", "isotope_error",	"NuXL:peptide_mass_z0",	"NuXL:XL_U",	"NuXL:sequence_score"
@@ -148,13 +147,12 @@ FeatureMap
    
 .. code-block:: python
 
-    urlretrieve(url+'BSA1_F1_idmapped.featureXML', 'BSA1_F1_idmapped.featureXML')
+    urlretrieve(url + "BSA1_F1_idmapped.featureXML", "BSA1_F1_idmapped.featureXML")
     feature_map = FeatureMap()
-    FeatureXMLFile().load('BSA1_F1_idmapped.featureXML', feature_map)
+    FeatureXMLFile().load("BSA1_F1_idmapped.featureXML", feature_map)
 
-    df = feature_map.get_df() # default: meta_values = None
+    df = feature_map.get_df()  # default: meta_values = None
     df.head(2)
-    
 .. csv-table:: feature_map.get_df()
    :widths: 20 20 20 20 20 5 20 20 20 20 20 20 20 20
    :header: "id",	"peptide_sequence",	"peptide_score",	"ID_filename",	"ID_native_id",	"charge",	"RT",	"mz",	"RTstart",	"RTend",	"mzstart",	"mzend",	"quality",	"intensity"
@@ -165,7 +163,7 @@ FeatureMap
 
 .. code-block:: python
 
-    df = feature_map.get_df(meta_values = 'all', export_peptide_identifications = False)
+    df = feature_map.get_df(meta_values="all", export_peptide_identifications=False)
     df.head(2)
 
 .. csv-table:: feature_map.get_df(meta_values = 'all', export_peptide_identifications = False)
@@ -177,7 +175,7 @@ FeatureMap
 
 .. code-block:: python
 
-    df = feature_map.get_df(meta_values = [b'FWHM', b'label'])
+    df = feature_map.get_df(meta_values=[b"FWHM", b"label"])
     df.head(2)
 
 .. csv-table:: feature_map.get_df(meta_values = [b'FWHM', b'label'])
@@ -227,7 +225,11 @@ The columns for unambiguously merging the data frames:
     assigned_peptides = feature_map.get_assigned_peptide_identifications()
     assigned_peptide_df = peptide_identifications_to_df(assigned_peptides)
 
-    merged_df = pd.merge(feature_df, assigned_peptide_df, on=['feature_id', 'ID_native_id', 'ID_filename'])
+    merged_df = pd.merge(
+        feature_df,
+        assigned_peptide_df,
+        on=["feature_id", "ID_native_id", "ID_filename"],
+    )
     merged_df.head(2)
 
 .. csv-table:: consensus_map.get_df()
@@ -276,16 +278,18 @@ ConsensusMap
 
 .. code-block:: python
 
-    urlretrieve(url+'ProteomicsLFQ_1_out.consensusXML', 'ProteomicsLFQ_1_out.consensusXML')
+    urlretrieve(
+        url + "ProteomicsLFQ_1_out.consensusXML", "ProteomicsLFQ_1_out.consensusXML"
+    )
     consensus_map = ConsensusMap()
-    ConsensusXMLFile().load('ProteomicsLFQ_1_out.consensusXML', consensus_map)
+    ConsensusXMLFile().load("ProteomicsLFQ_1_out.consensusXML", consensus_map)
 
     df = consensus_map.get_df()
     df.head(2)
-    
 .. csv-table:: consensus_map.get_df()
    :widths: 2 10 20 20 20 20 30 10 30
    :header: "id",	"sequence",	"charge",	"RT",	"mz",	"quality",	"BSA1_F1.mzML",	"...",	"BSA1_F2.mzML"
+   
    "2935923263525422257",	"DGDIEAEISR",	"3",	"1523.370634",	"368.843773",	"0.000000",	"0.0",	"...",	"0.0"
    "10409195546240342212",	"SHC(Carbamidomethyl)IAEVEK",	"3",	"1552.032973",	"358.174576",	"0.491247",	"1358151.0",	"...",	"0.0"
 

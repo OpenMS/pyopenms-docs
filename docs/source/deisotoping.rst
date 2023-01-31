@@ -30,20 +30,20 @@ Single peak example
     charge = 2
     seq = AASequence.fromString("DFPIANGER")
     seq_formula = seq.getFormula() + EmpiricalFormula("H" + str(charge))
-    isotopes = seq_formula.getIsotopeDistribution( CoarseIsotopePatternGenerator(6) )
+    isotopes = seq_formula.getIsotopeDistribution(CoarseIsotopePatternGenerator(6))
     print("[M+H]+ weight:", seq.getMonoWeight(Residue.ResidueType.Full, 1))
 
     # Append isotopic distribution to spectrum
     s = MSSpectrum()
     for iso in isotopes.getContainer():
-      iso.setMZ( iso.getMZ() / charge )
-      s.push_back(iso)
-      print ("Isotope", iso.getMZ(), ":", iso.getIntensity())
+        iso.setMZ(iso.getMZ() / charge)
+        s.push_back(iso)
+        print("Isotope", iso.getMZ(), ":", iso.getIntensity())
 
     Deisotoper.deisotopeAndSingleChargeDefault(s, 10, True)
 
     for p in s:
-      print(p.getMZ(), p.getIntensity() )
+        print(p.getMZ(), p.getIntensity())
 
 
 Note that the algorithm presented here as some heuristics built into it, such
@@ -58,27 +58,39 @@ second isotopic peak is the highest in intensity and the
     charge = 4
     seq = AASequence.fromString("DFPIANGERDFPIANGERDFPIANGERDFPIANGER")
     seq_formula = seq.getFormula() + EmpiricalFormula("H" + str(charge))
-    isotopes = seq_formula.getIsotopeDistribution( CoarseIsotopePatternGenerator(8) )
+    isotopes = seq_formula.getIsotopeDistribution(CoarseIsotopePatternGenerator(8))
     print("[M+H]+ weight:", seq.getMonoWeight(Residue.ResidueType.Full, 1))
 
     # Append isotopic distribution to spectrum
     s = MSSpectrum()
     for iso in isotopes.getContainer():
-      iso.setMZ( iso.getMZ() / charge )
-      s.push_back(iso)
-      print ("Isotope", iso.getMZ(), ":", iso.getIntensity())
+        iso.setMZ(iso.getMZ() / charge)
+        s.push_back(iso)
+        print("Isotope", iso.getMZ(), ":", iso.getIntensity())
 
     min_charge = 1
     min_isotopes = 2
     max_isotopes = 10
     use_decreasing_model = True
     start_intensity_check = 3
-    Deisotoper.deisotopeAndSingleCharge(s, 10, True, min_charge, charge, True, 
-                                        min_isotopes, max_isotopes, 
-                                        True, True, True, 
-                                        use_decreasing_model, start_intensity_check, False)
+    Deisotoper.deisotopeAndSingleCharge(
+        s,
+        10,
+        True,
+        min_charge,
+        charge,
+        True,
+        min_isotopes,
+        max_isotopes,
+        True,
+        True,
+        True,
+        use_decreasing_model,
+        start_intensity_check,
+        False,
+    )
     for p in s:
-      print(p.getMZ(), p.getIntensity() )
+        print(p.getMZ(), p.getIntensity())
 
 
 Full spectral de-isotoping
@@ -92,17 +104,30 @@ state:
 .. code-block:: python
 
     from urllib.request import urlretrieve
+
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/BSA1.mzML", "BSA1.mzML")
+    urlretrieve(gh + "/src/data/BSA1.mzML", "BSA1.mzML")
 
     e = MSExperiment()
     MzMLFile().load("BSA1.mzML", e)
     s = e[214]
     s.setFloatDataArrays([])
-    Deisotoper.deisotopeAndSingleCharge(s, 0.1, False, 1, 3, True,
-                                        min_isotopes, max_isotopes,
-                                        True, True, True, 
-                                        use_decreasing_model, start_intensity_check, False)
+    Deisotoper.deisotopeAndSingleCharge(
+        s,
+        0.1,
+        False,
+        1,
+        3,
+        True,
+        min_isotopes,
+        max_isotopes,
+        True,
+        True,
+        True,
+        use_decreasing_model,
+        start_intensity_check,
+        False,
+    )
 
     print(e[214].size())
     print(s.size())
@@ -116,8 +141,8 @@ state:
 
     maxvalue = max([p.getIntensity() for p in s])
     for p in s:
-      if p.getIntensity() > 0.25 * maxvalue:
-        print(p.getMZ(), p.getIntensity())
+        if p.getIntensity() > 0.25 * maxvalue:
+            print(p.getMZ(), p.getIntensity())
 
 
 which produces the following output

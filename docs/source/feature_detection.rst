@@ -28,8 +28,11 @@ resolution) centroided data. We can use the following code to find ``Features`` 
 .. code-block:: python
 
   from urllib.request import urlretrieve
+
   gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-  urlretrieve (gh + "/src/data/FeatureFinderCentroided_1_input.mzML", "feature_test.mzML")
+  urlretrieve(
+      gh + "/src/data/FeatureFinderCentroided_1_input.mzML", "feature_test.mzML"
+  )
 
   from pyopenms import *
 
@@ -50,7 +53,7 @@ resolution) centroided data. We can use the following code to find ``Features`` 
 
   # Run the feature finder
   name = "centroided"
-  features = FeatureMap() 
+  features = FeatureMap()
   seeds = FeatureMap()
   params = FeatureFinder().getParameters(name)
   ff.run(name, input_map, features, params, seeds)
@@ -71,7 +74,7 @@ Python as follows:
 
   f0 = features[0]
   for f in features:
-      print (f.getRT(), f.getMZ())
+      print(f.getRT(), f.getMZ())
 
 
 Each entry in the ``FeatureMap`` is a so-called ``Feature`` and allows direct
@@ -104,8 +107,12 @@ For the untargeted detection of small molecule features we can use the ``Feature
   mass_traces = []
   mtd = MassTraceDetection()
   mtd_params = mtd.getDefaults()
-  mtd_params.setValue("mass_error_ppm", 5.0) # set according to your instrument mass error
-  mtd_params.setValue("noise_threshold_int", 3000.0) # adjust to noise level in your data
+  mtd_params.setValue(
+      "mass_error_ppm", 5.0
+  )  # set according to your instrument mass error
+  mtd_params.setValue(
+      "noise_threshold_int", 3000.0
+  )  # adjust to noise level in your data
   mtd.setParameters(mtd_params)
   mtd.run(exp, mass_traces, 0)
 
@@ -127,7 +134,9 @@ For the untargeted detection of small molecule features we can use the ``Feature
   ffm = FeatureFindingMetabo()
   ffm_params = ffm.getDefaults()
   ffm_params.setValue("isotope_filtering_model", "none")
-  ffm_params.setValue("remove_single_traces", "true") # set false to keep features with only one mass trace
+  ffm_params.setValue(
+      "remove_single_traces", "true"
+  )  # set false to keep features with only one mass trace
   ffm_params.setValue("mz_scoring_by_elements", "false")
   ffm_params.setValue("report_convex_hulls", "true")
   ffm.setParameters(ffm_params)
@@ -164,22 +173,29 @@ The pyOpenMS ``FeatureFinderAlgorithmMetaboIdent`` needs a list of ``FeatureFind
 .. code-block:: python
 
   import csv
+
   # read tsv file and create list of FeatureFinderMetaboIdentCompound
   def metaboTableFromFile(path_to_library_file):
       metaboTable = []
-      with open(path_to_library_file, 'r') as tsv_file:
+      with open(path_to_library_file, "r") as tsv_file:
           tsv_reader = csv.reader(tsv_file, delimiter="\t")
-          next(tsv_reader) # skip header
+          next(tsv_reader)  # skip header
           for row in tsv_reader:
-              metaboTable.append(FeatureFinderMetaboIdentCompound(
-                  row[0], # name
-                  row[1], # sum formula
-                  float(row[2]), # mass
-                  [int(charge) for charge in row[3].split(',')], # charges
-                  [float(rt) for rt in row[4].split(',')], # RTs
-                  [float(rt_range) for rt_range in row[5].split(',')], # RT ranges
-                  [float(iso_distrib) for iso_distrib in row[6].split(',')] # isotope distributions
-              ))
+              metaboTable.append(
+                  FeatureFinderMetaboIdentCompound(
+                      row[0],  # name
+                      row[1],  # sum formula
+                      float(row[2]),  # mass
+                      [int(charge) for charge in row[3].split(",")],  # charges
+                      [float(rt) for rt in row[4].split(",")],  # RTs
+                      [
+                          float(rt_range) for rt_range in row[5].split(",")
+                      ],  # RT ranges
+                      [
+                          float(iso_distrib) for iso_distrib in row[6].split(",")
+                      ],  # isotope distributions
+                  )
+              )
       return metaboTable
 
 Now we can use the following code to detect features with ``FeatureFinderAlgorithmMetaboIdent`` and store them in a ``FeatureXMLFile``:
@@ -191,35 +207,37 @@ Now we can use the following code to detect features with ``FeatureFinderAlgorit
 
   gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
   mzML_path = gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML"
-  urlretrieve (mzML_path, "ms_data.mzML")
-  urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_input.tsv", "library.tsv")
+  urlretrieve(mzML_path, "ms_data.mzML")
+  urlretrieve(
+      gh + "/src/data/FeatureFinderMetaboIdent_1_input.tsv", "library.tsv"
+  )
 
   # load ms data from mzML file into MSExperiment
   spectra = MSExperiment()
-  MzMLFile().load('ms_data.mzML', spectra)
+  MzMLFile().load("ms_data.mzML", spectra)
 
   # create FeatureFinderAlgorithmMetaboIdent and assign ms data
   ff = FeatureFinderAlgorithmMetaboIdent()
   ff.setMSData(spectra)
 
   # read library generate a metabo table with compounds
-  metabo_table = metaboTableFromFile('library.tsv')
+  metabo_table = metaboTableFromFile("library.tsv")
 
   # FeatureMap to store results
   fm = FeatureMap()
 
   # edit some parameters
   params = ff.getParameters()
-  params[b'extract:mz_window'] = 5.0 # 5 ppm
-  params[b'extract:rt_window'] = 20.0 # 20 seconds
-  params[b'detect:peak_width'] = 3.0 # 3 seconds
+  params[b"extract:mz_window"] = 5.0  # 5 ppm
+  params[b"extract:rt_window"] = 20.0  # 20 seconds
+  params[b"detect:peak_width"] = 3.0  # 3 seconds
   ff.setParameters(params)
 
   # run the FeatureFinderMetaboIdent with the metabo_table and mzML file path -> store results in fm
   ff.run(metabo_table, fm, mzML_path)
 
   # save FeatureMap to file
-  FeatureXMLFile().store('detected_features.featureXML', fm)
+  FeatureXMLFile().store("detected_features.featureXML", fm)
 
 Note: the output file that we have written (``output.featureXML``) is an
 OpenMS-internal XML format for storing features. You can learn more about file
@@ -231,28 +249,39 @@ We can get a quick overview on the detected features by plotting them using the 
 
   import matplotlib.pyplot as plt
 
+
   def plotDetectedFeatures3D(path_to_featureXML):
       fm = FeatureMap()
       fh = FeatureXMLFile()
       fh.load(path_to_featureXML, fm)
 
       fig = plt.figure()
-      ax = fig.add_subplot(111, projection='3d')
+      ax = fig.add_subplot(111, projection="3d")
 
       for feature in fm:
-          color = next(ax._get_lines.prop_cycler)['color']
+          color = next(ax._get_lines.prop_cycler)["color"]
           # chromatogram data is stored in the subordinates of the feature
           for i, sub in enumerate(feature.getSubordinates()):
-              retention_times = [x[0] for x in sub.getConvexHulls()[0].getHullPoints()]
-              intensities = [int(y[1]) for y in sub.getConvexHulls()[0].getHullPoints()]
-              mz = sub.getMetaValue('MZ')
-              ax.plot(retention_times, intensities, zs = mz, zdir = 'x', color = color)
+              retention_times = [
+                  x[0] for x in sub.getConvexHulls()[0].getHullPoints()
+              ]
+              intensities = [
+                  int(y[1]) for y in sub.getConvexHulls()[0].getHullPoints()
+              ]
+              mz = sub.getMetaValue("MZ")
+              ax.plot(retention_times, intensities, zs=mz, zdir="x", color=color)
               if i == 0:
-                  ax.text(mz,retention_times[0], max(intensities)*1.02, feature.getMetaValue('label'), color = color)
+                  ax.text(
+                      mz,
+                      retention_times[0],
+                      max(intensities) * 1.02,
+                      feature.getMetaValue("label"),
+                      color=color,
+                  )
 
-      ax.set_ylabel('time (s)')
-      ax.set_xlabel('m/z')
-      ax.set_zlabel('intensity (cps)')
+      ax.set_ylabel("time (s)")
+      ax.set_xlabel("m/z")
+      ax.set_zlabel("intensity (cps)")
       plt.show()
 
 .. image:: img/ffmid_graph.png
