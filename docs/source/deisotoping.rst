@@ -155,7 +155,7 @@ indicates the charge state:
 .. image:: img/deisotoped.png
 
 In the next section, we will look at 2-dimensional deisotoping where instead of
-a single spectrum, multiple spectra from a LC-MS experiments are analyzed
+a single spectrum, multiple spectra from a :term:`LC-MS` experiments are analyzed
 together. There algorithms analyze the full 2-dimensional (m/z and RT) signal
 and are generally more powerful than the 1-dimensional algorithm discussed
 here. However, not all data is 2 dimensional and the algorithm discussed here

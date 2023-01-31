@@ -23,7 +23,7 @@ Elements
 --------
 
 In OpenMS, elements are stored in :py:class:`~.ElementDB` which has entries for dozens of
-elements commonly used in mass spectrometry.
+elements commonly used in :term:`mass spectrometry<Mass spectrometry>`.
 
 .. code-block:: python
 

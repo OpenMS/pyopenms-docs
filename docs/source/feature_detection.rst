@@ -1,7 +1,7 @@
 Feature Detection
 =================
 
-One very common task in mass spectrometry is the detection of 2-dimensional
+One very common task in :term:`mass spectrometry<Mass spectrometry>` is the detection of 2-dimensional
 patterns in m/z and time (RT) dimension from a series of MS1 scans. These
 patterns are called ``Features`` and they exhibit a chromatographic elution
 profile in the time dimension and an isotopic pattern in the m/z dimension (see 

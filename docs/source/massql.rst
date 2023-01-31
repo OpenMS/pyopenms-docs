@@ -1,7 +1,7 @@
 Query MSExperiment with MassQL
 ==============================
 
-MassQL is a powerful, SQL-like query language for mass spectrometry data.
+MassQL is a powerful, SQL-like query language for :term:`Mass spectrometry` data.
 For further information visit the `MassQL documentation
 <https://mwang87.github.io/MassQueryLanguage_Documentation/>`_.
 

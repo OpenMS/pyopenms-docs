@@ -48,7 +48,7 @@ state, *m/z*, RT and other properties:
 
 .. image:: img/feature.png
 
-Note that in this case only 2 features are present, but in a typical LC-MS/MS
+Note that in this case only 2 features are present, but in a typical :term:`LC-MS/MS`
 experiments, thousands of features are present.
 
 
@@ -71,7 +71,7 @@ quantitative data directly and it supports direct iteration in Python:
 ConsensusFeature
 ****************
 
-Often LC-MS/MS experiments are run to compare quantitative features across
+Often :term:`LC-MS/MS` experiments are run to compare quantitative features across
 experiments. In OpenMS, linked features from individual experiments are
 represented by a :py:class:`~.ConsensusFeature`
 
@@ -129,7 +129,7 @@ the two maps and output the two linked features:
     ConsensusXMLFile().store("test.consensusXML", cmap)
 
 Inspection of the generated ``test.consensusXML`` reveals that it contains
-references to two LC-MS/MS runs (``file1`` and ``file2``) with their respective
+references to two :term:`LC-MS/MS` runs (``file1`` and ``file2``) with their respective
 unique identifier. Note how the two features we added before have matching
 unique identifiers.  
 

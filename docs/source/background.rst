@@ -5,26 +5,26 @@ Proteomics and metabolomics focus on complex interactions within biological syst
 while the latter is based on metabolites. To understand these interactions, we need to accurately identify the different
 biological components involved. :term:`Liquid chromatography (LC) <LC-MS>` and
 :term:`mass spectrometry (MS) <mass spectrometry>` are the analytical techniques used to isolate and identify biological
-components in proteomics and metabolomics. LC-MS data can be difficult to analyze manually given its amount and
-complexity. Therefore, we need specialized software that can analyze high-throughput LC-MS data quickly and accurately.
+components in proteomics and metabolomics. :term:`LC-MS` data can be difficult to analyze manually given its amount and
+complexity. Therefore, we need specialized software that can analyze high-throughput :term:`LC-MS` data quickly and accurately.
 
 Why use OpenMS
 --------------
-OpenMS is an open-source, C++ framework for analyzing large volumes of mass spectrometry data. It has been specially
-designed for analyzing high performance LC-MS data but over recent times, has been extended to analyze data generated
+OpenMS is an open-source, C++ framework for analyzing large volumes of :term:`mass spectrometry` data. It has been specially
+designed for analyzing high performance :term:`LC-MS` data but over recent times, has been extended to analyze data generated
 by other techniques.
 
 .. note::
 
-    OpenMS in recent times has been expanded to support a wide variety of mass spectrometry experiments. To design your
+    OpenMS in recent times has been expanded to support a wide variety of :term:`mass spectrometry` experiments. To design your
 analysis solution, `contact the OpenMS team <https://openms.github.io/community/>`_ today.
 
-To use OpenMS effectively, an understanding of chromatography and mass spectrometry is required as many of the
+To use OpenMS effectively, an understanding of chromatography and :term:`mass spectrometry` is required as many of the
 algorithms are based on these techniques. This section provides a detailed explanation on LC and MS, and how they are
 combined to identify and quantify substances.
 
-Liquid chromatography (LC)
---------------------------
+:term:`Liquid chromatography (LC)<LC-MS>`
+-----------------------------------------
 
 Chromatography is a technique used by life scientists to separate molecules based on a specific physical or
 chemical property.
@@ -227,7 +227,7 @@ Refer to the image below for a diagrammatic representation of the quadrupole ana
 Time-of-Flight (TOF)
 ''''''''''''''''''''
 
-In a time-of-flight analyzer, ions are extracted from the ion source through an electrostatic field in pulses in a field-free drift zone. An electrostatic mirror called a reflectron reflects the ions back onto the next component of mass spectrometry, the detector. The detector counts the particles and records the time of flight from extraction to the moment the particle hits the detector. 
+In a time-of-flight analyzer, ions are extracted from the ion source through an electrostatic field in pulses in a field-free drift zone. An electrostatic mirror called a reflectron reflects the ions back onto the next component of :term:`mass spectrometry<Mass spectrometry>`, the detector. The detector counts the particles and records the time of flight from extraction to the moment the particle hits the detector.
 
 Refer to the image below for a diagrammatic representation of the TOF analyzer.
 
@@ -272,7 +272,7 @@ Therefore,, **t**, for a given instrument's path length, **s**, depends on an io
 Orbitrap
 ''''''''
 
-The orbitrap analyzer is the most frequently used analyzer in mass spectrometry for proteomic and metabolomic applications. It consists of two outer electrodes and a central electrode. Ions are captured inside the analyzer because of an applied electrostatic field. The ions in the orbitrap analyzer oscillate around the central electrode along the axis of the electrostatic field at a set frequency, ω. This frequency is used to determine the mass-to-charge ratio using the following formula:
+The orbitrap analyzer is the most frequently used analyzer in :term:`mass spectrometry<Mass spectrometry>` for proteomic and metabolomic applications. It consists of two outer electrodes and a central electrode. Ions are captured inside the analyzer because of an applied electrostatic field. The ions in the orbitrap analyzer oscillate around the central electrode along the axis of the electrostatic field at a set frequency, ω. This frequency is used to determine the mass-to-charge ratio using the following formula:
 
 .. math::
 
@@ -294,7 +294,7 @@ The following diagram is a conceptual representation of an orbitrap mass analyze
 
 Identifying molecules with Tandem Mass Spectrometry (MS2)
 `````````````````````````````````````````````````````````
-To get better results, we can use two mass analyzers sequentially to generate and analyze ions. This technique is called **tandem mass spectrometry** or MS/MS (MS2). Tandem mass spectrometry is especially useful for linear polymers like proteins, RNA and DNA. 
+To get better results, we can use two mass analyzers sequentially to generate and analyze ions. This technique is called **tandem :term:`mass spectrometry<Mass spectrometry>`** or MS/MS (MS2). Tandem :term:`mass spectrometry<Mass spectrometry>` is especially useful for linear polymers like proteins, RNA and DNA.
 
 With MS2, ions called **precursor ions** are isolated and fragmented into ion fragments or **product ions**. A :term:`mass spectrum` is recorded for both the precursor and the product ions.
 
@@ -327,18 +327,18 @@ Collision-induced dissociation is a method to fragment peptides using an inert g
     For more information on CID, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1757.45">view this video</a>.
     </div>
 
-LC-MS
------
+:term:`LC-MS`
+-------------
 
-Liquid chromatography is often coupled with mass spectrometry to reduce complexity in the mass spectra. If complex samples were directly fed to a mass spectrometer, you would not be able to detect the less abundant analyte ions. The separated analytes from the liquid chromatography setup are directly injected into the ion source from the mass spectrometry setup. Multiple analytes that escape the column at the same time are separated by their mass-to-charge ratio using the mass spectrometer. 
+Liquid chromatography is often coupled with :term:`mass spectrometry<Mass spectrometry>` to reduce complexity in the mass spectra. If complex samples were directly fed to a mass spectrometer, you would not be able to detect the less abundant analyte ions. The separated analytes from the liquid chromatography setup are directly injected into the ion source from the :term:`mass spectrometry<Mass spectrometry>` setup. Multiple analytes that escape the column at the same time are separated by their mass-to-charge ratio using the mass spectrometer.
 
-Refer to the image below for a diagrammatic representation of the LC-MS setup.
+Refer to the image below for a diagrammatic representation of the :term:`LC-MS` setup.
 
 .. image:: img/introduction/lc-ms-setup.png
 
-From the LC-MS setup, a set of spectra called a peak map is produced. In a peak map, each spectrum represents the ions detected at a particular retention time. Each peak in a spectrum has a retention time, mass-to-charge and intensity dimension.
+From the :term:`LC-MS` setup, a set of spectra called a peak map is produced. In a peak map, each spectrum represents the ions detected at a particular retention time. Each peak in a spectrum has a retention time, mass-to-charge and intensity dimension.
 
-From the LC-MS setup, a series of spectra are 'stacked' together to form what is known as a peak map. Each spectrum in a peak map is a collection of data points called :term:`peaks <peak>` which indicate the retention time, mass-to-charge and intensity of each detected ion. Analyzing peak maps is difficult as different compounds can elute at the same time which means that peaks can overlap. Therefore, sophisticated techniques are required for the accurate identification and quantification of molecules. 
+From the :term:`LC-MS` setup, a series of spectra are 'stacked' together to form what is known as a peak map. Each spectrum in a peak map is a collection of data points called :term:`peaks <peak>` which indicate the retention time, mass-to-charge and intensity of each detected ion. Analyzing peak maps is difficult as different compounds can elute at the same time which means that peaks can overlap. Therefore, sophisticated techniques are required for the accurate identification and quantification of molecules.
 
 The image below includes a spectrum at a given retention time (left) and a peak map (right).
 
@@ -354,12 +354,12 @@ The image below includes a spectrum at a given retention time (left) and a peak 
 Improving identification and quantification
 -------------------------------------------
 
-While the combination of liquid chromatography and mass spectrometry can ease the process of characterising molecules of interest, further techniques are required to easily identify and quantify these molecules. This section discusses both labeled and label-free quantification techniques.
+While the combination of liquid chromatography and :term:`mass spectrometry<Mass spectrometry>` can ease the process of characterising molecules of interest, further techniques are required to easily identify and quantify these molecules. This section discusses both labeled and label-free quantification techniques.
 
 Labeling
 ````````
 
-Relative quantification is one strategy where one sample is chemically treated and compared to another sample without treatment. This section discusses a particular relative quanitification technique called **labeling** or **stable isotope labeling** which involves the addition of isotopes to one sample. An isotope of an element behaves the same chemically but has a different mass. Stable isotope labeling is used in mass spectrometry so that scientists can easily identify proteins and metabolites. 
+Relative quantification is one strategy where one sample is chemically treated and compared to another sample without treatment. This section discusses a particular relative quanitification technique called **labeling** or **stable isotope labeling** which involves the addition of isotopes to one sample. An isotope of an element behaves the same chemically but has a different mass. Stable isotope labeling is used in :term:`mass spectrometry<Mass spectrometry>` so that scientists can easily identify proteins and metabolites.
 
 Two types of stable isotope labeling exist: chemical labeling and metabolic labeling.
 
@@ -420,8 +420,8 @@ LFQ is a cheap and natural method of quantifying molecules of interest. As the n
 LFQ includes the following steps:
 
 1. **Conduct replicate experiments**.
-2. **Generate LC-MS maps** for each experiment.
-3. **Find features** in all LC-MS maps. A :term:`feature` is a collection of peaks that belong to a chemical compound.
+2. **Generate :term:`LC-MS` maps** for each experiment.
+3. **Find features** in all :term:`LC-MS` maps. A :term:`feature` is a collection of peaks that belong to a chemical compound.
 4. **Align maps** to address shifts in retention times.
 5. **Match corresponding features** in different maps. We refer to this as **grouping** or **linking**.
 6. **Identify feature groups**, called :term:`consensus features <consensus feature>`.
