@@ -155,6 +155,7 @@ which indicates that the variable ``exp`` has (among others) the functions
     print(exp.getNrChromatograms())
 
 .. code-block:: output
+    
     4
     2
 

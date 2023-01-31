@@ -1,5 +1,6 @@
 .idea
-.pyc
+**/*.pyc
 .DS_Store
+docs/source/_autosummary/
 docs/source/_build/
 docs/build/
