@@ -51,12 +51,13 @@ def check_forbidden_words(app, doctree, docname):
         visitor = FindTextNodesVisitor(doctree, env.glossary_all_terms)
         doctree.walk(visitor)
 
+
 def purge_glossary_terms(app, env, docname):
     if not hasattr(env, 'glossary_all_terms'):
         return
 
     env.glossary_all_terms = [term for term in env.glossary_all_terms
-                          if term['docname'] != docname]
+                              if term['docname'] != docname]
 
 
 def merge_glossary_terms(app, env, docnames, other):
@@ -64,7 +65,7 @@ def merge_glossary_terms(app, env, docnames, other):
         env.glossary_all_terms = set()
     if hasattr(other, 'glossary_all_terms'):
         env.glossary_all_terms.update(other.glossary_all_terms)
-    
+
 
 def setup(app):
     app.connect('doctree-resolved', check_forbidden_words)
