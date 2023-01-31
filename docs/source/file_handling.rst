@@ -11,8 +11,9 @@ spectrometric data is using the ``MzMLFile`` class:
 
     from pyopenms import *
     from urllib.request import urlretrieve
+
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
+    urlretrieve(gh + "/src/data/tiny.mzML", "test.mzML")
     exp = MSExperiment()
     MzMLFile().load("test.mzML", exp)
 
@@ -77,12 +78,12 @@ data into memory:
     od_exp.getNrChromatograms()
 
     # data is not present in meta_data experiment
-    sum(meta_data.getChromatogram(0).get_peaks()[1]) # no data!
-    sum(od_exp.getChromatogram(0).get_peaks()[1]) # data is here!
+    sum(meta_data.getChromatogram(0).get_peaks()[1])  # no data!
+    sum(od_exp.getChromatogram(0).get_peaks()[1])  # data is here!
 
     # meta data is present and identical in both data structures:
-    meta_data.getChromatogram(0).getNativeID() # fast
-    od_exp.getChromatogram(0).getNativeID() # slow
+    meta_data.getChromatogram(0).getNativeID()  # fast
+    od_exp.getChromatogram(0).getNativeID()  # slow
 
 Note that the ``OnDiscMSExperiment`` allows users to access meta data through
 the ``getMetaData`` function, which allows easy selection and filtering on meta
@@ -104,7 +105,7 @@ chromatograms as they are read from the disk. A simple implementation could look
 
 .. code-block:: python
 
-    class MSCallback():
+    class MSCallback:
         def setExperimentalSettings(self, s):
             pass
 
@@ -112,10 +113,10 @@ chromatograms as they are read from the disk. A simple implementation could look
             pass
 
         def consumeChromatogram(self, c):
-            print ("Read a chromatogram")
+            print("Read a chromatogram")
 
         def consumeSpectrum(self, s):
-            print ("Read a spectrum")
+            print("Read a spectrum")
 
 
 which can the be used as follows:
@@ -209,12 +210,12 @@ directly mapped into memory when requested. You can use this feature as follows:
     cfile.getNrSpectra()
 
     # data is not present in meta_data experiment
-    sum(meta_data.getChromatogram(0).get_peaks()[1]) # no data!
-    sum(cfile.getChromatogram(0).get_peaks()[1]) # data is here!
+    sum(meta_data.getChromatogram(0).get_peaks()[1])  # no data!
+    sum(cfile.getChromatogram(0).get_peaks()[1])  # data is here!
 
     # meta data is present and identical in both data structures:
-    meta_data.getChromatogram(0).getNativeID() # fast
-    cfile.getChromatogram(0).getNativeID() # slow
+    meta_data.getChromatogram(0).getNativeID()  # fast
+    cfile.getChromatogram(0).getNativeID()  # slow
 
 Note that the ``CachedmzML`` allows users to access meta data through
 the ``getMetaData`` function, which allows easy selection and filtering on meta
@@ -244,8 +245,8 @@ into memory):
 
     meta_data = cfile.getMetaData()
     # data is not present in meta_data experiment
-    sum(meta_data.getChromatogram(0).get_peaks()[1]) # no data!
-    sum(cfile.getChromatogram(0).get_peaks()[1]) # data is here!
+    sum(meta_data.getChromatogram(0).get_peaks()[1])  # no data!
+    sum(cfile.getChromatogram(0).get_peaks()[1])  # data is here!
 
 This approach is now memory efficient in cases where computation should only occur
 on part of the data or the whole data may not fit into memory.

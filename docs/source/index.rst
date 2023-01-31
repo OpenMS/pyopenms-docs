@@ -40,6 +40,7 @@ pyOpenMS facilitates the execution of common tasks in proteomics (and other mass
 
    installation
    first_steps
+   introduction
 
 .. toctree::
    :maxdepth: 2
@@ -94,6 +95,7 @@ pyOpenMS facilitates the execution of common tasks in proteomics (and other mass
    file_handling
    other_file_handling   
    mzMLFileFormat
+   hyperscore
    pandas_df_conversion
    massql
    memory_management

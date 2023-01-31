@@ -16,17 +16,19 @@ First, we load some profile data:
     import matplotlib.pyplot as plt
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh +"/src/data/PeakPickerHiRes_input.mzML", "tutorial.mzML")
+    urlretrieve(gh + "/src/data/PeakPickerHiRes_input.mzML", "tutorial.mzML")
 
     profile_spectra = MSExperiment()
-    MzMLFile().load("tutorial.mzML", profile_spectra) 
+    MzMLFile().load("tutorial.mzML", profile_spectra)
 
 Let's zoom in on an isotopic pattern in profile mode and plot it.
 
 .. code-block:: python
 
-    plt.xlim(771.8, 774) # zoom into isotopic pattern
-    plt.plot(profile_spectra[0].get_peaks()[0], profile_spectra[0].get_peaks()[1]) # plot the first spectrum
+    plt.xlim(771.8, 774)  # zoom into isotopic pattern
+    plt.plot(
+        profile_spectra[0].get_peaks()[0], profile_spectra[0].get_peaks()[1]
+    )  # plot the first spectrum
 
 .. image:: img/profile_data.png
 
@@ -40,11 +42,14 @@ by storing only centroided data. Thus, many algorithms and tools assume that cen
     centroided_spectra = MSExperiment()
 
     # input, output, chec_spectrum_type (if set, checks spectrum type and throws an exception if a centroided spectrum is passed)
-    PeakPickerHiRes().pickExperiment(profile_spectra, centroided_spectra, True) # pick all spectra
-    
-    plt.xlim(771.8,774) # zoom into isotopic pattern
-    plt.stem(centroided_spectra[0].get_peaks()[0], centroided_spectra[0].get_peaks()[1]) # plot as vertical lines
-    
+    PeakPickerHiRes().pickExperiment(
+        profile_spectra, centroided_spectra, True
+    )  # pick all spectra
+
+    plt.xlim(771.8, 774)  # zoom into isotopic pattern
+    plt.stem(
+        centroided_spectra[0].get_peaks()[0], centroided_spectra[0].get_peaks()[1]
+    )  # plot as vertical lines
 .. image:: img/centroided_data.png
 
 After centroding, a single m/z value for every isotopic peak is retained. By plotting the centroided data as stem plot
