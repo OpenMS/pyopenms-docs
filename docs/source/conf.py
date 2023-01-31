@@ -29,6 +29,8 @@ import sys
 from platform import python_version_tuple
 from sys import platform
 
+sys.path.append(os.path.abspath("./_ext"))
+
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -38,7 +40,10 @@ from sys import platform
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['hoverxref.extension','sphinx_copybutton', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary',]
+extensions = [
+    'glossary_warnings', 'hoverxref.extension',
+    'sphinx_copybutton', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary',
+]
 autosummary_generate = True
 autosummary_imported_members = True
 autodoc_docstring_signature = True
@@ -63,7 +68,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'pyOpenMS'
-copyright = u'2022, OpenMS Team'
+copyright = u'2023, OpenMS Team'
 author = u'OpenMS Team'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -170,4 +175,4 @@ texinfo_documents = [
 
 def setup(app):
     app.add_css_file('custom.css')
-    app.add_js_file("piwik.js")
+    app.add_js_file('piwik.js')
