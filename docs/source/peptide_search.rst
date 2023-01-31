@@ -56,23 +56,24 @@ We can now investigate the individual hits as we have done before in the
 
 .. code-block:: python
     :linenos:
+
     for peptide_id in peptide_ids:
-      # Peptide identification values
-      print (35*"=")
-      print ("Peptide ID m/z:", peptide_id.getMZ())
-      print ("Peptide ID rt:", peptide_id.getRT())
-      print ("Peptide scan index:", peptide_id.getMetaValue("scan_index"))
-      print ("Peptide scan name:", peptide_id.getMetaValue("scan_index"))
-      print ("Peptide ID score type:", peptide_id.getScoreType())
-      # PeptideHits
-      for hit in peptide_id.getHits():
-        print(" - Peptide hit rank:", hit.getRank())
-        print(" - Peptide hit charge:", hit.getCharge())
-        print(" - Peptide hit sequence:", hit.getSequence())
-        mz = hit.getSequence().getMonoWeight(Residue.ResidueType.Full, hit.getCharge()) / hit.getCharge()
-        print(" - Peptide hit monoisotopic m/z:", mz) 
-        print(" - Peptide ppm error:", abs(mz - peptide_id.getMZ())/mz *10**6 )
-        print(" - Peptide hit score:", hit.getScore())
+        # Peptide identification values
+        print (35*"=")
+        print ("Peptide ID m/z:", peptide_id.getMZ())
+        print ("Peptide ID rt:", peptide_id.getRT())
+        print ("Peptide scan index:", peptide_id.getMetaValue("scan_index"))
+        print ("Peptide scan name:", peptide_id.getMetaValue("scan_index"))
+        print ("Peptide ID score type:", peptide_id.getScoreType())
+        # PeptideHits
+        for hit in peptide_id.getHits():
+            print(" - Peptide hit rank:", hit.getRank())
+            print(" - Peptide hit charge:", hit.getCharge())
+            print(" - Peptide hit sequence:", hit.getSequence())
+            mz = hit.getSequence().getMonoWeight(Residue.ResidueType.Full, hit.getCharge()) / hit.getCharge()
+            print(" - Peptide hit monoisotopic m/z:", mz)
+            print(" - Peptide ppm error:", abs(mz - peptide_id.getMZ())/mz *10**6 )
+            print(" - Peptide hit score:", hit.getScore())
 
 
 We notice that the second peptide spectrum match (PSM) was found for the third

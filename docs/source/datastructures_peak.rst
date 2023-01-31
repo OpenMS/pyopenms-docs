@@ -313,7 +313,7 @@ chromatogram in our :py:class:`~.MSExperiment` and label it with it's native ID.
 .. image:: img/ChromPlot.png
 
 :term:`LC-MS/MS` Experiment
-*******************
+***************************
 
 In OpenMS, :term:`LC-MS/MS` injections are represented as so-called peak maps (using
 the :py:class:`~.MSExperiment` class), which we have already encountered above. The

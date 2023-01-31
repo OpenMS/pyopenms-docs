@@ -17,6 +17,7 @@ Required imports for the examples:
     from urllib.request import urlretrieve
     url = 'https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master/src/data/'
 
+
 MSExperiment
 ************
 
@@ -47,7 +48,8 @@ MSExperiment
 
     df = exp.get_df() # default: long = False
     df.head(2)
-    
+
+
 .. csv-table:: exp.get_df()
    :widths: 2 10 50 50
    :header: ,"RT", "mzarray", "intarray"
@@ -297,6 +299,7 @@ ConsensusMap
 .. csv-table:: consensus_map.get_df()
    :widths: 2 10 20 20 20 20 30 10 30
    :header: "id",	"sequence",	"charge",	"RT",	"mz",	"quality",	"BSA1_F1.mzML",	"...",	"BSA1_F2.mzML"
+
    "2935923263525422257",	"DGDIEAEISR",	"3",	"1523.370634",	"368.843773",	"0.000000",	"0.0",	"...",	"0.0"
    "10409195546240342212",	"SHC(Carbamidomethyl)IAEVEK",	"3",	"1552.032973",	"358.174576",	"0.491247",	"1358151.0",	"...",	"0.0"
 

@@ -24,15 +24,15 @@ In case R is having trouble to find the correct Python environment, you can set 
 .. code-block:: R
     :linenos:
 
-   Sys.setenv(RETICULATE_PYTHON = "/usr/local/miniconda3/envs/py37/bin/python")
+    Sys.setenv(RETICULATE_PYTHON = "/usr/local/miniconda3/envs/py37/bin/python")
 
 Or after loading the "reticulate" library:
 
 .. code-block:: R
     :linenos:
 
-   library("reticulate")
-   use_python("/usr/local/miniconda3/envs/py37/bin/python")
+    library("reticulate")
+    use_python("/usr/local/miniconda3/envs/py37/bin/python")
 
 Import pyopenms in R
 ********************
@@ -77,12 +77,12 @@ through the ``py_help`` function:
 
     Help on class IdXMLFile in module pyopenms.pyopenms_4:
 
-   class IdXMLFile(__builtin__.object)
+    class IdXMLFile(__builtin__.object)
     |  Methods defined here:
-    |  
+    |
     |  __init__(...)
     |      Cython signature: void IdXMLFile()
-    |  
+    |
     |  load(...)
     |      Cython signature: void load(String filename, libcpp_vector[ProteinIdentification] & protein_ids, libcpp_vector[PeptideIdentification] & peptide_ids)
     [...]
