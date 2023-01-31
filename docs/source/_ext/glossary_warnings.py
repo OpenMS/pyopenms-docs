@@ -15,7 +15,8 @@ class FindTextNodesVisitor(nodes.SparseNodeVisitor):
     def visit_Text(self, node):
         for substring in self.words:
             if substring in node.astext():
-                logger.warn(logging.get_node_location(node) +
+                logger.warn(
+                    logging.get_node_location(node) +
                     ' Potential glossary terms found in the text node. First match:' +
                     substring)
                 break

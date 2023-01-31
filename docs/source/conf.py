@@ -40,8 +40,10 @@ sys.path.append(os.path.abspath("./_ext"))
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['glossary_warnings', 'hoverxref.extension',
-    'sphinx_copybutton', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary', ]
+extensions = [
+    'glossary_warnings', 'hoverxref.extension',
+    'sphinx_copybutton', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary',
+]
 autosummary_generate = True
 autosummary_imported_members = True
 autodoc_docstring_signature = True
