@@ -78,22 +78,21 @@ The param object can be copy and merge in to other param object as
 In param object the keys values can be remove by key_name or prefix as
 
 .. code-block:: python
-    
     # We now call the remove method with key of the entry we want to delete ("example3")
     new_p.remove("example3")
     print("Key and values pairs after removing the entry with key: example3")
     printParamKeyAndValues(new_p)
-    
+
     # We now want to delete all keys with prefix "exam"
     new_p.removeAll("exam")
     print(
         "Key and value pairs after removing all entries with keys starting with: exam"
     )
     printParamKeyAndValues(new_p)
-    
+
     # we can compare Param objects for identical content
     if p == new_p:  # check p is equal to new_p
         new_p.clear()  # Example: delete all keys from new_p
-    
+
     print("Keys and values after deleting all entries.")
     printParamKeyAndValues(new_p)  # All keys of new_p deleted

@@ -12,12 +12,12 @@ jobs:
 
     - name: Installing Dependencies
       run: |
-        pip install flakeheaven flake8-commas flake8-quotes flake8-bandit flake8-docstrings
+        pip install blacken-docs
 
 
     - name: Get changed files
       id: changed-files
       uses: tj-actions/changed-files@v35
 
-    - name: Running flakeheaven
-      run: flakeheaven lint ${{ steps.changed-files.outputs.all_changed_files }}
+    - name: Running blacken
+      run: blacken-docs -l 80 ${{ steps.changed-files.outputs.all_changed_files }}
