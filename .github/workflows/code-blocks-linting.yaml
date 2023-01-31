@@ -1,4 +1,4 @@
-name: Linting flakeheaven
+name: Linting code-blocks
 on: [push, pull_request]
 jobs:
   linting:

@@ -10,7 +10,7 @@ First we load a (chemically modified) peptide:
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    from pyopenms import *
+    from pyopenms imp ort *
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(
