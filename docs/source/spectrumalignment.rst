@@ -10,14 +10,14 @@ First we load a (chemically modified) peptide:
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    from pyopenms imp ort *
+    from pyopenms import *
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(
         gh + "/src/data/YIC(Carbamidomethyl)DNQDTISSK.mzML", "observed.mzML"
     )
 
-    exp = MSExperiment()
+        exp = MSExperiment()
     # Load mzML file and obtain spectrum for peptide YIC(Carbamidomethyl)DNQDTISSK
     MzMLFile().load("observed.mzML", exp)
 
