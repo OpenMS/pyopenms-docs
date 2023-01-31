@@ -41,7 +41,7 @@ sys.path.append(os.path.abspath("./_ext"))
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['glossary_warnings', 'hoverxref.extension',
- 'sphinx_copybutton', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary', ]
+    'sphinx_copybutton', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary', ]
 autosummary_generate = True
 autosummary_imported_members = True
 autodoc_docstring_signature = True

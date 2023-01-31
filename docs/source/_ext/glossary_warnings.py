@@ -16,8 +16,8 @@ class FindTextNodesVisitor(nodes.SparseNodeVisitor):
         for substring in self.words:
             if substring in node.astext():
                 logger.warn(logging.get_node_location(node) +
-                  ' Potential glossary terms found in the text node. First match:' +
-                  substring)
+                    ' Potential glossary terms found in the text node. First match:' +
+                    substring)
                 break
 
     def visit_literal_block(self, node):
@@ -34,7 +34,7 @@ def collect_glossary_entries_doc(app, doctree):
         definition_list = cast(nodes.definition_list, glossary[0])
         for t in definition_list:
             app.config.forbidden_words.update(
-                [" " + w + " " 
+                [" " + w + " "
                     for w in cast(nodes.term, t).astext().split("\n\n")[0].split("\n")])
 
 
