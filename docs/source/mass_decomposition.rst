@@ -13,10 +13,15 @@ interpretations within a narrow mass band of 0.05 Th:
 
     from pyopenms import *
 
-    print(AASequence.fromString("MM").getMonoWeight(Residue.ResidueType.Internal, 0))
-    print(AASequence.fromString("VY").getMonoWeight(Residue.ResidueType.Internal, 0))
-    print(AASequence.fromString("DF").getMonoWeight(Residue.ResidueType.Internal, 0))
-    
+    print(
+        AASequence.fromString("MM").getMonoWeight(Residue.ResidueType.Internal, 0)
+    )
+    print(
+        AASequence.fromString("VY").getMonoWeight(Residue.ResidueType.Internal, 0)
+    )
+    print(
+        AASequence.fromString("DF").getMonoWeight(Residue.ResidueType.Internal, 0)
+    )
 
 .. code-block:: output
 
@@ -40,7 +45,7 @@ potential amino acid combitions that explain a certain mass in the
     decomps = []
     md_alg.getDecompositions(decomps, 262.0953584466)
     for d in decomps:
-      print(d.toExpandedString()) 
+        print(d.toExpandedString())
 
 Which outputs the three potential compositions for the mass ``262.0953584466``.
 Note that every single combination of amino acids is only printed once, e.g.
@@ -58,14 +63,19 @@ residues equals the target mass:
 
     mass = 262.0953584466
     residues = ResidueDB().getResidues(b"Natural19WithoutI")
+
+
     def recursive_mass_decomposition(mass_sum, peptide):
-      if abs(mass_sum - mass) < 0.05:
-        print(peptide + "\t" + str(mass_sum))
-      for r in residues:
-        new_mass = mass_sum + r.getMonoWeight(Residue.ResidueType.Internal)
-        if new_mass < mass + 0.05:
-          recursive_mass_decomposition(new_mass, peptide + r.getOneLetterCode())
-      
+        if abs(mass_sum - mass) < 0.05:
+            print(peptide + "\t" + str(mass_sum))
+        for r in residues:
+            new_mass = mass_sum + r.getMonoWeight(Residue.ResidueType.Internal)
+            if new_mass < mass + 0.05:
+                recursive_mass_decomposition(
+                    new_mass, peptide + r.getOneLetterCode()
+                )
+
+
     print("Mass explanations by naive algorithm:")
     recursive_mass_decomposition(0, "")
 
@@ -135,16 +145,16 @@ Spectrum Tagger
     test_sequence = AASequence.fromString("PEPTIDETESTTHISTAGGER")
     spec = MSSpectrum()
     tsg.getSpectrum(spec, test_sequence, 1, 2)
-    
-    print(spec.size()) # should be 357
+
+    print(spec.size())  # should be 357
 
     # tagger searching only for charge +1
     tags = []
     tagger = Tagger(2, 10.0, 5, 1, 1, [], [])
     tagger.getTag(spec, tags)
-    
-    print(len(tags)) # should be 890
+
+    print(len(tags))  # should be 890
 
     b"EPTID" in tags  # True
     b"PTIDE" in tags  # True
-    b"PTIDEF" in tags # False
+    b"PTIDEF" in tags  # False

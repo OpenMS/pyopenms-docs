@@ -23,6 +23,7 @@ You can check if importing pyOpenMS works and print your pyOpenMS version with:
 .. code-block:: python
 
     from pyopenms import *
+
     print("Version: " + VersionInfo.getVersion())
     print("OpenMP: " + str(OpenMSBuildInfo.isOpenMPEnabled()))
     print("Build type: " + OpenMSBuildInfo.getBuildType())

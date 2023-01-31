@@ -13,8 +13,9 @@ OpenMS has many chemical and physical constants built in:
 .. code-block:: python
 
     import pyopenms
+
     help(pyopenms.Constants)
-    print ("Avogadro's number is", pyopenms.Constants.AVOGADRO)
+    print("Avogadro's number is", pyopenms.Constants.AVOGADRO)
 
 which provides access to constants such as Avogadro's number or the electron
 mass.
@@ -28,6 +29,7 @@ elements commonly used in mass spectrometry.
 .. code-block:: python
 
     from pyopenms import *
+
     edb = ElementDB()
 
     edb.hasElement("O")
@@ -46,8 +48,8 @@ elements commonly used in mass spectrometry.
     print(sulfur.getAverageWeight())
     isotopes = sulfur.getIsotopeDistribution()
 
-    print ("One mole of oxygen weighs", 2*oxygen.getAverageWeight(), "grams")
-    print ("One mole of 16O2 weighs", 2*oxygen.getMonoWeight(), "grams")
+    print("One mole of oxygen weighs", 2 * oxygen.getAverageWeight(), "grams")
+    print("One mole of 16O2 weighs", 2 * oxygen.getMonoWeight(), "grams")
 
 As we can see, the OpenMS ``ElementDB`` has entries for common elements like
 Oxygen and Sulfur as well as information on their average and monoisotopic
@@ -84,14 +86,26 @@ We can also inspect the full isotopic distribution of oxygen and sulfur:
     oxygen = edb.getElement("O")
     isotopes = oxygen.getIsotopeDistribution()
     for iso in isotopes.getContainer():
-        print ("Oxygen isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        print(
+            "Oxygen isotope",
+            iso.getMZ(),
+            "has abundance",
+            iso.getIntensity() * 100,
+            "%",
+        )
         oxygen_isoDist["mass"].append(iso.getMZ())
         oxygen_isoDist["abundance"].append((iso.getIntensity() * 100))
 
     sulfur = edb.getElement("S")
     isotopes = sulfur.getIsotopeDistribution()
     for iso in isotopes.getContainer():
-        print ("Sulfur isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        print(
+            "Sulfur isotope",
+            iso.getMZ(),
+            "has abundance",
+            iso.getIntensity() * 100,
+            "%",
+        )
         sulfur_isoDist["mass"].append(iso.getMZ())
         sulfur_isoDist["abundance"].append((iso.getIntensity() * 100))
 
@@ -122,44 +136,69 @@ The isotope distribution of oxygen and sulfur can be displayed with the followin
     # very simple overlappping correction of annotations
     def adjustText(x1, y1, x2, y2):
         if y1 > y2:
-            plt.annotate('%0.3f' % (y2), xy=(x2, y2), xytext=(x2+0.5,y2+9),
-                         textcoords='data',
-                         arrowprops=dict(arrowstyle="->", color='r', lw=0.5),
-                         horizontalalignment='right', verticalalignment='top')
+            plt.annotate(
+                "%0.3f" % (y2),
+                xy=(x2, y2),
+                xytext=(x2 + 0.5, y2 + 9),
+                textcoords="data",
+                arrowprops=dict(arrowstyle="->", color="r", lw=0.5),
+                horizontalalignment="right",
+                verticalalignment="top",
+            )
         else:
-            plt.annotate('%0.3f' % (y1), xy=(x1, y1), xytext=(x1+0.5,y1+9),
-                         textcoords='data',
-                         arrowprops=dict(arrowstyle="->", color='r', lw=0.5),
-                         horizontalalignment='right', verticalalignment='top')
+            plt.annotate(
+                "%0.3f" % (y1),
+                xy=(x1, y1),
+                xytext=(x1 + 0.5, y1 + 9),
+                textcoords="data",
+                arrowprops=dict(arrowstyle="->", color="r", lw=0.5),
+                horizontalalignment="right",
+                verticalalignment="top",
+            )
 
 
     def plotDistribution(distribution):
         n = len(distribution["mass"])
         for i in range(0, n):
-            plt.vlines(x=distribution["mass"][i], ymin=0, ymax=distribution["abundance"][i])
-            if int(distribution["mass"][i - 1]) == int(distribution["mass"][i]) \
-                    and i != 0:
-                adjustText(distribution["mass"][i - 1], distribution["abundance"][i - 1],
-                           distribution["mass"][i], distribution["abundance"][i])
+            plt.vlines(
+                x=distribution["mass"][i], ymin=0, ymax=distribution["abundance"][i]
+            )
+            if (
+                int(distribution["mass"][i - 1]) == int(distribution["mass"][i])
+                and i != 0
+            ):
+                adjustText(
+                    distribution["mass"][i - 1],
+                    distribution["abundance"][i - 1],
+                    distribution["mass"][i],
+                    distribution["abundance"][i],
+                )
             else:
-                plt.text(x=distribution["mass"][i],
-                         y=(distribution["abundance"][i] + 2),
-                         s='%0.3f' % (distribution["abundance"][i]), va='center',
-                         ha='center')
+                plt.text(
+                    x=distribution["mass"][i],
+                    y=(distribution["abundance"][i] + 2),
+                    s="%0.3f" % (distribution["abundance"][i]),
+                    va="center",
+                    ha="center",
+                )
         plt.ylim([0, 110])
-        plt.xticks(range(math.ceil(distribution["mass"][0]) - 2,
-                         math.ceil(distribution["mass"][-1]) + 2))
-                 
-                
-    plt.figure(figsize=(10,7))
+        plt.xticks(
+            range(
+                math.ceil(distribution["mass"][0]) - 2,
+                math.ceil(distribution["mass"][-1]) + 2,
+            )
+        )
 
-    plt.subplot(1,2,1)
+
+    plt.figure(figsize=(10, 7))
+
+    plt.subplot(1, 2, 1)
     plt.title("Isotopic distribution of oxygen")
     plotDistribution(oxygen_isoDist)
     plt.xlabel("Atomic mass (u)")
     plt.ylabel("Relative abundance (%)")
 
-    plt.subplot(1,2,2)
+    plt.subplot(1, 2, 2)
     plt.title("Isotopic distribution of sulfur")
     plotDistribution(sulfur_isoDist)
     plt.xlabel("Atomic mass (u)")
@@ -178,7 +217,7 @@ Mass Defect
 
 .. NOTE::
    While all isotopes are created by adding one or more neutrons to the
-   nucleus, this leads to different observed masses due to the `mass defect <https://en.wikipedia.org/wiki/Nuclear_binding_energy#Mass_defect>`_, which
+   nucleus, this leads to different observed masses due to the `mass defect <https://en.wikipedia.org/wiki/Nuclear_binding_energy#Mass_defect>`__, which
    describes the difference between the mass of an atom and the mass of
    its constituent particles. For example, the mass difference between 12C and
    13C is slightly different than the mass difference between 14N and 15N, even
@@ -192,10 +231,15 @@ Mass Defect
        isotopes = edb.getElement("N").getIsotopeDistribution().getContainer()
        nitrogen_isotope_difference = isotopes[1].getMZ() - isotopes[0].getMZ()
 
-       print ("Mass difference between 12C and 13C:", carbon_isotope_difference)
-       print ("Mass difference between 14N and N15:", nitrogen_isotope_difference)
-       print ("Relative deviation:", 100*(carbon_isotope_difference -
-               nitrogen_isotope_difference)/carbon_isotope_difference, "%")
+       print("Mass difference between 12C and 13C:", carbon_isotope_difference)
+       print("Mass difference between 14N and N15:", nitrogen_isotope_difference)
+       print(
+           "Relative deviation:",
+           100
+           * (carbon_isotope_difference - nitrogen_isotope_difference)
+           / carbon_isotope_difference,
+           "%",
+       )
 
    .. code-block:: output
        
@@ -217,13 +261,17 @@ Mass Defect
        helium = ElementDB().getElement("He")
        isotopes = helium.getIsotopeDistribution()
 
-       mass_sum = 2*PROTON_MASS_U + 2*ELECTRON_MASS_U + 2*NEUTRON_MASS_U
+       mass_sum = 2 * PROTON_MASS_U + 2 * ELECTRON_MASS_U + 2 * NEUTRON_MASS_U
        helium4 = isotopes.getContainer()[1].getMZ()
-       print ("Sum of masses of 2 protons, neutrons and electrons:", mass_sum)
-       print ("Mass of He4:", helium4)
-       print ("Difference between the two masses:", 100*(mass_sum - helium4)/mass_sum, "%")
+       print("Sum of masses of 2 protons, neutrons and electrons:", mass_sum)
+       print("Mass of He4:", helium4)
+       print(
+           "Difference between the two masses:",
+           100 * (mass_sum - helium4) / mass_sum,
+           "%",
+       )
 
-   .. code-block:: python
+   .. code-block:: output
        
        Sum of masses of 2 protons, neutrons and electrons: 4.032979924670597
        Mass of He4: 4.00260325415
@@ -325,20 +373,24 @@ algorithm [1]_ :
     ethanol_isoDist = {"mass": [], "abundance": []}
 
     print("Coarse Isotope Distribution:")
-    isotopes = ethanol.getIsotopeDistribution( CoarseIsotopePatternGenerator(4) )
+    isotopes = ethanol.getIsotopeDistribution(CoarseIsotopePatternGenerator(4))
     prob_sum = sum([iso.getIntensity() for iso in isotopes.getContainer()])
     print("This covers", prob_sum, "probability")
     for iso in isotopes.getContainer():
-        print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        print(
+            "Isotope", iso.getMZ(), "has abundance", iso.getIntensity() * 100, "%"
+        )
         methanol_isoDist["mass"].append(iso.getMZ())
         methanol_isoDist["abundance"].append((iso.getIntensity() * 100))
 
     print("Fine Isotope Distribution:")
-    isotopes = ethanol.getIsotopeDistribution( FineIsotopePatternGenerator(1e-3) )
+    isotopes = ethanol.getIsotopeDistribution(FineIsotopePatternGenerator(1e-3))
     prob_sum = sum([iso.getIntensity() for iso in isotopes.getContainer()])
     print("This covers", prob_sum, "probability")
     for iso in isotopes.getContainer():
-        print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        print(
+            "Isotope", iso.getMZ(), "has abundance", iso.getIntensity() * 100, "%"
+        )
         ethanol_isoDist["mass"].append(iso.getMZ())
         ethanol_isoDist["abundance"].append((iso.getIntensity() * 100))
 
@@ -363,16 +415,17 @@ which produces
 Together with the plotDistribution() function from above and the extra code:
 
 .. code-block:: python
-    
-    plt.figure(figsize=(10,7))
+    :linenos:
 
-    plt.subplot(1,2,1)
+    plt.figure(figsize=(10, 7))
+
+    plt.subplot(1, 2, 1)
     plt.title("Isotopic distribution of methanol")
     plotDistribution(methanol_isoDist)
     plt.xlabel("Atomic mass (u)")
     plt.ylabel("Relative abundance (%)")
 
-    plt.subplot(1,2,2)
+    plt.subplot(1, 2, 2)
     plt.title("Isotopic distribution of ethanol")
     plotDistribution(ethanol_isoDist)
     plt.xlabel("Atomic mass (u)")
@@ -391,7 +444,7 @@ Hydrogen clearly distinguished while the coarse (unit resolution)
 isotopic distribution contains summed probabilities for each isotopic peak
 without the hyperfine resolution.  
 
-Please refer to our previous discussion on the `mass defect <#Mass-Defect>`_ to understand the
+Please refer to our previous discussion on the `mass defect <#Mass-Defect>`__ to understand the
 results of the hyperfine algorithm and why different elements produce slightly
 different masses.
 In this example, the hyperfine isotopic distribution will 
@@ -415,11 +468,13 @@ We can also decrease our cutoff and ask for more isotopes to be calculated:
     ethanol = EmpiricalFormula("CH2") + methanol
 
     print("Fine Isotope Distribution:")
-    isotopes = ethanol.getIsotopeDistribution( FineIsotopePatternGenerator(1e-6) )
+    isotopes = ethanol.getIsotopeDistribution(FineIsotopePatternGenerator(1e-6))
     prob_sum = sum([iso.getIntensity() for iso in isotopes.getContainer()])
     print("This covers", prob_sum, "probability")
     for iso in isotopes.getContainer():
-        print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        print(
+            "Isotope", iso.getMZ(), "has abundance", iso.getIntensity() * 100, "%"
+        )
 
 which produces
 
@@ -454,9 +509,13 @@ nearest integer:
 
 .. code-block:: python
 
-    isotopes = ethanol.getIsotopeDistribution( CoarseIsotopePatternGenerator(5, True) )
+    isotopes = ethanol.getIsotopeDistribution(
+        CoarseIsotopePatternGenerator(5, True)
+    )
     for iso in isotopes.getContainer():
-        print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        print(
+            "Isotope", iso.getMZ(), "has abundance", iso.getIntensity() * 100, "%"
+        )
 
 .. code-block:: output
 
@@ -540,9 +599,11 @@ is identical to the one of Oxygen by itself):
 
 .. code-block:: python
 
-    isotopes = ox.getDiffFormula().getIsotopeDistribution(CoarseIsotopePatternGenerator(5))
+    isotopes = ox.getDiffFormula().getIsotopeDistribution(
+        CoarseIsotopePatternGenerator(5)
+    )
     for iso in isotopes.getContainer():
-        print (iso.getMZ(), ":", iso.getIntensity())
+        print(iso.getMZ(), ":", iso.getIntensity())
 
 Which will print the isotopic pattern of the modification (Oxygen):
 
