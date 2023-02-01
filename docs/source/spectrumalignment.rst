@@ -33,7 +33,7 @@ Now we generate the theoretical spectrum of that peptide:
     tsg = TheoreticalSpectrumGenerator()
     theo_spectrum = MSSpectrum()
     p = tsg.getParameters()
-    p.setValue("add_y_ions",   "true")
+    p.setValue("add_y_ions", "true")
     p.setValue("add_b_ions", "true")
     p.setValue("add_metainfo", "true")
     tsg.setParameters(p)

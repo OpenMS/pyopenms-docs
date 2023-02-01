@@ -389,6 +389,7 @@ Visualize consensus features with identifications
 *************************************************
 
 .. code-block:: python
+    
     fig = px.scatter(id_df, x="RT", y="mz", hover_name="identifications")
     fig.update_layout(title="Consensus features with identifications (hover)")
     fig.show()
