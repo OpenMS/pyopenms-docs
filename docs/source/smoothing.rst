@@ -12,8 +12,8 @@ further analysis
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(
-      gh + "/src/data/peakpicker_tutorial_1_baseline_filtered.mzML",
-      "tutorial.mzML",
+        gh + "/src/data/peakpicker_tutorial_1_baseline_filtered.mzML",
+        "tutorial.mzML",
     )
 
     exp = MSExperiment()

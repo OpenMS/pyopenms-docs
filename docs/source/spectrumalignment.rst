@@ -50,9 +50,9 @@ Now we can plot the observed and theoretical spectrum as a mirror plot:
     from matplotlib import pyplot as plt
 
     mirror_plot_spectrum(
-      observed_spectrum,
-      theo_spectrum,
-      spectrum_bottom_kws={"annotate_ions": False},
+        observed_spectrum,
+        theo_spectrum,
+        spectrum_bottom_kws={"annotate_ions": False},
     )
     plt.show()
 
@@ -84,16 +84,16 @@ The alignment contains a list of matched peak indices. We can simply inspect mat
     print("Number of matched peaks: " + str(len(alignment)))
     t = []
     for theo_idx, obs_idx in alignment:
-      ion_name = theo_spectrum.getStringDataArrays()[0][theo_idx].decode()
-      ion_charge = theo_spectrum.getIntegerDataArrays()[0][theo_idx]
-      t.append(
-          [
-              ion_name,
-              str(ion_charge),
-              str(theo_spectrum[theo_idx].getMZ()),
-              str(observed_spectrum[obs_idx].getMZ()),
-          ]
-      )
+        ion_name = theo_spectrum.getStringDataArrays()[0][theo_idx].decode()
+        ion_charge = theo_spectrum.getIntegerDataArrays()[0][theo_idx]
+        t.append(
+            [
+                ion_name,
+                str(ion_charge),
+                str(theo_spectrum[theo_idx].getMZ()),
+                str(observed_spectrum[obs_idx].getMZ()),
+            ]
+        )
     print(tabulate(t, headers=["ion", "charge", "theo. m/z", "observed m/z"]))
 
 .. code-block:: output
@@ -118,13 +118,13 @@ The mirror plot can also be used to visualize the aligned spectrum:
 .. code-block:: python
     :linenos:
 
-      from matplotlib import pyplot as plt
+    from matplotlib import pyplot as plt
 
     mirror_plot_spectrum(
-      observed_spectrum,
-      theo_spectrum,
-      alignment=alignment,
-      spectrum_bottom_kws={"annotate_ions": False},
+        observed_spectrum,
+        theo_spectrum,
+        alignment=alignment,
+        spectrum_bottom_kws={"annotate_ions": False},
     )
     plt.show()
 

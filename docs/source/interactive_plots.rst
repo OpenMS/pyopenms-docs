@@ -104,8 +104,8 @@ If you are reading/executing this on Binder already, execute the next cell to ge
     from IPython.display import Markdown as md
 
     md(
-      "When you are in binder already, you can quickly open the app [here]({}/msbokehapps).".format(
-          os.getenv("JUPYTERHUB_SERVICE_PREFIX")
-      )
+        "When you are in binder already, you can quickly open the app [here]({}/msbokehapps).".format(
+            os.getenv("JUPYTERHUB_SERVICE_PREFIX")
+        )
     )
 

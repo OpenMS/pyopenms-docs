@@ -47,7 +47,6 @@ We now allow up to two missed cleavages.
     # print the results
     for s in result:
         print(s.toString())
-        
 Proteolytic Digestion with Lys-C
 ********************************
 
