@@ -19,10 +19,10 @@ jobs:
       id: changed-files
       uses: tj-actions/changed-files@v35
 
-    - name: Running blacken
-      run: blacken-docs -l 80 ${{ steps.changed-files.outputs.all_changed_files }}
+#    - name: Running blacken
+#      run: blacken-docs -l 80 ${{ steps.changed-files.outputs.all_changed_files }}
 
     - name: run action-suggester
       uses: reviewdog/action-suggester@v1
       with:
-        tool_name: blacken-docs
+        tool_name: blacken-docs -l 80 ${{ steps.changed-files.outputs.all_changed_files }}
