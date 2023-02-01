@@ -14,12 +14,13 @@ analysis.
     :linenos:
 
     from pyopenms import *
+
     feature = Feature()
-    feature.setMZ( 500.9 )
+    feature.setMZ(500.9)
     feature.setCharge(2)
-    feature.setRT( 1500.1 )
-    feature.setIntensity( 30500 )
-    feature.setOverallQuality( 10 )
+    feature.setRT(1500.1)
+    feature.setIntensity(30500)
+    feature.setOverallQuality(10)
 ..    py 2.4
       masstrace = []
       for i in range(10):
@@ -35,10 +36,10 @@ features can be stored in a :py:class:`~.FeatureMap` and written to disk.
 
     fm = FeatureMap()
     fm.push_back(feature)
-    feature.setRT(1600.5 )
+    feature.setRT(1600.5)
     feature.setCharge(2)
-    feature.setMZ( 600.0 )
-    feature.setIntensity( 80500.0 )
+    feature.setMZ(600.0)
+    feature.setIntensity(80500.0)
     fm.push_back(feature)
     FeatureXMLFile().store("test.featureXML", fm)
 
@@ -64,7 +65,7 @@ quantitative data directly and it supports direct iteration in Python:
     fmap = FeatureMap()
     FeatureXMLFile().load("test.featureXML", fmap)
     for feature in fmap:
-       print("Feature: ", feature.getIntensity(), feature.getRT(), feature.getMZ())
+        print("Feature: ", feature.getIntensity(), feature.getRT(), feature.getMZ())
 
 
 
@@ -79,10 +80,10 @@ represented by a :py:class:`~.ConsensusFeature`
     :linenos:
 
     feature = ConsensusFeature()
-    feature.setMZ( 500.9 )
+    feature.setMZ(500.9)
     feature.setCharge(2)
-    feature.setRT( 1500.1 )
-    feature.setIntensity( 80500 )
+    feature.setRT(1500.1)
+    feature.setIntensity(80500)
 
     # Generate ConsensusFeature and features from two maps (with id 1 and 2)
     ### Feature 1
@@ -97,8 +98,8 @@ represented by a :py:class:`~.ConsensusFeature`
     f_m2.setMZ(299.99)
     f_m2.setIntensity(600)
     f_m2.ensureUniqueId()
-    feature.insert(1, f_m1 )
-    feature.insert(2, f_m2 )
+    feature.insert(1, f_m1)
+    feature.insert(2, f_m2)
 
 We have thus added two features from two individual maps (which have the unique
 identifier ``1`` and ``2``) to the :py:class:`~.ConsensusFeature`.
@@ -111,7 +112,7 @@ the two maps and output the two linked features:
     # The two features in map 1 and map 2 represent the same analyte at
     # slightly different RT and m/z
     for fh in feature.getFeatureList():
-      print(fh.getMapIndex(), fh.getIntensity(), fh.getRT())
+        print(fh.getMapIndex(), fh.getIntensity(), fh.getRT())
 
     print(feature.getMZ())
     feature.computeMonoisotopicConsensus()
@@ -119,7 +120,7 @@ the two maps and output the two linked features:
 
     # Generate ConsensusMap and add two maps (with id 1 and 2)
     cmap = ConsensusMap()
-    fds = { 1 : ColumnHeader(), 2 : ColumnHeader() }
+    fds = {1: ColumnHeader(), 2: ColumnHeader()}
     fds[1].filename = "file1"
     fds[2].filename = "file2"
     cmap.setColumnHeaders(fds)
@@ -151,9 +152,14 @@ quantitative data directly and it supports direct iteration in Python:
     cmap = ConsensusMap()
     ConsensusXMLFile().load("test.consensusXML", cmap)
     for cfeature in cmap:
-       cfeature.computeConsensus()
-       print("ConsensusFeature", cfeature.getIntensity(), cfeature.getRT(), cfeature.getMZ())
-       # The two features in map 1 and map 2 represent the same analyte at
-       # slightly different RT and m/z
-       for fh in cfeature.getFeatureList():
-         print(" -- Feature", fh.getMapIndex(), fh.getIntensity(), fh.getRT())
+        cfeature.computeConsensus()
+        print(
+            "ConsensusFeature",
+            cfeature.getIntensity(),
+            cfeature.getRT(),
+            cfeature.getMZ(),
+        )
+        # The two features in map 1 and map 2 represent the same analyte at
+        # slightly different RT and m/z
+        for fh in cfeature.getFeatureList():
+            print(" -- Feature", fh.getMapIndex(), fh.getIntensity(), fh.getRT())

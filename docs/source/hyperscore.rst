@@ -22,8 +22,9 @@ loaded from an mzML file.
 
     from urllib.request import urlretrieve
     from pyopenms import *
+
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/SimpleSearchEngine_1.mzML", "searchfile.mzML")
+    urlretrieve(gh + "/src/data/SimpleSearchEngine_1.mzML", "searchfile.mzML")
 
 Generate a theoretical spectrum
 *******************************
@@ -49,11 +50,11 @@ We now use the :py:class:`~.TheoreticalSpectrumGenerator` to generate a theoreti
     e = MSExperiment()
     MzMLFile().load("searchfile.mzML", e)
     spectrum_of_interest = e[2]
-    print ("Spectrum native id", spectrum_of_interest.getNativeID() )
-    mz,i = spectrum_of_interest.get_peaks()
-    peaks = [(mz,i) for mz,i in zip(mz,i) if i > 1500 and mz > 300]
+    print("Spectrum native id", spectrum_of_interest.getNativeID())
+    mz, i = spectrum_of_interest.get_peaks()
+    peaks = [(mz, i) for mz, i in zip(mz, i) if i > 1500 and mz > 300]
     for peak in peaks:
-      print (peak[0], "mz", peak[1], "int")
+        print(peak[0], "mz", peak[1], "int")
 
 Comparing the theoretical spectrum and the experimental spectrum for
 ``RPGADSDIGGFGGLFDLAQAGFR`` we can easily see that the most abundant ions in the
@@ -71,7 +72,9 @@ and the experimental spectrum and print the result
     hscore = HyperScore()
     fragment_mass_tolerance = 5.0
     is_tol_in_ppm = True
-    result = hscore.compute(fragment_mass_tolerance, is_tol_in_ppm, spectrum_of_interest, thspec)
+    result = hscore.compute(
+        fragment_mass_tolerance, is_tol_in_ppm, spectrum_of_interest, thspec
+    )
     result
 
 If we didn't know ahead of time which spectrum was a match we can loop through all the spectra from our file,
@@ -81,6 +84,6 @@ If we didn't know ahead of time which spectrum was a match we can loop through a
 
     for f in e:
         score = hscore.compute(fragment_mass_tolerance, is_tol_in_ppm, f, thspec)
-        print(f.getNativeID() + ":" + str(score) )
+        print(f.getNativeID() + ":" + str(score))
 
 

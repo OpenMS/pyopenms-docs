@@ -16,26 +16,29 @@ The example below shows how amino acid sequences can be created and how basic ma
     :linenos:
 
     from pyopenms import *
-    seq = AASequence.fromString("DFPIANGER") # create AASequence object from string representation
-    prefix = seq.getPrefix(4) # extract prefix of length 4
-    suffix = seq.getSuffix(5) # extract suffix of length 5
-    concat = seq + seq # concatenate two sequences
+
+    seq = AASequence.fromString(
+        "DFPIANGER"
+    )  # create AASequence object from string representation
+    prefix = seq.getPrefix(4)  # extract prefix of length 4
+    suffix = seq.getSuffix(5)  # extract suffix of length 5
+    concat = seq + seq  # concatenate two sequences
 
     # print string representation of sequences
     print("Sequence:", seq)
     print("Prefix:", prefix)
     print("Suffix:", suffix)
     print("Concatenated:", concat)
-    
+
     # some mass calculations
-    mfull = seq.getMonoWeight() # weight of M
-    mprecursor = seq.getMonoWeight(Residue.ResidueType.Full, 2) # weight of M+2H
+    mfull = seq.getMonoWeight()  # weight of M
+    mprecursor = seq.getMonoWeight(Residue.ResidueType.Full, 2)  # weight of M+2H
 
     # we can calculate mass-over-charge manually
-    mz = seq.getMonoWeight(Residue.ResidueType.Full, 2) / 2.0 # m/z of [M+2H]2+
+    mz = seq.getMonoWeight(Residue.ResidueType.Full, 2) / 2.0  # m/z of [M+2H]2+
     # or simply by:
-    mz = seq.getMZ(2) # same as above
-    
+    mz = seq.getMZ(2)  # same as above
+
     print()
     print("Monoisotopic mass of peptide [M] is", mfull)
     print("Monoisotopic mass of peptide precursor [M+2H]2+ is", mprecursor)
@@ -73,7 +76,7 @@ The :py:class:`~.AASequence` object also allows iterations directly in Python:
     print("The peptide", str(seq), "consists of the following amino acids:")
     for aa in seq:
         print(aa.getName(), ":", aa.getMonoWeight())
-    
+
 Which will print
 
 .. code-block:: output
@@ -104,8 +107,10 @@ The example below shows how to check fo such modifications.
         print("C-Term Modification: ", seq.getCTerminalModification().getFullId())
     # iterate over all residues and look for modifications
     for aa in seq:
-        if (aa.isModified()):
-            print(aa.getName(), ":", aa.getMonoWeight(), ":", aa.getModificationName())
+        if aa.isModified():
+            print(
+                aa.getName(), ":", aa.getMonoWeight(), ":", aa.getModificationName()
+            )
         else:
             print(aa.getName(), ":", aa.getMonoWeight())
 
@@ -147,9 +152,13 @@ We now want to print the coarse (e.g., peaks only at nominal masses) distributio
     :linenos:
 
     # print coarse isotope distribution
-    coarse_isotopes = seq_formula.getIsotopeDistribution( CoarseIsotopePatternGenerator(6) )
+    coarse_isotopes = seq_formula.getIsotopeDistribution(
+        CoarseIsotopePatternGenerator(6)
+    )
     for iso in coarse_isotopes.getContainer():
-        print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        print(
+            "Isotope", iso.getMZ(), "has abundance", iso.getIntensity() * 100, "%"
+        )
 
 For most applications in computational proteomics, the coarse isotope distribution is sufficient.
 But if we deal with very high resolution instruments, we still might want to calculate the isotopic fine structure. 
@@ -159,9 +168,13 @@ We use the FineIsotopePatternGenerator in OpenMS to reveal these addtional peaks
     :linenos:
 
     # print fine structure of isotope distribution
-    fine_isotopes = seq_formula.getIsotopeDistribution( FineIsotopePatternGenerator(0.01) ) # max 0.01 unexplained probability
+    fine_isotopes = seq_formula.getIsotopeDistribution(
+        FineIsotopePatternGenerator(0.01)
+    )  # max 0.01 unexplained probability
     for iso in fine_isotopes.getContainer():
-        print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        print(
+            "Isotope", iso.getMZ(), "has abundance", iso.getIntensity() * 100, "%"
+        )
 
 
 And plot the very similar looking distributions using standard matplotlib functionality:
@@ -172,25 +185,33 @@ And plot the very similar looking distributions using standard matplotlib functi
     import math
     from matplotlib import pyplot as plt
 
+
     def plotIsotopeDistribution(isotope_distribution, title="Isotope distribution"):
         plt.title(title)
         distribution = {"mass": [], "abundance": []}
-        for iso in isotope_distribution.getContainer():    
+        for iso in isotope_distribution.getContainer():
             distribution["mass"].append(iso.getMZ())
             distribution["abundance"].append(iso.getIntensity() * 100)
 
-        bars = plt.bar(distribution["mass"], distribution["abundance"], width=0.01, snap=False) # snap ensures that all bars are rendered
+        bars = plt.bar(
+            distribution["mass"], distribution["abundance"], width=0.01, snap=False
+        )  # snap ensures that all bars are rendered
 
         plt.ylim([0, 110])
-        plt.xticks(range(math.ceil(distribution["mass"][0]) - 2,
-                         math.ceil(distribution["mass"][-1]) + 2))
+        plt.xticks(
+            range(
+                math.ceil(distribution["mass"][0]) - 2,
+                math.ceil(distribution["mass"][-1]) + 2,
+            )
+        )
         plt.xlabel("Atomic mass (u)")
         plt.ylabel("Relative abundance (%)")
 
-    plt.figure(figsize=(10,7))
-    plt.subplot(1,2,1)
+
+    plt.figure(figsize=(10, 7))
+    plt.subplot(1, 2, 1)
     plotIsotopeDistribution(coarse_isotopes, "Isotope distribution - coarse")
-    plt.subplot(1,2,2)
+    plt.subplot(1, 2, 2)
     plotIsotopeDistribution(fine_isotopes, "Isotope distribution - fine structure")
     plt.show()
 
@@ -204,15 +225,15 @@ We can easily calculate different ion types for amino acid sequences:
 .. code-block:: python
     :linenos:
 
-    suffix = seq.getSuffix(3) # y3 ion "GER"
-    print("="*35)
+    suffix = seq.getSuffix(3)  # y3 ion "GER"
+    print("=" * 35)
     print("y3 ion sequence:", suffix)
-    y3_formula = suffix.getFormula(Residue.ResidueType.YIon, 2) # y3++ ion
-    suffix.getMonoWeight(Residue.ResidueType.YIon, 2) / 2.0 # CORRECT
-    suffix.getMonoWeight(Residue.ResidueType.XIon, 2) / 2.0 # CORRECT
-    suffix.getMonoWeight(Residue.ResidueType.BIon, 2) / 2.0 # INCORRECT
+    y3_formula = suffix.getFormula(Residue.ResidueType.YIon, 2)  # y3++ ion
+    suffix.getMonoWeight(Residue.ResidueType.YIon, 2) / 2.0  # CORRECT
+    suffix.getMonoWeight(Residue.ResidueType.XIon, 2) / 2.0  # CORRECT
+    suffix.getMonoWeight(Residue.ResidueType.BIon, 2) / 2.0  # INCORRECT
 
-    print("y3 mz:", suffix.getMonoWeight(Residue.ResidueType.YIon, 2) / 2.0 )
+    print("y3 mz:", suffix.getMonoWeight(Residue.ResidueType.YIon, 2) / 2.0)
     print("y3 molecular formula:", y3_formula)
 
 Which will produce
@@ -316,12 +337,12 @@ The example below shows how protein sequences can be stored in FASTA files and l
 .. code-block:: python
     :linenos:
 
-        bsa = FASTAEntry() # one entry in a FASTA file
+        bsa = FASTAEntry()  # one entry in a FASTA file
         bsa.sequence = "MKWVTFISLLLLFSSAYSRGVFRRDTHKSEIAHRFKDLGE"
         bsa.description = "BSA Bovine Albumin (partial sequence)"
         bsa.identifier = "BSA"
         alb = FASTAEntry()
-        alb.sequence = "MKWVTFISLLFLFSSAYSRGVFRRDAHKSEVAHRFKDLGE" 
+        alb.sequence = "MKWVTFISLLFLFSSAYSRGVFRRDAHKSEVAHRFKDLGE"
         alb.description = "ALB Human Albumin (partial sequence)"
         alb.identifier = "ALB"
 
@@ -338,7 +359,7 @@ Afterwards, the ``example.fasta`` file can be read again from the disk:
         entries = []
         f = FASTAFile()
         f.load("example.fasta", entries)
-        print( len(entries) )
+        print(len(entries))
         for e in entries:
-          print (e.identifier, e.sequence)
+            print(e.identifier, e.sequence)
 

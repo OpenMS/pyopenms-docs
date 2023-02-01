@@ -42,12 +42,12 @@ Using the same example file as before, we can execute a GaussFilter on our test 
     from urllib.request import urlretrieve
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
+    urlretrieve(gh + "/src/data/tiny.mzML", "test.mzML")
 
     exp = MSExperiment()
     gf = GaussFilter()
     exp = MSExperiment()
-    MzMLFile().load('test.mzML', exp)    
+    MzMLFile().load("test.mzML", exp)
     gf.filterExperiment(exp)
     # MzMLFile().store("test.filtered.mzML", exp)
 

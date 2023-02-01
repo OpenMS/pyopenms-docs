@@ -40,21 +40,25 @@ Execute this cell only for the example workflow.
 .. code-block:: python
     :linenos:
 
-    if not os.path.isdir(os.path.join(os.getcwd(), 'IdByMz_Example')):
-        os.mkdir(os.path.join(os.getcwd(), 'IdByMz_Example'))
+    if not os.path.isdir(os.path.join(os.getcwd(), "IdByMz_Example")):
+        os.mkdir(os.path.join(os.getcwd(), "IdByMz_Example"))
 
-    base = 'https://abibuilder.cs.uni-tuebingen.de/archive/openms/Tutorials/Data/latest/Example_Data/Metabolomics/'
-    urls = ['datasets/2012_02_03_PStd_050_1.mzML',
-            'datasets/2012_02_03_PStd_050_2.mzML',
-            'datasets/2012_02_03_PStd_050_3.mzML',
-            'databases/PositiveAdducts.tsv',
-            'databases/NegativeAdducts.tsv',
-            'databases/HMDBMappingFile.tsv',
-            'databases/HMDB2StructMapping.tsv']
+    base = "https://abibuilder.cs.uni-tuebingen.de/archive/openms/Tutorials/Data/latest/Example_Data/Metabolomics/"
+    urls = [
+        "datasets/2012_02_03_PStd_050_1.mzML",
+        "datasets/2012_02_03_PStd_050_2.mzML",
+        "datasets/2012_02_03_PStd_050_3.mzML",
+        "databases/PositiveAdducts.tsv",
+        "databases/NegativeAdducts.tsv",
+        "databases/HMDBMappingFile.tsv",
+        "databases/HMDB2StructMapping.tsv",
+    ]
 
     for url in urls:
         request = requests.get(base + url, allow_redirects=True)
-        open(os.path.join(files, os.path.basename(url)), 'wb').write(request.content)
+        open(os.path.join(files, os.path.basename(url)), "wb").write(
+            request.content
+        )
 
 Centroiding
 ***********
@@ -97,7 +101,7 @@ out: list of :py:class:`~.FeatureMap` (feature_maps)
     feature_maps = []
 
     for file in os.listdir(files):
-        
+
         if file.endswith(".mzML"):
             exp = MSExperiment()
             MzMLFile().load(os.path.join(files, file), exp)
@@ -157,14 +161,18 @@ out: list of :py:class:`~.FeatureMap` aligned to the first feature map in the li
     :linenos:
 
     # get in index of feature map with highest number of features in feature map list
-    ref_index = [i[0] for i in sorted(
-        enumerate([fm.size() for fm in feature_maps]), key=lambda x: x[1])][-1]
+    ref_index = [
+        i[0]
+        for i in sorted(
+            enumerate([fm.size() for fm in feature_maps]), key=lambda x: x[1]
+        )
+    ][-1]
 
     aligner = MapAlignmentAlgorithmPoseClustering()
 
     aligner.setReference(feature_maps[ref_index])
 
-    for feature_map in feature_maps[:ref_index] + feature_maps[ref_index + 1:]:
+    for feature_map in feature_maps[:ref_index] + feature_maps[ref_index + 1 :]:
         trafo = TransformationDescription()
         aligner.align(feature_map, trafo)
         transformer = MapAlignmentTransformer()
@@ -179,8 +187,9 @@ Visualization of RTs before and after alignment
     :linenos:
 
     fmaps = (
-        [feature_maps[ref_index]] + feature_maps[:ref_index] +
-        feature_maps[ref_index + 1:]
+        [feature_maps[ref_index]]
+        + feature_maps[:ref_index]
+        + feature_maps[ref_index + 1 :]
     )
 
     fig = plt.figure(figsize=(10, 5))
@@ -242,7 +251,9 @@ out: :py:class:`~.ConsensusMap` (consensus_map)
 
     for i, feature_map in enumerate(feature_maps):
         file_description = file_descriptions.get(i, ColumnHeader())
-        file_description.filename = feature_map.getMetaValue("spectra_data")[0].decode()
+        file_description.filename = feature_map.getMetaValue("spectra_data")[
+            0
+        ].decode()
         file_description.size = feature_map.size()
         file_description.unique_id = feature_map.getUniqueId()
         file_descriptions[i] = file_description
@@ -276,20 +287,23 @@ out: DataFrame with :py:class:`~.AccurateMassSearchEngine` results (ams_df)
 .. code-block:: python
     :linenos:
 
-    if files.endswith('centroid'):
-        files = os.path.join(files, '..')
+    if files.endswith("centroid"):
+        files = os.path.join(files, "..")
 
     ams = AccurateMassSearchEngine()
 
     ams_params = ams.getParameters()
     ams_params.setValue("ionization_mode", "negative")
-    ams_params.setValue("positive_adducts", os.path.join(
-        files, "PositiveAdducts.tsv"))
-    ams_params.setValue("negative_adducts", os.path.join(
-        files, "NegativeAdducts.tsv"))
+    ams_params.setValue(
+        "positive_adducts", os.path.join(files, "PositiveAdducts.tsv")
+    )
+    ams_params.setValue(
+        "negative_adducts", os.path.join(files, "NegativeAdducts.tsv")
+    )
     ams_params.setValue("db:mapping", [os.path.join(files, "HMDBMappingFile.tsv")])
     ams_params.setValue(
-        "db:struct", [os.path.join(files, "HMDB2StructMapping.tsv")])
+        "db:struct", [os.path.join(files, "HMDB2StructMapping.tsv")]
+    )
     ams.setParameters(ams_params)
 
     mztab = MzTab()
@@ -342,8 +356,9 @@ remaining missing values imputed with KNN algorithm (cm_df)
             ("imputer", KNNImputer(n_neighbors=2)),
             (
                 "pandarizer",
-                FunctionTransformer(lambda x: pd.DataFrame(
-                    x, columns=cm_df.columns)),
+                FunctionTransformer(
+                    lambda x: pd.DataFrame(x, columns=cm_df.columns)
+                ),
             ),
         ]
     )
@@ -359,14 +374,15 @@ out: :py:class:`~.ConsensusMap` DataFrame with new identifications column (id_df
 
 .. code-block:: python
     :linenos:
-    
+
     id_df = cm_df
 
-    id_df["identifications"] = pd.Series(
-        ["" for x in range(len(id_df.index))])
+    id_df["identifications"] = pd.Series(["" for x in range(len(id_df.index))])
 
     for rt, mz, description in zip(
-        ams_df["retention_time"], ams_df["exp_mass_to_charge"], ams_df["description"]
+        ams_df["retention_time"],
+        ams_df["exp_mass_to_charge"],
+        ams_df["description"],
     ):
         indices = id_df.index[
             np.isclose(id_df["mz"], float(mz), atol=1e-05)
@@ -386,7 +402,7 @@ Visualize consensus features with identifications
 
 .. code-block:: python
     :linenos:
-    
+
     fig = px.scatter(id_df, x="RT", y="mz", hover_name="identifications")
     fig.update_layout(title="Consensus features with identifications (hover)")
     fig.show()

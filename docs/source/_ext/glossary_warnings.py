@@ -30,23 +30,49 @@ class FindTextNodesVisitor(nodes.SparseNodeVisitor):
         raise nodes.SkipChildren
 
 
-def collect_glossary_entries_doc(app, doctree):
+def collect_glossary_terms(app, doctree):
+    env = app.builder.env
+
+    if not hasattr(env, 'glossary_all_terms'):
+        env.glossary_all_terms = set()
     for glossary in doctree.findall(addnodes.glossary):
         definition_list = cast(nodes.definition_list, glossary[0])
         for t in definition_list:
-            app.config.forbidden_words.update(
+            env.glossary_all_terms.update(
                 [" " + w + " "
                     for w in cast(nodes.term, t).astext().split("\n\n")[0].split("\n")])
 
 
 def check_forbidden_words(app, doctree, docname):
     if ("_autosummary" not in docname):
-        visitor = FindTextNodesVisitor(doctree, app.config.forbidden_words)
+        env = app.builder.env
+        if not hasattr(env, 'glossary_all_terms'):
+            env.glossary_all_terms = set()
+        visitor = FindTextNodesVisitor(doctree, env.glossary_all_terms)
         doctree.walk(visitor)
 
 
+def purge_glossary_terms(app, env, docname):
+    if not hasattr(env, 'glossary_all_terms'):
+        return
+
+    env.glossary_all_terms = [term for term in env.glossary_all_terms
+                              if term['docname'] != docname]
+
+
+def merge_glossary_terms(app, env, docnames, other):
+    if not hasattr(env, 'glossary_all_terms'):
+        env.glossary_all_terms = set()
+    if hasattr(other, 'glossary_all_terms'):
+        env.glossary_all_terms.update(other.glossary_all_terms)
+
+
 def setup(app):
-    app.add_config_value('forbidden_words', set(), 'env')
     app.connect('doctree-resolved', check_forbidden_words)
-    app.connect('doctree-read', collect_glossary_entries_doc)
-    return {'version': '0.1'}
+    app.connect('doctree-read', collect_glossary_terms)
+    app.connect('env-merge-info', merge_glossary_terms)
+    return {
+        'version': '0.1',
+        'parallel_read_safe': True,
+        'parallel_write_safe': True,
+    }

@@ -43,6 +43,7 @@ RNA oligonucleotide search and small molecule search tools)
 
    installation
    first_steps
+   introduction
 
 .. toctree::
    :maxdepth: 2
@@ -97,6 +98,7 @@ RNA oligonucleotide search and small molecule search tools)
    file_handling
    other_file_handling   
    mzMLFileFormat
+   hyperscore
    pandas_df_conversion
    massql
    memory_management

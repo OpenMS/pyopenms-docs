@@ -10,6 +10,7 @@ OpenMS also supports the representation of RNA oligonucleotides using the :py:cl
     :linenos:
 
     from pyopenms import *
+
     oligo = NASequence.fromString("AAUGCAAUGG")
     prefix = oligo.getPrefix(4)
     suffix = oligo.getSuffix(4)
@@ -21,17 +22,22 @@ OpenMS also supports the representation of RNA oligonucleotides using the :py:cl
 
     print("Oligo length", oligo.size())
     print("Total precursor mass", oligo.getMonoWeight())
-    print("y1+ ion mass of", str(prefix), ":", prefix.getMonoWeight(NASequence.NASFragmentType.YIon, 1))
+    print(
+        "y1+ ion mass of",
+        str(prefix),
+        ":",
+        prefix.getMonoWeight(NASequence.NASFragmentType.YIon, 1),
+    )
     print()
 
     seq_formula = oligo.getFormula()
     print("RNA Oligo", oligo, "has molecular formula", seq_formula)
-    print("="*35)
+    print("=" * 35)
     print()
 
-    isotopes = seq_formula.getIsotopeDistribution( CoarseIsotopePatternGenerator(6) )
+    isotopes = seq_formula.getIsotopeDistribution(CoarseIsotopePatternGenerator(6))
     for iso in isotopes.getContainer():
-      print ("Isotope", iso.getMZ(), ":", iso.getIntensity())
+        print("Isotope", iso.getMZ(), ":", iso.getIntensity())
 
 
 Which will output
@@ -65,9 +71,11 @@ The :py:class:`~.NASequence` object also allows iterations directly in Python:
     :linenos:
 
     oligo = NASequence.fromString("AAUGCAAUGG")
-    print("The oligonucleotide", str(oligo), "consists of the following nucleotides:")
+    print(
+        "The oligonucleotide", str(oligo), "consists of the following nucleotides:"
+    )
     for ribo in oligo:
-      print(ribo.getName())
+        print(ribo.getName())
 
 Fragment ions
 ~~~~~~~~~~~~~
@@ -88,7 +96,7 @@ Similarly to before for amino acid sequences, we can also generate internal frag
     w4_formula = suffix.getFormula(NASequence.NASFragmentType.WIon, charge)
     mz = mass / charge
 
-    print("="*35)
+    print("=" * 35)
     print("RNA Oligo w4++ ion", suffix, "has mz", mz)
     print("RNA Oligo w4++ ion", suffix, "has molecular formula", w4_formula)
 
@@ -106,12 +114,23 @@ sequence as follows:
 
     oligo_mod = NASequence.fromString("A[m1A][Gm]A")
     seq_formula = oligo_mod.getFormula()
-    print("RNA Oligo", oligo_mod, "has molecular formula", 
-      seq_formula, "and length", oligo_mod.size())
-    print("="*35)
+    print(
+        "RNA Oligo",
+        oligo_mod,
+        "has molecular formula",
+        seq_formula,
+        "and length",
+        oligo_mod.size(),
+    )
+    print("=" * 35)
 
     oligo_list = [oligo_mod[i].getOrigin() for i in range(oligo_mod.size())]
-    print("RNA Oligo", oligo_mod.toString(), "has unmodified sequence", "".join(oligo_list))
+    print(
+        "RNA Oligo",
+        oligo_mod.toString(),
+        "has unmodified sequence",
+        "".join(oligo_list),
+    )
 
     r = oligo_mod[1]
     r.getName()
@@ -119,7 +138,7 @@ sequence as follows:
     r.getOrigin()
 
     for i in range(oligo_mod.size()):
-      print (oligo_mod[i].isModified())
+        print(oligo_mod[i].isModified())
 
 
 DNA, RNA and Protein

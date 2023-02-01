@@ -14,7 +14,7 @@ In this tutorial we will predict the retention time from amino acid sequence dat
 
 First, we import all neccessary libraries for this tutorial.
 
-.. code-block:: python
+.. code-block:: ipython3
     :linenos:
 
     !pip install seaborn
@@ -37,8 +37,8 @@ Once we have imported all libraries successfully, we are going to store the data
     :linenos:
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/pyOpenMS_ML_Tutorial.tsv", "data.tsv")
-    tsv_data = pd.read_csv('data.tsv', sep='\t', skiprows=17)
+    urlretrieve(gh + "/src/data/pyOpenMS_ML_Tutorial.tsv", "data.tsv")
+    tsv_data = pd.read_csv("data.tsv", sep="\t", skiprows=17)
 
 Here we have prepared a tsv file that contains three columns **sequence** , **charge** and **retention** time.
 Note that this table could also be easily created from identification data as produced in previous chapters.
@@ -106,8 +106,18 @@ sequences. Some of the parameters that can be derived are
     :linenos:
 
     alphabet_list = list(string.ascii_uppercase)
-    column_headers = ["sequence"] + [ i + "_count" for i in alphabet_list] + [ i + "_freq" for i in alphabet_list] + ["charge", "length"]
-    types = ["object"] + [ "int64" for i in alphabet_list] + [ "float64" for i in alphabet_list] + ["int64", "int64"]
+    column_headers = (
+        ["sequence"]
+        + [i + "_count" for i in alphabet_list]
+        + [i + "_freq" for i in alphabet_list]
+        + ["charge", "length"]
+    )
+    types = (
+        ["object"]
+        + ["int64" for i in alphabet_list]
+        + ["float64" for i in alphabet_list]
+        + ["int64", "int64"]
+    )
     pdcols = dict(zip(column_headers, types))
 
 As we have all the column names, now we will start populating it.
@@ -115,24 +125,27 @@ As we have all the column names, now we will start populating it.
 .. code-block:: python
     :linenos:
 
-    df = pd.DataFrame(np.zeros((len(tsv_data.index), len(column_headers))), columns = column_headers)
+    df = pd.DataFrame(
+        np.zeros((len(tsv_data.index), len(column_headers))), columns=column_headers
+    )
 
     df["sequence"] = tsv_data["sequence"]
     df["charge"] = tsv_data["charge"]
 
     # For populating the length column
-    df['length'] = df['sequence'].str.len() 
+    df["length"] = df["sequence"].str.len()
 
-    df = df.astype( dtype = pdcols)
+    df = df.astype(dtype=pdcols)
 
     # For populating the {alphabet}_count columns
     def count(row):
         counts = Counter(row["sequence"])
         for count in counts:
-            row[count+"_count"] = int(counts[count])
+            row[count + "_count"] = int(counts[count])
         return row
-        
-    df = df.apply(lambda row: count(row), axis = 1)
+
+
+    df = df.apply(lambda row: count(row), axis=1)
     df.head()
 
 .. code-block:: output
@@ -179,14 +192,22 @@ size equal to 30% of the data. Also, to maintain reproducibility of the results,
     :linenos:
 
     # Splitting Test data into test and validation
-    X_train, X_test, Y_train, Y_test = train_test_split(test_df, Y1_test, test_size = 0.3, random_state = 3)
+    X_train, X_test, Y_train, Y_test = train_test_split(
+        test_df, Y1_test, test_size=0.3, random_state=3
+    )
 
 We will be using the ``XGBRegressor()`` class because it is clearly a regression problem as the response variable ( retention time ) is continuous.
 
 .. code-block:: python
     :linenos:
 
-    xg_reg = XGBRegressor(n_estimators = 300, random_state = 3, max_leaves = 5, colsample_bytree = 0.7, max_depth = 7)
+    xg_reg = XGBRegressor(
+        n_estimators=300,
+        random_state=3,
+        max_leaves=5,
+        colsample_bytree=0.7,
+        max_depth=7,
+    )
 
 Fit the regressor to the training set and make predictions on the test set using the familiar .fit() and .predict() methods.
 
@@ -213,7 +234,9 @@ Store the **Observed** v/s **Predicted** value in pandas dataframe and print.
 .. code-block:: python
     :linenos:
 
-    k = pd.DataFrame({'Observed': Y_test.values.flatten(), 'Predicted': Y_pred.flatten()})
+    k = pd.DataFrame(
+        {"Observed": Y_test.values.flatten(), "Predicted": Y_pred.flatten()}
+    )
     print(k)
 
 .. code-block:: output
@@ -238,15 +261,17 @@ This means that prediction actually worked and observed and predicted value won'
 .. code-block:: python
     :linenos:
 
-    sns.lmplot(x="Observed", y="Predicted", data=k, scatter_kws={'alpha':0.2,'s':5})
+    sns.lmplot(
+        x="Observed", y="Predicted", data=k, scatter_kws={"alpha": 0.2, "s": 5}
+    )
 
 .. image:: img/ml_tutorial_predicted_vs_observed.png
 
 .. code-block:: python
     :linenos:
 
-    p = sns.kdeplot(data=k["Observed"]-k["Predicted"], fill=True)
-    p.set(xlabel = "Observed-Predicted (s)")
+    p = sns.kdeplot(data=k["Observed"] - k["Predicted"], fill=True)
+    p.set(xlabel="Observed-Predicted (s)")
 
 .. image:: img/ml_tutorial_kdplot.png
     
@@ -266,17 +291,25 @@ k-fold cross validation via the cv() method. All we have to do is specify the nf
     for train_index, test_index in ss.split(X_train, Y_train):
 
         counter += 1
-        
-        X_train_Kfold, X_test_Kfold = X_train[X_train.index.isin(train_index)].to_numpy(), X_train[X_train.index.isin(test_index)].to_numpy()
-        y_train_Kfold, y_test_Kfold = Y_train[Y_train.index.isin(train_index)].to_numpy().flatten(), Y_train[Y_train.index.isin(test_index)].to_numpy().flatten()
+
+        X_train_Kfold, X_test_Kfold = (
+            X_train[X_train.index.isin(train_index)].to_numpy(),
+            X_train[X_train.index.isin(test_index)].to_numpy(),
+        )
+        y_train_Kfold, y_test_Kfold = (
+            Y_train[Y_train.index.isin(train_index)].to_numpy().flatten(),
+            Y_train[Y_train.index.isin(test_index)].to_numpy().flatten(),
+        )
 
         Regressor = XGBRegressor()
         Regressor.fit(X_train_Kfold, y_train_Kfold)
-        
+
         predictions = Regressor.predict(X_test_Kfold)
-        
-        df = pd.DataFrame({'Observed': y_test_Kfold.flatten(), 'Predicted': predictions.flatten()})
-        
+
+        df = pd.DataFrame(
+            {"Observed": y_test_Kfold.flatten(), "Predicted": predictions.flatten()}
+        )
+
         print("Fold-" + str(counter))
         print("---------------------")
         print(df)

@@ -20,9 +20,12 @@ about the targeted peptides:
 
     from urllib.request import urlretrieve
     from pyopenms import *
+
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/OpenSwathAnalyzer_1_input_chrom.mzML", "chrom.mzML")
-    urlretrieve (gh + "/src/data/OpenSwathAnalyzer_1_input.TraML", "transitions.TraML")
+    urlretrieve(gh + "/src/data/OpenSwathAnalyzer_1_input_chrom.mzML", "chrom.mzML")
+    urlretrieve(
+        gh + "/src/data/OpenSwathAnalyzer_1_input.TraML", "transitions.TraML"
+    )
 
     chroms = MSExperiment()
     library = TargetedExperiment()
@@ -31,16 +34,39 @@ about the targeted peptides:
 
     # Investigate library
     for t in library.getTransitions():
-       print ("Transition", t.getNativeID(), "belongs to peptide group", t.getPeptideRef())      
+        print(
+            "Transition",
+            t.getNativeID(),
+            "belongs to peptide group",
+            t.getPeptideRef(),
+        )
 
-    print ("Input contains", len(library.getTransitions()), "transitions and", len(chroms.getChromatograms()), "chromatograms.")
+    print(
+        "Input contains",
+        len(library.getTransitions()),
+        "transitions and",
+        len(chroms.getChromatograms()),
+        "chromatograms.",
+    )
     features = FeatureMap()
     dummy_trafo = TransformationDescription()
     dummy_exp = MSExperiment()
-    MRMFeatureFinderScoring().pickExperiment(chroms, features, library, dummy_trafo, dummy_exp) 
-    for f in features: 
-      print ("Feature for group", f.getMetaValue("PeptideRef"), "with precursor m/z", f.getMetaValue("PrecursorMZ"))
-      print ("  Feature found at RT =", f.getRT(), "with library dot product", f.getMetaValue("var_library_dotprod"))
+    MRMFeatureFinderScoring().pickExperiment(
+        chroms, features, library, dummy_trafo, dummy_exp
+    )
+    for f in features:
+        print(
+            "Feature for group",
+            f.getMetaValue("PeptideRef"),
+            "with precursor m/z",
+            f.getMetaValue("PrecursorMZ"),
+        )
+        print(
+            "  Feature found at RT =",
+            f.getRT(),
+            "with library dot product",
+            f.getMetaValue("var_library_dotprod"),
+        )
 
 Here we see that for the first group of transitions (``tr_gr1``), a single peak
 at retention time 3119 seconds was found. However, for the second group of
@@ -79,7 +105,7 @@ Note: to get an overview over all available scores for a particular MRM feature 
 
     k = []
     f.getKeys(k)
-    print (k)
+    print(k)
 
 .. TODO : change for 2.5 to something else
 

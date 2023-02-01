@@ -26,17 +26,16 @@ peptide maps to multiple proteins) proteins and the position therein.
 
    .. code-block:: python
 
-       protein_id = ProteinIdentification()
-       peptide_id = PeptideIdentification()
-       
-       # Sets the Identifier
-       protein_id.setIdentifier("IdentificationRun1")
-       peptide_id.setIdentifier("IdentificationRun1")
+    protein_id = ProteinIdentification()
+    peptide_id = PeptideIdentification()
 
-       # Prints the Identifier
-       print("Protein Identifier -", protein_id.getIdentifier())
-       print("Peptide Identifier -", peptide_id.getIdentifier())
-    
+    # Sets the Identifier
+    protein_id.setIdentifier("IdentificationRun1")
+    peptide_id.setIdentifier("IdentificationRun1")
+
+    # Prints the Identifier
+    print("Protein Identifier -", protein_id.getIdentifier())
+    print("Peptide Identifier -", peptide_id.getIdentifier())
    .. code-block:: output
        
        Protein Identifier - IdentificationRun1
@@ -64,7 +63,7 @@ We can create an object of type :py:class:`~.ProteinIdentification`  and populat
   protein_hit.setAccession("sp|MyAccession")
   protein_hit.setSequence("PEPTIDERDLQMTQSPSSLSVSVGDRPEPTIDE")
   protein_hit.setScore(1.0)
-  protein_hit.setMetaValue("target_decoy", b"target") # its a target protein
+  protein_hit.setMetaValue("target_decoy", b"target")  # its a target protein
 
   protein_id.setHits([protein_hit])
 
@@ -81,7 +80,9 @@ run (such as search parameters):
   protein_id.setDateTime(now)
 
   # Example of possible search parameters
-  search_parameters = SearchParameters() # ProteinIdentification::SearchParameters
+  search_parameters = (
+      SearchParameters()
+  )  # ProteinIdentification::SearchParameters
   search_parameters.db = "database"
   search_parameters.charges = "+2"
   protein_id.setSearchParameters(search_parameters)
@@ -93,9 +94,9 @@ run (such as search parameters):
 
   # Iterate over all protein hits
   for hit in protein_id.getHits():
-    print("Protein hit accession:", hit.getAccession())
-    print("Protein hit sequence:", hit.getSequence())
-    print("Protein hit score:", hit.getScore())
+      print("Protein hit accession:", hit.getAccession())
+      print("Protein hit sequence:", hit.getSequence())
+      print("Protein hit score:", hit.getScore())
 
 
 PeptideIdentification
@@ -129,7 +130,7 @@ corresponding :py:class:`~.PeptideHit` objects:
   ev.setProteinAccession("sp|MyAccession")
   ev.setAABefore(b"R")
   ev.setAAAfter(b"P")
-  ev.setStart(123) # start and end position in the protein
+  ev.setStart(123)  # start and end position in the protein
   ev.setEnd(141)
   peptide_hit.setPeptideEvidences([ev])
 
@@ -141,9 +142,10 @@ corresponding :py:class:`~.PeptideHit` objects:
   peptide_hit2.setSequence(AASequence.fromString("QDLMTQSPSSLSVSVGDR"))
   peptide_hit2.setPeptideEvidences([ev])
 
-# add PeptideHit to PeptideIdentification
-peptide_id.setHits([peptide_hit, peptide_hit2])
-  
+  # add PeptideHit to PeptideIdentification
+  peptide_id.setHits([peptide_hit, peptide_hit2])
+
+
 This allows us to represent single spectra (:py:class:`~.PeptideIdentification` at *m/z*
 440.0 and *rt* 1234.56) with possible identifications that are ranked by score.
 In this case, apparently two possible peptides match the spectrum which have
@@ -157,17 +159,19 @@ We can now display the peptides we just stored:
   # Iterate over PeptideIdentification
   peptide_ids = [peptide_id]
   for peptide_id in peptide_ids:
-    # Peptide identification values
-    print ("Peptide ID m/z:", peptide_id.getMZ())
-    print ("Peptide ID rt:", peptide_id.getRT())
-    print ("Peptide ID score type:", peptide_id.getScoreType())
-    # PeptideHits
-    for hit in peptide_id.getHits():
-      print(" - Peptide hit rank:", hit.getRank())
-      print(" - Peptide hit sequence:", hit.getSequence())
-      print(" - Peptide hit score:", hit.getScore())
-      print(" - Mapping to proteins:", [ev.getProteinAccession() 
-                                          for ev in hit.getPeptideEvidences() ] )
+      # Peptide identification values
+      print("Peptide ID m/z:", peptide_id.getMZ())
+      print("Peptide ID rt:", peptide_id.getRT())
+      print("Peptide ID score type:", peptide_id.getScoreType())
+      # PeptideHits
+      for hit in peptide_id.getHits():
+          print(" - Peptide hit rank:", hit.getRank())
+          print(" - Peptide hit sequence:", hit.getSequence())
+          print(" - Peptide hit score:", hit.getScore())
+          print(
+              " - Mapping to proteins:",
+              [ev.getProteinAccession() for ev in hit.getPeptideEvidences()],
+          )
 
 
 
@@ -183,32 +187,36 @@ which we would do as follows:
 .. code-block:: python
   :linenos:
 
-  # Store the identification data in an idXML file  
+  # Store the identification data in an idXML file
   IdXMLFile().store("out.idXML", [protein_id], peptide_ids)
   # and load it back into memory
-  prot_ids = []; pep_ids = []
+  prot_ids = []
+  pep_ids = []
   IdXMLFile().load("out.idXML", prot_ids, pep_ids)
 
   # Iterate over all protein hits
   for protein_id in prot_ids:
-    for hit in protein_id.getHits():
-      print("Protein hit accession:", hit.getAccession())
-      print("Protein hit sequence:", hit.getSequence())
-      print("Protein hit score:", hit.getScore())
-      print("Protein hit target/decoy:", hit.getMetaValue("target_decoy"))
+      for hit in protein_id.getHits():
+          print("Protein hit accession:", hit.getAccession())
+          print("Protein hit sequence:", hit.getSequence())
+          print("Protein hit score:", hit.getScore())
+          print("Protein hit target/decoy:", hit.getMetaValue("target_decoy"))
 
   # Iterate over PeptideIdentification
   for peptide_id in pep_ids:
-    # Peptide identification values
-    print ("Peptide ID m/z:", peptide_id.getMZ())
-    print ("Peptide ID rt:", peptide_id.getRT())
-    print ("Peptide ID score type:", peptide_id.getScoreType())
-    # PeptideHits
-    for hit in peptide_id.getHits():
-      print(" - Peptide hit rank:", hit.getRank())
-      print(" - Peptide hit sequence:", hit.getSequence())
-      print(" - Peptide hit score:", hit.getScore())
-      print(" - Mapping to proteins:", [ev.getProteinAccession() for ev in hit.getPeptideEvidences() ] )
+      # Peptide identification values
+      print("Peptide ID m/z:", peptide_id.getMZ())
+      print("Peptide ID rt:", peptide_id.getRT())
+      print("Peptide ID score type:", peptide_id.getScoreType())
+      # PeptideHits
+      for hit in peptide_id.getHits():
+          print(" - Peptide hit rank:", hit.getRank())
+          print(" - Peptide hit sequence:", hit.getSequence())
+          print(" - Peptide hit score:", hit.getScore())
+          print(
+              " - Mapping to proteins:",
+              [ev.getProteinAccession() for ev in hit.getPeptideEvidences()],
+          )
 
 You can inspect the ``out.idXML`` XML file produced here, and you will find a :py:class:`~.ProteinHit` entry for
 the protein that we stored and two :py:class:`~.PeptideHit` entries for the two peptides stored on disk.

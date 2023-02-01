@@ -45,19 +45,19 @@ Load an example file into a :py:class:`~.MSExperiment` and get the MS1 and MS2 d
     from massql import msql_engine
 
     from urllib.request import urlretrieve
-    url = 'https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master/src/data/'
 
-    urlretrieve(url+'small.mzML', 'small.mzML')
+    url = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master/src/data/"
+
+    urlretrieve(url + "small.mzML", "small.mzML")
 
     # load MSExperiment
     exp = MSExperiment()
-    MzMLFile().load('small.mzML', exp)
+    MzMLFile().load("small.mzML", exp)
 
     # get MS1 and MS2 dataframes
     ms1_df, ms2_df = exp.get_massql_df()
 
     ms1_df.head()
-    
 .. csv-table:: ms1_df.head()
    :widths: 2 20 20 20 20 20 20 20
    :header: , i,  i_norm,   i_tic_norm,   mz,   scan, rt,   polarity
@@ -76,7 +76,10 @@ will read data from the given file name.
 
     # Executing Query
     results_df = msql_engine.process_query(
-    "QUERY scaninfo(MS1DATA) WHERE RTMIN=16", 'small.mzML', ms1_df=ms1_df, ms2_df=ms2_df
+        "QUERY scaninfo(MS1DATA) WHERE RTMIN=16",
+        "small.mzML",
+        ms1_df=ms1_df,
+        ms2_df=ms2_df,
     )
 
     results_df.head()

@@ -21,6 +21,7 @@ First we create a spectrum and insert peaks with descending mass-to-charge ratio
     :linenos:
 
     from pyopenms import *
+
     spectrum = MSSpectrum()
     mz = range(500, 1500, 100)
     i = [1 for mass in mz]
@@ -31,7 +32,7 @@ First we create a spectrum and insert peaks with descending mass-to-charge ratio
 
     # Iterate over spectrum of those peaks
     for p in spectrum:
-      print(p.getMZ(), p.getIntensity())
+        print(p.getMZ(), p.getIntensity())
 
     # Access a peak by index
     print("\nFirst peak: ", spectrum[0].getMZ(), spectrum[0].getIntensity())
@@ -66,7 +67,7 @@ production code.
 
     # More efficient peak access with get_peaks()
     for mz, i in zip(*spectrum.get_peaks()):
-      print(mz, i)
+        print(mz, i)
 
 
 .. code-block:: output
@@ -100,35 +101,35 @@ We now set several of these properties in a current MSSpectrum:
 
     # create spectrum and set properties
     spectrum = MSSpectrum()
-    spectrum.setDriftTime(25) # 25 ms
-    spectrum.setRT(205.2) # 205.2 s
-    spectrum.setMSLevel(3) # MS3
-    
+    spectrum.setDriftTime(25)  # 25 ms
+    spectrum.setRT(205.2)  # 205.2 s
+    spectrum.setMSLevel(3)  # MS3
+
     # Add peak(s) to spectrum
-    spectrum.set_peaks( ([401.5], [900]) )
-    
+    spectrum.set_peaks(([401.5], [900]))
+
     # create precursor information
     p = Precursor()
-    p.setMZ(600) # isolation at 600 +/- 1.5 Th
+    p.setMZ(600)  # isolation at 600 +/- 1.5 Th
     p.setIsolationWindowLowerOffset(1.5)
-    p.setIsolationWindowUpperOffset(1.5) 
-    p.setActivationEnergy(40) # 40 eV
-    p.setCharge(4) # 4+ ion
-    
+    p.setIsolationWindowUpperOffset(1.5)
+    p.setActivationEnergy(40)  # 40 eV
+    p.setCharge(4)  # 4+ ion
+
     # and store precursor in spectrum
-    spectrum.setPrecursors( [p] )
+    spectrum.setPrecursors([p])
 
     # set additional instrument settings (e.g. scan polarity)
     IS = InstrumentSettings()
     IS.setPolarity(IonSource.Polarity.POSITIVE)
     spectrum.setInstrumentSettings(IS)
-    
+
     # get and check scan polarity
     polarity = spectrum.getInstrumentSettings().getPolarity()
-    if (polarity == IonSource.Polarity.POSITIVE):
-      print("scan polarity: positive")
-    elif (polarity == IonSource.Polarity.NEGATIVE):
-      print("scan polarity: negative")
+    if polarity == IonSource.Polarity.POSITIVE:
+        print("scan polarity: positive")
+    elif polarity == IonSource.Polarity.NEGATIVE:
+        print("scan polarity: negative")
 
     # Optional: additional data arrays / peak annotations
     fda = FloatDataArray()
@@ -137,8 +138,8 @@ We now set several of these properties in a current MSSpectrum:
     sda = StringDataArray()
     sda.setName("Peak annotation")
     sda.push_back("y15++")
-    spectrum.setFloatDataArrays( [fda] )
-    spectrum.setStringDataArrays( [sda] )
+    spectrum.setFloatDataArrays([fda])
+    spectrum.setStringDataArrays([sda])
 
     # Add spectrum to MSExperiment
     exp = MSExperiment()
@@ -146,7 +147,7 @@ We now set several of these properties in a current MSSpectrum:
 
     # Add second spectrum to the MSExperiment
     spectrum2 = MSSpectrum()
-    spectrum2.set_peaks( ([1, 2], [1, 2]) )
+    spectrum2.set_peaks(([1, 2], [1, 2]))
     exp.addSpectrum(spectrum2)
 
     # store spectra in mzML file
@@ -206,8 +207,10 @@ is highly analogous to the :py:class:`~.MSSpectrum` container, but contains an a
 
     import numpy as np
 
+
     def gaussian(x, mu, sig):
-        return np.exp(-np.power(x - mu, 2.) / (2 * np.power(sig, 2.)))
+        return np.exp(-np.power(x - mu, 2.0) / (2 * np.power(sig, 2.0)))
+
 
     # Create new chromatogram
     chromatogram = MSChromatogram()
@@ -238,16 +241,16 @@ is highly analogous to the :py:class:`~.MSSpectrum` container, but contains an a
     p = Precursor()
     p.setIsolationWindowLowerOffset(1.5)
     p.setIsolationWindowUpperOffset(1.5)
-    p.setMZ(405.2) # isolation at 405.2 +/- 1.5 Th
-    p.setActivationEnergy(40) # 40 eV
-    p.setCharge(2) # 2+ ion
+    p.setMZ(405.2)  # isolation at 405.2 +/- 1.5 Th
+    p.setActivationEnergy(40)  # 40 eV
+    p.setCharge(2)  # 2+ ion
     p.setMetaValue("description", chromatogram.getNativeID())
     p.setMetaValue("peptide_sequence", chromatogram.getNativeID())
     chromatogram.setPrecursor(p)
 
     # Also store a product ion for the chromatogram (e.g. for SRM)
     p = Product()
-    p.setMZ(603.4) # transition from 405.2 -> 603.4
+    p.setMZ(603.4)  # transition from 405.2 -> 603.4
     chromatogram.setProduct(p)
 
     # Store as mzML
@@ -260,10 +263,10 @@ is highly analogous to the :py:class:`~.MSSpectrum` container, but contains an a
 
     for chrom in exp.getChromatograms():
         retention_times, intensities = chrom.get_peaks()
-        plt.plot(retention_times, intensities, label = chrom.getNativeID())
+        plt.plot(retention_times, intensities, label=chrom.getNativeID())
 
-    plt.xlabel('time (s)')
-    plt.ylabel('intensity (cps)')
+    plt.xlabel("time (s)")
+    plt.ylabel("intensity (cps)")
     plt.legend()
     plt.show()
 
@@ -337,10 +340,10 @@ several spectra:
         spectrum.setRT(i)
         spectrum.setMSLevel(1)
         for mz in range(500, 900, 100):
-          peak = Peak1D()
-          peak.setMZ(mz + i)
-          peak.setIntensity(100 - 25*abs(i-2.5) )
-          spectrum.push_back(peak)
+            peak = Peak1D()
+            peak.setMZ(mz + i)
+            peak.setIntensity(100 - 25 * abs(i - 2.5))
+            spectrum.push_back(peak)
         exp.addSpectrum(spectrum)
 
     # Iterate over spectra
@@ -395,7 +398,16 @@ certain conditions:
     :linenos:
 
     # Sum intensity of all spectra between RT 2.0 and 3.0
-    print(sum([p.getIntensity() for s in exp if s.getRT() >= 2.0 and s.getRT() <= 3.0 for p in s]))
+    print(
+        sum(
+            [
+                p.getIntensity()
+                for s in exp
+                if s.getRT() >= 2.0 and s.getRT() <= 3.0
+                for p in s
+            ]
+        )
+    )
 
 .. code-block:: output
 
@@ -432,28 +444,38 @@ provided by OpenMS.
     import matplotlib.pyplot as plt
     import matplotlib.colors as colors
 
-    def plot_spectra_2D(exp, ms_level=1, marker_size = 5):
+
+    def plot_spectra_2D(exp, ms_level=1, marker_size=5):
         exp.updateRanges()
         for spec in exp:
             if spec.getMSLevel() == ms_level:
                 mz, intensity = spec.get_peaks()
-                p = intensity.argsort() # sort by intensity to plot highest on top
+                p = intensity.argsort()  # sort by intensity to plot highest on top
                 rt = np.full([mz.shape[0]], spec.getRT(), float)
-                plt.scatter(rt, mz[p], c = intensity[p], cmap = 'afmhot_r', s=marker_size,
-                            norm=colors.LogNorm(exp.getMinIntensity()+1, exp.getMaxIntensity()))
-        plt.clim(exp.getMinIntensity()+1, exp.getMaxIntensity())
-        plt.xlabel('time (s)')
-        plt.ylabel('m/z')
+                plt.scatter(
+                    rt,
+                    mz[p],
+                    c=intensity[p],
+                    cmap="afmhot_r",
+                    s=marker_size,
+                    norm=colors.LogNorm(
+                        exp.getMinIntensity() + 1, exp.getMaxIntensity()
+                    ),
+                )
+        plt.clim(exp.getMinIntensity() + 1, exp.getMaxIntensity())
+        plt.xlabel("time (s)")
+        plt.ylabel("m/z")
         plt.colorbar()
-        plt.show() # slow for larger data sets
+        plt.show()  # slow for larger data sets
+
 
     from urllib.request import urlretrieve
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML", "test.mzML")
+    urlretrieve(gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML", "test.mzML")
 
     exp = MSExperiment()
-    MzMLFile().load('test.mzML', exp)
+    MzMLFile().load("test.mzML", exp)
 
     plot_spectra_2D(exp)
 
@@ -472,6 +494,7 @@ This can be useful for a brief visual inspection of your sample in quality contr
     import numpy as np
     import matplotlib.pyplot as plt
 
+
     def plot_spectra_2D_overview(experiment):
         rows = 200.0
         cols = 200.0
@@ -481,8 +504,8 @@ This can be useful for a brief visual inspection of your sample in quality contr
         tmp = bilip.getData()
         tmp.resize(int(rows), int(cols), float())
         bilip.setData(tmp)
-        bilip.setMapping_0(0.0, exp.getMinRT(), rows-1, exp.getMaxRT())
-        bilip.setMapping_1(0.0, exp.getMinMZ(), cols-1, exp.getMaxMZ())
+        bilip.setMapping_0(0.0, exp.getMinRT(), rows - 1, exp.getMaxRT())
+        bilip.setMapping_1(0.0, exp.getMinMZ(), cols - 1, exp.getMaxMZ())
         for spec in exp:
             if spec.getMSLevel() == 1:
                 mzs, ints = spec.get_peaks()
@@ -493,16 +516,21 @@ This can be useful for a brief visual inspection of your sample in quality contr
         data = np.ndarray(shape=(int(cols), int(rows)), dtype=np.float64)
         for i in range(int(rows)):
             for j in range(int(cols)):
-                data[i][j] = bilip.getData().getValue(i,j)
+                data[i][j] = bilip.getData().getValue(i, j)
 
-        plt.imshow(np.rot90(data), cmap='gist_heat_r')
-        plt.xlabel('retention time (s)')
-        plt.ylabel('m/z')
-        plt.xticks(np.linspace(0,int(rows),20, dtype=int),
-                np.linspace(exp.getMinRT(),exp.getMaxRT(),20, dtype=int))
-        plt.yticks(np.linspace(0,int(cols),20, dtype=int),
-                np.linspace(exp.getMinMZ(),exp.getMaxMZ(),20, dtype=int)[::-1])
+        plt.imshow(np.rot90(data), cmap="gist_heat_r")
+        plt.xlabel("retention time (s)")
+        plt.ylabel("m/z")
+        plt.xticks(
+            np.linspace(0, int(rows), 20, dtype=int),
+            np.linspace(exp.getMinRT(), exp.getMaxRT(), 20, dtype=int),
+        )
+        plt.yticks(
+            np.linspace(0, int(cols), 20, dtype=int),
+            np.linspace(exp.getMinMZ(), exp.getMaxMZ(), 20, dtype=int)[::-1],
+        )
         plt.show()
+
 
     plot_spectra_2D_overview(exp)
 
@@ -530,7 +558,9 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
     from urllib.request import urlretrieve
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve(gh + "/src/data/PrecursorPurity_input.mzML", "PrecursorPurity_input.mzML")
+    urlretrieve(
+        gh + "/src/data/PrecursorPurity_input.mzML", "PrecursorPurity_input.mzML"
+    )
 
     exp = MSExperiment()
     MzMLFile().load("PrecursorPurity_input.mzML", exp)
@@ -554,12 +584,16 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
     ms1_spectrum = exp[i]
 
     # calculate the precursor purity in a 10 ppm precursor isolation window
-    purity_score = PrecursorPurity().computePrecursorPurity(ms1_spectrum, ms2_precursor, 10, True)
+    purity_score = PrecursorPurity().computePrecursorPurity(
+        ms1_spectrum, ms2_precursor, 10, True
+    )
 
     print("\nPurity scores")
     print("total:", purity_score.total_intensity)  # 9098343.890625
     print("target:", purity_score.target_intensity)  # 7057944.0
-    print("signal proportion:", purity_score.signal_proportion)  # 0.7757394186070014
+    print(
+        "signal proportion:", purity_score.signal_proportion
+    )  # 0.7757394186070014
     print("target peak count:", purity_score.target_peak_count)  # 1
     print("residual peak count:", purity_score.residual_peak_count)  # 4
 
@@ -597,7 +631,7 @@ But first, we will load some test data:
     :linenos:
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
+    urlretrieve(gh + "/src/data/tiny.mzML", "test.mzML")
 
     inp = MSExperiment()
     MzMLFile().load("test.mzML", inp)
@@ -633,8 +667,8 @@ to only retain a list of MS scans we are interested in:
 
     filtered = MSExperiment()
     for k, s in enumerate(inp):
-    if k in scan_nrs:
-      filtered.addSpectrum(s)
+        if k in scan_nrs:
+            filtered.addSpectrum(s)
 
 
 Filtering Spectra and Peaks
@@ -650,18 +684,17 @@ We can easily filter our data accordingly:
     mz_end = 12.0
     filtered = MSExperiment()
     for s in inp:
-    if s.getMSLevel() > 1:
-      filtered_mz = []
-      filtered_int = []
-      for mz, i in zip(*s.get_peaks()):
-        if mz > mz_start and mz < mz_end:
-          filtered_mz.append(mz)
-          filtered_int.append(i)
-      s.set_peaks((filtered_mz, filtered_int))
-      filtered.addSpectrum(s)
+        if s.getMSLevel() > 1:
+            filtered_mz = []
+            filtered_int = []
+            for mz, i in zip(*s.get_peaks()):
+                if mz > mz_start and mz < mz_end:
+                    filtered_mz.append(mz)
+                    filtered_int.append(i)
+            s.set_peaks((filtered_mz, filtered_int))
+            filtered.addSpectrum(s)
 
     # filtered only contains only fragment spectra with peaks in range [mz_start, mz_end]
- 
 
 Note that in a real-world application, we would set the ``mz_start`` and
 ``mz_end`` parameter to an actual area of interest, for example the area

@@ -9,13 +9,17 @@ further analysis
 
     from urllib.request import urlretrieve
     from pyopenms import *
+
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh +"/src/data/peakpicker_tutorial_1_baseline_filtered.mzML", "tutorial.mzML")
+    urlretrieve(
+      gh + "/src/data/peakpicker_tutorial_1_baseline_filtered.mzML",
+      "tutorial.mzML",
+    )
 
     exp = MSExperiment()
     gf = GaussFilter()
     param = gf.getParameters()
-    param.setValue("gaussian_width", 1.0) # needs wider width
+    param.setValue("gaussian_width", 1.0)  # needs wider width
     gf.setParameters(param)
 
     MzMLFile().load("tutorial.mzML", exp)

@@ -15,10 +15,18 @@ First, download two example ``mzML`` files that have been map aligned based on a
 .. code-block:: python
 
     from urllib.request import urlretrieve
+
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/Metabolomics_1_aligned.mzML", "Metabolomics_1_aligned.mzML")
-    urlretrieve (gh + "/src/data/Metabolomics_2_aligned.mzML", "Metabolomics_2_aligned.mzML")
-    urlretrieve (gh + "/src/data/UntargetedMetabolomics.consensusXML", "UntargetedMetabolomics.consensusXML")
+    urlretrieve(
+        gh + "/src/data/Metabolomics_1_aligned.mzML", "Metabolomics_1_aligned.mzML"
+    )
+    urlretrieve(
+        gh + "/src/data/Metabolomics_2_aligned.mzML", "Metabolomics_2_aligned.mzML"
+    )
+    urlretrieve(
+        gh + "/src/data/UntargetedMetabolomics.consensusXML",
+        "UntargetedMetabolomics.consensusXML",
+    )
 
 
 .. code-block:: python
@@ -50,10 +58,16 @@ Now you can export your all files for FBMN and IIMN.
 .. code-block:: python
 
     # for FFBM
-    GNPSMGFFile().store(String(consensusXML_file), [file.encode() for file in mzML_files], String("MS2data.mgf")) 
+    GNPSMGFFile().store(
+        String(consensusXML_file),
+        [file.encode() for file in mzML_files],
+        String("MS2data.mgf"),
+    )
     GNPSQuantificationFile().store(consensus_map, "FeatureQuantificationTable.txt")
     GNPSMetaValueFile().store(consensus_map, "MetaValueTable.tsv")
 
     # for IIMN
     IonIdentityMolecularNetworking().annotateConsensusMap(consensus_map)
-    IonIdentityMolecularNetworking().writeSupplementaryPairTable(consensus_map, "SupplementaryPairTable.csv")
+    IonIdentityMolecularNetworking().writeSupplementaryPairTable(
+        consensus_map, "SupplementaryPairTable.csv"
+    )
