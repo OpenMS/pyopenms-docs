@@ -18,8 +18,8 @@ interactive session without consulting the documentation.
     from pyopenms import *
 
     p = Param()
-    p.setValue("param1",4.0, "This is value 1")
-    p.setValue("param2",5.0, "This is value 2")
+    p.setValue("param1", 4.0, "This is value 1")
+    p.setValue("param2", 5.0, "This is value 2")
     p.setValue(
         "param3",
         [b"H:+:0.6", b"Na:+:0.2", b"K:+:0.2"],
