@@ -137,6 +137,7 @@ As we have all the column names, now we will start populating it.
 
     df = df.astype(dtype=pdcols)
 
+
     # For populating the {alphabet}_count columns
     def count(row):
         counts = Counter(row["sequence"])
@@ -289,7 +290,6 @@ k-fold cross validation via the cv() method. All we have to do is specify the nf
     performance_list = []
     counter = 0
     for train_index, test_index in ss.split(X_train, Y_train):
-
         counter += 1
 
         X_train_Kfold, X_test_Kfold = (

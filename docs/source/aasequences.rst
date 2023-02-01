@@ -32,7 +32,7 @@ The example below shows how amino acid sequences can be created and how basic ma
 
     # some mass calculations
     mfull = seq.getMonoWeight()  # weight of M
-    mprecursor = seq.getMonoWeight(  Residue.ResidueType.Full, 2)  # weight of M+2H
+    mprecursor = seq.getMonoWeight(Residue.ResidueType.Full, 2)  # weight of M+2H
 
     # we can calculate mass-over-charge manually
     mz = seq.getMonoWeight(Residue.ResidueType.Full, 2) / 2.0  # m/z of [M+2H]2+
@@ -43,6 +43,7 @@ The example below shows how amino acid sequences can be created and how basic ma
     print("Monoisotopic mass of peptide [M] is", mfull)
     print("Monoisotopic mass of peptide precursor [M+2H]2+ is", mprecursor)
     print("Monoisotopic m/z of [M+2H]2+ is", mz)
+
 Which prints the amino acid sequence as well as the result of
 concatenating two sequences or taking the suffix of a sequence.
 We then compute the mass of the full peptide (``[M]``), the mass of the 

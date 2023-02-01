@@ -76,7 +76,6 @@ out: path to centroided mzML files in a subfolder 'centroid' (files)
     os.mkdir(os.path.join(files, "centroid"))
 
     for file in os.listdir(files):
-
         if file.endswith(".mzML"):
             exp_raw = MSExperiment()
             MzMLFile().load(os.path.join(files, file), exp_raw)
@@ -101,7 +100,6 @@ out: list of :py:class:`~.FeatureMap` (feature_maps)
     feature_maps = []
 
     for file in os.listdir(files):
-
         if file.endswith(".mzML"):
             exp = MSExperiment()
             MzMLFile().load(os.path.join(files, file), exp)
