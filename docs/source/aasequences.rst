@@ -32,7 +32,7 @@ The example below shows how amino acid sequences can be created and how basic ma
 
     # some mass calculations
     mfull = seq.getMonoWeight()  # weight of M
-    mprecursor = seq.getMonoWeight(Residue.ResidueType.Full, 2)  # weight of M+2H
+    mprecursor = seq.getMonoWeight(  Residue.ResidueType.Full, 2)  # weight of M+2H
 
     # we can calculate mass-over-charge manually
     mz = seq.getMonoWeight(Residue.ResidueType.Full, 2) / 2.0  # m/z of [M+2H]2+
