@@ -15,14 +15,14 @@ jobs:
         pip install blacken-docs
 
 
-    - name: Get changed files
-      id: changed-files
-      uses: tj-actions/changed-files@v35
-
+#    - name: Get changed files
+#      id: changed-files
+#      uses: tj-actions/changed-files@v35
+#
 #    - name: Running blacken
 #      run: blacken-docs -l 80 ${{ steps.changed-files.outputs.all_changed_files }}
 
-    - name: run action-suggester
+    - name: Run action-suggester
       uses: reviewdog/action-suggester@v1
       with:
-        tool_name: blacken-docs -l 80 ${{ steps.changed-files.outputs.all_changed_files }}
+        tool_name: blacken-docs -l 80  # ${{ steps.changed-files.outputs.all_changed_files }}
