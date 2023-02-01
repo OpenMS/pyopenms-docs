@@ -20,7 +20,7 @@ The example below shows how amino acid sequences can be created and how basic ma
     seq = AASequence.fromString(
         "DFPIANGER"
     )  # create AASequence object from string representation
-    prefix = seq.getPrefix(4)  # extract prefix of length 4
+    prefix =   seq.getPrefix(4)  # extract prefix of length 4
     suffix = seq.getSuffix(5)  # extract suffix of length 5
     concat = seq + seq  # concatenate two sequences
 
