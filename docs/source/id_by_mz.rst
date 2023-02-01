@@ -73,7 +73,6 @@ out: path to centroided mzML files in a subfolder 'centroid' (files)
     os.mkdir(os.path.join(files, "centroid"))
 
     for file in os.listdir(files):
-
         if file.endswith(".mzML"):
             exp_raw = MSExperiment()
             MzMLFile().load(os.path.join(files, file), exp_raw)
@@ -97,7 +96,6 @@ out: list with FeatureMaps (feature_maps)
     feature_maps = []
 
     for file in os.listdir(files):
-
         if file.endswith(".mzML"):
             exp = MSExperiment()
             MzMLFile().load(os.path.join(files, file), exp)
@@ -389,7 +387,7 @@ Visualize consensus features with identifications
 *************************************************
 
 .. code-block:: python
-    
+
     fig = px.scatter(id_df, x="RT", y="mz", hover_name="identifications")
     fig.update_layout(title="Consensus features with identifications (hover)")
     fig.show()
