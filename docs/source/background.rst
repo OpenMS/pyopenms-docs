@@ -2,7 +2,7 @@ Background
 ==========
 
 Proteomics and metabolomics focus on complex interactions within biological systems; the former is centered on proteins while the latter is based on metabolites. To understand these interactions, we need to accurately identify the different biological components involved. 
-:term:`Liquid chromatography` (LC) and :term:`mass spectrometry` (MS) are the analytical techniques used to isolate and identify biological components in proteomics and metabolomics. LC-MS data can be difficult to analyze manually given its amount and complexity. Therefore, we need specialized software that can analyze high-throughput LC-MS data quickly and accurately. 
+:term:`Liquid chromatography` (LC) and :term:`mass spectrometry` (MS) are the analytical techniques used to isolate and identify biological components in proteomics and metabolomics. :term:`LC-MS` data can be difficult to analyze manually given its amount and complexity. Therefore, we need specialized software that can analyze high-throughput LC-MS data quickly and accurately. 
 
 Why use OpenMS
 --------------

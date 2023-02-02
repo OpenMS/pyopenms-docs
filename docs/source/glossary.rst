@@ -8,7 +8,7 @@ A glossary of common terms used throughout OpenMS documentation.
 
   LC-MS
   LCMS
-    Liquid Chromatography-Mass Spectrometry. 
+    Liquid Chromatography-coupled Mass Spectrometry. 
 
   Liquid chromatography
     An analytical technique used to separate molecules of interest.
