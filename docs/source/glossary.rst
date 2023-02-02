@@ -6,11 +6,9 @@ A glossary of common terms used throughout OpenMS documentation.
 .. glossary::
     :sorted:
 
-    LC-MS/MS
-        See :term:`Liquid chromatography` and :term:`MS2`.
-
-    LC-MS
-        Liquid chromatography-mass spectrometry, see :term:`Liquid chromatography` and :term:`mass spectrometry`.
+  LC-MS
+  LCMS
+    Liquid Chromatography-coupled Mass Spectrometry.
 
     Liquid chromatography
         An analytical technique used to separate molecules of interest.
