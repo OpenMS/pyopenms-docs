@@ -8,6 +8,7 @@ In this example, we take an observed (measured) spectrum and align a theoretical
 First we load a (chemically modified) peptide:
 
 .. code-block:: python
+    :linenos:
 
     from urllib.request import urlretrieve
     from pyopenms import *
@@ -29,6 +30,7 @@ First we load a (chemically modified) peptide:
 Now we generate the theoretical spectrum of that peptide:
 
 .. code-block:: python
+    :linenos:
 
     tsg = TheoreticalSpectrumGenerator()
     theo_spectrum = MSSpectrum()
@@ -43,15 +45,16 @@ Now we generate the theoretical spectrum of that peptide:
 Now we can plot the observed and theoretical spectrum as a mirror plot:
 
 .. code-block:: python
+    :linenos:
 
-  from matplotlib import pyplot as plt
+    from matplotlib import pyplot as plt
 
-  mirror_plot_spectrum(
-      observed_spectrum,
-      theo_spectrum,
-      spectrum_bottom_kws={"annotate_ions": False},
-  )
-  plt.show()
+    mirror_plot_spectrum(
+        observed_spectrum,
+        theo_spectrum,
+        spectrum_bottom_kws={"annotate_ions": False},
+    )
+    plt.show()
 
 which produces
 
@@ -60,36 +63,38 @@ which produces
 Now we want to find matching peaks between observed and theoretical spectrum.
 
 .. code-block:: python
+    :linenos:
 
-  alignment = []
-  spa = SpectrumAlignment()
-  p = spa.getParameters()
-  # use 0.5 Da tolerance (Note: for high-resolution data we could also use ppm by setting the is_relative_tolerance value to true)
-  p.setValue("tolerance", 0.5)
-  p.setValue("is_relative_tolerance", "false")
-  spa.setParameters(p)
-  # align both spectra
-  spa.getSpectrumAlignment(alignment, theo_spectrum, observed_spectrum)
+    alignment = []
+    spa = SpectrumAlignment()
+    p = spa.getParameters()
+    # use 0.5 Da tolerance (Note: for high-resolution data we could also use ppm by setting the is_relative_tolerance value to true)
+    p.setValue("tolerance", 0.5)
+    p.setValue("is_relative_tolerance", "false")
+    spa.setParameters(p)
+    # align both spectra
+    spa.getSpectrumAlignment(alignment, theo_spectrum, observed_spectrum)
 
 The alignment contains a list of matched peak indices. We can simply inspect matching peaks with:
 
 .. code-block:: python
+    :linenos:
 
-  # Print matching ions and mz from theoretical spectrum
-  print("Number of matched peaks: " + str(len(alignment)))
-  t = []
-  for theo_idx, obs_idx in alignment:
-      ion_name = theo_spectrum.getStringDataArrays()[0][theo_idx].decode()
-      ion_charge = theo_spectrum.getIntegerDataArrays()[0][theo_idx]
-      t.append(
-          [
-              ion_name,
-              str(ion_charge),
-              str(theo_spectrum[theo_idx].getMZ()),
-              str(observed_spectrum[obs_idx].getMZ()),
-          ]
-      )
-  print(tabulate(t, headers=["ion", "charge", "theo. m/z", "observed m/z"]))
+    # Print matching ions and mz from theoretical spectrum
+    print("Number of matched peaks: " + str(len(alignment)))
+    t = []
+    for theo_idx, obs_idx in alignment:
+        ion_name = theo_spectrum.getStringDataArrays()[0][theo_idx].decode()
+        ion_charge = theo_spectrum.getIntegerDataArrays()[0][theo_idx]
+        t.append(
+            [
+                ion_name,
+                str(ion_charge),
+                str(theo_spectrum[theo_idx].getMZ()),
+                str(observed_spectrum[obs_idx].getMZ()),
+            ]
+        )
+    print(tabulate(t, headers=["ion", "charge", "theo. m/z", "observed m/z"]))
 
 .. code-block:: output
 
@@ -111,16 +116,17 @@ The alignment contains a list of matched peak indices. We can simply inspect mat
 The mirror plot can also be used to visualize the aligned spectrum:
 
 .. code-block:: python
+    :linenos:
 
-  from matplotlib import pyplot as plt
+    from matplotlib import pyplot as plt
 
-  mirror_plot_spectrum(
-      observed_spectrum,
-      theo_spectrum,
-      alignment=alignment,
-      spectrum_bottom_kws={"annotate_ions": False},
-  )
-  plt.show()
+    mirror_plot_spectrum(
+        observed_spectrum,
+        theo_spectrum,
+        alignment=alignment,
+        spectrum_bottom_kws={"annotate_ions": False},
+    )
+    plt.show()
 
 which produces
 

@@ -4,22 +4,24 @@ Identification Data
 In OpenMS, identifications of peptides, proteins and small molecules are stored
 in dedicated data structures. These data structures are typically stored to disc
 as idXML or mzIdentML file. The highest-level structure is
-``ProteinIdentification``. It stores all identified proteins of an identification
+:py:class:`~.ProteinIdentification`. It stores all identified proteins of an identification
 run as ProteinHit objects plus additional metadata (search parameters, etc.). Each
-``ProteinHit`` contains the actual protein accession, an associated score, and
+:py:class:`~.ProteinHit` contains the actual protein accession, an associated score, and
 (optionally) the protein sequence. 
 
-A ``PeptideIdentification`` object stores the
+A :py:class:`~.PeptideIdentification` object stores the
 data corresponding to a single identified spectrum or feature. It has members
-for the retention time, m/z, and a vector of ``PeptideHit`` objects. Each ``PeptideHit``
+for the retention time, m/z, and a vector of :py:class:`~.PeptideHit` objects. Each :py:class:`~.PeptideHit`
 stores the information of a specific peptide-to-spectrum match or PSM (e.g., the score
-and the peptide sequence). Each ``PeptideHit`` also contains a vector of
-``PeptideEvidence`` objects which store the reference to one or more (in the case the
+and the peptide sequence). Each :py:class:`~.PeptideHit` also contains a vector of
+:py:class:`~.PeptideEvidence` objects which store the reference to one or more (in the case the
 peptide maps to multiple proteins) proteins and the position therein.
 
 .. NOTE::
    Protein Ids are linked to Peptide Ids by a common identifier (e.g., a unique string of time and date of the search).
-   The Identifier can be set using the `setIdentifier` method. Similarly `getIdentifier` can be used to check the link between them.
+   The Identifier can be set using the :py:meth:`~.ProteinIdentification.setIdentifier` method in
+   :py:class:`~.ProteinIdentification` and :py:class:`~.PeptideIdentification`.
+   Similarly :py:meth:`~.ProteinIdentification.getIdentifier` can be used to check the link between them.
    With the link one can retrieve search meta data (which is stored at the protein level) for individual Peptide Ids.
 
    .. code-block:: python
@@ -42,8 +44,8 @@ peptide maps to multiple proteins) proteins and the position therein.
 ProteinIdentification
 **********************
 
-We can create an object of type ``ProteinIdentification``  and populate it with
-``ProteinHit`` objects as follows: 
+We can create an object of type :py:class:`~.ProteinIdentification`  and populate it with
+:py:class:`~.ProteinHit` objects as follows:
 
 .. see doc/code_examples/Tutorial_IdentificationClasses.cpp
 
@@ -65,8 +67,8 @@ We can create an object of type ``ProteinIdentification``  and populate it with
 
   protein_id.setHits([protein_hit])
 
-We have now added a single ``ProteinHit`` with the accession ``sp|MyAccession`` to
-the ``ProteinIdentification`` object (note how on line 14 we directly added a
+We have now added a single :py:class:`~.ProteinHit` with the accession ``sp|MyAccession`` to
+the :py:class:`~.ProteinIdentification` object (note how on line 14 we directly added a
 list of size 1).  We can continue to add meta-data for the whole identification
 run (such as search parameters):
 
@@ -100,8 +102,8 @@ run (such as search parameters):
 PeptideIdentification
 **********************
 
-Next, we can also create a ``PeptideIdentification`` object and add
-corresponding ``PeptideHit`` objects:
+Next, we can also create a :py:class:`~.PeptideIdentification` object and add
+corresponding :py:class:`~.PeptideHit` objects:
 
 .. code-block:: python
   :linenos:
@@ -144,7 +146,7 @@ corresponding ``PeptideHit`` objects:
   peptide_id.setHits([peptide_hit, peptide_hit2])
 
 
-This allows us to represent single spectra (``PeptideIdentification`` at *m/z*
+This allows us to represent single spectra (:py:class:`~.PeptideIdentification` at *m/z*
 440.0 and *rt* 1234.56) with possible identifications that are ranked by score.
 In this case, apparently two possible peptides match the spectrum which have
 the first three amino acids in a different order "DLQ" vs "QDL").
@@ -152,6 +154,7 @@ the first three amino acids in a different order "DLQ" vs "QDL").
 We can now display the peptides we just stored:
 
 .. code-block:: python
+  :linenos:
 
   # Iterate over PeptideIdentification
   peptide_ids = [peptide_id]
@@ -176,7 +179,7 @@ Storage on disk
 ***************
 
 Finally, we can store the peptide and protein identification data in a
-``idXML`` file (a OpenMS internal file format which we have previously
+:py:class:`~.IdXMLFile` (a OpenMS internal file format which we have previously
 discussed `here
 <other_file_handling.html#identification-data-idxml-mzidentml-pepxml-protxml>`_)
 which we would do as follows:
@@ -215,4 +218,5 @@ which we would do as follows:
               [ev.getProteinAccession() for ev in hit.getPeptideEvidences()],
           )
 
-You can inspect the ``out.idXML`` XML file produced here, and you will find a ``<ProteinHit>`` entry for the protein that we stored and two ``<PeptideHit>`` entries for the two peptides stored on disk.
+You can inspect the ``out.idXML`` XML file produced here, and you will find a :py:class:`~.ProteinHit` entry for
+the protein that we stored and two :py:class:`~.PeptideHit` entries for the two peptides stored on disk.

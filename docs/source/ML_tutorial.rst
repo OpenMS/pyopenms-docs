@@ -6,7 +6,7 @@ Overview
 
 Machine Learning is the field of study that gives computers the capability to learn without 
 being explicitly programmed. Machine learning (ML) is well known for its powerful ability to recognize 
-patterns and signals. Recently, the mass spectrometry community has embraced ML techniques for large-scale data analysis.
+patterns and signals. Recently, the :term:`mass spectrometry` community has embraced ML techniques for large-scale data analysis.
 
 Predicting accurate retention times has shown to improve identification in bottom-up proteomics.
 
@@ -15,11 +15,13 @@ In this tutorial we will predict the retention time from amino acid sequence dat
 First, we import all neccessary libraries for this tutorial.
 
 .. code-block:: ipython3
+    :linenos:
 
     !pip install seaborn
     !pip install xgboost
 
 .. code-block:: python
+    :linenos:
 
     import pandas as pd
     import seaborn as sns
@@ -32,6 +34,7 @@ First, we import all neccessary libraries for this tutorial.
 Once we have imported all libraries successfully, we are going to store the dataset in a variable.
 
 .. code-block:: python
+    :linenos:
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/pyOpenMS_ML_Tutorial.tsv", "data.tsv")
@@ -42,15 +45,20 @@ Note that this table could also be easily created from identification data as pr
 
 Before we move forward lets try to understand more about our data:
 
-a. Sequence - Chains of amino acids form peptides or proteins. The arrangement of amino acids is reffered as amino acid sequence. The composition and order of amino acids affect the physicochemical properties of the peptide and lead to different retention in the column.
+a. Sequence - Chains of amino acids form peptides or proteins.
+The arrangement of amino acids is reffered as amino acid sequence.
+The composition and order of amino acids affect the physicochemical properties of the peptide and lead to different
+retention in the column.
 b. Retention time (RT) - is the time taken for an analyte to pass through a chromatography column.
 
-From the amino acid sequence we can derive additional properties (machine learning features) used to train our machine learning model.
+From the amino acid sequence we can derive additional properties (machine learning features) used to train
+our machine learning model.
 
 We can easily check for its shape by using the tsv_data.shape attribute, 
 which will return the size of the dataset.
 
 .. code-block:: python
+    :linenos:
 
     print(tsv_data.shape)
 
@@ -61,6 +69,7 @@ which will return the size of the dataset.
 Explore the top 5 rows of the dataset by using head() method on pandas DataFrame.
 
 .. code-block:: python
+    :linenos:
 
     tsv_data.head()
 
@@ -76,6 +85,7 @@ Explore the top 5 rows of the dataset by using head() method on pandas DataFrame
 As the RT column is our response variable, we will be storing it seperately as Y1_test
 
 .. code-block:: python
+    :linenos:
 
     Y1_test = tsv_data["RT"]
 
@@ -93,6 +103,7 @@ sequences. Some of the parameters that can be derived are
 3. length = The total number of amino acids in the sequence.
 
 .. code-block:: python
+    :linenos:
 
     alphabet_list = list(string.ascii_uppercase)
     column_headers = (
@@ -112,6 +123,7 @@ sequences. Some of the parameters that can be derived are
 As we have all the column names, now we will start populating it.
 
 .. code-block:: python
+    :linenos:
 
     df = pd.DataFrame(
         np.zeros((len(tsv_data.index), len(column_headers))), columns=column_headers
@@ -155,6 +167,7 @@ Modelling
 ---------
 
 .. code-block:: python
+    :linenos:
 
     import seaborn as sns
     import matplotlib.pyplot as plt
@@ -167,6 +180,7 @@ Modelling
     from sklearn.model_selection import ShuffleSplit
 
 .. code-block:: python
+    :linenos:
 
     test_df = df.copy()
     test_df = test_df.drop("sequence", axis=1)
@@ -176,6 +190,7 @@ using the ``train_test_split`` function from sklearn's model_selection module wi
 size equal to 30% of the data. Also, to maintain reproducibility of the results, a random_state is also assigned.
 
 .. code-block:: python
+    :linenos:
 
     # Splitting Test data into test and validation
     X_train, X_test, Y_train, Y_test = train_test_split(
@@ -185,6 +200,7 @@ size equal to 30% of the data. Also, to maintain reproducibility of the results,
 We will be using the ``XGBRegressor()`` class because it is clearly a regression problem as the response variable ( retention time ) is continuous.
 
 .. code-block:: python
+    :linenos:
 
     xg_reg = XGBRegressor(
         n_estimators=300,
@@ -197,6 +213,7 @@ We will be using the ``XGBRegressor()`` class because it is clearly a regression
 Fit the regressor to the training set and make predictions on the test set using the familiar .fit() and .predict() methods.
 
 .. code-block:: python
+    :linenos:
 
     xg_reg.fit(X_train, Y_train)
     Y_pred = xg_reg.predict(X_test)
@@ -204,6 +221,7 @@ Fit the regressor to the training set and make predictions on the test set using
 Compute the root mean square error (rmse) using the mean_sqaured_error function from sklearn's metrics module.
 
 .. code-block:: python
+    :linenos:
 
     rmse = np.sqrt(mean_squared_error(Y_test, Y_pred))
     print("RMSE: %f" % (rmse))
@@ -215,6 +233,7 @@ Compute the root mean square error (rmse) using the mean_sqaured_error function 
 Store the **Observed** v/s **Predicted** value in pandas dataframe and print.
 
 .. code-block:: python
+    :linenos:
 
     k = pd.DataFrame(
         {"Observed": Y_test.values.flatten(), "Predicted": Y_pred.flatten()}
@@ -241,6 +260,7 @@ We can clearly see that only few outliers are there and most of them lie in betw
 This means that prediction actually worked and observed and predicted value won't differ too much.
 
 .. code-block:: python
+    :linenos:
 
     sns.lmplot(
         x="Observed", y="Predicted", data=k, scatter_kws={"alpha": 0.2, "s": 5}
@@ -249,6 +269,7 @@ This means that prediction actually worked and observed and predicted value won'
 .. image:: img/ml_tutorial_predicted_vs_observed.png
 
 .. code-block:: python
+    :linenos:
 
     p = sns.kdeplot(data=k["Observed"] - k["Predicted"], fill=True)
     p.set(xlabel="Observed-Predicted (s)")
@@ -260,6 +281,7 @@ used for both training as well as validation. Also, each entry is used for valid
 k-fold cross validation via the cv() method. All we have to do is specify the nfolds parameter, which is the number of cross validation sets we want to build.
 
 .. code-block:: python
+    :linenos:
 
     # Performing k-fold cross validation
     X = np.arange(10)

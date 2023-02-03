@@ -11,7 +11,7 @@ container of :py:class:`~.Peak1D`). You can access these objects directly, by us
 Meta-data is accessible through inheritance of the :py:class:`~.SpectrumSettings`
 objects which handles meta data of a spectrum.
 
-In the following example program, a MSSpectrum is filled with peaks, sorted
+In the following example program, a :py:class:`~.MSSpectrum` is filled with peaks, sorted
 according to mass-to-charge ratio and a selection of peak positions is
 displayed.
 
@@ -315,10 +315,10 @@ chromatogram in our :py:class:`~.MSExperiment` and label it with it's native ID.
 
 .. image:: img/ChromPlot.png
 
-LC-MS/MS Experiment
-*******************
+:term:`LC-MS/MS` Experiment
+***************************
 
-In OpenMS, LC-MS/MS injections are represented as so-called peak maps (using
+In OpenMS, :term:`LC-MS/MS` injections are represented as so-called peak maps (using
 the :py:class:`~.MSExperiment` class), which we have already encountered above. The
 :py:class:`~.MSExperiment` class can hold a list of :py:class:`~.MSSpectrum` object (as well as a
 list of :py:class:`~.MSChromatogram` objects, see below). The :py:class:`~.MSExperiment` object
@@ -479,6 +479,7 @@ provided by OpenMS.
 
     plot_spectra_2D(exp)
 
+
 .. image:: img/Spectra2D.png
 
 .. image:: img/Spectra2DDetails.png
@@ -539,7 +540,7 @@ This can be useful for a brief visual inspection of your sample in quality contr
 Example: Precursor Purity
 **************************
 
-When an MS/MS spectrum is generated, the precursor from the MS1 spectrum is gathered, fragmented and measured.
+When an MS2 spectrum is generated, the precursor from the MS1 spectrum is gathered, fragmented and measured.
 In practice, the instrument gathers the ions in a user-defined window around the precursor m/z - the so-called
 precursor isolation window.
 

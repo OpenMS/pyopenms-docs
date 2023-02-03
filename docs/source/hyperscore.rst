@@ -4,19 +4,19 @@ Scoring spectra with HyperScore
 In the chapter on spectrum alignment we showed how to determine matching peaks between theoretical and experimental spectra.
 For many use cases we might actually not be interested in obtaining the list of matched peaks but would like to have
 a simple, single score that indicates how "well" the two spectra matched.
-The HyperScore is a method to assign a spectrum match score to spectrum matches.
+The :py:class:`~.HyperScore` is a method to assign a spectrum match score to spectrum matches.
 
 
 Background
 **********
 
 
-HyperScore computes the (ln transformed) HyperScore of theoretical spectrum,
+:py:class:`~.HyperScore` computes the (ln transformed) ``HyperScore`` of theoretical spectrum,
 calculated from a peptide/oligonucleotide sequence, with an experimental spectrum,
 loaded from an mzML file.
 
     1. the dot product of peak intensities between matching peaks in experimental and theoretical spectrum is calculated
-    2. the HyperScore is calculated from the dot product by multiplying by factorials of matching b- and y-ions
+    2. the ``HyperScore`` is calculated from the dot product by multiplying by factorials of matching b- and y-ions
 
 .. code-block:: python
 
@@ -30,7 +30,7 @@ Generate a theoretical spectrum
 *******************************
 
 
-We now use the TheoreticalSpectrumGenerator to generate a theoretical spectrum for the sequence we are interested in,
+We now use the :py:class:`~.TheoreticalSpectrumGenerator` to generate a theoretical spectrum for the sequence we are interested in,
 ``RPGADSDIGGFGGLFDLAQAGFR``, and compare the peaks to a spectra from our file.
 
 
@@ -64,7 +64,7 @@ spectrum are y8 (877.452 m/z), b10 (926.432), y9 (1024.522 m/z) and b13
 Getting a score
 ***************
 
-We now run HyperScore to compute the similarity of the theoretical spectrum
+We now run :py:class:`~.HyperScore` to compute the similarity of the theoretical spectrum
 and the experimental spectrum and print the result 
 
 .. code-block:: python

@@ -1,7 +1,7 @@
 Feature Linking
 ===============
 
-The pyOpenMS feature grouping algorithms group corresponding features (e.g., of same analyte) from multiple ``FeatureMap`` objects into a ``ConsensusMap``.
+The pyOpenMS feature grouping algorithms group corresponding features (e.g., of same analyte) from multiple :py:class:`~.FeatureMap` objects into a :py:class:`~.ConsensusMap`.
 Linking is primarily done based on spatial proximity (e.g., similar retention time and m/z).
 It is, thus, advisable to perform a map alignment before feature linking.
 
@@ -50,7 +50,7 @@ Download Example Data
 Feature Linking Algorithm
 *************************
 
-All ``FeatureMap`` objects will be combined in a ``ConsensusMap``.
+All :py:class:`~.FeatureMap` objects will be combined in a :py:class:`~.ConsensusMap`.
 
 .. code-block:: python
 

@@ -10,13 +10,14 @@ Note: Creating a consensus map from the aligned maps is performed by a feature l
 
 Different map alignment algorithms are available in pyOpenMS:
 
-- MapAlignmentAlgorithmPoseClustering
-- MapAlignmentAlgorithmIdentification
-- MapAlignmentAlgorithmSpectrumAlignment
-- MapAlignmentAlgorithmKD
-- MapAlignmentTransformer
+- :py:class:`~.MapAlignmentAlgorithmPoseClustering`
+- :py:class:`~.MapAlignmentAlgorithmIdentification`
+- :py:class:`~.MapAlignmentAlgorithmSpectrumAlignment`
+- :py:class:`~.MapAlignmentAlgorithmKD`
+- :py:class:`~.MapAlignmentTransformer`
 
-To perform a simple linear alignment we can employ the algorithm MapAlignmentAlgorithmPoseClustering. In the example below it is used for the alignment of feature maps.
+To perform a simple linear alignment we can employ the algorithm :py:class:`~.MapAlignmentAlgorithmPoseClustering`.
+In the example below it is used for the alignment of feature maps.
 
 Download Example Data
 *********************
@@ -48,7 +49,8 @@ Download Example Data
 Map Alignment Algorithm
 ***********************
 
-From the list of feature maps, the one with the largest number of features is selected for reference. The retention times of the other feature maps are aligned to this.
+From the list of feature maps, the one with the largest number of features is selected for reference.
+The retention times of the other feature maps are aligned to this.
 
 .. code-block:: python
 

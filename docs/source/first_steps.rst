@@ -57,14 +57,14 @@ function:
      [...]
 
 
-which lists information on the ``pyopenms.MSExperiment`` class, including a
+which lists information on the :py:class:`~.MSExperiment` class, including a
 description of the main purpose of the class and how the class is intended to
 be used. Additional useful information is presented in the ``Inherits from``
 section which points to additional classes that act as base classes to
-``pyopenms.MSExperiment`` and that contain further information.
+:py:class:`~.MSExperiment` and that contain further information.
 The list of available methods is long (but does *not* include methods from the
 base classes) and reveals that the class exposes methods such as
-``getNrSpectra()`` and ``getSpectrum(id)`` where the argument ``id`` indicates
+:py:meth:`~.MSExperiment.getNrSpectra` and :py:meth:`~.MSExperiment.getSpectrum(id)` where the argument ``id`` indicates
 the spectrum identifer.  The command also lists the signature for each
 function, allowing users to identify the function arguments and return types.
 We can gain further information about exposed methods by investigating the
@@ -89,7 +89,7 @@ documentation of the base classes:
      [...]
 
 We could now continue our investigation by reading the documentation of the
-base classes ``DocumentIdentifier`` and ``MetaInfoInterface``, but we will
+base classes :py:class:`~.DocumentIdentifier` and :py:class:`~.MetaInfoInterface`, but we will
 leave this exercise for the interested reader. For a more complete documentation of the underlying
 wrapped methods, please consult the official OpenMS documentation, in this case
 the `MSExperiment documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1MSExperiment.html>`_.
@@ -117,7 +117,7 @@ example file:
     MzMLFile().load("tiny.mzML", exp)
 
 which will load the content of the "tiny.mzML" file into the ``exp``
-variable of type ``MSExperiment``.
+variable of type :py:class:`~.MSExperiment`.
 We can now inspect the properties of this object:
 
 .. code-block:: python
@@ -148,7 +148,7 @@ We can now inspect the properties of this object:
 
 
 which indicates that the variable ``exp`` has (among others) the functions
-``getNrSpectra`` and ``getNrChromatograms``. We can now try these functions:
+:py:class:`~.MSExperiment.getNrSpectra` and :py:class:`~.MSExperiment.getNrChromatograms`. We can now try these functions:
 
 .. code-block:: python
 
@@ -179,7 +179,7 @@ Iteration
     MS Level: 1
     MS Level: 1
 
-This iterates through all available spectra, we can also access spectra through the ``[]`` operator:
+This iterates through all available :py:class:`~.MSSpectra`, we can also access spectra through the ``[]`` operator:
 
 .. code-block:: python
 
@@ -190,7 +190,7 @@ This iterates through all available spectra, we can also access spectra through 
     MS Level: 2
 
 Note that ``spec[1]`` will access the *second* spectrum (arrays start at
-``0``). We can access the raw peaks through ``get_peaks()``:
+``0``). We can access the raw peaks through :py:meth:`~.MSSpectrum.get_peaks`:
 
 .. code-block:: python
 

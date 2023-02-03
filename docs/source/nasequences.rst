@@ -4,8 +4,7 @@ Oligonucleotides: RNA
 Nucleic Acid Sequences
 **********************
 
-OpenMS also supports the representation of RNA oligonucleotides using the
-``NASequence`` class:
+OpenMS also supports the representation of RNA oligonucleotides using the :py:class:`~.NASequence` class:
 
 .. code-block:: python
     :linenos:
@@ -66,7 +65,7 @@ Which will output
 
 
 
-The ``NASequence`` object also allows iterations directly in Python:
+The :py:class:`~.NASequence` object also allows iterations directly in Python:
 
 .. code-block:: python
     :linenos:
@@ -104,10 +103,10 @@ Similarly to before for amino acid sequences, we can also generate internal frag
 Modified oligonucleotides
 *************************
 
-Modified nucleotides can also represented by the ``Ribonucleotide`` class and
+Modified nucleotides can also represented by the :py:class:`~.Ribonucleotide` class and
 are specified using a unique string identifier present in the
-``RibonucleotideDB`` in square brackets. For example, ``[m1A]`` represents
-1-methyladenosine. We can create a ``NASequence`` object by parsing a modified
+:py:class:`~.RibonucleotideDB` in square brackets. For example, ``[m1A]`` represents
+1-methyladenosine. We can create a :py:class:`~.NASequence` object by parsing a modified
 sequence as follows:
 
 .. code-block:: python

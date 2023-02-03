@@ -1,7 +1,8 @@
 Untargeted Metabolomics Pre-Processing
 ======================================
 
-The universal workflow for untargeted metabolomics always consists of feature detection in the individual MS sample files and their linkage to consensus features with common m/z and retention time values.
+The universal workflow for untargeted metabolomics always consists of feature detection in the individual MS sample
+files and their linkage to consensus features with common m/z and retention time values.
 In addition, there are optional steps such as adduct detection and annotation of features with associated MS2 spectra.
 
 .. image:: img/metabolomics-preprocessing.png
@@ -77,8 +78,10 @@ For each ``mzML`` file do mass trace, elution peak and feature detection.
 Align feature retention times based on the feature map with the highest number of features (reference map).
 
 .. code-block:: python
+    :linenos:
 
-    # use as reference for alignment, the file with the largest number of features (works well if you have a pooled QC for example)
+    # use as reference for alignment, the file with the largest number of features
+    # (works well if you have a pooled QC for example)
     ref_index = feature_maps.index(sorted(feature_maps, key=lambda x: x.size())[-1])
 
     aligner = MapAlignmentAlgorithmPoseClustering()
@@ -102,9 +105,10 @@ Align feature retention times based on the feature map with the highest number o
         transformer = MapAlignmentTransformer()
         transformer.transformRetentionTimes(feature_map, trafo, True)
 
-Align ``mzML`` files aligment based on ``FeatureMap`` alignment (optional, only for GNPS).
+Align ``mzML`` files aligment based on :py:class:`~.FeatureMap` alignment (optional, only for GNPS).
 
 .. code-block:: python
+    :linenos:
 
     # align mzML files based on FeatureMap alignment and store as mzML files (for GNPS!)
     for file in mzML_files:
@@ -121,9 +125,10 @@ Align ``mzML`` files aligment based on ``FeatureMap`` alignment (optional, only 
         MzMLFile().store(file[:-5] + "_aligned.mzML", exp)
     mzML_files = [file[:-5] + "_aligned.mzML" for file in mzML_files]
 
-Map MS2 spectra to features as ``PeptideIdentification`` objects (optional, only for GNPS).
+Map MS2 spectra to features as :py:class:`~.PeptideIdentification` objects (optional, only for GNPS).
 
 .. code-block:: python
+    :linenos:
 
     feature_maps_mapped = []
     use_centroid_rt = False
@@ -168,6 +173,7 @@ Map MS2 spectra to features as ``PeptideIdentification`` objects (optional, only
 Detect adducts (optional, only for SIRIUS and GNPS Ion Identity Molecular Networking).
 
 .. code-block:: python
+    :linenos:
 
     feature_maps_adducts = []
     for feature_map in feature_maps:
@@ -197,9 +203,10 @@ Detect adducts (optional, only for SIRIUS and GNPS Ion Identity Molecular Networ
             feature_map,
         )
 
-Link features in a ``ConsensusMap``.
+Link features in a :py:class:`~.ConsensusMap`.
 
 .. code-block:: python
+    :linenos:
 
     feature_grouper = FeatureGroupingAlgorithmKD()
 
@@ -222,5 +229,6 @@ Link features in a ``ConsensusMap``.
 To get a final feature matrix in a table format, export the consensus features in a ``pandas DataFrame``.
 
 .. code-block:: python
+    :linenos:
 
     df = consensus_map.get_df()

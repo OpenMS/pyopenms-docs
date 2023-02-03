@@ -11,6 +11,7 @@ Constants
 OpenMS has many chemical and physical constants built in:
 
 .. code-block:: python
+    :linenos:
 
     import pyopenms
 
@@ -23,10 +24,11 @@ mass.
 Elements
 --------
 
-In OpenMS, elements are stored in ``ElementDB`` which has entries for dozens of
-elements commonly used in mass spectrometry.
+In OpenMS, elements are stored in :py:class:`~.ElementDB` which has entries for dozens of
+elements commonly used in :term:`mass spectrometry<Mass spectrometry>`.
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
 
@@ -51,7 +53,7 @@ elements commonly used in mass spectrometry.
     print("One mole of oxygen weighs", 2 * oxygen.getAverageWeight(), "grams")
     print("One mole of 16O2 weighs", 2 * oxygen.getMonoWeight(), "grams")
 
-As we can see, the OpenMS ``ElementDB`` has entries for common elements like
+As we can see, the OpenMS :py:class:`~.ElementDB` has entries for common elements like
 Oxygen and Sulfur as well as information on their average and monoisotopic
 weight. Note that the monoisotopic weight is the weight of the most abundant
 isotope while the average weight is the sum across all isotopes, weighted by
@@ -213,16 +215,18 @@ which produces
 
 .. _Mass Defect Section:
 
+
 Mass Defect
 ~~~~~~~~~~~
 
 .. NOTE::
-   While all isotopes are created by adding one or more neutrons to the
-   nucleus, this leads to different observed masses due to the `mass defect <https://en.wikipedia.org/wiki/Nuclear_binding_energy#Mass_defect>`__, which
-   describes the difference between the mass of an atom and the mass of
-   its constituent particles. For example, the mass difference between 12C and
-   13C is slightly different than the mass difference between 14N and 15N, even
-   though both only differ by a neutron from their monoisotopic element:
+    While all isotopes are created by adding one or more neutrons to the
+    nucleus, this leads to different observed masses due to the
+    `mass defect <https://en.wikipedia.org/wiki/Nuclear_binding_energy#Mass_defect>`_, which
+    describes the difference between the mass of an atom and the mass of
+    its constituent particles. For example, the mass difference between 12C and
+    13C is slightly different than the mass difference between 14N and 15N, even
+    though both only differ by a neutron from their monoisotopic element:
 
    .. code-block:: python
 
@@ -285,7 +289,7 @@ Mass Defect
 Molecular Formulae
 ------------------
 
-Elements can be combined to molecular formulas (``EmpiricalFormula``) which can
+Elements can be combined to molecular formulas (:py:class:`~.EmpiricalFormula`) which can
 be used to describe molecules such as metabolites, amino acid sequences or
 oligonucleotides.  The class supports a large number of operations like
 addition and subtraction. A simple example is given in the next few lines of
@@ -311,10 +315,10 @@ which produces
 
 
 Note how in line 5 we were able to make a new molecule by adding existing
-molecules (for example by adding two ``EmpiricalFormula`` objects). In this
+molecules (for example by adding two :py:class:`~.EmpiricalFormula` objects). In this
 case, we illustrated how to make ethanol by adding a ``CH2`` methyl group to an
 existing methanol molecule. Note that OpenMS describes sum formulae with the
-``EmpiricalFormula`` object and does store structural information in this class.
+:py:class:`~.EmpiricalFormula` object and does store structural information in this class.
 
 Isotopes
 ~~~~~~~~
@@ -360,7 +364,7 @@ Isotopic Distributions
 ~~~~~~~~~~~~~~~~~~~~~~
 
 OpenMS can also generate theoretical isotopic distributions from analytes
-represented as ``EmpiricalFormula``. Currently there are two algorithms
+represented as :py:class:`~.EmpiricalFormula`. Currently there are two algorithms
 implemented, CoarseIsotopePatternGenerator which produces unit mass isotope
 patterns and FineIsotopePatternGenerator which is based on the IsoSpec
 algorithm [1]_ :
@@ -439,7 +443,7 @@ we can produce the following visualization
 .. image:: img/methanol_ethanol_isoDistribution.png
 
 
-The result calculated with the ``FineIsotopePatternGenerator``
+The result calculated with the :py:class:`~.FineIsotopePatternGenerator`
 contains the hyperfine isotope structure with heavy isotopes of Carbon and 
 Hydrogen clearly distinguished while the coarse (unit resolution)
 isotopic distribution contains summed probabilities for each isotopic peak
@@ -530,12 +534,12 @@ nearest integer:
 Amino Acids
 -----------
 
-An amino acid residue is represented in OpenMS by the class ``Residue``. It provides a
+An amino acid residue is represented in OpenMS by the class :py:class:`~.Residue`. It provides a
 container for the amino acids as well as some functionality. The class is able
 to provide information such as the isotope distribution of the residue, the
 average and monoisotopic weight. The residues can be identified by their full
 name, their three letter abbreviation or the single letter abbreviation. The
-residue can also be modified, which is implemented in the ``Modification`` class.
+residue can also be modified, which is implemented in the :py:class:`~.Modification` class.
 Additional less frequently used parameters of a residue like the gas-phase
 basicity and pk values are also available.
 
@@ -568,8 +572,8 @@ Amino Acid Modifications
 ------------------------
 
 An amino acid residue modification is represented in OpenMS by the class
-``ResidueModification``. The known modifications are stored in the
-``ModificationsDB`` object, which is capable of retrieving specific
+:py:class:`~.ResidueModification`. The known modifications are stored in the
+:py:class:`~.ModificationsDB` object, which is capable of retrieving specific
 modifications. It contains UniMod as well as PSI modifications.
 
 .. code-block:: python
@@ -620,7 +624,7 @@ Ribonucleotides
 
 A `ribonucleotide <https://en.wikipedia.org/wiki/Ribonucleotide>`_ describes
 one of the building blocks of DNA and RNA. In OpenMS, a ribonucleotide in its
-modified or unmodified form is represented by the ``Ribonucleotide`` class in
+modified or unmodified form is represented by the :py:class:`~.Ribonucleotide` class in
 OpenMS.  The class is able to provide information such as the isotope
 distribution of the residue, the average and monoisotopic weight. The residues
 can be identified by their full name, their three letter abbreviation or the
