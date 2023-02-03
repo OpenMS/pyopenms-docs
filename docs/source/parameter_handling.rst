@@ -2,17 +2,18 @@ Parameter Handling
 ==================
 
 Parameter handling in OpenMS and pyOpenMS is usually implemented through inheritance
-from ``DefaultParamHandler`` and allow access to parameters through the ``Param`` object. This
+from :py:class:`~.DefaultParamHandler` and allow access to parameters through the :py:class:`~.Param` object. This
 means, the classes implement the methods ``getDefaults``, ``getParameters``, ``setParameters``
 which allows access to the default parameters, the current parameters and allows to set the
 parameters.
 
-The ``Param`` object that is returned can be manipulated through the ``setValue`` and ``getValue``
-methods (the ``exists`` method can be used to check for existence of a key). Using the
-``getDescription`` method, it is possible to get a help-text for each parameter value in an
+The :py:class:`~.Param` object that is returned can be manipulated through the :py:meth:`~.Param.setValue`
+and :py:meth:`~.Param.getValue` methods (the ``exists`` method can be used to check for existence of a key). Using the
+:py:meth:`~.Param.getDescription` method, it is possible to get a help-text for each parameter value in an
 interactive session without consulting the documentation.
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
 
@@ -78,22 +79,22 @@ The param object can be copy and merge in to other param object as
 In param object the keys values can be remove by key_name or prefix as
 
 .. code-block:: python
-    
+
     # We now call the remove method with key of the entry we want to delete ("example3")
     new_p.remove("example3")
     print("Key and values pairs after removing the entry with key: example3")
     printParamKeyAndValues(new_p)
-    
+
     # We now want to delete all keys with prefix "exam"
     new_p.removeAll("exam")
     print(
         "Key and value pairs after removing all entries with keys starting with: exam"
     )
     printParamKeyAndValues(new_p)
-    
+
     # we can compare Param objects for identical content
     if p == new_p:  # check p is equal to new_p
         new_p.clear()  # Example: delete all keys from new_p
-    
+
     print("Keys and values after deleting all entries.")
     printParamKeyAndValues(new_p)  # All keys of new_p deleted

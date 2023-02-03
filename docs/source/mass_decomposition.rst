@@ -4,7 +4,7 @@ Mass Decomposition
 Fragment mass to amino acid composition
 ***************************************
 
-One challenge often encountered in mass spectrometry is the question of the
+One challenge often encountered in :term:`mass spectrometry<Mass spectrometry>` is the question of the
 composition of a specific mass fragment only given its mass. For example, for
 the internal fragment mass ``262.0953584466`` there are three different
 interpretations within a narrow mass band of 0.05 Th:
@@ -32,8 +32,8 @@ interpretations within a narrow mass band of 0.05 Th:
 
 As you can see, already for relatively simple two-amino acid combinations,
 multiple explanations may exist. OpenMS provides an algorithm to compute all
-potential amino acid combitions that explain a certain mass in the
-``MassDecompositionAlgorithm`` class:
+potential amino acid combinations that explain a certain mass in the
+:py:class:`~.MassDecompositionAlgorithm` class:
 
 .. code-block:: python
 

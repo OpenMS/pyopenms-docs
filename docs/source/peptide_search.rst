@@ -17,11 +17,12 @@ SimpleSearch
 In most proteomics applications, a dedicated search engine (such as Comet,
 Crux, Mascot, MSGFPlus, MSFragger, Myrimatch, OMSSA, SpectraST or XTandem;
 all of which are supported by pyOpenMS) will be used to search data. Here, we will
-use the internal ``SimpleSearchEngineAlgorithm`` from OpenMS used for teaching
+use the internal :py:class:`~.SimpleSearchEngineAlgorithm` from OpenMS used for teaching
 purposes. This makes it very easy to search an (experimental) mzML file against
 a fasta database of protein sequences:
 
 .. code-block:: python
+    :linenos:
 
     from urllib.request import urlretrieve
     from pyopenms import *
@@ -57,6 +58,7 @@ We can now investigate the individual hits as we have done before in the
 `Identification tutorial <datastructures_id.html#PeptideIdentification>`_.
 
 .. code-block:: python
+    :linenos:
 
     for peptide_id in peptide_ids:
         # Peptide identification values
@@ -89,6 +91,7 @@ spectrum in the file for a precursor at 775.38 m/z for the sequence
 ``RPGADSDIGGFGGLFDLAQAGFR``.  
 
 .. code-block:: python
+    :linenos:
 
     tsg = TheoreticalSpectrumGenerator()
     thspec = MSSpectrum()
@@ -131,6 +134,7 @@ tolerance of 2.25 ppm, therefore if we set the precursor mass tolerance to 4
 ppm (+/- 2ppm), we expect that we will not find the hit at 775.38 m/z any more:
 
 .. code-block:: python
+    :linenos:
 
     salgo = SimpleSearchEngineAlgorithm()
     p = salgo.getDefaults()
@@ -153,6 +157,7 @@ More detailed example
 Now include some additional decoy database generation step as well as subsequent FDR filtering.
 
 .. code-block:: python
+    :linenos:
 
     from urllib.request import urlretrieve
 
@@ -216,6 +221,7 @@ we need to assign scores to proteins first (e.g. based on their observed peptide
 This is done by applying one of the available protein inference algorithms on the peptide and protein IDs.
 
 .. code-block:: python
+    :linenos:
 
     protein_ids = []
     peptide_ids = []

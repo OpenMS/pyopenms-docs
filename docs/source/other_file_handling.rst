@@ -63,8 +63,8 @@ You can load (storing is not supported) identification data from a TPP `protXML`
 ..    ProtXMLFile().store("test.out.protXML", protein_ids, peptide_ids, "doc_id_42")
 
 
-note how each data file produces two vectors of type ``ProteinIdentification``
-and ``PeptideIdentification`` which also means that conversion between two data
+note how each data file produces two vectors of type :py:class:`~.ProteinIdentification`
+and :py:class:`~.PeptideIdentification` which also means that conversion between two data
 types is trivial: load data from one data file and use the storage function of
 the other file.
 
@@ -72,12 +72,13 @@ Quantiative data (featureXML, consensusXML)
 -------------------------------------------------------
 
 OpenMS stores quantitative information in the internal ``featureXML`` and
-``consensusXML`` data formats. The ``featureXML`` format is used to store
-quantitative data from a single LC-MS/MS run while the ``consensusXML`` is used
-to store quantitative data from multiple LC-MS/MS runs. These can be accessed
+``consensusXML`` attributes. The ``featureXML`` format is used to store
+quantitative data from a single :term:`LC-MS/MS` run while the ``consensusXML`` is used
+to store quantitative data from multiple :term:`LC-MS/MS` runs. These can be accessed
 as follows:
 
 .. code-block:: python
+    :linenos:
 
     from urllib.request import urlretrieve
 
@@ -93,6 +94,7 @@ as follows:
 and for ``consensusXML``
 
 .. code-block:: python
+    :linenos:
 
     from urllib.request import urlretrieve
 
@@ -122,6 +124,7 @@ The TraML data format allows you to store transition information for targeted
 experiments (SRM / MRM / PRM / DIA).
 
 .. code-block:: python
+    :linenos:
 
     from urllib.request import urlretrieve
 

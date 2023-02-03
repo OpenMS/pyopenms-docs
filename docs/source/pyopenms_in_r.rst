@@ -13,6 +13,7 @@ In order to use all pyopenms functionalities in R, we suggest to use the "reticu
 A thorough documentation is available at: https://rstudio.github.io/reticulate/
 
 .. code-block:: R
+    :linenos:
 
     install.packages("reticulate")
 
@@ -21,15 +22,17 @@ Installation of pyopenms is a requirement as well and it is necessary to make su
 In case R is having trouble to find the correct Python environment, you can set it by hand as in this example (using miniconda, you will have to adjust the file path to your system to make this work). You will need to do this before loading the "reticulate" library:
 
 .. code-block:: R
+    :linenos:
 
-   Sys.setenv(RETICULATE_PYTHON = "/usr/local/miniconda3/envs/py37/bin/python")
+    Sys.setenv(RETICULATE_PYTHON = "/usr/local/miniconda3/envs/py37/bin/python")
 
 Or after loading the "reticulate" library:
 
 .. code-block:: R
+    :linenos:
 
-   library("reticulate")
-   use_python("/usr/local/miniconda3/envs/py37/bin/python")
+    library("reticulate")
+    use_python("/usr/local/miniconda3/envs/py37/bin/python")
 
 Import pyopenms in R
 ********************
@@ -37,6 +40,7 @@ Import pyopenms in R
 After loading the "reticulate" library you should be able to import pyopenms into R
 
 .. code-block:: R
+    :linenos:
 
     library(reticulate)
     ropenms=import("pyopenms", convert = FALSE)
@@ -47,6 +51,7 @@ has to be set to FALSE, since type conversions such as 64bit integers will cause
 You should now be able to interact with the OpenMS library and, for example, read and write mzML files:
 
 .. code-block:: R
+    :linenos:
 
     library(reticulate)
     ropenms=import("pyopenms", convert = FALSE)
@@ -63,6 +68,7 @@ about the available functions and methods. We can inspect individual pyOpenMS ob
 through the ``py_help`` function:
 
 .. code-block:: R
+    :linenos:
 
     library(reticulate)
     ropenms=import("pyopenms", convert = FALSE)
@@ -71,12 +77,12 @@ through the ``py_help`` function:
 
     Help on class IdXMLFile in module pyopenms.pyopenms_4:
 
-   class IdXMLFile(__builtin__.object)
+    class IdXMLFile(__builtin__.object)
     |  Methods defined here:
-    |  
+    |
     |  __init__(...)
     |      Cython signature: void IdXMLFile()
-    |  
+    |
     |  load(...)
     |      Cython signature: void load(String filename, libcpp_vector[ProteinIdentification] & protein_ids, libcpp_vector[PeptideIdentification] & peptide_ids)
     [...]
@@ -98,6 +104,7 @@ Creating an empty R ``list()`` unfortunately is not equal to the empty python ``
 Therefore in this case we need to use the ``reticulate::r_to_py()`` and ``reticulate::py_to_r()`` functions:
 
 .. code-block:: R
+    :linenos:
 
     idXML=ropenms$IdXMLFile()
 
@@ -130,6 +137,7 @@ OpenMS. In order to read mass spectrometric data, we can download the `mzML
 example file <https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/examples/BSA/BSA1.mzML>`_
 
 .. code-block:: R
+    :linenos:
 
     download.file("https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/examples/BSA/BSA1.mzML", "BSA1.mzML")
 
@@ -140,10 +148,11 @@ example file <https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/Open
     mzML$load("BSA1.mzML", exp)
 
 which will load the content of the "BSA1.mzML" file into the ``exp``
-variable of type ``MSExperiment``.
+variable of type :py:class:`~.MSExperiment`.
 We can now inspect the properties of this object:
 
 .. code-block:: R
+    :linenos:
 
     py_help(exp)
     Help on MSExperiment object:
@@ -161,9 +170,11 @@ We can now inspect the properties of this object:
 
 
 which indicates that the variable ``exp`` has (among others) the functions
-``getNrSpectra`` and ``getNrChromatograms``. We can now try one of these functions:
+:py:meth:`~.MSExperiment.getNrSpectra` and :py:meth:`~.MSExperiment.getNrChromatograms`.
+We can now try one of these functions:
 
 .. code-block:: R
+    :linenos:
 
     exp$getNrSpectra()
     1684
@@ -177,6 +188,7 @@ Visualize spectra
 You can easily visualise ms1 level precursor maps:
 
 .. code-block:: R
+    :linenos:
 
     library(ggplot2)
 
@@ -206,6 +218,7 @@ You can easily visualise ms1 level precursor maps:
 Or visualize a particular ms2 spectrum:
 
 .. code-block:: R
+    :linenos:
 
     library(ggplot2)
 
@@ -234,6 +247,7 @@ Alternatively, we could also have used ``apply`` to obtain the peak data, which
 is more idiomatic way of doing things for the R programming language:
 
 .. code-block:: R
+    :linenos:
 
     ms1 = sapply(spectra, function(x) x$getMSLevel()==1)
     peaks = sapply(spectra[ms1], function(x) cbind(do.call("cbind", x$get_peaks()),x$getRT()))
@@ -247,11 +261,12 @@ Iteration
 
 Iterating over pyopenms objects is not equal to iterating over R vectors or
 lists. Note that for many applications, there is a more efficient way to access
-data (such as ``get_peaks`` instead of iterating over individual peaks).
+data (such as :py:meth:`~.MSSpectrum.get_peaks` instead of iterating over individual peaks).
 
 Therefore we can not directly apply the usual functions such as ``apply()`` and have to use ``reticulate::iterate()`` instead:
 
 .. code-block:: R
+    :linenos:
 
     spectrum = ropenms$MSSpectrum()
     mz = seq(1500, 500, -100)
@@ -275,6 +290,7 @@ Therefore we can not directly apply the usual functions such as ``apply()`` and 
 or we can use a for-loop (note that we use zero-based indices as custom in Python):
 
 .. code-block:: R
+    :linenos:
 
     for (i in seq(0,py_to_r(spectrum$size())-1)) {
           print(spectrum[i]$getMZ())

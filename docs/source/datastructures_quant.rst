@@ -5,9 +5,9 @@ Feature
 *******
 
 In OpenMS, information about quantitative data is stored in a so-called
-``Feature`` which we have previously discussed `here
+:py:class:`~.Feature` which we have previously discussed `here
 <other_file_handling.html#quantiative-data-featurexml-consensusxml>`_.  Each
-``Feature`` represents a region in RT and *m/z* space use for quantitative
+:py:class:`~.Feature` represents a region in RT and *m/z* space use for quantitative
 analysis.
 
 .. code-block:: python
@@ -29,7 +29,7 @@ analysis.
 
 Usually, the quantitative features would be produced by a so-called
 "FeatureFinder" algorithm, which we will discuss in the next chapter. The
-features can be stored in a ``FeatureMap`` and written to disk.
+features can be stored in a :py:class:`~.FeatureMap` and written to disk.
 
 .. code-block:: python
     :linenos:
@@ -44,19 +44,19 @@ features can be stored in a ``FeatureMap`` and written to disk.
     FeatureXMLFile().store("test.featureXML", fm)
 
 Visualizing the resulting map in ``TOPPView`` allows detection of the two
-features stored in the ``FeatureMap`` with the visualization indicating charge
+features stored in the :py:class:`~.FeatureMap` with the visualization indicating charge
 state, *m/z*, RT and other properties:
 
 .. image:: img/feature.png
 
-Note that in this case only 2 features are present, but in a typical LC-MS/MS
+Note that in this case only 2 features are present, but in a typical :term:`LC-MS/MS`
 experiments, thousands of features are present.
 
 
 FeatureMap
 ************
 
-The resulting ``FeatureMap`` can be used in various ways to extract
+The resulting :py:class:`~.FeatureMap` can be used in various ways to extract
 quantitative data directly and it supports direct iteration in Python:
 
 .. code-block:: python
@@ -72,9 +72,9 @@ quantitative data directly and it supports direct iteration in Python:
 ConsensusFeature
 ****************
 
-Often LC-MS/MS experiments are run to compare quantitative features across
+Often :term:`LC-MS/MS` experiments are run to compare quantitative features across
 experiments. In OpenMS, linked features from individual experiments are
-represented by a ``ConsensusFeature``
+represented by a :py:class:`~.ConsensusFeature`
 
 .. code-block:: python
     :linenos:
@@ -102,7 +102,7 @@ represented by a ``ConsensusFeature``
     feature.insert(2, f_m2)
 
 We have thus added two features from two individual maps (which have the unique
-identifier ``1`` and ``2``) to the ``ConsensusFeature``.
+identifier ``1`` and ``2``) to the :py:class:`~.ConsensusFeature`.
 Next, we inspect the consensus feature, compute a "consensus" *m/z* across
 the two maps and output the two linked features:
 
@@ -130,12 +130,12 @@ the two maps and output the two linked features:
     ConsensusXMLFile().store("test.consensusXML", cmap)
 
 Inspection of the generated ``test.consensusXML`` reveals that it contains
-references to two LC-MS/MS runs (``file1`` and ``file2``) with their respective
+references to two :term:`LC-MS/MS` runs (``file1`` and ``file2``) with their respective
 unique identifier. Note how the two features we added before have matching
 unique identifiers.  
 
 Visualization of the resulting output file reveals a single
-``ConsensusFeature`` of size 2 that links to the two individual features at
+:py:class:`~.ConsensusFeature` of size 2 that links to the two individual features at
 their respective positions in RT and *m/z*:
 
 .. image:: img/consensus.png
@@ -143,7 +143,7 @@ their respective positions in RT and *m/z*:
 ConsensusMap
 ************
 
-The resulting ``ConsensusMap`` can be used in various ways to extract
+The resulting :py:class:`~.ConsensusMap` can be used in various ways to extract
 quantitative data directly and it supports direct iteration in Python:
 
 .. code-block:: python
