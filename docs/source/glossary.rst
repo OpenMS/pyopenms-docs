@@ -8,12 +8,13 @@ A glossary of common terms used throughout OpenMS documentation.
 
   LC-MS
   LCMS
-    Liquid Chromatography-coupled Mass Spectrometry.
+    :term:`Liquid chromatography<liquid chromatography>`-coupled mass spectrometry.
 
     liquid chromatography
         An analytical technique used to separate molecules of interest.
 
     mass spectrometry
+    MS
         An analytical technique used to identify and quantify molecules of interest.
 
     peptides
@@ -32,7 +33,7 @@ A glossary of common terms used throughout OpenMS documentation.
         Any :term:`atom` or group of atoms that bears one or more positive or negative electrical charges. Positively charged are cations, negavtively charged anions.
 
     electrospray ionization (ESI)
-        A technique used in :term:`mass spectrometry<Mass spectrometry>` to produce ions.
+        A technique used in :term:`MS` to produce ions.
 
     atom
         An atom is the smallest unit of ordinary matter that forms a chemical element.
@@ -47,22 +48,22 @@ A glossary of common terms used throughout OpenMS documentation.
         A mass filter allowing one mass channel at a time to reach the detector as the mass range is scanned.
 
     Orbitrap analyzers
-        In :term:`mass spectrometry<Mass spectrometry>`, an ion trap mass analyzer consisting of an outer barrel-like electrode and a coaxial inner
+        In :term:`MS`, an ion trap mass analyzer consisting of an outer barrel-like electrode and a coaxial inner
         spindle-like electrode that traps ions in an orbital motion around the spindle.
-        A high resolution :term:`mass spectrometry<Mass spectrometry>` analyzer.
+        A high resolution :term:`MS` analyzer.
 
     MS1
-        First stage to get a spectra. A sample is injected into the mass spectrometer, ionized, accelerated and analyzed by :term:`mass spectrometry<Mass spectrometry>`.
+        First stage to get a spectra. A sample is injected into the mass spectrometer, ionized, accelerated and analyzed by :term:`MS`.
 
     MS2
-        Tandem :term:`mass spectrometry<Mass spectrometry>`, also MS/MS, a technique where two or more mass analyzers are coupled together.
-        The ions from MS1 spectra are selectively fragmented and analyzed by a second stage of :term:`mass spectrometry<Mass spectrometry>`.
+        Tandem :term:`MS`, also MS/MS, a technique where two or more mass analyzers are coupled together.
+        The ions from MS1 spectra are selectively fragmented and analyzed by a second stage of :term:`MS`.
 
     MS3
-        Multi-stage Mass Spectrometry
+        Multi-stage :term:`MS`
 
     collision-induced dissociation (CID)
-        A :term:`mass spectrometry<Mass spectrometry>` technique to induce fragmentation of selected ions in the gas phase. Also known as Collision
+        A :term:`MS` technique to induce fragmentation of selected ions in the gas phase. Also known as Collision
         induced dissociation.
 
     TOPP
@@ -76,11 +77,11 @@ A glossary of common terms used throughout OpenMS documentation.
         spectrometry data. More information is available in the `OpenMS API reference documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_LuciphorAdapter.html>`__.
 
     pyOpenMS
-        pyOpenMS is an open-source Python library for :term:`mass spectrometry<Mass spectrometry>`, specifically for the analysis of proteomics and
+        pyOpenMS is an open-source Python library for :term:`MS`, specifically for the analysis of proteomics and
         metabolomics data in Python.
 
     TOPP tools
-        OpenMS provides a number of functions that process :term:`mass spectrometry<Mass spectrometry>` data called TOPP tools. All TOPP tools are described in the `OpenMS API reference documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_documentation.html>`__.
+        OpenMS provides a number of functions that process :term:`MS` data called TOPP tools. All TOPP tools are described in the `OpenMS API reference documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_documentation.html>`__.
 
     UTILS
         Besides :term:`TOPP tools`, OpenMS offers a range of other tools. They are not included in :term:`TOPP` as they are not part of typical analysis pipelines. More information is present in `OpenMS API reference documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/UTILS_documentation.html>`__.
@@ -111,7 +112,7 @@ A glossary of common terms used throughout OpenMS documentation.
 
     mzData
         mzData was the first attempt by the Proteomics Standards Initiative (PSI) from the Human Proteome Organization (HUPO)
-        to create a standardized format for Mass Spectrometry data. This format is now deprecated, and replaced by mzML.
+        to create a standardized format for :term:`MS` data. This format is now deprecated, and replaced by mzML.
 
     mzXML
         mzXML is an open data format for storage and exchange of mass spectroscopy data, developed at the SPC/Institute for
@@ -121,7 +122,7 @@ A glossary of common terms used throughout OpenMS documentation.
         Plural of spectrum.
 
     mass spectrum
-        A mass spectrum is a plot of the ion signal as a function of the mass-to-charge ratio. A mass spectrum is produced by a single :term:`mass spectrometry<Mass spectrometry>` run. These spectra are used to determine the elemental or isotopic signature of a sample, the masses of particles and of molecules, and to elucidate the chemical identity or structure of molecules and other chemical compounds. OpenMS represents a one dimensional mass spectrum using the class `MSSpectrum <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1MSSpectrum.html>`_.
+        A mass spectrum is a plot of the ion signal as a function of the mass-to-charge ratio. A mass spectrum is produced by a single :term:`MS` run. These spectra are used to determine the elemental or isotopic signature of a sample, the masses of particles and of molecules, and to elucidate the chemical identity or structure of molecules and other chemical compounds. OpenMS represents a one dimensional mass spectrum using the class `MSSpectrum <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1MSSpectrum.html>`_.
 
     m/z
         mass to charge ratio.
@@ -130,7 +131,7 @@ A glossary of common terms used throughout OpenMS documentation.
         retention time (RT) in liquid chromatography, is the time it takes for a separated analyte to move through the stationary phase.
 
     ProteoWizard
-        ProteoWizard is a set of open-source, cross-platform tools and libraries for proteomics data analyses. It provides a framework for unified :term:`mass spectrometry<Mass spectrometry>` data file access and performs standard chemistry and LCMS dataset computations.
+        ProteoWizard is a set of open-source, cross-platform tools and libraries for proteomics data analyses. It provides a framework for unified :term:`MS` data file access and performs standard chemistry and LCMS dataset computations.
 
     PepNovo
         PepNovo is a de novo sequencing algorithm for :term:`MS/MS` :term:`spectra`.
@@ -154,10 +155,10 @@ A glossary of common terms used throughout OpenMS documentation.
         Stands for isobaric tags for relative and absolute quantitation.
 
     TMT
-        Tandem Mass Tag (TMT) is a :term:`mass spectrometry<Mass spectrometry>` based system designed to identify and quantify proteins in different samples.
+        Tandem Mass Tag (TMT) is a :term:`MS` based system designed to identify and quantify proteins in different samples.
 
     SRM
-        Selected reaction monitoring is a :term:`mass spectrometry<Mass spectrometry>` technique for small molecule analysis.
+        Selected reaction monitoring is a :term:`MS` technique for small molecule analysis.
 
     SWATH
         Stands for sequential acquisition of all theoretical fragment ion spectra.
@@ -167,9 +168,6 @@ A glossary of common terms used throughout OpenMS documentation.
 
     RT
         Retention time.
-
-    MS
-        Mass Spectrometry
 
     feature
         An LC-MS feature represents the combined isotopic mass traces of a detected chemical compound. The chromatographic peak shape of a feature is defined by the interaction of the analyte with the LC column. Each feature contains information on retention time, mass-to-charge ratio, intensity and overall quality. OpenMS represents a feature using the class `Feature <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1Feature.html>`_.
@@ -187,5 +185,5 @@ A glossary of common terms used throughout OpenMS documentation.
         A single raw data point in a chromatogram or a mass spectrum. OpenMS represents a peak in a chromatogram using the class `ChromatogramPeak <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1ChromatogramPeak.html>`_. OpenMS represents a single, one-dimensional peak in a mass spectrum using the class `PeakID <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1Peak1D.html>`_.
 
     MSExperiment
-        An OpenMS class (:py:class:`~.MSExperiment`) used to represent a single :term:`mass spectrometry<Mass spectrometry>` run. `Read the documentation for further information <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1MSExperiment.html>`_.
+        An OpenMS class (:py:class:`~.MSExperiment`) used to represent a single :term:`MS` run. `Read the documentation for further information <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1MSExperiment.html>`_.
 
