@@ -5,19 +5,20 @@ mzML files in memory
 ********************
 
 As discussed in the last section, the most straight forward way to load mass
-spectrometric data is using the ``MzMLFile`` class:
+spectrometric data is using the :py:class:`~.MzMLFile` class:
 
 .. code-block:: python
 
     from pyopenms import *
     from urllib.request import urlretrieve
+
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
+    urlretrieve(gh + "/src/data/tiny.mzML", "test.mzML")
     exp = MSExperiment()
     MzMLFile().load("test.mzML", exp)
 
 which will load the content of the "test.mzML" file into the ``exp``
-variable of type ``MSExperiment``. We can access the raw data and spectra through:
+variable of type :py:class:`~.MSExperiment`. We can access the raw data and spectra through:
 
 .. code-block:: python
 
@@ -36,7 +37,7 @@ manipulate the spectra in the file for example as follows:
 
     exp.setSpectra(spec)
 
-Which will only keep MS2 spectra in the ``MSExperiment``. We can then store the modified data structure on disk:
+Which will only keep MS2 spectra in the :py:class:`~.MSExperiment`. We can then store the modified data structure on disk:
 
 .. code-block:: python
 
@@ -77,19 +78,19 @@ data into memory:
     od_exp.getNrChromatograms()
 
     # data is not present in meta_data experiment
-    sum(meta_data.getChromatogram(0).get_peaks()[1]) # no data!
-    sum(od_exp.getChromatogram(0).get_peaks()[1]) # data is here!
+    sum(meta_data.getChromatogram(0).get_peaks()[1])  # no data!
+    sum(od_exp.getChromatogram(0).get_peaks()[1])  # data is here!
 
     # meta data is present and identical in both data structures:
-    meta_data.getChromatogram(0).getNativeID() # fast
-    od_exp.getChromatogram(0).getNativeID() # slow
+    meta_data.getChromatogram(0).getNativeID()  # fast
+    od_exp.getChromatogram(0).getNativeID()  # slow
 
-Note that the ``OnDiscMSExperiment`` allows users to access meta data through
-the ``getMetaData`` function, which allows easy selection and filtering on meta
+Note that the :py:class:`~.OnDiscMSExperiment` allows users to access meta data through
+the :py:meth:`~.OnDiscMSExperiment.getMetaData` function, which allows easy selection and filtering on meta
 data attributes (such as MS level, precursor *m/z*, retention time etc.) in
 order to select spectra and chromatograms for analysis.  Only once selection on
 the meta data has been performed, will actual data be loaded into memory using
-the ``getChromatogram`` and ``getSpectrum`` functions.
+the :py:meth:`~.OnDiscMSExperiment.getChromatogram` and :py:meth:`~.OnDiscMSExperiment.getSpectrum` functions.
 
 This approach is memory efficient in cases where computation should only occur
 on part of the data or the whole data may not fit into memory.
@@ -104,7 +105,7 @@ chromatograms as they are read from the disk. A simple implementation could look
 
 .. code-block:: python
 
-    class MSCallback():
+    class MSCallback:
         def setExperimentalSettings(self, s):
             pass
 
@@ -112,10 +113,10 @@ chromatograms as they are read from the disk. A simple implementation could look
             pass
 
         def consumeChromatogram(self, c):
-            print ("Read a chromatogram")
+            print("Read a chromatogram")
 
         def consumeSpectrum(self, s):
-            print ("Read a spectrum")
+            print("Read a spectrum")
 
 
 which can the be used as follows:
@@ -177,7 +178,7 @@ use this to implement a simple filtering function for mass spectra:
 
 where the spectra and chromatograms are filtered by their native ids. It is
 similarly trivial to implement filtering by other attributes. Note how the data
-are written to disk using the ``PlainMSDataWritingConsumer`` which is one of
+are written to disk using the :py:class:`~.PlainMSDataWritingConsumer` which is one of
 multiple available consumer classes -- this specific class will simply take the
 spectrum ``s`` or chromatogram ``c`` and write it to disk (the location of the
 output file is given by the ``outfile`` variable).
@@ -209,23 +210,23 @@ directly mapped into memory when requested. You can use this feature as follows:
     cfile.getNrSpectra()
 
     # data is not present in meta_data experiment
-    sum(meta_data.getChromatogram(0).get_peaks()[1]) # no data!
-    sum(cfile.getChromatogram(0).get_peaks()[1]) # data is here!
+    sum(meta_data.getChromatogram(0).get_peaks()[1])  # no data!
+    sum(cfile.getChromatogram(0).get_peaks()[1])  # data is here!
 
     # meta data is present and identical in both data structures:
-    meta_data.getChromatogram(0).getNativeID() # fast
-    cfile.getChromatogram(0).getNativeID() # slow
+    meta_data.getChromatogram(0).getNativeID()  # fast
+    cfile.getChromatogram(0).getNativeID()  # slow
 
-Note that the ``CachedmzML`` allows users to access meta data through
-the ``getMetaData`` function, which allows easy selection and filtering on meta
+Note that the :py:class:`~.CachedmzML` allows users to access meta data through
+the :py:meth:`~.CachedmzML.getMetaData` function, which allows easy selection and filtering on meta
 data attributes (such as MS level, precursor *m/z*, retention time etc.) in
 order to select spectra and chromatograms for analysis.  Only once selection on
 the meta data has been performed, will actual data be loaded into memory using
-the ``getChromatogram`` and ``getSpectrum`` functions.
+the :py:meth:`~.CachedmzML.getChromatogram` and :py:meth:`~.CachedmzML.getSpectrum` functions.
 
 Note that in the example above all data is loaded into memory first and then
 cached to disk. This is not very efficient and we can use the
-``MSDataCachedConsumer`` to directly cache to disk (without loading any data
+:py:class:`~.MSDataCachedConsumer` to directly cache to disk (without loading any data
 into memory):
 
 .. code-block:: python
@@ -244,8 +245,8 @@ into memory):
 
     meta_data = cfile.getMetaData()
     # data is not present in meta_data experiment
-    sum(meta_data.getChromatogram(0).get_peaks()[1]) # no data!
-    sum(cfile.getChromatogram(0).get_peaks()[1]) # data is here!
+    sum(meta_data.getChromatogram(0).get_peaks()[1])  # no data!
+    sum(cfile.getChromatogram(0).get_peaks()[1])  # data is here!
 
 This approach is now memory efficient in cases where computation should only occur
 on part of the data or the whole data may not fit into memory.

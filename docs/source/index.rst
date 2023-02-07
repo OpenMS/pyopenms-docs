@@ -6,27 +6,30 @@
 Summary
 =======
 
-pyOpenMS is an open-source Python library for mass spectrometry, specifically for the analysis of proteomics and metabolomics data in Python. pyOpenMS implements a set of Python bindings to the OpenMS library for computational mass spectrometry and is available for Windows, Linux and OSX.
+pyOpenMS is an open-source Python library for :term:`mass spectrometry<Mass spectrometry>`, specifically for the analysis of proteomics
+and metabolomics data in Python. pyOpenMS implements a set of Python bindings to the OpenMS library for computational
+:term:`mass spectrometry<Mass spectrometry>` and is available for Windows, Linux and OSX.
 
 PyOpenMS provides functionality that is commonly used in computational mass
-spectrometry.  The pyOpenMS package contains Python bindings for a large part of the OpenMS
-library (http://www.openms.de) for mass spectrometry based proteomics. It thus
-provides facile access to a feature-rich, open-source algorithm
-library for mass-spectrometry based proteomics analysis. 
+spectrometry. The pyOpenMS package contains Python bindings for a large part of the `OpenMS <openms.de>`_
+library for :term:`mass spectrometry<Mass spectrometry>` based proteomics. It thus provides facile access to a feature-rich, open-source algorithm
+library for mass-spectrometry based proteomics analysis.
 
 pyOpenMS facilitates the execution of common tasks in proteomics (and other mass spectrometric fields) such as 
 
-- file handling (mzXML, mzML, TraML, mzTab, fasta, pepxml, protxml, mzIdentML among others)
-- chemistry (mass calculation, peptide fragmentation, isotopic abundances)
-- signal processing (smoothing, filtering, de-isotoping, retention time correction and peak-picking) 
-- identification analysis (including peptide search, PTM analysis, Cross-linked analytes, FDR control, RNA oligonucleotide search and small molecule search tools)
-- quantitative analysis (including label-free, metabolomics, SILAC, iTRAQ and SWATH/DIA analysis tools)
-- chromatogram analysis (chromatographic peak picking, smoothing, elution profiles and peak scoring for SRM/MRM/PRM/SWATH/DIA data)
-- interaction with common tools in proteomics and metabolomics 
+- File handling (:term:`mzXML`, :term:`mzML`, TraML, mzTab, :term:`FASTA <FASTA format>`, pepxml, protxml, mzIdentML among others)
+- Chemistry (mass calculation, peptide fragmentation, isotopic abundances)
+- Signal processing (smoothing, filtering, de-isotoping, retention time correction and peak-picking)
+- Identification analysis (including peptide search, PTM analysis, Cross-linked analytes, FDR control,
+RNA oligonucleotide search and small molecule search tools)
+- Quantitative analysis (including label-free, metabolomics, :term:`SILAC`, :term:`iTRAQ` and :term:`SWATH`/DIA analysis tools)
+- Chromatogram analysis (chromatographic peak picking, smoothing, elution profiles and peak scoring for
+:term:`SRM`/MRM/PRM/:term:`SWATH`/DIA data)
+- Interaction with common tools in proteomics and metabolomics
 
-  - search engines such as Comet, Crux, Mascot, MSGFPlus, MSFragger, Myrimatch, OMSSA, Sequest, SpectraST, XTandem
-  - post-processing tools such as percolator, MSStats, Fido
-  - metabolomics tools such as SIRIUS, CSI:FingerId
+  - Search engines such as Comet, Crux, Mascot, MSGFPlus, MSFragger, Myrimatch, OMSSA, Sequest, SpectraST, XTandem
+  - Post-processing tools such as percolator, MSStats, Fido
+  - Metabolomics tools such as SIRIUS, CSI:FingerId
 
 .. toctree::
    :maxdepth: 2
@@ -40,6 +43,7 @@ pyOpenMS facilitates the execution of common tasks in proteomics (and other mass
 
    installation
    first_steps
+   introduction
 
 .. toctree::
    :maxdepth: 2
@@ -94,6 +98,7 @@ pyOpenMS facilitates the execution of common tasks in proteomics (and other mass
    file_handling
    other_file_handling   
    mzMLFileFormat
+   hyperscore
    pandas_df_conversion
    massql
    memory_management

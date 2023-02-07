@@ -1,11 +1,11 @@
 Query MSExperiment with MassQL
 ==============================
 
-MassQL is a powerful, SQL-like query language for mass spectrometry data.
+MassQL is a powerful, SQL-like query language for :term:`Mass spectrometry` data.
 For further information visit the `MassQL documentation
 <https://mwang87.github.io/MassQueryLanguage_Documentation/>`_.
 
-MS data from a ``MSExperiment`` can be exported to MS1 and MS2 dataframes, which can
+MS data from a :py:class:`~.MSExperiment` can be exported to MS1 and MS2 dataframes, which can
 be queried directly with the ``massql`` module.
 
 **pyopenms.MSExperiment.get_massql_df()**
@@ -37,7 +37,7 @@ be queried directly with the ``massql`` module.
 
 **Example:**
 
-Load an example file into a ``MSExperiment`` and get the MS1 and MS2 data frames for a MassQL query.
+Load an example file into a :py:class:`~.MSExperiment` and get the MS1 and MS2 data frames for a MassQL query.
 
 .. code-block:: python
 
@@ -45,19 +45,19 @@ Load an example file into a ``MSExperiment`` and get the MS1 and MS2 data frames
     from massql import msql_engine
 
     from urllib.request import urlretrieve
-    url = 'https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master/src/data/'
 
-    urlretrieve(url+'small.mzML', 'small.mzML')
+    url = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master/src/data/"
+
+    urlretrieve(url + "small.mzML", "small.mzML")
 
     # load MSExperiment
     exp = MSExperiment()
-    MzMLFile().load('small.mzML', exp)
+    MzMLFile().load("small.mzML", exp)
 
     # get MS1 and MS2 dataframes
     ms1_df, ms2_df = exp.get_massql_df()
 
     ms1_df.head()
-    
 .. csv-table:: ms1_df.head()
    :widths: 2 20 20 20 20 20 20 20
    :header: , i,  i_norm,   i_tic_norm,   mz,   scan, rt,   polarity
@@ -68,12 +68,19 @@ Load an example file into a ``MSExperiment`` and get the MS1 and MS2 data frames
    3,  1547.15,  0.00334599,   0.000239246,  361.621,       1,  15.0015,           1
    4,  1842.32,  0.00398435,   0.00028489,   362.698,       1,  15.0015,           1
 
-Run a query on ``ms1_df`` and ``ms2_df``. If you don't pass the data frames ``massql_engine.process_query`` will read data from the given file name.
+Run a query on ``ms1_df`` and ``ms2_df``. If you don't pass the data frames ``massql_engine.process_query``
+will read data from the given file name.
 
 .. code-block:: python
+    :linenos:
 
     # Executing Query
-    results_df = msql_engine.process_query("QUERY scaninfo(MS1DATA) WHERE RTMIN=16", 'small.mzML', ms1_df=ms1_df, ms2_df=ms2_df)
+    results_df = msql_engine.process_query(
+        "QUERY scaninfo(MS1DATA) WHERE RTMIN=16",
+        "small.mzML",
+        ms1_df=ms1_df,
+        ms2_df=ms2_df,
+    )
 
     results_df.head()
 

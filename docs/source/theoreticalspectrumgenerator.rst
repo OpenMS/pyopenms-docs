@@ -23,7 +23,7 @@ First, we will generate a simple spectrum that only contains y-ions
     p.setValue("add_b_ions", "false")
     p.setValue("add_metainfo", "true")
     tsg.setParameters(p)
-    tsg.getSpectrum(spec1, peptide, 1, 1) # charge range 1:1
+    tsg.getSpectrum(spec1, peptide, 1, 1)  # charge range 1:1
 
     # Iterate over annotated ions and their masses
     print("Spectrum 1 of", peptide, "has", spec1.size(), "peaks.")
@@ -49,9 +49,9 @@ which you could plot with :py:func:`~.plot_spectrum`, automatically showing anno
 .. code-block:: python
 
     import matplotlib.pyplot as plt
+
     plot_spectrum(spec1)
     plt.show()
-    
 .. image:: img/DFPIANGER_theo.png
 
 Full fragment ion spectrum
@@ -109,6 +109,7 @@ which you again can visualize with:
 .. code-block:: python
 
     import matplotlib.pyplot as plt
+
     plot_spectrum(spec2, annotate_ions=False)
     plt.show()
 

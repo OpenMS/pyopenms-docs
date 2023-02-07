@@ -4,13 +4,13 @@ Oligonucleotides: RNA
 Nucleic Acid Sequences
 **********************
 
-OpenMS also supports the representation of RNA oligonucleotides using the
-``NASequence`` class:
+OpenMS also supports the representation of RNA oligonucleotides using the :py:class:`~.NASequence` class:
 
 .. code-block:: python
     :linenos:
 
     from pyopenms import *
+
     oligo = NASequence.fromString("AAUGCAAUGG")
     prefix = oligo.getPrefix(4)
     suffix = oligo.getSuffix(4)
@@ -22,17 +22,22 @@ OpenMS also supports the representation of RNA oligonucleotides using the
 
     print("Oligo length", oligo.size())
     print("Total precursor mass", oligo.getMonoWeight())
-    print("y1+ ion mass of", str(prefix), ":", prefix.getMonoWeight(NASequence.NASFragmentType.YIon, 1))
+    print(
+        "y1+ ion mass of",
+        str(prefix),
+        ":",
+        prefix.getMonoWeight(NASequence.NASFragmentType.YIon, 1),
+    )
     print()
 
     seq_formula = oligo.getFormula()
     print("RNA Oligo", oligo, "has molecular formula", seq_formula)
-    print("="*35)
+    print("=" * 35)
     print()
 
-    isotopes = seq_formula.getIsotopeDistribution( CoarseIsotopePatternGenerator(6) )
+    isotopes = seq_formula.getIsotopeDistribution(CoarseIsotopePatternGenerator(6))
     for iso in isotopes.getContainer():
-      print ("Isotope", iso.getMZ(), ":", iso.getIntensity())
+        print("Isotope", iso.getMZ(), ":", iso.getIntensity())
 
 
 Which will output
@@ -60,15 +65,17 @@ Which will output
 
 
 
-The ``NASequence`` object also allows iterations directly in Python:
+The :py:class:`~.NASequence` object also allows iterations directly in Python:
 
 .. code-block:: python
     :linenos:
 
     oligo = NASequence.fromString("AAUGCAAUGG")
-    print("The oligonucleotide", str(oligo), "consists of the following nucleotides:")
+    print(
+        "The oligonucleotide", str(oligo), "consists of the following nucleotides:"
+    )
     for ribo in oligo:
-      print(ribo.getName())
+        print(ribo.getName())
 
 Fragment ions
 ~~~~~~~~~~~~~
@@ -89,17 +96,17 @@ Similarly to before for amino acid sequences, we can also generate internal frag
     w4_formula = suffix.getFormula(NASequence.NASFragmentType.WIon, charge)
     mz = mass / charge
 
-    print("="*35)
+    print("=" * 35)
     print("RNA Oligo w4++ ion", suffix, "has mz", mz)
     print("RNA Oligo w4++ ion", suffix, "has molecular formula", w4_formula)
 
 Modified oligonucleotides
 *************************
 
-Modified nucleotides can also represented by the ``Ribonucleotide`` class and
+Modified nucleotides can also represented by the :py:class:`~.Ribonucleotide` class and
 are specified using a unique string identifier present in the
-``RibonucleotideDB`` in square brackets. For example, ``[m1A]`` represents
-1-methyladenosine. We can create a ``NASequence`` object by parsing a modified
+:py:class:`~.RibonucleotideDB` in square brackets. For example, ``[m1A]`` represents
+1-methyladenosine. We can create a :py:class:`~.NASequence` object by parsing a modified
 sequence as follows:
 
 .. code-block:: python
@@ -107,12 +114,23 @@ sequence as follows:
 
     oligo_mod = NASequence.fromString("A[m1A][Gm]A")
     seq_formula = oligo_mod.getFormula()
-    print("RNA Oligo", oligo_mod, "has molecular formula", 
-      seq_formula, "and length", oligo_mod.size())
-    print("="*35)
+    print(
+        "RNA Oligo",
+        oligo_mod,
+        "has molecular formula",
+        seq_formula,
+        "and length",
+        oligo_mod.size(),
+    )
+    print("=" * 35)
 
     oligo_list = [oligo_mod[i].getOrigin() for i in range(oligo_mod.size())]
-    print("RNA Oligo", oligo_mod.toString(), "has unmodified sequence", "".join(oligo_list))
+    print(
+        "RNA Oligo",
+        oligo_mod.toString(),
+        "has unmodified sequence",
+        "".join(oligo_list),
+    )
 
     r = oligo_mod[1]
     r.getName()
@@ -120,7 +138,7 @@ sequence as follows:
     r.getOrigin()
 
     for i in range(oligo_mod.size()):
-      print (oligo_mod[i].isModified())
+        print(oligo_mod[i].isModified())
 
 
 DNA, RNA and Protein
