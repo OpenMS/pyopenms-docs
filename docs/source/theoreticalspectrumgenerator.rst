@@ -54,6 +54,11 @@ which you could plot with :py:func:`~.plot_spectrum`, automatically showing anno
     plt.show()
 .. image:: img/DFPIANGER_theo.png
 
+Note: plot_spectrum function is named differently in previous versions.
+    * pyopenms 2.6 version: Plotting.plotSpectrum()
+    * pyopenms >=2.8 version: Plotting.plot_spectrum()
+    * pyopenms 3.0 (nightly): plotting.plot_spectrum()
+
 Full fragment ion spectrum
 **************************
 
