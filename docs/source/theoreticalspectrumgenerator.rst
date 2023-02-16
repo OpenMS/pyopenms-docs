@@ -64,13 +64,14 @@ losses:
 .. code-block:: python
 
     spec2 = MSSpectrum()
-    # standard behavior is adding b- and y-ions of charge 1
     # standard behavior is adding b- and y-ions
     p2 = Param()
     p2.setValue("add_a_ions", "true")
-    p2.setValue("add_first_prefix_ion", "true") # adding n-term ion (in this case, a1 and b1)
+    # adding n-term ion (in this case, a1 and b1)
+    p2.setValue("add_first_prefix_ion", "true")
     p2.setValue("add_precursor_peaks", "true")
-    p2.setValue("add_all_precursor_charges", "true") # standard is to add precursor peaks with only the largest charge
+    # standard is to add precursor peaks with only the largest charge
+    p2.setValue("add_all_precursor_charges", "true")
     p2.setValue("add_losses", "true")
     p2.setValue("add_metainfo", "true")
     tsg.setParameters(p2)
@@ -141,8 +142,6 @@ y1 ion but for the y2 ion since glutamic acid can have a neutral water loss but
 arginine cannot. Similarly, only water loss and no ammonia loss is simulated in
 the ``a/b/c`` ion series with the first fragment capable of ammonia loss being
 asparagine at position 6.
-
-In turn, out of xxx peaks, ``add_a_ions`` parameter added xxx peaks
 
 
 The :py:class:`~.TheoreticalSpectrumGenerator`
