@@ -27,6 +27,7 @@ depends through
     pip install -U nose
     pip install -U numpy
     pip install -U wheel
+    pip install -U pytest
 
 Depending on your systems setup, it may make sense to do this inside a virtual environment
 
