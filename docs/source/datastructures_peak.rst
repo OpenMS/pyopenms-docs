@@ -186,7 +186,7 @@ We can also visualize our spectrum from before using the :py:func:`~.plot_spectr
 .. code-block:: python
     :linenos:
 
-    import matplotlib.pyplot as plt
+    from pyopenms.plotting import plot_spectrum
 
     plot_spectrum(spectrum)
     plt.show()
