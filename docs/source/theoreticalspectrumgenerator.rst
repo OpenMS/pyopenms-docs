@@ -58,17 +58,22 @@ Full fragment ion spectrum
 **************************
 
 We can also produce additional peaks in the fragment ion spectrum, such as
-isotopic peaks, precursor peals, ions from higher charge states, additional ion series, or common neutral
+isotopic peaks, precursor peaks, ions from higher charge states, additional ion series, or common neutral
 losses:
 
 .. code-block:: python
 
     spec2 = MSSpectrum()
-    p.setValue("add_b_ions", "true")
-    p.setValue("add_a_ions", "true")
-    p.setValue("add_losses", "true")
-    p.setValue("add_metainfo", "true")
-    tsg.setParameters(p)
+    # standard behavior is adding b- and y-ions of charge 1
+    # standard behavior is adding b- and y-ions
+    p2 = Param()
+    p2.setValue("add_a_ions", "true")
+    p2.setValue("add_first_prefix_ion", "true") # adding n-term ion (in this case, a1 and b1)
+    p2.setValue("add_precursor_peaks", "true")
+    p2.setValue("add_all_precursor_charges", "true") # standard is to add precursor peaks with only the largest charge
+    p2.setValue("add_losses", "true")
+    p2.setValue("add_metainfo", "true")
+    tsg.setParameters(p2)
     tsg.getSpectrum(spec2, peptide, 1, 2)
 
     # Iterate over annotated ions and their masses
@@ -81,27 +86,27 @@ losses:
     exp.addSpectrum(spec2)
     MzMLFile().store("DFPIANGER.mzML", exp)
 
-which outputs all 146 peaks that are generated (this is without isotopic
+which outputs all 160 peaks that are generated (this is without isotopic
 peaks), here we will just show the first few peaks:
 
 .. code-block:: output
 
-        Spectrum 2 of DFPIANGER has 146 peaks.
+        Spectrum 2 of DFPIANGER has 160 peaks.
+        a1-H2O1++ is generated at m/z 35.518008514620995
+        a1++ is generated at m/z 44.523291046520995
+        b1-H2O1++ is generated at m/z 49.515466014621
+        b1++ is generated at m/z 58.520748546521
         y1-C1H2N1O1++ is generated at m/z 66.05629515817103
         y1-C1H2N2++ is generated at m/z 67.05221565817102
+        a1-H2O1+ is generated at m/z 70.02874056247099
         y1-H3N1++ is generated at m/z 79.54984014222102
+        a1+ is generated at m/z 88.03930562627099
         y1++ is generated at m/z 88.06311469007102
+        b1-H2O1+ is generated at m/z 98.02365556247099
         a2-H2O1++ is generated at m/z 109.05221565817101
+        b1+ is generated at m/z 116.034220626271
         a2++ is generated at m/z 118.05749819007102
         b2-H2O1++ is generated at m/z 123.049673158171
-        y2-C1H2N1O1++ is generated at m/z 130.57759226982103
-        y1-C1H2N1O1+ is generated at m/z 131.10531384957102
-        y2-C1H2N2++ is generated at m/z 131.573512769821
-        b2++ is generated at m/z 132.054955690071
-        y1-C1H2N2+ is generated at m/z 133.097154849571
-        y2-H2O1++ is generated at m/z 143.579129269821
-        y2-H3N1++ is generated at m/z 144.07113725387103
-        y2++ is generated at m/z 152.58441180172102
         [...]
 
 which you again can visualize with:
@@ -117,7 +122,18 @@ which you again can visualize with:
 
 The first example shows how to put peaks of a certain type, y-ions in this case, into
 a spectrum. The second spectrum is filled with a complete fragment ion spectrum
-of all peaks (a-, b-, y-ions and losses). The losses are based on commonly
+of all peaks (a-, b-, y-ions, precursor peaks, and losses).
+
+From the peptide with 9 amino acids, each ion type should be produced theoretically
+with 8 peaks. For instance, b-ions (prefix) and y-ions (suffix) are complementary,
+so b3(DFP) and y6(IANGER) fragments make up the peptide "DFPIANGER."
+
+Adding precursor ions with the parameter ``add_precursor_peaks`` add 3 peaks with
+the largest charge states (precursor ion (M+H) and its loss of water ([M+H]-H2O) or
+ammonia ([M+H]-NH3)). To include all precursor ions with possible charge states, the
+``add_all_precursor_charges`` parameter should be set to true.
+
+The losses are based on commonly
 observed fragment ion losses for specific amino acids and are defined in the
 ``Residues.xml`` file, which means that not all fragment ions will produce all
 possible losses, as can be observed above: water loss is not observed for the
@@ -125,6 +141,8 @@ y1 ion but for the y2 ion since glutamic acid can have a neutral water loss but
 arginine cannot. Similarly, only water loss and no ammonia loss is simulated in
 the ``a/b/c`` ion series with the first fragment capable of ammonia loss being
 asparagine at position 6.
+
+In turn, out of xxx peaks, ``add_a_ions`` parameter added xxx peaks
 
 
 The :py:class:`~.TheoreticalSpectrumGenerator`
