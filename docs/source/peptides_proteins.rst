@@ -46,13 +46,13 @@ The example below shows how amino acid sequences can be created and how basic ma
 
 Which prints the amino acid sequence as well as the result of
 concatenating two sequences or taking the suffix of a sequence.
-We then compute the mass of the full peptide (``[M]``), the mass of the 
-peptide precursor (``[M+2H]2+``) and ``m/z`` value of the 
-peptide precursor (``[M+2H]2+``). 
+We then compute the mass of the full peptide (:math:`[M]`), the mass of the
+peptide precursor (:math:`[M+2H]2+`) and :term:`m/z` value of the
+peptide precursor (:math:`[M+2H]2+`).
 Note that, the mass of the peptide precursor is shifted by two protons that are now attached to the
-molecules as charge carriers. (Detail: the proton mass of 1.007276 u is
-slightly different from the mass of an uncharged hydrogen atom at 1.007825 u).
-We can easily calculate the charged weight of a ``(M+2H)2+`` ion and compute *m/z* simply dividing by the charge.
+molecules as charge carriers. (Detail: the proton mass of :math:`1.007276\ u` is
+slightly different from the mass of an uncharged hydrogen atom at :math:`1.007825\ u`).
+We can easily calculate the charged weight of a :math:`(M+2H)2+` ion and compute :term:`m/z` simply dividing by the charge.
 
 .. code-block:: output
 
@@ -93,7 +93,7 @@ Which will print
     Arginine : 174.1116764466
 
 The N- and C-Terminus as well as the residues themself can be modified.
-The example below shows how to check fo such modifications.
+The example below shows how to check for such modifications.
 
 .. code-block:: python
     :linenos:
@@ -128,7 +128,7 @@ Which will print:
     Arginine : 174.1116764466
 
 
-Molecular formula
+Molecular Formula
 ~~~~~~~~~~~~~~~~~
 
 We can now combine our knowledge of :py:class:`~.AASequence` with what we learned in
@@ -143,10 +143,10 @@ the amino acid sequence. But first, let's get the formula of peptide:
     print("Peptide", seq, "has molecular formula", seq_formula)
 
 
-Isotope patterns
+Isotope Patterns
 ~~~~~~~~~~~~~~~~
 
-We now want to print the coarse (e.g., peaks only at nominal masses) distribution.
+We now want to print the coarse (e.g., :term:`peaks` only at nominal masses) distribution.
 
 .. code-block:: python
     :linenos:
@@ -160,9 +160,9 @@ We now want to print the coarse (e.g., peaks only at nominal masses) distributio
             "Isotope", iso.getMZ(), "has abundance", iso.getIntensity() * 100, "%"
         )
 
-For most applications in computational proteomics, the coarse isotope distribution is sufficient.
+For most applications in computational :term:`proteomics`, the coarse isotope distribution is sufficient.
 But if we deal with very high resolution instruments, we still might want to calculate the isotopic fine structure. 
-We use the FineIsotopePatternGenerator in OpenMS to reveal these addtional peaks:
+We use the :py:class:`~.FineIsotopePatternGenerator` in OpenMS to reveal these additional :term:`peaks`:
 
 .. code-block:: python
     :linenos:
@@ -177,7 +177,7 @@ We use the FineIsotopePatternGenerator in OpenMS to reveal these addtional peaks
         )
 
 
-And plot the very similar looking distributions using standard matplotlib functionality:
+And plot the very similar looking distributions using standard ``matplotlib`` functionality:
 
 .. code-block:: python
     :linenos:
@@ -217,7 +217,7 @@ And plot the very similar looking distributions using standard matplotlib functi
 
 .. image:: img/DFPIANGER_isoDistribution.png
 
-Fragment ions
+Fragment Ions
 ~~~~~~~~~~~~~
 
 We can easily calculate different ion types for amino acid sequences:
@@ -245,7 +245,7 @@ Which will produce
     y3 mz: 181.09514385
     y3 molecular formula: C13H24N6O6
 
-Easy, isn't it? To generate full theoretical spectra watch out for the more specialized
+Easy, isn't it? To generate full theoretical :term:`spectra` watch out for the more specialized
 (and faster) :py:class:`~.TheoreticalSpectrumGenerator` which we will take a look at later.
 
 
@@ -298,7 +298,7 @@ The above code outputs:
 Note there is a subtle difference between
 ``AASequence.fromString(".DFPIAM[+16]GER.")`` and
 ``AASequence.fromString(".DFPIAM[+15.9949]GER.")`` - while the former will try to
-find the first modification matching to a mass difference of 16 +/- 0.5, the
+find the first modification matching to a mass difference of :math:`16 \pm 0.5`, the
 latter will try to find the closest matching modification to the exact mass.
 The exact mass approach usually gives the intended results while the first
 approach may or may not. In all instances, it is better to use an exact description of the desired modification, such as UniMod, instead of mass differences.
@@ -319,20 +319,20 @@ phosphorylation of the last arginine at its side chain:
         s = AASequence.fromString(".DFPIAMGER(Phospho).")
         print(s, s.hasCTerminalModification())
 
-Arbitrary/unknown amino acids (usually due to an unknown modification) can be
-specified using tags preceded by X: "X[weight]". This indicates a new amino
-acid ("X") with the specified weight, e.g. ``"RX[148.5]T"``. Note that this tag
+Arbitrary / unknown amino acids (usually due to an unknown modification) can be
+specified using tags preceded by X: :math:`X[weight]`. This indicates a new amino
+acid ("X") with the specified weight, e.g. :math:`RX[148.5]T`. Note that this tag
 does not alter the amino acids to the left (R) or right (T). Rather, X
 represents an amino acid on its own. Be careful when converting such AASequence
 objects to an EmpiricalFormula using :py:meth:`~.AASequence.getFormula`, as tags will not be
 considered in this case (there exists no formula for them). However, they have
 an influence on :py:meth:`~.AASequence.getMonoWeight` and :py:meth:`~.AASequence.getAverageWeight`!
 
-Proteins and FASTA files
-************************
+Proteins and :term:`FASTA` Files
+********************************
 
-Protein sequences, can be loaded from and stored in FASTA protein databases using :py:class:`~.FASTAFile`.
-The example below shows how protein sequences can be stored in FASTA files and loaded back in pyOpenMS:
+Protein sequences, can be loaded from and stored in :term:`FASTA` protein databases using :py:class:`~.FASTAFile`.
+The example below shows how protein sequences can be stored in :term:`FASTA` files and loaded back in :term:`pyOpenMS`:
 
 .. code-block:: python
     :linenos:

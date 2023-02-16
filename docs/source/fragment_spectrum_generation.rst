@@ -1,15 +1,15 @@
-Fragment spectrum generation
+Fragment Spectrum Generation
 ============================
 
-Generating theoretical fragment spectra is central to many identification tasks in computational mass spectrometry.
-TheoreticalSpectrumGenerator can be configured to generate tandem MS spectra from
+Generating theoretical fragment :term:`spectra` is central to many identification tasks in computational :term:`mass spectrometry`.
+:py:class`~.TheoreticalSpectrumGenerator` can be configured to generate :term:`MS2` :term:`spectra` from
 a given peptide charge combination. There are various parameters which influence
 the generated ions e.g. simulating different fragmentation techniques.
 
-Y-ion spectrum
-**************
+Y-ion :term:`Mass Spectrum<mass spectrum>`
+******************************************
 
-First, we will generate a simple spectrum that only contains y-ions
+First, we will generate a simple :term:`mass spectrum` that only contains y-ions
 
 .. code-block:: python
 
@@ -48,17 +48,17 @@ which you could plot with :py:func:`~.plot_spectrum`, automatically showing anno
 
 .. code-block:: python
 
-    import matplotlib.pyplot as plt
+    from pyopenms.plotting import plot_spectrum
 
     plot_spectrum(spec1)
     plt.show()
 .. image:: img/DFPIANGER_theo.png
 
-Full fragment ion spectrum
-**************************
+Full Fragment Ion :term:`Mass Spectrum<mass spectrum>`
+******************************************************
 
-We can also produce additional peaks in the fragment ion spectrum, such as
-isotopic peaks, precursor peals, ions from higher charge states, additional ion series, or common neutral
+We can also produce additional :term:`peaks` in the fragment ion :term:`mass spectrum`, such as
+isotopic :term:`peaks`, precursor :term:`peaks`, ions from higher charge states, additional ion series, or common neutral
 losses:
 
 .. code-block:: python
@@ -81,8 +81,8 @@ losses:
     exp.addSpectrum(spec2)
     MzMLFile().store("DFPIANGER.mzML", exp)
 
-which outputs all 146 peaks that are generated (this is without isotopic
-peaks), here we will just show the first few peaks:
+which outputs all 146 :term:`peaks` that are generated (this is without isotopic
+:term:`peaks`), here we will just show the first few :term:`peaks`:
 
 .. code-block:: output
 
@@ -104,20 +104,20 @@ peaks), here we will just show the first few peaks:
         y2++ is generated at m/z 152.58441180172102
         [...]
 
-which you again can visualize with:
+which you can again visualize with:
 
 .. code-block:: python
 
-    import matplotlib.pyplot as plt
+    from pyopenms.plotting import plot_spectrum
 
     plot_spectrum(spec2, annotate_ions=False)
     plt.show()
 
 .. image:: img/DFPIANGER_theo_full.png
 
-The first example shows how to put peaks of a certain type, y-ions in this case, into
-a spectrum. The second spectrum is filled with a complete fragment ion spectrum
-of all peaks (a-, b-, y-ions and losses). The losses are based on commonly
+The first example shows how to put :term:`peaks` of a certain type, y-ions in this case, into
+a :term:`mass spectrum`. The second :term:`mass spectrum` is filled with a complete fragment ion :term:`mass spectrum`
+of all :term:`peaks` (a-, b-, y-ions and losses). The losses are based on commonly
 observed fragment ion losses for specific amino acids and are defined in the
 ``Residues.xml`` file, which means that not all fragment ions will produce all
 possible losses, as can be observed above: water loss is not observed for the
@@ -136,22 +136,22 @@ iterate over annotated ions and their masses.
 Visualization
 *************
 
-We can now visualize the resulting spectra using TOPPView when we open the
-DFPIANGER.mzML file that we produced above in TOPPView:
+We can now visualize the resulting :term:`spectra` using :term:`TOPPView` when we open the
+DFPIANGER.mzML file that we produced above in :term:`TOPPView`:
 
 .. image:: img/peptide_y_ions.png
 
-We can see all eight y ion peaks that are produced in the
-:py:class:`~.TheoreticalSpectrumGenerator` and when we hover over one of the peaks (546 mz in
+We can see all eight y ion :term:`peaks` that are produced in the
+:py:class:`~.TheoreticalSpectrumGenerator` and when we hover over one of the :term:`peaks` (:math:`546\ mz` in
 this example) there is an annotation in the bottom left corner that indicates
-charge state and ion name (``y5+`` for every peak). The larger spectrum with
-146 peaks can also be interactively investigated with TOPPView (the second
+charge state and ion name (:math:`y5+` for every :term:`peak`). The larger spectrum with
+:math:`146` :term:`peaks` can also be interactively investigated with :term:`TOPPView` (the second
 spectrum in the file):
 
 .. image:: img/peptide_all_ions.png
 
-There are substantially more peaks here and the spectrum is much busier, with
-singly and double charged peaks of the b, y and a series creating 44 different
-individual fragment ion peaks as well as neutral losses adding an additional
-102 peaks (neutral losses easily recognizable by their 10-fold lower intensity
+There are substantially more :term:`peaks` here and the :term:`mass spectrum` is much busier, with
+singly and double charged :term:`peaks` of the b, y and a series creating :math:`44` different
+individual fragment ion :term:`peaks` as well as neutral losses adding an additional
+:math:`102` :term:`peaks` (neutral losses easily recognizable by their :math:`10-fold` lower intensity
 in the simulated spectrum).

@@ -1,7 +1,7 @@
 Contribute
 ==========
 
-Contribution to the pyOpenMS documentation is easy and we would
+Contribution to the :term:`pyOpenMS` documentation is easy and we would
 love to expand it with you.
 To edit a tutorial page you can click on the "Edit on GitHub" link at the top
 of each page. Once you changed (or added new) .rst files you can and open a pull request.

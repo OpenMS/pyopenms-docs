@@ -1,13 +1,13 @@
 Untargeted Metabolomics Pre-Processing
 ======================================
 
-The universal workflow for untargeted metabolomics always consists of feature detection in the individual MS sample
-files and their linkage to consensus features with common m/z and retention time values.
-In addition, there are optional steps such as adduct detection and annotation of features with associated MS2 spectra.
+The universal workflow for untargeted :terM:`metabolomics` always consists of :terM:`feature` detection in the individual :term:`MS` sample
+files and their linkage to :term:`consensus features` with common :term:`m/z` and :term:`retention time` values.
+In addition, there are optional steps such as adduct detection and annotation of :terM:`features` with associated :term:`MS2` :term:`spectra`.
 
 .. image:: img/metabolomics-preprocessing.png
 
-First, download two example ``mzML`` files.
+First, download two example :term:`mzML` files.
 
 .. code-block:: python
 
@@ -17,7 +17,7 @@ First, download two example ``mzML`` files.
     urlretrieve(gh + "/src/data/Metabolomics_1.mzML", "Metabolomics_1.mzML")
     urlretrieve(gh + "/src/data/Metabolomics_2.mzML", "Metabolomics_2.mzML")
 
-For each ``mzML`` file do mass trace, elution peak and feature detection.
+For each :term:`mzML` file do mass trace, elution :term:`peak` and :term:`feature` detection.
 
 .. code-block:: python
 
@@ -75,7 +75,7 @@ For each ``mzML`` file do mass trace, elution peak and feature detection.
         )  # Sets the file path to the primary MS run (usually the mzML file)
         feature_maps.append(feature_map)
 
-Align feature retention times based on the feature map with the highest number of features (reference map).
+Align :term:`feature` :term:`retention times<retention time>` based on the :term:`feature map` with the highest number of :term:`features` (reference map).
 
 .. code-block:: python
     :linenos:
@@ -105,7 +105,7 @@ Align feature retention times based on the feature map with the highest number o
         transformer = MapAlignmentTransformer()
         transformer.transformRetentionTimes(feature_map, trafo, True)
 
-Align ``mzML`` files aligment based on :py:class:`~.FeatureMap` alignment (optional, only for GNPS).
+Align :term:`mzML` files aligment based on :py:class:`~.FeatureMap` alignment (optional, only for GNPS).
 
 .. code-block:: python
     :linenos:
@@ -125,7 +125,7 @@ Align ``mzML`` files aligment based on :py:class:`~.FeatureMap` alignment (optio
         MzMLFile().store(file[:-5] + "_aligned.mzML", exp)
     mzML_files = [file[:-5] + "_aligned.mzML" for file in mzML_files]
 
-Map MS2 spectra to features as :py:class:`~.PeptideIdentification` objects (optional, only for GNPS).
+Map :term:`MS2` :term:`spectra` to :term:`features` as :py:class:`~.PeptideIdentification` objects (optional, only for GNPS).
 
 .. code-block:: python
     :linenos:
@@ -203,7 +203,7 @@ Detect adducts (optional, only for SIRIUS and GNPS Ion Identity Molecular Networ
             feature_map,
         )
 
-Link features in a :py:class:`~.ConsensusMap`.
+Link :term:`features` in a :py:class:`~.ConsensusMap`.
 
 .. code-block:: python
     :linenos:
@@ -226,7 +226,7 @@ Link features in a :py:class:`~.ConsensusMap`.
     consensus_map.setUniqueIds()
     ConsensusXMLFile().store("FeatureMatrix.consensusXML", consensus_map)
 
-To get a final feature matrix in a table format, export the consensus features in a ``pandas DataFrame``.
+To get a final feature matrix in a table format, export the :term:`:consensus features<consensus feature>` in a ``pandas DataFrame``.
 
 .. code-block:: python
     :linenos:

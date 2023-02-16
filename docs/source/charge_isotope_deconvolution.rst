@@ -1,27 +1,27 @@
 Charge and Isotope Deconvolution 
 ================================
 
-A single mass spectrum contains measurements of one or more analytes and the
-m/z values recorded for these analytes. Most analytes produce multiple signals
-in the mass spectrometer, due to the natural abundance of carbon 13 (naturally
-occurring at ca. 1% frequency) and the large amount of carbon atoms in most
+A single :term:`mass spectrum` contains measurements of one or more analytes and the
+:term:`m/z` values recorded for these analytes. Most analytes produce multiple signals
+in the mass spectrometer, due to the natural abundance of carbon :math:`13` (naturally
+occurring at ca. :math:`1%` frequency) and the large amount of carbon atoms in most
 organic molecules, most analytes produce a so-called isotopic pattern with a
-monoisotopic peak (all carbon are C12) and a first isotopic peak (exactly one
-carbon atom is a C13), a second isotopic peak (exactly two atoms are C13) etc.
+monoisotopic :term:`peak`  (all carbon are :math:`C12`) and a first isotopic :term:`peak` (exactly one
+carbon atom is a :math:`C13`), a second isotopic :term:`peak` (exactly two atoms are :math:`C13`) etc.
 Note that also other elements can contribute to the isotope pattern, see the 
 `Chemistry section <chemistry.html>`_ for further details.
 
 In addition, each analyte may appear in more than one charge state and adduct
-state, a singly charge analyte ``[M+H]+`` may be accompanied by a doubly
-charged analyte ``[M+2H]++`` or a sodium adduct ``[M+Na]+``. In the case of a
+state, a singly charge analyte :math:`[M+H]+` may be accompanied by a doubly
+charged analyte :math:`[M+2H]++` or a sodium adduct :math:`[M+Na]+`. In the case of a
 multiply charged peptide, the isotopic traces are spaced by ``PROTON_MASS /
-charge_state`` which is often close to 0.5 m/z for doubly charged analytes,
-0.33 m/z for triply charged analytes etc.  Note: tryptic peptides often appear
+charge_state`` which is often close to :math:`0.5` :term:`m/z` for doubly charged analytes,
+:math:`0.33` :term:`m/z` for triply charged analytes etc. Note: tryptic peptides often appear
 at least doubly charged, while small molecules often carry a single charge but
 can have adducts other than hydrogen.
 
-Single peak example
-*******************
+Single :term:`Peak<peak>` Example
+*********************************
 
 .. code-block:: python
 
@@ -47,10 +47,10 @@ Single peak example
 
 
 Note that the algorithm presented here as some heuristics built into it, such
-as assuming that the isotopic peaks will decrease after the first isotopic
-peak. This heuristic can be tuned by changing the parameter
+as assuming that the isotopic :term:`peaks` will decrease after the first isotopic
+:term:`peak`. This heuristic can be tuned by changing the parameter
 ``use_decreasing_model`` and ``start_intensity_check``. In this case, the
-second isotopic peak is the highest in intensity and the
+second isotopic :term:`peak`  is the highest in intensity and the
 ``start_intensity_check`` parameter needs to be set to 3. 
 
 .. code-block:: python
@@ -93,12 +93,12 @@ second isotopic peak is the highest in intensity and the
         print(p.getMZ(), p.getIntensity())
 
 
-Full spectral de-isotoping
+Full Spectral De-Isotoping
 **************************
 
 In the following code segment, we will use a sample measurement of BSA (Bovine
 Serum Albumin), and apply a simple algorithm in OpenMS for "deisotoping" a
-mass spectrum, which means grouping peaks of the same isotopic pattern charge
+:term:`mass spectrum`, which means grouping :term:`peaks` of the same isotopic pattern charge
 state:
 
 .. code-block:: python
@@ -155,35 +155,35 @@ which produces the following output
   974.4572680576728 6200571.5
   974.4589691256419 3215808.75
 
-As we can see, the algorithm has reduced 140 peaks to 41 deisotoped peaks. It
-also has identified a molecule at 974.45 m/z as the most intense peak in the
-data (basepeak).
+As we can see, the algorithm has reduced :math:`140` :term:`peaks` to :math:`41` deisotoped :term:`peaks`. It
+also has identified a molecule at :math:`974.45` :term:`m/z` as the most intense :term:`peak` in the
+data (base :term:`peak`).
 
 Visualization
 *************
 
-The reason we see two peaks very close together becomes apparent
-once we look at the data in TOPPView which indicates that the 974.4572680576728
-peak is derived from a 2+ peak at m/z 487.73 and the peak at 974.4589691256419
-is derived from a 3+ peak at m/z 325.49: the algorithm has identified a single
-analyte in two charge states and deconvoluted the peaks to their nominal mass
-of a ``[M+H]+`` ion, which produces two peaks very close together (2+ and 3+
+The reason we see two :term:`peaks` very close together becomes apparent
+once we look at the data in :term:`TOPPView` which indicates that the :math:`974.4572680576728`
+:term:`peak` is derived from a :math:`2+` :term:`peak` at :term:`m/z` :math:`487.73` and the :term:`peak` at :math:`974.4589691256419`
+is derived from a :math:`3+` :term:`peak` at :term:`m/z` :math:`325.49`: the algorithm has identified a single
+analyte in two charge states and deconvoluted the :term:`peaks` to their nominal mass
+of a :math:`[M+H]+` ion, which produces two :term:`peaks` very close together (:math:`2+` and :math:`3+`
 peak):
 
 .. image:: img/deisotoped_zoom.png
 
-Looking at the full spectrum and comparing it to the original spectrum, we can see the
-original (centroided) spectrum on the top and the deisotoped spectrum on the
-bottom in blue. Note how hovering over a peak in the deisotoped spectrum
+Looking at the full :term:`mass spectrum` and comparing it to the original :term:`mass spectrum`, we can see the
+original (centroided) :term:`mass spectrum` on the top and the deisotoped :term:`mass spectrum` on the
+bottom in blue. Note how hovering over a :term:`peak` in the deisotoped :term:`mass spectrum`
 indicates the charge state:
 
 .. image:: img/deisotoped.png
 
-In the next section, we will look at 2-dimensional deisotoping where instead of
-a single spectrum, multiple spectra from a :term:`LC-MS` experiments are analyzed
-together. There algorithms analyze the full 2-dimensional (m/z and RT) signal
+In the next section (`Feature Detection <feature_detection.html>`_), we will look at 2-dimensional deisotoping where instead of
+a single :term:`mass spectrum`, multiple :term:`mass spectra<mass spectrum>` from a :term:`LC-MS` experiment are analyzed
+together. There algorithms analyze the full 2-dimensional (:term:`m/z` and :term:`RT`) signal
 and are generally more powerful than the 1-dimensional algorithm discussed
 here. However, not all data is 2 dimensional and the algorithm discussed here
-has many application in practice (e.g. single mass spectra, fragment ion
-spectra in DDA etc.).
+has many application in practice (e.g. single :term:`mass spectra<mass spectrum>`, fragment ion
+:term:`mass spectra<mass spectrum>` in DDA etc.).
 

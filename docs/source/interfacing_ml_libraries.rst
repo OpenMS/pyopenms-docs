@@ -1,4 +1,4 @@
-Interfacing with ML libraries
+Interfacing with ML Libraries
 =============================
 
 Overview
@@ -8,11 +8,11 @@ Machine Learning is the field of study that gives computers the capability to le
 being explicitly programmed. Machine learning (ML) is well known for its powerful ability to recognize 
 patterns and signals. Recently, the :term:`mass spectrometry` community has embraced ML techniques for large-scale data analysis.
 
-Predicting accurate retention times has shown to improve identification in bottom-up proteomics.
+Predicting accurate :term:`retention times<retention time>` (:term:`RT`) has shown to improve identification in bottom-up :term:`proteomics`.
 
-In this tutorial we will predict the retention time from amino acid sequence data using simple machine learning methods.
+In this tutorial we will predict the :term:`RT` from amino acid sequence data using simple machine learning methods.
 
-First, we import all neccessary libraries for this tutorial.
+First, we import all necessary libraries for this tutorial.
 
 .. code-block:: ipython3
     :linenos:
@@ -40,19 +40,19 @@ Once we have imported all libraries successfully, we are going to store the data
     urlretrieve(gh + "/src/data/pyOpenMS_ML_Tutorial.tsv", "data.tsv")
     tsv_data = pd.read_csv("data.tsv", sep="\t", skiprows=17)
 
-Here we have prepared a tsv file that contains three columns **sequence** , **charge** and **retention** time.
+Here, we have prepared a ``tsv`` file that contains three columns ``sequence``, :term:`RT` and ``charge``.
 Note that this table could also be easily created from identification data as produced in previous chapters.
 
 Before we move forward lets try to understand more about our data:
 
 a. Sequence - Chains of amino acids form peptides or proteins.
-The arrangement of amino acids is reffered as amino acid sequence.
+The arrangement of amino acids is referred as amino acid sequence.
 The composition and order of amino acids affect the physicochemical properties of the peptide and lead to different
 retention in the column.
-b. Retention time (RT) - is the time taken for an analyte to pass through a chromatography column.
+b. :term:`Retention time<retention time>` (:term:`RT`) - is the time taken for an analyte to pass through a chromatography column.
 
 From the amino acid sequence we can derive additional properties (machine learning features) used to train
-our machine learning model.
+our model.
 
 We can easily check for its shape by using the tsv_data.shape attribute, 
 which will return the size of the dataset.
@@ -82,7 +82,7 @@ Explore the top 5 rows of the dataset by using head() method on pandas DataFrame
     3	SGTHNMYK	    625.982520	2
     4	AARPTRPDK	    626.073300	3
 
-As the RT column is our response variable, we will be storing it seperately as Y1_test
+As the :term:`RT` column is our response variable, we will be storing it separately as Y1_test
 
 .. code-block:: python
     :linenos:
@@ -159,7 +159,7 @@ As we have all the column names, now we will start populating it.
     4	AARPTRPDK	    2	    0	    0	    1	    0	    0	    0	    0	    0	    ...	    0.0	        0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    0.0	    3	    9
 
 Now we have completed all the data preprocessing steps. We have deduced a good amount of information from the amino acid sequences
-that might have influence on the retention time in the column.
+that might have influence on the :term:`retention time` in the column.
 
 Now we are good to proceed on building the machine learning model.
 
@@ -187,7 +187,7 @@ Modelling
 
 Now, we create the train and test set for cross-validation of the results 
 using the ``train_test_split`` function from sklearn's model_selection module with test_size 
-size equal to 30% of the data. Also, to maintain reproducibility of the results, a random_state is also assigned.
+size equal to 30% of the data. To maintain reproducibility of the results, a random_state is also assigned.
 
 .. code-block:: python
     :linenos:
@@ -197,7 +197,7 @@ size equal to 30% of the data. Also, to maintain reproducibility of the results,
         test_df, Y1_test, test_size=0.3, random_state=3
     )
 
-We will be using the ``XGBRegressor()`` class because it is clearly a regression problem as the response variable ( retention time ) is continuous.
+We will be using the ``XGBRegressor()`` class because it is clearly a regression problem as the response variable ( :term:`retention time` ) is continuous.
 
 .. code-block:: python
     :linenos:
@@ -210,7 +210,7 @@ We will be using the ``XGBRegressor()`` class because it is clearly a regression
         max_depth=7,
     )
 
-Fit the regressor to the training set and make predictions on the test set using the familiar .fit() and .predict() methods.
+Fit the regressor to the training set and make predictions on the test set using the familiar ``.fit()`` and ``.predict()`` methods.
 
 .. code-block:: python
     :linenos:
@@ -257,7 +257,7 @@ Store the **Observed** v/s **Predicted** value in pandas dataframe and print.
 
 We will now generate a **Observed** v/s **Predicted** plot that gives a high level overview about the model performance. 
 We can clearly see that only few outliers are there and most of them lie in between the central axis.
-This means that prediction actually worked and observed and predicted value won't differ too much.
+This means that prediction actually works and observed and predicted value won't differ too much.
 
 .. code-block:: python
     :linenos:
@@ -397,7 +397,7 @@ k-fold cross validation via the cv() method. All we have to do is specify the nf
 
     [1980 rows x 2 columns]
 
-That's it, we trained a simple machine learning model to predict peptide retention times from peptide data.
+That's it, we trained a simple machine learning model to predict peptide :term:`retention times<retention time>` from peptide data.
 
 Sophisticated machine models integrate retention time data from many experiments add additional properties 
 (or even learn them from data) of peptides to achieve lower prediction errors.

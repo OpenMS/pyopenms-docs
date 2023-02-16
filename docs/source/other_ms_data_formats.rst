@@ -1,7 +1,7 @@
-Other MS data formats
-=======================
+Other :term:`MS` Data Formats
+=============================
 
-Identification data (idXML, mzIdentML, pepXML, protXML)
+Identification Data (idXML, mzIdentML, pepXML, protXML)
 -------------------------------------------------------
 
 You can store and load identification data from an `idXML` file as follows:
@@ -63,12 +63,12 @@ You can load (storing is not supported) identification data from a TPP `protXML`
 ..    ProtXMLFile().store("test.out.protXML", protein_ids, peptide_ids, "doc_id_42")
 
 
-note how each data file produces two vectors of type :py:class:`~.ProteinIdentification`
+Note how each data file produces two vectors of type :py:class:`~.ProteinIdentification`
 and :py:class:`~.PeptideIdentification` which also means that conversion between two data
 types is trivial: load data from one data file and use the storage function of
 the other file.
 
-Quantiative data (featureXML, consensusXML)
+Quantiative Data (featureXML, consensusXML)
 -------------------------------------------------------
 
 OpenMS stores quantitative information in the internal ``featureXML`` and
@@ -121,7 +121,7 @@ Transition data (TraML)
 -------------------------------------------------------
 
 The TraML data format allows you to store transition information for targeted
-experiments (SRM / MRM / PRM / DIA).
+experiments (:term:`SRM` / MRM / PRM / DIA).
 
 .. code-block:: python
     :linenos:

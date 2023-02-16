@@ -1,9 +1,9 @@
-Spectrum alignment
+Spectrum Alignment
 ==================
 
-OpenMS provides several ways to find matching peaks between two spectra.
-The most basic one SpectrumAlignment returns a list of matching peak indices between a query and target spectrum.
-In this example, we take an observed (measured) spectrum and align a theoretical spectrum to it.
+OpenMS provides several ways to find matching :term:`peaks` between two :term:`mass spectra<mass spectrum>`.
+The most basic one :py:class:`~.SpectrumAlignment` returns a list of matching :term:`peak` indices between a query and target :term:`mass spectrum`.
+In this example, we take an observed (measured) :term:`mass spectrum` and align a theoretical :term:`mass spectrum` to it.
 
 First we load a (chemically modified) peptide:
 
@@ -27,7 +27,7 @@ First we load a (chemically modified) peptide:
     observed_spectrum = spectra[0]
 
 
-Now we generate the theoretical spectrum of that peptide:
+Now we generate the theoretical :term:`mass spectrum` of that peptide:
 
 .. code-block:: python
     :linenos:
@@ -42,12 +42,12 @@ Now we generate the theoretical spectrum of that peptide:
     peptide = AASequence.fromString("YIC(Carbamidomethyl)DNQDTISSK")
     tsg.getSpectrum(theo_spectrum, peptide, 1, 2)
 
-Now we can plot the observed and theoretical spectrum as a mirror plot:
+Now we can plot the observed and theoretical :term:`mass spectrum` as a mirror plot:
 
 .. code-block:: python
     :linenos:
 
-    from matplotlib import pyplot as plt
+    from pyopenms.plotting import mirror_plot_spectrum
 
     mirror_plot_spectrum(
         observed_spectrum,
@@ -60,7 +60,7 @@ which produces
 
 .. image:: img/spec_alignment_1.png
 
-Now we want to find matching peaks between observed and theoretical spectrum.
+Now we want to find matching :term:`peaks` between observed and theoretical :term:`mass spectrum`.
 
 .. code-block:: python
     :linenos:
@@ -75,7 +75,7 @@ Now we want to find matching peaks between observed and theoretical spectrum.
     # align both spectra
     spa.getSpectrumAlignment(alignment, theo_spectrum, observed_spectrum)
 
-The alignment contains a list of matched peak indices. We can simply inspect matching peaks with:
+The alignment contains a list of matched :term:`peak` indices. We can simply inspect matching :term:`peaks` with:
 
 .. code-block:: python
     :linenos:
@@ -113,12 +113,12 @@ The alignment contains a list of matched peak indices. We can simply inspect mat
     y10++         2      584.251         584.412
     y11++         2      640.793         640.954
 
-The mirror plot can also be used to visualize the aligned spectrum:
+The mirror plot can also be used to visualize the aligned :term:`mass spectrum`:
 
 .. code-block:: python
     :linenos:
 
-    from matplotlib import pyplot as plt
+    from pyopenms.plotting import mirror_plot_spectrum
 
     mirror_plot_spectrum(
         observed_spectrum,

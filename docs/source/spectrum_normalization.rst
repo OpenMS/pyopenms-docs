@@ -1,7 +1,7 @@
-Spectrum normalization 
+Spectrum Normalization
 ======================
 
-Another very basic spectrum processing step is normalization by base peak intensity (the maximum intensity of a spectrum).
+Another very basic :term:`mass spectrum` processing step is normalization by base :term:`peak` intensity (the maximum intensity of a :term:`mass spectrum`).
 
 Let's first load the raw data.
 
@@ -42,6 +42,6 @@ Now we apply the normalization.
   )
 
 
-Another way of normalizing is by TIC (total ion count) of the spectrum, which scales intensities
-so they add up to 1.0 in each spectrum.
-Try it out for yourself by setting: param.setValue("method", "to_TIC").
+Another way of normalizing is by TIC (total ion count) of the :term:`mass spectrum`, which scales intensities
+so they add up to :math:`1.0` in each :term:`mass spectrum`.
+Try it out for yourself by setting: ``param.setValue("method", "to_TIC")``.

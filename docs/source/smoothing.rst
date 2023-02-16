@@ -26,9 +26,9 @@ further analysis
     gf.filterExperiment(exp)
     MzMLFile().store("tutorial.smoothed.mzML", exp)
 
-We can now load our data into TOPPView to observe the effect of the smoothing,
+We can now load our data into :term:`TOPPView` to observe the effect of the smoothing,
 which becomes apparent when we overlay the two files (drag onto each other) and
-then zoom into a given mass range using Ctrl-G and select 4030 to 4045:
+then zoom into a given mass range using Ctrl-G and select :math:`4030` to :math:`4045`:
 
 
 .. image:: img/smoothing.png

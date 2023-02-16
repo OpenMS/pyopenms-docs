@@ -6,19 +6,37 @@ A glossary of common terms used throughout OpenMS documentation.
 .. glossary::
     :sorted:
 
+    peptide-spectrum match
+    PSM
+        A method used in :term:`proteomics` to identify proteins from a complex mixture. Involves comparing the
+        :term:`mass spectra<mass spectrum>` of peptide fragments generated from a protein sample with a database of predicted
+        :term:`spectra`, in order to identify the protein that produced the observed peptides.
+
+    metabolomics
+        Metabolomics is the study of the small molecules, or metabolites, produced by living organisms. It aims to
+        identify and measure the complete set of metabolites in a biological sample and understand how they change in
+        response to various factors. Metabolomics can provide insights into disease mechanisms, drug efficacy,
+        and other aspects of human health and biology.
+
+    mass spectrometer
+        An instrument that measures the mass-to-charge ratio of ions in a sample, producing a :term:`mass spectrum`
+        (see :term:`mass spectrometry`).
+
     LC-MS
     LCMS
         :term:`Liquid chromatography<liquid chromatography>`-coupled mass spectrometry.
 
+    LC-MS/MS
+    liquid chromatography coupled :term:`tandem mass spectrometry`
+        See :term:`LC-MS` and :term:`MS2`.
+
     liquid chromatography
+    LC
         An analytical technique used to separate molecules of interest.
 
     mass spectrometry
     MS
         Mass spectrometry is an analytical technique used to identify and quantify molecules of interest.
-
-    peptides
-        A short chain of amino acids.
 
     FASTA
         A text-based format for representing nucleotide or amino acid sequences.
@@ -27,56 +45,43 @@ A glossary of common terms used throughout OpenMS documentation.
     octadecyl
         Octadecyl (C18) is an alkyl radical C(18)H(37) derived from an octadecane by removal of one hydrogen atom.
 
-    mass
-        Mass is a measure of the amount of matter that an object contains. In comparison to often used term weight, which is a measure of the force of gravity on that object.
-
-    ion
-        Any :term:`atom` or group of atoms that bears one or more positive or negative electrical charges. Positively charged are cations, negavtively charged anions.
-
     ESI
     electrospray ionization
         Electrospray ionization (ESI) is a technique used in :term:`MS` to produce ions.
 
     MS2
-    MS^2
     MS/MS
     tandem mass spectrometry
         Tandem :term:`MS` is a technique where two or more mass analyzers are coupled together using an additional reaction step to increase their abilities to analyse chemical samples.
-
-    atom
-        An atom is the smallest unit of ordinary matter that forms a chemical element.
-
-    aerosol
-        An aerosol is a suspension of fine solid particles or liquid droplets in air or another gas.
 
     TOF
     time-of-flight
         Time-of-flight (TOF) is the time taken by an object, particle of wave (be it acoustic, electromagnetic, e.t.c) to travel a distance through a medium.
 
-    quadrupole mass filters
+    quadrupole
         A mass filter allowing one mass channel at a time to reach the detector as the mass range is scanned.
 
-    Orbitrap analyzers
+    orbitrap
         In :term:`MS`, an ion trap mass analyzer consisting of an outer barrel-like electrode and a coaxial inner
         spindle-like electrode that traps ions in an orbital motion around the spindle.
         A high resolution :term:`MS` analyzer.
 
     MS1
-        First stage to get a spectra. A sample is injected into the mass spectrometer, ionized, accelerated and analyzed by :term:`MS`.
+        :term:`Mass spectra<mass spectrum>` of a sample from a single fragmentation step.
 
-    MS^3
     MS3
         Multi-stage :term:`MS`
 
-    collision-induced dissociation (CID)
-        A :term:`MS` technique to induce fragmentation of selected ions in the gas phase. Also known as Collision
-        induced dissociation.
+    CID
+    collision-induced dissociation
+        Collision-induced dissociation is a :term:`MS` technique to induce fragmentation of selected ions in the gas phase.
 
     TOPP
-        The OpenMS Pipeline is a set of chainable tools to create pipelines for mass spectrometry analysis.
+        The OpenMS Pipeline is a set of chainable tools to create pipelines for :term:`mass spectrometry` analysis.
 
     MSGFPlusAdapter
-        Adapter for the MS-GF+ protein identification (database search) engine. More information is available in the `OpenMS API reference documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_MSGFPlusAdapter.html>`__.
+        Adapter for the MS-GF+ protein identification (database search) engine. More information is available in the
+        `OpenMS API reference documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_MSGFPlusAdapter.html>`__.
 
     LuciphorAdapter
         Adapter for the LuciPHOr2: a site localisation tool of generic post-translational modifications from tandem mass
@@ -84,14 +89,16 @@ A glossary of common terms used throughout OpenMS documentation.
 
     pyopenms
     pyOpenMS
-        pyOpenMS is an open-source Python library for :term:`MS`, specifically for the analysis of proteomics and
+        pyOpenMS is an open-source Python library for :term:`MS`, specifically for the analysis of :term:`proteomics` and
         metabolomics data in Python.
 
     TOPP tools
-        OpenMS provides a number of functions that process :term:`MS` data called TOPP tools. All TOPP tools are described in the `OpenMS API reference documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_documentation.html>`__.
+        OpenMS provides a number of functions that process :term:`MS` data called :term:`TOPP` tools. All :term:`TOPP`
+        tools are described in the `OpenMS API reference documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_documentation.html>`__.
 
     UTILS
-        Besides :term:`TOPP tools`, OpenMS offers a range of other tools. They are not included in :term:`TOPP` as they are not part of typical analysis pipelines. More information is present in `OpenMS API reference documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/UTILS_documentation.html>`__.
+        Besides :term:`TOPP tools`, OpenMS offers a range of other tools. They are not included in :term:`TOPP` as they
+        are not part of typical analysis pipelines. More information is present in `OpenMS API reference documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/UTILS_documentation.html>`__.
 
     TOPPView
         TOPPView is a viewer for MS and HPLC-MS data.
@@ -102,64 +109,72 @@ A glossary of common terms used throughout OpenMS documentation.
     proteomics
         Proteomics is the large-scale study of proteins.
 
-    proteins
-        Proteins are vital parts of living organisms, with many functions, for example composing the structural fibers of
-        muscle to the enzymes that catalyze the digestion of food to synthesizing and replicating DNA.
-
     MascotAdapter
-        Used to identifies peptides in MS/MS spectra. Read more about MascotAdapter in the `OpenMS API reference documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_MascotAdapter.html>`__.
+        Used to identifies peptides in MS2 spectra. Read more about MascotAdapter in the `OpenMS API reference documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_MascotAdapter.html>`__.
 
-    HPLC-MS
-        Data produced by High performance liquid chromatography (HPLC) separates components of a mixture, whereas mass
-        spectrometry (MS) offers the detection tools to identify them.
+    high performance liquid chromatography
+    HPLC
+        In high performance liquid chromatography (HPLC), analytes are dissolved in a pressurized solvent (mobile phase)
+        and pumped through a solid adsorbent material (stationary phase) packed into a
+        capillary column. Physicochemical properties of the analyte determine how strongly it
+        interacts with the stationary phase.
 
-    mzml
     mzML
-        The mzML format is an open, XML-based format for mass spectrometer output files, developed with the full participation
+    mzml
+        The mzML format is an open, XML-based format for :term:`mass spectrometer` output files, developed with the full participation
         of vendors and researchers in order to create a single open format that would be supported by all software.
 
-    mzdata
     mzData
+    mzdata
         mzData was the first attempt by the Proteomics Standards Initiative (PSI) from the Human Proteome Organization (HUPO)
         to create a standardized format for :term:`MS` data. This format is now deprecated, and replaced by mzML.
 
-    mzxml
     mzXML
+    mzxml
         mzXML is an open data format for storage and exchange of mass spectroscopy data, developed at the SPC/Institute for
         Systems Biology.
 
     spectra
-        Plural of spectrum.
-
+    spectrum
     mass spectrum
-        A mass spectrum is a plot of the ion signal as a function of the mass-to-charge ratio. A mass spectrum is produced by a single :term:`MS` run. These spectra are used to determine the elemental or isotopic signature of a sample, the masses of particles and of molecules, and to elucidate the chemical identity or structure of molecules and other chemical compounds. OpenMS represents a one dimensional mass spectrum using the class `MSSpectrum <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1MSSpectrum.html>`_.
+        A mass spectrum is a plot of the ion signal as a function of the :term:`mass-to-charge` ratio. A mass spectrum
+        is produced by a single :term:`MS` run. These spectra are used to determine the elemental or isotopic signature
+        of a sample, the masses of particles and of molecules, and to elucidate the chemical identity or structure of
+        molecules and other chemical compounds. OpenMS represents a one dimensional mass spectrum using the class `MSSpectrum <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1MSSpectrum.html>`_.
 
+    mass-to-charge
+    mz
     m/z
         mass to charge ratio.
 
     RT
     retention time
-        retention time (RT) in liquid chromatography, is the time it takes for a separated analyte to move through the stationary phase.
+        retention time (RT) in :term:`liquid chromatography`, is the time it takes for a separated analyte to move through the stationary phase.
 
     ProteoWizard
-        ProteoWizard is a set of open-source, cross-platform tools and libraries for proteomics data analyses. It provides a framework for unified :term:`MS` data file access and performs standard chemistry and LCMS dataset computations.
+        ProteoWizard is a set of open-source, cross-platform tools and libraries for :term:`proteomics` data analyses.
+        It provides a framework for unified :term:`MS` data file access and performs standard chemistry and LCMS dataset computations.
 
     PepNovo
-        PepNovo is a de novo sequencing algorithm for :term:`MS/MS` :term:`spectra`.
+        PepNovo is a de :term:`de novo peptide sequencing` algorithm for :term:`MS2` :term:`spectra`.
 
     de novo peptide sequencing
-        A peptide’s amino acid sequence is inferred directly from the precursor peptide mass and tandem mass spectrum (:term:`MS/MS` or :term:`MS^3`) fragment ions, without comparison to a reference proteome.
+        A peptide’s amino acid sequence is inferred directly from the precursor peptide mass and tandem
+        :term:`mass spectrum` (:term:`MS2` or :term:`MS3`) fragment ions, without comparison to a reference proteome.
 
     TOPPAS
-        An assistant for GUI-driven TOPP workflow design. It is recommended to use OpenMS through the KNIME plugins.
+        An assistant for GUI-driven :term:`TOPP` workflow design. It is recommended to use OpenMS through the KNIME plugins.
 
+    chromatograms
     chromatogram
-        A two-dimensional plot that describes the amount of analyte eluted from a chromatography versus the analyte's retention time. OpenMS represents a chromatogram using the class `MSChromatogram <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/structOpenMS_1_1Interfaces_1_1Chromatogram.html>`_.
+        A two-dimensional plot that describes the amount of analyte eluted from a chromatography versus the analyte's
+        :term:`retention time`. OpenMS represents a chromatogram using the class `MSChromatogram <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/structOpenMS_1_1Interfaces_1_1Chromatogram.html>`_.
 
     KNIME
         An advanced workflow editor which OpenMS provides a plugin for.
 
     SILAC
+    stable isotope labeling with amino acids in cell culture
         Stands for Stable isotope labeling using amino acids in cell culture.
 
     iTRAQ
@@ -177,21 +192,30 @@ A glossary of common terms used throughout OpenMS documentation.
     OpenMS API
         An interface that allows developers to use OpenMS core library classes and methods.
 
+    features
     feature
-        An LC-MS feature represents the combined isotopic mass traces of a detected chemical compound. The chromatographic peak shape of a feature is defined by the interaction of the analyte with the LC column. Each feature contains information on retention time, mass-to-charge ratio, intensity and overall quality. OpenMS represents a feature using the class `Feature <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1Feature.html>`_.
+        An :term:`LC-MS` feature represents the combined isotopic mass traces of a detected chemical compound.
+        The chromatographic :term:`peak` shape of a feature is defined by the interaction of the analyte with the LC column.
+        Each feature contains information on :term:`retention time`, :term:`mass-to-charge` ratio, intensity and overall quality.
+        OpenMS represents a feature using the class `Feature <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1Feature.html>`_.
 
+    feature maps
     feature map
-        A feature map is a collection of features identified in a mass spectrum from a single experiment. One feature map can contain many features. OpenMS represents a feature map using the class `FeatureMap <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1FeatureMap.html>`_.
+        A feature map is a collection of :term:`features` identified in a :term:`mass spectrum` from a single experiment.
+        One feature map can contain many :term:`features`. OpenMS represents a feature map using the class `FeatureMap <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1FeatureMap.html>`_.
 
+    consensus features
     consensus feature
-        Features from replicate experiments with similar retention times and m/z values are linked and considered a consensus feature. A consensus feature contains information on the common retention time and m/z values as well as intensities for each sample. OpenMS represents a consensus feature using the class `ConsensusFeature <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1ConsensusFeature.html>`_.
+        Features from replicate experiments with similar retention times and :term:`m/z` values are linked and considered a consensus feature.
+        A consensus feature contains information on the common retention time and :term:`m/z` values as well as intensities for each sample. OpenMS represents a consensus feature using the class `ConsensusFeature <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1ConsensusFeature.html>`_.
 
+    consensus maps
     consensus map
-        A consensus map is a collection of :term:`consensus features <consensus feature>` identified from mass spectra across replicate experiments. One consensus map can contain many consensus features. OpenMS represents a consensus map using the class `ConsensusMap <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1ConsensusMap.html>`_.
+        A consensus map is a collection of :term:`consensus features` identified from mass :term:`spectra` across replicate experiments.
+        One consensus map can contain many consensus :term:`features`. OpenMS represents a consensus map using the class `ConsensusMap <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1ConsensusMap.html>`_.
 
+    peaks
     peak
-        A single raw data point in a chromatogram or a mass spectrum. OpenMS represents a peak in a chromatogram using the class `ChromatogramPeak <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1ChromatogramPeak.html>`_. OpenMS represents a single, one-dimensional peak in a mass spectrum using the class `PeakID <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1Peak1D.html>`_.
-
-    MSExperiment
-        An OpenMS class (:py:class:`~.MSExperiment`) used to represent a single :term:`MS` run. `Read the documentation for further information <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1MSExperiment.html>`_.
-
+        Raw data point(s) in a :term:`chromatogram` or a :term:`mass spectrum`. OpenMS represents a :term:`peak`  in a
+        :term:`chromatogram` using the class `ChromatogramPeak <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1ChromatogramPeak.html>`_.
+        OpenMS represents a single, one-dimensional :term:`peak`  in a :term:`mass spectrum` using the class `PeakID <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1Peak1D.html>`_.
