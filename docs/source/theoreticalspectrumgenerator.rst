@@ -125,8 +125,9 @@ The first example shows how to put peaks of a certain type, y-ions in this case,
 a spectrum. The second spectrum is filled with a complete fragment ion spectrum
 of all peaks (a-, b-, y-ions, precursor peaks, and losses).
 
-From the peptide with 9 amino acids, each ion type should be produced theoretically
-with 8 peaks. For instance, b-ions (prefix) and y-ions (suffix) are complementary,
+Here, from the peptide with 9 amino acids, fragments theoretically can occur in 8
+different positions, resulting in 8 peaks per ion type (a, b, and y-ion in this
+example code). For instance, b-ions (prefix) and y-ions (suffix) are complementary,
 so b3(DFP) and y6(IANGER) fragments make up the peptide "DFPIANGER."
 
 Adding precursor ions with the parameter ``add_precursor_peaks`` add 3 peaks with
