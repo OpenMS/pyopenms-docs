@@ -24,7 +24,7 @@ depends through
     pip install -U setuptools
     pip install -U pip
     pip install -U autowrap
-    pip install -U nose
+    pip install -U pytest
     pip install -U numpy
     pip install -U wheel
 
