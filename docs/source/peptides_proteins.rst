@@ -46,13 +46,13 @@ The example below shows how amino acid sequences can be created and how basic ma
 
 Which prints the amino acid sequence as well as the result of
 concatenating two sequences or taking the suffix of a sequence.
-We then compute the mass of the full peptide (:math:`[M]`), the mass of the
-peptide precursor (:math:`[M+2H]2+`) and :term:`m/z` value of the
-peptide precursor (:math:`[M+2H]2+`).
+We then compute the mass of the full peptide (:chem:`[M]`), the mass of the
+peptide precursor (:chem:`[M+2H]2+`) and :term:`m/z` value of the
+peptide precursor (:chem:`[M+2H]2+`).
 Note that, the mass of the peptide precursor is shifted by two protons that are now attached to the
 molecules as charge carriers. (Detail: the proton mass of :math:`1.007276\ u` is
 slightly different from the mass of an uncharged hydrogen atom at :math:`1.007825\ u`).
-We can easily calculate the charged weight of a :math:`(M+2H)2+` ion and compute :term:`m/z` simply dividing by the charge.
+We can easily calculate the charged weight of a :chem:`(M+2H)2+` ion and compute :term:`m/z` simply dividing by the charge.
 
 .. code-block:: output
 
@@ -320,10 +320,10 @@ phosphorylation of the last arginine at its side chain:
         print(s, s.hasCTerminalModification())
 
 Arbitrary / unknown amino acids (usually due to an unknown modification) can be
-specified using tags preceded by X: :math:`X[weight]`. This indicates a new amino
-acid ("X") with the specified weight, e.g. :math:`RX[148.5]T`. Note that this tag
-does not alter the amino acids to the left (R) or right (T). Rather, X
-represents an amino acid on its own. Be careful when converting such AASequence
+specified using tags preceded by :chem:`X`: :chem:`X[weight]`. This indicates a new amino
+acid (":chem:`X`") with the specified weight, e.g. :chem:`RX[148.5]T`. Note that this tag
+does not alter the amino acids to the left (:chem:`R`) or right (:chem:`T`). Rather, :chem:`X`
+represents an amino acid on its own. Be careful when converting such :py:class:`~.AASequence`
 objects to an EmpiricalFormula using :py:meth:`~.AASequence.getFormula`, as tags will not be
 considered in this case (there exists no formula for them). However, they have
 an influence on :py:meth:`~.AASequence.getMonoWeight` and :py:meth:`~.AASequence.getAverageWeight`!

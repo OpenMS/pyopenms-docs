@@ -114,8 +114,8 @@ term:`mass spectrum` in the file for a precursor at :math:`775.38` :term:`m/z` f
 
 Comparing the theoretical and the experimental :term:`mass spectrum` for
 ``RPGADSDIGGFGGLFDLAQAGFR`` we can easily see that the most abundant ions in are
-:math:`y8` (:math:`877.452` :term:`m/z`), :math:`b10` (:math:`926.432`), :math:`y9`
-(:math:`1024.522` :term:`m/z`) and :math:`b13` (:math:`1187.544` :term:`m/z`).
+:chem:`y8` (:chem:`877.452` :term:`m/z`), :chem:`b10` (:math:`926.432`), :chem:`y9`
+(:math:`1024.522` :term:`m/z`) and :chem:`b13` (:math:`1187.544` :term:`m/z`).
 
 Visualization
 *************

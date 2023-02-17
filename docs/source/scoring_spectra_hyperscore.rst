@@ -58,8 +58,8 @@ We now use the :py:class:`~.TheoreticalSpectrumGenerator` to generate a theoreti
 
 Comparing the :term:`spectrum` and the experimental :term:`spectrum` for
 ``RPGADSDIGGFGGLFDLAQAGFR`` we can easily see that the most abundant ions in the
-:term:`spectrum` are :math:`y8` (:math:`877.452` :term:`m/z`), :math:`b10` (:math:`926.432`), :math:`y9`
-(:math:`1024.522` :term:`m/z`) and :math:`b13` (:math:`1187.544` :term:`m/z`).
+:term:`spectrum` are :chem:`y8` (:math:`877.452` :term:`m/z`), :chem:`b10` (:math:`926.432`), :chem:`y9`
+(:math:`1024.522` :term:`m/z`) and :chem:`b13` (:math:`1187.544` :term:`m/z`).
 
 Getting a Score
 ***************

@@ -48,6 +48,7 @@ which you could plot with :py:func:`~.plot_spectrum`, automatically showing anno
 
 .. code-block:: python
 
+    import matplotlib.pyplot as plt
     from pyopenms.plotting import plot_spectrum
 
     plot_spectrum(spec1)
@@ -108,6 +109,7 @@ which you can again visualize with:
 
 .. code-block:: python
 
+    import matplotlib.pyplot as plt
     from pyopenms.plotting import plot_spectrum
 
     plot_spectrum(spec2, annotate_ions=False)
@@ -144,7 +146,7 @@ DFPIANGER.mzML file that we produced above in :term:`TOPPView`:
 We can see all eight y ion :term:`peaks` that are produced in the
 :py:class:`~.TheoreticalSpectrumGenerator` and when we hover over one of the :term:`peaks` (:math:`546\ mz` in
 this example) there is an annotation in the bottom left corner that indicates
-charge state and ion name (:math:`y5+` for every :term:`peak`). The larger spectrum with
+charge state and ion name (:chem:`y5+` for every :term:`peak`). The larger spectrum with
 :math:`146` :term:`peaks` can also be interactively investigated with :term:`TOPPView` (the second
 spectrum in the file):
 

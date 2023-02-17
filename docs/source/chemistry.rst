@@ -57,7 +57,7 @@ As we can see, the OpenMS :py:class:`~.ElementDB` has entries for common element
 oxygen and sulfur as well as information on their average and monoisotopic
 weight. Note that the monoisotopic weight is the weight of the most abundant
 isotope while the average weight is the sum across all isotopes, weighted by
-their natural abundance. Therefore, one mole of oxygen (:math:`O_2`) weighs slightly
+their natural abundance. Therefore, one mole of oxygen (:chem:`O2`) weighs slightly
 more than a mole of only its monoisotopic isotope since natural oxygen is a
 mixture of multiple isotopes.
 
@@ -224,8 +224,8 @@ Mass Defect
     nucleus, this leads to different observed masses due to the
     `mass defect <https://en.wikipedia.org/wiki/Nuclear_binding_energy#Mass_defect>`_, which
     describes the difference between the mass of an atom and the mass of
-    its constituent particles. For example, the mass difference between :math:`12C` and
-    :math:`13C` is slightly different than the mass difference between :math:`14N` and :math:`15N`, even
+    its constituent particles. For example, the mass difference between :chem:`12C` and
+    :chem:`13C` is slightly different than the mass difference between :chem:`14N` and :chem:`15N`, even
     though both only differ by a neutron from their monoisotopic element:
 
    .. code-block:: python
@@ -316,7 +316,7 @@ which produces
 
 Note how in line 5 we were able to make a new molecule by adding existing
 molecules (for example by adding two :py:class:`~.EmpiricalFormula` objects). In this
-case, we illustrated how to make ethanol by adding a :math:`CH_2` methyl group to an
+case, we illustrated how to make ethanol by adding a :chem:`CH2` methyl group to an
 existing methanol molecule. Note that OpenMS describes sum formulas with the
 :py:class:`~.EmpiricalFormula` object and does store structural information in this class.
 
@@ -324,7 +324,7 @@ Isotopes
 ~~~~~~~~
 
 Specific isotopes can be incorporated into a molecular formula using bracket
-notation. For example, ethanol with one or two :math:`C13` can be specified using :math:`(13)C` as follows:
+notation. For example, ethanol with one or two :chem:`C13` can be specified using :chem:`(13)C` as follows:
 
 .. code-block:: python
     :linenos:
@@ -458,7 +458,7 @@ incorporation of one heavy :math:`13C` with a delta mass of :math:`1.003355` and
 for the incorporation of one heavy deuterium with a delta mass of :math:`1.006277`.
 These two :term:`peaks` also have two different abundances (the heavy carbon one has
 :math:`2.1%` abundance and the deuterium one has :math:`0.07%` abundance). This can be understood given that
-there are 2 carbon atoms and the natural abundance of :math:`13C` is about
+there are 2 carbon atoms and the natural abundance of :chem:`13C` is about
 :math:`1.1%`, while the molecule has six hydrogen atoms and the natural abundance of
 deuterium is about :math:`0.02%`. The fine isotopic generator will not generate the
 :term:`peak` at nominal mass :math:`49` since we specified our cutoff at :math:`0.1%` total abundance

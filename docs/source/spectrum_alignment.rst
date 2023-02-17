@@ -47,6 +47,7 @@ Now we can plot the observed and theoretical :term:`mass spectrum` as a mirror p
 .. code-block:: python
     :linenos:
 
+    import matplotlib.pyplot as plt
     from pyopenms.plotting import mirror_plot_spectrum
 
     mirror_plot_spectrum(
@@ -118,6 +119,7 @@ The mirror plot can also be used to visualize the aligned :term:`mass spectrum`:
 .. code-block:: python
     :linenos:
 
+    import matplotlib.pyplot as plt
     from pyopenms.plotting import mirror_plot_spectrum
 
     mirror_plot_spectrum(

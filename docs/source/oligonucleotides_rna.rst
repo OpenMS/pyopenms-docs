@@ -105,7 +105,7 @@ Modified Oligonucleotides
 
 Modified nucleotides can also be represented by the :py:class:`~.Ribonucleotide` class and
 are specified using a unique string identifier present in the
-:py:class:`~.RibonucleotideDB` in square brackets. For example, :math:`[m1A]` represents
+:py:class:`~.RibonucleotideDB` in square brackets. For example, :chem:`[m1A]` represents
 1-methyl-adenosine. We can create a :py:class:`~.NASequence` object by parsing a modified
 sequence as follows:
 

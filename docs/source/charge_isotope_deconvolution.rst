@@ -4,16 +4,16 @@ Charge and Isotope Deconvolution
 A single :term:`mass spectrum` contains measurements of one or more analytes and the
 :term:`m/z` values recorded for these analytes. Most analytes produce multiple signals
 in the mass spectrometer, due to the natural abundance of carbon :math:`13` (naturally
-occurring at ca. :math:`1%` frequency) and the large amount of carbon atoms in most
+occurring at ca. :math:`1%\ frequency`) and the large amount of carbon atoms in most
 organic molecules, most analytes produce a so-called isotopic pattern with a
-monoisotopic :term:`peak`  (all carbon are :math:`C12`) and a first isotopic :term:`peak` (exactly one
-carbon atom is a :math:`C13`), a second isotopic :term:`peak` (exactly two atoms are :math:`C13`) etc.
+monoisotopic :term:`peak`  (all carbon are :chem:`C12`) and a first isotopic :term:`peak` (exactly one
+carbon atom is a :chem:`C13`), a second isotopic :term:`peak` (exactly two atoms are :chem:`C13`) etc.
 Note that also other elements can contribute to the isotope pattern, see the 
 `Chemistry section <chemistry.html>`_ for further details.
 
 In addition, each analyte may appear in more than one charge state and adduct
-state, a singly charge analyte :math:`[M+H]+` may be accompanied by a doubly
-charged analyte :math:`[M+2H]++` or a sodium adduct :math:`[M+Na]+`. In the case of a
+state, a singly charge analyte :chem:`[M+H]+` may be accompanied by a doubly
+charged analyte :chem:`[M+2H]++` or a sodium adduct :chem:`[M+Na]+`. In the case of a
 multiply charged peptide, the isotopic traces are spaced by ``PROTON_MASS /
 charge_state`` which is often close to :math:`0.5` :term:`m/z` for doubly charged analytes,
 :math:`0.33` :term:`m/z` for triply charged analytes etc. Note: tryptic peptides often appear
@@ -164,10 +164,10 @@ Visualization
 
 The reason we see two :term:`peaks` very close together becomes apparent
 once we look at the data in :term:`TOPPView` which indicates that the :math:`974.4572680576728`
-:term:`peak` is derived from a :math:`2+` :term:`peak` at :term:`m/z` :math:`487.73` and the :term:`peak` at :math:`974.4589691256419`
-is derived from a :math:`3+` :term:`peak` at :term:`m/z` :math:`325.49`: the algorithm has identified a single
+:term:`peak` is derived from a :chem:`2+` :term:`peak` at :term:`m/z` :math:`487.73` and the :term:`peak` at :math:`974.4589691256419`
+is derived from a :chem:`3+` :term:`peak` at :term:`m/z` :math:`325.49`: the algorithm has identified a single
 analyte in two charge states and deconvoluted the :term:`peaks` to their nominal mass
-of a :math:`[M+H]+` ion, which produces two :term:`peaks` very close together (:math:`2+` and :math:`3+`
+of a :chem:`[M+H]+` ion, which produces two :term:`peaks` very close together (:chem:`2+` and :chem:`3+`
 peak):
 
 .. image:: img/deisotoped_zoom.png

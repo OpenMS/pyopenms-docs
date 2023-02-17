@@ -161,7 +161,7 @@ We now set several of these properties in a current :py:class:`~.MSSpectrum`:
 We have created a single :term:`mass spectrum` and set basic :term:`mass spectrum` properties (drift
 time, :term:`retention time`, :term:`MS` level, precursor charge, isolation window and
 activation energy). Additional instrument settings allow to set e.g. the polarity of the Ion source).
-We next add actual :term:`peaks` into the spectrum (a single :term:`peak` at 401.5 :term:`m/z` and 900 intensity).
+We next add actual :term:`peaks` into the spectrum (a single :term:`peak` at Lmath:`401.5` :term:`m/z` and :math:`900\ intensity`).
 Additional metadata can be stored in data arrays for each :term:`peak`
 (e.g. use cases care :term:`peak` annotations or  "Signal to Noise" values for each
 :term:`peak`. Finally, we add the spectrum to an :py:class:`~.MSExperiment` container to save it using the
@@ -174,10 +174,10 @@ official website) and look at our :term:`mass spectrum`:
 .. image:: img/spectrum1.png
 
 :term:`TOPPView` displays our :term:`mass spectrum` with its single :term:`peak` at 401.5 :term:`m/z` and it
-also correctly displays its :term:`retention time` at 205.2 seconds and precursor
-isolation target of 600.0 :term:`m/z`.  Notice how :term:`TOPPView` displays the information
+also correctly displays its :term:`retention time` at :math:`205.2\ seconds` and precursor
+isolation target of :math:`600.0` :term:`m/z`.  Notice how :term:`TOPPView` displays the information
 about the S/N for the :term:`peak` (S/N = 15) and its annotation as ``y15++`` in the status
-bar below when the user clicks on the :term:`peak` at 401.5 :term:`m/z` as shown in the
+bar below when the user clicks on the :term:`peak` at :math:`401.5` :term:`m/z` as shown in the
 screenshot.
 
 We can also visualize our :term:`mass spectrum` from before using the :py:func:`~.plot_spectrum` function from the
@@ -186,6 +186,7 @@ We can also visualize our :term:`mass spectrum` from before using the :py:func:`
 .. code-block:: python
     :linenos:
 
+    import matplotlib.pyplot as plt
     from pyopenms.plotting import plot_spectrum
 
     plot_spectrum(spectrum)
@@ -388,7 +389,7 @@ several :term:`mass spectra<mass spectrum>`:
 
 
 In the above code, we create six instances of :py:class:`~.MSSpectrum` (line 4), populate
-it with three :term:`peaks` at 500, 900 and 100 :term:`m/z` and append them to the
+it with three :term:`peaks` at :math:`500`, :math:`900` and :math:`100` :term:`m/z` and append them to the
 :py:class:`~.MSExperiment` object (line 13).  We can easily iterate over the :term:`mass spectra<mass spectrum>` in
 the whole experiment by using the intuitive iteration on lines 16-19 or we can
 use list comprehensions to sum up intensities of all :term:`mass spectra<mass spectrum>` that fulfill
