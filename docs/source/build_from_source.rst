@@ -5,7 +5,7 @@ To install pyOpenMS from :index:`source`, you will first have to compile OpenMS
 successfully on your platform of choice (note that for MS Windows you will need
 to match your compiler and Python version). Please follow the `official
 documentation
-<https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/index.html>`_
+<https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/index.html>`_
 in order to compile OpenMS for your platform. Next you will need to install the
 following software packages
 
@@ -24,7 +24,7 @@ depends through
     pip install -U setuptools
     pip install -U pip
     pip install -U autowrap
-    pip install -U nose
+    pip install -U pytest
     pip install -U numpy
     pip install -U wheel
 

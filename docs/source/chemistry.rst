@@ -11,10 +11,12 @@ Constants
 OpenMS has many chemical and physical constants built in:
 
 .. code-block:: python
+    :linenos:
 
     import pyopenms
+
     help(pyopenms.Constants)
-    print ("Avogadro's number is", pyopenms.Constants.AVOGADRO)
+    print("Avogadro's number is", pyopenms.Constants.AVOGADRO)
 
 which provides access to constants such as Avogadro's number or the electron
 mass.
@@ -22,12 +24,14 @@ mass.
 Elements
 --------
 
-In OpenMS, elements are stored in ``ElementDB`` which has entries for dozens of
-elements commonly used in mass spectrometry.
+In OpenMS, elements are stored in :py:class:`~.ElementDB` which has entries for dozens of
+elements commonly used in :term:`mass spectrometry<Mass spectrometry>`.
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
+
     edb = ElementDB()
 
     edb.hasElement("O")
@@ -46,10 +50,10 @@ elements commonly used in mass spectrometry.
     print(sulfur.getAverageWeight())
     isotopes = sulfur.getIsotopeDistribution()
 
-    print ("One mole of oxygen weighs", 2*oxygen.getAverageWeight(), "grams")
-    print ("One mole of 16O2 weighs", 2*oxygen.getMonoWeight(), "grams")
+    print("One mole of oxygen weighs", 2 * oxygen.getAverageWeight(), "grams")
+    print("One mole of 16O2 weighs", 2 * oxygen.getMonoWeight(), "grams")
 
-As we can see, the OpenMS ``ElementDB`` has entries for common elements like
+As we can see, the OpenMS :py:class:`~.ElementDB` has entries for common elements like
 Oxygen and Sulfur as well as information on their average and monoisotopic
 weight. Note that the monoisotopic weight is the weight of the most abundant
 isotope while the average weight is the sum across all isotopes, weighted by
@@ -84,14 +88,26 @@ We can also inspect the full isotopic distribution of oxygen and sulfur:
     oxygen = edb.getElement("O")
     isotopes = oxygen.getIsotopeDistribution()
     for iso in isotopes.getContainer():
-        print ("Oxygen isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        print(
+            "Oxygen isotope",
+            iso.getMZ(),
+            "has abundance",
+            iso.getIntensity() * 100,
+            "%",
+        )
         oxygen_isoDist["mass"].append(iso.getMZ())
         oxygen_isoDist["abundance"].append((iso.getIntensity() * 100))
 
     sulfur = edb.getElement("S")
     isotopes = sulfur.getIsotopeDistribution()
     for iso in isotopes.getContainer():
-        print ("Sulfur isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        print(
+            "Sulfur isotope",
+            iso.getMZ(),
+            "has abundance",
+            iso.getIntensity() * 100,
+            "%",
+        )
         sulfur_isoDist["mass"].append(iso.getMZ())
         sulfur_isoDist["abundance"].append((iso.getIntensity() * 100))
 
@@ -119,47 +135,73 @@ The isotope distribution of oxygen and sulfur can be displayed with the followin
     import math
     from matplotlib import pyplot as plt
 
+
     # very simple overlappping correction of annotations
     def adjustText(x1, y1, x2, y2):
         if y1 > y2:
-            plt.annotate('%0.3f' % (y2), xy=(x2, y2), xytext=(x2+0.5,y2+9),
-                         textcoords='data',
-                         arrowprops=dict(arrowstyle="->", color='r', lw=0.5),
-                         horizontalalignment='right', verticalalignment='top')
+            plt.annotate(
+                "%0.3f" % (y2),
+                xy=(x2, y2),
+                xytext=(x2 + 0.5, y2 + 9),
+                textcoords="data",
+                arrowprops=dict(arrowstyle="->", color="r", lw=0.5),
+                horizontalalignment="right",
+                verticalalignment="top",
+            )
         else:
-            plt.annotate('%0.3f' % (y1), xy=(x1, y1), xytext=(x1+0.5,y1+9),
-                         textcoords='data',
-                         arrowprops=dict(arrowstyle="->", color='r', lw=0.5),
-                         horizontalalignment='right', verticalalignment='top')
+            plt.annotate(
+                "%0.3f" % (y1),
+                xy=(x1, y1),
+                xytext=(x1 + 0.5, y1 + 9),
+                textcoords="data",
+                arrowprops=dict(arrowstyle="->", color="r", lw=0.5),
+                horizontalalignment="right",
+                verticalalignment="top",
+            )
 
 
     def plotDistribution(distribution):
         n = len(distribution["mass"])
         for i in range(0, n):
-            plt.vlines(x=distribution["mass"][i], ymin=0, ymax=distribution["abundance"][i])
-            if int(distribution["mass"][i - 1]) == int(distribution["mass"][i]) \
-                    and i != 0:
-                adjustText(distribution["mass"][i - 1], distribution["abundance"][i - 1],
-                           distribution["mass"][i], distribution["abundance"][i])
+            plt.vlines(
+                x=distribution["mass"][i], ymin=0, ymax=distribution["abundance"][i]
+            )
+            if (
+                int(distribution["mass"][i - 1]) == int(distribution["mass"][i])
+                and i != 0
+            ):
+                adjustText(
+                    distribution["mass"][i - 1],
+                    distribution["abundance"][i - 1],
+                    distribution["mass"][i],
+                    distribution["abundance"][i],
+                )
             else:
-                plt.text(x=distribution["mass"][i],
-                         y=(distribution["abundance"][i] + 2),
-                         s='%0.3f' % (distribution["abundance"][i]), va='center',
-                         ha='center')
+                plt.text(
+                    x=distribution["mass"][i],
+                    y=(distribution["abundance"][i] + 2),
+                    s="%0.3f" % (distribution["abundance"][i]),
+                    va="center",
+                    ha="center",
+                )
         plt.ylim([0, 110])
-        plt.xticks(range(math.ceil(distribution["mass"][0]) - 2,
-                         math.ceil(distribution["mass"][-1]) + 2))
-                 
-                
-    plt.figure(figsize=(10,7))
+        plt.xticks(
+            range(
+                math.ceil(distribution["mass"][0]) - 2,
+                math.ceil(distribution["mass"][-1]) + 2,
+            )
+        )
 
-    plt.subplot(1,2,1)
+
+    plt.figure(figsize=(10, 7))
+
+    plt.subplot(1, 2, 1)
     plt.title("Isotopic distribution of oxygen")
     plotDistribution(oxygen_isoDist)
     plt.xlabel("Atomic mass (u)")
     plt.ylabel("Relative abundance (%)")
 
-    plt.subplot(1,2,2)
+    plt.subplot(1, 2, 2)
     plt.title("Isotopic distribution of sulfur")
     plotDistribution(sulfur_isoDist)
     plt.xlabel("Atomic mass (u)")
@@ -173,16 +215,18 @@ which produces
 
 .. _Mass Defect Section:
 
+
 Mass Defect
 ~~~~~~~~~~~
 
 .. NOTE::
-   While all isotopes are created by adding one or more neutrons to the
-   nucleus, this leads to different observed masses due to the `mass defect <https://en.wikipedia.org/wiki/Nuclear_binding_energy#Mass_defect>`_, which
-   describes the difference between the mass of an atom and the mass of
-   its constituent particles. For example, the mass difference between 12C and
-   13C is slightly different than the mass difference between 14N and 15N, even
-   though both only differ by a neutron from their monoisotopic element:
+    While all isotopes are created by adding one or more neutrons to the
+    nucleus, this leads to different observed masses due to the
+    `mass defect <https://en.wikipedia.org/wiki/Nuclear_binding_energy#Mass_defect>`_, which
+    describes the difference between the mass of an atom and the mass of
+    its constituent particles. For example, the mass difference between 12C and
+    13C is slightly different than the mass difference between 14N and 15N, even
+    though both only differ by a neutron from their monoisotopic element:
 
    .. code-block:: python
 
@@ -192,10 +236,15 @@ Mass Defect
        isotopes = edb.getElement("N").getIsotopeDistribution().getContainer()
        nitrogen_isotope_difference = isotopes[1].getMZ() - isotopes[0].getMZ()
 
-       print ("Mass difference between 12C and 13C:", carbon_isotope_difference)
-       print ("Mass difference between 14N and N15:", nitrogen_isotope_difference)
-       print ("Relative deviation:", 100*(carbon_isotope_difference -
-               nitrogen_isotope_difference)/carbon_isotope_difference, "%")
+       print("Mass difference between 12C and 13C:", carbon_isotope_difference)
+       print("Mass difference between 14N and N15:", nitrogen_isotope_difference)
+       print(
+           "Relative deviation:",
+           100
+           * (carbon_isotope_difference - nitrogen_isotope_difference)
+           / carbon_isotope_difference,
+           "%",
+       )
 
    .. code-block:: output
        
@@ -217,13 +266,17 @@ Mass Defect
        helium = ElementDB().getElement("He")
        isotopes = helium.getIsotopeDistribution()
 
-       mass_sum = 2*PROTON_MASS_U + 2*ELECTRON_MASS_U + 2*NEUTRON_MASS_U
+       mass_sum = 2 * PROTON_MASS_U + 2 * ELECTRON_MASS_U + 2 * NEUTRON_MASS_U
        helium4 = isotopes.getContainer()[1].getMZ()
-       print ("Sum of masses of 2 protons, neutrons and electrons:", mass_sum)
-       print ("Mass of He4:", helium4)
-       print ("Difference between the two masses:", 100*(mass_sum - helium4)/mass_sum, "%")
+       print("Sum of masses of 2 protons, neutrons and electrons:", mass_sum)
+       print("Mass of He4:", helium4)
+       print(
+           "Difference between the two masses:",
+           100 * (mass_sum - helium4) / mass_sum,
+           "%",
+       )
 
-   .. code-block:: python
+   .. code-block:: output
        
        Sum of masses of 2 protons, neutrons and electrons: 4.032979924670597
        Mass of He4: 4.00260325415
@@ -236,7 +289,7 @@ Mass Defect
 Molecular Formulae
 ------------------
 
-Elements can be combined to molecular formulas (``EmpiricalFormula``) which can
+Elements can be combined to molecular formulas (:py:class:`~.EmpiricalFormula`) which can
 be used to describe molecules such as metabolites, amino acid sequences or
 oligonucleotides.  The class supports a large number of operations like
 addition and subtraction. A simple example is given in the next few lines of
@@ -262,10 +315,10 @@ which produces
 
 
 Note how in line 5 we were able to make a new molecule by adding existing
-molecules (for example by adding two ``EmpiricalFormula`` objects). In this
+molecules (for example by adding two :py:class:`~.EmpiricalFormula` objects). In this
 case, we illustrated how to make ethanol by adding a ``CH2`` methyl group to an
 existing methanol molecule. Note that OpenMS describes sum formulae with the
-``EmpiricalFormula`` object and does store structural information in this class.
+:py:class:`~.EmpiricalFormula` object and does store structural information in this class.
 
 Isotopes
 ~~~~~~~~
@@ -311,7 +364,7 @@ Isotopic Distributions
 ~~~~~~~~~~~~~~~~~~~~~~
 
 OpenMS can also generate theoretical isotopic distributions from analytes
-represented as ``EmpiricalFormula``. Currently there are two algorithms
+represented as :py:class:`~.EmpiricalFormula`. Currently there are two algorithms
 implemented, CoarseIsotopePatternGenerator which produces unit mass isotope
 patterns and FineIsotopePatternGenerator which is based on the IsoSpec
 algorithm [1]_ :
@@ -325,20 +378,24 @@ algorithm [1]_ :
     ethanol_isoDist = {"mass": [], "abundance": []}
 
     print("Coarse Isotope Distribution:")
-    isotopes = ethanol.getIsotopeDistribution( CoarseIsotopePatternGenerator(4) )
+    isotopes = ethanol.getIsotopeDistribution(CoarseIsotopePatternGenerator(4))
     prob_sum = sum([iso.getIntensity() for iso in isotopes.getContainer()])
     print("This covers", prob_sum, "probability")
     for iso in isotopes.getContainer():
-        print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        print(
+            "Isotope", iso.getMZ(), "has abundance", iso.getIntensity() * 100, "%"
+        )
         methanol_isoDist["mass"].append(iso.getMZ())
         methanol_isoDist["abundance"].append((iso.getIntensity() * 100))
 
     print("Fine Isotope Distribution:")
-    isotopes = ethanol.getIsotopeDistribution( FineIsotopePatternGenerator(1e-3) )
+    isotopes = ethanol.getIsotopeDistribution(FineIsotopePatternGenerator(1e-3))
     prob_sum = sum([iso.getIntensity() for iso in isotopes.getContainer()])
     print("This covers", prob_sum, "probability")
     for iso in isotopes.getContainer():
-        print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        print(
+            "Isotope", iso.getMZ(), "has abundance", iso.getIntensity() * 100, "%"
+        )
         ethanol_isoDist["mass"].append(iso.getMZ())
         ethanol_isoDist["abundance"].append((iso.getIntensity() * 100))
 
@@ -363,16 +420,17 @@ which produces
 Together with the plotDistribution() function from above and the extra code:
 
 .. code-block:: python
-    
-    plt.figure(figsize=(10,7))
+    :linenos:
 
-    plt.subplot(1,2,1)
+    plt.figure(figsize=(10, 7))
+
+    plt.subplot(1, 2, 1)
     plt.title("Isotopic distribution of methanol")
     plotDistribution(methanol_isoDist)
     plt.xlabel("Atomic mass (u)")
     plt.ylabel("Relative abundance (%)")
 
-    plt.subplot(1,2,2)
+    plt.subplot(1, 2, 2)
     plt.title("Isotopic distribution of ethanol")
     plotDistribution(ethanol_isoDist)
     plt.xlabel("Atomic mass (u)")
@@ -385,13 +443,13 @@ we can produce the following visualization
 .. image:: img/methanol_ethanol_isoDistribution.png
 
 
-The result calculated with the ``FineIsotopePatternGenerator``
+The result calculated with the :py:class:`~.FineIsotopePatternGenerator`
 contains the hyperfine isotope structure with heavy isotopes of Carbon and 
 Hydrogen clearly distinguished while the coarse (unit resolution)
 isotopic distribution contains summed probabilities for each isotopic peak
 without the hyperfine resolution.  
 
-Please refer to our previous discussion on the `mass defect <#Mass-Defect>`_ to understand the
+Please refer to our previous discussion on the `mass defect <#Mass-Defect>`__ to understand the
 results of the hyperfine algorithm and why different elements produce slightly
 different masses.
 In this example, the hyperfine isotopic distribution will 
@@ -415,11 +473,13 @@ We can also decrease our cutoff and ask for more isotopes to be calculated:
     ethanol = EmpiricalFormula("CH2") + methanol
 
     print("Fine Isotope Distribution:")
-    isotopes = ethanol.getIsotopeDistribution( FineIsotopePatternGenerator(1e-6) )
+    isotopes = ethanol.getIsotopeDistribution(FineIsotopePatternGenerator(1e-6))
     prob_sum = sum([iso.getIntensity() for iso in isotopes.getContainer()])
     print("This covers", prob_sum, "probability")
     for iso in isotopes.getContainer():
-        print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        print(
+            "Isotope", iso.getMZ(), "has abundance", iso.getIntensity() * 100, "%"
+        )
 
 which produces
 
@@ -454,9 +514,13 @@ nearest integer:
 
 .. code-block:: python
 
-    isotopes = ethanol.getIsotopeDistribution( CoarseIsotopePatternGenerator(5, True) )
+    isotopes = ethanol.getIsotopeDistribution(
+        CoarseIsotopePatternGenerator(5, True)
+    )
     for iso in isotopes.getContainer():
-        print ("Isotope", iso.getMZ(), "has abundance", iso.getIntensity()*100, "%")
+        print(
+            "Isotope", iso.getMZ(), "has abundance", iso.getIntensity() * 100, "%"
+        )
 
 .. code-block:: output
 
@@ -470,12 +534,12 @@ nearest integer:
 Amino Acids
 -----------
 
-An amino acid residue is represented in OpenMS by the class ``Residue``. It provides a
+An amino acid residue is represented in OpenMS by the class :py:class:`~.Residue`. It provides a
 container for the amino acids as well as some functionality. The class is able
 to provide information such as the isotope distribution of the residue, the
 average and monoisotopic weight. The residues can be identified by their full
 name, their three letter abbreviation or the single letter abbreviation. The
-residue can also be modified, which is implemented in the ``Modification`` class.
+residue can also be modified, which is implemented in the :py:class:`~.Modification` class.
 Additional less frequently used parameters of a residue like the gas-phase
 basicity and pk values are also available.
 
@@ -508,8 +572,8 @@ Amino Acid Modifications
 ------------------------
 
 An amino acid residue modification is represented in OpenMS by the class
-``ResidueModification``. The known modifications are stored in the
-``ModificationsDB`` object, which is capable of retrieving specific
+:py:class:`~.ResidueModification`. The known modifications are stored in the
+:py:class:`~.ModificationsDB` object, which is capable of retrieving specific
 modifications. It contains UniMod as well as PSI modifications.
 
 .. code-block:: python
@@ -540,9 +604,11 @@ is identical to the one of Oxygen by itself):
 
 .. code-block:: python
 
-    isotopes = ox.getDiffFormula().getIsotopeDistribution(CoarseIsotopePatternGenerator(5))
+    isotopes = ox.getDiffFormula().getIsotopeDistribution(
+        CoarseIsotopePatternGenerator(5)
+    )
     for iso in isotopes.getContainer():
-        print (iso.getMZ(), ":", iso.getIntensity())
+        print(iso.getMZ(), ":", iso.getIntensity())
 
 Which will print the isotopic pattern of the modification (Oxygen):
 
@@ -558,7 +624,7 @@ Ribonucleotides
 
 A `ribonucleotide <https://en.wikipedia.org/wiki/Ribonucleotide>`_ describes
 one of the building blocks of DNA and RNA. In OpenMS, a ribonucleotide in its
-modified or unmodified form is represented by the ``Ribonucleotide`` class in
+modified or unmodified form is represented by the :py:class:`~.Ribonucleotide` class in
 OpenMS.  The class is able to provide information such as the isotope
 distribution of the residue, the average and monoisotopic weight. The residues
 can be identified by their full name, their three letter abbreviation or the

@@ -1,0 +1,19 @@
+name: binder-env
+dependencies:
+- python=3.10
+#- bioconda::pyopenms maybe not needed because we install it in a post-build event
+- pip
+
+- pip:
+  - matplotlib
+  - plotly
+  - pandas
+  - adjustText
+  - scikit-learn
+  - requests
+  - bokeh
+  - datashader
+  - holoviews
+  - pyviz_comms
+  - jupyter-server-proxy
+  - massql

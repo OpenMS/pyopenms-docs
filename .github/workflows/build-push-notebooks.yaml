@@ -1,8 +1,12 @@
-name: Building latest pyopenms package and generating jupyter Notebooks
+name: Building latest jupyter Notebooks and push to master+ipynb
 
 on:
+  schedule:
+    # Trigger 5:30 UTC
+    - cron:  '30 5 * * *'
   push:
     branches: [ master, merge-workflows ]
+  workflow_dispatch:
 
 jobs:
 
@@ -10,19 +14,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10' # Version range or exact version of a Python version to use, using SemVer's version range syntax
     
-    - name: Installing pandoc
-      run: |
-        wget https://github.com/jgm/pandoc/releases/download/2.14.2/pandoc-2.14.2-linux-amd64.tar.gz
-        tar -xvf pandoc-2.14.2-linux-amd64.tar.gz
-        sudo cp pandoc-2.14.2/bin/pandoc /usr/bin/pandoc
+    - uses: r-lib/actions/setup-pandoc@v2
+      with:
+        pandoc-version: '2.19.2'
 
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
-        python3 -m pip install --upgrade pandocfilters
-        if [ -f requirements.txt ]; then python3 -m pip install --upgrade -r requirements.txt; fi
+        python3 -m pip install --upgrade jupyter
+        python3 -m pip install --index-url https://pypi.cs.uni-tuebingen.de/simple/ pyopenms-nightly
+
 
     - name: Generating notebooks
       run: |

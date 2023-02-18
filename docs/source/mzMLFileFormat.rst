@@ -22,18 +22,20 @@ Binary encoding
 :index:`To proceed <Binary encoding (mzML)>`, we will download an example file:
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
     from urllib.request import urlretrieve
+
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/tiny.mzML", "test.mzML")
+    urlretrieve(gh + "/src/data/tiny.mzML", "test.mzML")
 
 Let's investigate the file ``test.mzML`` and look at line 197:
 
 .. code-block:: python
+    :linenos:
 
-    print( open("test.mzML").readlines()[197].strip() )
-    
+    print(open("test.mzML").readlines()[197].strip())
 .. code-block:: output
 
     <binary>AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQAAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA=</binary>
@@ -45,9 +47,9 @@ that contains a long datastring that starts with ``AAAAA`` and ends with
 by looking at some more context (lines 193 to 199 of the file):
 
 .. code-block:: python
+    :linenos:
 
-    print( "".join( open("test.mzML").readlines()[193:199]) )
-    
+    print("".join(open("test.mzML").readlines()[193:199]))
 .. code-block:: output
 
     <binaryDataArray encodedLength="108" dataProcessingRef="CompassXtract_x0020_processing">
@@ -63,11 +65,12 @@ bit data. We can now open the file with pyOpenMS and print the corresponding
 array which is from the second spectrum in the file:
 
 .. code-block:: python
+    :linenos:
 
     exp = MSExperiment()
     MzMLFile().load("test.mzML", exp)
 
-    print( exp.getSpectrum(1).get_peaks()[0] )
+    print(exp.getSpectrum(1).get_peaks()[0])
 
 .. code-block:: output
 
@@ -87,15 +90,17 @@ first use pure Python functions :
 .. code-block:: python
     :linenos:
 
-    encoded_data = b"AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQ" +\
-        b"AAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA="
+    encoded_data = (
+        b"AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQ"
+        + b"AAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA="
+    )
 
     import base64, struct
+
     raw_data = base64.decodebytes(encoded_data)
-    out = struct.unpack('<%sd' % (len(raw_data) // 8), raw_data)
+    out = struct.unpack("<%sd" % (len(raw_data) // 8), raw_data)
     # struct.unpack('<%sf' % (len(raw_data) // 4), raw_data) # for 32 bit data
     print(out)
-    
 .. code-block:: output
 
     (0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0)
@@ -110,13 +115,16 @@ Alternatively, we could also use pyOpenMS to decode the same data:
 .. code-block:: python
     :linenos:
 
-    encoded_data = b"AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQ" +\
-        b"AAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA="
+    encoded_data = (
+        b"AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQ"
+        + b"AAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA="
+    )
 
     out = []
-    Base64().decode64(encoded_data, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, out, False)
-    print( out )
-    
+    Base64().decode64(
+        encoded_data, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, out, False
+    )
+    print(out)
 .. code-block:: output
 
     [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0]
@@ -127,26 +135,30 @@ This allows us thus to manually decode the data. We can use pyOpenMS to encode a
 .. code-block:: python
     :linenos:
 
-    encoded_data = b"AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQ" +\
-        b"AAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA="
+    encoded_data = (
+        b"AAAAAAAAAAAAAAAAAAAAQAAAAAAAABBAAAAAAAAAGEAAAAAAAAAgQ"
+        + b"AAAAAAAACRAAAAAAAAAKEAAAAAAAAAsQAAAAAAAADBAAAAAAAAAMkA="
+    )
 
     out = []
-    Base64().decode64(encoded_data, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, out, False)
-    print( out )
-    
+    Base64().decode64(
+        encoded_data, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, out, False
+    )
+    print(out)
+
     data = String()
     Base64().encode64(out, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, data, False)
-    print (data)
-    
+    print(data)
+
     Base64().encode64(out, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, data, True)
-    print (data)
+    print(data)
 
     data = String()
     Base64().encode32(out, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, data, False)
-    print (data)
-    
+    print(data)
+
     Base64().encode32(out, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, data, True)
-    print (data)
+    print(data)
 
 .. code-block:: output
 
@@ -182,14 +194,14 @@ original input data exactly:
     res = String()
     MSNumpressCoder().encodeNP(data, res, False, c)
     print(res)
-    
+
     MSNumpressCoder().decodeNP(res, r, False, c)
     print(r)
 
     c.np_compression = MSNumpressCoder.NumpressCompression.PIC
     MSNumpressCoder().encodeNP(data, res, False, c)
     print(res)
-    
+
     MSNumpressCoder().decodeNP(res, r, False, c)
     print(r)
 

@@ -66,6 +66,8 @@ if (len(matching_wheels) >= 1):
 else:
     print("Warning: Even after downloading GitHub artifacts, no nightly pyopenms wheel could be found.")
 
+sys.path.append(os.path.abspath("./_ext"))
+
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -82,10 +84,19 @@ extensions = [
     'notfound.extension',
     'sphinx_inline_tabs',
     'sphinx_search.extension',
+    'glossary_warnings',
+    'hoverxref.extension',
 ]
 
 autosummary_generate = True
 autosummary_imported_members = True
+autodoc_docstring_signature = True
+
+#configure tooltips
+hoverxref_roles = ['term',]
+hoverxref_role_types = {'term':'tooltip',}
+#specific for pyopenms documentation
+hoverxref_tooltip_lazy = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -101,7 +112,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'pyOpenMS'
-copyright = u'2022, OpenMS Team'
+copyright = u'2023, OpenMS Team'
 author = u'OpenMS Team'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -228,3 +239,4 @@ texinfo_documents = [
 
 def setup(app):
     app.add_css_file('custom.css')
+    app.add_js_file('piwik.js')

@@ -23,7 +23,7 @@ First, we will generate a simple spectrum that only contains y-ions
     p.setValue("add_b_ions", "false")
     p.setValue("add_metainfo", "true")
     tsg.setParameters(p)
-    tsg.getSpectrum(spec1, peptide, 1, 1) # charge range 1:1
+    tsg.getSpectrum(spec1, peptide, 1, 1)  # charge range 1:1
 
     # Iterate over annotated ions and their masses
     print("Spectrum 1 of", peptide, "has", spec1.size(), "peaks.")
@@ -44,35 +44,15 @@ which produces all y single charged ions:
     y7+ is generated at m/z 756.3998821574709
     y8+ is generated at m/z 903.4682964445709
 
-which you could plot with:
+which you could plot with :py:func:`~.plot_spectrum`, automatically showing annotated ions.:
 
 .. code-block:: python
 
-    import matplotlib.pyplot as plt
-    plt.bar(spec1.get_peaks()[0], spec1.get_peaks()[1], snap=False) # snap ensures that all bars are rendered
-    plt.xlabel("m/z")
-    plt.ylabel("intensity")
-    
+    from pyopenms.plotting import plot_spectrum
+
+    plot_spectrum(spec1)
+    plt.show()
 .. image:: img/DFPIANGER_theo.png
-
-or also add ion names
-
-.. code-block:: python
-
-    mz,i = spec1.get_peaks()
-    annot = spec1.getStringDataArrays()[0]
-    bars = plt.bar(mz, i, snap=False) # snap ensures that all bars are rendered
-    idx = 0
-    for rect in bars:
-        height = rect.get_height()
-        plt.text(rect.get_x() + rect.get_width() / 2.0, height, annot[idx].decode(), ha='center', va='bottom', rotation=90)
-        idx += 1
-    plt.ylim(top=1.2)
-    plt.xlabel("m/z")
-    plt.ylabel("intensity")
-
-    
-.. image:: img/tsg_ion_names.png
 
 Full fragment ion spectrum
 **************************
@@ -128,10 +108,10 @@ which you again can visualize with:
 
 .. code-block:: python
 
-    import matplotlib.pyplot as plt
-    plt.bar(spec2.get_peaks()[0], spec2.get_peaks()[1], snap=False) # snap ensures that all bars are rendered
-    plt.xlabel("m/z")
-    plt.ylabel("intensity")
+    from pyopenms.plotting import plot_spectrum
+
+    plot_spectrum(spec2, annotate_ions=False)
+    plt.show()
 
 .. image:: img/DFPIANGER_theo_full.png
 
@@ -147,10 +127,10 @@ the ``a/b/c`` ion series with the first fragment capable of ammonia loss being
 asparagine at position 6.
 
 
-The ``TheoreticalSpectrumGenerator``
+The :py:class:`~.TheoreticalSpectrumGenerator`
 has many parameters which have a detailed description located in the class
 documentation. Note how the ``add_metainfo`` parameter 
-populates the ``StringDataArray`` of the output spectrum, allowing us to
+populates the :py:class:`~.StringDataArray` of the output spectrum, allowing us to
 iterate over annotated ions and their masses.
 
 Visualization
@@ -162,7 +142,7 @@ DFPIANGER.mzML file that we produced above in TOPPView:
 .. image:: img/peptide_y_ions.png
 
 We can see all eight y ion peaks that are produced in the
-TheoreticalSpectrumGenerator and when we hover over one of the peaks (546 mz in
+:py:class:`~.TheoreticalSpectrumGenerator` and when we hover over one of the peaks (546 mz in
 this example) there is an annotation in the bottom left corner that indicates
 charge state and ion name (``y5+`` for every peak). The larger spectrum with
 146 peaks can also be interactively investigated with TOPPView (the second

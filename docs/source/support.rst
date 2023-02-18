@@ -21,8 +21,10 @@ Please provide information on what pyOpenMS version you have installed.
 You can check if importing pyOpenMS works and print your pyOpenMS version with:
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
+
     print("Version: " + VersionInfo.getVersion())
     print("OpenMP: " + str(OpenMSBuildInfo.isOpenMPEnabled()))
     print("Build type: " + OpenMSBuildInfo.getBuildType())

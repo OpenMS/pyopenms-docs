@@ -8,14 +8,15 @@ use the OnDiscMSExperiment for reading data.
   :linenos:
 
   from pyopenms import *
+
   od_exp = OnDiscMSExperiment()
   od_exp.openFile("test.mzML")
 
   e = MSExperiment()
   for k in range(od_exp.getNrSpectra()):
-    s = od_exp.getSpectrum(k)
-    if s.getNativeID().startswith("scan="):
-      e.addSpectrum(s)
+      s = od_exp.getSpectrum(k)
+      if s.getNativeID().startswith("scan="):
+          e.addSpectrum(s)
 
   MzMLFile().store("test_filtered.mzML", e)
 
@@ -33,9 +34,9 @@ by using
 
   e = MSExperiment()
   for k in range(od_exp.getNrSpectra()):
-    s = od_exp.getSpectrum(k)
-    if s.getNativeID().startswith("scan="):
-      consumer.consumeSpectrum(s)
+      s = od_exp.getSpectrum(k)
+      if s.getNativeID().startswith("scan="):
+          consumer.consumeSpectrum(s)
 
   del consumer
 

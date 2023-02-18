@@ -1,10 +1,9 @@
 #!/bin/bash
 
-wget https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed
-mv Linux-wheels.zip\?status=completed Linux-wheels.zip
-unzip Linux-wheels.zip
-pip install pyopenms_nightly-*-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+python3 -m pip install --index-url https://pypi.cs.uni-tuebingen.de/simple/ pyopenms-nightly
 
 # Those should be enabled by default on binder. For serving
 #jupyter serverextension enable --sys-prefix jupyter_server_proxy
 #jupyter labextension install @jupyterlab/server-proxy
+
+mkdir -p  ~/.jupyter/ && cp jupyter_notebook_config.py ~/.jupyter/

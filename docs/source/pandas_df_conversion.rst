@@ -1,19 +1,23 @@
 Export to pandas DataFrame
 ==========================
 
-**NOTE: This feature is available only if using a version of pyOpenMS >= 3.0, at the time of writing this means using one of the nightly builds as described in the** `Installation Instructions
-<installation.html#nightly-ci-wheels>`_.
+**NOTE: This feature is available only if using a version of pyOpenMS >= 3.0, at the time of writing this means using
+the nightly builds as described in the** `Installation Instructions<installation.html#nightly-ci-wheels>`_.
 
-In pyOpenMS some data structures can be converted to a tabular format as a ``pandas.DataFrame``. This allows convenient access to data and meta values of spectra, features and identifications.
+In pyOpenMS some data structures can be converted to a tabular format as a ``pandas.DataFrame``.
+This allows convenient access to data and meta values of spectra, features and identifications.
 
 Required imports for the examples:
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
     import pandas as pd
     from urllib.request import urlretrieve
-    url = 'https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master/src/data/'
+
+    url = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master/src/data/"
+
 
 MSExperiment
 ************
@@ -37,14 +41,16 @@ MSExperiment
 **Examples:**
 
 .. code-block:: python
+    :linenos:
 
-    urlretrieve(url+'BSA1.mzML', 'BSA1.mzML')
+    urlretrieve(url + "BSA1.mzML", "BSA1.mzML")
     exp = MSExperiment()
-    MzMLFile().load('BSA1.mzML', exp)
+    MzMLFile().load("BSA1.mzML", exp)
 
-    df = exp.get_df() # default: long = False
+    df = exp.get_df()  # default: long = False
     df.head(2)
-    
+
+
 .. csv-table:: exp.get_df()
    :widths: 2 10 50 50
    :header: ,"RT", "mzarray", "intarray"
@@ -54,6 +60,7 @@ MSExperiment
 
 
 .. code-block:: python
+    :linenos:
 
     df = exp.get_df(long=True)
     df.head(2)
@@ -98,15 +105,15 @@ PeptideIdentifications
 **Example:**
 
 .. code-block:: python
+    :linenos:
 
-    urlretrieve(url+'small.idXML', 'small.idXML')
+    urlretrieve(url + "small.idXML", "small.idXML")
     prot_ids = []
     pep_ids = []
-    IdXMLFile().load('small.idXML', prot_ids, pep_ids)
+    IdXMLFile().load("small.idXML", prot_ids, pep_ids)
 
     df = peptide_identifications_to_df(pep_ids)
     df.head(2)
-    
 .. csv-table:: peptide_identifications_to_df(pep_ids)
    :widths: 2 20 10 20 20 10 20 20 20 20 20 20 20 20 20 20
    :header: "",	"id",	"RT",	"mz",	"q-value",	"charge",	"protein_accession",	"start",	"end",	"NuXL:z2 mass",	"NuXL:z3 mass",	"...", "isotope_error",	"NuXL:peptide_mass_z0",	"NuXL:XL_U",	"NuXL:sequence_score"
@@ -147,14 +154,14 @@ FeatureMap
 **Examples:**
    
 .. code-block:: python
+    :linenos:
 
-    urlretrieve(url+'BSA1_F1_idmapped.featureXML', 'BSA1_F1_idmapped.featureXML')
+    urlretrieve(url + "BSA1_F1_idmapped.featureXML", "BSA1_F1_idmapped.featureXML")
     feature_map = FeatureMap()
-    FeatureXMLFile().load('BSA1_F1_idmapped.featureXML', feature_map)
+    FeatureXMLFile().load("BSA1_F1_idmapped.featureXML", feature_map)
 
-    df = feature_map.get_df() # default: meta_values = None
+    df = feature_map.get_df()  # default: meta_values = None
     df.head(2)
-    
 .. csv-table:: feature_map.get_df()
    :widths: 20 20 20 20 20 5 20 20 20 20 20 20 20 20
    :header: "id",	"peptide_sequence",	"peptide_score",	"ID_filename",	"ID_native_id",	"charge",	"RT",	"mz",	"RTstart",	"RTend",	"mzstart",	"mzend",	"quality",	"intensity"
@@ -164,8 +171,9 @@ FeatureMap
 
 
 .. code-block:: python
+    :linenos:
 
-    df = feature_map.get_df(meta_values = 'all', export_peptide_identifications = False)
+    df = feature_map.get_df(meta_values="all", export_peptide_identifications=False)
     df.head(2)
 
 .. csv-table:: feature_map.get_df(meta_values = 'all', export_peptide_identifications = False)
@@ -176,8 +184,9 @@ FeatureMap
    "18416216708636999474",	"2",	"1749.138335",	"443.711224",	"1735.693115",	"1763.343506",	"443.71112",	"445.717531",	"0.893553",	"54069300.0", "14.156094",	"156",	"spectrum=1167",	"169",	"0.999002",	"0.799234"
 
 .. code-block:: python
+    :linenos:
 
-    df = feature_map.get_df(meta_values = [b'FWHM', b'label'])
+    df = feature_map.get_df(meta_values=[b"FWHM", b"label"])
     df.head(2)
 
 .. csv-table:: feature_map.get_df(meta_values = [b'FWHM', b'label'])
@@ -208,8 +217,10 @@ Peptide identifications can be mapped to their corresponding features in a ``Fea
         
         list of PeptideIdentification objects
 
-A ``DataFrame`` can be created on the resulting list of ``PeptideIdentification`` objects using ``pyopenms.peptide_identifications_to_df(assigned_peptides)``. 
-Feature map and peptide data frames contain columns, on which they can be merged together to contain the complete information for peptides and features in a single data frame.
+A ``DataFrame`` can be created on the resulting list of :py:class:`~.PeptideIdentification` objects using
+``pyopenms.peptide_identifications_to_df(assigned_peptides)``.
+Feature map and peptide data frames contain columns, on which they can be merged together to contain the complete
+information for peptides and features in a single data frame.
 
 The columns for unambiguously merging the data frames:
 
@@ -217,7 +228,7 @@ The columns for unambiguously merging the data frames:
 
 - ``ID_native_id``: the feature spectrum native identifier
 
-- ``ID_filename``: the filename (primary MS run path) of the corresponding ``ProteinIdentification``
+- ``ID_filename``: the filename (primary MS run path) of the corresponding :py:class:`~.ProteinIdentification`
 
 **Example:**
 
@@ -227,7 +238,11 @@ The columns for unambiguously merging the data frames:
     assigned_peptides = feature_map.get_assigned_peptide_identifications()
     assigned_peptide_df = peptide_identifications_to_df(assigned_peptides)
 
-    merged_df = pd.merge(feature_df, assigned_peptide_df, on=['feature_id', 'ID_native_id', 'ID_filename'])
+    merged_df = pd.merge(
+        feature_df,
+        assigned_peptide_df,
+        on=["feature_id", "ID_native_id", "ID_filename"],
+    )
     merged_df.head(2)
 
 .. csv-table:: consensus_map.get_df()
@@ -275,17 +290,20 @@ ConsensusMap
 **Examples:**
 
 .. code-block:: python
+    :linenos:
 
-    urlretrieve(url+'ProteomicsLFQ_1_out.consensusXML', 'ProteomicsLFQ_1_out.consensusXML')
+    urlretrieve(
+        url + "ProteomicsLFQ_1_out.consensusXML", "ProteomicsLFQ_1_out.consensusXML"
+    )
     consensus_map = ConsensusMap()
-    ConsensusXMLFile().load('ProteomicsLFQ_1_out.consensusXML', consensus_map)
+    ConsensusXMLFile().load("ProteomicsLFQ_1_out.consensusXML", consensus_map)
 
     df = consensus_map.get_df()
     df.head(2)
-    
 .. csv-table:: consensus_map.get_df()
    :widths: 2 10 20 20 20 20 30 10 30
    :header: "id",	"sequence",	"charge",	"RT",	"mz",	"quality",	"BSA1_F1.mzML",	"...",	"BSA1_F2.mzML"
+
    "2935923263525422257",	"DGDIEAEISR",	"3",	"1523.370634",	"368.843773",	"0.000000",	"0.0",	"...",	"0.0"
    "10409195546240342212",	"SHC(Carbamidomethyl)IAEVEK",	"3",	"1552.032973",	"358.174576",	"0.491247",	"1358151.0",	"...",	"0.0"
 

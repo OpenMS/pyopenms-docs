@@ -6,3 +6,7 @@ sphinx
 sphinx-copybutton
 sphinx-inline-tabs
 sphinx-notfound-page
+sphinx-hoverxref
+
+--extra-index-url https://pypi.cs.uni-tuebingen.de/simple/
+pyopenms_nightly

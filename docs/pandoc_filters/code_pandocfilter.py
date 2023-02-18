@@ -13,6 +13,9 @@ def addCodeClass(key, value, _, meta):
         if "python" in classes:
             classes.remove("python")
             classes.append("code")
+        elif "ipython3" in classes:
+            classes.remove("ipython3")
+            classes.append("code")
         return CodeBlock([ident, classes, keyvals], code)
 
 

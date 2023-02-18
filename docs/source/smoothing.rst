@@ -5,21 +5,26 @@ In many applications, mass spectrometric data should be smoothed first before
 further analysis
 
 .. code-block:: python
+    :linenos:
 
-  from urllib.request import urlretrieve
-  from pyopenms import *
-  gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-  urlretrieve (gh +"/src/data/peakpicker_tutorial_1_baseline_filtered.mzML", "tutorial.mzML")
+    from urllib.request import urlretrieve
+    from pyopenms import *
 
-  exp = MSExperiment()
-  gf = GaussFilter()
-  param = gf.getParameters()
-  param.setValue("gaussian_width", 1.0) # needs wider width 
-  gf.setParameters(param)
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
+    urlretrieve(
+        gh + "/src/data/peakpicker_tutorial_1_baseline_filtered.mzML",
+        "tutorial.mzML",
+    )
 
-  MzMLFile().load("tutorial.mzML", exp)
-  gf.filterExperiment(exp)
-  MzMLFile().store("tutorial.smoothed.mzML", exp)
+    exp = MSExperiment()
+    gf = GaussFilter()
+    param = gf.getParameters()
+    param.setValue("gaussian_width", 1.0)  # needs wider width
+    gf.setParameters(param)
+
+    MzMLFile().load("tutorial.mzML", exp)
+    gf.filterExperiment(exp)
+    MzMLFile().store("tutorial.smoothed.mzML", exp)
 
 We can now load our data into TOPPView to observe the effect of the smoothing,
 which becomes apparent when we overlay the two files (drag onto each other) and

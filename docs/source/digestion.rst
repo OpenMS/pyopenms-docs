@@ -10,18 +10,19 @@ OpenMS has classes for proteolytic digestion which can be used as follows:
 
     from pyopenms import *
     from urllib.request import urlretrieve
+
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/P02769.fasta", "bsa.fasta")
+    urlretrieve(gh + "/src/data/P02769.fasta", "bsa.fasta")
 
     dig = ProteaseDigestion()
-    dig.getEnzymeName() # Trypsin
+    dig.getEnzymeName()  # Trypsin
     bsa = "".join([l.strip() for l in open("bsa.fasta").readlines()[1:]])
     bsa = AASequence.fromString(bsa)
     # create all digestion products
     result = []
     dig.digest(bsa, result)
     print(result[4].toString())
-    len(result) # 82 peptides
+    len(result)  # 82 peptides
 
 Very short peptides or even single amino acid digestion products are often discarded as they usually contain little information (e.g., can't be used to identify proteins).
 We now only generate digestion products with a length of 7 to 40.
@@ -32,7 +33,7 @@ We now only generate digestion products with a length of 7 to 40.
     dig.digest(bsa, result, 7, 40)
     # print the results
     for s in result:
-        print(s.toString())    
+        print(s.toString())
 
 Enzymatic digestion is often not perfect and sometimes enzymes miss cutting a peptide.
 We now allow up to two missed cleavages.
@@ -46,8 +47,7 @@ We now allow up to two missed cleavages.
     # print the results
     for s in result:
         print(s.toString())
-    
-    
+
 Proteolytic Digestion with Lys-C
 ********************************
 
@@ -58,8 +58,8 @@ file and can be accessed using the ``EnzymesDB`` object
 
     names = []
     ProteaseDB().getAllNames(names)
-    len(names) # at least 25 by default
-    e = ProteaseDB().getEnzyme('Lys-C')
+    len(names)  # at least 25 by default
+    e = ProteaseDB().getEnzyme("Lys-C")
     e.getRegExDescription()
     e.getRegEx()
 
@@ -70,17 +70,18 @@ cut our protein of interest:
 .. code-block:: python
 
     from urllib.request import urlretrieve
+
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/P02769.fasta", "bsa.fasta")
+    urlretrieve(gh + "/src/data/P02769.fasta", "bsa.fasta")
 
     dig = ProteaseDigestion()
-    dig.setEnzyme('Lys-C')
+    dig.setEnzyme("Lys-C")
     bsa = "".join([l.strip() for l in open("bsa.fasta").readlines()[1:]])
     bsa = AASequence.fromString(bsa)
     result = []
     dig.digest(bsa, result)
     print(result[4].toString())
-    len(result) # 57 peptides
+    len(result)  # 57 peptides
 
 We now get different digested peptides (57 vs 82) and the fourth peptide is now
 ``GLVLIAFSQYLQQCPFDEHVK`` instead of ``DTHK`` as with Trypsin (see above).
@@ -101,13 +102,13 @@ file and can be accessed using the ``RNaseDB`` object
     # ['RNase_U2', 'RNase_T1', 'RNase_H', 'unspecific cleavage', 'no cleavage', 'RNase_MC1', 'RNase_A', 'cusativin']
     e = db.getEnzyme("RNase_T1")
     e.getRegEx()
-    e.getThreePrimeGain() 
+    e.getThreePrimeGain()
 
 We can now use it to cut an oligo:
 
 .. code-block:: python
 
-    oligo = NASequence.fromString("pAUGUCGCAG");
+    oligo = NASequence.fromString("pAUGUCGCAG")
 
     dig = RNaseDigestion()
     dig.setEnzyme("RNase_T1")
@@ -115,11 +116,11 @@ We can now use it to cut an oligo:
     result = []
     dig.digest(oligo, result)
     for fragment in result:
-      print (fragment)
+        print(fragment)
 
     print("Looking closer at", result[0])
     print(" Five Prime modification:", result[0].getFivePrimeMod().getCode())
     print(" Three Prime modification:", result[0].getThreePrimeMod().getCode())
     for ribo in result[0]:
-      print (ribo.getCode(), ribo.getMonoMass(), ribo.isModified())
+        print(ribo.getCode(), ribo.getMonoMass(), ribo.isModified())
 

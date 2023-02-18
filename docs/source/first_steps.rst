@@ -13,6 +13,7 @@ interact with the OpenMS library and, for example, read and write mzML files:
 .. code-block:: python
 
     from pyopenms import *
+
     exp = MSExperiment()
     MzMLFile().store("testfile.mzML", exp)
 
@@ -56,14 +57,14 @@ function:
      [...]
 
 
-which lists information on the ``pyopenms.MSExperiment`` class, including a
+which lists information on the :py:class:`~.MSExperiment` class, including a
 description of the main purpose of the class and how the class is intended to
 be used. Additional useful information is presented in the ``Inherits from``
 section which points to additional classes that act as base classes to
-``pyopenms.MSExperiment`` and that contain further information.
+:py:class:`~.MSExperiment` and that contain further information.
 The list of available methods is long (but does *not* include methods from the
 base classes) and reveals that the class exposes methods such as
-``getNrSpectra()`` and ``getSpectrum(id)`` where the argument ``id`` indicates
+:py:meth:`~.MSExperiment.getNrSpectra` and :py:meth:`~.MSExperiment.getSpectrum(id)` where the argument ``id`` indicates
 the spectrum identifer.  The command also lists the signature for each
 function, allowing users to identify the function arguments and return types.
 We can gain further information about exposed methods by investigating the
@@ -72,7 +73,6 @@ documentation of the base classes:
 .. code-block:: python
 
     help(ExperimentalSettings)
-    
 .. code-block:: output
 
     Help on class ExperimentalSettings in module pyopenms.pyopenms_4:
@@ -89,10 +89,10 @@ documentation of the base classes:
      [...]
 
 We could now continue our investigation by reading the documentation of the
-base classes ``DocumentIdentifier`` and ``MetaInfoInterface``, but we will
+base classes :py:class:`~.DocumentIdentifier` and :py:class:`~.MetaInfoInterface`, but we will
 leave this exercise for the interested reader. For a more complete documentation of the underlying
 wrapped methods, please consult the official OpenMS documentation, in this case
-the `MSExperiment documentation <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1MSExperiment.html>`_.
+the `MSExperiment documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1MSExperiment.html>`_.
 
 
 First look at data
@@ -108,15 +108,16 @@ example file:
 .. code-block:: python
 
     from urllib.request import urlretrieve
+
     # download small example file
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/tiny.mzML", "tiny.mzML")
+    urlretrieve(gh + "/src/data/tiny.mzML", "tiny.mzML")
     exp = MSExperiment()
     # load example file
     MzMLFile().load("tiny.mzML", exp)
 
 which will load the content of the "tiny.mzML" file into the ``exp``
-variable of type ``MSExperiment``.
+variable of type :py:class:`~.MSExperiment`.
 We can now inspect the properties of this object:
 
 .. code-block:: python
@@ -147,7 +148,7 @@ We can now inspect the properties of this object:
 
 
 which indicates that the variable ``exp`` has (among others) the functions
-``getNrSpectra`` and ``getNrChromatograms``. We can now try these functions:
+:py:class:`~.MSExperiment.getNrSpectra` and :py:class:`~.MSExperiment.getNrChromatograms`. We can now try these functions:
 
 .. code-block:: python
 
@@ -155,6 +156,7 @@ which indicates that the variable ``exp`` has (among others) the functions
     print(exp.getNrChromatograms())
 
 .. code-block:: output
+    
     4
     2
 
@@ -168,7 +170,7 @@ Iteration
 .. code-block:: python
 
     for spec in exp:
-      print ("MS Level:", spec.getMSLevel())
+        print("MS Level:", spec.getMSLevel())
 
 .. code-block:: output
 
@@ -177,25 +179,24 @@ Iteration
     MS Level: 1
     MS Level: 1
 
-This iterates through all available spectra, we can also access spectra through the ``[]`` operator:
+This iterates through all available :py:class:`~.MSSpectra`, we can also access spectra through the ``[]`` operator:
 
 .. code-block:: python
 
-    print ("MS Level:", exp[1].getMSLevel())
+    print("MS Level:", exp[1].getMSLevel())
 
 .. code-block:: output
 
     MS Level: 2
 
 Note that ``spec[1]`` will access the *second* spectrum (arrays start at
-``0``). We can access the raw peaks through ``get_peaks()``:
+``0``). We can access the raw peaks through :py:meth:`~.MSSpectrum.get_peaks`:
 
 .. code-block:: python
 
     spec = exp[1]
     mz, intensity = spec.get_peaks()
     print(sum(intensity))
-    
 .. code-block:: output
 
     110
@@ -208,7 +209,7 @@ slower):
 .. code-block:: python
 
     for peak in spec:
-        print (peak.getIntensity())
+        print(peak.getIntensity())
 
 .. code-block:: output
 
@@ -252,7 +253,6 @@ To calculate a TIC we would now call the function:
     print(calcTIC(exp, 1))
     print(sum([sum(s.get_peaks()[1]) for s in exp if s.getMSLevel() == 1]))
     print(calcTIC(exp, 2))
-    
 .. code-block:: output
 
     240.0
@@ -285,12 +285,14 @@ intensities of the TIC in different ways and generate a total ion current chroma
 
     # retrieve MS data
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
-    urlretrieve (gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML", "ms_data.mzML")
-    
+    urlretrieve(
+        gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML", "ms_data.mzML"
+    )
+
     # load MS data into MSExperiment()
     exp = MSExperiment()
     MzMLFile().load("ms_data.mzML", exp)
-    
+
     # choose one of the following three methods to access the TIC data
     # 1) recalculate TIC data with the calculateTIC() function
     tic = exp.calculateTIC()
@@ -298,7 +300,9 @@ intensities of the TIC in different ways and generate a total ion current chroma
 
     # 2) get TIC data using list comprehensions
     retention_times = [spec.getRT() for spec in exp]
-    intensities = [sum(spec.get_peaks()[1]) for spec in exp if spec.getMSLevel() == 1]
+    intensities = [
+        sum(spec.get_peaks()[1]) for spec in exp if spec.getMSLevel() == 1
+    ]
 
     # 3) get TIC data looping over spectra in MSExperiment()
     retention_times = []
@@ -311,9 +315,9 @@ intensities of the TIC in different ways and generate a total ion current chroma
     # plot retention times and intensities and add labels
     plt.plot(retention_times, intensities)
 
-    plt.title('TIC')
-    plt.xlabel('time (s)')
-    plt.ylabel('intensity (cps)')
+    plt.title("TIC")
+    plt.xlabel("time (s)")
+    plt.ylabel("intensity (cps)")
 
     plt.show()
 
