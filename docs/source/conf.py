@@ -29,43 +29,6 @@ import sys
 from platform import python_version_tuple
 from sys import platform
 
-if platform == "linux" or platform == "linux2":
-    OS = "Linux"
-elif platform == "darwin":
-    OS = "macOS"
-elif platform == "win32":
-    OS = "Windows"
-
-majmin = str(python_version_tuple()[0]) + str(python_version_tuple()[1])
-
-def download_file(url, filename, timeout=45):
-    with contextlib.closing(urllib.request.urlopen(url,timeout=timeout)) as fp:
-        block_size = 1024 * 8
-        block = fp.read(block_size)
-        if block:
-            with open(filename,'wb') as out_file:
-                out_file.write(block)
-                while True:
-                    block = fp.read(block_size)
-                    if not block:
-                        break
-                    out_file.write(block)
-        else:
-            print('Warning: Non-existing file or connection error')
-            return None
-
-if (len(glob.glob('pyopenms_nightly-*-cp{0}*.whl'.format(majmin))) == 0):
-    download_file("https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/{0}-wheels.zip?status=completed".format(OS), "wheels.zip")
-    shutil.unpack_archive("wheels.zip", ".")
-    os.remove("wheels.zip")
-
-matching_wheels = glob.glob('pyopenms_nightly-*-cp{0}*.whl'.format(majmin))
-
-if (len(matching_wheels) >= 1):
-    subprocess.check_call([sys.executable, "-m", "pip", "install", matching_wheels[0]])
-else:
-    print("Warning: Even after downloading GitHub artifacts, no nightly pyopenms wheel could be found.")
-
 sys.path.append(os.path.abspath("./_ext"))
 
 # -- General configuration ------------------------------------------------
