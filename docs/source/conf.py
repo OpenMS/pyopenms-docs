@@ -117,19 +117,12 @@ html_logo = '../assets/logo/OpenMS_transparent_background.png'
 
 html_theme_options = {
     "navigation_with_keys": True,
+    "top_of_page_button": "edit",
     "light_css_variables": {
         "font-stack--monospace": "Consolas, monospace",
         "font-size--small": "90%",
         "toc-font-size": "87.5%",
-        "color-announcement-background": "#bbbbbb",
-        "color-announcement-text": "#ffffff"
     },
-    "announcement": """
-    <a style=\"text-decoration: none;\"
-       href=\"https://mybinder.org/v2/gh/OpenMS/pyopenms-extra/master+ipynb?urlpath=lab/tree/docs/source/index.ipynb\">
-       Try Online With Binder
-    </a>
-    """,
 }
 pygments_style = 'sas'
 
