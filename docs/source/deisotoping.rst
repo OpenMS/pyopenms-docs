@@ -16,9 +16,12 @@ state, a singly charge analyte ``[M+H]+`` may be accompanied by a doubly
 charged analyte ``[M+2H]++`` or a sodium adduct ``[M+Na]+``. In the case of a
 multiply charged peptide, the isotopic traces are spaced by ``PROTON_MASS /
 charge_state`` which is often close to 0.5 m/z for doubly charged analytes,
-0.33 m/z for triply charged analytes etc.  Note: tryptic peptides often appear
-at least doubly charged, while small molecules often carry a single charge but
-can have adducts other than hydrogen.
+0.33 m/z for triply charged analytes etc.
+
+.. NOTE::
+
+ Tryptic peptides often appear at least doubly charged, while small molecules
+ often carry a single charge but can have adducts other than hydrogen.
 
 Single peak example
 *******************

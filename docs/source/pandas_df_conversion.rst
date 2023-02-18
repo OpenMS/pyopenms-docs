@@ -1,11 +1,13 @@
 Export to pandas DataFrame
 ==========================
 
-**NOTE: This feature is available only if using a version of pyOpenMS >= 3.0, at the time of writing this means using
-the nightly builds as described in the** `Installation Instructions<installation.html#nightly-ci-wheels>`_.
+.. WARNING::
 
-In pyOpenMS some data structures can be converted to a tabular format as a ``pandas.DataFrame``.
-This allows convenient access to data and meta values of spectra, features and identifications.
+ This feature is available only if using a version of pyOpenMS >= 3.0, at the time of writing this means using
+ the nightly builds as described in the** `Installation Instructions<installation.html#nightly-ci-wheels>`_.
+
+ In pyOpenMS some data structures can be converted to a tabular format as a ``pandas.DataFrame``.
+ This allows convenient access to data and meta values of spectra, features and identifications.
 
 Required imports for the examples:
 

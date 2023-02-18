@@ -3,9 +3,11 @@ Introduction
 
 pyOpenMS is a python library for Liquid Chromatography-Mass Spectrometry (:term:`LC-MS`) data analysis.
 
-Note: This introduction is aimed at users new to the field of :term:`LC-MS` data analysis and will introduce some basics terms
-and concepts. How to handle the data analysis, available data structures, algorithms and more are covered in the
-various subsections of this documentation.
+.. NOTE::
+
+ This introduction is aimed at users new to the field of :term:`LC-MS` data analysis and will introduce some basics terms
+ and concepts. How to handle the data analysis, available data structures, algorithms and more are covered in the
+ various subsections of this documentation.
 
 Background
 ============

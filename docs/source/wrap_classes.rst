@@ -56,9 +56,13 @@ Open it and add your new function *with the correct indentation*:
 
   - Ex: ``void modifyWidget() nogil except + # wrap-doc:This changes your widget``
   - Warning: For a single-line comment, there should not be a space between wrap-doc and the following comment.
-  - Note: The space between the hash and wrap-doc (# wrap-doc) is not necessary, but used for consistency.
-  - Note: Please start the comment with a caplital letter.
-  
+
+.. NOTE::
+
+  The space between the hash and wrap-doc (# wrap-doc) is not necessary, but used for consistency.
+
+.. NOTE:: Please start the comment with a caplital letter.
+
 See the next section for a SimpleExample_ and a more AdvancedExample_ of a wrapped class with several functions.
 
 How to wrap new classes
@@ -199,11 +203,14 @@ An example with handwritten addon code
 
 A more complex examples requires some hand-written wrapper code
 (``pxds/Classname.pxd``), for example for singletons that implement a ``getInstance()``
-method that returns a pointer to the singleton resource. Note that in this case
-it is quite important to not let autowrap take over the pointer and possibly
-delete it when the lifetime of the Python object ends. This is done through
-``wrap-manual-memory`` and failing to doing so could lead to segmentation
-faults in the program.
+method that returns a pointer to the singleton resource.
+
+.. Important::
+
+ In this case it is quite important to not let autowrap take over the pointer and possibly
+ delete it when the lifetime of the Python object ends. This is done through
+ ``wrap-manual-memory`` and failing to doing so could lead to segmentation
+ faults in the program.
 
 .. code-block:: cython
 
@@ -295,20 +302,24 @@ Further considerations and limitations:
 
 - shared pointers: is handled automatically, check DataAccessHelper using ``shared_ptr[Spectrum]``. Use ``from smart_ptr cimport shared_ptr`` as import statement
 
-These hints can be given to autowrap classes (also check the autowrap documentation):
+.. HINT::
 
-- ``wrap-ignore`` is a hint for autowrap to not wrap the class (but the declaration might still be important for Cython to know about) 
-- ``wrap-instances:`` for templated classes (see MSSpectrum.pxd)
-- ``wrap-hash:`` hash function to use for ``__hash__`` (see Residue.pxd)
-- ``wrap-manual-memory:`` hint that memory management will be done manually
+ These hints can be given to autowrap classes (also check the autowrap documentation):
 
-These hints can be given to autowrap functions (also check the autowrap documentation):
+ - ``wrap-ignore`` is a hint for autowrap to not wrap the class (but the declaration might still be important for Cython to know about) 
+ - ``wrap-instances:`` for templated classes (see MSSpectrum.pxd)
+ - ``wrap-hash:`` hash function to use for ``__hash__`` (see Residue.pxd)
+ - ``wrap-manual-memory:`` hint that memory management will be done manually
 
-- ``wrap-ignore`` is a hint for autowrap to not wrap the function (but the declaration might still be important for Cython to know about) 
-- ``wrap-as:`` see for example AASequence
-- ``wrap-iter-begin:``, ``wrap-iter-end:`` (see ConsensusMap.pxd)
-- ``wrap-attach:`` enums, static methods (see for example VersionInfo.pxd)
-- ``wrap-upper-limit:size()`` (see MSSpectrum.pxd)
+.. HINT::
+
+ These hints can be given to autowrap functions (also check the autowrap documentation):
+
+ - ``wrap-ignore`` is a hint for autowrap to not wrap the function (but the declaration might still be important for Cython to know about) 
+ - ``wrap-as:`` see for example AASequence
+ - ``wrap-iter-begin:``, ``wrap-iter-end:`` (see ConsensusMap.pxd)
+ - ``wrap-attach:`` enums, static methods (see for example VersionInfo.pxd)
+ - ``wrap-upper-limit:size()`` (see MSSpectrum.pxd)
 
 
 Wrapping code yourself in ./addons 

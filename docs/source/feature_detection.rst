@@ -81,9 +81,11 @@ Each entry in the :py:class:`~.FeatureMap` is a so-called :py:class:`~.Feature` 
 access to the `m/z` and `RT` value from Python. Again, we can lear this by
 inspecting ``help(f)`` or by consulting the Manual.
 
-Note: the output file that we have written (``output.featureXML``) is an
-OpenMS-internal XML format for storing features. You can learn more about file
-formats in the `Reading MS data formats <other_file_handling.html>`_ section.
+.. NOTE::
+
+ The output file that we have written (``output.featureXML``) is an
+ OpenMS-internal XML format for storing features. You can learn more about file
+ formats in the `Reading MS data formats <other_file_handling.html>`_ section.
 
 Metabolomics - untargeted
 *************************
@@ -240,9 +242,11 @@ Now we can use the following code to detect features with :py:class:`~.FeatureFi
   # save FeatureMap to file
   FeatureXMLFile().store("detected_features.featureXML", fm)
 
-Note: the output file that we have written (``output.featureXML``) is an
-OpenMS-internal XML format for storing features. You can learn more about file
-formats in the `Reading MS data formats <other_file_handling.html>`_ section.
+.. NOTE::
+
+ The output file that we have written (``output.featureXML``) is an
+ OpenMS-internal XML format for storing features. You can learn more about file
+ formats in the `Reading MS data formats <other_file_handling.html>`_ section.
 
 We can get a quick overview on the detected features by plotting them using the following function:
 
