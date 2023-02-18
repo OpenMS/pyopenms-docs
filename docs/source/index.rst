@@ -31,6 +31,9 @@ RNA oligonucleotide search and small molecule search tools)
   - Post-processing tools such as percolator, MSStats, Fido
   - Metabolomics tools such as SIRIUS, CSI:FingerId
 
+Contents
+--------
+
 .. toctree::
    :maxdepth: 2
    :caption: Introduction
