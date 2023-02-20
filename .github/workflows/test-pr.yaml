@@ -24,13 +24,13 @@ jobs:
           dir_names_max_depth: 0
           files: |
             docs/source/*.rst
-    
+
     - name: List all changed files
       run: |
         for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
           echo "$file was changed"
         done
-      
+
     - uses: r-lib/actions/setup-pandoc@v2
       with:
         pandoc-version: '2.19.2'
