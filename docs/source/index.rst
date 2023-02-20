@@ -1,24 +1,7 @@
 .. pyOpenMS documentation master file, created by
    sphinx-quickstart on Fri Jun  1 15:50:55 2018.
    You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Summary
-=======
-
-pyOpenMS is an open-source Python library for :term:`mass spectrometry<Mass spectrometry>`, specifically for the analysis of proteomics
-and metabolomics data in Python. pyOpenMS implements a set of Python bindings to the OpenMS library for computational
-:term:`mass spectrometry<Mass spectrometry>` and is available for Windows, Linux and OSX.
-
-PyOpenMS provides functionality that is commonly used in computational mass
-spectrometry. The pyOpenMS package contains Python bindings for a large part of the `OpenMS <openms.de>`_
-library for :term:`mass spectrometry<Mass spectrometry>` based proteomics. It thus provides facile access to a feature-rich, open-source algorithm
-library for mass-spectrometry based proteomics analysis.
-
-pyOpenMS facilitates the execution of common tasks in proteomics (and other mass spectrometric fields) such as 
-
-- File handling (:term:`mzXML`, :term:`mzML`, TraML, mzTab, :term:`FASTA <FASTA format>`, pepxml, protxml, mzIdentML among others)
-- Chemistry (mass calculation, peptide fragmentation, isotopic abundances)
+   contain the root `tss calculation, peptide fragmentation, isotopic abundances)
 - Signal processing (smoothing, filtering, de-isotoping, retention time correction and peak-picking)
 - Identification analysis (including peptide search, PTM analysis, Cross-linked analytes, FDR control,
 RNA oligonucleotide search and small molecule search tools)

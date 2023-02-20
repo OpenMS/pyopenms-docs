@@ -3,7 +3,7 @@ Peptides and Proteins
 
 Sequences of amino acids form peptides and proteins.
 
-Amino Acid Sequences
+Amino Acid Sequesafdsafdsafdsafdsafafasnces
 ********************
 
 The :py:class:`~.AASequence` class handles amino acid sequences in OpenMS. A string of
