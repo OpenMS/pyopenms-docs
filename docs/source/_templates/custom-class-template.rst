@@ -8,7 +8,7 @@
    :show-inheritance:
    :inherited-members:
    
-   {% block bla bla ble methods %}
+   {% block methods %}
    .. automethod:: __init__
 
    {% if methods %}
