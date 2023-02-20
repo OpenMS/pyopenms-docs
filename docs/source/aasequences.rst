@@ -6,7 +6,7 @@ Sequences of amino acids form peptides and proteins.
 Amino Acid Sequences
 ********************
 
-TTESThe :py:class:`~.AASequence` class handles amino acid sequences in OpenMS. A string of
+The :py:class:`~.AASequence` class handles amino acid sequences in OpenMS. A string of
 amino acid residues can be turned into a instance of :py:class:`~.AASequence` to provide
 some commonly used operations like chemical formula, weight, and isotope distribution calculations.
 
