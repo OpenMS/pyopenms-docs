@@ -39,6 +39,11 @@ jobs:
         python3 -m pip install --upgrade pip
         python3 -m pip install --upgrade pandocfilters jupyter
         python3 -m pip install --index-url https://pypi.cs.uni-tuebingen.de/simple/ pyopenms-nightly
+        if [ -f requirements.txt ]; then
+          grep -v "pyopenms" requirements.txt > reqs_nopyoms.txt
+          python3 -m pip install --upgrade -r reqs_nopyoms.txt
+          rm reqs_nopyoms.txt
+        fi
 
     
     - name: Generating notebooks
