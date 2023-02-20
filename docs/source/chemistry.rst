@@ -291,7 +291,7 @@ Molecular Formulas
 
 Elements can be combined to molecular formulas (:py:class:`~.EmpiricalFormula`) which can
 be used to describe molecules such as metabolites, amino acid sequences or
-oligonucleotides.  The class supports a large number of operations like
+oligonucleotides. The class supports a large number of operations like
 addition and subtraction. A simple example is given in the next few lines of
 code.
 
@@ -458,8 +458,8 @@ incorporation of one heavy :math:`13C` with a delta mass of :math:`1.003355` and
 for the incorporation of one heavy deuterium with a delta mass of :math:`1.006277`.
 These two :term:`peaks` also have two different abundances (the heavy carbon one has
 :math:`2.1%` abundance and the deuterium one has :math:`0.07%` abundance). This can be understood given that
-there are 2 carbon atoms and the natural abundance of :chem:`13C` is about
-:math:`1.1%`, while the molecule has six hydrogen atoms and the natural abundance of
+there are 2 :chem:`C` atoms and the natural abundance of :chem:`13C` is about
+:math:`1.1%`, while the molecule has :chem:`6H` atoms and the natural abundance of
 deuterium is about :math:`0.02%`. The fine isotopic generator will not generate the
 :term:`peak` at nominal mass :math:`49` since we specified our cutoff at :math:`0.1%` total abundance
 and the four :term:`peaks` above cover :math:`99.9%` of the
@@ -500,14 +500,14 @@ which produces
 
 Here we can observe more :term:`peaks` and now also see the heavy oxygen :term:`peak` at
 :math:`47.04608` with a delta mass of :math:`1.004217` (difference between :math:`16O` and :math:`17O`) at an
-abundance of :math:`0.04%`, which is what we would expect for a single oxygen atom.
+abundance of :math:`0.04%`, which is what we would expect for a single :chem:`O` atom.
 Even though the natural abundance of deuterium (:math:`0.02%`) is lower than :math:`17O`
-(:math:`0.04%`), since there are six hydrogen atoms in the molecule and only one
-oxygen, it is more likely that we will see a deuterium :term:`peak` than a heavy oxygen
+(:math:`0.04%`), since there are :chem:`6H` atoms in the molecule and only one
+:chem:`O`, it is more likely that we will see a deuterium :term:`peak` than a heavy oxygen
 peak. Also, even for a small molecule like ethanol, the differences in mass
 between the hyperfine :term:`peaks` can reach more than :math:`110` ppm (:math:`48.046` vs :math:`48.051`).
 Note that the :py:class:`~.FineIsotopePatternGenerator` will generate :term:`peaks` until the total
-error has decreased to :math:`1e-6`, allowing us to cover :math:`0.999999` of the probability.
+error has decreased to :math:`1e^{-6}`, allowing us to cover :math:`0.999999` of the probability.
 
 OpenMS can also produce isotopic distribution with masses rounded to the
 nearest integer:
