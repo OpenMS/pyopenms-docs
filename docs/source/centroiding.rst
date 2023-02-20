@@ -1,11 +1,11 @@
 Centroiding 
 ===========
 
-MS instruments typically allow storing :term:`spectra` in profile mode (several data points per m/z peak)
+MS instruments typically allow storing spectra in profile mode (several data points per m/z peak)
 or in the more condensed centroid mode (one data point per m/z peak). The process of converting
-a profile :term:`mass spectrum` into a centroided one is called peak centroiding or peak picking.
+a profile mass spectrum into a centroided one is called peak centroiding or peak picking.
 
-Note: The term peak picking is ambiguous as it is also used for :term:`feature` detection (i.e. 3D peak finding).
+Note: The term peak picking is ambiguous as it is also used for features detection (i.e. 3D peak finding).
 
 First, we load some profile data:
 
@@ -32,7 +32,7 @@ Let's zoom in on an isotopic pattern in profile mode and plot it.
 
 .. image:: img/profile_data.png
 
-Because of the limited resolution of :term:`MS` instruments m/z measurements are not of unlimited precision.
+Because of the limited resolution of MS instruments m/z measurements are not of unlimited precision.
 Consequently, peak  shapes spreads in the m/z dimension and resemble a gaussian distribution.
 Using the :py:class:`~.PeakPickerHiRes` algorithm, we can convert data from profile to centroided mode. Usually, not much information is lost
 by storing only centroided data. Thus, many algorithms and tools assume that centroided data is provided.

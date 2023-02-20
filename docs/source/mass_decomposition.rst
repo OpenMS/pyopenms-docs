@@ -4,7 +4,7 @@ Mass Decomposition
 Fragment Mass to Amino Acid Composition
 ***************************************
 
-One challenge often encountered in :term:`mass spectrometry<Mass spectrometry>` is the question of the
+One challenge often encountered in mass spectrometry is the question of the
 composition of a specific mass fragment only given its mass. For example, for
 the internal fragment mass :math:`262.0953584466` there are three different
 interpretations within a narrow mass band of :math:`0.05\ Th`:
@@ -86,7 +86,7 @@ both as viable solutions.
 Stand-Alone Program
 *******************
 
-We can use :term:`pyOpenMS` to write a short program that takes a mass and outputs all
+We can use pyOpenMS to write a short program that takes a mass and outputs all
 possible amino acid combinations for that mass within a given tolerance:
 
 .. code-block:: output

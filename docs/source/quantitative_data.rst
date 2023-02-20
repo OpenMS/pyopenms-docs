@@ -1,7 +1,7 @@
 Quantitative Data
 =================
 
-:term:`Features<features>`
+features
 **************************
 
 In OpenMS, information about quantitative data is stored in a so-called
@@ -27,9 +27,9 @@ analysis.
         p = DPosition2(feature.getRT() + i - 5, 200 - abs(i-5))
         masstrace.push_back(p)
 
-Usually, the quantitative :term:`features` would be produced by a so-called
+Usually, the quantitative features would be produced by a so-called
 :py:class:`~.FeatureFinder` algorithm, which we will discuss in the next chapter. The
-:term:`features` can be stored in a :py:class:`~.FeatureMap` and written to disk.
+features can be stored in a :py:class:`~.FeatureMap` and written to disk.
 
 .. code-block:: python
     :linenos:
@@ -44,13 +44,13 @@ Usually, the quantitative :term:`features` would be produced by a so-called
     FeatureXMLFile().store("test.featureXML", fm)
 
 Visualizing the resulting map in :term:`TOPPView` allows detection of the two
-:term:`features` stored in the :py:class:`~.FeatureMap` with the visualization indicating charge
+features stored in the :py:class:`~.FeatureMap` with the visualization indicating charge
 state, m/z, RT and other properties:
 
 .. image:: img/feature.png
 
-Note that in this case only two :term:`features` are present, but in a typical :term:`LC-MS/MS`
-experiments, thousands of :term:`features` are present.
+Note that in this case only two features are present, but in a typical :term:`LC-MS/MS`
+experiments, thousands of features are present.
 
 
 :term:`Feature Maps<feature maps>`
@@ -72,8 +72,8 @@ quantitative data directly and it supports direct iteration in Python:
 :term:`Consensus Features<consensus features>`
 **********************************************
 
-Often :term:`LC-MS/MS` experiments are run to compare quantitative :term:`features` across
-experiments. In OpenMS, linked :term:`features` from individual experiments are
+Often :term:`LC-MS/MS` experiments are run to compare quantitative features across
+experiments. In OpenMS, linked features from individual experiments are
 represented by a :py:class:`~.ConsensusFeature`
 
 .. code-block:: python
@@ -101,10 +101,10 @@ represented by a :py:class:`~.ConsensusFeature`
     feature.insert(1, f_m1)
     feature.insert(2, f_m2)
 
-We have thus added two :term:`features` from two individual maps (which have the unique
+We have thus added two features from two individual maps (which have the unique
 identifier ``1`` and ``2``) to the :py:class:`~.ConsensusFeature`.
 Next, we inspect the :term:`consensus feature`, compute a "consensus" m/z across
-the two maps and output the two linked :term:`features`:
+the two maps and output the two linked features:
 
 .. code-block:: python
     :linenos:
@@ -131,11 +131,11 @@ the two maps and output the two linked :term:`features`:
 
 Inspection of the generated ``test.consensusXML`` reveals that it contains
 references to two :term:`LC-MS/MS` runs (``file1`` and ``file2``) with their respective
-unique identifier. Note how the two :term:`features` we added before have matching
+unique identifier. Note how the two features we added before have matching
 unique identifiers.  
 
 Visualization of the resulting output file reveals a single
-:py:class:`~.ConsensusFeature` of size 2 that links to the two individual :term:`features` at
+:py:class:`~.ConsensusFeature` of size 2 that links to the two individual features at
 their respective positions in RT and m/z:
 
 .. image:: img/consensus.png

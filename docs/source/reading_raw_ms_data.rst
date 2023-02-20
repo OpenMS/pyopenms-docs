@@ -1,4 +1,4 @@
-Reading Raw :term:`MS` Data
+Reading Raw MS Data
 ===========================
 
 :term:`mzML` Files in Memory
@@ -18,15 +18,15 @@ spectrometry` data is using the :py:class:`~.MzMLFile` class:
     MzMLFile().load("test.mzML", exp)
 
 which will load the content of the "test.mzML" file into the ``exp``
-variable of type :py:class:`~.MSExperiment`. We can access the raw data and :term:`spectra` through:
+variable of type :py:class:`~.MSExperiment`. We can access the raw data and spectra through:
 
 .. code-block:: python
 
     spectrum_data = exp.getSpectrum(0).get_peaks()
     chromatogram_data = exp.getChromatogram(0).get_peaks()
 
-Which will allow us to compute on :term:`spectra` and :term:`chromatogram` data. We can
-manipulate the :term:`spectra` in the file for example as follows:
+Which will allow us to compute on spectra and chromatogram data. We can
+manipulate the spectra in the file for example as follows:
 
 .. code-block:: python
 
@@ -37,7 +37,7 @@ manipulate the :term:`spectra` in the file for example as follows:
 
     exp.setSpectra(spec)
 
-Which will only keep :term:`MS2` :term:`spectra` in the :py:class:`~.MSExperiment`. We can then store the modified data structure on disk:
+Which will only keep :term:`MS2` spectra in the :py:class:`~.MSExperiment`. We can then store the modified data structure on disk:
 
 .. code-block:: python
 
@@ -65,8 +65,8 @@ Putting this together, a small filtering program would look like this:
 Indexed :term:`mzML` Files
 **************************
 
-Since :term:`pyOpenMS` 2.4, you can open, read and inspect files that use the
-indexedMzML standard. This allows users to read :term:`MS` data without loading all
+Since pyOpenMS 2.4, you can open, read and inspect files that use the
+indexedMzML standard. This allows users to read MS data without loading all
 data into memory:
 
 .. code-block:: python
@@ -87,8 +87,8 @@ data into memory:
 
 Note that the :py:class:`~.OnDiscMSExperiment` allows users to access meta data through
 the :py:meth:`~.OnDiscMSExperiment.getMetaData` function, which allows easy selection and filtering on meta
-data attributes (such as :term:`MS` level, precursor m/z, retention time etc.) in
-order to select :term:`spectra` and :term:`chromatograms` for analysis. Only once selection on
+data attributes (such as MS level, precursor m/z, retention time etc.) in
+order to select spectra and chromatograms for analysis. Only once selection on
 the meta data has been performed, will actual data be loaded into memory using
 the :py:meth:`~.OnDiscMSExperiment.getChromatogram` and :py:meth:`~.OnDiscMSExperiment.getSpectrum` functions.
 
@@ -100,8 +100,8 @@ on part of the data or the whole data may not fit into memory.
 
 In some instances it is impossible or inconvenient to load all data from an
 mzML file directly into memory. OpenMS offers streaming-based access to mass
-spectrometric data which uses a callback object that receives :term:`spectra` and
-:term:`chromatograms` as they are read from the disk. A simple implementation could look like
+spectrometric data which uses a callback object that receives spectra and
+chromatograms as they are read from the disk. A simple implementation could look like
 
 .. code-block:: python
 
@@ -134,9 +134,9 @@ which can the be used as follows:
     Read a chromatogram
 
 which provides an intuition on how the callback object works: whenever a
-:term:`spectrum` or :term:`chromatogram` is read from disk, the function ``consumeSpectrum`` or
+spectrum or chromatogram is read from disk, the function ``consumeSpectrum`` or
 ``consumeChromatogram`` is called and a specific action is performed. We can
-use this to implement a simple filtering function for :term:`mass spectra<mass spectrum>`:
+use this to implement a simple filtering function for mass spectra:
 
 .. code-block:: output
 
@@ -176,11 +176,11 @@ use this to implement a simple filtering function for :term:`mass spectra<mass s
     MzMLFile().transform(inputfile, consumer)
 
 
-where the :term:`spectra` and :term:`chromatograms` are filtered by their native ids. It is
+where the spectra and chromatograms are filtered by their native ids. It is
 similarly trivial to implement filtering by other attributes. Note how the data
 are written to disk using the :py:class:`~.PlainMSDataWritingConsumer` which is one of
 multiple available consumer classes -- this specific class will simply take the
-:term:`spectrum` ``s`` or :term:`chromatogram` ``c`` and write it to disk (the location of the
+spectrum ``s`` or chromatogram ``c`` and write it to disk (the location of the
 output file is given by the ``outfile`` variable).
 
 Note that this approach is memory efficient in cases where computation should
@@ -190,7 +190,7 @@ only occur on part of the data or the whole data may not fit into memory.
 Cached :term:`mzML` Files
 *************************
 
-In addition, since :term:`pyOpenMS` 2.4 the user can efficiently cache :term:`mzML` files to disk which
+In addition, since pyOpenMS 2.4 the user can efficiently cache :term:`mzML` files to disk which
 provides very fast access with minimal overhead in memory. Basically the data
 directly mapped into memory when requested. You can use this feature as follows:
 
@@ -219,8 +219,8 @@ directly mapped into memory when requested. You can use this feature as follows:
 
 Note that the :py:class:`~.CachedmzML` allows users to access meta data through
 the :py:meth:`~.CachedmzML.getMetaData` function, which allows easy selection and filtering on meta
-data attributes (such as :term:`MS` level, precursor m/z, retention time etc.) in
-order to select :term:`spectra` and :term:`chromatograms` for analysis. Only once selection on
+data attributes (such as MS level, precursor m/z, retention time etc.) in
+order to select spectra and chromatograms for analysis. Only once selection on
 the meta data has been performed, will actual data be loaded into memory using
 the :py:meth:`~.CachedmzML.getChromatogram` and :py:meth:`~.CachedmzML.getSpectrum` functions.
 

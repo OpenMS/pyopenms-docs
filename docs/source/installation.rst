@@ -5,21 +5,21 @@ Installation
 Try online
 ----------
 
-You can try out :term:`pyOpenMS` in your browser. Just navigate to a topic you are interested in
+You can try out pyOpenMS in your browser. Just navigate to a topic you are interested in
 by clicking in the menu bar. Then click on the "Try online with Binder" button.
 
 .. image:: img/binderIntegration.gif
 
 Note that the first start of binder might take a bit. While binder is perfect
-for trying :term:`pyOpenMS` it only offers a limited amount of memory. You should install
-the :term:`pyOpenMS` binaries on your PC for serious data processing.
+for trying pyOpenMS it only offers a limited amount of memory. You should install
+the pyOpenMS binaries on your PC for serious data processing.
 
-We recommend to use :term:`pyOpenMS` in PyCharm as it works well with source code documentation.
+We recommend to use pyOpenMS in PyCharm as it works well with source code documentation.
 
 Command Line
 ------------
 
-To :index:`install` :term:`pyOpenMS` from the command line using the binary wheels, you
+To :index:`install` pyOpenMS from the command line using the binary wheels, you
 can type
 
 .. code-block:: bash
@@ -41,7 +41,7 @@ type the two commands above (on Windows you may potentially have to use
 Nightly/ CI wheels
 ------------------
 
-If you want the newest features you can also install nightly builds of :term:`pyOpenMS` with the following shell command:
+If you want the newest features you can also install nightly builds of pyOpenMS with the following shell command:
 
 .. code-block:: bash
 
@@ -50,7 +50,7 @@ If you want the newest features you can also install nightly builds of :term:`py
 Source (advanced users)
 -----------------------
 
-To install :term:`pyOpenMS` from :index:`source`, you will first have to compile OpenMS
+To install pyOpenMS from :index:`source`, you will first have to compile OpenMS
 successfully on your platform of choice and then follow the `building from
 source <build_from_source.html>`_ instructions. Note that this may be
 non-trivial and *is not recommended* for most users.
@@ -58,5 +58,5 @@ non-trivial and *is not recommended* for most users.
 Wrap Classes (advanced users)
 -----------------------------
 
-In order to wrap new classes in :term:`pyOpenMS`, read the following `guide
+In order to wrap new classes in pyOpenMS, read the following `guide
 <wrap_classes.html>`_.

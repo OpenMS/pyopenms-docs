@@ -160,7 +160,7 @@ We now want to print the coarse (e.g., peaks only at nominal masses) distributio
             "Isotope", iso.getMZ(), "has abundance", iso.getIntensity() * 100, "%"
         )
 
-For most applications in computational :term:`proteomics`, the coarse isotope distribution is sufficient.
+For most applications in computational proteomics, the coarse isotope distribution is sufficient.
 But if we deal with very high resolution instruments, we still might want to calculate the isotopic fine structure. 
 We use the :py:class:`~.FineIsotopePatternGenerator` in OpenMS to reveal these additional peaks:
 
@@ -245,7 +245,7 @@ Which will produce
     y3 mz: 181.09514385
     y3 molecular formula: C13H24N6O6
 
-Easy, isn't it? To generate full theoretical :term:`spectra` watch out for the more specialized
+Easy, isn't it? To generate full theoretical spectra watch out for the more specialized
 (and faster) :py:class:`~.TheoreticalSpectrumGenerator` which we will take a look at later.
 
 
@@ -332,7 +332,7 @@ Proteins and :term:`FASTA` Files
 ********************************
 
 Protein sequences, can be loaded from and stored in :term:`FASTA` protein databases using :py:class:`~.FASTAFile`.
-The example below shows how protein sequences can be stored in :term:`FASTA` files and loaded back in :term:`pyOpenMS`:
+The example below shows how protein sequences can be stored in :term:`FASTA` files and loaded back in pyOpenMS:
 
 .. code-block:: python
     :linenos:

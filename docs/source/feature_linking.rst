@@ -1,16 +1,16 @@
 Feature Linking
 ===============
 
-The :term:`pyOpenMS` feature grouping algorithms group corresponding :term:`features` (e.g., of same analyte) from multiple :py:class:`~.FeatureMap` objects into a :py:class:`~.ConsensusMap`.
+The pyOpenMS feature grouping algorithms group corresponding features (e.g., of same analyte) from multiple :py:class:`~.FeatureMap` objects into a :py:class:`~.ConsensusMap`.
 Linking is primarily done based on spatial proximity (e.g., similar retention time and m/z).
-It is, thus, advisable to perform a map alignment before :term:`feature` linking.
+It is, thus, advisable to perform a map alignment before features linking.
 
-Optionally, identification data can be considered to prevent linking of :term:`features` with different identifications.
+Optionally, identification data can be considered to prevent linking of features with different identifications.
 
 .. image:: img/linking_illustration.png
 
 Different feature grouping algorithms with slightly different implementations are runtime characteristics 
-are available in :term:`pyOpenMS`:
+are available in pyOpenMS:
 
 - :py:class:`~.FeatureGroupingAlgorithmQT`
 - :py:class:`~.FeatureGroupingAlgorithmKD`
@@ -18,7 +18,7 @@ are available in :term:`pyOpenMS`:
 - :py:class:`~.FeatureGroupingAlgorithmLabeled`
 - :py:class:`~.FeatureGroupingAlgorithmUnlabeled`
 
-We now perform a :term:`feature` linking using the :py:class:`~.FeatureGroupingAlgorithmQT` algorithm.
+We now perform a features linking using the :py:class:`~.FeatureGroupingAlgorithmQT` algorithm.
 
 Download Example Data
 *********************
@@ -47,7 +47,7 @@ Download Example Data
         FeatureXMLFile().load(feature_file, feature_map)
         feature_maps.append(feature_map)
 
-:term:`Feature<feature>` Linking Algorithm
+features Linking Algorithm
 ******************************************
 
 All :py:class:`~.FeatureMap` objects will be combined in a :py:class:`~.ConsensusMap`.

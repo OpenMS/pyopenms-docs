@@ -1,4 +1,4 @@
-Other :term:`MS` Data Formats
+Other MS Data Formats
 =============================
 
 Identification Data (idXML, mzIdentML, pepXML, protXML)

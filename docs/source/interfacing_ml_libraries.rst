@@ -6,9 +6,9 @@ Overview
 
 Machine Learning is the field of study that gives computers the capability to learn without 
 being explicitly programmed. Machine learning (ML) is well known for its powerful ability to recognize 
-patterns and signals. Recently, the :term:`mass spectrometry` community has embraced ML techniques for large-scale data analysis.
+patterns and signals. Recently, the mass spectrometry community has embraced ML techniques for large-scale data analysis.
 
-Predicting accurate retention times (RT) has shown to improve identification in bottom-up :term:`proteomics`.
+Predicting accurate retention times (RT) has shown to improve identification in bottom-up proteomics.
 
 In this tutorial we will predict the RT from amino acid sequence data using simple machine learning methods.
 

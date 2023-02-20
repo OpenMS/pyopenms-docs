@@ -1,14 +1,14 @@
-:term:`pyOpenMS` in R
+pyOpenMS in R
 =====================
 
 Currently, there are no native wrappers for the OpenMS library in R, however we
 can use the "reticulate" package in order to get access to the full
-functionality of :term:`pyOpenMS` in the R programming language.
+functionality of pyOpenMS in the R programming language.
 
 Install the "reticulate" R Package
 **********************************
 
-In order to use all :term:`pyOpenMS` functionalities in R, we suggest to use the "reticulate" R package.
+In order to use all pyOpenMS functionalities in R, we suggest to use the "reticulate" R package.
 
 A thorough documentation is available at: https://rstudio.github.io/reticulate/
 
@@ -17,7 +17,7 @@ A thorough documentation is available at: https://rstudio.github.io/reticulate/
 
     install.packages("reticulate")
 
-Installation of :term:`pyOpenMS` is a requirement as well and it is necessary to make sure that R is using the same Python environment.
+Installation of pyOpenMS is a requirement as well and it is necessary to make sure that R is using the same Python environment.
 
 In case R is having trouble to find the correct Python environment, you can set it by hand as in this example (using miniconda, you will have to adjust the file path to your system to make this work). You will need to do this before loading the "reticulate" library:
 
@@ -34,10 +34,10 @@ Or after loading the "reticulate" library:
     library("reticulate")
     use_python("/usr/local/miniconda3/envs/py37/bin/python")
 
-Import :term:`pyOpenMS` in R
+Import pyOpenMS in R
 ****************************
 
-After loading the "reticulate" library you should be able to import :term:`pyOpenMS` into R
+After loading the "reticulate" library you should be able to import pyOpenMS into R
 
 .. code-block:: R
     :linenos:
@@ -45,7 +45,7 @@ After loading the "reticulate" library you should be able to import :term:`pyOpe
     library(reticulate)
     ropenms=import("pyopenms", convert = FALSE)
 
-This should now give you access to all of :term:`pyOpenMS` in R. Importantly, the convert option
+This should now give you access to all of pyOpenMS in R. Importantly, the convert option
 has to be set to FALSE, since type conversions such as 64bit integers will cause a problem.
 
 You should now be able to interact with the OpenMS library and, for example, read and write :term:`mzML` files:
@@ -64,7 +64,7 @@ Getting help
 ************
 
 Using the "reticulate" R package provides a way to access the :term:`pyopenms` information
-about the available functions and methods. We can inspect individual :term:`pyOpenMS` objects
+about the available functions and methods. We can inspect individual pyOpenMS objects
 through the ``py_help`` function:
 
 .. code-block:: R
@@ -132,7 +132,7 @@ An example use case
 Reading an :term:`mzML` File
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-:term:`pyOpenMS` supports a variety of different files through the implementations in
+pyOpenMS supports a variety of different files through the implementations in
 OpenMS. In order to read mass spectrometric data, we can download the `mzML
 example file <https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/examples/BSA/BSA1.mzML>`_
 
@@ -179,8 +179,8 @@ We can now try one of these functions:
     exp$getNrSpectra()
     1684
 
-and indeed we see that we get information about the underlying :term:`MS` data. We can
-iterate through the :term:`spectra` as follows:
+and indeed we see that we get information about the underlying MS data. We can
+iterate through the spectra as follows:
 
 Visualize spectra
 ^^^^^^^^^^^^^^^^^

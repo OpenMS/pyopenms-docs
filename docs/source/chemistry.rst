@@ -25,7 +25,7 @@ Elements
 --------
 
 In OpenMS, elements are stored in :py:class:`~.ElementDB` which has entries for dozens of
-elements commonly used in :term:`mass spectrometry<Mass spectrometry>`.
+elements commonly used in mass spectrometry.
 
 .. code-block:: python
     :linenos:
@@ -224,8 +224,8 @@ Mass Defect
     nucleus, this leads to different observed masses due to the
     `mass defect <https://en.wikipedia.org/wiki/Nuclear_binding_energy#Mass_defect>`_, which
     describes the difference between the mass of an atom and the mass of
-    its constituent particles. For example, the mass difference between :chem:`12C` and
-    :chem:`13C` is slightly different than the mass difference between :chem:`14N` and :chem:`15N`, even
+    its constituent particles. For example, the mass difference between :chem:`^{12}C` and
+    :chem:`^{13}C` is slightly different than the mass difference between :chem:`^{14}N` and :chem:`^{15}N`, even
     though both only differ by a neutron from their monoisotopic element:
 
    .. code-block:: python

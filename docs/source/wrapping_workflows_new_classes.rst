@@ -1,7 +1,7 @@
 Wrapping Workflows and New Classes
 **********************************
 
-How :term:`pyOpenMS` Wraps Python Classes
+How pyOpenMS Wraps Python Classes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General concept of how the wrapping is done (all files are in ``src/pyOpenMS/``): 
@@ -21,7 +21,7 @@ General concept of how the wrapping is done (all files are in ``src/pyOpenMS/``)
 - Step 4: A compiler compiles the C++ code to a Python module which is then
   importable in Python with ``import pyopenms``
 
-Maintaining existing wrappers: If the C++ API is changed, then :term:`pyOpenMS` will
+Maintaining existing wrappers: If the C++ API is changed, then pyOpenMS will
 not build any more.  Thus, find the corresponding file in the ``pyOpenMS/pxds/``
 folder and adjust the function declaration accordingly.
 
@@ -29,7 +29,7 @@ How to Wrap New Methods in Existing Classes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Lets say you have written a new method for an existing OpenMS class and you
-would like to expose this method to :term:`pyOpenMS`. First, identify the correct
+would like to expose this method to pyOpenMS. First, identify the correct
 ``.pxd`` file in the ``src/pyOpenMS/pxds`` folder (for example for
 :py:class:`~.Adduct` that would be `Adduct.pxd
 <https://github.com/OpenMS/OpenMS/blob/develop/src/pyOpenMS/pxds/Adduct.pxd>`_).

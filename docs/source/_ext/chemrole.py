@@ -12,4 +12,4 @@ def setup(app):
     :param app: Sphinx application context.
     """
     app.add_role('chem', chem_role)
-    return
+    return {'parallel_read_safe': True}

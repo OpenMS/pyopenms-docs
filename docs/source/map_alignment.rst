@@ -1,11 +1,11 @@
 Map Alignment
 ===============
 
-The :term:`pyOpenMS` map alignment algorithms transform different maps (peak maps, :term:`feature maps`) to a common retention time axis.
+The pyOpenMS map alignment algorithms transform different maps (peak maps, :term:`feature maps`) to a common retention time axis.
 
 .. image:: img/map_alignment_illustration.png
 
-Note: Creating a :term:`consensus map` from the aligned maps is performed by a :term:`feature` linking algorithm (see next chapter).
+Note: Creating a :term:`consensus map` from the aligned maps is performed by a features linking algorithm (see next chapter).
 
 
 Different map alignment algorithms are available in pyOpenMS:
@@ -49,7 +49,7 @@ Download Example Data
 Map Alignment Algorithm
 ***********************
 
-From the list of :term:`feature maps`, the one with the largest number of :term:`features` is selected for reference.
+From the list of :term:`feature maps`, the one with the largest number of features is selected for reference.
 The retention times of the other :term:`feature maps` are aligned to this.
 
 .. code-block:: python
@@ -78,7 +78,7 @@ The retention times of the other :term:`feature maps` are aligned to this.
 Visualization
 *************
 
-Plotting :term:`consensus maps` with :term:`features` before and after alignment.
+Plotting :term:`consensus maps` with features before and after alignment.
 
 .. code-block:: python
 

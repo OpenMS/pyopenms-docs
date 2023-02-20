@@ -9,13 +9,13 @@ have already worked with in the `Getting Started <getting_started.html>`_
 tutorial. :py:class:`~.MSSpectrum` is a container for 1-dimensional peak data (a
 container of :py:class:`~.Peak1D`). You can access these objects directly, by using an iterator or indexing.
 Meta-data is accessible through inheritance of the :py:class:`~.SpectrumSettings`
-objects which handles meta data of a :term:`mass spectrum`.
+objects which handles meta data of a mass spectrum.
 
 In the following example program, a :py:class:`~.MSSpectrum` is filled with peaks, sorted
 according to mass-to-charge ratio and a selection of peak positions is
 displayed.
 
-First we create a :term:`mass spectrum` and insert peaks with descending mass-to-charge ratios:
+First we create a mass spectrum and insert peaks with descending mass-to-charge ratios:
 
 .. code-block:: python
     :linenos:
@@ -86,7 +86,7 @@ production code.
 
 To discover the full set of functionality of :py:class:`~.MSSpectrum`, we use the Python
 :py:func:`~.help` function. In particular, we find several important sets of meta
-information attached to the :term:`mass spectrum` including retention time, the :term:`MS` level
+information attached to the mass spectrum including retention time, the MS level
 (:term:`MS1`, :term:`MS2`, ...), precursor ion, ion mobility drift time and extra data arrays.
 
 .. code-block:: python
@@ -158,8 +158,8 @@ We now set several of these properties in a current :py:class:`~.MSSpectrum`:
 
     scan polarity: positive
 
-We have created a single :term:`mass spectrum` and set basic :term:`mass spectrum` properties (drift
-time, retention time, :term:`MS` level, precursor charge, isolation window and
+We have created a single mass spectrum and set basic mass spectrum properties (drift
+time, retention time, MS level, precursor charge, isolation window and
 activation energy). Additional instrument settings allow to set e.g. the polarity of the Ion source).
 We next add actual peaks into the spectrum (a single peak at Lmath:`401.5` m/z and :math:`900\ intensity`).
 Additional metadata can be stored in data arrays for each peak
@@ -167,20 +167,20 @@ Additional metadata can be stored in data arrays for each peak
 peak. Finally, we add the spectrum to an :py:class:`~.MSExperiment` container to save it using the
 :py:class:`~.MzMLFile` class in a file called ``testfile.mzML``.
 
-You can now open the resulting :term:`mass spectrum` in a :term:`mass spectrum` viewer. We use the OpenMS
+You can now open the resulting mass spectrum in a mass spectrum viewer. We use the OpenMS
 viewer :term:`TOPPView` (which you will get when you install OpenMS from the
-official website) and look at our :term:`mass spectrum`:
+official website) and look at our mass spectrum:
 
 .. image:: img/spectrum1.png
 
-:term:`TOPPView` displays our :term:`mass spectrum` with its single peak at 401.5 m/z and it
+:term:`TOPPView` displays our mass spectrum with its single peak at :math:`401.5\ m/z` and it
 also correctly displays its retention time at :math:`205.2\ seconds` and precursor
-isolation target of :math:`600.0` m/z.  Notice how :term:`TOPPView` displays the information
-about the S/N for the peak (S/N = 15) and its annotation as ``y15++`` in the status
-bar below when the user clicks on the peak at :math:`401.5` m/z as shown in the
+isolation target of :math:`600.0/ m/z`.  Notice how :term:`TOPPView` displays the information
+about the S/N for the peak (S/N = 15) and its annotation as :chem:`y15++` in the status
+bar below when the user clicks on the peak at :math:`401.5\ m/z` as shown in the
 screenshot.
 
-We can also visualize our :term:`mass spectrum` from before using the :py:func:`~.plot_spectrum` function from the
+We can also visualize our mass spectrum from before using the :py:func:`~.plot_spectrum` function from the
 `spectrum_utils <https://github.com/bittremieux/spectrum_utils>`_ visualization library:
 
 .. code-block:: python
@@ -196,7 +196,7 @@ We can also visualize our :term:`mass spectrum` from before using the :py:func:`
 
 
 
-:term:`Chromatogram<chromatogram>`
+Chromatogram
 **********************************
 
 An additional container for raw data is the :py:class:`~.MSChromatogram` container, which
@@ -301,7 +301,7 @@ is highly analogous to the :py:class:`~.MSSpectrum` container, but contains an a
     Access an individual peak by index
     800.0 0.4111122786998749
 
-This shows how the :py:class:`~.MSExperiment` class can hold :term:`mass spectra<mass spectrum>` as well as :term:`chromatograms` .
+This shows how the :py:class:`~.MSExperiment` class can hold mass spectra as well as chromatograms .
 
 Again we can visualize the resulting data using :term:`TOPPView` using its chromatographic viewer
 capability, which shows the peak over retention time:
@@ -309,10 +309,10 @@ capability, which shows the peak over retention time:
 .. image:: img/chromatogram1.png
 
 Note how the annotation using precursor and production mass of our XIC
-:term:`chromatogram` is displayed in the viewer.
+chromatogram is displayed in the viewer.
 
 We can also visualize the resulting data using ``matplotlib``. Here we can plot every
-:term:`chromatogram` in our :py:class:`~.MSExperiment` and label it with it's native ID.
+chromatogram in our :py:class:`~.MSExperiment` and label it with it's native ID.
 
 .. image:: img/ChromPlot.png
 
@@ -324,11 +324,11 @@ the :py:class:`~.MSExperiment` class), which we have already encountered above. 
 :py:class:`~.MSExperiment` class can hold a list of :py:class:`~.MSSpectrum` object (as well as a
 list of :py:class:`~.MSChromatogram` objects, see below). The :py:class:`~.MSExperiment` object
 holds such peak maps as well as meta-data about the injection. Access to
-individual :term:`mass spectra<mass spectrum>` is performed through :py:meth:`~.MSExperiment.getSpectrum` and
+individual mass spectra is performed through :py:meth:`~.MSExperiment.getSpectrum` and
 :py:meth:`~.MSExperiment.getChromatogram`.
 
 In the following code, we create an :py:class:`~.MSExperiment` and populate it with
-several :term:`mass spectra<mass spectrum>`:
+several mass spectra:
 
 .. code-block:: python
     :linenos:
@@ -390,9 +390,9 @@ several :term:`mass spectra<mass spectrum>`:
 
 In the above code, we create six instances of :py:class:`~.MSSpectrum` (line 4), populate
 it with three peaks at :math:`500`, :math:`900` and :math:`100` m/z and append them to the
-:py:class:`~.MSExperiment` object (line 13).  We can easily iterate over the :term:`mass spectra<mass spectrum>` in
+:py:class:`~.MSExperiment` object (line 13).  We can easily iterate over the mass spectra in
 the whole experiment by using the intuitive iteration on lines 16-19 or we can
-use list comprehensions to sum up intensities of all :term:`mass spectra<mass spectrum>` that fulfill
+use list comprehensions to sum up intensities of all mass spectra that fulfill
 certain conditions:
 
 .. code-block:: python
@@ -415,7 +415,7 @@ certain conditions:
     700.0
 		
 
-We could store the resulting experiment containing the six :term:`mass spectra<mass spectrum>` as mzML
+We could store the resulting experiment containing the six mass spectra as mzML
 using the :py:class:`~.MzMLFile` object:
 
 .. code-block:: python
@@ -486,7 +486,7 @@ provided by OpenMS.
 .. image:: img/Spectra2DDetails.png
 
 For larger data sets this will be too slow since every individual peak gets displayed.
-However, we can use :py:class:`~.BilinearInterpolation` which produces an overview image of our :term:`mass spectra<mass spectrum>`.
+However, we can use :py:class:`~.BilinearInterpolation` which produces an overview image of our mass spectra.
 This can be useful for a brief visual inspection of your sample in quality control.
 
 .. code-block:: python
@@ -551,7 +551,7 @@ In some cases, the precursor isolation window contains contaminant peaks from ot
 Depending on the analysis requirements, this can lead to issues in quantification for example, for
 isobaric experiments.
 
-Here, we can assess the purity of the precursor to filter :term:`spectra` with a score below our expectation.
+Here, we can assess the purity of the precursor to filter spectra with a score below our expectation.
 
 .. code-block:: python
     :linenos:
@@ -620,11 +620,11 @@ We could assess that we have four other non-isotopic peaks apart from our precur
 The signal of the isotopic peaks correspond to roughly 78% of all intensities in the precursor isolation window.
 
 
-Example: Filtering :term:`Mass Spectra<mass spectrum>`
-******************************************************
+Example: Filtering Mass Spectra
+*******************************
 
 Here we will look at some code snippets that might come in handy
-when dealing with :term:`mass spectra<mass spectrum>` data.
+when dealing with mass spectra data.
 
 But first, we will load some test data:
 
@@ -638,11 +638,11 @@ But first, we will load some test data:
     MzMLFile().load("test.mzML", inp)
 
 
-Filtering :term:`Mass Spectra<mass spectrum>` by :term`MS` Level
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Filtering Mass Spectra by :term`MS` Level
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 We will filter the data from ``test.mzML`` file by only retaining
-:term:`mass spectra<mass spectrum>` that are not :term:`MS1` spectra
+mass spectra that are not :term:`MS1` spectra
 (e.g. :term:`MS2`, :term:`MS3` or MSn spectra):
 
 .. code-block:: python
@@ -660,7 +660,7 @@ Filtering by Scan Number
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 We could also use a list of scan numbers as filter criterion
-to only retain a list of :term:`MS` scans we are interested in:
+to only retain a list of MS scans we are interested in:
 
 .. code-block:: python
     :linenos:
@@ -673,10 +673,10 @@ to only retain a list of :term:`MS` scans we are interested in:
             filtered.addSpectrum(s)
 
 
-Filtering :term:`Mass Spectra<mass spectrum>` and Peaks
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Filtering Mass Spectra and Peaks
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Suppose we are interested in only in a small m/z window of our fragment ion :term:`mass spectra<mass spectrum>`.
+Suppose we are interested in only in a small m/z window of our fragment ion mass spectra.
 We can easily filter our data accordingly:
 
 .. code-block:: python
@@ -703,7 +703,7 @@ Note that in a real-world application, we would set the ``mz_start`` and
 between 125 and 132 which contains quantitative ions for a :term:`TMT` experiment.
 
 Similarly we could only retain peaks above a certain
-intensity or keep only the top N peaks in each :term:`mass spectrum`.
+intensity or keep only the top N peaks in each mass spectrum.
 
-For more advanced filtering tasks :term:`pyOpenMS` provides special algorithm classes.
+For more advanced filtering tasks pyOpenMS provides special algorithm classes.
 We will take a closer look at some of them in the algorithm section.

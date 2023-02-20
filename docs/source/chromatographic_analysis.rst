@@ -1,9 +1,9 @@
 Chromatographic Analysis
 ========================
 
-In targeted :term:`proteomics`, such as :term:`SRM` / MRM / PRM / DIA applications, groups of
-:term:`chromatograms` need to be analyzed frequently. OpenMS provides several powerful
-tools for analysis of :term:`chromatograms`. Most of them are part of the OpenSWATH
+In targeted proteomics, such as :term:`SRM` / MRM / PRM / DIA applications, groups of
+chromatograms need to be analyzed frequently. OpenMS provides several powerful
+tools for analysis of chromatograms. Most of them are part of the OpenSWATH
 suite of tools and are also discussed in the `OpenSwath documentation
 <https://www.openswath.org>`_.
 
@@ -11,8 +11,8 @@ Peak Detection
 **************
 
 Here, we will focus on a simple example where two peptides are analyzed. We will
-need 2 input files: the :term:`chromatogram` files that contains the chromatographic
-raw data (raw :term:`SRM` traces or extracted ion :term:`chromatograms` from PRM/DIA data) as
+need 2 input files: the chromatogram files that contains the chromatographic
+raw data (raw :term:`SRM` traces or extracted ion chromatograms from PRM/DIA data) as
 well as the library file used to generated the data which contains information
 about the targeted peptides:
 
@@ -99,7 +99,7 @@ its dot product is low (:math:`0.75`). We also see that a peak at :math:`3119\ s
 likely correct for ``tr_gr1`` since it matches well with the expected library
 intensities and has a high dot product (:math:`0.99`).
 
-Note: to get an overview over all available scores for a particular MRM :term:`feature` ``f``, you can use
+Note: to get an overview over all available scores for a particular MRM features ``f``, you can use
 
 .. code-block:: python
 
@@ -113,9 +113,9 @@ Note: to get an overview over all available scores for a particular MRM :term:`f
 Smoothing
 *********
 
-Now you may want to show the :term:`chromatograms` to your collaborator, but you notice
-that most software solutions smooth the :term:`chromatograms` before display. In order
-to provide smooth :term:`chromatograms`, you can apply a filter using :term:`pyOpenMS`:
+Now you may want to show the chromatograms to your collaborator, but you notice
+that most software solutions smooth the chromatograms before display. In order
+to provide smooth chromatograms, you can apply a filter using pyOpenMS:
 
 .. code-block:: python
 

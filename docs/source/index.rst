@@ -6,24 +6,24 @@
 Index
 =======
 
-:term:`pyOpenMS` is an open-source Python library for :term:`mass spectrometry`, specifically for the analysis of
-:term:`proteomics` and :term:`metabolomics` data in Python. :term:`pyOpenMS` implements a set of Python bindings to
-the OpenMS library for computational :term:`mass spectrometry` and is available for Windows, Linux and OSX.
+pyOpenMS is an open-source Python library for mass spectrometry, specifically for the analysis of
+proteomics and metabolomics data in Python. pyOpenMS implements a set of Python bindings to
+the OpenMS library for computational mass spectrometry and is available for Windows, Linux and OSX.
 
-PyOpenMS provides functionality that is commonly used in computational :term:`mass
-spectrometry`. The :term:`pyOpenMS` package contains Python bindings for a large part of the `OpenMS <openms.de>`_
-library for :term:`mass spectrometry` based :term:`proteomics`. It thus provides access to a feature-rich, open-source algorithm
-library for mass-spectrometry based :term:`proteomics` analysis.
+PyOpenMS provides functionality that is commonly used in computational mass spectrometry.
+The pyOpenMS package contains Python bindings for a large part of the `OpenMS <openms.de>`_
+library for mass spectrometry based proteomics. It thus provides access to a feature-rich, open-source algorithm
+library for mass-spectrometry based proteomics analysis.
 
-:term:`pyOpenMS` facilitates the execution of common tasks in :term:`proteomics` (and other fields of :term:`mass spectrometry`) such as
+pyOpenMS facilitates the execution of common tasks in proteomics (and other fields of mass spectrometry) such as
 
 - File handling (:term:`mzXML`, :term:`mzML`, TraML, mzTab, :term:`FASTA`, pepxml, protxml, mzIdentML among others)
 - Chemistry (mass calculation, peptide fragmentation, isotopic abundances)
 - Signal processing (smoothing, filtering, de-isotoping, retention time correction and peak-picking)
 - Identification analysis (including peptide search, PTM analysis, cross-linked analytes, FDR control, RNA oligonucleotide search and small molecule search tools)
 - Quantitative analysis (including label-free, metabolomics, :term:`SILAC`, :term:`iTRAQ` and :term:`SWATH`/DIA analysis tools)
-- :term:`Chromatogram<chromatogram>` analysis (chromatographic peak picking, smoothing, elution profiles and peak scoring for :term:`SRM`/MRM/PRM/:term:`SWATH`/DIA data)
-- Interaction with common tools in :term:`proteomics` and metabolomics
+- Chromatogram analysis (chromatographic peak picking, smoothing, elution profiles and peak scoring for :term:`SRM`/MRM/PRM/:term:`SWATH`/DIA data)
+- Interaction with common tools in proteomics and metabolomics
 
   - Search engines such as Comet, Crux, Mascot, MSGFPlus, MSFragger, Myrimatch, OMSSA, Sequest, SpectraST, XTandem
   - Post-processing tools such as percolator, MSStats, Fido

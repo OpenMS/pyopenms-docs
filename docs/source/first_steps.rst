@@ -1,13 +1,13 @@
 Import pyOpenMS
 ===============
 
-After installation, you should be able to import :term:`pyOpenMS` as a package
+After installation, you should be able to import pyOpenMS as a package
 
 .. code-block:: python
 
     import pyopenms
 
-which should now give you access to all of :term:`pyOpenMS`. You should now be able to
+which should now give you access to all of pyOpenMS. You should now be able to
 interact with the OpenMS library and, for example, read and write :term:`mzML` files:
 
 .. code-block:: python
@@ -23,7 +23,7 @@ Using the Help Function
 =======================
 
 There are multiple ways to get information about the available functions and
-methods. We can inspect individual :term:`pyOpenMS` objects through the ``Python`` ``help``
+methods. We can inspect individual pyOpenMS objects through the ``Python`` ``help``
 function:
 
 .. code-block:: python
@@ -101,7 +101,7 @@ First Look at Data
 File Reading
 ************
 
-:term:`pyOpenMS` supports a variety of different files through the implementations in
+pyOpenMS supports a variety of different files through the implementations in
 OpenMS. In order to read mass spectrometric data, we can download the :term:`mzML`
 example file:
 
@@ -160,8 +160,8 @@ which indicates that the variable ``exp`` has (among others) the functions
     4
     2
 
-and indeed we see that we get information about the underlying :term:`MS` data. We can
-iterate through the :term:`spectra` as follows:
+and indeed we see that we get information about the underlying MS data. We can
+iterate through the spectra as follows:
 
 
 Iteration
@@ -179,7 +179,7 @@ Iteration
     MS Level: 1
     MS Level: 1
 
-This iterates through all available :py:class:`~.MSSpectra`, we can also access :term:`spectra` through the ``[]`` operator:
+This iterates through all available :py:class:`~.MSSpectra`, we can also access spectra through the ``[]`` operator:
 
 .. code-block:: python
 
@@ -231,7 +231,7 @@ Here, we will apply what we have learned to calculate the total ion current (TIC
 summed intensity across the entire range of masses being detected at every point in the analysis. 
 Basically, we calculate the total ion current of the whole experiment.
 
-With this information, we can write a function that calculates the TIC for a given :term:`MS` level:
+With this information, we can write a function that calculates the TIC for a given MS level:
 
 .. code-block:: python
 
@@ -262,10 +262,10 @@ To calculate a TIC we would now call the function:
 Note how one can compute the same property using list comprehensions in Python
 (see line number 3 in the above code which computes the TIC using filtering
 properties of Python list comprehensions (``s.getMSLevel() == 1``) and computes
-the sum over all peaks(right ``sum``) and the sum over all :term:`spectra` (left
+the sum over all peaks(right ``sum``) and the sum over all spectra (left
 ``sum``) to retrieve the TIC).
 
-Total Ion Current :term:`Chromatogram<chromatogram>`
+Total Ion Current Chromatogram
 ****************************************************
 
 The total ion current is visualized over the retention time, to allow for the inspection
@@ -273,9 +273,9 @@ of areas with general high intensity (usually multiple analytes were measured th
 This can help the experimentalist to optimize the chromatography for a better
 separation in a specific area.
 
-While some :term:`mzML` files already contain a pre-computed total ion current :term:`chromatogram` (TIC),
+While some :term:`mzML` files already contain a pre-computed total ion current chromatogram (TIC),
 we will show you how to calculate the TIC for :term:`MS1`. One can access the retention times
-and intensities of the TIC in different ways and generate a total ion current :term:`chromatogram`
+and intensities of the TIC in different ways and generate a total ion current chromatogram
 (2D graph) using ``matplotlib``:
 
 .. code-block:: python

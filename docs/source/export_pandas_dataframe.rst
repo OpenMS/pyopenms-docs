@@ -1,11 +1,11 @@
 Export to pandas DataFrame
 ==========================
 
-**NOTE: This feature is available only if using a version of :term:`pyOpenMS` >= 3.0, at the time of writing this means using
+**NOTE: This feature is available only if using a version of pyOpenMS >= 3.0, at the time of writing this means using
 the nightly builds as described in the** `Installation Instructions<installation.html#nightly-ci-wheels>`_.
 
-In :term:`pyOpenMS` some data structures can be converted to a tabular format as a ``pandas.DataFrame``.
-This allows convenient access to data and meta values of spectra, :term:`features` and identifications.
+In pyOpenMS some data structures can be converted to a tabular format as a ``pandas.DataFrame``.
+This allows convenient access to data and meta values of spectra, features and identifications.
 
 Required imports for the examples:
 
@@ -198,7 +198,7 @@ Required imports for the examples:
 
 **Extract assigned peptide identifications from a feature map**
 
-Peptide identifications can be mapped to their corresponding :term:`features` in a ``FeatureMap``. It is possible to extract them using the function
+Peptide identifications can be mapped to their corresponding features in a ``FeatureMap``. It is possible to extract them using the function
 ``pyopenms.FeatureMap.get_assigned_peptide_identifications()`` returning a list of ``PeptideIdentification`` objects.
 
 
@@ -220,7 +220,7 @@ Peptide identifications can be mapped to their corresponding :term:`features` in
 A ``DataFrame`` can be created on the resulting list of :py:class:`~.PeptideIdentification` objects using
 ``pyopenms.peptide_identifications_to_df(assigned_peptides)``.
 :term:`Feature map<feature map>` and peptide data frames contain columns, on which they can be merged together to contain the complete
-information for peptides and :term:`features` in a single data frame.
+information for peptides and features in a single data frame.
 
 The columns for unambiguously merging the data frames:
 

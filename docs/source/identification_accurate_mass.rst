@@ -1,8 +1,8 @@
 Identification by Accurate Mass
 ===============================
 Example workflow for the processing of a set of :term:`mzML` files (defined in the ``files`` variable) including centroiding,
-:term:`feature` detection, :term:feature: linking and accurate mass search.
-The resulting data gets processed in a pandas data frame with :term:`feature` filtering (missing values, quality) and imputation
+features detection, :term:feature: linking and accurate mass search.
+The resulting data gets processed in a pandas data frame with features filtering (missing values, quality) and imputation
 of remaining missing values.
 Compounds detected during accurate mass search will be annotated in the resulting dataframe.
 
@@ -64,7 +64,7 @@ Centroiding
 ***********
 If files are already centroided this step can bet omitted.
 
-``in``: path to :term:`MS` data (files)
+``in``: path to MS data (files)
 
 ``out``: path to centroided :term:`mzML` files in a subfolder 'centroid' (files)
 
@@ -326,7 +326,7 @@ Data Filtering and Imputation
 *****************************
 ``in``: unfiltered :py:class:`~.ConsensusMap` DataFrame (cm_df)
 
-``out``: :term:`features` below minimum quality and with too many missing values removed,
+``out``: features below minimum quality and with too many missing values removed,
 remaining missing values imputed with KNN algorithm (cm_df)
 
 .. code-block:: python

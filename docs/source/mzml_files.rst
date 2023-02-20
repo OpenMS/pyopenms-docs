@@ -5,14 +5,14 @@
 
     This is an advanced section that dives deep into the :term:`mzML` format and we
     will investigate the file format in greater detail.  The intricacies of the
-    :term:`mzML` file format are all handled by :term:`pyOpenMS` internally
+    :term:`mzML` file format are all handled by pyOpenMS internally
     and this section is only intended for the interested reader
 
 Specifically, we will look at :term:`mzML` stores raw spectral data and how this data
 is encoded in the XML format. The :term:`mzML` standard is developed by the HUPO-PSI
 committee and can be read on the `official mzML website
 <http://www.psidev.info/mzML>`_. It describes how to store the meta data and
-the raw data for :term:`spectra` and :term:`chromatograms`. In short, the standard uses XML to
+the raw data for spectra and chromatograms. In short, the standard uses XML to
 encode all meta data and stores the raw data using `Base64 encoding
 <https://en.wikipedia.org/wiki/Base64>`_. 
 
@@ -42,7 +42,7 @@ Let's investigate the file ``test.mzML`` and look at line 197:
 
 We see that line 197 in the ``test.mzML`` file contains the ``binary`` XML tag
 that contains a long datastring that starts with ``AAAAA`` and ends with
-``AAMkA=``. This is the raw :term:`spectrum` data encoded using
+``AAMkA=``. This is the raw spectrum data encoded using
 `Base64 <https://en.wikipedia.org/wiki/Base64>`_. We can confirm this 
 by looking at some more context (lines 193 to 199 of the file):
 
@@ -61,8 +61,8 @@ by looking at some more context (lines 193 to 199 of the file):
 
 We can now see that the surrounding XML tags describe how to decode the data,
 namely we see that the data is describes the m/z array and is uncompressed 64
-bit data. We can now open the file with :term:`pyOpenMS` and print the corresponding
-array which is from the second :term:`spectrum` in the file:
+bit data. We can now open the file with pyOpenMS and print the corresponding
+array which is from the second spectrum in the file:
 
 .. code-block:: python
     :linenos:
@@ -110,7 +110,7 @@ to raw binary data. On line 6, we use the ``struct`` package to transform the
 raw binary data to 64-bit floating point values. Note that ``<%sd`` is used for
 64 bit data and ``<%sf`` for 32 bit data.
 
-Alternatively, we could also use :term:`pyOpenMS` to decode the same data:
+Alternatively, we could also use pyOpenMS to decode the same data:
 
 .. code-block:: python
     :linenos:
@@ -129,7 +129,7 @@ Alternatively, we could also use :term:`pyOpenMS` to decode the same data:
 
     [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0]
 
-This allows us thus to manually decode the data. We can use :term:`pyOpenMS` to encode and decode 32 and 64 bit values:
+This allows us thus to manually decode the data. We can use pyOpenMS to encode and decode 32 and 64 bit values:
 
 
 .. code-block:: python

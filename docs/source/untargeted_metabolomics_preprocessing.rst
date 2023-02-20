@@ -1,9 +1,9 @@
 Untargeted Metabolomics Pre-Processing
 ======================================
 
-The universal workflow for untargeted :terM:`metabolomics` always consists of :terM:`feature` detection in the individual :term:`MS` sample
+The universal workflow for untargeted :terM:`metabolomics` always consists of :terM:`feature` detection in the individual MS sample
 files and their linkage to :term:`consensus features` with common m/z and retention time values.
-In addition, there are optional steps such as adduct detection and annotation of :terM:`features` with associated :term:`MS2` :term:`spectra`.
+In addition, there are optional steps such as adduct detection and annotation of :terM:`features` with associated :term:`MS2` spectra.
 
 .. image:: img/metabolomics-preprocessing.png
 
@@ -17,7 +17,7 @@ First, download two example :term:`mzML` files.
     urlretrieve(gh + "/src/data/Metabolomics_1.mzML", "Metabolomics_1.mzML")
     urlretrieve(gh + "/src/data/Metabolomics_2.mzML", "Metabolomics_2.mzML")
 
-For each :term:`mzML` file do mass trace, elution peak and :term:`feature` detection.
+For each :term:`mzML` file do mass trace, elution peak and features detection.
 
 .. code-block:: python
 
@@ -75,7 +75,7 @@ For each :term:`mzML` file do mass trace, elution peak and :term:`feature` detec
         )  # Sets the file path to the primary MS run (usually the mzML file)
         feature_maps.append(feature_map)
 
-Align :term:`feature` retention times based on the :term:`feature map` with the highest number of :term:`features` (reference map).
+Align features retention times based on the :term:`feature map` with the highest number of features (reference map).
 
 .. code-block:: python
     :linenos:
@@ -125,7 +125,7 @@ Align :term:`mzML` files aligment based on :py:class:`~.FeatureMap` alignment (o
         MzMLFile().store(file[:-5] + "_aligned.mzML", exp)
     mzML_files = [file[:-5] + "_aligned.mzML" for file in mzML_files]
 
-Map :term:`MS2` :term:`spectra` to :term:`features` as :py:class:`~.PeptideIdentification` objects (optional, only for GNPS).
+Map :term:`MS2` spectra to features as :py:class:`~.PeptideIdentification` objects (optional, only for GNPS).
 
 .. code-block:: python
     :linenos:
@@ -203,7 +203,7 @@ Detect adducts (optional, only for SIRIUS and GNPS Ion Identity Molecular Networ
             feature_map,
         )
 
-Link :term:`features` in a :py:class:`~.ConsensusMap`.
+Link features in a :py:class:`~.ConsensusMap`.
 
 .. code-block:: python
     :linenos:

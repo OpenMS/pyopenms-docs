@@ -1,11 +1,11 @@
 Query :py:class:`~.MSExperiment` with MassQL
 ============================================
 
-MassQL is a powerful, SQL-like query language for :term:`mass spectrometry` data.
+MassQL is a powerful, SQL-like query language for mass spectrometry data.
 For further information visit the `MassQL documentation
 <https://mwang87.github.io/MassQueryLanguage_Documentation/>`_.
 
-:term:`MS` data from a :py:class:`~.MSExperiment` can be exported to :term:`MS1` and :term:`MS2` dataframes, which can
+MS data from a :py:class:`~.MSExperiment` can be exported to :term:`MS1` and :term:`MS2` dataframes, which can
 be queried directly with the ``massql`` module.
 
 **pyopenms.MSExperiment.get_massql_df()**
@@ -13,27 +13,27 @@ be queried directly with the ``massql`` module.
         
         Both dataframes contain the columns:
         'i': intensity of a peak
-        'i_norm': intensity normalized by the maximun intensity in the :term:`spectrum`
-        'i_tic_norm': intensity normalized by the sum of intensities (TIC) in the :term:`spectrum`
+        'i_norm': intensity normalized by the maximun intensity in the spectrum
+        'i_tic_norm': intensity normalized by the sum of intensities (TIC) in the spectrum
         'mz': mass to charge of a peak
-        'scan': number of the :term:`spectrum`
-        'rt': retention time of the :term:`spectrum`
-        'polarity': ion mode of the :term:`spectrum` as integer value (positive: 1, negative: 2)
+        'scan': number of the spectrum
+        'rt': retention time of the spectrum
+        'polarity': ion mode of the spectrum as integer value (positive: 1, negative: 2)
         
         The :term:`MS2` dataframe contains additional columns:
         'precmz': mass to charge of the precursor ion
-        'ms1scan': number of the corresponding :term:`MS1` :term:`spectrum`
+        'ms1scan': number of the corresponding :term:`MS1` spectrum
         'charge': charge of the precursor ion
         
         **Returns:**
 
         ms1_df : **pandas.DataFrame** 
         
-        peak data of :term:`MS1` :term:`spectra`
+        peak data of :term:`MS1` spectra
 
         ms2_df : **pandas.DataFrame** 
         
-        peak data of :term:`MS2` :term:`spectra` with precursor information
+        peak data of :term:`MS2` spectra with precursor information
 
 **Example:**
 

@@ -1,7 +1,7 @@
 Charge and Isotope Deconvolution 
 ================================
 
-A single :term:`mass spectrum` contains measurements of one or more analytes and the
+A single mass spectrum contains measurements of one or more analytes and the
 m/z values recorded for these analytes. Most analytes produce multiple signals
 in the mass spectrometer, due to the natural abundance of carbon :math:`13` (naturally
 occurring at ca. :math:`1%` frequency) and the large amount of carbon atoms in most
@@ -9,18 +9,18 @@ organic molecules, most analytes produce a so-called isotopic pattern with a
 monoisotopic peak  (all carbon are :chem:`C12`) and a first isotopic peak (exactly one
 carbon atom is a :chem:`C13`), a second isotopic peak (exactly two atoms are :chem:`C13`) etc.
 Note that also other elements can contribute to the isotope pattern, see the 
-`Chemistry section <chemistry.html>`_ for further details.
+`chemistry section <chemistry.html>`_ for further details.
 
 In addition, each analyte may appear in more than one charge state and adduct
-state, a singly charge analyte :chem:`[M+H]+` may be accompanied by a doubly
-charged analyte :chem:`[M+2H]++` or a sodium adduct :chem:`[M+Na]+`. In the case of a
+state, a singly charge analyte :chem:`[M +H]+` may be accompanied by a doubly
+charged analyte :chem:`[M +2H]++` or a sodium adduct :chem:`[M +Na]+`. In the case of a
 multiply charged peptide, the isotopic traces are spaced by ``PROTON_MASS /
 charge_state`` which is often close to :math:`0.5` m/z for doubly charged analytes,
 :math:`0.33` m/z for triply charged analytes etc. Note: tryptic peptides often appear
 at least doubly charged, while small molecules often carry a single charge but
 can have adducts other than hydrogen.
 
-Single peak Example
+Single Peak Example
 *********************************
 
 .. code-block:: python
@@ -98,7 +98,7 @@ Full Spectral De-Isotoping
 
 In the following code segment, we will use a sample measurement of BSA (Bovine
 Serum Albumin), and apply a simple algorithm in OpenMS for "deisotoping" a
-:term:`mass spectrum`, which means grouping peaks of the same isotopic pattern charge
+mass spectrum, which means grouping peaks of the same isotopic pattern charge
 state:
 
 .. code-block:: python
@@ -167,23 +167,23 @@ once we look at the data in :term:`TOPPView` which indicates that the :math:`974
 peak is derived from a :chem:`2+` peak at m/z :math:`487.73` and the peak at :math:`974.4589691256419`
 is derived from a :chem:`3+` peak at m/z :math:`325.49`: the algorithm has identified a single
 analyte in two charge states and deconvoluted the peaks to their nominal mass
-of a :chem:`[M+H]+` ion, which produces two peaks very close together (:chem:`2+` and :chem:`3+`
+of a :chem:`[M +H]+` ion, which produces two peaks very close together (:chem:`2+` and :chem:`3+`
 peak):
 
 .. image:: img/deisotoped_zoom.png
 
-Looking at the full :term:`mass spectrum` and comparing it to the original :term:`mass spectrum`, we can see the
-original (centroided) :term:`mass spectrum` on the top and the deisotoped :term:`mass spectrum` on the
-bottom in blue. Note how hovering over a peak in the deisotoped :term:`mass spectrum`
+Looking at the full mass spectrum and comparing it to the original mass spectrum, we can see the
+original (centroided) mass spectrum on the top and the deisotoped mass spectrum on the
+bottom in blue. Note how hovering over a peak in the deisotoped mass spectrum
 indicates the charge state:
 
 .. image:: img/deisotoped.png
 
 In the next section (`Feature Detection <feature_detection.html>`_), we will look at 2-dimensional deisotoping where instead of
-a single :term:`mass spectrum`, multiple :term:`mass spectra<mass spectrum>` from a :term:`LC-MS` experiment are analyzed
+a single mass spectrum, multiple mass spectra from a :term:`LC-MS` experiment are analyzed
 together. There algorithms analyze the full 2-dimensional (m/z and RT) signal
 and are generally more powerful than the 1-dimensional algorithm discussed
 here. However, not all data is 2 dimensional and the algorithm discussed here
-has many application in practice (e.g. single :term:`mass spectra<mass spectrum>`, fragment ion
-:term:`mass spectra<mass spectrum>` in DDA etc.).
+has many application in practice (e.g. single mass spectra, fragment ion
+mass spectra in DDA etc.).
 

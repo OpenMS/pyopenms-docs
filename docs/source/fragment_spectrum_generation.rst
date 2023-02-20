@@ -1,15 +1,15 @@
 Fragment Spectrum Generation
 ============================
 
-Generating theoretical fragment :term:`spectra` is central to many identification tasks in computational :term:`mass spectrometry`.
-:py:class`~.TheoreticalSpectrumGenerator` can be configured to generate :term:`MS2` :term:`spectra` from
+Generating theoretical fragment spectra is central to many identification tasks in computational mass spectrometry.
+:py:class`~.TheoreticalSpectrumGenerator` can be configured to generate :term:`MS2` spectra from
 a given peptide charge combination. There are various parameters which influence
 the generated ions e.g. simulating different fragmentation techniques.
 
 Y-ion :term:`Mass Spectrum<mass spectrum>`
 ******************************************
 
-First, we will generate a simple :term:`mass spectrum` that only contains y-ions
+First, we will generate a simple mass spectrum that only contains y-ions
 
 .. code-block:: python
 
@@ -58,7 +58,7 @@ which you could plot with :py:func:`~.plot_spectrum`, automatically showing anno
 Full Fragment Ion :term:`Mass Spectrum<mass spectrum>`
 ******************************************************
 
-We can also produce additional peaks in the fragment ion :term:`mass spectrum`, such as
+We can also produce additional peaks in the fragment ion mass spectrum, such as
 isotopic peaks, precursor peaks, ions from higher charge states, additional ion series, or common neutral
 losses:
 
@@ -118,7 +118,7 @@ which you can again visualize with:
 .. image:: img/DFPIANGER_theo_full.png
 
 The first example shows how to put peaks of a certain type, y-ions in this case, into
-a :term:`mass spectrum`. The second :term:`mass spectrum` is filled with a complete fragment ion :term:`mass spectrum`
+a mass spectrum. The second mass spectrum is filled with a complete fragment ion mass spectrum
 of all peaks (a-, b-, y-ions and losses). The losses are based on commonly
 observed fragment ion losses for specific amino acids and are defined in the
 ``Residues.xml`` file, which means that not all fragment ions will produce all
@@ -138,7 +138,7 @@ iterate over annotated ions and their masses.
 Visualization
 *************
 
-We can now visualize the resulting :term:`spectra` using :term:`TOPPView` when we open the
+We can now visualize the resulting spectra using :term:`TOPPView` when we open the
 DFPIANGER.mzML file that we produced above in :term:`TOPPView`:
 
 .. image:: img/peptide_y_ions.png
@@ -152,7 +152,7 @@ spectrum in the file):
 
 .. image:: img/peptide_all_ions.png
 
-There are substantially more peaks here and the :term:`mass spectrum` is much busier, with
+There are substantially more peaks here and the mass spectrum is much busier, with
 singly and double charged peaks of the b, y and a series creating :math:`44` different
 individual fragment ion peaks as well as neutral losses adding an additional
 :math:`102` peaks (neutral losses easily recognizable by their :math:`10-fold` lower intensity

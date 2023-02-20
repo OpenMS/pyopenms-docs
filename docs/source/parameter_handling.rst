@@ -1,7 +1,7 @@
 Parameter Handling 
 ==================
 
-Parameter handling in OpenMS and :term:`pyOpenMS` is usually implemented through inheritance
+Parameter handling in OpenMS and pyOpenMS is usually implemented through inheritance
 from :py:class:`~.DefaultParamHandler` and allow access to parameters through the :py:class:`~.Param` object. This
 means, the classes implement the methods ``getDefaults``, ``getParameters``, ``setParameters``
 which allows access to the default parameters, the current parameters and allows to set the
