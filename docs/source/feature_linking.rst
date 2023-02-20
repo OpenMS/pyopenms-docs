@@ -2,7 +2,7 @@ Feature Linking
 ===============
 
 The :term:`pyOpenMS` feature grouping algorithms group corresponding :term:`features` (e.g., of same analyte) from multiple :py:class:`~.FeatureMap` objects into a :py:class:`~.ConsensusMap`.
-Linking is primarily done based on spatial proximity (e.g., similar :term:`retention time` and :term:`m/z`).
+Linking is primarily done based on spatial proximity (e.g., similar retention time and m/z).
 It is, thus, advisable to perform a map alignment before :term:`feature` linking.
 
 Optionally, identification data can be considered to prevent linking of :term:`features` with different identifications.

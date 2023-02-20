@@ -47,12 +47,12 @@ The example below shows how amino acid sequences can be created and how basic ma
 Which prints the amino acid sequence as well as the result of
 concatenating two sequences or taking the suffix of a sequence.
 We then compute the mass of the full peptide (:chem:`[M]`), the mass of the
-peptide precursor (:chem:`[M+2H]2+`) and :term:`m/z` value of the
+peptide precursor (:chem:`[M+2H]2+`) and m/z value of the
 peptide precursor (:chem:`[M+2H]2+`).
 Note that, the mass of the peptide precursor is shifted by two protons that are now attached to the
 molecules as charge carriers. (Detail: the proton mass of :math:`1.007276\ u` is
 slightly different from the mass of an uncharged hydrogen atom at :math:`1.007825\ u`).
-We can easily calculate the charged weight of a :chem:`(M+2H)2+` ion and compute :term:`m/z` simply dividing by the charge.
+We can easily calculate the charged weight of a :chem:`(M+2H)2+` ion and compute m/z simply dividing by the charge.
 
 .. code-block:: output
 
@@ -146,7 +146,7 @@ the amino acid sequence. But first, let's get the formula of peptide:
 Isotope Patterns
 ~~~~~~~~~~~~~~~~
 
-We now want to print the coarse (e.g., :term:`peaks` only at nominal masses) distribution.
+We now want to print the coarse (e.g., peaks only at nominal masses) distribution.
 
 .. code-block:: python
     :linenos:
@@ -162,7 +162,7 @@ We now want to print the coarse (e.g., :term:`peaks` only at nominal masses) dis
 
 For most applications in computational :term:`proteomics`, the coarse isotope distribution is sufficient.
 But if we deal with very high resolution instruments, we still might want to calculate the isotopic fine structure. 
-We use the :py:class:`~.FineIsotopePatternGenerator` in OpenMS to reveal these additional :term:`peaks`:
+We use the :py:class:`~.FineIsotopePatternGenerator` in OpenMS to reveal these additional peaks:
 
 .. code-block:: python
     :linenos:

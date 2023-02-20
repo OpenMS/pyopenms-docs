@@ -11,7 +11,7 @@ run as :py:class:`~.ProteinHit` objects plus additional metadata (search paramet
 
 A :py:class:`~.PeptideIdentification` object stores the
 data corresponding to a single identified spectrum or feature. It has members
-for the retention time, :term:`m/z`, and a vector of :py:class:`~.PeptideHit` objects. Each :py:class:`~.PeptideHit`
+for the retention time, m/z, and a vector of :py:class:`~.PeptideHit` objects. Each :py:class:`~.PeptideHit`
 stores the information of a specific :term:`peptide-spectrum match` or :term:`PSM` (e.g., the score
 and the peptide sequence). Each :py:class:`~.PeptideHit` also contains a vector of
 :py:class:`~.PeptideEvidence` objects which store the reference to one or more (in the case the
@@ -146,7 +146,7 @@ corresponding :py:class:`~.PeptideHit` objects:
   peptide_id.setHits([peptide_hit, peptide_hit2])
 
 
-This allows us to represent single spectra (:py:class:`~.PeptideIdentification` at :term:`m/z`
+This allows us to represent single spectra (:py:class:`~.PeptideIdentification` at m/z
 :math:`440.0` and *rt* :math:`1234.56`) with possible identifications that are ranked by score.
 In this case, apparently two possible peptides match the spectrum which have
 the first three amino acids in a different order "DLQ" vs "QDL").

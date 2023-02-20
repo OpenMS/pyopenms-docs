@@ -2,9 +2,9 @@ Feature Detection
 =================
 
 One very common task in :term:`mass spectrometry<Mass spectrometry>` is the detection of 2-dimensional
-patterns in :term:`m/z` and time (:term:`RT`) dimension from a series of :term:`MS1` scans. These
+patterns in m/z and time (RT) dimension from a series of :term:`MS1` scans. These
 patterns are called ``Features`` and they exhibit a chromatographic elution
-profile in the time dimension and an isotopic pattern in the :term:`m/z` dimension (see
+profile in the time dimension and an isotopic pattern in the m/z dimension (see
 `previous section <deisotoping.html>`_ for the 1-dimensional problem).
 OpenMS has multiple tools that can identify these :term:`features` in 2-dimensional
 data, these tools are called :py:class:`~.FeatureFinder`.  Currently the following
@@ -78,7 +78,7 @@ Python as follows:
 
 
 Each entry in the :py:class:`~.FeatureMap` is a so-called :py:class:`~.Feature` and allows direct
-access to the :term:`m/z` and :term:`RT` value from Python. Again, we can learn this by
+access to the m/z and RT value from Python. Again, we can learn this by
 inspecting ``help(f)`` or by consulting the manual.
 
 Note: the output file that we have written (``output.featureXML``) is an
@@ -151,7 +151,7 @@ Metabolomics - Targeted
 :py:class:`~.FeatureFinderAlgorithmMetaboIdent` performs :term:`MS1`-based **targeted feature extraction** based on user provided compounds, which are
 specified in an assay library (a tab-separated text file). Detected :term:`features` are stored in a :py:class:`~.FeatureMap` which can be
 stored in a :py:class:`~.FeatureXMLFile`. This tool is useful for the targeted extraction of :term:`features` for a well-defined set of compounds
-with known sum formulas and :term:`retention times<retention time>`.
+with known sum formulas and retention times.
 For more information on the format of the assay library and available parameters visit the `FeatureFinderMetaboIdent documentation
 <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/UTILS_FeatureFinderMetaboIdent.html>`_.
 

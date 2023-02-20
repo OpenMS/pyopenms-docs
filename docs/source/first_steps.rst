@@ -190,7 +190,7 @@ This iterates through all available :py:class:`~.MSSpectra`, we can also access 
     MS Level: 2
 
 Note that ``spec[1]`` will access the *second* spectrum (arrays start at
-``0``). We can access the raw :term:`peaks`through :py:meth:`~.MSSpectrum.get_peaks()`:
+``0``). We can access the raw peaksthrough :py:meth:`~.MSSpectrum.get_peaks()`:
 
 .. code-block:: python
 
@@ -201,9 +201,9 @@ Note that ``spec[1]`` will access the *second* spectrum (arrays start at
 
     110
 
-Which will access the data using a numpy array, storing the :term:`m/z` information
-in the :term:`mz` vector and the intensity in the ``i`` vector. Alternatively, we
-can also iterate over individual :term:`peaks` objects as follows (this tends to be
+Which will access the data using a numpy array, storing the m/z information
+in the mz vector and the intensity in the ``i`` vector. Alternatively, we
+can also iterate over individual peaks objects as follows (this tends to be
 slower):
 
 .. code-block:: python
@@ -262,19 +262,19 @@ To calculate a TIC we would now call the function:
 Note how one can compute the same property using list comprehensions in Python
 (see line number 3 in the above code which computes the TIC using filtering
 properties of Python list comprehensions (``s.getMSLevel() == 1``) and computes
-the sum over all :term:`peaks`(right ``sum``) and the sum over all :term:`spectra` (left
+the sum over all peaks(right ``sum``) and the sum over all :term:`spectra` (left
 ``sum``) to retrieve the TIC).
 
 Total Ion Current :term:`Chromatogram<chromatogram>`
 ****************************************************
 
-The total ion current is visualized over the :term:`retention time`, to allow for the inspection
+The total ion current is visualized over the retention time, to allow for the inspection
 of areas with general high intensity (usually multiple analytes were measured there).
 This can help the experimentalist to optimize the chromatography for a better
 separation in a specific area.
 
 While some :term:`mzML` files already contain a pre-computed total ion current :term:`chromatogram` (TIC),
-we will show you how to calculate the TIC for :term:`MS1`. One can access the :term:`retention times<retention time>`
+we will show you how to calculate the TIC for :term:`MS1`. One can access the retention times
 and intensities of the TIC in different ways and generate a total ion current :term:`chromatogram`
 (2D graph) using ``matplotlib``:
 

@@ -1,7 +1,7 @@
 Map Alignment
 ===============
 
-The :term:`pyOpenMS` map alignment algorithms transform different maps (:term:`peak` maps, :term:`feature maps`) to a common :term:`retention time` axis.
+The :term:`pyOpenMS` map alignment algorithms transform different maps (peak maps, :term:`feature maps`) to a common retention time axis.
 
 .. image:: img/map_alignment_illustration.png
 

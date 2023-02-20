@@ -87,7 +87,7 @@ We can now investigate the individual hits as we have done before in the
 
 
 We notice that the second :term:`PSM` was found for the third
-term:`mass spectrum` in the file for a precursor at :math:`775.38` :term:`m/z` for the sequence
+term:`mass spectrum` in the file for a precursor at :math:`775.38` m/z for the sequence
 ``RPGADSDIGGFGGLFDLAQAGFR``.  
 
 .. code-block:: python
@@ -114,8 +114,8 @@ term:`mass spectrum` in the file for a precursor at :math:`775.38` :term:`m/z` f
 
 Comparing the theoretical and the experimental :term:`mass spectrum` for
 ``RPGADSDIGGFGGLFDLAQAGFR`` we can easily see that the most abundant ions in are
-:chem:`y8` (:chem:`877.452` :term:`m/z`), :chem:`b10` (:math:`926.432`), :chem:`y9`
-(:math:`1024.522` :term:`m/z`) and :chem:`b13` (:math:`1187.544` :term:`m/z`).
+:chem:`y8` (:chem:`877.452` m/z), :chem:`b10` (:math:`926.432`), :chem:`y9`
+(:math:`1024.522` m/z) and :chem:`b13` (:math:`1187.544` m/z).
 
 Visualization
 *************
@@ -129,9 +129,9 @@ theoretical spectrum":
 .. image:: img/psm.png
 
 From our output above, we notice that the second :term:`PSM`
-at :math:`775.38` :term:`m/z` for sequence ``RPGADSDIGGFGGLFDLAQAGFR`` was found with an error
+at :math:`775.38` m/z for sequence ``RPGADSDIGGFGGLFDLAQAGFR`` was found with an error
 tolerance of :math:`2.25\ ppm`, therefore if we set the precursor mass tolerance to :math:`4\
-ppm\ (\pm 2\ ppm)`, we expect that we will not find the hit at :math:`775.38` :term:`m/z` any more:
+ppm\ (\pm 2\ ppm)`, we expect that we will not find the hit at :math:`775.38` m/z any more:
 
 .. code-block:: python
     :linenos:

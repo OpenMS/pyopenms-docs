@@ -12,12 +12,12 @@ be queried directly with the ``massql`` module.
         Exports data from :py:class:`~.MSExperiment` to pandas DataFrames to be used with MassQL.
         
         Both dataframes contain the columns:
-        'i': intensity of a :term:`peak`
+        'i': intensity of a peak
         'i_norm': intensity normalized by the maximun intensity in the :term:`spectrum`
         'i_tic_norm': intensity normalized by the sum of intensities (TIC) in the :term:`spectrum`
-        'mz': mass to charge of a :term:`peak`
+        'mz': mass to charge of a peak
         'scan': number of the :term:`spectrum`
-        'rt': :term:`retention time` of the :term:`spectrum`
+        'rt': retention time of the :term:`spectrum`
         'polarity': ion mode of the :term:`spectrum` as integer value (positive: 1, negative: 2)
         
         The :term:`MS2` dataframe contains additional columns:
@@ -94,4 +94,4 @@ will read data from the given file name.
    3,     143,  16.0268,          1,  7.51255e+06,         1
    4,     144,  16.0354,          1,  1.01007e+07,         1
 
-In the resulting data frame each row represents a scan with the :term:`peak`  intensities summed up.
+In the resulting data frame each row represents a scan with the peak  intensities summed up.

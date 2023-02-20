@@ -7,7 +7,7 @@ Quantitative Data
 In OpenMS, information about quantitative data is stored in a so-called
 :py:class:`~.Feature` which we have previously discussed `here
 <other_file_handling.html#quantiative-data-featurexml-consensusxml>`_.  Each
-:py:class:`~.Feature` represents a region in :term:`RT` and :term:`m/z` space use for quantitative
+:py:class:`~.Feature` represents a region in RT and m/z space use for quantitative
 analysis.
 
 .. code-block:: python
@@ -45,7 +45,7 @@ Usually, the quantitative :term:`features` would be produced by a so-called
 
 Visualizing the resulting map in :term:`TOPPView` allows detection of the two
 :term:`features` stored in the :py:class:`~.FeatureMap` with the visualization indicating charge
-state, :term:`m/z`, :term:`RT` and other properties:
+state, m/z, RT and other properties:
 
 .. image:: img/feature.png
 
@@ -103,7 +103,7 @@ represented by a :py:class:`~.ConsensusFeature`
 
 We have thus added two :term:`features` from two individual maps (which have the unique
 identifier ``1`` and ``2``) to the :py:class:`~.ConsensusFeature`.
-Next, we inspect the :term:`consensus feature`, compute a "consensus" :term:`m/z` across
+Next, we inspect the :term:`consensus feature`, compute a "consensus" m/z across
 the two maps and output the two linked :term:`features`:
 
 .. code-block:: python
@@ -136,7 +136,7 @@ unique identifiers.
 
 Visualization of the resulting output file reveals a single
 :py:class:`~.ConsensusFeature` of size 2 that links to the two individual :term:`features` at
-their respective positions in :term:`RT` and :term:`m/z`:
+their respective positions in RT and m/z:
 
 .. image:: img/consensus.png
 

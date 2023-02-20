@@ -60,7 +60,7 @@ by looking at some more context (lines 193 to 199 of the file):
     </binaryDataArray>
 
 We can now see that the surrounding XML tags describe how to decode the data,
-namely we see that the data is describes the :term:`m/z` array and is uncompressed 64
+namely we see that the data is describes the m/z array and is uncompressed 64
 bit data. We can now open the file with :term:`pyOpenMS` and print the corresponding
 array which is from the second :term:`spectrum` in the file:
 
@@ -76,8 +76,8 @@ array which is from the second :term:`spectrum` in the file:
 
     [ 0.  2.  4.  6.  8. 10. 12. 14. 16. 18.]
 
-We now see that the data encoded describes 10 :term:`m/z` data points that are equally
-spaced in intervals of two, starting from 0 :term:`m/z` and ending at 18 :term:`m/z` (note:
+We now see that the data encoded describes 10 m/z data points that are equally
+spaced in intervals of two, starting from 0 m/z and ending at 18 m/z (note:
 this is a synthetic dataset).
 
 Base64 Encoding

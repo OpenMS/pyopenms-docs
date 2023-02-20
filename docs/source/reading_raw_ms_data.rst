@@ -87,7 +87,7 @@ data into memory:
 
 Note that the :py:class:`~.OnDiscMSExperiment` allows users to access meta data through
 the :py:meth:`~.OnDiscMSExperiment.getMetaData` function, which allows easy selection and filtering on meta
-data attributes (such as :term:`MS` level, precursor :term:`m/z`, :term:`retention time` etc.) in
+data attributes (such as :term:`MS` level, precursor m/z, retention time etc.) in
 order to select :term:`spectra` and :term:`chromatograms` for analysis. Only once selection on
 the meta data has been performed, will actual data be loaded into memory using
 the :py:meth:`~.OnDiscMSExperiment.getChromatogram` and :py:meth:`~.OnDiscMSExperiment.getSpectrum` functions.
@@ -219,7 +219,7 @@ directly mapped into memory when requested. You can use this feature as follows:
 
 Note that the :py:class:`~.CachedmzML` allows users to access meta data through
 the :py:meth:`~.CachedmzML.getMetaData` function, which allows easy selection and filtering on meta
-data attributes (such as :term:`MS` level, precursor :term:`m/z`, :term:`retention time` etc.) in
+data attributes (such as :term:`MS` level, precursor m/z, retention time etc.) in
 order to select :term:`spectra` and :term:`chromatograms` for analysis. Only once selection on
 the meta data has been performed, will actual data be loaded into memory using
 the :py:meth:`~.CachedmzML.getChromatogram` and :py:meth:`~.CachedmzML.getSpectrum` functions.

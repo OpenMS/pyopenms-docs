@@ -49,7 +49,7 @@ A :term:`LC` setup is made up of the following components:
 * **A pump** which transports the liquid solution.
 * **A stationary phase** which is a solid, homogeneous substance.
 * **A column** that contains the stationary phase.
-* **A detector** that plots the time it takes for the analyte to escape the column (:term:`retention time`) against the analyte's concentration. This plot is called a  :term:`chromatogram`.
+* **A detector** that plots the time it takes for the analyte to escape the column (retention time) against the analyte's concentration. This plot is called a  :term:`chromatogram`.
 
 Refer to the image below for a diagrammatic representation of a :term:`LC` setup.
 
@@ -61,11 +61,11 @@ The liquid solution containing the analytes is pumped through a column that is a
 Analytes are separated based on how strongly they interact with each phase. Some analytes will interact strongly
 with the mobile phase while others will be strongly attracted to the stationary phase, depending on their physical or
 chemical properties. The stronger an analyte's attraction is to the mobile phase, the faster it will leave the column.
-The time it takes for an analyte to escape from the column is called the analyte's :term:`retention time` (:term:`RT`).
+The time it takes for an analyte to escape from the column is called the analyte's retention time (RT).
 As a result of their differing attractions to the mobile and stationary phases, different analytes will have different
-:term:`RTs<RT>`, which is how separation occurs.
+RTs, which is how separation occurs.
 
-The :term:`RTs<RT>` for each analyte are recorded by a detector. The most common detector used is the
+The RTs for each analyte are recorded by a detector. The most common detector used is the
 :term:`mass spectrometer`, which we discuss later. However, other detection methods exist, such as:
 
 * Light absorption (photometric detector)
@@ -91,7 +91,7 @@ Several variations of HPLC exist such as:
 - Affinity chromatography
 - Size exclusion chromatography
 
-Special case of HPLC: Reversed-phase (RP) chromatography
+Special Case of HPLC: Reversed-Phase (RP) Chromatography
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 RP chromatography is the most commony type of HPLC with biological samples. In reversed-phase :term:`liquid chromatography`,
@@ -121,11 +121,11 @@ There are three key components in a mass spectrometer:
 
 * An **ion source**, which generates ions from the incoming sample. All :term:`MS` techniques rely
     on ionized molecules to control their movement in an electric field.
-* A **mass analyzer**, which separates the ions according to their :term:`mass-to-charge` (:term:`m/z`) ratio.
+* A **mass analyzer**, which separates the ions according to their mass-to-charge (m/z) ratio.
     There are several types such as time of flight (:term:`tandem mass spectrometry`), :term:`orbitrap` and :term:`quadrupole` mass analyzers.
     Depending on the mass analyzer, OpenMS offers calibration tools, so that highly accurate results can be achieved.
 * A **detector**, which scans ions at a given time point producing a :term:`mass spectrum`, where the intensity is
-    plotted against the :term:`m/z`.
+    plotted against the m/z.
 
 Refer to the image below for a diagrammatic representation of the key components in MS.
 
@@ -195,7 +195,7 @@ Refer to the image below for a diagrammatic representation of the steps in MALDI
 Mass analyzer
 :::::::::::::
 
-Once the analytes have been charged by the ion source, we want to now sort the analytes by their :term:`mass-to-charge` ratio for easy identification.
+Once the analytes have been charged by the ion source, we want to now sort the analytes by their mass-to-charge ratio for easy identification.
 
 A number of mass analyzers exists. These include:
 
@@ -208,7 +208,7 @@ The next sections describe each analyzer type in detail.
 :term:`Quadrupole<quadrupole>`
 ''''''''''''''''''''''''''''''
 
-In a :term:`quadrupole` analyzer, you can set the :term:`quadrupole` voltage so that ions with a specific :term:`m/z` ratio travel through. The oscillating electrostatic fields stabilize the flight path for the ions so that they can pass through the :term:`quadrupole`. Other ions will be accelerated out of the :term:`quadrupole` and will not make it to the end.
+In a :term:`quadrupole` analyzer, you can set the :term:`quadrupole` voltage so that ions with a specific m/z ratio travel through. The oscillating electrostatic fields stabilize the flight path for the ions so that they can pass through the :term:`quadrupole`. Other ions will be accelerated out of the :term:`quadrupole` and will not make it to the end.
 
 Refer to the image below for a diagrammatic representation of the :term:`quadrupole` analyzer.
 
@@ -273,7 +273,7 @@ The :term:`orbitrap` analyzer is the most frequently used analyzer in :term:`mas
 :term:`proteomics` and :term:`metabolomics` applications. It consists of two outer electrodes and a central electrode.
 Ions are captured inside the analyzer because of an applied electrostatic field. The ions in the :term:`orbitrap`
 analyzer oscillate around the central electrode along the axis of the electrostatic field at a set frequency, ω.
-This frequency is used to determine the :term:`mass-to-charge` ratio using the following formula:
+This frequency is used to determine the mass-to-charge ratio using the following formula:
 
 .. math::
 
@@ -293,7 +293,7 @@ The following diagram is a conceptual representation of an :term:`orbitrap` mass
 
 .. image:: img/introduction/orbitrap.png
 
-Identifying molecules with :term:`tandem mass spectrometry<Tandem Mass Spectrometry>` (:term:`MS2`)
+Identifying Molecules with :term:`tandem mass spectrometry<Tandem Mass Spectrometry>` (:term:`MS2`)
 ```````````````````````````````````````````````````````````````````````````````````````````````````
 To get better results, we can use two mass analyzers sequentially to generate and analyze ions.
 This technique is called :term:`tandem mass spectrometry` :term:`MS2`. :term:`Tandem mass spectrometry<tandem mass spectrometry>` is
@@ -338,31 +338,31 @@ peptide while the product ions will inform you about it’s amino acid compositi
 
 
 :term:`LC-MS`
--------------
+:::::::::::::
 
 Liquid chromatography is often coupled with :term:`mass spectrometry` to reduce complexity in the
 :term:`mass spectra<mass spectrum>`. If complex samples were directly fed to a mass spectrometer,
 you would not be able to detect the less abundant analyte ions.
 The separated analytes from the :term:`liquid chromatography` setup are directly injected into the ion source from
 the :term:`mass spectrometry` setup. Multiple analytes that escape the column at the same time
-are separated by their :term:`mass-to-charge` ratio using the mass spectrometer.
+are separated by their mass-to-charge ratio using the mass spectrometer.
 
 Refer to the image below for a diagrammatic representation of the :term:`LC-MS` setup.
 
 .. image:: img/introduction/lc-ms-setup.png
 
-From the :term:`LC-MS` setup, a set of spectra called a :term:`peak` map is produced. In a :term:`peak` map,
-each spectrum represents the ions detected at a particular :term:`retention time`.
-Each :term:`peak` in a spectrum has a :term:`retention time`, :term`mass-to-charge` and intensity dimension.
+From the :term:`LC-MS` setup, a set of spectra called a peak map is produced. In a peak map,
+each spectrum represents the ions detected at a particular retention time.
+Each peak in a spectrum has a retention time, :term`mass-to-charge` and intensity dimension.
 
-From the :term:`LC-MS` setup, a series of spectra are 'stacked' together to form what is known as a :term:`peak` map.
-Each spectrum in a :term:`peak` map is a collection of data points called :term:`peaks` which indicate the
-:term:`retention time`, :term:`mass-to-charge` and intensity of each detected ion.
-Analyzing :term:`peak` maps is difficult as different compounds can elute at the same time which means that
-:term:`peaks` can overlap. Therefore, sophisticated techniques are required for the accurate identification
+From the :term:`LC-MS` setup, a series of spectra are 'stacked' together to form what is known as a peak map.
+Each spectrum in a peak map is a collection of data points called peaks which indicate the
+retention time, mass-to-charge and intensity of each detected ion.
+Analyzing peak maps is difficult as different compounds can elute at the same time which means that
+peaks can overlap. Therefore, sophisticated techniques are required for the accurate identification
 and quantification of molecules.
 
-The image below includes a spectrum at a given :term:`retention time` (left) and a :term:`peak` map (right).
+The image below includes a spectrum at a given retention time (left) and a peak map (right).
 
 .. image:: img/introduction/spectrum_peakmap.png
 
@@ -375,7 +375,7 @@ The image below includes a spectrum at a given :term:`retention time` (left) and
 
 
 Improving Identification and Quantification
--------------------------------------------
+===========================================
 
 While the combination of :term:`liquid chromatography` and :term:`mass spectrometry` can ease the process of
 characterising molecules of interest, further techniques are required to easily identify and quantify these molecules.
@@ -457,8 +457,8 @@ LFQ includes the following steps:
 
 1. **Conduct replicate experiments**.
 2. **Generate** :term:`LC-MS` **maps** for each experiment.
-3. **Find features** in all :term:`LC-MS` maps. A :term:`feature` is a collection of :term:`peaks` that belong to a chemical compound.
-4. **Align maps** to address shifts in :term:`retention times<retention time>`.
+3. **Find features** in all :term:`LC-MS` maps. A :term:`feature` is a collection of peaks that belong to a chemical compound.
+4. **Align maps** to address shifts in retention times.
 5. **Match corresponding features** in different maps. We refer to this as **grouping** or **linking**.
 6. **Identify feature groups**, called :term:`consensus features`.
 7. **Quantify consensus features**.
@@ -474,12 +474,12 @@ LFQ includes the following steps:
 Feature Finding
 :::::::::::::::
 
-:term:`Feature<feature>` finding is method for identifying all :term:`peaks` belonging to a chemical compound. Feature finding
+:term:`Feature<feature>` finding is method for identifying all peaks belonging to a chemical compound. Feature finding
 involves the following steps:
 
 1. **Extension** where we collect all data points we think belong to the peptide.
-2. **Refinement** where we remove :term:`peaks` that we think do not belong to the peptide.
-3. **Fit an optimal model** to the isolated :term:`peaks`.
+2. **Refinement** where we remove peaks that we think do not belong to the peptide.
+3. **Fit an optimal model** to the isolated peaks.
 
 The above steps are iterative; we repeat these steps until no improvement can be made to the model. 
 

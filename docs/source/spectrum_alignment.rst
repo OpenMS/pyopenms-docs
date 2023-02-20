@@ -1,8 +1,8 @@
 Spectrum Alignment
 ==================
 
-OpenMS provides several ways to find matching :term:`peaks` between two :term:`mass spectra<mass spectrum>`.
-The most basic one :py:class:`~.SpectrumAlignment` returns a list of matching :term:`peak` indices between a query and target :term:`mass spectrum`.
+OpenMS provides several ways to find matching peaks between two :term:`mass spectra<mass spectrum>`.
+The most basic one :py:class:`~.SpectrumAlignment` returns a list of matching peak indices between a query and target :term:`mass spectrum`.
 In this example, we take an observed (measured) :term:`mass spectrum` and align a theoretical :term:`mass spectrum` to it.
 
 First we load a (chemically modified) peptide:
@@ -61,7 +61,7 @@ which produces
 
 .. image:: img/spec_alignment_1.png
 
-Now we want to find matching :term:`peaks` between observed and theoretical :term:`mass spectrum`.
+Now we want to find matching peaks between observed and theoretical :term:`mass spectrum`.
 
 .. code-block:: python
     :linenos:
@@ -76,7 +76,7 @@ Now we want to find matching :term:`peaks` between observed and theoretical :ter
     # align both spectra
     spa.getSpectrumAlignment(alignment, theo_spectrum, observed_spectrum)
 
-The alignment contains a list of matched :term:`peak` indices. We can simply inspect matching :term:`peaks` with:
+The alignment contains a list of matched peak indices. We can simply inspect matching peaks with:
 
 .. code-block:: python
     :linenos:

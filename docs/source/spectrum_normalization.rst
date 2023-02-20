@@ -1,7 +1,7 @@
 Spectrum Normalization
 ======================
 
-Another very basic :term:`mass spectrum` processing step is normalization by base :term:`peak` intensity (the maximum intensity of a :term:`mass spectrum`).
+Another very basic :term:`mass spectrum` processing step is normalization by base peak intensity (the maximum intensity of a :term:`mass spectrum`).
 
 Let's first load the raw data.
 

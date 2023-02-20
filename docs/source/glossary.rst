@@ -137,19 +137,10 @@ A glossary of common terms used throughout OpenMS documentation.
     spectra
     spectrum
     mass spectrum
-        A mass spectrum is a plot of the ion signal as a function of the :term:`mass-to-charge` ratio. A mass spectrum
+        A mass spectrum is a plot of the ion signal as a function of the mass-to-charge ratio. A mass spectrum
         is produced by a single :term:`MS` run. These spectra are used to determine the elemental or isotopic signature
         of a sample, the masses of particles and of molecules, and to elucidate the chemical identity or structure of
         molecules and other chemical compounds. OpenMS represents a one dimensional mass spectrum using the class `MSSpectrum <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1MSSpectrum.html>`_.
-
-    mass-to-charge
-    mz
-    m/z
-        mass to charge ratio.
-
-    RT
-    retention time
-        retention time (RT) in :term:`liquid chromatography`, is the time it takes for a separated analyte to move through the stationary phase.
 
     ProteoWizard
         ProteoWizard is a set of open-source, cross-platform tools and libraries for :term:`proteomics` data analyses.
@@ -168,7 +159,7 @@ A glossary of common terms used throughout OpenMS documentation.
     chromatograms
     chromatogram
         A two-dimensional plot that describes the amount of analyte eluted from a chromatography versus the analyte's
-        :term:`retention time`. OpenMS represents a chromatogram using the class `MSChromatogram <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/structOpenMS_1_1Interfaces_1_1Chromatogram.html>`_.
+        retention time. OpenMS represents a chromatogram using the class `MSChromatogram <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/structOpenMS_1_1Interfaces_1_1Chromatogram.html>`_.
 
     KNIME
         An advanced workflow editor which OpenMS provides a plugin for.
@@ -195,8 +186,8 @@ A glossary of common terms used throughout OpenMS documentation.
     features
     feature
         An :term:`LC-MS` feature represents the combined isotopic mass traces of a detected chemical compound.
-        The chromatographic :term:`peak` shape of a feature is defined by the interaction of the analyte with the LC column.
-        Each feature contains information on :term:`retention time`, :term:`mass-to-charge` ratio, intensity and overall quality.
+        The chromatographic peak shape of a feature is defined by the interaction of the analyte with the LC column.
+        Each feature contains information on retention time, mass-to-charge ratio, intensity and overall quality.
         OpenMS represents a feature using the class `Feature <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1Feature.html>`_.
 
     feature maps
@@ -206,16 +197,10 @@ A glossary of common terms used throughout OpenMS documentation.
 
     consensus features
     consensus feature
-        Features from replicate experiments with similar retention times and :term:`m/z` values are linked and considered a consensus feature.
-        A consensus feature contains information on the common retention time and :term:`m/z` values as well as intensities for each sample. OpenMS represents a consensus feature using the class `ConsensusFeature <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1ConsensusFeature.html>`_.
+        Features from replicate experiments with similar retention times and m/z values are linked and considered a consensus feature.
+        A consensus feature contains information on the common retention time and m/z values as well as intensities for each sample. OpenMS represents a consensus feature using the class `ConsensusFeature <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1ConsensusFeature.html>`_.
 
     consensus maps
     consensus map
         A consensus map is a collection of :term:`consensus features` identified from mass :term:`spectra` across replicate experiments.
         One consensus map can contain many consensus :term:`features`. OpenMS represents a consensus map using the class `ConsensusMap <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1ConsensusMap.html>`_.
-
-    peaks
-    peak
-        Raw data point(s) in a :term:`chromatogram` or a :term:`mass spectrum`. OpenMS represents a :term:`peak`  in a
-        :term:`chromatogram` using the class `ChromatogramPeak <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1ChromatogramPeak.html>`_.
-        OpenMS represents a single, one-dimensional :term:`peak`  in a :term:`mass spectrum` using the class `PeakID <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1Peak1D.html>`_.

@@ -19,10 +19,10 @@ library for mass-spectrometry based :term:`proteomics` analysis.
 
 - File handling (:term:`mzXML`, :term:`mzML`, TraML, mzTab, :term:`FASTA`, pepxml, protxml, mzIdentML among others)
 - Chemistry (mass calculation, peptide fragmentation, isotopic abundances)
-- Signal processing (smoothing, filtering, de-isotoping, :term:`retention time` correction and :term:`peak`-picking)
+- Signal processing (smoothing, filtering, de-isotoping, retention time correction and peak-picking)
 - Identification analysis (including peptide search, PTM analysis, cross-linked analytes, FDR control, RNA oligonucleotide search and small molecule search tools)
 - Quantitative analysis (including label-free, metabolomics, :term:`SILAC`, :term:`iTRAQ` and :term:`SWATH`/DIA analysis tools)
-- :term:`Chromatogram<chromatogram>` analysis (chromatographic :term:`peak` picking, smoothing, elution profiles and :term:`peak` scoring for :term:`SRM`/MRM/PRM/:term:`SWATH`/DIA data)
+- :term:`Chromatogram<chromatogram>` analysis (chromatographic peak picking, smoothing, elution profiles and peak scoring for :term:`SRM`/MRM/PRM/:term:`SWATH`/DIA data)
 - Interaction with common tools in :term:`proteomics` and metabolomics
 
   - Search engines such as Comet, Crux, Mascot, MSGFPlus, MSFragger, Myrimatch, OMSSA, Sequest, SpectraST, XTandem

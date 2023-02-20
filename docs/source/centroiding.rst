@@ -1,11 +1,11 @@
 Centroiding 
 ===========
 
-MS instruments typically allow storing :term:`spectra` in profile mode (several data points per :term:`m/z` :term:`peak`)
-or in the more condensed centroid mode (one data point per :term:`m/z` :term:`peak`). The process of converting
-a profile :term:`mass spectrum` into a centroided one is called :term:`peak` centroiding or :term:`peak` picking.
+MS instruments typically allow storing :term:`spectra` in profile mode (several data points per m/z peak)
+or in the more condensed centroid mode (one data point per m/z peak). The process of converting
+a profile :term:`mass spectrum` into a centroided one is called peak centroiding or peak picking.
 
-Note: The term :term:`peak` picking is ambiguous as it is also used for :term:`feature` detection (i.e. 3D :term:`peak` finding).
+Note: The term peak picking is ambiguous as it is also used for :term:`feature` detection (i.e. 3D peak finding).
 
 First, we load some profile data:
 
@@ -32,8 +32,8 @@ Let's zoom in on an isotopic pattern in profile mode and plot it.
 
 .. image:: img/profile_data.png
 
-Because of the limited resolution of :term:`MS` instruments :term:`m/z` measurements are not of unlimited precision.
-Consequently, :term:`peak`  shapes spreads in the :term:`m/z` dimension and resemble a gaussian distribution.
+Because of the limited resolution of :term:`MS` instruments m/z measurements are not of unlimited precision.
+Consequently, peak  shapes spreads in the m/z dimension and resemble a gaussian distribution.
 Using the :py:class:`~.PeakPickerHiRes` algorithm, we can convert data from profile to centroided mode. Usually, not much information is lost
 by storing only centroided data. Thus, many algorithms and tools assume that centroided data is provided.
 
@@ -52,6 +52,6 @@ by storing only centroided data. Thus, many algorithms and tools assume that cen
     )  # plot as vertical lines
 .. image:: img/centroided_data.png
 
-After centroiding, a single :term:`m/z` value for every isotopic :term:`peak` is retained. By plotting the centroided data as stem plot
-we discover that (in addition to the isotopic :term:`peaks`) some low intensity :term:`peaks` (intensity at approx. 4k) were present in the profile data.
+After centroiding, a single m/z value for every isotopic peak is retained. By plotting the centroided data as stem plot
+we discover that (in addition to the isotopic peaks) some low intensity peaks (intensity at approx. 4k) were present in the profile data.
 

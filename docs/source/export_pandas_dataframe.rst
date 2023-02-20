@@ -23,14 +23,14 @@ Required imports for the examples:
 **************************
 
 **pyopenms.MSExperiment.get_df(** *long=False* **)**
-        Generates a pandas DataFrame with all :term:`peaks`  in the MSExperiment
+        Generates a pandas DataFrame with all peaks  in the MSExperiment
 
         **Parameters:**
 
         **long :** default False
         
         set to True if you want to have a long/expanded/melted dataframe with one row per peak. Faster but
-        replicated :term:`RT` information. If False, returns rows in the style: rt, np.array(mz), np.array(int)
+        replicated RT information. If False, returns rows in the style: rt, np.array(mz), np.array(int)
         
         **Returns:**
 
@@ -76,7 +76,7 @@ Required imports for the examples:
 ***********************************
 
 **pyopenms.peptide_identifications_to_df( peps**, *decode_ontology=True*, *default_missing_values={bool: False, int: -9999, float: np.nan, str: ''}*, *export_unidentified=True* **)**
-        Generates a pandas DataFrame with all :term:`peaks`  in the MSExperiment
+        Generates a pandas DataFrame with all peaks  in the MSExperiment
 
         **Parameters:**
 
@@ -277,7 +277,7 @@ The columns for unambiguously merging the data frames:
         intensity DataFrame
 
 **pyopenms.ConsensusMap.get_metadata_df()**
-        Generates a pandas DataFrame with feature meta data (sequence, charge, mz, :term:`RT`, quality).
+        Generates a pandas DataFrame with feature meta data (sequence, charge, mz, RT, quality).
 
         Resulting DataFrame can be joined with result from get_intensity_df by their index 'id'.
 
@@ -285,7 +285,7 @@ The columns for unambiguously merging the data frames:
 
         **pandas.DataFrame** 
         
-        DataFrame with metadata for each feature (such as: best identified sequence, charge, centroid :term:`RT`/mz, fitting quality)
+        DataFrame with metadata for each feature (such as: best identified sequence, charge, centroid RT/mz, fitting quality)
 
 **Examples:**
 

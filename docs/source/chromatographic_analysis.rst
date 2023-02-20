@@ -69,8 +69,8 @@ about the targeted peptides:
         )
 
 Here we see that for the first group of transitions (``tr_gr1``), a single peak
-at :term:`retention time` :math:`3119\ seconds` was found. However, for the second group of
-transitions, two :term:`peaks` are found at :term:`retention times<retention time>` :math:`3119\ seconds` and at
+at retention time :math:`3119\ seconds` was found. However, for the second group of
+transitions, two peaks are found at retention times :math:`3119\ seconds` and at
 :math:`3055\ seconds`.
 
 Visualization
@@ -92,10 +92,10 @@ However, our output above contains more information than only retention time:
   Feature for group tr_gr2 with precursor m/z 501.0
     Feature found at RT = 3119.0630105310684 with library dot product 0.7501676755451506  
 
-Based on the output above, we can infer that the :term:`peak` at :math:`3055\ seconds` is
-likely the correct :term:`peak`  for ``tr_gr2`` since it has a high library dot product
-(:math:`0.95`) while the :term:`peak` at :math:`3119\ seconds` is likely incorrect for ``tr_gr2`` since
-its dot product is low (:math:`0.75`). We also see that a :term:`peak` at :math:`3119\ seconds` is
+Based on the output above, we can infer that the peak at :math:`3055\ seconds` is
+likely the correct peak  for ``tr_gr2`` since it has a high library dot product
+(:math:`0.95`) while the peak at :math:`3119\ seconds` is likely incorrect for ``tr_gr2`` since
+its dot product is low (:math:`0.75`). We also see that a peak at :math:`3119\ seconds` is
 likely correct for ``tr_gr1`` since it matches well with the expected library
 intensities and has a high dot product (:math:`0.99`).
 

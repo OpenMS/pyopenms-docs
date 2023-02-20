@@ -1,8 +1,8 @@
 Scoring Spectra with HyperScore
 ===============================
 
-In the chapter on :term:`spectrum` alignment we showed how to determine matching :term:`peaks` between theoretical and experimental :term:`spectra`.
-For many use cases we might actually not be interested in obtaining the list of matched :term:`peaks` but would like to have
+In the chapter on :term:`spectrum` alignment we showed how to determine matching peaks between theoretical and experimental :term:`spectra`.
+For many use cases we might actually not be interested in obtaining the list of matched peaks but would like to have
 a simple, single score that indicates how "well" the two :term:`spectra` matched.
 The :py:class:`~.HyperScore` is a method to assign a score to :term:`peptide-spectrum matches<peptide-spectrum match>`.
 
@@ -15,7 +15,7 @@ Background
 calculated from a peptide/oligonucleotide sequence, with an experimental :term:`spectrum`,
 loaded from an :term:`mzML` file.
 
-    1. the dot product of :term:`peak` intensities between matching :term:`peaks` in experimental and theoretical :term:`spectrum` is calculated
+    1. the dot product of peak intensities between matching peaks in experimental and theoretical :term:`spectrum` is calculated
     2. the :py:class:`~.HyperScore` is calculated from the dot product by multiplying by factorials of matching b- and y-ions
 
 .. code-block:: python
@@ -31,7 +31,7 @@ Generate a Theoretical Spectrum
 
 
 We now use the :py:class:`~.TheoreticalSpectrumGenerator` to generate a theoretical :term:`spectrum` for the sequence we are interested in,
-``RPGADSDIGGFGGLFDLAQAGFR``, and compare the :term:`peaks` to a :term:`spectra` from our file.
+``RPGADSDIGGFGGLFDLAQAGFR``, and compare the peaks to a :term:`spectra` from our file.
 
 
 .. code-block:: python
@@ -58,8 +58,8 @@ We now use the :py:class:`~.TheoreticalSpectrumGenerator` to generate a theoreti
 
 Comparing the :term:`spectrum` and the experimental :term:`spectrum` for
 ``RPGADSDIGGFGGLFDLAQAGFR`` we can easily see that the most abundant ions in the
-:term:`spectrum` are :chem:`y8` (:math:`877.452` :term:`m/z`), :chem:`b10` (:math:`926.432`), :chem:`y9`
-(:math:`1024.522` :term:`m/z`) and :chem:`b13` (:math:`1187.544` :term:`m/z`).
+:term:`spectrum` are :chem:`y8` (:math:`877.452` m/z), :chem:`b10` (:math:`926.432`), :chem:`y9`
+(:math:`1024.522` m/z) and :chem:`b13` (:math:`1187.544` m/z).
 
 Getting a Score
 ***************

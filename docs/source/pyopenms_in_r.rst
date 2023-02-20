@@ -243,7 +243,7 @@ Or visualize a particular ms2 spectrum:
 
 .. image:: img/R_ggplot_ms2.png
 
-Alternatively, we could also have used ``apply`` to obtain the :term:`peak`  data, which
+Alternatively, we could also have used ``apply`` to obtain the peak  data, which
 is more idiomatic way of doing things for the R programming language:
 
 .. code-block:: R

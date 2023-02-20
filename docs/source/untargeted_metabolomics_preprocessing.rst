@@ -2,7 +2,7 @@ Untargeted Metabolomics Pre-Processing
 ======================================
 
 The universal workflow for untargeted :terM:`metabolomics` always consists of :terM:`feature` detection in the individual :term:`MS` sample
-files and their linkage to :term:`consensus features` with common :term:`m/z` and :term:`retention time` values.
+files and their linkage to :term:`consensus features` with common m/z and retention time values.
 In addition, there are optional steps such as adduct detection and annotation of :terM:`features` with associated :term:`MS2` :term:`spectra`.
 
 .. image:: img/metabolomics-preprocessing.png
@@ -17,7 +17,7 @@ First, download two example :term:`mzML` files.
     urlretrieve(gh + "/src/data/Metabolomics_1.mzML", "Metabolomics_1.mzML")
     urlretrieve(gh + "/src/data/Metabolomics_2.mzML", "Metabolomics_2.mzML")
 
-For each :term:`mzML` file do mass trace, elution :term:`peak` and :term:`feature` detection.
+For each :term:`mzML` file do mass trace, elution peak and :term:`feature` detection.
 
 .. code-block:: python
 
@@ -75,7 +75,7 @@ For each :term:`mzML` file do mass trace, elution :term:`peak` and :term:`featur
         )  # Sets the file path to the primary MS run (usually the mzML file)
         feature_maps.append(feature_map)
 
-Align :term:`feature` :term:`retention times<retention time>` based on the :term:`feature map` with the highest number of :term:`features` (reference map).
+Align :term:`feature` retention times based on the :term:`feature map` with the highest number of :term:`features` (reference map).
 
 .. code-block:: python
     :linenos:
