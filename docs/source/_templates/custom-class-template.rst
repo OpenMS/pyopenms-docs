@@ -1,6 +1,6 @@
 {{ name | escape | underline}}
 
-.. curresafdsafdsafantmodule:: {{ module }}
+.. currentmodule:: {{ module }}
 
 .. autoclass:: {{ name }}
    :members:
