@@ -24,7 +24,7 @@ jobs:
 #          path: docs/source
           dir_names_max_depth: 0
           files: |
-            **/*.rst
+            **/*.*
             
     - name: List all changed files
       run: |
