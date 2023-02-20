@@ -1,16 +1,11 @@
-.. pyOpenMS documentation master file, created by
-   sphinx-quickstart on Fri Jun  1 15:50:55 2018.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Summary
 =======
 
 pyOpenMS is an open-source Python library for :term:`mass spectrometry<Mass spectrometry>`, specifically for the analysis of proteomics
 and metabolomics data in Python. pyOpenMS implements a set of Python bindings to the OpenMS library for computational
-:term:`mass spectrometry<Mass spectrometry>` and is available for Windows, Linux and OSX.
+:term:`mass spectrometry<Mass spectrometry>` and is available for Windows, Linux and macOS.
 
-PyOpenMS provides functionality that is commonly used in computational mass
+pyOpenMS provides functionality that is commonly used in computational mass
 spectrometry. The pyOpenMS package contains Python bindings for a large part of the `OpenMS <openms.de>`_
 library for :term:`mass spectrometry<Mass spectrometry>` based proteomics. It thus provides facile access to a feature-rich, open-source algorithm
 library for mass-spectrometry based proteomics analysis.
@@ -20,15 +15,13 @@ pyOpenMS facilitates the execution of common tasks in proteomics (and other mass
 - File handling (:term:`mzXML`, :term:`mzML`, TraML, mzTab, :term:`FASTA <FASTA format>`, pepxml, protxml, mzIdentML among others)
 - Chemistry (mass calculation, peptide fragmentation, isotopic abundances)
 - Signal processing (smoothing, filtering, de-isotoping, retention time correction and peak-picking)
-- Identification analysis (including peptide search, PTM analysis, Cross-linked analytes, FDR control,
-RNA oligonucleotide search and small molecule search tools)
+- Identification analysis (including peptide search, PTM analysis, Cross-linked analytes, FDR control, RNA oligonucleotide search and small molecule search tools)
 - Quantitative analysis (including label-free, metabolomics, :term:`SILAC`, :term:`iTRAQ` and :term:`SWATH`/DIA analysis tools)
-- Chromatogram analysis (chromatographic peak picking, smoothing, elution profiles and peak scoring for
-:term:`SRM`/MRM/PRM/:term:`SWATH`/DIA data)
-- Interaction with common tools in proteomics and metabolomics
+- Chromatogram analysis (chromatographic peak picking, smoothing, elution profiles and peak scoring for :term:`SRM`/MRM/PRM/:term:`SWATH`/DIA data)
+- Interaction with common tools in proteomics and metabolomics:
 
-  - Search engines such as Comet, Crux, Mascot, MSGFPlus, MSFragger, Myrimatch, OMSSA, Sequest, SpectraST, XTandem
-  - Post-processing tools such as percolator, MSStats, Fido
+  - Search engines such as Comet, Mascot, MSGF+, MSFragger, SpectraST, XTandem
+  - Post-processing tools such as Percolator, MSstats, Fido
   - Metabolomics tools such as SIRIUS, CSI:FingerId
 
 .. toctree::
