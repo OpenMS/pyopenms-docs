@@ -23,8 +23,7 @@ jobs:
       with:
           dir_names_max_depth: 0
           files: |
-            docs/source/*.rst
-            docs/source/**/*.rst
+            docs/**/*.rst
       
     - name: List all changed files
       run: |
