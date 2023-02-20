@@ -31,7 +31,7 @@ can type
 We have binary packages for OSX, Linux and Windows (64 bit only) available from
 `PyPI <https://pypi.org/project/pyopenms>`_. Make sure to download
 the 64bit Python release for Windows. Currently we only support
-Python 3.7, 3.8 and 3.9.
+Python 3.7, 3.8 and 3.9, if you are using 3.10 or 3.11 please use our nightly builds.
 
 You can install Python first from `here <https://www.python.org/downloads/>`_,
 again make sure to download the 64bit release. You can then open a shell and
@@ -41,34 +41,11 @@ type the two commands above (on Windows you may potentially have to use
 Nightly/ CI wheels
 ------------------
 
-If you want the newest features you can also install nightly builds of :term:`pyOpenMS`.
-
-You can either directly download the latest nightly build by executing the commands below.
+If you want the newest features you can also install nightly builds of :term:`pyOpenMS` with the following shell command:
 
 .. code-block:: bash
 
-  MY_OS="Linux" # or "macOS" or "Windows" (case-sensitive)
-  wget https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/${MY_OS}-wheels.zip\?status\=completed
-  mv ${MY_OS}-wheels.zip\?status=completed ${MY_OS}-wheels.zip
-  
-Or manually visit the GitHub page that contains the action to build the nightly wheels: https://github.com/OpenMS/OpenMS/actions/workflows/pyopenms-wheels.yml,
-click on e.g., the newest nightly build on the top to get access to artefacts and download the corresponding wheel for macOS, Linux, or Windows.
-
-.. image:: img/githubActionWheels.png
-
-Now, unzip the folder and select the supported Python version for your environment.
-The supported Python version is denoted as ``cp3X`` in the wheel file name
-(e.g. pyopenms_nightly-2.7.0.dev20220111-cp39-cp39-macosx_10_9_x86_64 for python 3.9 and macOS >= 10.9)
-
-Finally, install the package with the following shell command:
-
-.. code-block:: bash
-
-  pip install your-compatible.whl --no-cache-dir
-
-Note that the Github Action page may contain unstable builds and different operating systems might
-be in a different state (they even might not be available if the builds for a specific OS did not succeed in a long time).
-
+  pip install --index-url https://pypi.cs.uni-tuebingen.de/simple/ pyopenms-nightly
 
 Source (advanced users)
 -----------------------
