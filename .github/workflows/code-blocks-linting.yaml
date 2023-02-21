@@ -37,8 +37,8 @@ jobs:
 
     - name: Display diff
       env: 
-        PAGER: delta
-        GIT_PAGER: delta
+        PAGER: "less -R"
+        COLUMNS: 150
       run: |
         #delta -h
         #pushd ..
@@ -52,7 +52,5 @@ jobs:
         #git config --global delta.side-by-side true
         #git config --global delta.features woolly-mammoth
         echo $(env | grep PAGER)
-        TERM=xterm
-        PAGER=less
-        echo $(env | grep PAGER)
+        
         git diff --diff-algorithm histogram | delta --dark -s --true-color always --width 150 
