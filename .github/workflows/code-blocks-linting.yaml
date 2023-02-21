@@ -40,6 +40,7 @@ jobs:
       env: 
         PAGER: "less -R"
         COLUMNS: 150
+        TERM: xterm
       run: |
         #delta -h
         #pushd ..
