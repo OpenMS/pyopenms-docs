@@ -179,11 +179,13 @@ Modelling
     from sklearn.metrics import mean_squared_error
     from sklearn.model_selection import ShuffleSplit
 
+
 .. code-block:: python
     :linenos:
 
     test_df = df.copy()
     test_df = test_df.drop("sequence", axis=1)
+
 
 Now, we create the train and test set for cross-validation of the results 
 using the ``train_test_split`` function from sklearn's model_selection module with test_size 
@@ -196,6 +198,7 @@ size equal to 30% of the data. To maintain reproducibility of the results, a ran
     X_train, X_test, Y_train, Y_test = train_test_split(
         test_df, Y1_test, test_size=0.3, random_state=3
     )
+
 
 We will be using the ``XGBRegressor()`` class because it is clearly a regression problem as the response variable ( retention time ) is continuous.
 
@@ -210,6 +213,7 @@ We will be using the ``XGBRegressor()`` class because it is clearly a regression
         max_depth=7,
     )
 
+
 Fit the regressor to the training set and make predictions on the test set using the familiar ``.fit()`` and ``.predict()`` methods.
 
 .. code-block:: python
@@ -218,6 +222,7 @@ Fit the regressor to the training set and make predictions on the test set using
     xg_reg.fit(X_train, Y_train)
     Y_pred = xg_reg.predict(X_test)
 
+
 Compute the root mean square error (rmse) using the mean_sqaured_error function from sklearn's metrics module.
 
 .. code-block:: python
@@ -225,6 +230,7 @@ Compute the root mean square error (rmse) using the mean_sqaured_error function 
 
     rmse = np.sqrt(mean_squared_error(Y_test, Y_pred))
     print("RMSE: %f" % (rmse))
+
 
 .. code-block:: output
 
@@ -239,6 +245,7 @@ Store the **Observed** v/s **Predicted** value in pandas dataframe and print.
         {"Observed": Y_test.values.flatten(), "Predicted": Y_pred.flatten()}
     )
     print(k)
+
 
 .. code-block:: output
 
@@ -255,6 +262,7 @@ Store the **Observed** v/s **Predicted** value in pandas dataframe and print.
     4767	5515.94682	5491.597168
     4768	2257.63092	2258.312988
 
+
 We will now generate a **Observed** v/s **Predicted** plot that gives a high level overview about the model performance. 
 We can clearly see that only few outliers are there and most of them lie in between the central axis.
 This means that prediction actually works and observed and predicted value won't differ too much.
@@ -265,6 +273,7 @@ This means that prediction actually works and observed and predicted value won't
     sns.lmplot(
         x="Observed", y="Predicted", data=k, scatter_kws={"alpha": 0.2, "s": 5}
     )
+
 
 .. image:: img/ml_tutorial_predicted_vs_observed.png
 
@@ -313,6 +322,7 @@ k-fold cross validation via the cv() method. All we have to do is specify the nf
         print("Fold-" + str(counter))
         print("---------------------")
         print(df)
+
 
 .. code-block:: output
 

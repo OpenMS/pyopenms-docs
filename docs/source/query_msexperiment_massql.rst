@@ -40,6 +40,7 @@ be queried directly with the ``massql`` module.
 Load an example file into a :py:class:`~.MSExperiment` and get the :term:`MS1` and :term:`MS2` data frames for a MassQL query.
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
     from massql import msql_engine
@@ -58,6 +59,8 @@ Load an example file into a :py:class:`~.MSExperiment` and get the :term:`MS1` a
     ms1_df, ms2_df = exp.get_massql_df()
 
     ms1_df.head()
+
+
 .. csv-table:: ms1_df.head()
    :widths: 2 20 20 20 20 20 20 20
    :header: , i,  i_norm,   i_tic_norm,   mz,   scan, rt,   polarity
@@ -83,6 +86,7 @@ will read data from the given file name.
     )
 
     results_df.head()
+
 
 .. csv-table:: results_df.head()
    :widths: 2 20 20 20 20 20

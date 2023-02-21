@@ -55,6 +55,8 @@ which you could plot with :py:func:`~.plot_spectrum`, automatically showing anno
 
     plot_spectrum(spec1)
     plt.show()
+
+
 .. image:: img/DFPIANGER_theo.png
 
 Full Fragment Ion :term:`Mass Spectrum<mass spectrum>`
@@ -118,6 +120,7 @@ which you can again visualize with:
 
     plot_spectrum(spec2, annotate_ions=False)
     plt.show()
+
 
 .. image:: img/DFPIANGER_theo_full.png
 

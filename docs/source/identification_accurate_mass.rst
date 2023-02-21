@@ -15,23 +15,19 @@ Imports and :term:`mzML` file path
     import os
     import shutil
     import requests
-
     import pandas as pd
-
     from pyopenms import *
-
     import numpy as np
-
     from sklearn.impute import KNNImputer
     from sklearn.preprocessing import FunctionTransformer
     from sklearn.pipeline import Pipeline
-
     import plotly.graph_objects as go
     import plotly.express as px
     import matplotlib.pyplot as plt
 
     # set path to your mzML files, or leave like this to use the example data
     files = os.path.join(os.getcwd(), "IdByMz_Example")
+
 
 Download Example Data
 *********************

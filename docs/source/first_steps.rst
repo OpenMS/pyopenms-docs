@@ -279,6 +279,7 @@ and intensities of the TIC in different ways and generate a total ion current ch
 (2D graph) using ``matplotlib``:
 
 .. code-block:: python
+    :linenos:
 
     import matplotlib.pyplot as plt
     from urllib.request import urlretrieve

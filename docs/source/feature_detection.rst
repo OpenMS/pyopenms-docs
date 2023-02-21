@@ -247,11 +247,11 @@ formats in the `Reading MS data formats <other_file_handling.html>`_ section.
 We can get a quick overview on the detected features by plotting them using the following function:
 
 .. code-block:: python
+    :linenos:
 
-  import matplotlib.pyplot as plt
+    import matplotlib.pyplot as plt
 
-
-  def plotDetectedFeatures3D(path_to_featureXML):
+    def plotDetectedFeatures3D(path_to_featureXML):
       fm = FeatureMap()
       fh = FeatureXMLFile()
       fh.load(path_to_featureXML, fm)
