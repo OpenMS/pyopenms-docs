@@ -21,10 +21,11 @@ jobs:
       id: changed-files
       uses: tj-actions/changed-files@v34.6.1
       with:
-          path: docs/source
           dir_names_max_depth: 0
           files: |
-            **/*.rst
+            docs/source/*.rst
+            docs/source/**/*.rst
+            !docs/source/**/_templates
       
     - uses: r-lib/actions/setup-pandoc@v2
       with:
