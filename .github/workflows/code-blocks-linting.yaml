@@ -40,6 +40,7 @@ jobs:
       env:
         COLUMNS: 150
       run: |
+        git config split-diffs.min-line-width 0
         git diff --diff-algorithm histogram | git-split-diffs --min-line-width 0 --color | less -RFX
 
     - name: Display diff
