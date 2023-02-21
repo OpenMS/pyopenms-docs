@@ -13,6 +13,7 @@ jobs:
     - name: Installing Dependencies
       run: |
         pip install blacken-docs
+        $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
         brew install delta
 
     - name: Get changed files
