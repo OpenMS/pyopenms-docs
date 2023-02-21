@@ -38,8 +38,7 @@ jobs:
 
     - name: Display diff split
       run: |
-        git config --global core.pager "git-split-diffs --color | less -RFX"
-        git diff --exit-code
+        git diff | git-split-diffs --color | less -RFX
 
     - name: Display diff
       env: 
