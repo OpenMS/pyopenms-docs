@@ -308,7 +308,7 @@ Accurate Mass Search
 
     MzTabFile().store(os.path.join(files, "ids.tsv"), mztab)
 
-    df = pd.read_csv(os.path.join(files, "ids.tsv"), header=None, sep="\n")
+    df = pd.read_csv(os.path.join(files, "ids.tsv"), header=None, sep="\t")
     df = df[0].str.split("\t", expand=True)
 
     ams_df = df.loc[df[0] == "SML"]
