@@ -51,4 +51,5 @@ jobs:
         echo $(env | grep PAGER)
         TERM=xterm
         PAGER=less
+        echo $(env | grep PAGER)
         git diff --diff-algorithm histogram | delta --dark -s --true-color always --width 150 
