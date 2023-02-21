@@ -36,15 +36,15 @@ jobs:
 
     - name: Display diff
       run: |
-        delta -h
-        pushd ..
-          wget https://raw.githubusercontent.com/dandavison/delta/master/themes.gitconfig
-          export THEMES=$(pwd)
-        popd
-        echo $THEMES
-        git config --global include.path "$THEMES/themes.gitconfig"
-        git config --global color.ui always
-        git config --global core.pager "delta --dark"
-        git config --global delta.side-by-side true
-        git config --global delta.features woolly-mammoth
-        git diff | delta --dark -s --true-color always --width 150
+        #delta -h
+        #pushd ..
+        #  wget https://raw.githubusercontent.com/dandavison/delta/master/themes.gitconfig
+        #  export THEMES=$(pwd)
+        #popd
+        #echo $THEMES
+        #git config --global include.path "$THEMES/themes.gitconfig"
+        #git config --global color.ui always
+        #git config --global core.pager "delta --dark"
+        #git config --global delta.side-by-side true
+        #git config --global delta.features woolly-mammoth
+        git diff --diff-algorithm histogram | delta --dark -s --true-color always --width 150 
