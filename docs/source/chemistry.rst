@@ -252,12 +252,12 @@ Mass Defect
        Mass difference between 14N and 15N: 0.997035
        Relative deviation: 0.6298867300208343 %
 
-   This difference can actually be measured by a high resolution :term:`mass
-   spectrometry` instrument and is used in the `tandem mass tag (TMT)
-   <https://en.wikipedia.org/wiki/Tandem_mass_tag>`_ labelling strategy. 
+This difference can actually be measured by a high resolution mass spectrometry
+instrument and is used in the `tandem mass tag (TMT) <https://en.wikipedia.org/wiki/Tandem_mass_tag>`_
+labelling strategy.
 
-   For the same reason, the helium atom has a slightly lower mass than the mass
-   of its constituent particles (two protons, two neutrons and two electrons):
+For the same reason, the helium atom has a slightly lower mass than the mass
+of its constituent particles (two protons, two neutrons and two electrons):
 
    .. code-block:: python
 

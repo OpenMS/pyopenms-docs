@@ -6,8 +6,8 @@ m/z values recorded for these analytes. Most analytes produce multiple signals
 in the mass spectrometer, due to the natural abundance of carbon :math:`13` (naturally
 occurring at ca. :math:`1%` frequency) and the large amount of carbon atoms in most
 organic molecules, most analytes produce a so-called isotopic pattern with a
-monoisotopic peak  (all carbon are :chem:`C12`) and a first isotopic peak (exactly one
-carbon atom is a :chem:`C13`), a second isotopic peak (exactly two atoms are :chem:`C13`) etc.
+monoisotopic peak (all carbon are :chem:`^{12}C`) and a first isotopic peak (exactly one
+carbon atom is a :chem:`^{13}C`), a second isotopic peak (exactly two atoms are :chem:`^{13}C`) etc.
 Note that also other elements can contribute to the isotope pattern, see the 
 `chemistry section <chemistry.html>`_ for further details.
 
@@ -15,8 +15,8 @@ In addition, each analyte may appear in more than one charge state and adduct
 state, a singly charge analyte :chem:`[M +H]+` may be accompanied by a doubly
 charged analyte :chem:`[M +2H]++` or a sodium adduct :chem:`[M +Na]+`. In the case of a
 multiply charged peptide, the isotopic traces are spaced by ``PROTON_MASS /
-charge_state`` which is often close to :math:`0.5` m/z for doubly charged analytes,
-:math:`0.33` m/z for triply charged analytes etc. Note: tryptic peptides often appear
+charge_state`` which is often close to :math:`0.5\ m/z` for doubly charged analytes,
+:math:`0.33\ m/z` for triply charged analytes etc. Note: tryptic peptides often appear
 at least doubly charged, while small molecules often carry a single charge but
 can have adducts other than hydrogen.
 
@@ -156,7 +156,7 @@ which produces the following output
   974.4589691256419 3215808.75
 
 As we can see, the algorithm has reduced :math:`140` peaks to :math:`41` deisotoped peaks. It
-also has identified a molecule at :math:`974.45` m/z as the most intense peak in the
+also has identified a molecule at :math:`974.45\ m/z` as the most intense peak in the
 data (base peak).
 
 Visualization

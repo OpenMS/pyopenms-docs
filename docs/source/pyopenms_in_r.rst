@@ -63,7 +63,7 @@ which will create an empty :term:`mzML` file called `testfile.mzML`.
 Getting help
 ************
 
-Using the "reticulate" R package provides a way to access the :term:`pyopenms` information
+Using the "reticulate" R package provides a way to access the pyOpenMS information
 about the available functions and methods. We can inspect individual pyOpenMS objects
 through the ``py_help`` function:
 
@@ -259,7 +259,7 @@ is more idiomatic way of doing things for the R programming language:
 Iteration
 ^^^^^^^^^
 
-Iterating over :term:`pyopenms` objects is not equal to iterating over R vectors or
+Iterating over pyOpenMS objects is not equal to iterating over R vectors or
 lists. Note that for many applications, there is a more efficient way to access
 data (such as :py:meth:`~.MSSpectrum.get_peaks` instead of iterating over individual peaks).
 
