@@ -36,6 +36,7 @@ jobs:
 
     - name: Display diff
       run: |
+        delta -h
         git config --global core.pager "delta"
         git config --global interactive.diffFilter "delta --color-only"
         git config --global diff.wsErrorHighlight all
