@@ -28,16 +28,8 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         python3 -m pip install --upgrade jupyter
-        
-        wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed
-        mv Linux-wheels.zip\?status=completed Linux-wheels.zip
-        unzip Linux-wheels.zip
-        python3 -m pip install pyopenms_nightly-*-cp310-cp310*x86_64.whl
-        if [ -f requirements.txt ]; then
-          grep -v "pyopenms" requirements.txt > reqs_nopyoms.txt
-          python3 -m pip install --upgrade -r reqs_nopyoms.txt
-          rm reqs_nopyoms.txt
-        fi
+        python3 -m pip install --upgrade -r requirements.txt
+
 
     - name: Generating notebooks
       run: |

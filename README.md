@@ -20,6 +20,8 @@ Installation is best done through [PyPI](https://pypi.python.org/pypi/pyopenms)
 (the Python package index) where binary packages are provided for the release
 versions of OpenMS, covering Linux/Mac/Windows. Alternatively, it is available on (bio)conda.
 
+For the brave nightly build can be found at [our local PyPI server](https://pypi.cs.uni-tuebingen.de/).
+
 Documentation
 =============
 The readthedocs pyOpenMS documentation is generated from the master branch of this repository, see [docs/README.md](docs/README.md)
