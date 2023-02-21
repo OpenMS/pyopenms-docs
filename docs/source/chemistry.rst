@@ -62,7 +62,7 @@ more than a mole of only its monoisotopic isotope since natural oxygen is a
 mixture of multiple isotopes.
 
 .. code-block:: output
-    
+
     Oxygen
     O
     15.994915
@@ -80,6 +80,7 @@ Isotopes
 We can also inspect the full isotopic distribution of oxygen and sulfur:
 
 .. code-block:: python
+    :linenos:
 
     edb = ElementDB()
     oxygen_isoDist = {"mass": [], "abundance": []}

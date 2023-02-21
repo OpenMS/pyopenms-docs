@@ -24,6 +24,7 @@ Single Peak Example
 *********************************
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
 
@@ -54,6 +55,7 @@ second isotopic peak  is the highest in intensity and the
 ``start_intensity_check`` parameter needs to be set to 3. 
 
 .. code-block:: python
+    :linenos:
 
     charge = 4
     seq = AASequence.fromString("DFPIANGERDFPIANGERDFPIANGERDFPIANGER")
@@ -102,6 +104,7 @@ mass spectrum, which means grouping peaks of the same isotopic pattern charge
 state:
 
 .. code-block:: python
+    :linenos:
 
     from urllib.request import urlretrieve
 

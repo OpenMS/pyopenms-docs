@@ -233,6 +233,7 @@ The columns for unambiguously merging the data frames:
 **Example:**
 
 .. code-block:: python
+    :linenos:
 
     feature_df = feature_map.get_df()
     assigned_peptides = feature_map.get_assigned_peptide_identifications()
@@ -308,6 +309,7 @@ The columns for unambiguously merging the data frames:
    "10409195546240342212",	"SHC(Carbamidomethyl)IAEVEK",	"3",	"1552.032973",	"358.174576",	"0.491247",	"1358151.0",	"...",	"0.0"
 
 .. code-block:: python
+    :linenos:
 
     df = consensus_map.get_intensity_df()
     df.head(2)

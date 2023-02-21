@@ -12,6 +12,7 @@ Y-ion :term:`Mass Spectrum<mass spectrum>`
 First, we will generate a simple mass spectrum that only contains y-ions
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
 
@@ -47,6 +48,7 @@ which produces all y single charged ions:
 which you could plot with :py:func:`~.plot_spectrum`, automatically showing annotated ions.:
 
 .. code-block:: python
+    :linenos:
 
     import matplotlib.pyplot as plt
     from pyopenms.plotting import plot_spectrum
@@ -63,6 +65,7 @@ isotopic peaks, precursor peaks, ions from higher charge states, additional ion 
 losses:
 
 .. code-block:: python
+    :linenos:
 
     spec2 = MSSpectrum()
     p.setValue("add_b_ions", "true")
@@ -108,6 +111,7 @@ peaks), here we will just show the first few peaks:
 which you can again visualize with:
 
 .. code-block:: python
+    :linenos:
 
     import matplotlib.pyplot as plt
     from pyopenms.plotting import plot_spectrum

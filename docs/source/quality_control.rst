@@ -12,6 +12,7 @@ at least a :py:class:`~.MSExperiment`. Optionally, a :py:class:`~.FeatureMap` an
 proteomics and metabolomics quality metrics.
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
 

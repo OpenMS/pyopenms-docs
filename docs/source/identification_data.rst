@@ -25,6 +25,7 @@ peptide maps to multiple proteins) proteins and the position therein.
    With the link one can retrieve search meta data (which is stored at the protein level) for individual peptide Ids.
 
    .. code-block:: python
+      :linenos:
 
     protein_id = ProteinIdentification()
     peptide_id = PeptideIdentification()
@@ -36,6 +37,7 @@ peptide maps to multiple proteins) proteins and the position therein.
     # Prints the Identifier
     print("Protein Identifier -", protein_id.getIdentifier())
     print("Peptide Identifier -", peptide_id.getIdentifier())
+
    .. code-block:: output
        
        Protein Identifier - IdentificationRun1

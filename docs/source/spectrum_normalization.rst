@@ -6,6 +6,7 @@ Another very basic mass spectrum processing step is normalization by base peak i
 Let's first load the raw data.
 
 .. code-block:: python
+    :linenos:
 
   from urllib.request import urlretrieve
   from pyopenms import *
@@ -28,6 +29,7 @@ Let's first load the raw data.
 Now we apply the normalization.
 
 .. code-block:: python
+    :linenos:
 
   normalizer = Normalizer()
   param = normalizer.getParameters()

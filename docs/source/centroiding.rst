@@ -10,7 +10,7 @@ Note: The term peak picking is ambiguous as it is also used for features detecti
 First, we load some profile data:
 
 .. code-block:: python
-
+    :linenos:
     from urllib.request import urlretrieve
     from pyopenms import *
     import matplotlib.pyplot as plt
@@ -24,7 +24,7 @@ First, we load some profile data:
 Let's zoom in on an isotopic pattern in profile mode and plot it.
 
 .. code-block:: python
-
+    :linenos:
     plt.xlim(771.8, 774)  # zoom into isotopic pattern
     plt.plot(
         profile_spectra[0].get_peaks()[0], profile_spectra[0].get_peaks()[1]
@@ -38,7 +38,7 @@ Using the :py:class:`~.PeakPickerHiRes` algorithm, we can convert data from prof
 by storing only centroided data. Thus, many algorithms and tools assume that centroided data is provided.
 
 .. code-block:: python
-
+    :linenos:
     centroided_spectra = MSExperiment()
 
     # input, output, chec_spectrum_type (if set, checks spectrum type and throws an exception if a centroided spectrum is passed)

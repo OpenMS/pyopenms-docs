@@ -37,6 +37,7 @@ pattern are :py:class:`~.GaussFilter`, :py:class:`~.SavitzkyGolayFilter` as well
 Using the same example file as before, we can execute a :py:class:`~.GaussFilter` on our test data as follows:
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
     from urllib.request import urlretrieve

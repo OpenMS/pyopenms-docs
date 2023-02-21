@@ -7,6 +7,7 @@ Identification Data (idXML, mzIdentML, pepXML, protXML)
 You can store and load identification data from an `idXML` file as follows:
 
 .. code-block:: python
+    :linenos:
 
     from urllib.request import urlretrieve
     from pyopenms import *
@@ -21,6 +22,7 @@ You can store and load identification data from an `idXML` file as follows:
 You can store and load identification data from an `mzIdentML` file as follows:
 
 .. code-block:: python
+    :linenos:
 
     from urllib.request import urlretrieve
 
@@ -37,6 +39,7 @@ You can store and load identification data from an `mzIdentML` file as follows:
 You can store and load identification data from a TPP `pepXML` file as follows:
 
 .. code-block:: python
+    :linenos:
 
     from urllib.request import urlretrieve
 
@@ -51,6 +54,7 @@ You can store and load identification data from a TPP `pepXML` file as follows:
 You can load (storing is not supported) identification data from a TPP `protXML` file as follows:
 
 .. code-block:: python
+    :linenos:
 
     from urllib.request import urlretrieve
 
