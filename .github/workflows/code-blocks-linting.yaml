@@ -53,5 +53,6 @@ jobs:
         #git config --global delta.side-by-side true
         #git config --global delta.features woolly-mammoth
         echo $(env | grep PAGER)
+        tput cols
         
         git diff --diff-algorithm histogram | delta --dark -s --true-color always --pager 'less -R' --line-fill-method 'spaces'
