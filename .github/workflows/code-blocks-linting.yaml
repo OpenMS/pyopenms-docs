@@ -17,6 +17,12 @@ jobs:
     - name: Get changed files
       id: changed-files
       uses: tj-actions/changed-files@v35
+      with:
+        dir_names_max_depth: 0
+        files: |
+          docs/source/*.rst
+          docs/source/**/*.rst
+          !docs/source/**/_templates
 
     - name: Running blacken
       run: |
