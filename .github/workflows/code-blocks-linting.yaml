@@ -54,4 +54,4 @@ jobs:
         #git config --global delta.features woolly-mammoth
         echo $(env | grep PAGER)
         
-        git diff --diff-algorithm histogram | delta --dark -s --true-color always --width 150 --pager 'less -R' --line-fill-method 'ansi'
+        git diff --diff-algorithm histogram | delta --dark -s --true-color always --pager 'less -R' --line-fill-method 'ansi'
