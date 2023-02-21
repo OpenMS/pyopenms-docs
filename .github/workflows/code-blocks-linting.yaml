@@ -43,7 +43,8 @@ jobs:
         popd
         echo $THEMES
         git config --global include.path "$THEMES/themes.gitconfig"
+        git config --global color.ui always
         git config --global core.pager "delta --dark"
         git config --global delta.side-by-side true
         git config --global delta.features woolly-mammoth
-        git diff --exit-code
+        git diff
