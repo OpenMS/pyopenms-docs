@@ -37,7 +37,8 @@ jobs:
 
     - name: Display diff
       env: 
-        PAGER: less
+        PAGER: delta
+        GIT_PAGER: delta
       run: |
         #delta -h
         #pushd ..
