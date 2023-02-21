@@ -37,8 +37,10 @@ jobs:
         fi
 
     - name: Display diff split
+      env:
+        COLUMNS: 150
       run: |
-        git diff | git-split-diffs --color | less -RFX
+        git diff --diff-algorithm histogram | git-split-diffs --min-line-width 0 --color | less -RFX
 
     - name: Display diff
       env: 
