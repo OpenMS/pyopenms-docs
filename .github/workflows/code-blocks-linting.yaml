@@ -15,6 +15,7 @@ jobs:
         pip install blacken-docs
         wget https://github.com/dandavison/delta/releases/download/0.15.1/git-delta_0.15.1_amd64.deb
         sudo dpkg -i git-delta_0.15.1_amd64.deb
+        sudo apt-get install less
 
     - name: Get changed files
       id: changed-files
@@ -49,4 +50,5 @@ jobs:
         #git config --global delta.features woolly-mammoth
         echo $(env | grep PAGER)
         TERM=xterm
+        PAGER=less
         git diff --diff-algorithm histogram | delta --dark -s --true-color always --width 150 
