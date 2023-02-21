@@ -14,7 +14,7 @@ jobs:
       run: |
         pip install blacken-docs
         wget https://github.com/dandavison/delta/releases/download/0.15.1/git-delta_0.15.1_amd64.deb
-        dpkg -i git-delta_0.15.1_amd64.deb
+        sudo dpkg -i git-delta_0.15.1_amd64.deb
 
     - name: Get changed files
       id: changed-files
