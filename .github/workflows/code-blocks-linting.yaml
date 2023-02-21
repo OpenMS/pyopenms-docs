@@ -44,6 +44,10 @@ jobs:
         git diff --diff-algorithm histogram | git-split-diffs --min-line-width 0 --color | less -RFX
 
     - name: Display diff
+      env:
+        COLUMNS: 150
+        LINES: 10000
+        TERM: xterm-256color
       run: |
         echo $(tput cols)
         git diff --diff-algorithm histogram | delta --dark --true-color always
