@@ -38,7 +38,7 @@ jobs:
       run: |
         pushd ..
           wget https://raw.githubusercontent.com/dandavison/delta/master/themes.gitconfig
-          THEMES=$(pwd)
+          export THEMES=$(pwd)
         popd
         git config --global include.path $THEMES/themes.gitconfig
         git config --global core.pager "delta"
