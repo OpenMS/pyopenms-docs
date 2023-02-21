@@ -16,6 +16,7 @@ jobs:
         wget https://github.com/dandavison/delta/releases/download/0.15.1/git-delta_0.15.1_amd64.deb
         sudo dpkg -i git-delta_0.15.1_amd64.deb
         sudo apt-get install less
+        npm install -g git-split-diffs
 
     - name: Get changed files
       id: changed-files
@@ -34,6 +35,11 @@ jobs:
         if grep -q "parse error" "blacken.log"; then
            exit 1
         fi
+
+    - name: Display diff split
+      run: |
+        git config --global core.pager "git-split-diffs --color | less -RFX"
+        git diff --exit-code
 
     - name: Display diff
       env: 
