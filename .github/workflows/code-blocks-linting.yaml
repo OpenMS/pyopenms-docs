@@ -14,6 +14,7 @@ jobs:
       run: |
         pip install blacken-docs
         npm i diff-so-fancy
+        diff-so-fancy
 
     - name: Get changed files
       id: changed-files
@@ -54,4 +55,4 @@ jobs:
         git config --global color.diff.new        "green bold"
         git config --global color.diff.whitespace "red reverse"
         
-        git diff -U0 --exit-code
+        git diff --exit-code
