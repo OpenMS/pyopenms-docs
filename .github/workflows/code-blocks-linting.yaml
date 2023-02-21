@@ -47,4 +47,4 @@ jobs:
         git config --global core.pager "delta --dark"
         git config --global delta.side-by-side true
         git config --global delta.features woolly-mammoth
-        git diff | delta
+        git diff | delta --dark -s
