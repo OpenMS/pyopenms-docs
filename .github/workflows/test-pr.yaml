@@ -25,6 +25,7 @@ jobs:
           files: |
             docs/source/*.rst
             docs/source/**/*.rst
+            !docs/source/**/_templates
       
     - uses: r-lib/actions/setup-pandoc@v2
       with:
