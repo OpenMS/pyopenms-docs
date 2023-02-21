@@ -36,7 +36,11 @@ jobs:
 
     - name: Display diff
       run: |
-        delta -h
+        pushd ..
+          wget https://raw.githubusercontent.com/dandavison/delta/master/themes.gitconfig
+          THEMES=$(pwd)
+        popd
+        git config --global include.path $THEMES/themes.gitconfig
         git config --global core.pager "delta"
         git config --global interactive.diffFilter "delta --color-only"
         git config --global diff.wsErrorHighlight all
@@ -44,4 +48,5 @@ jobs:
         git config --global merge.conflictstyle diff3
         git config --global diff.colorMoved default
         git config --global color.ui always
+        git config --global delta.features woolly-mammoth
         git diff --exit-code
