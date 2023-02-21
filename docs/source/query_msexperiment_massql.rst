@@ -98,4 +98,4 @@ will read data from the given file name.
    3,     143,  16.0268,          1,  7.51255e+06,         1
    4,     144,  16.0354,          1,  1.01007e+07,         1
 
-In the resulting data frame each row represents a scan with the peak  intensities summed up.
+In the resulting data frame each row represents a scan with the peak intensities summed up.
