@@ -37,7 +37,7 @@ jobs:
       run: |
         git config --global core.pager "diff-so-fancy | less --tabs=4 -RFX"
         git config --global interactive.diffFilter "diff-so-fancy --patch"
-        git config --global color.ui true
+        git config --global color.ui always
 
         git config --global color.diff-highlight.oldNormal    "red bold"
         git config --global color.diff-highlight.oldHighlight "red bold 52"
@@ -51,4 +51,4 @@ jobs:
         git config --global color.diff.old        "red bold"
         git config --global color.diff.new        "green bold"
         git config --global color.diff.whitespace "red reverse"
-        git diff --no-index --color=always
+        git diff
