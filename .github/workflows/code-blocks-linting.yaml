@@ -32,7 +32,6 @@ jobs:
            exit 1
         fi
 
-    - name: Run action-suggester
-      uses: reviewdog/action-suggester@v1
+    - uses: getsentry/action-git-diff-suggestions@main
       with:
-        tool_name: blacken-docs
+        message: 'blacken-docs suggests the following change'
