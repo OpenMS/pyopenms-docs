@@ -13,8 +13,8 @@ jobs:
     - name: Installing Dependencies
       run: |
         pip install blacken-docs
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-        brew install delta
+        wget https://github.com/dandavison/delta/releases/download/0.15.1/git-delta_0.15.1_amd64.deb
+        dpkg -i git-delta_0.15.1_amd64.deb
 
     - name: Get changed files
       id: changed-files
