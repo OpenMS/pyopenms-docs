@@ -13,7 +13,7 @@ jobs:
     - name: Installing Dependencies
       run: |
         pip install blacken-docs
-        npm i diff-so-fancy
+        npm i -g diff-so-fancy
         diff-so-fancy
 
     - name: Get changed files
