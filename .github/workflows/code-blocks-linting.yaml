@@ -15,7 +15,7 @@ jobs:
         pip install blacken-docs
         wget https://github.com/dandavison/delta/releases/download/0.15.1/git-delta_0.15.1_amd64.deb
         sudo dpkg -i git-delta_0.15.1_amd64.deb
-        sudo apt-get install less
+        pip install ansi2html
         npm install -g git-split-diffs
 
     - name: Get changed files
@@ -36,18 +36,6 @@ jobs:
            exit 1
         fi
 
-    - name: Display diff split
-      env:
-        COLUMNS: 150
-      run: |
-        git config split-diffs.min-line-width 0
-        git diff --diff-algorithm histogram | git-split-diffs --min-line-width 0 --color | less -RFX
-
     - name: Display diff
-      env:
-        COLUMNS: 150
-        LINES: 10000
-        TERM: xterm-256color
       run: |
-        echo $(tput cols)
-        git diff --diff-algorithm histogram | delta --dark --true-color always
+        git diff --diff-algorithm histogram --exit-code
