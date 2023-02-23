@@ -13,7 +13,7 @@ OpenMS has many chemical and physical constants built in:
 .. code-block:: python
     :linenos:
 
-    import pyopenms
+    import pyopenms.Constants
 
     help(pyopenms.Constants)
     print("Avogadro's number is", pyopenms.Constants.AVOGADRO)
