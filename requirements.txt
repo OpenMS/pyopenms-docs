@@ -3,6 +3,7 @@ plotly
 pandas
 adjustText
 scikit-learn
+tabulate
 requests
 bokeh
 datashader

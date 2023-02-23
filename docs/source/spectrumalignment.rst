@@ -81,6 +81,9 @@ The alignment contains a list of matched peak indices. We can simply inspect mat
 .. code-block:: python
     :linenos:
 
+    from tabulate import tabulate
+
+
     # Print matching ions and mz from theoretical spectrum
     print("Number of matched peaks: " + str(len(alignment)))
     t = []
