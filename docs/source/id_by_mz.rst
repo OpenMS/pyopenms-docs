@@ -312,10 +312,11 @@ out: DataFrame with :py:class:`~.AccurateMassSearchEngine` results (ams_df)
 
     MzTabFile().store(os.path.join(files, "ids.tsv"), mztab)
 
-    with open(os.path.join(files, "ids_smsection.tsv"), "w") as output, \
-        open(os.path.join(files, "ids.tsv"), "r") as input:
+    with open(os.path.join(files, "ids_smsection.tsv"), "w") as output, open(
+        os.path.join(files, "ids.tsv"), "r"
+    ) as input:
         for line in input:
-            if line.lstrip().startswith('SM'):
+            if line.lstrip().startswith("SM"):
                 output.write(line[4:])
 
     ams_df = pd.read_csv(os.path.join(files, "ids_smsection.tsv"), sep="\t")
