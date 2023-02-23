@@ -49,6 +49,7 @@ which you could plot with :py:func:`~.plot_spectrum`, automatically showing anno
 .. code-block:: python
 
     from pyopenms.plotting import plot_spectrum
+    import matplotlib.pyplot as plt
 
     plot_spectrum(spec1)
     plt.show()
@@ -115,6 +116,7 @@ which you again can visualize with:
 .. code-block:: python
 
     from pyopenms.plotting import plot_spectrum
+    import matplotlib.pyplot as plt
 
     plot_spectrum(spec2, annotate_ions=False)
     plt.show()

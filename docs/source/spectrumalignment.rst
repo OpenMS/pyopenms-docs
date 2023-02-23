@@ -48,6 +48,7 @@ Now we can plot the observed and theoretical spectrum as a mirror plot:
     :linenos:
 
     from pyopenms.plotting import mirror_plot_spectrum
+    import matplotlib.pyplot as plt
 
     mirror_plot_spectrum(
         observed_spectrum,
@@ -119,6 +120,7 @@ The mirror plot can also be used to visualize the aligned spectrum:
     :linenos:
 
     from pyopenms.plotting import mirror_plot_spectrum
+    import matplotlib.pyplot as plt
 
     mirror_plot_spectrum(
         observed_spectrum,
