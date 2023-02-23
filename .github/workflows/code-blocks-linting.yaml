@@ -13,10 +13,6 @@ jobs:
     - name: Installing Dependencies
       run: |
         pip install blacken-docs
-        wget https://github.com/dandavison/delta/releases/download/0.15.1/git-delta_0.15.1_amd64.deb
-        sudo dpkg -i git-delta_0.15.1_amd64.deb
-        pip install ansi2html
-        npm install -g git-split-diffs
 
     - name: Get changed files
       id: changed-files
