@@ -188,6 +188,7 @@ We can also visualize our mass spectrum from before using the :py:func:`~.plot_s
 
     import matplotlib.pyplot as plt
     from pyopenms.plotting import plot_spectrum
+    import matplotlib.pyplot as plt
 
     plot_spectrum(spectrum)
     plt.show()

@@ -49,6 +49,7 @@ Now we can plot the observed and theoretical mass spectrum as a mirror plot:
 
     import matplotlib.pyplot as plt
     from pyopenms.plotting import mirror_plot_spectrum
+    import matplotlib.pyplot as plt
 
     mirror_plot_spectrum(
         observed_spectrum,
@@ -80,6 +81,9 @@ The alignment contains a list of matched peak indices. We can simply inspect mat
 
 .. code-block:: python
     :linenos:
+
+    from tabulate import tabulate
+
 
     # Print matching ions and mz from theoretical spectrum
     print("Number of matched peaks: " + str(len(alignment)))
@@ -121,6 +125,7 @@ The mirror plot can also be used to visualize the aligned mass spectrum:
 
     import matplotlib.pyplot as plt
     from pyopenms.plotting import mirror_plot_spectrum
+    import matplotlib.pyplot as plt
 
     mirror_plot_spectrum(
         observed_spectrum,

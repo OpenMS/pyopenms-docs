@@ -308,13 +308,17 @@ Accurate Mass Search
 
     MzTabFile().store(os.path.join(files, "ids.tsv"), mztab)
 
-    df = pd.read_csv(os.path.join(files, "ids.tsv"), header=None, sep="\t")
-    df = df[0].str.split("\t", expand=True)
+    with open(os.path.join(files, "ids_smsection.tsv"), "w") as output, open(
+        os.path.join(files, "ids.tsv"), "r"
+    ) as input:
+        for line in input:
+            if line.lstrip().startswith("SM"):
+                output.write(line[4:])
 
-    ams_df = df.loc[df[0] == "SML"]
-    ams_df.columns = df.loc[df[0] == "SMH"].iloc[0]
+    ams_df = pd.read_csv(os.path.join(files, "ids_smsection.tsv"), sep="\t")
 
     os.remove(os.path.join(files, "ids.tsv"))
+    os.remove(os.path.join(files, "ids_smsection.tsv"))
 
     ams_df
 
@@ -384,7 +388,7 @@ Annotate :term:Features<features>` with Identified Compounds
         ].tolist()
         for index in indices:
             if description != "null":
-                id_df.loc[index, "identifications"] += description + ";"
+                id_df.loc[index, "identifications"] += str(description) + ";"
     id_df["identifications"] = [
         item[:-1] if ";" in item else "" for item in id_df["identifications"]
     ]
