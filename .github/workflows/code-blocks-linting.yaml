@@ -31,7 +31,7 @@ jobs:
         if grep -q "parse error" "blacken.log"; then
            exit 1
         fi
-        
+
     - name: Run action-suggester (only works on lines that were changes in this PR)
       uses: reviewdog/action-suggester@v1
       with:
