@@ -3,7 +3,7 @@ Feature Linking
 
 The pyOpenMS feature grouping algorithms group corresponding features (e.g., of same analyte) from multiple :py:class:`~.FeatureMap` objects into a :py:class:`~.ConsensusMap`.
 Linking is primarily done based on spatial proximity (e.g., similar retention time and m/z).
-It is, thus, advisable to perform a map alignment before feature linking.
+It is, thus, advisable to perform a map alignment before features linking.
 
 Optionally, identification data can be considered to prevent linking of features with different identifications.
 
@@ -12,13 +12,13 @@ Optionally, identification data can be considered to prevent linking of features
 Different feature grouping algorithms with slightly different implementations are runtime characteristics 
 are available in pyOpenMS:
 
-- FeatureGroupingAlgorithmQT
-- FeatureGroupingAlgorithmKD
-- FeatureGroupingAlgorithm
-- FeatureGroupingAlgorithmLabeled
-- FeatureGroupingAlgorithmUnlabeled
+- :py:class:`~.FeatureGroupingAlgorithmQT`
+- :py:class:`~.FeatureGroupingAlgorithmKD`
+- :py:class:`~.FeatureGroupingAlgorithm`
+- :py:class:`~.FeatureGroupingAlgorithmLabeled`
+- :py:class:`~.FeatureGroupingAlgorithmUnlabeled`
 
-We now perform a feature linking using the FeatureGroupingAlgorithmQT algorithm.
+We now perform a features linking using the :py:class:`~.FeatureGroupingAlgorithmQT` algorithm.
 
 Download Example Data
 *********************
@@ -47,8 +47,8 @@ Download Example Data
         FeatureXMLFile().load(feature_file, feature_map)
         feature_maps.append(feature_map)
 
-Feature Linking Algorithm
-*************************
+features Linking Algorithm
+******************************************
 
 All :py:class:`~.FeatureMap` objects will be combined in a :py:class:`~.ConsensusMap`.
 

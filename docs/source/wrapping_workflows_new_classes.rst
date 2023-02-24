@@ -1,8 +1,8 @@
-Wrapping Workflow and wrapping new Classes
-******************************************
+Wrapping Workflows and New Classes
+**********************************
 
-How pyOpenMS wraps Python classes
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+How pyOpenMS Wraps Python Classes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General concept of how the wrapping is done (all files are in ``src/pyOpenMS/``): 
 
@@ -25,18 +25,18 @@ Maintaining existing wrappers: If the C++ API is changed, then pyOpenMS will
 not build any more.  Thus, find the corresponding file in the ``pyOpenMS/pxds/``
 folder and adjust the function declaration accordingly.
 
-How to wrap new methods in existing classes
+How to Wrap New Methods in Existing Classes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Lets say you have written a new method for an existing OpenMS class and you
 would like to expose this method to pyOpenMS. First, identify the correct
 ``.pxd`` file in the ``src/pyOpenMS/pxds`` folder (for example for
-``Adduct`` that would be `Adduct.pxd
+:py:class:`~.Adduct` that would be `Adduct.pxd
 <https://github.com/OpenMS/OpenMS/blob/develop/src/pyOpenMS/pxds/Adduct.pxd>`_).
 Open it and add your new function *with the correct indentation*:
 
 - Place the full function declaration into the file (indented as the other functions)
-- Check whether you are using any classes that are not yet imported, if so add a corresponding ``cimport`` statement to the top of the file. E.g. if your method is using using ``MSExperiment``, then add ``from MSExerpiment cimport *`` to the top (note its cimport, not import).
+- Check whether you are using any classes that are not yet imported, if so add a corresponding ``cimport`` statement to the top of the file. E.g. if your method is using using :py:class:`~.MSExperiment`, then add ``from MSExerpiment cimport *`` to the top (note its cimport, not import).
 - Remove any qualifiers (e.g. `const`) from the function signature and add `nogil except +` to the end of the signature
 
   - Ex: ``void setType(Int a);`` becomes ``void setType(Int a) nogil except +`` 
@@ -61,12 +61,12 @@ Open it and add your new function *with the correct indentation*:
   
 See the next section for a SimpleExample_ and a more AdvancedExample_ of a wrapped class with several functions.
 
-How to wrap new classes
+How to Wrap New Classes
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _SimpleExample:
 
-A simple example
+A Simple Example
 ----------------
 
 To wrap a new OpenMS class: Create a new ".pxd" file in the folder ``./pxds``. As
@@ -194,7 +194,7 @@ implementations ``AbstractBaseClassImpl1`` and
 ``AbstractBaseClassImpl2``. Then, the function needs to declared and
 overloaded with both implementations as arguments as shown above.
 
-An example with handwritten addon code
+An Example with Handwritten Addon Code
 --------------------------------------
 
 A more complex examples requires some hand-written wrapper code
@@ -273,7 +273,7 @@ to generate the required iterators and process the container efficiently.
 
 .. _Limitations Section:
 
-Considerations and limitations
+Considerations and Limitations
 ------------------------------
 
 Further considerations and limitations:
@@ -311,7 +311,7 @@ These hints can be given to autowrap functions (also check the autowrap document
 - ``wrap-upper-limit:size()`` (see MSSpectrum.pxd)
 
 
-Wrapping code yourself in ./addons 
+Wrapping Code Yourself in ./addons
 ----------------------------------
 
 Not all code can be wrapped automatically (yet). Place a file with the same (!)

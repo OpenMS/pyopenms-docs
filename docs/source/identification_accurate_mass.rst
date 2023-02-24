@@ -1,13 +1,13 @@
 Identification by Accurate Mass
 ===============================
-Example workflow for the processing of a set of mzML files (defined in the ``files`` variable) including centroiding,
-feature detection, feature linking and accurate mass search.
-The resulting data gets processed in a pandas data frame with feature filtering (missing values, quality) and imputation
+Example workflow for the processing of a set of :term:`mzML` files (defined in the ``files`` variable) including centroiding,
+features detection, :term:feature: linking and accurate mass search.
+The resulting data gets processed in a pandas data frame with features filtering (missing values, quality) and imputation
 of remaining missing values.
 Compounds detected during accurate mass search will be annotated in the resulting dataframe.
 
-Imports and mzML file path
-**************************
+Imports and :term:`mzML` file path
+**********************************
 
 .. code-block:: python
     :linenos:
@@ -15,23 +15,19 @@ Imports and mzML file path
     import os
     import shutil
     import requests
-
     import pandas as pd
-
     from pyopenms import *
-
     import numpy as np
-
     from sklearn.impute import KNNImputer
     from sklearn.preprocessing import FunctionTransformer
     from sklearn.pipeline import Pipeline
-
     import plotly.graph_objects as go
     import plotly.express as px
     import matplotlib.pyplot as plt
 
     # set path to your mzML files, or leave like this to use the example data
     files = os.path.join(os.getcwd(), "IdByMz_Example")
+
 
 Download Example Data
 *********************
@@ -64,9 +60,9 @@ Centroiding
 ***********
 If files are already centroided this step can bet omitted.
 
-in: path to MS data (files)
+``in``: path to MS data (files)
 
-out: path to centroided mzML files in a subfolder 'centroid' (files)
+``out``: path to centroided :term:`mzML` files in a subfolder 'centroid' (files)
 
 .. code-block:: python
     :linenos:
@@ -90,9 +86,9 @@ out: path to centroided mzML files in a subfolder 'centroid' (files)
 
 Feature Detection
 *****************
-in: path to centroid mzML files (files)
+``in``: path to centroid :term:`mzML` files (files)
 
-out: list of :py:class:`~.FeatureMap` (feature_maps)
+``out``: list of :py:class:`~.FeatureMap` (feature_maps)
 
 .. code-block:: python
     :linenos:
@@ -151,9 +147,9 @@ out: list of :py:class:`~.FeatureMap` (feature_maps)
 
 Feature Map Retention Time Alignment
 ************************************
-in: unaligned list of :py:class:`~.FeatureMap` (feature_maps)
+``in``: unaligned list of :py:class:`~.FeatureMap` (feature_maps)
 
-out: list of :py:class:`~.FeatureMap` aligned to the first feature map in the list (feature_maps)
+``out``: list of :py:class:`~.FeatureMap` aligned to the first :term:`feature map` in the list (feature_maps)
 
 .. code-block:: python
     :linenos:
@@ -178,7 +174,7 @@ out: list of :py:class:`~.FeatureMap` aligned to the first feature map in the li
             feature_map, trafo, True
         )  # store original RT as meta value
 
-Visualization of RTs before and after alignment
+Visualization of RTs before and after Alignment
 ***********************************************
 
 .. code-block:: python
@@ -235,9 +231,9 @@ Visualization of RTs before and after alignment
 
 Feature Linking
 ***************
-in: list of:py:class:`~.FeatureMap` (feature_maps)
+``in``: list of:py:class:`~.FeatureMap` (feature_maps)
 
-out: :py:class:`~.ConsensusMap` (consensus_map)
+``out``: :py:class:`~.ConsensusMap` (consensus_map)
 
 .. code-block:: python
     :linenos:
@@ -259,11 +255,11 @@ out: :py:class:`~.ConsensusMap` (consensus_map)
     consensus_map.setColumnHeaders(file_descriptions)
     feature_grouper.group(feature_maps, consensus_map)
 
-ConsensusMap to pandas DataFrame
+ConsensusMap to Pandas DataFrame
 ********************************
-in: :py:class:`~.ConsensusMap` (consensus_map)
+``in``: :py:class:`~.ConsensusMap` (consensus_map)
 
-out: DataFrame with RT, mz and quality from :py:class:`~.ConsensusMap` (cm_df)
+``out``: DataFrame with RT, mz and quality from :py:class:`~.ConsensusMap` (cm_df)
 
 .. code-block:: python
     :linenos:
@@ -278,9 +274,9 @@ out: DataFrame with RT, mz and quality from :py:class:`~.ConsensusMap` (cm_df)
 
 Accurate Mass Search
 ********************
-in: :py:class:`~.ConsensusMap` (consensus_map)
+``in``: :py:class:`~.ConsensusMap` (consensus_map)
 
-out: DataFrame with :py:class:`~.AccurateMassSearchEngine` results (ams_df)
+``out``: DataFrame with :py:class:`~.AccurateMassSearchEngine` results (ams_df)
 
 .. code-block:: python
     :linenos:
@@ -328,9 +324,9 @@ out: DataFrame with :py:class:`~.AccurateMassSearchEngine` results (ams_df)
 
 Data Filtering and Imputation
 *****************************
-in: unfiltered :py:class:`~.ConsensusMap` DataFrame (cm_df)
+``in``: unfiltered :py:class:`~.ConsensusMap` DataFrame (cm_df)
 
-out: features below minimum quality and with too many missing values removed,
+``out``: features below minimum quality and with too many missing values removed,
 remaining missing values imputed with KNN algorithm (cm_df)
 
 .. code-block:: python
@@ -368,11 +364,11 @@ remaining missing values imputed with KNN algorithm (cm_df)
     cm_df = imputer.fit_transform(cm_df)
     cm_df
 
-Annotate features with identified compounds
-*******************************************
-in: :py:class:`~.ConsensusMap` DataFrame without identifications (cm_df) and AccurateMassSearch DataFrame (ams_df)
+Annotate :term:Features<features>` with Identified Compounds
+************************************************************
+``in``: :py:class:`~.ConsensusMap` DataFrame without identifications (cm_df) and :py:class:`~.AccurateMassSearch` DataFrame (ams_df)
 
-out: :py:class:`~.ConsensusMap` DataFrame with new identifications column (id_df)
+``out``: :py:class:`~.ConsensusMap` DataFrame with new identifications column (id_df)
 
 .. code-block:: python
     :linenos:
@@ -399,8 +395,8 @@ out: :py:class:`~.ConsensusMap` DataFrame with new identifications column (id_df
     id_df.to_csv(os.path.join(files, "result.tsv"), sep="\t", index=False)
     id_df
 
-Visualize consensus features with identifications
-*************************************************
+Visualize :term:`Consensus Features<consensus features>` with Identifications
+*****************************************************************************
 
 .. code-block:: python
     :linenos:

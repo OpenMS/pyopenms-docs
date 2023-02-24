@@ -1,4 +1,4 @@
-Build from source
+Build from Source
 ==================
 
 To install pyOpenMS from :index:`source`, you will first have to compile OpenMS
@@ -12,7 +12,7 @@ following software packages
 On Microsoft Windows: you need the 64 bit C++ compiler from Visual Studio 2015
 to compile the newest pyOpenMS for Python 3.5, 3.6 or 3.7. This is important,
 else you get a clib that is different than the one used for building the Python
-executable, and pyOpenMS will crash on import. The OpenMS wiki has `detailed information 
+executable, and pyOpenMS will crash on import. The OpenMS wiki has `detailed information
 <https://github.com/OpenMS/OpenMS/wiki/Build-pyOpenMS-on-Windows>`_ 
 on building pyOpenMS on Windows.
 
@@ -43,7 +43,7 @@ that the correct Python executable is used. Compiling pyOpenMS can use a lot of
 memory and take some time, however you can reduce the memory consumption by
 breaking up the compilation into multiple units and compiling in parallel, for
 example ``-DPY_NUM_THREADS=2 -DPY_NUM_MODULES=4`` will build 4 modules with 2
-threads. You can then configure pyOpenMS: 
+threads. You can then configure pyOpenMS:
 
 .. code-block:: bash
 
@@ -59,7 +59,7 @@ Afterwards, test that all went well by running the tests:
 
 Which should execute all the tests and return with all tests passing.
 
-Further questions 
+Further Questions
 *****************
 
 In case the above instructions did not work, please refer to the `Wiki Page

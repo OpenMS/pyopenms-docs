@@ -1,22 +1,22 @@
-mzML files
-==========
+:term:`mzML` Files
+==================
 
 .. NOTE::
 
-    This is an advanced section that dives deep into the mzML format and we
+    This is an advanced section that dives deep into the :term:`mzML` format and we
     will investigate the file format in greater detail.  The intricacies of the
-    mzML file format are all handled by pyOpenMS internally
+    :term:`mzML` file format are all handled by pyOpenMS internally
     and this section is only intended for the interested reader
 
-Specifically, we will look at mzML stores raw spectral data and how this data
-is encoded in the XML format. The mzML standard is developed by the HUPO-PSI
+Specifically, we will look at :term:`mzML` stores raw spectral data and how this data
+is encoded in the XML format. The :term:`mzML` standard is developed by the HUPO-PSI
 committee and can be read on the `official mzML website
 <http://www.psidev.info/mzML>`_. It describes how to store the meta data and
 the raw data for spectra and chromatograms. In short, the standard uses XML to
 encode all meta data and stores the raw data using `Base64 encoding
 <https://en.wikipedia.org/wiki/Base64>`_. 
 
-Binary encoding
+Binary Encoding
 ---------------
 
 :index:`To proceed <Binary encoding (mzML)>`, we will download an example file:
@@ -80,10 +80,10 @@ We now see that the data encoded describes 10 m/z data points that are equally
 spaced in intervals of two, starting from 0 m/z and ending at 18 m/z (note:
 this is a synthetic dataset).
 
-Base64 encoding
+Base64 Encoding
 ---------------
 
-From the mzML standard, we know that the array is :index:`base64 <Base64
+From the :term:`mzML` standard, we know that the array is :index:`base64 <Base64
 encoding>` encoded and we can now try to decode this data ourselves. We will
 first use pure Python functions :
 
@@ -169,12 +169,12 @@ This allows us thus to manually decode the data. We can use pyOpenMS to encode a
     b'eJxjYAADBwaGBiA+AMQMjgwMCkDsAMQJQNwAxBMcAVbKBVc='
 
 Note how encoding the data with 64 bit precision results in an output string of
-length 108 characters that is about twice as long compared to encoding the data
-with 32 bit precision which is of length 56 characters.  However, this
+length :math:`108` characters that is about twice as long compared to encoding the data
+with 32 bit precision which is of length :math:`56` characters.  However, this
 difference disappears when zlib compression is used and the resulting string is
 shorter still.
 
-numpress encoding
+Numpress Encoding
 -----------------
 
 We can do even better, using the :index:`numpress <numpress>` compression. The numpress algorithm

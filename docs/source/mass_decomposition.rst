@@ -1,13 +1,13 @@
 Mass Decomposition
 ==================
 
-Fragment mass to amino acid composition
+Fragment Mass to Amino Acid Composition
 ***************************************
 
-One challenge often encountered in :term:`mass spectrometry<Mass spectrometry>` is the question of the
+One challenge often encountered in mass spectrometry is the question of the
 composition of a specific mass fragment only given its mass. For example, for
-the internal fragment mass ``262.0953584466`` there are three different
-interpretations within a narrow mass band of 0.05 Th:
+the internal fragment mass :math:`262.0953584466` there are three different
+interpretations within a narrow mass band of :math:`0.05\ Th`:
 
 .. code-block:: python
 
@@ -47,12 +47,12 @@ potential amino acid combinations that explain a certain mass in the
     for d in decomps:
         print(d.toExpandedString())
 
-Which outputs the three potential compositions for the mass ``262.0953584466``.
+Which outputs the three potential compositions for the mass :math:`262.0953584466`.
 Note that every single combination of amino acids is only printed once, e.g.
 only ``DF`` is reported while the isobaric ``FD`` is not reported. This makes
 the algorithm more efficient.
 
-Naive algorithm
+Naive Algorithm
 ***************
 
 We can compare this result with a more naive algorithm which simply iterates
@@ -83,7 +83,7 @@ Note that this approach is substantially slower than the OpenMS algorithm and
 also does not treat ``DF`` and ``FD`` as equivalent, instead outputting them
 both as viable solutions.
 
-Stand-alone Program
+Stand-Alone Program
 *******************
 
 We can use pyOpenMS to write a short program that takes a mass and outputs all
@@ -122,8 +122,8 @@ line 8 and 9). We can call it as follows:
     python mass_decomposition.py 999.4773990735001 0.001
 
 Try to change the tolerance parameter. The parameter has a very large influence
-on the reported results, for example for ``1.0`` tolerance, the algorithm will
-produce 80 463 results while for a ``0.001`` tolerance, only 911 results are
+on the reported results, for example for :math:`1.0` tolerance, the algorithm will
+produce :math:`80,463` results while for a :math:`0.001` tolerance, only :math:`911` results are
 expected.
 
 Spectrum Tagger

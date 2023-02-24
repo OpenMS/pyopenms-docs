@@ -1,4 +1,4 @@
-Interfacing with ML libraries
+Interfacing with ML Libraries
 =============================
 
 Overview
@@ -6,13 +6,13 @@ Overview
 
 Machine Learning is the field of study that gives computers the capability to learn without 
 being explicitly programmed. Machine learning (ML) is well known for its powerful ability to recognize 
-patterns and signals. Recently, the :term:`mass spectrometry` community has embraced ML techniques for large-scale data analysis.
+patterns and signals. Recently, the mass spectrometry community has embraced ML techniques for large-scale data analysis.
 
-Predicting accurate retention times has shown to improve identification in bottom-up proteomics.
+Predicting accurate retention times (RT) has shown to improve identification in bottom-up proteomics.
 
-In this tutorial we will predict the retention time from amino acid sequence data using simple machine learning methods.
+In this tutorial we will predict the RT from amino acid sequence data using simple machine learning methods.
 
-First, we import all neccessary libraries for this tutorial.
+First, we import all necessary libraries for this tutorial.
 
 .. code-block:: ipython3
     :linenos:
@@ -40,19 +40,19 @@ Once we have imported all libraries successfully, we are going to store the data
     urlretrieve(gh + "/src/data/pyOpenMS_ML_Tutorial.tsv", "data.tsv")
     tsv_data = pd.read_csv("data.tsv", sep="\t", skiprows=17)
 
-Here we have prepared a tsv file that contains three columns **sequence** , **charge** and **retention** time.
+Here, we have prepared a ``tsv`` file that contains three columns ``sequence``, RT and ``charge``.
 Note that this table could also be easily created from identification data as produced in previous chapters.
 
 Before we move forward lets try to understand more about our data:
 
 a. Sequence - Chains of amino acids form peptides or proteins.
-The arrangement of amino acids is reffered as amino acid sequence.
+The arrangement of amino acids is referred as amino acid sequence.
 The composition and order of amino acids affect the physicochemical properties of the peptide and lead to different
 retention in the column.
 b. Retention time (RT) - is the time taken for an analyte to pass through a chromatography column.
 
 From the amino acid sequence we can derive additional properties (machine learning features) used to train
-our machine learning model.
+our model.
 
 We can easily check for its shape by using the tsv_data.shape attribute, 
 which will return the size of the dataset.
@@ -82,7 +82,7 @@ Explore the top 5 rows of the dataset by using head() method on pandas DataFrame
     3	SGTHNMYK	    625.982520	2
     4	AARPTRPDK	    626.073300	3
 
-As the RT column is our response variable, we will be storing it seperately as Y1_test
+As the RT column is our response variable, we will be storing it separately as Y1_test
 
 .. code-block:: python
     :linenos:
@@ -179,15 +179,17 @@ Modelling
     from sklearn.metrics import mean_squared_error
     from sklearn.model_selection import ShuffleSplit
 
+
 .. code-block:: python
     :linenos:
 
     test_df = df.copy()
     test_df = test_df.drop("sequence", axis=1)
 
+
 Now, we create the train and test set for cross-validation of the results 
 using the ``train_test_split`` function from sklearn's model_selection module with test_size 
-size equal to 30% of the data. Also, to maintain reproducibility of the results, a random_state is also assigned.
+size equal to 30% of the data. To maintain reproducibility of the results, a random_state is also assigned.
 
 .. code-block:: python
     :linenos:
@@ -196,6 +198,7 @@ size equal to 30% of the data. Also, to maintain reproducibility of the results,
     X_train, X_test, Y_train, Y_test = train_test_split(
         test_df, Y1_test, test_size=0.3, random_state=3
     )
+
 
 We will be using the ``XGBRegressor()`` class because it is clearly a regression problem as the response variable ( retention time ) is continuous.
 
@@ -210,13 +213,15 @@ We will be using the ``XGBRegressor()`` class because it is clearly a regression
         max_depth=7,
     )
 
-Fit the regressor to the training set and make predictions on the test set using the familiar .fit() and .predict() methods.
+
+Fit the regressor to the training set and make predictions on the test set using the familiar ``.fit()`` and ``.predict()`` methods.
 
 .. code-block:: python
     :linenos:
 
     xg_reg.fit(X_train, Y_train)
     Y_pred = xg_reg.predict(X_test)
+
 
 Compute the root mean square error (rmse) using the mean_sqaured_error function from sklearn's metrics module.
 
@@ -225,6 +230,7 @@ Compute the root mean square error (rmse) using the mean_sqaured_error function 
 
     rmse = np.sqrt(mean_squared_error(Y_test, Y_pred))
     print("RMSE: %f" % (rmse))
+
 
 .. code-block:: output
 
@@ -239,6 +245,7 @@ Store the **Observed** v/s **Predicted** value in pandas dataframe and print.
         {"Observed": Y_test.values.flatten(), "Predicted": Y_pred.flatten()}
     )
     print(k)
+
 
 .. code-block:: output
 
@@ -255,9 +262,10 @@ Store the **Observed** v/s **Predicted** value in pandas dataframe and print.
     4767	5515.94682	5491.597168
     4768	2257.63092	2258.312988
 
+
 We will now generate a **Observed** v/s **Predicted** plot that gives a high level overview about the model performance. 
 We can clearly see that only few outliers are there and most of them lie in between the central axis.
-This means that prediction actually worked and observed and predicted value won't differ too much.
+This means that prediction actually works and observed and predicted value won't differ too much.
 
 .. code-block:: python
     :linenos:
@@ -265,6 +273,7 @@ This means that prediction actually worked and observed and predicted value won'
     sns.lmplot(
         x="Observed", y="Predicted", data=k, scatter_kws={"alpha": 0.2, "s": 5}
     )
+
 
 .. image:: img/ml_tutorial_predicted_vs_observed.png
 
@@ -313,6 +322,7 @@ k-fold cross validation via the cv() method. All we have to do is specify the nf
         print("Fold-" + str(counter))
         print("---------------------")
         print(df)
+
 
 .. code-block:: output
 

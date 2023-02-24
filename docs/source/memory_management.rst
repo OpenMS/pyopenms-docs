@@ -1,8 +1,8 @@
-Memory management
+Memory Management
 ==================
 
 On order to save memory, we can avoid loading the whole file into memory and
-use the OnDiscMSExperiment for reading data.
+use the :py:class:`~.OnDiscMSExperiment` for reading data.
 
 .. code-block:: python
   :linenos:
@@ -41,6 +41,6 @@ by using
   del consumer
 
 Make sure you do not forget ``del consumer`` since otherwise the final part of
-the mzML may not get written to disk (and the consumer is still waiting for new
+the :term:`mzML` may not get written to disk (and the consumer is still waiting for new
 data).
 

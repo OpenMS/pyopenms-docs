@@ -19,11 +19,11 @@ Required imports for the examples:
     url = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master/src/data/"
 
 
-MSExperiment
-************
+:py:class:`~.MSExperiment`
+**************************
 
 **pyopenms.MSExperiment.get_df(** *long=False* **)**
-        Generates a pandas DataFrame with all peaks in the MSExperiment
+        Generates a pandas DataFrame with all peaks  in the MSExperiment
 
         **Parameters:**
 
@@ -72,11 +72,11 @@ MSExperiment
    "0",	"1501.41394",	"300.089752",	"3431.026123"
    "1",	"1501.41394",	"300.181335",	"1181.808960"
 
-PeptideIdentifications
-**********************
+:py:class:`~.PeptideIdentification`
+***********************************
 
 **pyopenms.peptide_identifications_to_df( peps**, *decode_ontology=True*, *default_missing_values={bool: False, int: -9999, float: np.nan, str: ''}*, *export_unidentified=True* **)**
-        Generates a pandas DataFrame with all peaks in the MSExperiment
+        Generates a pandas DataFrame with all peaks  in the MSExperiment
 
         **Parameters:**
 
@@ -121,8 +121,8 @@ PeptideIdentifications
     "0",	"OpenNuXL_2019-12-04T16:39:43_1021782429466859437",	"900.425415",	"414.730865",	"0.368649",	"4",	"DECOY_sp|Q86UQ0|ZN589_HUMAN",	"255",	"267",	"828.458069",	"552.641113",	"...",	"0",	"1654.901611",	"0",	"0.173912"
     "1",	"OpenNuXL_2019-12-04T16:39:43_7293634134684008928",	"903.565186",	"506.259521",	"0.422779",	"2",	"sp|P61313|RL15_HUMAN",	"179",	"187",	"0.0",	"0.0",	"...",	"0",	"1010.504639",	"0",	"0.290786"
 
-FeatureMap
-**********
+:py:class:`~.FeatureMap`
+************************
 
 **pyopenms.FeatureMap.get_df(** *meta_values = None* **)**
         Generates a pandas DataFrame with information contained in the FeatureMap.
@@ -198,7 +198,7 @@ FeatureMap
 
 **Extract assigned peptide identifications from a feature map**
 
-Peptide identifications can be mapped to their corresponding features in a ``FeatureMap``. It is possible to extract them using the function 
+Peptide identifications can be mapped to their corresponding features in a ``FeatureMap``. It is possible to extract them using the function
 ``pyopenms.FeatureMap.get_assigned_peptide_identifications()`` returning a list of ``PeptideIdentification`` objects.
 
 
@@ -219,7 +219,7 @@ Peptide identifications can be mapped to their corresponding features in a ``Fea
 
 A ``DataFrame`` can be created on the resulting list of :py:class:`~.PeptideIdentification` objects using
 ``pyopenms.peptide_identifications_to_df(assigned_peptides)``.
-Feature map and peptide data frames contain columns, on which they can be merged together to contain the complete
+:term:`Feature map<feature map>` and peptide data frames contain columns, on which they can be merged together to contain the complete
 information for peptides and features in a single data frame.
 
 The columns for unambiguously merging the data frames:
@@ -233,6 +233,7 @@ The columns for unambiguously merging the data frames:
 **Example:**
 
 .. code-block:: python
+    :linenos:
 
     feature_df = feature_map.get_df()
     assigned_peptides = feature_map.get_assigned_peptide_identifications()
@@ -252,8 +253,8 @@ The columns for unambiguously merging the data frames:
    "9650885788371886430",	"LVTDLTK",	"0.000000",	"unknown",	"spectrum=1270",	"2",	"1942.600083",	"395.239277",	"1932.484009",	"1950.834351",	"...",	"OMSSA_2009-11-17T11:11:11_4731105163044641872",	"1933.405151",	"395.239349",	"0.000000",	"2",	"P02769|ALBU_BOVIN",	"-1",	"-1",	"0.001084",	"True"
    "18416216708636999474",	"DDSPDLPK",	"0.034483",	"unknown",	"spectrum=1167",	"2",	"1749.138335",	"443.711224",	"1735.693115",	"1763.343506",	"...",	"OMSSA_2009-11-17T11:11:11_4731105163044641872",	"1738.033447",	"443.711243",	"0.034483",	"2",	"P02769|ALBU_BOVIN",	"-1",	"-1",	"0.003951",	"True"    
 
-ConsensusMap
-************
+:py:class:`~.ConsensusMap`
+**************************
 
 **pyopenms.ConsensusMap.get_df()**
         Generates a pandas DataFrame with both consensus feature meta data and intensities from each sample.
@@ -262,7 +263,7 @@ ConsensusMap
 
         **pandas.DataFrame** 
         
-        consensus map meta data and intensity stored in pandas DataFrame
+        :term:`consensus map` meta data and intensity stored in pandas DataFrame
 
 **pyopenms.ConsensusMap.get_intensity_df()**
         Generates a pandas DataFrame with feature intensities from each sample in long format (over files).
@@ -308,6 +309,7 @@ ConsensusMap
    "10409195546240342212",	"SHC(Carbamidomethyl)IAEVEK",	"3",	"1552.032973",	"358.174576",	"0.491247",	"1358151.0",	"...",	"0.0"
 
 .. code-block:: python
+    :linenos:
 
     df = consensus_map.get_intensity_df()
     df.head(2)

@@ -1,14 +1,14 @@
-Import pyopenms
+Import pyOpenMS
 ===============
 
-After installation, you should be able to import pyopenms as a package
+After installation, you should be able to import pyOpenMS as a package
 
 .. code-block:: python
 
     import pyopenms
 
-which should now give you access to all of pyopenms. You should now be able to
-interact with the OpenMS library and, for example, read and write mzML files:
+which should now give you access to all of pyOpenMS. You should now be able to
+interact with the OpenMS library and, for example, read and write :term:`mzML` files:
 
 .. code-block:: python
 
@@ -17,13 +17,13 @@ interact with the OpenMS library and, for example, read and write mzML files:
     exp = MSExperiment()
     MzMLFile().store("testfile.mzML", exp)
 
-which will create an empty mzML file called `testfile.mzML`.
+which will create an empty :term:`mzML` file called `testfile.mzML`.
 
-Getting help
-============
+Using the Help Function
+=======================
 
 There are multiple ways to get information about the available functions and
-methods. We can inspect individual pyOpenMS objects through the ``help``
+methods. We can inspect individual pyOpenMS objects through the ``Python`` ``help``
 function:
 
 .. code-block:: python
@@ -65,7 +65,7 @@ section which points to additional classes that act as base classes to
 The list of available methods is long (but does *not* include methods from the
 base classes) and reveals that the class exposes methods such as
 :py:meth:`~.MSExperiment.getNrSpectra` and :py:meth:`~.MSExperiment.getSpectrum(id)` where the argument ``id`` indicates
-the spectrum identifer.  The command also lists the signature for each
+the spectrum identifier. The command also lists the signature for each
 function, allowing users to identify the function arguments and return types.
 We can gain further information about exposed methods by investigating the
 documentation of the base classes:
@@ -95,14 +95,14 @@ wrapped methods, please consult the official OpenMS documentation, in this case
 the `MSExperiment documentation <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/classOpenMS_1_1MSExperiment.html>`_.
 
 
-First look at data
+First Look at Data
 ==================
 
-File reading
+File Reading
 ************
 
 pyOpenMS supports a variety of different files through the implementations in
-OpenMS. In order to read mass spectrometric data, we can download the `mzML`
+OpenMS. In order to read mass spectrometric data, we can download the :term:`mzML`
 example file:
 
 .. code-block:: python
@@ -116,7 +116,7 @@ example file:
     # load example file
     MzMLFile().load("tiny.mzML", exp)
 
-which will load the content of the "tiny.mzML" file into the ``exp``
+which will load the content of the ``tiny.mzML`` file into the ``exp``
 variable of type :py:class:`~.MSExperiment`.
 We can now inspect the properties of this object:
 
@@ -190,7 +190,7 @@ This iterates through all available :py:class:`~.MSSpectra`, we can also access 
     MS Level: 2
 
 Note that ``spec[1]`` will access the *second* spectrum (arrays start at
-``0``). We can access the raw peaks through :py:meth:`~.MSSpectrum.get_peaks`:
+``0``). We can access the raw peaksthrough :py:meth:`~.MSSpectrum.get_peaks()`:
 
 .. code-block:: python
 
@@ -201,9 +201,9 @@ Note that ``spec[1]`` will access the *second* spectrum (arrays start at
 
     110
 
-Which will access the data using a numpy array, storing the *m/z* information
-in the ``mz`` vector and the intensity in the ``i`` vector. Alternatively, we
-can also iterate over individual peak objects as follows (this tends to be
+Which will access the data using a numpy array, storing the m/z information
+in the mz vector and the intensity in the ``i`` vector. Alternatively, we
+can also iterate over individual peaks objects as follows (this tends to be
 slower):
 
 .. code-block:: python
@@ -224,14 +224,14 @@ slower):
     4.0
     2.0
 
-Total ion current calculation
+Total Ion Current Calculation
 *****************************
 
 Here, we will apply what we have learned to calculate the total ion current (TIC). The TIC represents the
 summed intensity across the entire range of masses being detected at every point in the analysis. 
 Basically, we calculate the total ion current of the whole experiment.
 
-With this information, we can write a function that calculates the TIC for a given ms level: 
+With this information, we can write a function that calculates the TIC for a given MS level:
 
 .. code-block:: python
 
@@ -262,23 +262,24 @@ To calculate a TIC we would now call the function:
 Note how one can compute the same property using list comprehensions in Python
 (see line number 3 in the above code which computes the TIC using filtering
 properties of Python list comprehensions (``s.getMSLevel() == 1``) and computes
-the sum over all peaks (right ``sum``) and the sum over all spectra (left
+the sum over all peaks(right ``sum``) and the sum over all spectra (left
 ``sum``) to retrieve the TIC).
 
-Total ion current chromatogram
-******************************
+Total Ion Current Chromatogram
+****************************************************
 
 The total ion current is visualized over the retention time, to allow for the inspection
 of areas with general high intensity (usually multiple analytes were measured there).
 This can help the experimentalist to optimize the chromatography for a better
-seperation in a specific area.
+separation in a specific area.
 
-While some mzML files already contain a pre-computed total ion current chromatogram (TIC), 
-we will show you how to calculate the TIC for MS1. One can access the retention times and 
-intensities of the TIC in different ways and generate a total ion current chromatogram 
+While some :term:`mzML` files already contain a pre-computed total ion current chromatogram (TIC),
+we will show you how to calculate the TIC for :term:`MS1`. One can access the retention times
+and intensities of the TIC in different ways and generate a total ion current chromatogram
 (2D graph) using ``matplotlib``:
 
 .. code-block:: python
+    :linenos:
 
     import matplotlib.pyplot as plt
     from urllib.request import urlretrieve

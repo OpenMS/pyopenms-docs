@@ -1,15 +1,15 @@
-Query MSExperiment with MassQL
-==============================
+Query :py:class:`~.MSExperiment` with MassQL
+============================================
 
-MassQL is a powerful, SQL-like query language for :term:`Mass spectrometry` data.
+MassQL is a powerful, SQL-like query language for mass spectrometry data.
 For further information visit the `MassQL documentation
 <https://mwang87.github.io/MassQueryLanguage_Documentation/>`_.
 
-MS data from a :py:class:`~.MSExperiment` can be exported to MS1 and MS2 dataframes, which can
+MS data from a :py:class:`~.MSExperiment` can be exported to :term:`MS1` and :term:`MS2` dataframes, which can
 be queried directly with the ``massql`` module.
 
 **pyopenms.MSExperiment.get_massql_df()**
-        Exports data from MSExperiment to pandas DataFrames to be used with MassQL.
+        Exports data from :py:class:`~.MSExperiment` to pandas DataFrames to be used with MassQL.
         
         Both dataframes contain the columns:
         'i': intensity of a peak
@@ -20,26 +20,27 @@ be queried directly with the ``massql`` module.
         'rt': retention time of the spectrum
         'polarity': ion mode of the spectrum as integer value (positive: 1, negative: 2)
         
-        The MS2 dataframe contains additional columns:
+        The :term:`MS2` dataframe contains additional columns:
         'precmz': mass to charge of the precursor ion
-        'ms1scan': number of the corresponding MS1 spectrum
+        'ms1scan': number of the corresponding :term:`MS1` spectrum
         'charge': charge of the precursor ion
         
         **Returns:**
 
         ms1_df : **pandas.DataFrame** 
         
-        peak data of MS1 spectra
+        peak data of :term:`MS1` spectra
 
         ms2_df : **pandas.DataFrame** 
         
-        peak data of MS2 spectra with precursor information
+        peak data of :term:`MS2` spectra with precursor information
 
 **Example:**
 
-Load an example file into a :py:class:`~.MSExperiment` and get the MS1 and MS2 data frames for a MassQL query.
+Load an example file into a :py:class:`~.MSExperiment` and get the :term:`MS1` and :term:`MS2` data frames for a MassQL query.
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
     from massql import msql_engine
@@ -58,6 +59,8 @@ Load an example file into a :py:class:`~.MSExperiment` and get the MS1 and MS2 d
     ms1_df, ms2_df = exp.get_massql_df()
 
     ms1_df.head()
+
+
 .. csv-table:: ms1_df.head()
    :widths: 2 20 20 20 20 20 20 20
    :header: , i,  i_norm,   i_tic_norm,   mz,   scan, rt,   polarity
@@ -83,6 +86,7 @@ will read data from the given file name.
     )
 
     results_df.head()
+
 
 .. csv-table:: results_df.head()
    :widths: 2 20 20 20 20 20

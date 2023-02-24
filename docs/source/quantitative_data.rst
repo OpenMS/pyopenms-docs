@@ -1,13 +1,13 @@
 Quantitative Data
 =================
 
-Feature
-*******
+features
+**************************
 
 In OpenMS, information about quantitative data is stored in a so-called
 :py:class:`~.Feature` which we have previously discussed `here
 <other_file_handling.html#quantiative-data-featurexml-consensusxml>`_.  Each
-:py:class:`~.Feature` represents a region in RT and *m/z* space use for quantitative
+:py:class:`~.Feature` represents a region in RT and m/z space use for quantitative
 analysis.
 
 .. code-block:: python
@@ -28,7 +28,7 @@ analysis.
         masstrace.push_back(p)
 
 Usually, the quantitative features would be produced by a so-called
-"FeatureFinder" algorithm, which we will discuss in the next chapter. The
+:py:class:`~.FeatureFinder` algorithm, which we will discuss in the next chapter. The
 features can be stored in a :py:class:`~.FeatureMap` and written to disk.
 
 .. code-block:: python
@@ -43,18 +43,18 @@ features can be stored in a :py:class:`~.FeatureMap` and written to disk.
     fm.push_back(feature)
     FeatureXMLFile().store("test.featureXML", fm)
 
-Visualizing the resulting map in ``TOPPView`` allows detection of the two
+Visualizing the resulting map in :term:`TOPPView` allows detection of the two
 features stored in the :py:class:`~.FeatureMap` with the visualization indicating charge
-state, *m/z*, RT and other properties:
+state, m/z, RT and other properties:
 
 .. image:: img/feature.png
 
-Note that in this case only 2 features are present, but in a typical :term:`LC-MS/MS`
+Note that in this case only two features are present, but in a typical :term:`LC-MS/MS`
 experiments, thousands of features are present.
 
 
-FeatureMap
-************
+:term:`Feature Maps<feature maps>`
+**********************************
 
 The resulting :py:class:`~.FeatureMap` can be used in various ways to extract
 quantitative data directly and it supports direct iteration in Python:
@@ -69,8 +69,8 @@ quantitative data directly and it supports direct iteration in Python:
 
 
 
-ConsensusFeature
-****************
+:term:`Consensus Features<consensus features>`
+**********************************************
 
 Often :term:`LC-MS/MS` experiments are run to compare quantitative features across
 experiments. In OpenMS, linked features from individual experiments are
@@ -103,7 +103,7 @@ represented by a :py:class:`~.ConsensusFeature`
 
 We have thus added two features from two individual maps (which have the unique
 identifier ``1`` and ``2``) to the :py:class:`~.ConsensusFeature`.
-Next, we inspect the consensus feature, compute a "consensus" *m/z* across
+Next, we inspect the :term:`consensus feature`, compute a "consensus" m/z across
 the two maps and output the two linked features:
 
 .. code-block:: python
@@ -136,12 +136,12 @@ unique identifiers.
 
 Visualization of the resulting output file reveals a single
 :py:class:`~.ConsensusFeature` of size 2 that links to the two individual features at
-their respective positions in RT and *m/z*:
+their respective positions in RT and m/z:
 
 .. image:: img/consensus.png
 
-ConsensusMap
-************
+:term:`Consensus Maps<consensus maps>`
+**************************************
 
 The resulting :py:class:`~.ConsensusMap` can be used in various ways to extract
 quantitative data directly and it supports direct iteration in Python:
