@@ -374,8 +374,8 @@ The image below includes a spectrum at a given retention time (left) and a peak 
     </div>
 
 
-Improving Identification and Quantification
-===========================================
+Identification and Quantification of Ions
+=========================================
 
 While the combination of :term:`liquid chromatography` and mass spectrometry can ease the process of
 characterising molecules of interest, further techniques are required to easily identify and quantify these molecules.
