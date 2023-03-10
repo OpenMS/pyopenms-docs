@@ -48,6 +48,7 @@ Open it and add your new function *with the correct indentation*:
   - Ex: ``const T& getType() const;`` becomes ``T getType() nogil except +``
 
 - Remove any qualifiers (e.g. `const`) from the argument signatures, but leave reference and pointer indicators
+
   - Ex: ``const T&`` becomes ``T``, preventing an additional copy operation
   - Ex: ``T&`` will stay ``T&`` (indicating ``T`` needs to copied back to Python, make a note in the function docs that this argument may be changed)
   - Ex: ``T*`` will stay ``T*`` (indicating ``T`` needs to copied back to Python, make a note in the function docs that this argument may be changed)
