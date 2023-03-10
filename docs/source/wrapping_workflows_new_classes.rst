@@ -17,10 +17,11 @@ General concept of how the wrapping is done (all files are in ``src/pyOpenMS/``)
   Cython code sometimes need to be written in the ``addons/`` folder.
   Autowrap will create an output file at ``pyopenms/pyopenms.pyx`` 
   which can be interpreted by Cython.
-- Step 3: Cython translates the ``pyopenms/pyopenms.pyx`` to C++ code at
+- Step 3: Cython "cythonizes", i.e., translates the ``pyopenms/pyopenms.pyx`` to C++ code at
   ``pyopenms/pyopenms.cpp`` that contains everything to build a Python module.
-- Step 4: A compiler compiles the C++ code to a Python module which is then
-  importable in Python with ``import pyopenms``
+- Step 4: A compiler, nowadays driven by CMake in OpenMS, compiles the C++ code to a Python
+  extension module (pyopenms.so/dylib/dll/pyd) which is then importable in Python with
+  ``import pyopenms``
 
 Maintaining existing wrappers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -40,28 +41,31 @@ would like to expose this method to pyOpenMS. First, identify the correct
 Open it and add your new function *with the correct indentation*:
 
 - Place the full function declaration into the file (indented as the other functions)
-- Check whether you are using any classes that are not yet imported, if so add a corresponding ``cimport`` statement to the top of the file. E.g. if your method is using using :py:class:`~.MSExperiment`, then add ``from MSExerpiment cimport *`` to the top (note its cimport, not import).
-- Remove any qualifiers (e.g. `const`) from the function signature and add `nogil except +` to the end of the signature
-
+- Check whether you are using any classes that are not yet imported, if so add a corresponding ``cimport`` statement to the top of the file. E.g., if your method is using :py:class:`~.MSExperiment`, then add ``from MSExperiment cimport *`` to the top (note it's ``cimport``, not ``import``).
+- Most of the time it is clearer for a python user if you replace const-references with values in the function signature because the python function will always make a copy in
+  that case. You should add `nogil except +` to the end of the signature to indicate that it can be multithreaded and throw exceptions.
   - Ex: ``void setType(Int a);`` becomes ``void setType(Int a) nogil except +`` 
-  - Ex: ``const T& getType() const;`` becomes ``T getType() nogil except +`` 
-- Remove any qualifiers (e.g. `const`) from the argument signatures, but leave reference and pointer indicators
+  - Ex: ``const T& getType() const;`` becomes ``T getType() nogil except +``
 
-    - Ex: ``const T&`` becomes ``T``, preventing an additional copy operation
-    - Ex: ``T&`` will stay ``T&`` (indicating ``T`` needs to copied back to Python)
-    - Ex: ``T*`` will stay ``T*`` (indicating ``T`` needs to copied back to Python)
-    - One exception is ``OpenMS::String``, you can leave ``const String&`` as-is
+- Remove any qualifiers (e.g. `const`) from the argument signatures, but leave reference and pointer indicators
+  - Ex: ``const T&`` becomes ``T``, preventing an additional copy operation
+  - Ex: ``T&`` will stay ``T&`` (indicating ``T`` needs to copied back to Python, make a note in the function docs that this argument may be changed)
+  - Ex: ``T*`` will stay ``T*`` (indicating ``T`` needs to copied back to Python, make a note in the function docs that this argument may be changed)
+  - One exception is ``OpenMS::String``. You can leave ``const String&`` as-is, since we have special handling for this.
+  
 - STL constructs are replaced with Cython constructs: ``std::vector<X>`` becomes ``libcpp_vector[ X ]`` etc. 
 - Most complex STL constructs can be wrapped even if they are nested, however mixing them with user-defined types does not always work, see `Limitations <#Limitations>`_ below. Nested ``std::vector`` constructs work well even with user-defined (OpenMS-defined) types. However, ``std::map<String, X>`` does not work (since ``String`` is user-defined, however a primitive C++ type such as ``std::map<std::string, X>`` would work).
 - Python cannot pass primitive data types by reference (therefore no ``int& res1``)
+- Python does not allow default values for parameters in C(++) functions. Therefore you either accept the fact that the "optional" value always needs to be specified in python
+  or you wrap it twice, once with and once without the optional parameter.
 - Replace ``boost::shared_ptr<X>`` with ``shared_ptr[X]`` and add ``from smart_ptr cimport shared_ptr`` to the top
-- Public members are simply added with  ``Type member_name``
+- Public members are simply added with ``Type member_name``. Private ones should be left out.
 - You can inject documentation that will be shown when calling ``help()`` in the function by adding ``wrap-doc:Your documentation`` as a comment after the function:
 
   - Ex: ``void modifyWidget() nogil except + # wrap-doc:This changes your widget``
   - Warning: For a single-line comment, there should not be a space between wrap-doc and the following comment.
   - Note: The space between the hash and wrap-doc (# wrap-doc) is not necessary, but used for consistency.
-  - Note: Please start the comment with a caplital letter.
+  - Note: Please start the comment with a capital letter.
   
 See the next section for a SimpleExample_ and a more AdvancedExample_ of a wrapped class with several functions.
 
