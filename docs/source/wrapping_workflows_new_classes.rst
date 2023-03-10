@@ -1,27 +1,31 @@
 Wrapping Workflows and New Classes
 **********************************
 
-How pyOpenMS Wraps Python Classes
+How pyOpenMS Wraps C++ Classes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General concept of how the wrapping is done (all files are in ``src/pyOpenMS/``): 
 
-- Step 1: The author declares which classes and which functions of these
+- Step 1: The author declares which C++ classes and which functions of these
   classes s/he wants to wrap (expose to Python). This is done by writing the
-  function declaration in a file in the ``pxds/`` folder.
+  class and function declaration in a ``.pxd`` file in the ``pxds/`` folder.
 - Step 2: The Python tool "autowrap" (developed for this project) creates the
   wrapping code automatically from the function declaration - see
-  https://github.com/uweschmitt/autowrap for an explanation of the autowrap
+  https://github.com/OpenMS/autowrap for an explanation of the autowrap
   tool. 
-  Since not all code can be wrapped automatically, also manual code can be
-  written in the ``addons/`` folder. Autowrap will create an output file at
-  ``pyopenms/pyopenms.pyx`` which can be interpreted by Cython.
+  Since not all code can be wrapped automatically using the pxd file, manual 
+  Cython code sometimes need to be written in the ``addons/`` folder.
+  Autowrap will create an output file at ``pyopenms/pyopenms.pyx`` 
+  which can be interpreted by Cython.
 - Step 3: Cython translates the ``pyopenms/pyopenms.pyx`` to C++ code at
-  ``pyopenms/pyopenms.cpp``
+  ``pyopenms/pyopenms.cpp`` that contains everything to build a Python module.
 - Step 4: A compiler compiles the C++ code to a Python module which is then
   importable in Python with ``import pyopenms``
 
-Maintaining existing wrappers: If the C++ API is changed, then pyOpenMS will
+Maintaining existing wrappers
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If the C++ API is changed, then pyOpenMS will
 not build any more.  Thus, find the corresponding file in the ``pyOpenMS/pxds/``
 folder and adjust the function declaration accordingly.
 
