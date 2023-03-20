@@ -7,7 +7,7 @@ How pyOpenMS Wraps C++ Classes
 General concept of how the wrapping is done (all files are in ``src/pyOpenMS/``): 
 
 - Step 1: The author declares which C++ classes and which functions of these
-  classes s/he wants to wrap (expose to Python). This is done by writing the
+  classes she/he wants to wrap (expose to Python). This is done by writing the
   class and function declaration in a ``.pxd`` file in the ``pxds/`` folder.
 - Step 2: The Python tool "autowrap" (developed for this project) creates the
   wrapping code automatically from the function declaration - see
