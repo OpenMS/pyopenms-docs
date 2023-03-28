@@ -1,3 +1,14 @@
+Welcome to the documentation for pyOpenMS! Here, you will find a comprehensive guide to using pyOpenMS for mass spectrometry analysis. Whether you are new to mass spectrometry or an experienced user, this documentation will provide you with a wealth of information to help you get the most out of pyOpenMS.
+
+In the side panel you can navigate the different topics. You will find a basic introduction to mass spectrometry, including key concepts and terminology as well as detailed instructions for installing pyOpenMS on your system, so you can start using it right away.
+
+We will then cover some basic mass spectrometry concepts and how they are represented in PyOpenMS. From there, we will dive into a selection of algorithms that are commonly used in mass spectrometry analysis, including peak picking, alignment, and quantification.
+
+For more advanced users, we have included sections on some of the more complex topics in mass spectrometry analysis. And for those who want to get into the nitty-gritty, we have included a full API documentation and glossary.
+
+We hope this documentation will serve as a valuable resource for you as you explore the world of mass spectrometry analysis with pyOpenMS.
+
+
 Introduction
 ============
 
