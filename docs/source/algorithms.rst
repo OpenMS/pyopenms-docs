@@ -3,7 +3,7 @@ Algorithms
 
 Many signal processing algorithms follow a similar pattern in OpenMS.
 
-.. code-block:: pseudocode
+.. code-block:: output
 
   algorithm = NameOfTheAlgorithmClass()
   exp = MSExperiment()
@@ -16,7 +16,7 @@ adjusted. These are accessible through :py:meth:`~.Algorithm.getParameters()` an
 be manipulated. After changing parameters, one can use :py:meth:`~.Algorithm.setParameters()` to
 propagate the new parameters to the algorithm:
 
-.. code-block:: pseudocode
+.. code-block:: output
 
   algorithm = NameOfTheAlgorithmClass()
   param = algorithm.getParameters()
