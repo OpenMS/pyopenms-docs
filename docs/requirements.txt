@@ -1,9 +1,9 @@
 # Defining the exact version will make sure things don't break
-sphinx==4.5.0
-sphinx_rtd_theme==1.1.1
-readthedocs-sphinx-search==0.1.2
+sphinx==6.1.0
+sphinx_rtd_theme==1.2.0
+readthedocs-sphinx-search==0.3.1
 sphinx-copybutton==0.5.1
 sphinx-hoverxref
 
 --extra-index-url https://pypi.cs.uni-tuebingen.de/simple/
-pyopenms_nightly
+pyopenms
