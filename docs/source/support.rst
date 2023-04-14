@@ -1,7 +1,7 @@
 Support
 =======
 
-Feature requests
+Feature Requests
 ****************
 
 pyOpenMS is an evolving project. We are happy to learn about missing features you would like to
@@ -13,7 +13,7 @@ Feel free to open an issue on `GitHub issue <https://github.com/OpenMS/OpenMS/is
 Troubleshooting
 ***************
 
-If you encounter a problem running pyOpenMS feel free to contact 
+If you encounter a problem running pyOpenMS feel free to contact
 us by opening a `GitHub issue <https://github.com/OpenMS/OpenMS/issues>`_
 or the `OpenMS Gitter chat channel <https://gitter.im/OpenMS/OpenMS/>`_.
 

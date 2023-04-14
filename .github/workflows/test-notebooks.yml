@@ -24,7 +24,7 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         python3 -m pip install --upgrade jupyter
-        python3 -m pip install --index-url https://pypi.cs.uni-tuebingen.de/simple/ pyopenms-nightly
+        python3 -m pip install --upgrade -r requirements.txt
 
     - name: Testing notebooks
       run: |

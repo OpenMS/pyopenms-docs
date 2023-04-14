@@ -13,7 +13,7 @@ OpenMS has many chemical and physical constants built in:
 .. code-block:: python
     :linenos:
 
-    import pyopenms
+    import pyopenms.Constants
 
     help(pyopenms.Constants)
     print("Avogadro's number is", pyopenms.Constants.AVOGADRO)
@@ -25,7 +25,7 @@ Elements
 --------
 
 In OpenMS, elements are stored in :py:class:`~.ElementDB` which has entries for dozens of
-elements commonly used in :term:`mass spectrometry<Mass spectrometry>`.
+elements commonly used in mass spectrometry.
 
 .. code-block:: python
     :linenos:
@@ -54,15 +54,15 @@ elements commonly used in :term:`mass spectrometry<Mass spectrometry>`.
     print("One mole of 16O2 weighs", 2 * oxygen.getMonoWeight(), "grams")
 
 As we can see, the OpenMS :py:class:`~.ElementDB` has entries for common elements like
-Oxygen and Sulfur as well as information on their average and monoisotopic
+oxygen and sulfur as well as information on their average and monoisotopic
 weight. Note that the monoisotopic weight is the weight of the most abundant
 isotope while the average weight is the sum across all isotopes, weighted by
-their natural abundance. Therefore, one mole of oxygen (O2) weighs slightly
+their natural abundance. Therefore, one mole of oxygen (:chem:`O2`) weighs slightly
 more than a mole of only its monoisotopic isotope since natural oxygen is a
 mixture of multiple isotopes.
 
 .. code-block:: output
-    
+
     Oxygen
     O
     15.994915
@@ -80,6 +80,7 @@ Isotopes
 We can also inspect the full isotopic distribution of oxygen and sulfur:
 
 .. code-block:: python
+    :linenos:
 
     edb = ElementDB()
     oxygen_isoDist = {"mass": [], "abundance": []}
@@ -112,21 +113,21 @@ We can also inspect the full isotopic distribution of oxygen and sulfur:
         sulfur_isoDist["abundance"].append((iso.getIntensity() * 100))
 
 OpenMS can compute isotopic distributions for individual elements which contain
-information for all stable elements.  The current values in the file are
+information for all stable elements. The current values in the file are
 average abundances found in nature, which may differ depending on location. The
 above code outputs the isotopes of oxygen and sulfur as well as their
 abundance:
 
 .. code-block:: output
 
-	Oxygen isotope 15.994915 has abundance 99.75699782371521 %
-	Oxygen isotope 16.999132 has abundance 0.03800000122282654 %
-	Oxygen isotope 17.999169 has abundance 0.20500000100582838 %
+    Oxygen isotope 15.994915 has abundance 99.75699782371521 %
+    Oxygen isotope 16.999132 has abundance 0.03800000122282654 %
+    Oxygen isotope 17.999169 has abundance 0.20500000100582838 %
 
-	Sulfur isotope 31.97207073 has abundance 94.92999911308289 %
-	Sulfur isotope 32.971458 has abundance 0.7600000128149986 %
-	Sulfur isotope 33.967867 has abundance 4.2899999767541885 %
-	Sulfur isotope 35.967081 has abundance 0.019999999494757503 %
+    Sulfur isotope 31.97207073 has abundance 94.92999911308289 %
+    Sulfur isotope 32.971458 has abundance 0.7600000128149986 %
+    Sulfur isotope 33.967867 has abundance 4.2899999767541885 %
+    Sulfur isotope 35.967081 has abundance 0.019999999494757503 %
 
 The isotope distribution of oxygen and sulfur can be displayed with the following extra code:
 
@@ -224,8 +225,8 @@ Mass Defect
     nucleus, this leads to different observed masses due to the
     `mass defect <https://en.wikipedia.org/wiki/Nuclear_binding_energy#Mass_defect>`_, which
     describes the difference between the mass of an atom and the mass of
-    its constituent particles. For example, the mass difference between 12C and
-    13C is slightly different than the mass difference between 14N and 15N, even
+    its constituent particles. For example, the mass difference between :chem:`^{12}C` and
+    :chem:`^{13}C` is slightly different than the mass difference between :chem:`^{14}N` and :chem:`^{15}N`, even
     though both only differ by a neutron from their monoisotopic element:
 
    .. code-block:: python
@@ -252,12 +253,12 @@ Mass Defect
        Mass difference between 14N and 15N: 0.997035
        Relative deviation: 0.6298867300208343 %
 
-   This difference can actually be measured by a high resolution mass
-   spectrometric instrument and is used in the `tandem mass tag (TMT)
-   <https://en.wikipedia.org/wiki/Tandem_mass_tag>`_ labelling strategy. 
+This difference can actually be measured by a high resolution mass spectrometry
+instrument and is used in the `tandem mass tag (TMT) <https://en.wikipedia.org/wiki/Tandem_mass_tag>`_
+labelling strategy.
 
-   For the same reason, the helium atom has a slightly lower mass than the mass
-   of its constituent particles (two protons, two neutrons and two electrons):
+For the same reason, the helium atom has a slightly lower mass than the mass
+of its constituent particles (two protons, two neutrons and two electrons):
 
    .. code-block:: python
 
@@ -283,15 +284,15 @@ Mass Defect
        Difference between the two masses: 0.7532065888743016 %
 
    The difference in mass is the energy released when the atom was formed (or
-   in other words, it is the energy required to dissassemble the nucleus into
+   in other words, it is the energy required to disassemble the nucleus into
    its particles).
 
-Molecular Formulae
+Molecular Formulas
 ------------------
 
 Elements can be combined to molecular formulas (:py:class:`~.EmpiricalFormula`) which can
 be used to describe molecules such as metabolites, amino acid sequences or
-oligonucleotides.  The class supports a large number of operations like
+oligonucleotides. The class supports a large number of operations like
 addition and subtraction. A simple example is given in the next few lines of
 code.
 
@@ -316,15 +317,15 @@ which produces
 
 Note how in line 5 we were able to make a new molecule by adding existing
 molecules (for example by adding two :py:class:`~.EmpiricalFormula` objects). In this
-case, we illustrated how to make ethanol by adding a ``CH2`` methyl group to an
-existing methanol molecule. Note that OpenMS describes sum formulae with the
+case, we illustrated how to make ethanol by adding a :chem:`CH2` methyl group to an
+existing methanol molecule. Note that OpenMS describes sum formulas with the
 :py:class:`~.EmpiricalFormula` object and does store structural information in this class.
 
 Isotopes
 ~~~~~~~~
 
 Specific isotopes can be incorporated into a molecular formula using bracket
-notation. For example, ethanol with one or two C13 can be specified using ``(13)C`` as follows:
+notation. For example, ethanol with one or two :chem:`C13` can be specified using :chem:`(13)C` as follows:
 
 .. code-block:: python
     :linenos:
@@ -365,8 +366,8 @@ Isotopic Distributions
 
 OpenMS can also generate theoretical isotopic distributions from analytes
 represented as :py:class:`~.EmpiricalFormula`. Currently there are two algorithms
-implemented, CoarseIsotopePatternGenerator which produces unit mass isotope
-patterns and FineIsotopePatternGenerator which is based on the IsoSpec
+implemented, :py:class:`~.CoarseIsotopePatternGenerator` which produces unit mass isotope
+patterns and :py:class:`~.FineIsotopePatternGenerator` which is based on the IsoSpec
 algorithm [1]_ :
 
 .. code-block:: python
@@ -417,7 +418,7 @@ which produces
     Isotope 47.0481419395 has abundance 0.06732848123647273 %
     Isotope 48.046119191399995 has abundance 0.20049810409545898 %
 
-Together with the plotDistribution() function from above and the extra code:
+Together with the ``plotDistribution()`` function from above and the extra code:
 
 .. code-block:: python
     :linenos:
@@ -453,16 +454,16 @@ Please refer to our previous discussion on the `mass defect <#Mass-Defect>`__ to
 results of the hyperfine algorithm and why different elements produce slightly
 different masses.
 In this example, the hyperfine isotopic distribution will 
-contain two peaks for the nominal mass of 47: one at ``47.045`` for the
-incorporation of one heavy 13C with a delta mass of ``1.003355`` and one at ``47.048``
-for the incorporation of one heavy deuterium with a delta mass of ``1.006277``.
+contain two peaks for the nominal mass of :math:`47`: one at :math:`47.045` for the
+incorporation of one heavy :math:`13C` with a delta mass of :math:`1.003355` and one at :math:`47.048`
+for the incorporation of one heavy deuterium with a delta mass of :math:`1.006277`.
 These two peaks also have two different abundances (the heavy carbon one has
-2.1% abundance and the deuterium one has 0.07% abundance). This can be understood given that
-there are 2 carbon atoms and the natural abundance of 13C is about
-1.1%, while the molecule has six hydrogen atoms and the natural abundance of
-deuterium is about 0.02%. The fine isotopic generator will not generate the
-peak at nominal mass 49 since we specified our cutoff at 0.1% total abundance
-and the four peaks above cover 99.9% of the
+:math:`2.1%` abundance and the deuterium one has :math:`0.07%` abundance). This can be understood given that
+there are 2 :chem:`C` atoms and the natural abundance of :chem:`13C` is about
+:math:`1.1%`, while the molecule has :chem:`6H` atoms and the natural abundance of
+deuterium is about :math:`0.02%`. The fine isotopic generator will not generate the
+peak at nominal mass :math:`49` since we specified our cutoff at :math:`0.1%` total abundance
+and the four peaks above cover :math:`99.9%` of the
 isotopic abundance.
 
 We can also decrease our cutoff and ask for more isotopes to be calculated: 
@@ -485,29 +486,29 @@ which produces
 
 .. code-block:: output
 
-	Fine Isotope Distribution:
-	This covers 0.9999993089130612 probability
-	Isotope 46.0418651914 has abundance 97.5662887096405 %
-	Isotope 47.0452201914 has abundance 2.110501006245613 %
-	Isotope 47.046082191400004 has abundance 0.03716550418175757 %
-	Isotope 47.0481419395 has abundance 0.06732848123647273 %
-	Isotope 48.046119191399995 has abundance 0.20049810409545898 %
-	Isotope 48.0485751914 has abundance 0.011413302854634821 %
-	Isotope 48.0494371914 has abundance 0.0008039440217544325 %
-	Isotope 48.0514969395 has abundance 0.0014564131561201066 %
-	Isotope 49.049474191399995 has abundance 0.004337066275184043 %
-	Isotope 49.0523959395 has abundance 0.00013835959862262825 %
+    Fine Isotope Distribution:
+    This covers 0.9999993089130612 probability
+    Isotope 46.0418651914 has abundance 97.5662887096405 %
+    Isotope 47.0452201914 has abundance 2.110501006245613 %
+    Isotope 47.046082191400004 has abundance 0.03716550418175757 %
+    Isotope 47.0481419395 has abundance 0.06732848123647273 %
+    Isotope 48.046119191399995 has abundance 0.20049810409545898 %
+    Isotope 48.0485751914 has abundance 0.011413302854634821 %
+    Isotope 48.0494371914 has abundance 0.0008039440217544325 %
+    Isotope 48.0514969395 has abundance 0.0014564131561201066 %
+    Isotope 49.049474191399995 has abundance 0.004337066275184043 %
+    Isotope 49.0523959395 has abundance 0.00013835959862262825 %
 
 Here we can observe more peaks and now also see the heavy oxygen peak at
-``47.04608`` with a delta mass of ``1.004217`` (difference between 16O and 17O) at an
-abundance of 0.04%, which is what we would expect for a single oxygen atom.
-Even though the natural abundance of deuterium (0.02%) is lower than 17O
-(0.04%), since there are six hydrogen atoms in the molecule and only one
-oxygen, it is more likely that we will see a deuterium peak than a heavy oxygen
+:math:`47.04608` with a delta mass of :math:`1.004217` (difference between :math:`16O` and :math:`17O`) at an
+abundance of :math:`0.04%`, which is what we would expect for a single :chem:`O` atom.
+Even though the natural abundance of deuterium (:math:`0.02%`) is lower than :math:`17O`
+(:math:`0.04%`), since there are :chem:`6H` atoms in the molecule and only one
+:chem:`O`, it is more likely that we will see a deuterium peak than a heavy oxygen
 peak. Also, even for a small molecule like ethanol, the differences in mass
-between the hyperfine peaks can reach more than 110 ppm (48.046 vs 48.051).
-Note that the FineIsotopePatternGenerator will generate peaks until the total
-error has decreased to 1e-6, allowing us to cover 0.999999 of the probability.
+between the hyperfine peaks can reach more than :math:`110` ppm (:math:`48.046` vs :math:`48.051`).
+Note that the :py:class:`~.FineIsotopePatternGenerator` will generate peaks until the total
+error has decreased to :math:`1e^{-6}`, allowing us to cover :math:`0.999999` of the probability.
 
 OpenMS can also produce isotopic distribution with masses rounded to the
 nearest integer:
@@ -625,7 +626,7 @@ Ribonucleotides
 A `ribonucleotide <https://en.wikipedia.org/wiki/Ribonucleotide>`_ describes
 one of the building blocks of DNA and RNA. In OpenMS, a ribonucleotide in its
 modified or unmodified form is represented by the :py:class:`~.Ribonucleotide` class in
-OpenMS.  The class is able to provide information such as the isotope
+OpenMS. The class is able to provide information such as the isotope
 distribution of the residue, the average and monoisotopic weight. The residues
 can be identified by their full name, their three letter abbreviation or the
 single letter abbreviation. Modified ribonucleotides are represented by the
@@ -655,7 +656,7 @@ same class. Currently, support for RNA is implemented.
     False
     '1-methyladenosine'
     True
-	
+
 .. We could also showcase the "get alternatives" method
 .. for alt in RibonucleotideDB().getRibonucleotideAlternatives(b"mmA?"):  print(alt.getName())
 

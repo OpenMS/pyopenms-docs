@@ -1,14 +1,14 @@
 pyOpenMS in R
-===============
+=====================
 
 Currently, there are no native wrappers for the OpenMS library in R, however we
 can use the "reticulate" package in order to get access to the full
 functionality of pyOpenMS in the R programming language.
 
-Install the "reticulate" R package
+Install the "reticulate" R Package
 **********************************
 
-In order to use all pyopenms functionalities in R, we suggest to use the "reticulate" R package.
+In order to use all pyOpenMS functionalities in R, we suggest to use the "reticulate" R package.
 
 A thorough documentation is available at: https://rstudio.github.io/reticulate/
 
@@ -17,7 +17,7 @@ A thorough documentation is available at: https://rstudio.github.io/reticulate/
 
     install.packages("reticulate")
 
-Installation of pyopenms is a requirement as well and it is necessary to make sure that R is using the same Python environment.
+Installation of pyOpenMS is a requirement as well and it is necessary to make sure that R is using the same Python environment.
 
 In case R is having trouble to find the correct Python environment, you can set it by hand as in this example (using miniconda, you will have to adjust the file path to your system to make this work). You will need to do this before loading the "reticulate" library:
 
@@ -34,10 +34,10 @@ Or after loading the "reticulate" library:
     library("reticulate")
     use_python("/usr/local/miniconda3/envs/py37/bin/python")
 
-Import pyopenms in R
-********************
+Import pyOpenMS in R
+****************************
 
-After loading the "reticulate" library you should be able to import pyopenms into R
+After loading the "reticulate" library you should be able to import pyOpenMS into R
 
 .. code-block:: R
     :linenos:
@@ -45,10 +45,10 @@ After loading the "reticulate" library you should be able to import pyopenms int
     library(reticulate)
     ropenms=import("pyopenms", convert = FALSE)
 
-This should now give you access to all of pyopenms in R. Importantly, the convert option
+This should now give you access to all of pyOpenMS in R. Importantly, the convert option
 has to be set to FALSE, since type conversions such as 64bit integers will cause a problem.
 
-You should now be able to interact with the OpenMS library and, for example, read and write mzML files:
+You should now be able to interact with the OpenMS library and, for example, read and write :term:`mzML` files:
 
 .. code-block:: R
     :linenos:
@@ -58,13 +58,13 @@ You should now be able to interact with the OpenMS library and, for example, rea
     exp = ropenms$MSExperiment()
     ropenms$MzMLFile()$store("testfile.mzML", exp)
 
-which will create an empty mzML file called `testfile.mzML`.
+which will create an empty :term:`mzML` file called `testfile.mzML`.
 
 Getting help
 ************
 
-Using the "reticulate" R package provides a way to access the pyopenms information 
-about the available functions and methods. We can inspect individual pyOpenMS objects 
+Using the "reticulate" R package provides a way to access the pyOpenMS information
+about the available functions and methods. We can inspect individual pyOpenMS objects
 through the ``py_help`` function:
 
 .. code-block:: R
@@ -129,8 +129,8 @@ Therefore in this case we need to use the ``reticulate::r_to_py()`` and ``reticu
 An example use case
 *******************
 
-Reading an mzML File
-^^^^^^^^^^^^^^^^^^^^
+Reading an :term:`mzML` File
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 pyOpenMS supports a variety of different files through the implementations in
 OpenMS. In order to read mass spectrometric data, we can download the `mzML
@@ -243,7 +243,7 @@ Or visualize a particular ms2 spectrum:
 
 .. image:: img/R_ggplot_ms2.png
 
-Alternatively, we could also have used ``apply`` to obtain the peak data, which
+Alternatively, we could also have used ``apply`` to obtain the peak  data, which
 is more idiomatic way of doing things for the R programming language:
 
 .. code-block:: R
@@ -259,7 +259,7 @@ is more idiomatic way of doing things for the R programming language:
 Iteration
 ^^^^^^^^^
 
-Iterating over pyopenms objects is not equal to iterating over R vectors or
+Iterating over pyOpenMS objects is not equal to iterating over R vectors or
 lists. Note that for many applications, there is a more efficient way to access
 data (such as :py:meth:`~.MSSpectrum.get_peaks` instead of iterating over individual peaks).
 

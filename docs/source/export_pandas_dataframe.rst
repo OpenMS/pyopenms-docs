@@ -2,7 +2,8 @@ Export to pandas DataFrame
 ==========================
 
 **NOTE: This feature is available only if using a version of pyOpenMS >= 3.0, at the time of writing this means using
-the nightly builds as described in the** `Installation Instructions<installation.html#nightly-ci-wheels>`_.
+the nightly builds as described in the**
+`Installation Instructions <installation.html#nightly-ci-wheels>`_.
 
 In pyOpenMS some data structures can be converted to a tabular format as a ``pandas.DataFrame``.
 This allows convenient access to data and meta values of spectra, features and identifications.
@@ -23,7 +24,7 @@ MSExperiment
 ************
 
 **pyopenms.MSExperiment.get_df(** *long=False* **)**
-        Generates a pandas DataFrame with all peaks in the MSExperiment
+        Generates a pandas DataFrame with all peaks  in the MSExperiment
 
         **Parameters:**
 
@@ -72,11 +73,11 @@ MSExperiment
    "0",	"1501.41394",	"300.089752",	"3431.026123"
    "1",	"1501.41394",	"300.181335",	"1181.808960"
 
-PeptideIdentifications
-**********************
+PeptideIdentification
+*********************
 
 **pyopenms.peptide_identifications_to_df( peps**, *decode_ontology=True*, *default_missing_values={bool: False, int: -9999, float: np.nan, str: ''}*, *export_unidentified=True* **)**
-        Generates a pandas DataFrame with all peaks in the MSExperiment
+        Generates a pandas DataFrame with all peaks  in the MSExperiment
 
         **Parameters:**
 
@@ -118,8 +119,8 @@ PeptideIdentifications
    :widths: 2 20 10 20 20 10 20 20 20 20 20 20 20 20 20 20
    :header: "",	"id",	"RT",	"mz",	"q-value",	"charge",	"protein_accession",	"start",	"end",	"NuXL:z2 mass",	"NuXL:z3 mass",	"...", "isotope_error",	"NuXL:peptide_mass_z0",	"NuXL:XL_U",	"NuXL:sequence_score"
 
-    "0",	"OpenNuXL_2019-12-04T16:39:43_1021782429466859437",	"900.425415",	"414.730865",	"0.368649",	"4",	"DECOY_sp|Q86UQ0|ZN589_HUMAN",	"255",	"267",	"828.458069",	"552.641113",	"...",	"0",	"1654.901611",	"0",	"0.173912"
-    "1",	"OpenNuXL_2019-12-04T16:39:43_7293634134684008928",	"903.565186",	"506.259521",	"0.422779",	"2",	"sp|P61313|RL15_HUMAN",	"179",	"187",	"0.0",	"0.0",	"...",	"0",	"1010.504639",	"0",	"0.290786"
+    "0",	"OpenNuXL_2019-12-04T16:39:43_1021782429466859437",	"900.425415",	"414.730865",	"0.368649",	"4",	"DECOY_sp\|Q86UQ0|ZN589_HUMAN",	"255",	"267",	"828.458069",	"552.641113",	"...",	"0",	"1654.901611",	"0",	"0.173912"
+    "1",	"OpenNuXL_2019-12-04T16:39:43_7293634134684008928",	"903.565186",	"506.259521",	"0.422779",	"2",	"sp\|P61313|RL15_HUMAN",	"179",	"187",	"0.0",	"0.0",	"...",	"0",	"1010.504639",	"0",	"0.290786"
 
 FeatureMap
 **********
@@ -137,7 +138,7 @@ FeatureMap
 
         **export_peptide_identifications (bool):** default True
         
-        export sequence and score for best PeptideHit assigned to a feature.
+        Export sequence and score for best PeptideHit assigned to a feature.
         Additionally the ID_filename (file name of the corresponding ProteinIdentification) and the ID_native_id 
         (spectrum ID of the corresponding Feature) are exported. They are also annotated as meta values when 
         collecting all assigned PeptideIdentifications from a FeatureMap with FeatureMap.get_assigned_peptide_identifications().
@@ -198,7 +199,7 @@ FeatureMap
 
 **Extract assigned peptide identifications from a feature map**
 
-Peptide identifications can be mapped to their corresponding features in a ``FeatureMap``. It is possible to extract them using the function 
+Peptide identifications can be mapped to their corresponding features in a ``FeatureMap``. It is possible to extract them using the function
 ``pyopenms.FeatureMap.get_assigned_peptide_identifications()`` returning a list of ``PeptideIdentification`` objects.
 
 
@@ -217,9 +218,9 @@ Peptide identifications can be mapped to their corresponding features in a ``Fea
         
         list of PeptideIdentification objects
 
-A ``DataFrame`` can be created on the resulting list of :py:class:`~.PeptideIdentification` objects using
+A ``DataFrame`` can be created on the resulting list of `PeptideIdentification` objects using
 ``pyopenms.peptide_identifications_to_df(assigned_peptides)``.
-Feature map and peptide data frames contain columns, on which they can be merged together to contain the complete
+:term:`Feature map<feature map>` and peptide data frames contain columns, on which they can be merged together to contain the complete
 information for peptides and features in a single data frame.
 
 The columns for unambiguously merging the data frames:
@@ -228,11 +229,12 @@ The columns for unambiguously merging the data frames:
 
 - ``ID_native_id``: the feature spectrum native identifier
 
-- ``ID_filename``: the filename (primary MS run path) of the corresponding :py:class:`~.ProteinIdentification`
+- ``ID_filename``: the filename (primary MS run path) of the corresponding `ProteinIdentification`
 
 **Example:**
 
 .. code-block:: python
+    :linenos:
 
     feature_df = feature_map.get_df()
     assigned_peptides = feature_map.get_assigned_peptide_identifications()
@@ -262,7 +264,7 @@ ConsensusMap
 
         **pandas.DataFrame** 
         
-        consensus map meta data and intensity stored in pandas DataFrame
+        :term:`consensus map` meta data and intensity stored in pandas DataFrame
 
 **pyopenms.ConsensusMap.get_intensity_df()**
         Generates a pandas DataFrame with feature intensities from each sample in long format (over files).
@@ -308,6 +310,7 @@ ConsensusMap
    "10409195546240342212",	"SHC(Carbamidomethyl)IAEVEK",	"3",	"1552.032973",	"358.174576",	"0.491247",	"1358151.0",	"...",	"0.0"
 
 .. code-block:: python
+    :linenos:
 
     df = consensus_map.get_intensity_df()
     df.head(2)
@@ -320,6 +323,7 @@ ConsensusMap
    "10409195546240342212",	"1358151.0",	"...",	"0.0"
 
 .. code-block:: python
+    :linenos:
 
     df = consensus_map.get_metadata_df()
     df.head(2)
@@ -330,4 +334,3 @@ ConsensusMap
 
    "2935923263525422257",	"DGDIEAEISR",	"3",	"1523.370634",	"368.843773",	"0.000000"
    "10409195546240342212",	"SHC(Carbamidomethyl)IAEVEK",	"3",	"1552.032973",	"358.174576",	"0.491247"
-

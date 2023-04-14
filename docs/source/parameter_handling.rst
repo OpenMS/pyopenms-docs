@@ -50,6 +50,7 @@ The parameters can then be accessed as
 The param object can be copy and merge in to other param object as 
  
 .. code-block:: python
+    :linenos:
 
     # print the key and values pairs stored in a Param object
     def printParamKeyAndValues(p):
@@ -79,6 +80,7 @@ The param object can be copy and merge in to other param object as
 In param object the keys values can be remove by key_name or prefix as
 
 .. code-block:: python
+    :linenos:
 
     # We now call the remove method with key of the entry we want to delete ("example3")
     new_p.remove("example3")

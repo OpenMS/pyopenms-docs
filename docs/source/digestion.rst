@@ -25,7 +25,7 @@ OpenMS has classes for proteolytic digestion which can be used as follows:
     len(result)  # 82 peptides
 
 Very short peptides or even single amino acid digestion products are often discarded as they usually contain little information (e.g., can't be used to identify proteins).
-We now only generate digestion products with a length of 7 to 40.
+We now only generate digestion products with a length of :math:`7` to :math:`40`.
 
 .. code-block:: python
 
@@ -52,7 +52,7 @@ Proteolytic Digestion with Lys-C
 ********************************
 
 We can of course also use different enzymes, these are defined in the ``Enzymes.xml``
-file and can be accessed using the ``EnzymesDB`` object
+file and can be accessed using the :py:class:`~.EnzymesDB` object
 
 .. code-block:: python
 
@@ -83,14 +83,14 @@ cut our protein of interest:
     print(result[4].toString())
     len(result)  # 57 peptides
 
-We now get different digested peptides (57 vs 82) and the fourth peptide is now
+We now get different digested peptides (:math:`57` vs :math:`82`) and the fourth peptide is now
 ``GLVLIAFSQYLQQCPFDEHVK`` instead of ``DTHK`` as with Trypsin (see above).
 
 Oligonucleotide Digestion
 **************************
 
 There are multiple cleavage enzymes available for oligonucleotides, these are defined ``Enzymes_RNA.xml``
-file and can be accessed using the ``RNaseDB`` object
+file and can be accessed using the :py:class:`~.RNaseDB` object
 
 .. code-block:: python
 

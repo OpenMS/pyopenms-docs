@@ -1,10 +1,10 @@
-Interactive plots
+Interactive Plots
 =================
 
-With special plotting libraries like holoviews and datashader for big
-data visualization as well as bokeh for interactiveness, we can use the
-functionality of pyopenms to quickly create fully interactive views of
-:term:`mass spectrometry<Mass spectrometry>` data. Here we plot a full map of MS1 that can be
+With special plotting libraries like ``holoviews`` and ``datashader`` for big
+data visualization as well as ``bokeh`` for interactiveness, we can use the
+functionality of pyOpenMS to quickly create fully interactive views of
+mass spectrometry data. Here we plot a full map of :term:`MS1` that can be
 interactively zoomed-in if you execute the code in a notebook
 (e.g. on Binder, see the button on top of the page).
 

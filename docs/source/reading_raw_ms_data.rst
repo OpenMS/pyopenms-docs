@@ -1,11 +1,11 @@
-Reading Raw MS data
-===================
+Reading Raw MS Data
+===========================
 
-mzML files in memory
-********************
+:term:`mzML` Files in Memory
+****************************
 
-As discussed in the last section, the most straight forward way to load mass
-spectrometric data is using the :py:class:`~.MzMLFile` class:
+As discussed in the last section, the most straight forward way to load :term:`mass
+spectrometry` data is using the :py:class:`~.MzMLFile` class:
 
 .. code-block:: python
 
@@ -37,7 +37,7 @@ manipulate the spectra in the file for example as follows:
 
     exp.setSpectra(spec)
 
-Which will only keep MS2 spectra in the :py:class:`~.MSExperiment`. We can then store the modified data structure on disk:
+Which will only keep :term:`MS2` spectra in the :py:class:`~.MSExperiment`. We can then store the modified data structure on disk:
 
 .. code-block:: python
 
@@ -62,8 +62,8 @@ Putting this together, a small filtering program would look like this:
 
     MzMLFile().store("filtered.mzML", exp)
 
-indexed mzML files
-******************
+Indexed :term:`mzML` Files
+**************************
 
 Since pyOpenMS 2.4, you can open, read and inspect files that use the
 indexedMzML standard. This allows users to read MS data without loading all
@@ -87,16 +87,16 @@ data into memory:
 
 Note that the :py:class:`~.OnDiscMSExperiment` allows users to access meta data through
 the :py:meth:`~.OnDiscMSExperiment.getMetaData` function, which allows easy selection and filtering on meta
-data attributes (such as MS level, precursor *m/z*, retention time etc.) in
-order to select spectra and chromatograms for analysis.  Only once selection on
+data attributes (such as MS level, precursor m/z, retention time etc.) in
+order to select spectra and chromatograms for analysis. Only once selection on
 the meta data has been performed, will actual data be loaded into memory using
 the :py:meth:`~.OnDiscMSExperiment.getChromatogram` and :py:meth:`~.OnDiscMSExperiment.getSpectrum` functions.
 
 This approach is memory efficient in cases where computation should only occur
 on part of the data or the whole data may not fit into memory.
 
-mzML files as streams
-*********************
+:term:`mzML` Files as Streams
+*****************************
 
 In some instances it is impossible or inconvenient to load all data from an
 mzML file directly into memory. OpenMS offers streaming-based access to mass
@@ -187,10 +187,10 @@ Note that this approach is memory efficient in cases where computation should
 only occur on part of the data or the whole data may not fit into memory.
 
 
-cached mzML files
-*********************
+Cached :term:`mzML` Files
+*************************
 
-In addition, since pyOpenMS 2.4 the user can efficiently cache mzML files to disk which
+In addition, since pyOpenMS 2.4 the user can efficiently cache :term:`mzML` files to disk which
 provides very fast access with minimal overhead in memory. Basically the data
 directly mapped into memory when requested. You can use this feature as follows:
 
@@ -219,8 +219,8 @@ directly mapped into memory when requested. You can use this feature as follows:
 
 Note that the :py:class:`~.CachedmzML` allows users to access meta data through
 the :py:meth:`~.CachedmzML.getMetaData` function, which allows easy selection and filtering on meta
-data attributes (such as MS level, precursor *m/z*, retention time etc.) in
-order to select spectra and chromatograms for analysis.  Only once selection on
+data attributes (such as MS level, precursor m/z, retention time etc.) in
+order to select spectra and chromatograms for analysis. Only once selection on
 the meta data has been performed, will actual data be loaded into memory using
 the :py:meth:`~.CachedmzML.getChromatogram` and :py:meth:`~.CachedmzML.getSpectrum` functions.
 

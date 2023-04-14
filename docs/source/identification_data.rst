@@ -5,44 +5,46 @@ In OpenMS, identifications of peptides, proteins and small molecules are stored
 in dedicated data structures. These data structures are typically stored to disc
 as idXML or mzIdentML file. The highest-level structure is
 :py:class:`~.ProteinIdentification`. It stores all identified proteins of an identification
-run as ProteinHit objects plus additional metadata (search parameters, etc.). Each
+run as :py:class:`~.ProteinHit` objects plus additional metadata (search parameters, etc.). Each
 :py:class:`~.ProteinHit` contains the actual protein accession, an associated score, and
 (optionally) the protein sequence. 
 
 A :py:class:`~.PeptideIdentification` object stores the
 data corresponding to a single identified spectrum or feature. It has members
 for the retention time, m/z, and a vector of :py:class:`~.PeptideHit` objects. Each :py:class:`~.PeptideHit`
-stores the information of a specific peptide-to-spectrum match or PSM (e.g., the score
+stores the information of a specific :term:`peptide-spectrum match` or :term:`PSM` (e.g., the score
 and the peptide sequence). Each :py:class:`~.PeptideHit` also contains a vector of
 :py:class:`~.PeptideEvidence` objects which store the reference to one or more (in the case the
 peptide maps to multiple proteins) proteins and the position therein.
 
 .. NOTE::
-   Protein Ids are linked to Peptide Ids by a common identifier (e.g., a unique string of time and date of the search).
-   The Identifier can be set using the :py:meth:`~.ProteinIdentification.setIdentifier` method in
-   :py:class:`~.ProteinIdentification` and :py:class:`~.PeptideIdentification`.
-   Similarly :py:meth:`~.ProteinIdentification.getIdentifier` can be used to check the link between them.
-   With the link one can retrieve search meta data (which is stored at the protein level) for individual Peptide Ids.
+  Protein Ids are linked to peptide Ids by a common identifier (e.g., a unique string of time and date of the search).
+  The Identifier can be set using the :py:meth:`~.ProteinIdentification.setIdentifier` method in
+  :py:class:`~.ProteinIdentification` and :py:class:`~.PeptideIdentification`.
+  Similarly :py:meth:`~.ProteinIdentification.getIdentifier` can be used to check the link between them.
+  With the link one can retrieve search meta data (which is stored at the protein level) for individual peptide Ids.
 
-   .. code-block:: python
+  .. code-block:: python
+      :linenos:
 
-    protein_id = ProteinIdentification()
-    peptide_id = PeptideIdentification()
+      protein_id = ProteinIdentification()
+      peptide_id = PeptideIdentification()
 
-    # Sets the Identifier
-    protein_id.setIdentifier("IdentificationRun1")
-    peptide_id.setIdentifier("IdentificationRun1")
+      # Sets the Identifier
+      protein_id.setIdentifier("IdentificationRun1")
+      peptide_id.setIdentifier("IdentificationRun1")
 
-    # Prints the Identifier
-    print("Protein Identifier -", protein_id.getIdentifier())
-    print("Peptide Identifier -", peptide_id.getIdentifier())
-   .. code-block:: output
-       
-       Protein Identifier - IdentificationRun1
-       Peptide Identifier - IdentificationRun1
+      # Prints the Identifier
+      print("Protein Identifier -", protein_id.getIdentifier())
+      print("Peptide Identifier -", peptide_id.getIdentifier())
 
-ProteinIdentification
-**********************
+  .. code-block:: output
+  
+      Protein Identifier - IdentificationRun1
+      Peptide Identifier - IdentificationRun1
+
+Protein Identification
+***********************
 
 We can create an object of type :py:class:`~.ProteinIdentification`  and populate it with
 :py:class:`~.ProteinHit` objects as follows:
@@ -146,8 +148,8 @@ corresponding :py:class:`~.PeptideHit` objects:
   peptide_id.setHits([peptide_hit, peptide_hit2])
 
 
-This allows us to represent single spectra (:py:class:`~.PeptideIdentification` at *m/z*
-440.0 and *rt* 1234.56) with possible identifications that are ranked by score.
+This allows us to represent single spectra (:py:class:`~.PeptideIdentification` at m/z
+:math:`440.0` and *rt* :math:`1234.56`) with possible identifications that are ranked by score.
 In this case, apparently two possible peptides match the spectrum which have
 the first three amino acids in a different order "DLQ" vs "QDL").
 
@@ -175,7 +177,7 @@ We can now display the peptides we just stored:
 
 
 
-Storage on disk
+Storage on Disk
 ***************
 
 Finally, we can store the peptide and protein identification data in a

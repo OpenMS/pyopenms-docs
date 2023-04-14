@@ -17,6 +17,12 @@ jobs:
     - name: Get changed files
       id: changed-files
       uses: tj-actions/changed-files@v35
+      with:
+        dir_names_max_depth: 0
+        files: |
+          docs/source/*.rst
+          docs/source/**/*.rst
+          !docs/source/**/_templates
 
     - name: Running blacken
       run: |
@@ -26,7 +32,11 @@ jobs:
            exit 1
         fi
 
-    - name: Run action-suggester
+    - name: Run action-suggester (only works on lines that were changes in this PR)
       uses: reviewdog/action-suggester@v1
       with:
         tool_name: blacken-docs
+
+    - name: Display diff and fail if there was anything changed by blacken-docs
+      run: |
+        git diff --diff-algorithm histogram --exit-code

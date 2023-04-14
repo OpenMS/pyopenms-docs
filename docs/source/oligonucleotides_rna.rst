@@ -77,7 +77,7 @@ The :py:class:`~.NASequence` object also allows iterations directly in Python:
     for ribo in oligo:
         print(ribo.getName())
 
-Fragment ions
+Fragment Ions
 ~~~~~~~~~~~~~
 
 Similarly to before for amino acid sequences, we can also generate internal fragment ions:
@@ -100,13 +100,13 @@ Similarly to before for amino acid sequences, we can also generate internal frag
     print("RNA Oligo w4++ ion", suffix, "has mz", mz)
     print("RNA Oligo w4++ ion", suffix, "has molecular formula", w4_formula)
 
-Modified oligonucleotides
+Modified Oligonucleotides
 *************************
 
-Modified nucleotides can also represented by the :py:class:`~.Ribonucleotide` class and
+Modified nucleotides can also be represented by the :py:class:`~.Ribonucleotide` class and
 are specified using a unique string identifier present in the
-:py:class:`~.RibonucleotideDB` in square brackets. For example, ``[m1A]`` represents
-1-methyladenosine. We can create a :py:class:`~.NASequence` object by parsing a modified
+:py:class:`~.RibonucleotideDB` in square brackets. For example, :chem:`[m1A]` represents
+1-methyl-adenosine. We can create a :py:class:`~.NASequence` object by parsing a modified
 sequence as follows:
 
 .. code-block:: python

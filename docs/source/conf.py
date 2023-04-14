@@ -24,10 +24,10 @@ import urllib.request
 import contextlib
 import sys
 
+sys.path.append(os.path.abspath("./_ext"))
+
 from platform import python_version_tuple
 from sys import platform
-
-sys.path.append(os.path.abspath("./_ext"))
 
 # -- General configuration ------------------------------------------------
 
@@ -40,16 +40,16 @@ sys.path.append(os.path.abspath("./_ext"))
 # ones.
 extensions = [
     'glossary_warnings', 'hoverxref.extension',
-    'sphinx_copybutton', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary',
+    'sphinx_copybutton', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary', 'sphinx.ext.mathjax', 'chemrole'
 ]
 autosummary_generate = True
 autosummary_imported_members = True
 autodoc_docstring_signature = True
 
-#configure tooltips
-hoverxref_roles = ['term',]
-hoverxref_role_types = {'term':'tooltip',}
-#specific for pyopenms documentation
+# configure tooltips
+hoverxref_roles = ['term', ]
+hoverxref_role_types = {'term': 'tooltip', }
+# specific for pyopenms documentation
 hoverxref_tooltip_lazy = True
 
 # Add any paths that contain templates here, relative to this directory.
@@ -58,7 +58,7 @@ templates_path = ['_templates']
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
-# source_suffix = ['.rst', '.md']
+# source_suffix = ['.rst    ', '.md']
 source_suffix = '.rst'
 
 # The master toctree document.

@@ -1,7 +1,7 @@
-Chromagraphic Analysis
-======================
+Chromatographic Analysis
+========================
 
-In targeted proteomics, such as SRM / MRM / PRM / DIA applications, groups of
+In targeted proteomics, such as :term:`SRM` / MRM / PRM / DIA applications, groups of
 chromatograms need to be analyzed frequently. OpenMS provides several powerful
 tools for analysis of chromatograms. Most of them are part of the OpenSWATH
 suite of tools and are also discussed in the `OpenSwath documentation
@@ -10,9 +10,9 @@ suite of tools and are also discussed in the `OpenSwath documentation
 Peak Detection
 **************
 
-Here, we will focus on a simple example where 2 peptides are analyzed. We will
+Here, we will focus on a simple example where two peptides are analyzed. We will
 need 2 input files: the chromatogram files that contains the chromatographic
-raw data (raw SRM traces or extracted ion chromatograms from PRM/DIA data) as
+raw data (raw :term:`SRM` traces or extracted ion chromatograms from PRM/DIA data) as
 well as the library file used to generated the data which contains information
 about the targeted peptides:
 
@@ -69,15 +69,15 @@ about the targeted peptides:
         )
 
 Here we see that for the first group of transitions (``tr_gr1``), a single peak
-at retention time 3119 seconds was found. However, for the second group of
-transitions, two peaks are found at retention times 3119 seconds and at
-3055 seconds.
+at retention time :math:`3119\ seconds` was found. However, for the second group of
+transitions, two peaks are found at retention times :math:`3119\ seconds` and at
+:math:`3055\ seconds`.
 
 Visualization
 *************
 
 We can confirm the above analysis by visual inspection of the ``chrom.mzML``
-file produced above in the TOPPView software:
+file produced above in the :term:`TOPPView` software:
 
 .. image:: img/chroms.png
 
@@ -92,14 +92,14 @@ However, our output above contains more information than only retention time:
   Feature for group tr_gr2 with precursor m/z 501.0
     Feature found at RT = 3119.0630105310684 with library dot product 0.7501676755451506  
 
-Based on the output above, we can infer that the peak at 3055 seconds is
-likely the correct peak for ``tr_gr2`` since it has a high library dot product
-(0.95) while the peak at 3119 seconds is likely incorrect for ``tr_gr2`` since
-its dot product is low (0.75). We also see that a peak at 3119 seconds is
+Based on the output above, we can infer that the peak at :math:`3055\ seconds` is
+likely the correct peak  for ``tr_gr2`` since it has a high library dot product
+(:math:`0.95`) while the peak at :math:`3119\ seconds` is likely incorrect for ``tr_gr2`` since
+its dot product is low (:math:`0.75`). We also see that a peak at :math:`3119\ seconds` is
 likely correct for ``tr_gr1`` since it matches well with the expected library
-intensities and has a high dot product (0.99).
+intensities and has a high dot product (:math:`0.99`).
 
-Note: to get an overview over all available scores for a particular MRM feature ``f``, you can use
+Note: to get an overview over all available scores for a particular MRM features ``f``, you can use
 
 .. code-block:: python
 

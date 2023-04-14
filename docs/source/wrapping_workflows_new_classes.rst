@@ -1,72 +1,81 @@
-Wrapping Workflow and wrapping new Classes
-******************************************
+Wrapping Workflows and New Classes
+**********************************
 
-How pyOpenMS wraps Python classes
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+How pyOpenMS Wraps C++ Classes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 General concept of how the wrapping is done (all files are in ``src/pyOpenMS/``): 
 
-- Step 1: The author declares which classes and which functions of these
-  classes s/he wants to wrap (expose to Python). This is done by writing the
-  function declaration in a file in the ``pxds/`` folder.
+- Step 1: The author declares which C++ classes and which functions of these
+  classes she/he wants to wrap (expose to Python). This is done by writing the
+  class and function declaration in a ``.pxd`` file in the ``pxds/`` folder.
 - Step 2: The Python tool "autowrap" (developed for this project) creates the
   wrapping code automatically from the function declaration - see
-  https://github.com/uweschmitt/autowrap for an explanation of the autowrap
+  https://github.com/OpenMS/autowrap for an explanation of the autowrap
   tool. 
-  Since not all code can be wrapped automatically, also manual code can be
-  written in the ``addons/`` folder. Autowrap will create an output file at
-  ``pyopenms/pyopenms.pyx`` which can be interpreted by Cython.
-- Step 3: Cython translates the ``pyopenms/pyopenms.pyx`` to C++ code at
-  ``pyopenms/pyopenms.cpp``
-- Step 4: A compiler compiles the C++ code to a Python module which is then
-  importable in Python with ``import pyopenms``
+  Since not all code can be wrapped automatically using the pxd file, manual 
+  Cython code sometimes need to be written in the ``addons/`` folder.
+  Autowrap will create an output file at ``pyopenms/pyopenms.pyx`` 
+  which can be interpreted by Cython.
+- Step 3: Cython "cythonizes", i.e., translates the ``pyopenms/pyopenms.pyx`` to C++ code at
+  ``pyopenms/pyopenms.cpp`` that contains everything to build a Python module.
+- Step 4: A compiler, nowadays driven by CMake in OpenMS, compiles the C++ code to a Python
+  extension module (pyopenms.so/dylib/dll/pyd) which is then importable in Python with
+  ``import pyopenms``
 
-Maintaining existing wrappers: If the C++ API is changed, then pyOpenMS will
+Maintaining existing wrappers
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If the C++ API is changed, then pyOpenMS will
 not build any more.  Thus, find the corresponding file in the ``pyOpenMS/pxds/``
 folder and adjust the function declaration accordingly.
 
-How to wrap new methods in existing classes
+How to Wrap New Methods in Existing Classes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Lets say you have written a new method for an existing OpenMS class and you
 would like to expose this method to pyOpenMS. First, identify the correct
 ``.pxd`` file in the ``src/pyOpenMS/pxds`` folder (for example for
-``Adduct`` that would be `Adduct.pxd
+:py:class:`~.Adduct` that would be `Adduct.pxd
 <https://github.com/OpenMS/OpenMS/blob/develop/src/pyOpenMS/pxds/Adduct.pxd>`_).
 Open it and add your new function *with the correct indentation*:
 
 - Place the full function declaration into the file (indented as the other functions)
-- Check whether you are using any classes that are not yet imported, if so add a corresponding ``cimport`` statement to the top of the file. E.g. if your method is using using ``MSExperiment``, then add ``from MSExerpiment cimport *`` to the top (note its cimport, not import).
-- Remove any qualifiers (e.g. `const`) from the function signature and add `nogil except +` to the end of the signature
-
+- Check whether you are using any classes that are not yet imported, if so add a corresponding ``cimport`` statement to the top of the file. E.g., if your method is using :py:class:`~.MSExperiment`, then add ``from MSExperiment cimport *`` to the top (note it's ``cimport``, not ``import``).
+- Most of the time it is clearer for a python user if you replace const-references with values in the function signature because the python function will always make a copy in
+  that case. You should add `nogil except +` to the end of the signature to indicate that it can be multithreaded and throw exceptions.
   - Ex: ``void setType(Int a);`` becomes ``void setType(Int a) nogil except +`` 
-  - Ex: ``const T& getType() const;`` becomes ``T getType() nogil except +`` 
+  - Ex: ``const T& getType() const;`` becomes ``T getType() nogil except +``
+
 - Remove any qualifiers (e.g. `const`) from the argument signatures, but leave reference and pointer indicators
 
-    - Ex: ``const T&`` becomes ``T``, preventing an additional copy operation
-    - Ex: ``T&`` will stay ``T&`` (indicating ``T`` needs to copied back to Python)
-    - Ex: ``T*`` will stay ``T*`` (indicating ``T`` needs to copied back to Python)
-    - One exception is ``OpenMS::String``, you can leave ``const String&`` as-is
+  - Ex: ``const T&`` becomes ``T``, preventing an additional copy operation
+  - Ex: ``T&`` will stay ``T&`` (indicating ``T`` needs to copied back to Python, make a note in the function docs that this argument may be changed)
+  - Ex: ``T*`` will stay ``T*`` (indicating ``T`` needs to copied back to Python, make a note in the function docs that this argument may be changed)
+  - One exception is ``OpenMS::String``. You can leave ``const String&`` as-is, since we have special handling for this.
+  
 - STL constructs are replaced with Cython constructs: ``std::vector<X>`` becomes ``libcpp_vector[ X ]`` etc. 
 - Most complex STL constructs can be wrapped even if they are nested, however mixing them with user-defined types does not always work, see `Limitations <#Limitations>`_ below. Nested ``std::vector`` constructs work well even with user-defined (OpenMS-defined) types. However, ``std::map<String, X>`` does not work (since ``String`` is user-defined, however a primitive C++ type such as ``std::map<std::string, X>`` would work).
 - Python cannot pass primitive data types by reference (therefore no ``int& res1``)
+- Python does not allow default values for parameters in C(++) functions. Therefore you either accept the fact that the "optional" value always needs to be specified in python
+  or you wrap it twice, once with and once without the optional parameter.
 - Replace ``boost::shared_ptr<X>`` with ``shared_ptr[X]`` and add ``from smart_ptr cimport shared_ptr`` to the top
-- Public members are simply added with  ``Type member_name``
+- Public members are simply added with ``Type member_name``. Private ones should be left out.
 - You can inject documentation that will be shown when calling ``help()`` in the function by adding ``wrap-doc:Your documentation`` as a comment after the function:
 
   - Ex: ``void modifyWidget() nogil except + # wrap-doc:This changes your widget``
   - Warning: For a single-line comment, there should not be a space between wrap-doc and the following comment.
   - Note: The space between the hash and wrap-doc (# wrap-doc) is not necessary, but used for consistency.
-  - Note: Please start the comment with a caplital letter.
+  - Note: Please start the comment with a capital letter.
   
 See the next section for a SimpleExample_ and a more AdvancedExample_ of a wrapped class with several functions.
 
-How to wrap new classes
+How to Wrap New Classes
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _SimpleExample:
 
-A simple example
+A Simple Example
 ----------------
 
 To wrap a new OpenMS class: Create a new ".pxd" file in the folder ``./pxds``. As
@@ -194,7 +203,7 @@ implementations ``AbstractBaseClassImpl1`` and
 ``AbstractBaseClassImpl2``. Then, the function needs to declared and
 overloaded with both implementations as arguments as shown above.
 
-An example with handwritten addon code
+An Example with Handwritten Addon Code
 --------------------------------------
 
 A more complex examples requires some hand-written wrapper code
@@ -273,7 +282,7 @@ to generate the required iterators and process the container efficiently.
 
 .. _Limitations Section:
 
-Considerations and limitations
+Considerations and Limitations
 ------------------------------
 
 Further considerations and limitations:
@@ -311,7 +320,7 @@ These hints can be given to autowrap functions (also check the autowrap document
 - ``wrap-upper-limit:size()`` (see MSSpectrum.pxd)
 
 
-Wrapping code yourself in ./addons 
+Wrapping Code Yourself in ./addons
 ----------------------------------
 
 Not all code can be wrapped automatically (yet). Place a file with the same (!)

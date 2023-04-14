@@ -1,16 +1,16 @@
 Feature Detection
 =================
 
-One very common task in :term:`mass spectrometry<Mass spectrometry>` is the detection of 2-dimensional
-patterns in m/z and time (RT) dimension from a series of MS1 scans. These
+One very common task in mass spectrometry is the detection of 2-dimensional
+patterns in m/z and time (RT) dimension from a series of :term:`MS1` scans. These
 patterns are called ``Features`` and they exhibit a chromatographic elution
-profile in the time dimension and an isotopic pattern in the m/z dimension (see 
+profile in the time dimension and an isotopic pattern in the m/z dimension (see
 `previous section <deisotoping.html>`_ for the 1-dimensional problem).
 OpenMS has multiple tools that can identify these features in 2-dimensional
 data, these tools are called :py:class:`~.FeatureFinder`.  Currently the following
 FeatureFinders are available in pyOpenMS:
 
-  - :py:class:`~.FeatureFinderMultiplexAlgorithm` (e.g., SILAC, Dimethyl labeling, (and label-free), identification free feature detection of peptides)
+  - :py:class:`~.FeatureFinderMultiplexAlgorithm` (e.g., :term:`SILAC`, Dimethyl labeling, (and label-free), identification free feature detection of peptides)
   - :py:class:`~.FeatureFinderAlgorithmPicked` (Label-free, identification free feature detection of peptides)
   - :py:class:`~.FeatureFinderIdentificationAlgorithm` (Label-free identification-guided feature detection of peptides)
   - :py:class:`~.FeatureFinderAlgorithmIsotopeWavelet` (old instruments)
@@ -20,10 +20,10 @@ FeatureFinders are available in pyOpenMS:
 All of the algorithms above are for proteomics data with the exception of :py:class:`~.FeatureFindingMetabo` and :py:class:`~.FeatureFinderMetaboIdentCompound` for metabolomics data and small molecules in general.
 
 Proteomics
-**********
+******************************
 
-Two of the most commonly used FeatureFinders for proteomics in OpenMS are the :py:class:`~.FeatureFinder` and :py:class:`~.FeatureFinderIdentificationAlgorithm` which both work on (high
-resolution) centroided data. We can use the following code to find ``Features`` in MS data:
+Two of the most commonly used feature finders for proteomics in OpenMS are the :py:class:`~.FeatureFinder` and :py:class:`~.FeatureFinderIdentificationAlgorithm` which both work on (high
+resolution) centroided data. We can use the following code to find features in MS data:
 
 .. code-block:: python
 
@@ -78,14 +78,14 @@ Python as follows:
 
 
 Each entry in the :py:class:`~.FeatureMap` is a so-called :py:class:`~.Feature` and allows direct
-access to the `m/z` and `RT` value from Python. Again, we can lear this by
-inspecting ``help(f)`` or by consulting the Manual.
+access to the m/z and RT value from Python. Again, we can learn this by
+inspecting ``help(f)`` or by consulting the manual.
 
 Note: the output file that we have written (``output.featureXML``) is an
 OpenMS-internal XML format for storing features. You can learn more about file
 formats in the `Reading MS data formats <other_file_handling.html>`_ section.
 
-Metabolomics - untargeted
+Metabolomics - Untargeted
 *************************
 
 For the untargeted detection of small molecule features we can use the :py:class:`~.FeatureFindingMetabo` with prior :py:class:`~.MassTraceDetection` and :py:class:`~.ElutionPeakDetection`.
@@ -145,21 +145,21 @@ For the untargeted detection of small molecule features we can use the :py:class
   fm.setUniqueIds()
   fm.setPrimaryMSRunPath(["ms_data.mzML".encode()])
 
-Metabolomics - targeted
+Metabolomics - Targeted
 ***********************
 
-``FeatureFinderAlgorithmMetaboIdent`` performs MS1-based **targeted feature extraction** based on user provided compounds, which are 
-specified in an assay library (a tab-separated text file). Detected ``Features`` are stored in a :py:class:`~.FeatureMap` which can be
-stored in a :py:class:`~.FeatureXMLFile`. This tool is useful for the targeted extraction of ``Features`` for a well-defined set of compounds 
-with known sum formulas and retention times. 
+:py:class:`~.FeatureFinderAlgorithmMetaboIdent` performs :term:`MS1`-based **targeted feature extraction** based on user provided compounds, which are
+specified in an assay library (a tab-separated text file). Detected features are stored in a :py:class:`~.FeatureMap` which can be
+stored in a :py:class:`~.FeatureXMLFile`. This tool is useful for the targeted extraction of features for a well-defined set of compounds
+with known sum formulas and retention times.
 For more information on the format of the assay library and available parameters visit the `FeatureFinderMetaboIdent documentation
 <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/release/latest/html/UTILS_FeatureFinderMetaboIdent.html>`_.
 
 
 The pyOpenMS :py:class:`~.FeatureFinderAlgorithmMetaboIdent` needs a list of :py:class:`~.FeatureFinderMetaboIdentCompound` objects as an assay libray for it's
-``run`` function. We could create that list ourselves or use the following function to read an assay library as ``.tsv`` file:
+:py:meth:`~.FeatureFinderAlgorithmMetaboIdent.run()` function. We could create that list ourselves or use the following function to read an assay library as ``.tsv`` file:
 
-.. csv-table:: Coupounds tsv file
+.. csv-table:: Compounds tsv file
    :widths: 50 30 15 15 15 15 15 
    :header: "CompoundName", "SumFormula", "Mass", "Charge", "RetentionTime", "RetentionTimeRange", "IsoDistribution"
 
@@ -247,11 +247,11 @@ formats in the `Reading MS data formats <other_file_handling.html>`_ section.
 We can get a quick overview on the detected features by plotting them using the following function:
 
 .. code-block:: python
+    :linenos:
 
-  import matplotlib.pyplot as plt
+    import matplotlib.pyplot as plt
 
-
-  def plotDetectedFeatures3D(path_to_featureXML):
+    def plotDetectedFeatures3D(path_to_featureXML):
       fm = FeatureMap()
       fh = FeatureXMLFile()
       fh.load(path_to_featureXML, fm)

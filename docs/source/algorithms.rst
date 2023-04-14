@@ -3,7 +3,7 @@ Algorithms
 
 Many signal processing algorithms follow a similar pattern in OpenMS.
 
-.. code-block:: pseudocode
+.. code-block:: output
 
   algorithm = NameOfTheAlgorithmClass()
   exp = MSExperiment()
@@ -16,7 +16,7 @@ adjusted. These are accessible through :py:meth:`~.Algorithm.getParameters()` an
 be manipulated. After changing parameters, one can use :py:meth:`~.Algorithm.setParameters()` to
 propagate the new parameters to the algorithm:
 
-.. code-block:: pseudocode
+.. code-block:: output
 
   algorithm = NameOfTheAlgorithmClass()
   param = algorithm.getParameters()
@@ -34,9 +34,10 @@ pattern are :py:class:`~.GaussFilter`, :py:class:`~.SavitzkyGolayFilter` as well
 :py:class:`~.ParentPeakMower`, :py:class:`~.Scaler`, :py:class:`~.SpectraMerger`, :py:class:`~.SqrtMower`,
 :py:class:`~.ThresholdMower`, :py:class:`~.WindowMower`.
 
-Using the same example file as before, we can execute a GaussFilter on our test data as follows: 
+Using the same example file as before, we can execute a :py:class:`~.GaussFilter` on our test data as follows:
 
 .. code-block:: python
+    :linenos:
 
     from pyopenms import *
     from urllib.request import urlretrieve
