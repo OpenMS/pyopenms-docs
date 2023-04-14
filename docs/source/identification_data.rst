@@ -18,30 +18,30 @@ and the peptide sequence). Each :py:class:`~.PeptideHit` also contains a vector 
 peptide maps to multiple proteins) proteins and the position therein.
 
 .. NOTE::
-   Protein Ids are linked to peptide Ids by a common identifier (e.g., a unique string of time and date of the search).
-   The Identifier can be set using the :py:meth:`~.ProteinIdentification.setIdentifier` method in
-   :py:class:`~.ProteinIdentification` and :py:class:`~.PeptideIdentification`.
-   Similarly :py:meth:`~.ProteinIdentification.getIdentifier` can be used to check the link between them.
-   With the link one can retrieve search meta data (which is stored at the protein level) for individual peptide Ids.
+  Protein Ids are linked to peptide Ids by a common identifier (e.g., a unique string of time and date of the search).
+  The Identifier can be set using the :py:meth:`~.ProteinIdentification.setIdentifier` method in
+  :py:class:`~.ProteinIdentification` and :py:class:`~.PeptideIdentification`.
+  Similarly :py:meth:`~.ProteinIdentification.getIdentifier` can be used to check the link between them.
+  With the link one can retrieve search meta data (which is stored at the protein level) for individual peptide Ids.
 
-   .. code-block:: python
+  .. code-block:: python
       :linenos:
 
-    protein_id = ProteinIdentification()
-    peptide_id = PeptideIdentification()
+      protein_id = ProteinIdentification()
+      peptide_id = PeptideIdentification()
 
-    # Sets the Identifier
-    protein_id.setIdentifier("IdentificationRun1")
-    peptide_id.setIdentifier("IdentificationRun1")
+      # Sets the Identifier
+      protein_id.setIdentifier("IdentificationRun1")
+      peptide_id.setIdentifier("IdentificationRun1")
 
-    # Prints the Identifier
-    print("Protein Identifier -", protein_id.getIdentifier())
-    print("Peptide Identifier -", peptide_id.getIdentifier())
+      # Prints the Identifier
+      print("Protein Identifier -", protein_id.getIdentifier())
+      print("Peptide Identifier -", peptide_id.getIdentifier())
 
-   .. code-block:: output
-       
-       Protein Identifier - IdentificationRun1
-       Peptide Identifier - IdentificationRun1
+  .. code-block:: output
+  
+      Protein Identifier - IdentificationRun1
+      Peptide Identifier - IdentificationRun1
 
 Protein Identification
 ***********************
