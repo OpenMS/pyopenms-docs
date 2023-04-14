@@ -55,5 +55,20 @@ body {
     text-decoration-color: var(--color-link-underline--hover);
   }
 
+  /* second column of API autosummaries should break more and be a bit smaller */
+  table.autosummary td:nth-child(2) {
+    FONT-WEIGHT: 300;
+    font-size: 13px;
+    word-break: break-word;
+  }
 
+  /* Overloads should be a bit smaller */
+  p.rubric+dl.py.function {
+    font-size: small;
+  }
 
+  /* Parameter names should look a bit different from types */
+  .sig-param > span.n:nth-child(1) > .pre {
+    font-weight: 500;
+    color: #16324F;
+}
