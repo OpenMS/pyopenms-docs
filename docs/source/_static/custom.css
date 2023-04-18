@@ -78,3 +78,8 @@ p.rubric+dl.py.function {
 .bd-header .navbar-header-items {
   padding: 0 0 0 2rem;
 }
+
+/* Fix some bugs in the pydata css */
+.navbar-nav .toctree-checkbox:checked~label i {
+    transform-origin: 25% center;
+}
