@@ -1,4 +1,4 @@
-Full API documentation
+API docs
 ======================
 
 This is an overview over all classes available in pyopenms

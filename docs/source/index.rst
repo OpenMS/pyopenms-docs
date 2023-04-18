@@ -58,13 +58,12 @@ Information about the community behind this package and how you can contribute.
     community/index
 
 
-
-.. toctree::
-    :hidden:
-
-    Sourcecode <https://github.com/OpenMS/OpenMS/tree/develop/src/pyOpenMS>
-
 .. toctree::
     :hidden:
 
     OpenMS <https://www.openms.de>
+
+.. toctree::
+    :hidden:
+
+    C++ library <https://openms.de/documentation/html/index.html>

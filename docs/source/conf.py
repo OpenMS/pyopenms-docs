@@ -83,7 +83,7 @@ release = u'3.0.0dev'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -118,6 +118,19 @@ html_theme_options = {
     "logo": {
         "text": "pyOpenMS",
     },
+    "icon_links": [
+        {
+            # Label for this link
+            "name": "GitHub",
+            # URL where the link will redirect
+            "url": "https://github.com/OpenMS/OpenMS",  # required
+            # Icon class (if "type": "fontawesome"), or path to local image (if "type": "local")
+            "icon": "fa-brands fa-square-github",
+            # The type of image to be used (see below for details)
+            "type": "fontawesome",
+        }
+   ],
+   "show_nav_level": 0
 }
 
 html_context = {
@@ -189,6 +202,10 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 
+def env_get_outdated(app, env, added, changed, removed):
+    return ['index']
+
 def setup(app):
     app.add_css_file('custom.css')
     app.add_js_file('piwik.js')
+    app.connect('env-get-outdated', env_get_outdated)

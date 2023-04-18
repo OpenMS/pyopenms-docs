@@ -1,9 +1,8 @@
-User Guide
-=================
+User guide
+==========
 
 .. toctree::
    :maxdepth: 2
-   :caption: Introduction
 
    background
 
@@ -13,7 +12,6 @@ User Guide
 
    installation
    first_steps
-   introduction
 
 .. toctree::
    :maxdepth: 2

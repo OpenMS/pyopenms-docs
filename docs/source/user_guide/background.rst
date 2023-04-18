@@ -38,13 +38,9 @@ quantify substances.
 :term:`Liquid chromatography<liquid chromatography>` is a technique used by life scientists to separate molecules based
 on a specific physical or chemical property.
 
-.. raw:: html
+.. admonition:: Video
 
-    <div class="admonition video">
-    <p class="admonition-title">Video</p>
-    For more information on :term:`LC`,
-    <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_001_cpm_0001?t=210.00">view this video</a>.
-    </div>
+    For more information on :term:`LC`, `view this video <https://timms.uni-tuebingen.de:/tp/UT_20141028_001_cpm_0001?t=210.00>`_.
 
 There are many types of chromatography, but this section focuses on :term:`LC` as it is widely used in proteomics and
 metabolomics.
