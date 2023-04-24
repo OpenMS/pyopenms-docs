@@ -58,6 +58,7 @@ a.hxr-hoverxref:hover {
 table.autosummary td:nth-child(2) {
   FONT-WEIGHT: 300;
   font-size: 13px;
+  vertical-align: bottom;
   word-break: break-word;
 }
 
@@ -77,4 +78,42 @@ p.rubric+dl.py.function {
 @media (min-width: 960px)
 .bd-header .navbar-header-items {
   padding: 0 0 0 2rem;
+}
+
+/* Fix some bugs in the pydata css */
+.navbar-nav .toctree-checkbox:checked~label i {
+    transform-origin: 25% center;
+}
+
+/* Make the Binder rocket fly */
+.fa-rocket {
+    &:hover {
+        animation: readyRocket 0.5s ease, flyRocket 1s ease infinite 0.5s;
+    }
+}
+
+@keyframes readyRocket {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(-35deg);}
+}
+@keyframes flyRocket {
+  0% {transform: rotate(-35deg) translate(0, 0);}
+  70% {transform: rotate(-35deg) translate(20px, -20px);}
+  71% {transform: rotate(-35deg) translate(-10px, -20px);}
+  72% {transform: rotate(-35deg) translate(-10px, 5px);}
+  73% {transform: rotate(-35deg) translate(-20px, 20px);}
+  100% {transform: rotate(-35deg) translate(0px, 0px);}
+}
+
+/* Shift our logo a little bit up to align with header text */
+.navbar-brand img {
+    margin-bottom: 13px;
+    margin-top: 5px;
+}
+
+/* In the right tocs:
+ The edit pencil icon is a bit bigger than the show source file icon.
+ Therefore pad it. */
+div.tocsection > a > i.fa-file-lines::before {
+    padding-right: 0.17rem;
 }

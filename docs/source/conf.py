@@ -40,10 +40,18 @@ from sys import platform
 # ones.
 extensions = [
     'glossary_warnings', 'hoverxref.extension',
-    'sphinx_copybutton', 'sphinx.ext.autodoc', 'sphinx.ext.autosummary', 'sphinx.ext.mathjax', 'chemrole'
+    'sphinx_copybutton', 'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary', 'sphinx.ext.mathjax',
+    'sphinx_remove_toctrees',
+    'chemrole', 
 ]
+
 autosummary_generate = True
 autosummary_imported_members = True
+remove_from_toctrees = [
+    "apidocs/_autosummary/pyopenms/pyopenms.*.rst",
+    "apidocs/_autosummary/pyopenmssubmodules/pyopenms.Constants.*.rst",
+    "apidocs/_autosummary/pyopenmssubmodules/pyopenms.plotting.*.rst"]
 autodoc_docstring_signature = True
 
 # configure tooltips
@@ -141,6 +149,10 @@ html_context = {
     "doc_path": "docs/source/",
 }
 
+html_sidebars = {
+    "**": ["search-field.html", "sidebar-nav-bs.html", "sidebar-ethical-ads.html"]
+}
+
 html_favicon = 'img/OpenMS_transparent_background.png'
 html_logo = 'img/OpenMS_transparent_background.png'
 
@@ -208,4 +220,5 @@ def env_get_outdated(app, env, added, changed, removed):
 def setup(app):
     app.add_css_file('custom.css')
     app.add_js_file('piwik.js')
+    app.add_js_file('custom.js')
     app.connect('env-get-outdated', env_get_outdated)
