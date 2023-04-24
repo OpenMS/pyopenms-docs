@@ -75,10 +75,12 @@ p.rubric+dl.py.function {
 
 /* In desktop mode, when the top navbar is filled, make the padding to
    the left a bit bigger */
-@media (min-width: 960px)
-.bd-header .navbar-header-items {
+@media (min-width: 960px) {
+  .bd-header .navbar-header-items {
   padding: 0 0 0 2rem;
+  }
 }
+
 
 /* Fix some bugs in the pydata css */
 .navbar-nav .toctree-checkbox:checked~label i {
@@ -86,12 +88,14 @@ p.rubric+dl.py.function {
 }
 
 /* Make the Binder rocket fly */
-@media (min-width: 960px)
-.fa-rocket {
+@media (min-width: 960px) {
+  .fa-rocket {
     &:hover {
         animation: readyRocket 0.5s ease, flyRocket 1s ease infinite 0.5s;
     }
+  }
 }
+
 
 @keyframes readyRocket {
   0% {transform: rotate(0deg);}
@@ -119,16 +123,18 @@ div.tocsection > a > i.fa-file-lines::before {
     padding-right: 0.17rem;
 }
 
-/* small screen = top padding */
+/* big screen = no top padding */
 .bd-sidebar-primary {
     padding: 2rem 1rem 1rem;
 }
 
-/* big screen = no top padding */
-@media (min-width: 960px)
-.bd-sidebar-primary {
+/* small screen = top padding */
+@media (min-width: 960px) {
+  .bd-sidebar-primary {
     padding: 0rem 1rem 1rem;
+  }
 }
+
 
 /* version selector styling*/
 button.version-switcher__button.btn.btn-sm.navbar-btn.dropdown-toggle {
