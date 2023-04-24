@@ -142,6 +142,10 @@ button.version-switcher__button.btn.btn-sm.navbar-btn.dropdown-toggle {
     margin-bottom: 0;
 }
 
+.version-switcher__menu, button.version-switcher__button {
+    font-size: 0.75em;
+}
+
 .version-switcher__button[data-active-version-name*="nightly"] {
    background-color: var(--pst-color-secondary);
 }
