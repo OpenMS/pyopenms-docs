@@ -86,6 +86,7 @@ p.rubric+dl.py.function {
 }
 
 /* Make the Binder rocket fly */
+@media (min-width: 960px)
 .fa-rocket {
     &:hover {
         animation: readyRocket 0.5s ease, flyRocket 1s ease infinite 0.5s;
@@ -116,4 +117,25 @@ p.rubric+dl.py.function {
  Therefore pad it. */
 div.tocsection > a > i.fa-file-lines::before {
     padding-right: 0.17rem;
+}
+
+/* small screen = top padding */
+.bd-sidebar-primary {
+    padding: 2rem 1rem 1rem;
+}
+
+/* big screen = no top padding */
+@media (min-width: 960px)
+.bd-sidebar-primary {
+    padding: 0rem 1rem 1rem;
+}
+
+/* version selector styling*/
+button.version-switcher__button.btn.btn-sm.navbar-btn.dropdown-toggle {
+    font-size: 0.75em;
+    margin-bottom: 0;
+}
+
+.version-switcher__button[data-active-version-name*="nightly"] {
+   background-color: var(--pst-color-secondary);
 }

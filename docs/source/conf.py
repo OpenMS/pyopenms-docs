@@ -118,7 +118,7 @@ html_theme = 'pydata_sphinx_theme'
 html_theme_options = {
     "switcher": {
         "json_url": "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master/docs/source/_static/switcher.json",
-        "version_match": "nightly" if "dev" in release else release
+        "version_match": release
     },
     "navbar_end": ["navbar-run-binder", "navbar-icon-links", "version-switcher"],
     "use_edit_page_button": True,

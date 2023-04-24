@@ -4,6 +4,7 @@ pydata_sphinx_theme
 readthedocs-sphinx-search==0.3.1
 sphinx-copybutton==0.5.1
 sphinx-hoverxref
+sphinx-remove-toctrees
 
 --extra-index-url https://pypi.cs.uni-tuebingen.de/simple/
 pyopenms
