@@ -43,7 +43,7 @@ extensions = [
     'sphinx_copybutton', 'sphinx.ext.autodoc',
     'sphinx.ext.autosummary', 'sphinx.ext.mathjax',
     'sphinx_remove_toctrees',
-    'chemrole', 
+    'chemrole',
 ]
 
 autosummary_generate = True
@@ -66,7 +66,7 @@ templates_path = ['_templates']
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
-# source_suffix = ['.rst    ', '.md']
+# source_suffix = ['.rst', '.md']
 source_suffix = '.rst'
 
 # The master toctree document.
@@ -115,7 +115,6 @@ html_theme = 'pydata_sphinx_theme'
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-
 html_theme_options = {
     "switcher": {
         "json_url": "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master/docs/source/_static/switcher.json",
@@ -137,8 +136,8 @@ html_theme_options = {
             # The type of image to be used (see below for details)
             "type": "fontawesome",
         }
-   ],
-   "show_nav_level": 0
+    ],
+    "show_nav_level": 0
 }
 
 html_context = {
@@ -214,8 +213,10 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 
+
 def env_get_outdated(app, env, added, changed, removed):
     return ['index']
+
 
 def setup(app):
     app.add_css_file('custom.css')
