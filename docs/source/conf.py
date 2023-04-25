@@ -121,6 +121,7 @@ html_theme_options = {
         "version_match": release
     },
     "navbar_end": ["navbar-run-binder", "navbar-icon-links", "version-switcher"],
+    "navbar_persistent": [], # default: ["search-button"] but we don't need it since we use the search bar in the sidebar
     "use_edit_page_button": True,
     "logo": {
         "text": "pyOpenMS",
@@ -132,10 +133,27 @@ html_theme_options = {
             # URL where the link will redirect
             "url": "https://github.com/OpenMS/OpenMS",  # required
             # Icon class (if "type": "fontawesome"), or path to local image (if "type": "local")
-            "icon": "fa-brands fa-square-github",
+            "icon": "fa-brands fa-github",
             # The type of image to be used (see below for details)
             "type": "fontawesome",
-        }
+        },
+        {
+            "name": "Twitter",
+            "url": "https://twitter.com/OpenMSTeam",
+            "icon": "fa-brands fa-twitter",
+        },
+        {
+            "name": "PyPI",
+            "url": "https://pypi.org/project/pyopenms",
+            "icon": "pypi", # defined in our custom.css
+        },
+        {
+            "name": "OpenMS project",
+            "url": "https://www.openms.de",
+            "icon": "_static/OpenMS_transparent_background.png",
+            "type": "local",
+            "attributes": {"target": "_blank"},
+        },
     ],
     "show_nav_level": 1
 }
@@ -149,7 +167,7 @@ html_context = {
 }
 
 html_sidebars = {
-    "**": ["search-field.html", "sidebar-nav-bs.html", "sidebar-ethical-ads.html"]
+    "**": ["search-field.html", "sidebar-nav-bs.html"]
 }
 
 html_favicon = 'img/OpenMS_transparent_background.png'
@@ -158,7 +176,10 @@ html_logo = 'img/OpenMS_transparent_background.png'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]
+html_css_files = ["custom.css"]
+# adding custom icons probably only possible with newest pydata theme version
+html_js_files = ["piwik.js", "custom.js"] #, "custom_icon.js"]
 
 # -- Options for HTMLHelp output ------------------------------------------
 
@@ -219,7 +240,4 @@ def env_get_outdated(app, env, added, changed, removed):
 
 
 def setup(app):
-    app.add_css_file('custom.css')
-    app.add_js_file('piwik.js')
-    app.add_js_file('custom.js')
     app.connect('env-get-outdated', env_get_outdated)

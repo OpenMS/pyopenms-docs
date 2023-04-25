@@ -87,6 +87,14 @@ p.rubric+dl.py.function {
     transform-origin: 25% center;
 }
 
+.navbar-icon-links {
+    column-gap: 1rem;
+}
+
+.bd-sidebar-primary .sidebar-header-items .sidebar-header-items__end {
+    gap: 1rem;
+}
+
 /* Make the Binder rocket fly */
 @media (min-width: 960px) {
   .fa-rocket {
@@ -149,3 +157,13 @@ button.version-switcher__button.btn.btn-sm.navbar-btn.dropdown-toggle {
 .version-switcher__button[data-active-version-name*="nightly"] {
    background-color: var(--pst-color-secondary);
 }
+
+i.pypi {
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    -webkit-mask-image: url(https://raw.githubusercontent.com/file-icons/icons/master/svg/PyPi.svg);
+    mask-image: url(https://raw.githubusercontent.com/file-icons/icons/master/svg/PyPi.svg);
+    background-color: var(--pst-color-text-muted);
+    width: 20px;
+    height: 22px;
+  }
