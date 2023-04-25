@@ -1,6 +1,13 @@
 User guide
 ==========
 
+This guide is for users that want to use pyopenms to develop and/or prototype scripts and
+programs for mass spectrometry data analysis and visualization.
+
+You can find the full table of contents in the following. On every page, you can also
+navigate this table by using the left sidebar. The right sidebar shows the page's
+headings and structure.
+
 .. toctree::
    :maxdepth: 2
 

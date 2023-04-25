@@ -137,7 +137,7 @@ html_theme_options = {
             "type": "fontawesome",
         }
     ],
-    "show_nav_level": 0
+    "show_nav_level": 1
 }
 
 html_context = {
