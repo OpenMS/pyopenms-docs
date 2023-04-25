@@ -1,14 +1,27 @@
 #!/bin/bash
 
-echo "Process Started"
+echo "Start generating notebooks"
 
+failed=0
 shopt -s globstar
 for FILE in **/*.rst; do
-  if [[ $string != *"_templates"* ]]; then
+  if [[ $FILE != *"_templates"* ]]; then
     a=(${FILE/./ })
     pandoc ${FILE} -o ${a[0]}.ipynb --filter ../pandoc_filters/admonitionfilter.py --filter ../pandoc_filters/code_pandocfilter.py --filter ../pandoc_filters/ignore_pandocfilter.py --filter ../pandoc_filters/transformlinks_pandocfilter.py
-    echo "${a[0]}.ipynb Generated"
+    retVal=$?
+    if [ $retVal -ne 0 ]; then
+      echo "Error generating ${a[0]}.ipynb"
+      failed=1
+    else
+      echo "${a[0]}.ipynb Generated"
+    fi
   fi
 done
 
-echo "Process Completed Successfully"
+if [ $failed -ne 0 ]; then
+  echo "Error generating at least one notebook."
+  exit 1
+else
+  echo "Notebooks generated successfully"
+  exit 0
+fi
