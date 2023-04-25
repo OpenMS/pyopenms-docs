@@ -31,7 +31,7 @@ interactively zoomed-in if you execute the code in a notebook
     loadopts.setIntensity32Bit(True)
     loadopts.setIntensityRange(DRange1(DPosition1(5000), DPosition1(sys.maxsize)))
     loader.setOptions(loadopts)
-    loader.load("../../src/data/BSA1.mzML", exp)
+    loader.load("../../../src/data/BSA1.mzML", exp)
     exp.updateRanges()
     expandcols = ["RT", "mz", "inty"]
     spectraarrs2d = exp.get2DPeakDataLong(

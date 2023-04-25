@@ -161,8 +161,8 @@ Now include some additional decoy database generation step as well as subsequent
 
     from urllib.request import urlretrieve
 
-    searchfile = "../../src/data/BSA1.mzML"
-    searchdb = "../../src/data/18Protein_SoCe_Tr_detergents_trace.fasta"
+    searchfile = "../../../src/data/BSA1.mzML"
+    searchdb = "../../../src/data/18Protein_SoCe_Tr_detergents_trace.fasta"
 
     # generate a protein database with additional decoy sequenes
     targets = list()
