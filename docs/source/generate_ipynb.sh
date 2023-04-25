@@ -7,7 +7,7 @@ shopt -s globstar
 for FILE in **/*.rst; do
   if [[ $FILE != *"_templates"* ]]; then
     a=(${FILE/./ })
-    pandoc ${FILE} -o ${a[0]}.ipynb --filter ../pandoc_filters/admonitionfilter.py --filter ../pandoc_filters/code_pandocfilter.py --filter ../pandoc_filters/ignore_pandocfilter.py --filter ../pandoc_filters/transformlinks_pandocfilter.py
+    pandoc ${FILE} -o ${a[0]}.ipynb --resource-path user_guide/ --filter ../pandoc_filters/admonitionfilter.py --filter ../pandoc_filters/code_pandocfilter.py --filter ../pandoc_filters/ignore_pandocfilter.py --filter ../pandoc_filters/transformlinks_pandocfilter.py
     retVal=$?
     if [ $retVal -ne 0 ]; then
       echo "Error generating ${a[0]}.ipynb"
