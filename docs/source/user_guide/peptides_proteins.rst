@@ -380,6 +380,8 @@ In this tutorial, we will cover a step-by-step guide on how to use the pyopenms 
     for peptide in peptides_with_variable_modifications:
         print("Variable:", peptide.toString())
         print("Mono-isotopic mass:", peptide.getMonoWeight())
+
+
 The above code outputs:
 
 .. code-block:: output
