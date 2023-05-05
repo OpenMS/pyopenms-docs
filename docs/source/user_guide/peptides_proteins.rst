@@ -335,7 +335,9 @@ In this tutorial, we will cover a step-by-step guide on how to use the pyopenms 
 
 .. code-block:: python
     :linenos:
+
     from pyopenms import *
+    
     # Create an amino acid sequence using the fromString() method of the AASequence class.
     # In this example, we will use the amino acid sequence "TESTMTECSTMTESTR"
     sequence = pyopenms.AASequence.fromString("TESTMTECSTMTESTR")
