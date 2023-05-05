@@ -328,6 +328,11 @@ objects to an EmpiricalFormula using :py:meth:`~.AASequence.getFormula`, as tags
 considered in this case (there exists no formula for them). However, they have
 an influence on :py:meth:`~.AASequence.getMonoWeight` and :py:meth:`~.AASequence.getAverageWeight`!
 
+Applying Fixed or Variable Modifications to Sequences
+*****************************************************
+
+
+
 Proteins and :term:`FASTA` Files
 ********************************
 
