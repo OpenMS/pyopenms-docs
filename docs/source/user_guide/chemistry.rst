@@ -620,6 +620,41 @@ Which will print the isotopic pattern of the modification (Oxygen):
   18.0016246756 : 0.002050000010058284
 
 
+All available modifications can be stored in a Dictionary by:
+
+.. code-block:: python
+    num_mod = ModificationsDB().getNumberOfModifications()
+
+    all_mods={}
+    for index in range(0, num_mod):
+        mod = ModificationsDB().getModification(index)
+        all_mods[mod.getUniModRecordId()] = mod
+
+And the modification can be accessed by UniMod Accesstion by:
+
+.. code-block:: python
+    # obtain modification with UniMod Accession 122
+    ox = all_mods[122]
+
+    print(ox.getUniModAccession())
+    print(ox.getUniModRecordId())
+    print(ox.getDiffMonoMass())
+    print(ox.getId())
+    print(ox.getFullId())
+    print(ox.getFullName())
+    print(ox.getDiffFormula())
+
+to output:
+.. code-block:: output
+    UniMod:122
+    122
+    27.994915
+    Formyl
+    Formyl (S)
+    Formylation
+    C1O1
+
+
 Ribonucleotides
 ---------------
 
