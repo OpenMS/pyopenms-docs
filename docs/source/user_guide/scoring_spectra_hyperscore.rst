@@ -89,7 +89,7 @@ If we didn't know ahead of time which spectrum was a match we can loop through a
 
 
 .. note::
-    In the original publication, an E-value is calculated based on the score distribution p(x), which is derived from a frequency histogram of PSMs per score bin, denoted as f(x). The total number of PSMs is represented by N. The formula for calculating the score distribution is: p(x) = f(x) / N
+    In the original publication, an E-value is calculated based on the score distribution p(x), which is derived from a frequency histogram of PSMs per HyperScore bin, denoted as f(x). The total number of PSMs is represented by N. The formula for calculating the score distribution is: p(x) = f(x) / N
 
     For a discrete stochastic score probability distribution p(x), the so-called survival function represents the probability of having a greater value than x by random matches in a database. The formula for the survival function is:
 
