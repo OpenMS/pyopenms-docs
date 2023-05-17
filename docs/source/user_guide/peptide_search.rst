@@ -25,14 +25,14 @@ a fasta database of protein sequences:
     :linenos:
 
     from urllib.request import urlretrieve
-    from pyopenms import *
+    import pyopenms as oms
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/SimpleSearchEngine_1.mzML", "searchfile.mzML")
     urlretrieve(gh + "/src/data/SimpleSearchEngine_1.fasta", "search.fasta")
     protein_ids = []
     peptide_ids = []
-    SimpleSearchEngineAlgorithm().search(
+    oms.SimpleSearchEngineAlgorithm().search(
         "searchfile.mzML", "search.fasta", protein_ids, peptide_ids
     )
 
@@ -75,7 +75,7 @@ We can now investigate the individual hits as we have done before in the
             print(" - Peptide hit sequence:", hit.getSequence())
             mz = (
                 hit.getSequence().getMonoWeight(
-                    Residue.ResidueType.Full, hit.getCharge()
+                    oms.Residue.ResidueType.Full, hit.getCharge()
                 )
                 / hit.getCharge()
             )
@@ -93,19 +93,19 @@ term:`mass spectrum` in the file for a precursor at :math:`775.38` m/z for the s
 .. code-block:: python
     :linenos:
 
-    tsg = TheoreticalSpectrumGenerator()
-    thspec = MSSpectrum()
-    p = Param()
+    tsg = oms.TheoreticalSpectrumGenerator()
+    thspec = oms.MSSpectrum()
+    p = oms.Param()
     p.setValue("add_metainfo", "true")
     tsg.setParameters(p)
-    peptide = AASequence.fromString("RPGADSDIGGFGGLFDLAQAGFR")
+    peptide = oms.AASequence.fromString("RPGADSDIGGFGGLFDLAQAGFR")
     tsg.getSpectrum(thspec, peptide, 1, 1)
     # Iterate over annotated ions and their masses
     for ion, peak in zip(thspec.getStringDataArrays()[0], thspec):
         print(ion, peak.getMZ())
 
-    e = MSExperiment()
-    MzMLFile().load("searchfile.mzML", e)
+    e = oms.MSExperiment()
+    oms.MzMLFile().load("searchfile.mzML", e)
     print("Spectrum native id", e[2].getNativeID())
     mz, i = e[2].get_peaks()
     peaks = [(mz, i) for mz, i in zip(mz, i) if i > 1500 and mz > 300]
@@ -136,7 +136,7 @@ ppm\ (\pm 2\ ppm)`, we expect that we will not find the hit at :math:`775.38` m/
 .. code-block:: python
     :linenos:
 
-    salgo = SimpleSearchEngineAlgorithm()
+    salgo = oms.SimpleSearchEngineAlgorithm()
     p = salgo.getDefaults()
     print(p.items())
     p[b"precursor:mass_tolerance"] = 4.0
@@ -167,14 +167,14 @@ Now include some additional decoy database generation step as well as subsequent
     # generate a protein database with additional decoy sequenes
     targets = list()
     decoys = list()
-    FASTAFile().load(
+    oms.FASTAFile().load(
         searchdb, targets
     )  # read FASTA file into a list of FASTAEntrys
-    decoy_generator = DecoyGenerator()
+    decoy_generator = oms.DecoyGenerator()
     for entry in targets:
-        rev_entry = FASTAEntry(entry)  # copy entry
+        rev_entry = oms.FASTAEntry(entry)  # copy entry
         rev_entry.identifier = "DECOY_" + rev_entry.identifier  # mark as decoy
-        aas = AASequence().fromString(
+        aas = oms.AASequence().fromString(
             rev_entry.sequence
         )  # convert string into amino acid sequence
         rev_entry.sequence = decoy_generator.reverseProtein(
@@ -183,7 +183,7 @@ Now include some additional decoy database generation step as well as subsequent
         decoys.append(rev_entry)
 
     target_decoy_database = "search_td.fasta"
-    FASTAFile().store(
+    oms.FASTAFile().store(
         target_decoy_database, targets + decoys
     )  # store the database with appended decoy sequences
 
@@ -192,7 +192,7 @@ Now include some additional decoy database generation step as well as subsequent
     peptide_ids = []
 
     # set some custom search parameters
-    simplesearch = SimpleSearchEngineAlgorithm()
+    simplesearch = oms.SimpleSearchEngineAlgorithm()
     params = simplesearch.getDefaults()
     score_annot = [b"fragment_mz_error_median_ppm", b"precursor_mz_error_ppm"]
     params.setValue(b"annotate:PSM", score_annot)
@@ -202,15 +202,15 @@ Now include some additional decoy database generation step as well as subsequent
     simplesearch.search(searchfile, target_decoy_database, protein_ids, peptide_ids)
 
     # Annotate q-value
-    FalseDiscoveryRate().apply(peptide_ids)
+    oms.FalseDiscoveryRate().apply(peptide_ids)
 
     # Filter by 1% PSM FDR (q-value < 0.01)
-    idfilter = IDFilter()
+    idfilter = oms.IDFilter()
     idfilter.filterHitsByScore(peptide_ids, 0.01)
     idfilter.removeDecoyHits(peptide_ids)
 
     # store PSM-FDR filtered
-    IdXMLFile().store(
+    oms.IdXMLFile().store(
         "searchfile_results_1perc_FDR.idXML", protein_ids, peptide_ids
     )
 
@@ -230,7 +230,7 @@ This is done by applying one of the available protein inference algorithms on th
     simplesearch.search(searchfile, target_decoy_database, protein_ids, peptide_ids)
 
     # Run inference
-    bpia = BasicProteinInferenceAlgorithm()
+    bpia = oms.BasicProteinInferenceAlgorithm()
     params = bpia.getDefaults()
     # FDR with groups currently not supported in pyopenms
     params.setValue("annotate_indistinguishable_groups", "false")
@@ -240,10 +240,10 @@ This is done by applying one of the available protein inference algorithms on th
 
     # Annotate q-value on protein level
     # Removes decoys in default settings
-    FalseDiscoveryRate().apply(protein_ids)
+    oms.FalseDiscoveryRate().apply(protein_ids)
 
     # Filter targets by 1% protein FDR (q-value < 0.01)
-    idfilter = IDFilter()
+    idfilter = oms.IDFilter()
     idfilter.filterHitsByScore(protein_ids, 0.01)
 
     # Restore valid references into the proteins
@@ -253,7 +253,7 @@ This is done by applying one of the available protein inference algorithms on th
     )
 
     # store protein-FDR filtered
-    IdXMLFile().store(
+    oms.IdXMLFile().store(
         "searchfile_results_1perc_protFDR.idXML", protein_ids, peptide_ids
     )
 

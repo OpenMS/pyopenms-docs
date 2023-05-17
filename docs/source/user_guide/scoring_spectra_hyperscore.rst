@@ -21,7 +21,7 @@ loaded from an :term:`mzML` file.
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    from pyopenms import *
+    import pyopenms as oms
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/SimpleSearchEngine_1.mzML", "searchfile.mzML")
@@ -36,19 +36,19 @@ We now use the :py:class:`~.TheoreticalSpectrumGenerator` to generate a theoreti
 
 .. code-block:: python
 
-    tsg = TheoreticalSpectrumGenerator()
-    thspec = MSSpectrum()
-    p = Param()
+    tsg = oms.TheoreticalSpectrumGenerator()
+    thspec = oms.MSSpectrum()
+    p = oms.Param()
     p.setValue("add_metainfo", "true")
     tsg.setParameters(p)
-    peptide = AASequence.fromString("RPGADSDIGGFGGLFDLAQAGFR")
+    peptide = oms.AASequence.fromString("RPGADSDIGGFGGLFDLAQAGFR")
     tsg.getSpectrum(thspec, peptide, 1, 1)
     # Iterate over annotated ions and their masses
     for ion, peak in zip(thspec.getStringDataArrays()[0], thspec):
         print(ion, peak.getMZ())
 
-    e = MSExperiment()
-    MzMLFile().load("searchfile.mzML", e)
+    e = oms.MSExperiment()
+    oms.MzMLFile().load("searchfile.mzML", e)
     spectrum_of_interest = e[2]
     print("Spectrum native id", spectrum_of_interest.getNativeID())
     mz, i = spectrum_of_interest.get_peaks()
@@ -69,7 +69,7 @@ and the experimental spectrum and print the result
 
 .. code-block:: python
 
-    hscore = HyperScore()
+    hscore = oms.HyperScore()
     fragment_mass_tolerance = 5.0
     is_tol_in_ppm = True
     result = hscore.compute(

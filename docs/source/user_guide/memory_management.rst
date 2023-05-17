@@ -7,18 +7,18 @@ use the :py:class:`~.OnDiscMSExperiment` for reading data.
 .. code-block:: python
   :linenos:
 
-  from pyopenms import *
+  import pyopenms as oms
 
-  od_exp = OnDiscMSExperiment()
+  od_exp = oms.OnDiscMSExperiment()
   od_exp.openFile("test.mzML")
 
-  e = MSExperiment()
+  e = oms.MSExperiment()
   for k in range(od_exp.getNrSpectra()):
       s = od_exp.getSpectrum(k)
       if s.getNativeID().startswith("scan="):
           e.addSpectrum(s)
 
-  MzMLFile().store("test_filtered.mzML", e)
+  oms.MzMLFile().store("test_filtered.mzML", e)
 
 Note that using the approach the output data ``e`` is still completely in
 memory and may end up using a substantial amount of memory. We can avoid that
@@ -27,12 +27,12 @@ by using
 .. code-block:: python
   :linenos:
 
-  od_exp = OnDiscMSExperiment()
+  od_exp = oms.OnDiscMSExperiment()
   od_exp.openFile("test.mzML")
 
-  consumer = PlainMSDataWritingConsumer("test_filtered.mzML")
+  consumer = oms.PlainMSDataWritingConsumer("test_filtered.mzML")
 
-  e = MSExperiment()
+  e = oms.MSExperiment()
   for k in range(od_exp.getNrSpectra()):
       s = od_exp.getSpectrum(k)
       if s.getNativeID().startswith("scan="):

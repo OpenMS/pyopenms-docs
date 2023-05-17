@@ -13,7 +13,7 @@ Required imports for the examples:
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
+    import pyopenms as oms
     import pandas as pd
     from urllib.request import urlretrieve
 
@@ -45,8 +45,8 @@ MSExperiment
     :linenos:
 
     urlretrieve(url + "BSA1.mzML", "BSA1.mzML")
-    exp = MSExperiment()
-    MzMLFile().load("BSA1.mzML", exp)
+    exp = oms.MSExperiment()
+    oms.MzMLFile().load("BSA1.mzML", exp)
 
     df = exp.get_df()  # default: long = False
     df.head(2)
@@ -111,9 +111,9 @@ PeptideIdentification
     urlretrieve(url + "small.idXML", "small.idXML")
     prot_ids = []
     pep_ids = []
-    IdXMLFile().load("small.idXML", prot_ids, pep_ids)
+    oms.IdXMLFile().load("small.idXML", prot_ids, pep_ids)
 
-    df = peptide_identifications_to_df(pep_ids)
+    df = oms.peptide_identifications_to_df(pep_ids)
     df.head(2)
 .. csv-table:: peptide_identifications_to_df(pep_ids)
    :widths: 2 20 10 20 20 10 20 20 20 20 20 20 20 20 20 20
@@ -158,8 +158,8 @@ FeatureMap
     :linenos:
 
     urlretrieve(url + "BSA1_F1_idmapped.featureXML", "BSA1_F1_idmapped.featureXML")
-    feature_map = FeatureMap()
-    FeatureXMLFile().load("BSA1_F1_idmapped.featureXML", feature_map)
+    feature_map = oms.FeatureMap()
+    oms.FeatureXMLFile().load("BSA1_F1_idmapped.featureXML", feature_map)
 
     df = feature_map.get_df()  # default: meta_values = None
     df.head(2)
@@ -297,8 +297,8 @@ ConsensusMap
     urlretrieve(
         url + "ProteomicsLFQ_1_out.consensusXML", "ProteomicsLFQ_1_out.consensusXML"
     )
-    consensus_map = ConsensusMap()
-    ConsensusXMLFile().load("ProteomicsLFQ_1_out.consensusXML", consensus_map)
+    consensus_map = oms.ConsensusMap()
+    oms.ConsensusXMLFile().load("ProteomicsLFQ_1_out.consensusXML", consensus_map)
 
     df = consensus_map.get_df()
     df.head(2)

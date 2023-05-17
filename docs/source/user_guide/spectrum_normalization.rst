@@ -9,7 +9,7 @@ Let's first load the raw data.
   :linenos:
 
   from urllib.request import urlretrieve
-  from pyopenms import *
+  import pyopenms as oms
   import matplotlib.pyplot as plt
 
   gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
@@ -17,8 +17,8 @@ Let's first load the raw data.
       gh + "/src/data/peakpicker_tutorial_1_baseline_filtered.mzML",
       "tutorial.mzML",
   )
-  exp = MSExperiment()
-  MzMLFile().load("tutorial.mzML", exp)
+  exp = oms.MSExperiment()
+  oms.MzMLFile().load("tutorial.mzML", exp)
   plt.bar(
       exp.getSpectrum(0).get_peaks()[0],
       exp.getSpectrum(0).get_peaks()[1],
@@ -31,7 +31,7 @@ Now we apply the normalization.
 .. code-block:: python
   :linenos:
 
-  normalizer = Normalizer()
+  normalizer = oms.Normalizer()
   param = normalizer.getParameters()
   param.setValue("method", "to_one")
   normalizer.setParameters(param)

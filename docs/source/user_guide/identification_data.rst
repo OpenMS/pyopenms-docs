@@ -26,9 +26,10 @@ peptide maps to multiple proteins) proteins and the position therein.
 
   .. code-block:: python
       :linenos:
+      import pyopenms as oms
 
-      protein_id = ProteinIdentification()
-      peptide_id = PeptideIdentification()
+      protein_id = oms.ProteinIdentification()
+      peptide_id = oms.PeptideIdentification()
 
       # Sets the Identifier
       protein_id.setIdentifier("IdentificationRun1")
@@ -54,14 +55,14 @@ We can create an object of type :py:class:`~.ProteinIdentification`  and populat
 .. code-block:: python
   :linenos:
 
-  from pyopenms import *
+  import pyopenms as oms
 
   # Create new protein identification object corresponding to a single search
-  protein_id = ProteinIdentification()
+  protein_id = oms.ProteinIdentification()
   protein_id.setIdentifier("IdentificationRun1")
 
   # Each ProteinIdentification object stores a vector of protein hits
-  protein_hit = ProteinHit()
+  protein_hit = oms.ProteinHit()
   protein_hit.setAccession("sp|MyAccession")
   protein_hit.setSequence("PEPTIDERDLQMTQSPSSLSVSVGDRPEPTIDE")
   protein_hit.setScore(1.0)
@@ -77,13 +78,13 @@ run (such as search parameters):
 .. code-block:: python
   :linenos:
 
-  now = DateTime.now()
+  now = oms.DateTime.now()
   date_string = now.getDate()
   protein_id.setDateTime(now)
 
   # Example of possible search parameters
   search_parameters = (
-      SearchParameters()
+      oms.SearchParameters()
   )  # ProteinIdentification::SearchParameters
   search_parameters.db = "database"
   search_parameters.charges = "+2"
@@ -110,7 +111,7 @@ corresponding :py:class:`~.PeptideHit` objects:
 .. code-block:: python
   :linenos:
 
-  peptide_id = PeptideIdentification()
+  peptide_id = oms.PeptideIdentification()
 
   peptide_id.setRT(1243.56)
   peptide_id.setMZ(440.0)
@@ -122,13 +123,13 @@ corresponding :py:class:`~.PeptideHit` objects:
   peptide_id.setMetaValue("AdditionalMetaValue", "Value")
 
   # create a new PeptideHit (best PSM, best score)
-  peptide_hit = PeptideHit()
+  peptide_hit = oms.PeptideHit()
   peptide_hit.setScore(1.0)
   peptide_hit.setRank(1)
   peptide_hit.setCharge(2)
-  peptide_hit.setSequence(AASequence.fromString("DLQM(Oxidation)TQSPSSLSVSVGDR"))
+  peptide_hit.setSequence(oms.AASequence.fromString("DLQM(Oxidation)TQSPSSLSVSVGDR"))
 
-  ev = PeptideEvidence()
+  ev = oms.PeptideEvidence()
   ev.setProteinAccession("sp|MyAccession")
   ev.setAABefore(b"R")
   ev.setAAAfter(b"P")
@@ -137,11 +138,11 @@ corresponding :py:class:`~.PeptideHit` objects:
   peptide_hit.setPeptideEvidences([ev])
 
   # create a new PeptideHit (second best PSM, lower score)
-  peptide_hit2 = PeptideHit()
+  peptide_hit2 = oms.PeptideHit()
   peptide_hit2.setScore(0.5)
   peptide_hit2.setRank(2)
   peptide_hit2.setCharge(2)
-  peptide_hit2.setSequence(AASequence.fromString("QDLMTQSPSSLSVSVGDR"))
+  peptide_hit2.setSequence(oms.AASequence.fromString("QDLMTQSPSSLSVSVGDR"))
   peptide_hit2.setPeptideEvidences([ev])
 
   # add PeptideHit to PeptideIdentification
@@ -190,11 +191,11 @@ which we would do as follows:
   :linenos:
 
   # Store the identification data in an idXML file
-  IdXMLFile().store("out.idXML", [protein_id], peptide_ids)
+  oms.IdXMLFile().store("out.idXML", [protein_id], peptide_ids)
   # and load it back into memory
   prot_ids = []
   pep_ids = []
-  IdXMLFile().load("out.idXML", prot_ids, pep_ids)
+  oms.IdXMLFile().load("out.idXML", prot_ids, pep_ids)
 
   # Iterate over all protein hits
   for protein_id in prot_ids:

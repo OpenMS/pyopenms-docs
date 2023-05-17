@@ -24,7 +24,7 @@ Download Example Data
 
 .. code-block:: python
 
-    from pyopenms import *
+    import pyopenms as oms
     from urllib.request import urlretrieve
 
     base_url = (
@@ -42,8 +42,8 @@ Download Example Data
     # download the feature files and store feature maps in list (feature_maps)
     for feature_file in feature_files:
         urlretrieve(base_url + feature_file, feature_file)
-        feature_map = FeatureMap()
-        FeatureXMLFile().load(feature_file, feature_map)
+        feature_map = oms.FeatureMap()
+        oms.FeatureXMLFile().load(feature_file, feature_map)
         feature_maps.append(feature_map)
 
 Map Alignment Algorithm
@@ -62,15 +62,15 @@ The retention times of the other :term:`feature maps` are aligned to this.
         )
     ][-1]
 
-    aligner = MapAlignmentAlgorithmPoseClustering()
+    aligner = oms.MapAlignmentAlgorithmPoseClustering()
 
     aligner.setReference(feature_maps[ref_index])
 
     # perform alignment and transformation of feature maps to the reference map (exclude reference map)
     for feature_map in feature_maps[:ref_index] + feature_maps[ref_index + 1 :]:
-        trafo = TransformationDescription()
+        trafo = oms.TransformationDescription()
         aligner.align(feature_map, trafo)
-        transformer = MapAlignmentTransformer()
+        transformer = oms.MapAlignmentTransformer()
         transformer.transformRetentionTimes(
             feature_map, trafo, True
         )  # store original RT as meta value

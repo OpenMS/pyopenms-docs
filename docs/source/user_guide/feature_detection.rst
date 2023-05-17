@@ -34,32 +34,32 @@ resolution) centroided data. We can use the following code to find features in M
       gh + "/src/data/FeatureFinderCentroided_1_input.mzML", "feature_test.mzML"
   )
 
-  from pyopenms import *
+  import pyopenms as oms
 
   # Prepare data loading (save memory by only
   # loading MS1 spectra into memory)
-  options = PeakFileOptions()
+  options = oms.PeakFileOptions()
   options.setMSLevels([1])
-  fh = MzMLFile()
+  fh = oms.MzMLFile()
   fh.setOptions(options)
 
   # Load data
-  input_map = MSExperiment()
+  input_map = oms.MSExperiment()
   fh.load("feature_test.mzML", input_map)
   input_map.updateRanges()
 
-  ff = FeatureFinder()
-  ff.setLogType(LogType.CMD)
+  ff = oms.FeatureFinder()
+  ff.setLogType(oms.LogType.CMD)
 
   # Run the feature finder
   name = "centroided"
-  features = FeatureMap()
-  seeds = FeatureMap()
-  params = FeatureFinder().getParameters(name)
+  features = oms.FeatureMap()
+  seeds = oms.FeatureMap()
+  params = oms.FeatureFinder().getParameters(name)
   ff.run(name, input_map, features, params, seeds)
 
   features.setUniqueIds()
-  fh = FeatureXMLFile()
+  fh = oms.FeatureXMLFile()
   fh.store("output.featureXML", features)
   print("Found", features.size(), "features")
 
@@ -92,20 +92,20 @@ For the untargeted detection of small molecule features we can use the :py:class
 
 .. code-block:: python
 
-  from pyopenms import *
+  import pyopenms as oms
   from urllib.request import urlretrieve
 
   gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
   mzML_path = gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML"
   urlretrieve(mzML_path, "ms_data.mzML")
 
-  exp = MSExperiment()
-  MzMLFile().load("ms_data.mzML", exp)
+  exp = oms.MSExperiment()
+  oms.MzMLFile().load("ms_data.mzML", exp)
 
   exp.sortSpectra(True)
 
   mass_traces = []
-  mtd = MassTraceDetection()
+  mtd = oms.MassTraceDetection()
   mtd_params = mtd.getDefaults()
   mtd_params.setValue(
       "mass_error_ppm", 5.0
@@ -118,7 +118,7 @@ For the untargeted detection of small molecule features we can use the :py:class
 
   mass_traces_split = []
   mass_traces_final = []
-  epd = ElutionPeakDetection()
+  epd = oms.ElutionPeakDetection()
   epd_params = epd.getDefaults()
   epd_params.setValue("width_filtering", "fixed")
   epd.setParameters(epd_params)
@@ -129,9 +129,9 @@ For the untargeted detection of small molecule features we can use the :py:class
   else:
       mass_traces_final = mass_traces_split
 
-  fm = FeatureMap()
+  fm = oms.FeatureMap()
   feat_chrom = []
-  ffm = FeatureFindingMetabo()
+  ffm = oms.FeatureFindingMetabo()
   ffm_params = ffm.getDefaults()
   ffm_params.setValue("isotope_filtering_model", "none")
   ffm_params.setValue(
@@ -183,7 +183,7 @@ The pyOpenMS :py:class:`~.FeatureFinderAlgorithmMetaboIdent` needs a list of :py
           next(tsv_reader)  # skip header
           for row in tsv_reader:
               metaboTable.append(
-                  FeatureFinderMetaboIdentCompound(
+                  oms.FeatureFinderMetaboIdentCompound(
                       row[0],  # name
                       row[1],  # sum formula
                       float(row[2]),  # mass
@@ -204,7 +204,7 @@ Now we can use the following code to detect features with :py:class:`~.FeatureFi
 .. code-block:: python
 
   from urllib.request import urlretrieve
-  from pyopenms import *
+  import pyopenms as oms
 
   gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
   mzML_path = gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML"
@@ -214,18 +214,18 @@ Now we can use the following code to detect features with :py:class:`~.FeatureFi
   )
 
   # load ms data from mzML file into MSExperiment
-  spectra = MSExperiment()
-  MzMLFile().load("ms_data.mzML", spectra)
+  spectra = oms.MSExperiment()
+  oms.MzMLFile().load("ms_data.mzML", spectra)
 
   # create FeatureFinderAlgorithmMetaboIdent and assign ms data
-  ff = FeatureFinderAlgorithmMetaboIdent()
+  ff = oms.FeatureFinderAlgorithmMetaboIdent()
   ff.setMSData(spectra)
 
   # read library generate a metabo table with compounds
   metabo_table = metaboTableFromFile("library.tsv")
 
   # FeatureMap to store results
-  fm = FeatureMap()
+  fm = oms.FeatureMap()
 
   # edit some parameters
   params = ff.getParameters()
@@ -238,7 +238,7 @@ Now we can use the following code to detect features with :py:class:`~.FeatureFi
   ff.run(metabo_table, fm, mzML_path)
 
   # save FeatureMap to file
-  FeatureXMLFile().store("detected_features.featureXML", fm)
+  oms.FeatureXMLFile().store("detected_features.featureXML", fm)
 
 Note: the output file that we have written (``output.featureXML``) is an
 OpenMS-internal XML format for storing features. You can learn more about file
@@ -252,8 +252,8 @@ We can get a quick overview on the detected features by plotting them using the 
     import matplotlib.pyplot as plt
 
     def plotDetectedFeatures3D(path_to_featureXML):
-      fm = FeatureMap()
-      fh = FeatureXMLFile()
+      fm = oms.FeatureMap()
+      fh = oms.FeatureXMLFile()
       fh.load(path_to_featureXML, fm)
 
       fig = plt.figure()

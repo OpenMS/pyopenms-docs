@@ -42,7 +42,7 @@ Load an example file into a :py:class:`~.MSExperiment` and get the :term:`MS1` a
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
+    import pyopenms as oms
     from massql import msql_engine
 
     from urllib.request import urlretrieve
@@ -52,8 +52,8 @@ Load an example file into a :py:class:`~.MSExperiment` and get the :term:`MS1` a
     urlretrieve(url + "small.mzML", "small.mzML")
 
     # load MSExperiment
-    exp = MSExperiment()
-    MzMLFile().load("small.mzML", exp)
+    exp = oms.MSExperiment()
+    oms.MzMLFile().load("small.mzML", exp)
 
     # get MS1 and MS2 dataframes
     ms1_df, ms2_df = exp.get_massql_df()

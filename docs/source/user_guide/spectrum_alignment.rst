@@ -11,16 +11,16 @@ First we load a (chemically modified) peptide:
     :linenos:
 
     from urllib.request import urlretrieve
-    from pyopenms import *
+    import pyopenms as oms
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(
         gh + "/src/data/YIC(Carbamidomethyl)DNQDTISSK.mzML", "observed.mzML"
     )
 
-    exp = MSExperiment()
+    exp = oms.MSExperiment()
     # Load mzML file and obtain spectrum for peptide YIC(Carbamidomethyl)DNQDTISSK
-    MzMLFile().load("observed.mzML", exp)
+    oms.MzMLFile().load("observed.mzML", exp)
 
     # Get first spectrum
     spectra = exp.getSpectra()
@@ -32,14 +32,14 @@ Now we generate the theoretical mass spectrum of that peptide:
 .. code-block:: python
     :linenos:
 
-    tsg = TheoreticalSpectrumGenerator()
-    theo_spectrum = MSSpectrum()
+    tsg = oms.TheoreticalSpectrumGenerator()
+    theo_spectrum = oms.MSSpectrum()
     p = tsg.getParameters()
     p.setValue("add_y_ions", "true")
     p.setValue("add_b_ions", "true")
     p.setValue("add_metainfo", "true")
     tsg.setParameters(p)
-    peptide = AASequence.fromString("YIC(Carbamidomethyl)DNQDTISSK")
+    peptide = oms.AASequence.fromString("YIC(Carbamidomethyl)DNQDTISSK")
     tsg.getSpectrum(theo_spectrum, peptide, 1, 2)
 
 Now we can plot the observed and theoretical mass spectrum as a mirror plot:
@@ -68,7 +68,7 @@ Now we want to find matching peaks between observed and theoretical mass spectru
     :linenos:
 
     alignment = []
-    spa = SpectrumAlignment()
+    spa = oms.SpectrumAlignment()
     p = spa.getParameters()
     # use 0.5 Da tolerance (Note: for high-resolution data we could also use ppm by setting the is_relative_tolerance value to true)
     p.setValue("tolerance", 0.5)

@@ -9,9 +9,9 @@ OpenMS also supports the representation of RNA oligonucleotides using the :py:cl
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
+    import pyopenms as oms
 
-    oligo = NASequence.fromString("AAUGCAAUGG")
+    oligo = oms.NASequence.fromString("AAUGCAAUGG")
     prefix = oligo.getPrefix(4)
     suffix = oligo.getSuffix(4)
 
@@ -26,7 +26,7 @@ OpenMS also supports the representation of RNA oligonucleotides using the :py:cl
         "y1+ ion mass of",
         str(prefix),
         ":",
-        prefix.getMonoWeight(NASequence.NASFragmentType.YIon, 1),
+        prefix.getMonoWeight(oms.NASequence.NASFragmentType.YIon, 1),
     )
     print()
 
@@ -70,7 +70,7 @@ The :py:class:`~.NASequence` object also allows iterations directly in Python:
 .. code-block:: python
     :linenos:
 
-    oligo = NASequence.fromString("AAUGCAAUGG")
+    oligo = oms.NASequence.fromString("AAUGCAAUGG")
     print(
         "The oligonucleotide", str(oligo), "consists of the following nucleotides:"
     )
@@ -85,15 +85,15 @@ Similarly to before for amino acid sequences, we can also generate internal frag
 .. code-block:: python
     :linenos:
 
-    oligo = NASequence.fromString("AAUGCAAUGG")
+    oligo = oms.NASequence.fromString("AAUGCAAUGG")
     suffix = oligo.getSuffix(4)
 
     oligo.size()
     oligo.getMonoWeight()
 
     charge = 2
-    mass = suffix.getMonoWeight(NASequence.NASFragmentType.WIon, charge)
-    w4_formula = suffix.getFormula(NASequence.NASFragmentType.WIon, charge)
+    mass = suffix.getMonoWeight(oms.NASequence.NASFragmentType.WIon, charge)
+    w4_formula = suffix.getFormula(oms.NASequence.NASFragmentType.WIon, charge)
     mz = mass / charge
 
     print("=" * 35)
@@ -112,7 +112,7 @@ sequence as follows:
 .. code-block:: python
     :linenos:
 
-    oligo_mod = NASequence.fromString("A[m1A][Gm]A")
+    oligo_mod = oms.NASequence.fromString("A[m1A][Gm]A")
     seq_formula = oligo_mod.getFormula()
     print(
         "RNA Oligo",
@@ -152,22 +152,22 @@ library (you can install BioPython with ``pip install biopython``):
 
     from Bio.Seq import Seq
     from Bio.Alphabet import IUPAC
-    bsa = FASTAEntry()
+    bsa = oms.FASTAEntry()
     bsa.sequence = 'ATGAAGTGGGTGACTTTTATTTCTCTTCTCCTTCTCTTCAGCTCTGCTTATTCCAGGGGTGTGTTTCGT'
     bsa.description = "BSA Bovine Albumin (partial sequence)"
     bsa.identifier = "BSA"
 
     entries = [bsa]
 
-    f = FASTAFile()
+    f = oms.FASTAFile()
     f.store("example_dna.fasta", entries)
 
     coding_dna = Seq(bsa.sequence, IUPAC.unambiguous_dna)    
     coding_rna = coding_dna.transcribe()
     protein_seq = coding_rna.translate()
 
-    oligo = NASequence.fromString(str(coding_rna))
-    aaseq = AASequence.fromString(str(protein_seq))
+    oligo = oms.NASequence.fromString(str(coding_rna))
+    aaseq = oms.AASequence.fromString(str(protein_seq))
 
     print("The RNA sequence", str(oligo), "has mass", oligo.getMonoWeight(), "and \n"
       "translates to the protein sequence", str(aaseq), "which has mass", aaseq.getMonoWeight() )

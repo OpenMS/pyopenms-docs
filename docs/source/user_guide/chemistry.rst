@@ -30,9 +30,9 @@ elements commonly used in mass spectrometry.
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
+    import pyopenms as oms
 
-    edb = ElementDB()
+    edb = oms.ElementDB()
 
     edb.hasElement("O")
     edb.hasElement("S")
@@ -82,7 +82,7 @@ We can also inspect the full isotopic distribution of oxygen and sulfur:
 .. code-block:: python
     :linenos:
 
-    edb = ElementDB()
+    edb = oms.ElementDB()
     oxygen_isoDist = {"mass": [], "abundance": []}
     sulfur_isoDist = {"mass": [], "abundance": []}
 
@@ -231,7 +231,7 @@ Mass Defect
 
    .. code-block:: python
 
-       edb = ElementDB()
+       edb = oms.ElementDB()
        isotopes = edb.getElement("C").getIsotopeDistribution().getContainer()
        carbon_isotope_difference = isotopes[1].getMZ() - isotopes[0].getMZ()
        isotopes = edb.getElement("N").getIsotopeDistribution().getContainer()
@@ -262,9 +262,9 @@ of its constituent particles (two protons, two neutrons and two electrons):
 
    .. code-block:: python
 
-       from pyopenms.Constants import *
+       from pyopenms.Constants import PROTON_MASS_U, ELECTRON_MASS_U, NEUTRON_MASS_U
 
-       helium = ElementDB().getElement("He")
+       helium = oms.ElementDB().getElement("He")
        isotopes = helium.getIsotopeDistribution()
 
        mass_sum = 2 * PROTON_MASS_U + 2 * ELECTRON_MASS_U + 2 * NEUTRON_MASS_U
@@ -299,9 +299,9 @@ code.
 .. code-block:: python
     :linenos:
 
-    methanol = EmpiricalFormula("CH3OH")
-    water = EmpiricalFormula("H2O")
-    ethanol = EmpiricalFormula("CH2") + methanol
+    methanol = oms.EmpiricalFormula("CH3OH")
+    water = oms.EmpiricalFormula("H2O")
+    ethanol = oms.EmpiricalFormula("CH2") + methanol
     print("Ethanol chemical formula:", ethanol.toString())
     print("Ethanol composition:", ethanol.getElementalComposition())
     print("Ethanol has", ethanol.getElementalComposition()[b"H"], "hydrogen atoms")
@@ -330,17 +330,17 @@ notation. For example, ethanol with one or two :chem:`C13` can be specified usin
 .. code-block:: python
     :linenos:
 
-    ethanol = EmpiricalFormula("C2H6O")
+    ethanol = oms.EmpiricalFormula("C2H6O")
     print("Ethanol chemical formula:", ethanol.toString())
     print("Ethanol composition:", ethanol.getElementalComposition())
     print("Ethanol weight:", ethanol.getMonoWeight())
 
-    ethanol = EmpiricalFormula("(13)C1CH6O")
+    ethanol = oms.EmpiricalFormula("(13)C1CH6O")
     print("Ethanol chemical formula:", ethanol.toString())
     print("Ethanol composition:", ethanol.getElementalComposition())
     print("Ethanol weight:", ethanol.getMonoWeight())
 
-    ethanol = EmpiricalFormula("(13)C2H6O")
+    ethanol = oms.EmpiricalFormula("(13)C2H6O")
     print("Ethanol chemical formula:", ethanol.toString())
     print("Ethanol composition:", ethanol.getElementalComposition())
     print("Ethanol weight:", ethanol.getMonoWeight())
@@ -372,14 +372,14 @@ algorithm [1]_ :
 
 .. code-block:: python
 
-    methanol = EmpiricalFormula("CH3OH")
-    ethanol = EmpiricalFormula("CH2") + methanol
+    methanol = oms.EmpiricalFormula("CH3OH")
+    ethanol = oms.EmpiricalFormula("CH2") + methanol
 
     methanol_isoDist = {"mass": [], "abundance": []}
     ethanol_isoDist = {"mass": [], "abundance": []}
 
     print("Coarse Isotope Distribution:")
-    isotopes = ethanol.getIsotopeDistribution(CoarseIsotopePatternGenerator(4))
+    isotopes = ethanol.getIsotopeDistribution(oms.CoarseIsotopePatternGenerator(4))
     prob_sum = sum([iso.getIntensity() for iso in isotopes.getContainer()])
     print("This covers", prob_sum, "probability")
     for iso in isotopes.getContainer():
@@ -390,7 +390,7 @@ algorithm [1]_ :
         methanol_isoDist["abundance"].append((iso.getIntensity() * 100))
 
     print("Fine Isotope Distribution:")
-    isotopes = ethanol.getIsotopeDistribution(FineIsotopePatternGenerator(1e-3))
+    isotopes = ethanol.getIsotopeDistribution(oms.FineIsotopePatternGenerator(1e-3))
     prob_sum = sum([iso.getIntensity() for iso in isotopes.getContainer()])
     print("This covers", prob_sum, "probability")
     for iso in isotopes.getContainer():
@@ -470,8 +470,8 @@ We can also decrease our cutoff and ask for more isotopes to be calculated:
 
 .. code-block:: python
 
-    methanol = EmpiricalFormula("CH3OH")
-    ethanol = EmpiricalFormula("CH2") + methanol
+    methanol = oms.EmpiricalFormula("CH3OH")
+    ethanol = oms.EmpiricalFormula("CH2") + methanol
 
     print("Fine Isotope Distribution:")
     isotopes = ethanol.getIsotopeDistribution(FineIsotopePatternGenerator(1e-6))
@@ -516,7 +516,7 @@ nearest integer:
 .. code-block:: python
 
     isotopes = ethanol.getIsotopeDistribution(
-        CoarseIsotopePatternGenerator(5, True)
+        oms.CoarseIsotopePatternGenerator(5, True)
     )
     for iso in isotopes.getContainer():
         print(
@@ -546,7 +546,7 @@ basicity and pk values are also available.
 
 .. code-block:: python
 
-    lys = ResidueDB().getResidue("Lysine")
+    lys = oms.ResidueDB().getResidue("Lysine")
     print(lys.getName())
     print(lys.getThreeLetterCode())
     print(lys.getOneLetterCode())
@@ -579,7 +579,7 @@ modifications. It contains UniMod as well as PSI modifications.
 
 .. code-block:: python
 
-    ox = ModificationsDB().getModification("Oxidation")
+    ox = oms.ModificationsDB().getModification("Oxidation")
     print(ox.getUniModAccession())
     print(ox.getUniModRecordId())
     print(ox.getDiffMonoMass())
@@ -606,7 +606,7 @@ is identical to the one of Oxygen by itself):
 .. code-block:: python
 
     isotopes = ox.getDiffFormula().getIsotopeDistribution(
-        CoarseIsotopePatternGenerator(5)
+        oms.CoarseIsotopePatternGenerator(5)
     )
     for iso in isotopes.getContainer():
         print(iso.getMZ(), ":", iso.getIntensity())
@@ -624,11 +624,11 @@ All available modifications can be stored in a Dictionary by:
 
 .. code-block:: python
 
-    num_mod = ModificationsDB().getNumberOfModifications()
+    num_mod = oms.ModificationsDB().getNumberOfModifications()
 
     all_mods={}
     for index in range(0, num_mod):
-        mod = ModificationsDB().getModification(index)
+        mod = oms.ModificationsDB().getModification(index)
         all_mods[mod.getUniModRecordId()] = mod
 
 And the modification can be accessed by UniMod Accesstion by:
@@ -672,14 +672,14 @@ same class. Currently, support for RNA is implemented.
 
 .. code-block:: python
 
-    uridine = RibonucleotideDB().getRibonucleotide(b"U")
+    uridine = oms.RibonucleotideDB().getRibonucleotide(b"U")
     print(uridine.getName())
     print(uridine.getCode())
     print(uridine.getAvgMass())
     print(uridine.getMonoMass())
     print(uridine.getFormula().toString())
     print(uridine.isModified())
-    methyladenosine = RibonucleotideDB().getRibonucleotide(b"m1A")
+    methyladenosine = oms.RibonucleotideDB().getRibonucleotide(b"m1A")
     print(methyladenosine.getName())
     print(methyladenosine.isModified())
 

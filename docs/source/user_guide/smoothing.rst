@@ -8,7 +8,7 @@ further analysis
     :linenos:
 
     from urllib.request import urlretrieve
-    from pyopenms import *
+    import pyopenms as oms
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(
@@ -16,15 +16,15 @@ further analysis
         "tutorial.mzML",
     )
 
-    exp = MSExperiment()
-    gf = GaussFilter()
+    exp = oms.MSExperiment()
+    gf = oms.GaussFilter()
     param = gf.getParameters()
     param.setValue("gaussian_width", 1.0)  # needs wider width
     gf.setParameters(param)
 
-    MzMLFile().load("tutorial.mzML", exp)
+    oms.MzMLFile().load("tutorial.mzML", exp)
     gf.filterExperiment(exp)
-    MzMLFile().store("tutorial.smoothed.mzML", exp)
+    oms.MzMLFile().store("tutorial.smoothed.mzML", exp)
 
 We can now load our data into :term:`TOPPView` to observe the effect of the smoothing,
 which becomes apparent when we overlay the two files (drag onto each other) and

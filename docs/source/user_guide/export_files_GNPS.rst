@@ -31,7 +31,7 @@ First, download two example :term:`mzML` files that have been map aligned based 
 
 .. code-block:: python
 
-    from pyopenms import *
+    import pyopenms as oms
 
     mzML_files = ["Metabolomics_1_aligned.mzML", "Metabolomics_2_aligned.mzML"]
 
@@ -42,32 +42,32 @@ from your :py:class:`~.ConsensusMap` that have no :term:`MS2` spectra annotated.
 
 .. code-block:: python
 
-    consensus_map = ConsensusMap()
-    ConsensusXMLFile().load(consensusXML_file, consensus_map)
-    filtered_map = ConsensusMap(consensus_map)
+    consensus_map = oms.ConsensusMap()
+    oms.ConsensusXMLFile().load(consensusXML_file, consensus_map)
+    filtered_map = oms.ConsensusMap(consensus_map)
     filtered_map.clear(False)
     for feature in consensus_map:
         if feature.getPeptideIdentifications():
             filtered_map.push_back(feature)
 
     consensusXML_file = "filtered.consensusXML"
-    ConsensusXMLFile().store(consensusXML_file, filtered_map)
+    oms.ConsensusXMLFile().store(consensusXML_file, filtered_map)
 
 Now you can export your all files for FBMN and IIMN.
 
 .. code-block:: python
 
     # for FFBM
-    GNPSMGFFile().store(
-        String(consensusXML_file),
+    oms.GNPSMGFFile().store(
+        oms.String(consensusXML_file),
         [file.encode() for file in mzML_files],
-        String("MS2data.mgf"),
+        oms.String("MS2data.mgf"),
     )
-    GNPSQuantificationFile().store(consensus_map, "FeatureQuantificationTable.txt")
-    GNPSMetaValueFile().store(consensus_map, "MetaValueTable.tsv")
+    oms.GNPSQuantificationFile().store(consensus_map, "FeatureQuantificationTable.txt")
+    oms.GNPSMetaValueFile().store(consensus_map, "MetaValueTable.tsv")
 
     # for IIMN
-    IonIdentityMolecularNetworking().annotateConsensusMap(consensus_map)
-    IonIdentityMolecularNetworking().writeSupplementaryPairTable(
+    oms.IonIdentityMolecularNetworking().annotateConsensusMap(consensus_map)
+    oms.IonIdentityMolecularNetworking().writeSupplementaryPairTable(
         consensus_map, "SupplementaryPairTable.csv"
     )

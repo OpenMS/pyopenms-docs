@@ -39,16 +39,16 @@ Using the same example file as before, we can execute a :py:class:`~.GaussFilter
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
+    import pyopenms as oms
     from urllib.request import urlretrieve
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/tiny.mzML", "test.mzML")
 
-    exp = MSExperiment()
-    gf = GaussFilter()
-    exp = MSExperiment()
-    MzMLFile().load("test.mzML", exp)
+    exp = oms.MSExperiment()
+    gf = oms.GaussFilter()
+    exp = oms.MSExperiment()
+    oms.MzMLFile().load("test.mzML", exp)
     gf.filterExperiment(exp)
-    # MzMLFile().store("test.filtered.mzML", exp)
+    # oms.MzMLFile().store("test.filtered.mzML", exp)
 

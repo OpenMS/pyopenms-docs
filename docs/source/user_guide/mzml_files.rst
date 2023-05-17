@@ -24,7 +24,7 @@ Binary Encoding
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
+    import pyopenms as oms
     from urllib.request import urlretrieve
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
@@ -67,8 +67,8 @@ array which is from the second spectrum in the file:
 .. code-block:: python
     :linenos:
 
-    exp = MSExperiment()
-    MzMLFile().load("test.mzML", exp)
+    exp = oms.MSExperiment()
+    oms.MzMLFile().load("test.mzML", exp)
 
     print(exp.getSpectrum(1).get_peaks()[0])
 
@@ -121,8 +121,8 @@ Alternatively, we could also use pyOpenMS to decode the same data:
     )
 
     out = []
-    Base64().decode64(
-        encoded_data, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, out, False
+    oms.Base64().decode64(
+        encoded_data, oms.Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, out, False
     )
     print(out)
 .. code-block:: output
@@ -141,23 +141,23 @@ This allows us thus to manually decode the data. We can use pyOpenMS to encode a
     )
 
     out = []
-    Base64().decode64(
-        encoded_data, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, out, False
+    oms.Base64().decode64(
+        encoded_data, oms.Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, out, False
     )
     print(out)
 
-    data = String()
-    Base64().encode64(out, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, data, False)
+    data = oms.String()
+    oms.Base64().encode64(out, oms.Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, data, False)
     print(data)
 
-    Base64().encode64(out, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, data, True)
+    oms.Base64().encode64(out, oms.Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, data, True)
     print(data)
 
-    data = String()
-    Base64().encode32(out, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, data, False)
+    data = oms.String()
+    oms.Base64().encode32(out, oms.Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, data, False)
     print(data)
 
-    Base64().encode32(out, Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, data, True)
+    oms.Base64().encode32(out, oms.Base64.ByteOrder.BYTEORDER_LITTLEENDIAN, data, True)
     print(data)
 
 .. code-block:: output
@@ -189,20 +189,20 @@ original input data exactly:
     print(data)
     r = []
 
-    c = NumpressConfig()
-    c.np_compression = MSNumpressCoder.NumpressCompression.LINEAR
-    res = String()
-    MSNumpressCoder().encodeNP(data, res, False, c)
+    c = oms.NumpressConfig()
+    c.np_compression = oms.MSNumpressCoder.NumpressCompression.LINEAR
+    res = oms.String()
+    oms.MSNumpressCoder().encodeNP(data, res, False, c)
     print(res)
 
-    MSNumpressCoder().decodeNP(res, r, False, c)
+    oms.MSNumpressCoder().decodeNP(res, r, False, c)
     print(r)
 
-    c.np_compression = MSNumpressCoder.NumpressCompression.PIC
-    MSNumpressCoder().encodeNP(data, res, False, c)
+    c.np_compression = oms.MSNumpressCoder.NumpressCompression.PIC
+    oms.MSNumpressCoder().encodeNP(data, res, False, c)
     print(res)
 
-    MSNumpressCoder().decodeNP(res, r, False, c)
+    oms.MSNumpressCoder().decodeNP(res, r, False, c)
     print(r)
 
 .. code-block:: output
