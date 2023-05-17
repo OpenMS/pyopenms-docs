@@ -45,7 +45,6 @@ Using the same example file as before, we can execute a :py:class:`~.GaussFilter
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/tiny.mzML", "test.mzML")
 
-    exp = oms.MSExperiment()
     gf = oms.GaussFilter()
     exp = oms.MSExperiment()
     oms.MzMLFile().load("test.mzML", exp)
