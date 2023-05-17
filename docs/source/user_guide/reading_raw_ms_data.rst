@@ -138,7 +138,7 @@ spectrum or chromatogram is read from disk, the function ``consumeSpectrum`` or
 ``consumeChromatogram`` is called and a specific action is performed. We can
 use this to implement a simple filtering function for mass spectra:
 
-.. code-block:: python
+.. code-block:: output
 
     class FilteringConsumer:
         """
