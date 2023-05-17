@@ -135,7 +135,7 @@ We now set several of these properties in a current :py:class:`~.MSSpectrum`:
     fda = oms.FloatDataArray()
     fda.setName("Signal to Noise Array")
     fda.push_back(15)
-    sda = StringDataArray()
+    sda = oms.StringDataArray()
     sda.setName("Peak annotation")
     sda.push_back("y15++")
     spectrum.setFloatDataArrays([fda])

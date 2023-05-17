@@ -35,7 +35,7 @@ OpenMS also supports the representation of RNA oligonucleotides using the :py:cl
     print("=" * 35)
     print()
 
-    isotopes = seq_formula.getIsotopeDistribution(CoarseIsotopePatternGenerator(6))
+    isotopes = seq_formula.getIsotopeDistribution(oms.CoarseIsotopePatternGenerator(6))
     for iso in isotopes.getContainer():
         print("Isotope", iso.getMZ(), ":", iso.getIntensity())
 

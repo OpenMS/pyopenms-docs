@@ -238,7 +238,7 @@ The columns for unambiguously merging the data frames:
 
     feature_df = feature_map.get_df()
     assigned_peptides = feature_map.get_assigned_peptide_identifications()
-    assigned_peptide_df = peptide_identifications_to_df(assigned_peptides)
+    assigned_peptide_df = oms.peptide_identifications_to_df(assigned_peptides)
 
     merged_df = pd.merge(
         feature_df,

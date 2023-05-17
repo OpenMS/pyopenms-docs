@@ -474,7 +474,7 @@ We can also decrease our cutoff and ask for more isotopes to be calculated:
     ethanol = oms.EmpiricalFormula("CH2") + methanol
 
     print("Fine Isotope Distribution:")
-    isotopes = ethanol.getIsotopeDistribution(FineIsotopePatternGenerator(1e-6))
+    isotopes = ethanol.getIsotopeDistribution(oms.FineIsotopePatternGenerator(1e-6))
     prob_sum = sum([iso.getIntensity() for iso in isotopes.getContainer()])
     print("This covers", prob_sum, "probability")
     for iso in isotopes.getContainer():
@@ -626,7 +626,7 @@ All available modifications can be stored in a Dictionary by:
 
     num_mod = oms.ModificationsDB().getNumberOfModifications()
 
-    all_mods={}
+    all_mods = {}
     for index in range(0, num_mod):
         mod = oms.ModificationsDB().getModification(index)
         all_mods[mod.getUniModRecordId()] = mod

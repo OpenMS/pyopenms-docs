@@ -29,7 +29,7 @@ interactively zoomed-in if you execute the code in a notebook
     loadopts.setMSLevels([1])
     loadopts.setSkipXMLChecks(True)
     loadopts.setIntensity32Bit(True)
-    loadopts.setIntensityRange(DRange1(DPosition1(5000), DPosition1(sys.maxsize)))
+    loadopts.setIntensityRange(oms.DRange1(oms.DPosition1(5000), oms.DPosition1(sys.maxsize)))
     loader.setOptions(loadopts)
     loader.load("../../../src/data/BSA1.mzML", exp)
     exp.updateRanges()
