@@ -140,7 +140,7 @@ use this to implement a simple filtering function for mass spectra:
 
 .. code-block:: python
 
-    class FilteringConsumer():
+    class FilteringConsumer:
         """
         Consumer that forwards all calls the internal consumer (after
         filtering)
