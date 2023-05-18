@@ -12,10 +12,10 @@ interact with the OpenMS library and, for example, read and write :term:`mzML` f
 
 .. code-block:: python
 
-    from pyopenms import *
+    import pyopenms as oms
 
-    exp = MSExperiment()
-    MzMLFile().store("testfile.mzML", exp)
+    exp = oms.MSExperiment()
+    oms.MzMLFile().store("testfile.mzML", exp)
 
 which will create an empty :term:`mzML` file called `testfile.mzML`.
 
@@ -28,7 +28,7 @@ function:
 
 .. code-block:: python
 
-    help(MSExperiment)
+    help(oms.MSExperiment)
 
 .. code-block:: output
 
@@ -72,7 +72,7 @@ documentation of the base classes:
 
 .. code-block:: python
 
-    help(ExperimentalSettings)
+    help(oms.ExperimentalSettings)
 .. code-block:: output
 
     Help on class ExperimentalSettings in module pyopenms.pyopenms_4:
@@ -112,9 +112,9 @@ example file:
     # download small example file
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/tiny.mzML", "tiny.mzML")
-    exp = MSExperiment()
+    exp = oms.MSExperiment()
     # load example file
-    MzMLFile().load("tiny.mzML", exp)
+    oms.MzMLFile().load("tiny.mzML", exp)
 
 which will load the content of the ``tiny.mzML`` file into the ``exp``
 variable of type :py:class:`~.MSExperiment`.
@@ -291,8 +291,8 @@ and intensities of the TIC in different ways and generate a total ion current ch
     )
 
     # load MS data into MSExperiment()
-    exp = MSExperiment()
-    MzMLFile().load("ms_data.mzML", exp)
+    exp = oms.MSExperiment()
+    oms.MzMLFile().load("ms_data.mzML", exp)
 
     # choose one of the following three methods to access the TIC data
     # 1) recalculate TIC data with the calculateTIC() function

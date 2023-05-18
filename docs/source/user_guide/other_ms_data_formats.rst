@@ -10,14 +10,14 @@ You can store and load identification data from an `idXML` file as follows:
     :linenos:
 
     from urllib.request import urlretrieve
-    from pyopenms import *
+    import pyopenms as oms
 
     gh = gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/IdXMLFile_whole.idXML", "test.idXML")
     protein_ids = []
     peptide_ids = []
-    IdXMLFile().load("test.idXML", protein_ids, peptide_ids)
-    IdXMLFile().store("test.out.idXML", protein_ids, peptide_ids)
+    oms.IdXMLFile().load("test.idXML", protein_ids, peptide_ids)
+    oms.IdXMLFile().store("test.out.idXML", protein_ids, peptide_ids)
 
 You can store and load identification data from an `mzIdentML` file as follows:
 
@@ -30,11 +30,11 @@ You can store and load identification data from an `mzIdentML` file as follows:
     urlretrieve(gh + "/src/data/MzIdentML_3runs.mzid", "test.mzid")
     protein_ids = []
     peptide_ids = []
-    MzIdentMLFile().load("test.mzid", protein_ids, peptide_ids)
-    MzIdentMLFile().store("test.out.mzid", protein_ids, peptide_ids)
+    oms.MzIdentMLFile().load("test.mzid", protein_ids, peptide_ids)
+    oms.MzIdentMLFile().store("test.out.mzid", protein_ids, peptide_ids)
 ..  # alternatively: -- dont do this, doesnt work
-    identifications = Identification()
-    MzIdentMLFile().load("test.mzid", identifications)
+    identifications = oms.Identification()
+    oms.MzIdentMLFile().load("test.mzid", identifications)
 
 You can store and load identification data from a TPP `pepXML` file as follows:
 
@@ -47,8 +47,8 @@ You can store and load identification data from a TPP `pepXML` file as follows:
     urlretrieve(gh + "/src/data/PepXMLFile_test.pepxml", "test.pepxml")
     protein_ids = []
     peptide_ids = []
-    PepXMLFile().load("test.pepxml", protein_ids, peptide_ids)
-    PepXMLFile().store("test.out.pepxml", protein_ids, peptide_ids)
+    oms.PepXMLFile().load("test.pepxml", protein_ids, peptide_ids)
+    oms.PepXMLFile().store("test.out.pepxml", protein_ids, peptide_ids)
 
 
 You can load (storing is not supported) identification data from a TPP `protXML` file as follows:
@@ -60,9 +60,9 @@ You can load (storing is not supported) identification data from a TPP `protXML`
 
     gh = gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/ProtXMLFile_input_1.protXML", "test.protXML")
-    protein_ids = ProteinIdentification()
-    peptide_ids = PeptideIdentification()
-    ProtXMLFile().load("test.protXML", protein_ids, peptide_ids)
+    protein_ids = oms.ProteinIdentification()
+    peptide_ids = oms.PeptideIdentification()
+    oms.ProtXMLFile().load("test.protXML", protein_ids, peptide_ids)
     # storing protein XML file is not yet supported
 ..    ProtXMLFile().store("test.out.protXML", protein_ids, peptide_ids, "doc_id_42")
 
@@ -91,9 +91,9 @@ as follows:
         gh + "/src/data/FeatureFinderCentroided_1_output.featureXML",
         "test.featureXML",
     )
-    features = FeatureMap()
-    FeatureXMLFile().load("test.featureXML", features)
-    FeatureXMLFile().store("test.out.featureXML", features)
+    features = oms.FeatureMap()
+    oms.FeatureXMLFile().load("test.featureXML", features)
+    oms.FeatureXMLFile().store("test.out.featureXML", features)
 
 and for ``consensusXML``
 
@@ -106,9 +106,9 @@ and for ``consensusXML``
     urlretrieve(
         gh + "/src/data/ConsensusXMLFile_1.consensusXML", "test.consensusXML"
     )
-    consensus_features = ConsensusMap()
-    ConsensusXMLFile().load("test.consensusXML", consensus_features)
-    ConsensusXMLFile().store("test.out.consensusXML", consensus_features)
+    consensus_features = oms.ConsensusMap()
+    oms.ConsensusXMLFile().load("test.consensusXML", consensus_features)
+    oms.ConsensusXMLFile().store("test.out.consensusXML", consensus_features)
 
 
 .. PyOpenMS also also supports mzQuantML, however this format is currently work in
@@ -134,6 +134,6 @@ experiments (:term:`SRM` / MRM / PRM / DIA).
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-extra/master"
     urlretrieve(gh + "/src/data/ConvertTSVToTraML_output.TraML", "test.TraML")
-    targeted_exp = TargetedExperiment()
-    TraMLFile().load("test.TraML", targeted_exp)
-    TraMLFile().store("test.out.TraML", targeted_exp)
+    targeted_exp = oms.TargetedExperiment()
+    oms.TraMLFile().load("test.TraML", targeted_exp)
+    oms.TraMLFile().store("test.out.TraML", targeted_exp)

@@ -21,7 +21,7 @@ For each :term:`mzML` file do mass trace, elution peak and features detection.
 
 .. code-block:: python
 
-    from pyopenms import *
+    import pyopenms as oms
     import os
 
     mzML_files = ["Metabolomics_1.mzML", "Metabolomics_2.mzML"]
@@ -29,8 +29,8 @@ For each :term:`mzML` file do mass trace, elution peak and features detection.
     feature_maps = []
     for file in mzML_files:
         # load mzML file into MSExperiment
-        exp = MSExperiment()
-        MzMLFile().load(
+        exp = oms.MSExperiment()
+        oms.MzMLFile().load(
             file, exp
         )  # load each mzML file to an OpenMS file format (MSExperiment)
 
@@ -38,7 +38,7 @@ For each :term:`mzML` file do mass trace, elution peak and features detection.
         mass_traces = (
             []
         )  # introduce an empty list where the mass traces will be loaded
-        mtd = MassTraceDetection()
+        mtd = oms.MassTraceDetection()
         mtd_par = (
             mtd.getDefaults()
         )  # get the default parameters in order to edit them
@@ -51,7 +51,7 @@ For each :term:`mzML` file do mass trace, elution peak and features detection.
 
         # elution peak detection
         mass_traces_deconvol = []
-        epd = ElutionPeakDetection()
+        epd = oms.ElutionPeakDetection()
         epd_par = epd.getDefaults()
         epd_par.setValue(
             "width_filtering", "fixed"
@@ -60,9 +60,9 @@ For each :term:`mzML` file do mass trace, elution peak and features detection.
         epd.detectPeaks(mass_traces, mass_traces_deconvol)
 
         # feature detection
-        feature_map = FeatureMap()  # output features
+        feature_map = oms.FeatureMap()  # output features
         chrom_out = []  # output chromatograms
-        ffm = FeatureFindingMetabo()
+        ffm = oms.FeatureFindingMetabo()
         ffm_par = ffm.getDefaults()
         ffm_par.setValue(
             "remove_single_traces", "true"
@@ -84,7 +84,7 @@ Align features retention times based on the :term:`feature map` with the highest
     # (works well if you have a pooled QC for example)
     ref_index = feature_maps.index(sorted(feature_maps, key=lambda x: x.size())[-1])
 
-    aligner = MapAlignmentAlgorithmPoseClustering()
+    aligner = oms.MapAlignmentAlgorithmPoseClustering()
 
     trafos = {}
 
@@ -99,10 +99,10 @@ Align features retention times based on the :term:`feature map` with the highest
     aligner.setReference(feature_maps[ref_index])
 
     for feature_map in feature_maps[:ref_index] + feature_maps[ref_index + 1 :]:
-        trafo = TransformationDescription()  # save the transformed data points
+        trafo = oms.TransformationDescription()  # save the transformed data points
         aligner.align(feature_map, trafo)
         trafos[feature_map.getMetaValue("spectra_data")[0].decode()] = trafo
-        transformer = MapAlignmentTransformer()
+        transformer = oms.MapAlignmentTransformer()
         transformer.transformRetentionTimes(feature_map, trafo, True)
 
 Align :term:`mzML` files aligment based on :py:class:`~.FeatureMap` alignment (optional, only for GNPS).
@@ -112,17 +112,17 @@ Align :term:`mzML` files aligment based on :py:class:`~.FeatureMap` alignment (o
 
     # align mzML files based on FeatureMap alignment and store as mzML files (for GNPS!)
     for file in mzML_files:
-        exp = MSExperiment()
-        MzMLFile().load(file, exp)
+        exp = oms.MSExperiment()
+        oms.MzMLFile().load(file, exp)
         exp.sortSpectra(True)
         exp.setMetaValue("mzML_path", file)
         if file not in trafos.keys():
-            MzMLFile().store(file[:-5] + "_aligned.mzML", exp)
+            oms.MzMLFile().store(file[:-5] + "_aligned.mzML", exp)
             continue
-        transformer = MapAlignmentTransformer()
+        transformer = oms.MapAlignmentTransformer()
         trafo_description = trafos[file]
         transformer.transformRetentionTimes(exp, trafo_description, True)
-        MzMLFile().store(file[:-5] + "_aligned.mzML", exp)
+        oms.MzMLFile().store(file[:-5] + "_aligned.mzML", exp)
     mzML_files = [file[:-5] + "_aligned.mzML" for file in mzML_files]
 
 Map :term:`MS2` spectra to features as :py:class:`~.PeptideIdentification` objects (optional, only for GNPS).
@@ -133,10 +133,10 @@ Map :term:`MS2` spectra to features as :py:class:`~.PeptideIdentification` objec
     feature_maps_mapped = []
     use_centroid_rt = False
     use_centroid_mz = True
-    mapper = IDMapper()
+    mapper = oms.IDMapper()
     for file in mzML_files:
-        exp = MSExperiment()
-        MzMLFile().load(file, exp)
+        exp = oms.MSExperiment()
+        oms.MzMLFile().load(file, exp)
         for i, feature_map in enumerate(feature_maps):
             if feature_map.getMetaValue("spectra_data")[
                 0
@@ -151,7 +151,7 @@ Map :term:`MS2` spectra to features as :py:class:`~.PeptideIdentification` objec
                     use_centroid_mz,
                     exp,
                 )
-                fm_new = FeatureMap(feature_map)
+                fm_new = oms.FeatureMap(feature_map)
                 fm_new.clear(False)
                 # set unique identifiers to protein and peptide identifications
                 prot_ids = []
@@ -177,7 +177,7 @@ Detect adducts (optional, only for SIRIUS and GNPS Ion Identity Molecular Networ
 
     feature_maps_adducts = []
     for feature_map in feature_maps:
-        mfd = MetaboliteFeatureDeconvolution()
+        mfd = oms.MetaboliteFeatureDeconvolution()
         mdf_par = mfd.getDefaults()
         mdf_par.setValue(
             "potential_adducts",
@@ -190,14 +190,14 @@ Detect adducts (optional, only for SIRIUS and GNPS Ion Identity Molecular Networ
             ],
         )
         mfd.setParameters(mdf_par)
-        feature_map_adduct = FeatureMap()
-        mfd.compute(feature_map, feature_map_adduct, ConsensusMap(), ConsensusMap())
+        feature_map_adduct = oms.FeatureMap()
+        mfd.compute(feature_map, feature_map_adduct, oms.ConsensusMap(), oms.ConsensusMap())
         feature_maps_adducts.append(feature_map_adduct)
     feature_maps = feature_maps_adducts
 
     # for SIRIUS store the feature maps as featureXML files!
     for feature_map in feature_maps:
-        FeatureXMLFile().store(
+        oms.FeatureXMLFile().store(
             feature_map.getMetaValue("spectra_data")[0].decode()[:-4]
             + "featureXML",
             feature_map,
@@ -208,13 +208,13 @@ Link features in a :py:class:`~.ConsensusMap`.
 .. code-block:: python
     :linenos:
 
-    feature_grouper = FeatureGroupingAlgorithmKD()
+    feature_grouper = oms.FeatureGroupingAlgorithmKD()
 
-    consensus_map = ConsensusMap()
+    consensus_map = oms.ConsensusMap()
     file_descriptions = consensus_map.getColumnHeaders()
 
     for i, feature_map in enumerate(feature_maps):
-        file_description = file_descriptions.get(i, ColumnHeader())
+        file_description = file_descriptions.get(i, oms.ColumnHeader())
         file_description.filename = os.path.basename(
             feature_map.getMetaValue("spectra_data")[0].decode()
         )
@@ -224,7 +224,7 @@ Link features in a :py:class:`~.ConsensusMap`.
     feature_grouper.group(feature_maps, consensus_map)
     consensus_map.setColumnHeaders(file_descriptions)
     consensus_map.setUniqueIds()
-    ConsensusXMLFile().store("FeatureMatrix.consensusXML", consensus_map)
+    oms.ConsensusXMLFile().store("FeatureMatrix.consensusXML", consensus_map)
 
 To get a final feature matrix in a table format, export the :term:`:consensus features<consensus feature>` in a ``pandas DataFrame``.
 

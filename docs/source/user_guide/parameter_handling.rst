@@ -15,9 +15,9 @@ interactive session without consulting the documentation.
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
+    import pyopenms as oms
 
-    p = Param()
+    p = oms.Param()
     p.setValue("param1", 4.0, "This is value 1")
     p.setValue("param2", 5.0, "This is value 2")
     p.setValue(
@@ -61,7 +61,7 @@ The param object can be copy and merge in to other param object as
             print("no data availabe")
 
 
-    new_p = Param()
+    new_p = oms.Param()
     if p.empty() == False:  # check p is not empty
         new_p = p  # new deep copy of p generate with name "new_p"
 

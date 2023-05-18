@@ -14,8 +14,7 @@ proteomics and metabolomics quality metrics.
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
-
+    import pyopenms as oms
     from urllib.request import urlretrieve
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
@@ -26,8 +25,8 @@ proteomics and metabolomics quality metrics.
 
     # load mzML file in MSExperiment
     urlretrieve(gh + "/src/data/QCCalculator_input.mzML", "input.mzML")
-    exp = MSExperiment()
-    MzMLFile().load("input.mzML", exp)
+    exp = oms.MSExperiment()
+    oms.MzMLFile().load("input.mzML", exp)
 
     # prepare metadata for the mzQC file (optional but recommended)
     contact_name = "name of the person creating the mzQC file"
@@ -35,22 +34,22 @@ proteomics and metabolomics quality metrics.
     description = "description and comments about the mzQC file contents"
     label = "unique and informative label for the run"
 
-    feature_map = FeatureMap()
+    feature_map = oms.FeatureMap()
     # OPTIONAL: load featureXML file in FeatureMap()
     urlretrieve(
         gh + "/src/data/FeatureFinderMetaboIdent_1_output.featureXML",
         "features.featureXML",
     )
-    FeatureXMLFile().load("features.featureXML", feature_map)
+    oms.FeatureXMLFile().load("features.featureXML", feature_map)
 
     prot_ids = []  # list of ProteinIdentification()
     pep_ids = []  # list of PeptideIdentification()
     # OPTIONAL: get protein and peptide identifications from idXML file
     urlretrieve(gh + "/src/data/OpenPepXL_output.idXML", "ids.idXML")
-    IdXMLFile().load("ids.idXML", prot_ids, pep_ids)
+    oms.IdXMLFile().load("ids.idXML", prot_ids, pep_ids)
 
     # create MzQCFile object and use store() to calculate and write the mzQC file
-    mzqc = MzQCFile()
+    mzqc = oms.MzQCFile()
     mzqc.store(
         input_file,
         output_file,

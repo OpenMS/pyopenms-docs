@@ -26,22 +26,22 @@ Single Peak Example
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
+    import pyopenms as oms
 
     charge = 2
-    seq = AASequence.fromString("DFPIANGER")
-    seq_formula = seq.getFormula() + EmpiricalFormula("H" + str(charge))
-    isotopes = seq_formula.getIsotopeDistribution(CoarseIsotopePatternGenerator(6))
-    print("[M+H]+ weight:", seq.getMonoWeight(Residue.ResidueType.Full, 1))
+    seq = oms.AASequence.fromString("DFPIANGER")
+    seq_formula = seq.getFormula() + oms.EmpiricalFormula("H" + str(charge))
+    isotopes = seq_formula.getIsotopeDistribution(oms.CoarseIsotopePatternGenerator(6))
+    print("[M+H]+ weight:", seq.getMonoWeight(oms.Residue.ResidueType.Full, 1))
 
     # Append isotopic distribution to spectrum
-    s = MSSpectrum()
+    s = oms.MSSpectrum()
     for iso in isotopes.getContainer():
         iso.setMZ(iso.getMZ() / charge)
         s.push_back(iso)
         print("Isotope", iso.getMZ(), ":", iso.getIntensity())
 
-    Deisotoper.deisotopeAndSingleChargeDefault(s, 10, True)
+    oms.Deisotoper.deisotopeAndSingleChargeDefault(s, 10, True)
 
     for p in s:
         print(p.getMZ(), p.getIntensity())
@@ -58,13 +58,13 @@ second isotopic peak  is the highest in intensity and the
     :linenos:
 
     charge = 4
-    seq = AASequence.fromString("DFPIANGERDFPIANGERDFPIANGERDFPIANGER")
-    seq_formula = seq.getFormula() + EmpiricalFormula("H" + str(charge))
-    isotopes = seq_formula.getIsotopeDistribution(CoarseIsotopePatternGenerator(8))
-    print("[M+H]+ weight:", seq.getMonoWeight(Residue.ResidueType.Full, 1))
+    seq = oms.AASequence.fromString("DFPIANGERDFPIANGERDFPIANGERDFPIANGER")
+    seq_formula = seq.getFormula() + oms.EmpiricalFormula("H" + str(charge))
+    isotopes = seq_formula.getIsotopeDistribution(oms.CoarseIsotopePatternGenerator(8))
+    print("[M+H]+ weight:", seq.getMonoWeight(oms.Residue.ResidueType.Full, 1))
 
     # Append isotopic distribution to spectrum
-    s = MSSpectrum()
+    s = oms.MSSpectrum()
     for iso in isotopes.getContainer():
         iso.setMZ(iso.getMZ() / charge)
         s.push_back(iso)
@@ -75,7 +75,7 @@ second isotopic peak  is the highest in intensity and the
     max_isotopes = 10
     use_decreasing_model = True
     start_intensity_check = 3
-    Deisotoper.deisotopeAndSingleCharge(
+    oms.Deisotoper.deisotopeAndSingleCharge(
         s,
         10,
         True,
@@ -111,11 +111,11 @@ state:
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/BSA1.mzML", "BSA1.mzML")
 
-    e = MSExperiment()
-    MzMLFile().load("BSA1.mzML", e)
+    e = oms.MSExperiment()
+    oms.MzMLFile().load("BSA1.mzML", e)
     s = e[214]
     s.setFloatDataArrays([])
-    Deisotoper.deisotopeAndSingleCharge(
+    oms.Deisotoper.deisotopeAndSingleCharge(
         s,
         0.1,
         False,
@@ -135,12 +135,12 @@ state:
     print(e[214].size())
     print(s.size())
 
-    e2 = MSExperiment()
+    e2 = oms.MSExperiment()
     e2.addSpectrum(e[214])
-    MzMLFile().store("BSA1_scan214_full.mzML", e2)
-    e2 = MSExperiment()
+    oms.MzMLFile().store("BSA1_scan214_full.mzML", e2)
+    e2 = oms.MSExperiment()
     e2.addSpectrum(s)
-    MzMLFile().store("BSA1_scan214_deisotoped.mzML", e2)
+    oms.MzMLFile().store("BSA1_scan214_deisotoped.mzML", e2)
 
     maxvalue = max([p.getIntensity() for p in s])
     for p in s:

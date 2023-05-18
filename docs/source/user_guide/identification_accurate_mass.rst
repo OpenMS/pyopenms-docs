@@ -16,7 +16,7 @@ Imports and :term:`mzML` file path
     import shutil
     import requests
     import pandas as pd
-    from pyopenms import *
+    import pyopenms as oms
     import numpy as np
     from sklearn.impute import KNNImputer
     from sklearn.preprocessing import FunctionTransformer
@@ -39,7 +39,7 @@ Execute this cell only for the example workflow.
     if not os.path.isdir(os.path.join(os.getcwd(), "IdByMz_Example")):
         os.mkdir(os.path.join(os.getcwd(), "IdByMz_Example"))
 
-    base = "https://abibuilder.cs.uni-tuebingen.de/archive/openms/Tutorials/Data/latest/Example_Data/Metabolomics/"
+    base = "https://abibuilder.cs.uni-tuebingen.de/archive/openms/Tutorials/Example_Data/Metabolomics/"
     urls = [
         "datasets/2012_02_03_PStd_050_1.mzML",
         "datasets/2012_02_03_PStd_050_2.mzML",
@@ -73,13 +73,13 @@ If files are already centroided this step can bet omitted.
 
     for file in os.listdir(files):
         if file.endswith(".mzML"):
-            exp_raw = MSExperiment()
-            MzMLFile().load(os.path.join(files, file), exp_raw)
-            exp_centroid = MSExperiment()
+            exp_raw = oms.MSExperiment()
+            oms.MzMLFile().load(os.path.join(files, file), exp_raw)
+            exp_centroid = oms.MSExperiment()
 
-            PeakPickerHiRes().pickExperiment(exp_raw, exp_centroid, True)
+            oms.PeakPickerHiRes().pickExperiment(exp_raw, exp_centroid, True)
 
-            MzMLFile().store(os.path.join(files, "centroid", file), exp_centroid)
+            oms.MzMLFile().store(os.path.join(files, "centroid", file), exp_centroid)
             del exp_raw
 
     files = os.path.join(files, "centroid")
@@ -97,13 +97,13 @@ Feature Detection
 
     for file in os.listdir(files):
         if file.endswith(".mzML"):
-            exp = MSExperiment()
-            MzMLFile().load(os.path.join(files, file), exp)
+            exp = oms.MSExperiment()
+            oms.MzMLFile().load(os.path.join(files, file), exp)
 
             exp.sortSpectra(True)
 
             mass_traces = []
-            mtd = MassTraceDetection()
+            mtd = oms.MassTraceDetection()
             mtd_params = mtd.getDefaults()
             mtd_params.setValue(
                 "mass_error_ppm", 5.0
@@ -116,7 +116,7 @@ Feature Detection
 
             mass_traces_split = []
             mass_traces_final = []
-            epd = ElutionPeakDetection()
+            epd = oms.ElutionPeakDetection()
             epd_params = epd.getDefaults()
             epd_params.setValue("width_filtering", "fixed")
             epd.setParameters(epd_params)
@@ -127,9 +127,9 @@ Feature Detection
             else:
                 mass_traces_final = mass_traces_split
 
-            feature_map = FeatureMap()
+            feature_map = oms.FeatureMap()
             feat_chrom = []
-            ffm = FeatureFindingMetabo()
+            ffm = oms.FeatureFindingMetabo()
             ffm_params = ffm.getDefaults()
             ffm_params.setValue("isotope_filtering_model", "none")
             ffm_params.setValue(
@@ -162,14 +162,14 @@ Feature Map Retention Time Alignment
         )
     ][-1]
 
-    aligner = MapAlignmentAlgorithmPoseClustering()
+    aligner = oms.MapAlignmentAlgorithmPoseClustering()
 
     aligner.setReference(feature_maps[ref_index])
 
     for feature_map in feature_maps[:ref_index] + feature_maps[ref_index + 1 :]:
-        trafo = TransformationDescription()
+        trafo = oms.TransformationDescription()
         aligner.align(feature_map, trafo)
-        transformer = MapAlignmentTransformer()
+        transformer = oms.MapAlignmentTransformer()
         transformer.transformRetentionTimes(
             feature_map, trafo, True
         )  # store original RT as meta value
@@ -238,13 +238,13 @@ Feature Linking
 .. code-block:: python
     :linenos:
 
-    feature_grouper = FeatureGroupingAlgorithmQT()
+    feature_grouper = oms.FeatureGroupingAlgorithmQT()
 
-    consensus_map = ConsensusMap()
+    consensus_map = oms.ConsensusMap()
     file_descriptions = consensus_map.getColumnHeaders()
 
     for i, feature_map in enumerate(feature_maps):
-        file_description = file_descriptions.get(i, ColumnHeader())
+        file_description = file_descriptions.get(i, oms.ColumnHeader())
         file_description.filename = feature_map.getMetaValue("spectra_data")[
             0
         ].decode()
@@ -284,7 +284,7 @@ Accurate Mass Search
     if files.endswith("centroid"):
         files = os.path.join(files, "..")
 
-    ams = AccurateMassSearchEngine()
+    ams = oms.AccurateMassSearchEngine()
 
     ams_params = ams.getParameters()
     ams_params.setValue("ionization_mode", "negative")
@@ -300,13 +300,13 @@ Accurate Mass Search
     )
     ams.setParameters(ams_params)
 
-    mztab = MzTab()
+    mztab = oms.MzTab()
 
     ams.init()
 
     ams.run(consensus_map, mztab)
 
-    MzTabFile().store(os.path.join(files, "ids.tsv"), mztab)
+    oms.MzTabFile().store(os.path.join(files, "ids.tsv"), mztab)
 
     with open(os.path.join(files, "ids_smsection.tsv"), "w") as output, open(
         os.path.join(files, "ids.tsv"), "r"

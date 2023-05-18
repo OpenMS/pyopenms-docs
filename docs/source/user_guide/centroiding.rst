@@ -15,14 +15,14 @@ First, we load some profile data:
     :linenos:
 
     from urllib.request import urlretrieve
-    from pyopenms import *
+    import pyopenms as oms
     import matplotlib.pyplot as plt
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/PeakPickerHiRes_input.mzML", "tutorial.mzML")
 
-    profile_spectra = MSExperiment()
-    MzMLFile().load("tutorial.mzML", profile_spectra)
+    profile_spectra = oms.MSExperiment()
+    oms.MzMLFile().load("tutorial.mzML", profile_spectra)
 
 Let's zoom in on an isotopic pattern in profile mode and plot it.
 
@@ -44,10 +44,10 @@ by storing only centroided data. Thus, many algorithms and tools assume that cen
 .. code-block:: python
     :linenos:
 
-    centroided_spectra = MSExperiment()
+    centroided_spectra = oms.MSExperiment()
 
     # input, output, chec_spectrum_type (if set, checks spectrum type and throws an exception if a centroided spectrum is passed)
-    PeakPickerHiRes().pickExperiment(
+    oms.PeakPickerHiRes().pickExperiment(
         profile_spectra, centroided_spectra, True
     )  # pick all spectra
 
