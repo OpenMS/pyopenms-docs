@@ -9,13 +9,13 @@ spectrometry` data is using the :py:class:`~.MzMLFile` class:
 
 .. code-block:: python
 
-    from pyopenms import *
+    import pyopenms as oms
     from urllib.request import urlretrieve
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/tiny.mzML", "test.mzML")
-    exp = MSExperiment()
-    MzMLFile().load("test.mzML", exp)
+    exp = oms.MSExperiment()
+    oms.MzMLFile().load("test.mzML", exp)
 
 which will load the content of the "test.mzML" file into the ``exp``
 variable of type :py:class:`~.MSExperiment`. We can access the raw data and spectra through:
@@ -41,7 +41,7 @@ Which will only keep :term:`MS2` spectra in the :py:class:`~.MSExperiment`. We c
 
 .. code-block:: python
 
-    MzMLFile().store("filtered.mzML", exp)
+    oms.MzMLFile().store("filtered.mzML", exp)
 
 Putting this together, a small filtering program would look like this:
 
@@ -50,8 +50,8 @@ Putting this together, a small filtering program would look like this:
     """
     Script to read mzML data and filter out all MS1 spectra
     """
-    exp = MSExperiment()
-    MzMLFile().load("test.mzML", exp)
+    exp = oms.MSExperiment()
+    oms.MzMLFile().load("test.mzML", exp)
 
     spec = []
     for s in exp.getSpectra():
@@ -60,7 +60,7 @@ Putting this together, a small filtering program would look like this:
 
     exp.setSpectra(spec)
 
-    MzMLFile().store("filtered.mzML", exp)
+    oms.MzMLFile().store("filtered.mzML", exp)
 
 Indexed :term:`mzML` Files
 **************************
@@ -71,7 +71,7 @@ data into memory:
 
 .. code-block:: python
 
-    od_exp = OnDiscMSExperiment()
+    od_exp = oms.OnDiscMSExperiment()
     od_exp.openFile("test.mzML")
     meta_data = od_exp.getMetaData()
     meta_data.getNrChromatograms()
@@ -125,7 +125,7 @@ which can the be used as follows:
 
     filename = b"test.mzML"
     consumer = MSCallback()
-    MzMLFile().transform(filename, consumer)
+    oms.MzMLFile().transform(filename, consumer)
     Read a spectrum
     Read a spectrum
     Read a spectrum
@@ -140,7 +140,7 @@ use this to implement a simple filtering function for mass spectra:
 
 .. code-block:: output
 
-    class FilteringConsumer():
+    class FilteringConsumer:
         """
         Consumer that forwards all calls the internal consumer (after
         filtering)
@@ -170,10 +170,10 @@ use this to implement a simple filtering function for mass spectra:
     outputfile = "out.mzML"
     ###################################
 
-    consumer = PlainMSDataWritingConsumer(outputfile)
+    consumer = oms.PlainMSDataWritingConsumer(outputfile)
     consumer = FilteringConsumer(consumer, filter_string)
 
-    MzMLFile().transform(inputfile, consumer)
+    oms.MzMLFile().transform(inputfile, consumer)
 
 
 where the spectra and chromatograms are filtered by their native ids. It is
@@ -197,13 +197,13 @@ directly mapped into memory when requested. You can use this feature as follows:
 .. code-block:: python
 
     # First load data and cache to disk
-    exp = MSExperiment()
-    MzMLFile().load("test.mzML", exp)
-    CachedmzML.store("myCache.mzML", exp)
+    exp = oms.MSExperiment()
+    oms.MzMLFile().load("test.mzML", exp)
+    oms.CachedmzML().store("myCache.mzML", exp)
 
     # Now load data
-    cfile = CachedmzML()
-    CachedmzML.load("myCache.mzML", cfile)
+    cfile = oms.CachedmzML()
+    oms.CachedmzML().load("myCache.mzML", cfile)
 
     meta_data = cfile.getMetaData()
     cfile.getNrChromatograms()
@@ -233,15 +233,15 @@ into memory):
 
     # First cache to disk
     # Note: writing meta data to myCache2.mzML is required
-    cacher = MSDataCachedConsumer("myCache2.mzML.cached")
-    exp = MSExperiment()
-    MzMLFile().transform(b"test.mzML", cacher, exp)
-    CachedMzMLHandler().writeMetadata(exp, "myCache2.mzML")
+    cacher = oms.MSDataCachedConsumer("myCache2.mzML.cached")
+    exp = oms.MSExperiment()
+    oms.MzMLFile().transform(b"test.mzML", cacher, exp)
+    oms.CachedMzMLHandler().writeMetadata(exp, "myCache2.mzML")
     del cacher
 
     # Now load data
-    cfile = CachedmzML()
-    CachedmzML.load("myCache2.mzML", cfile)
+    cfile = oms.CachedmzML()
+    oms.CachedmzML().load("myCache2.mzML", cfile)
 
     meta_data = cfile.getMetaData()
     # data is not present in meta_data experiment

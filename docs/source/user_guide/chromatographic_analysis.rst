@@ -19,7 +19,7 @@ about the targeted peptides:
 .. code-block:: python
 
     from urllib.request import urlretrieve
-    from pyopenms import *
+    import pyopenms as oms
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/OpenSwathAnalyzer_1_input_chrom.mzML", "chrom.mzML")
@@ -27,10 +27,10 @@ about the targeted peptides:
         gh + "/src/data/OpenSwathAnalyzer_1_input.TraML", "transitions.TraML"
     )
 
-    chroms = MSExperiment()
-    library = TargetedExperiment()
-    MzMLFile().load("chrom.mzML", chroms)
-    TraMLFile().load("transitions.TraML", library)
+    chroms = oms.MSExperiment()
+    library = oms.TargetedExperiment()
+    oms.MzMLFile().load("chrom.mzML", chroms)
+    oms.TraMLFile().load("transitions.TraML", library)
 
     # Investigate library
     for t in library.getTransitions():
@@ -48,10 +48,10 @@ about the targeted peptides:
         len(chroms.getChromatograms()),
         "chromatograms.",
     )
-    features = FeatureMap()
-    dummy_trafo = TransformationDescription()
-    dummy_exp = MSExperiment()
-    MRMFeatureFinderScoring().pickExperiment(
+    features = oms.FeatureMap()
+    dummy_trafo = oms.TransformationDescription()
+    dummy_exp = oms.MSExperiment()
+    oms.MRMFeatureFinderScoring().pickExperiment(
         chroms, features, library, dummy_trafo, dummy_exp
     )
     for f in features:
@@ -119,7 +119,7 @@ to provide smooth chromatograms, you can apply a filter using pyOpenMS:
 
 .. code-block:: python
 
-    sg = SavitzkyGolayFilter()
+    sg = oms.SavitzkyGolayFilter()
     sg.filterExperiment(chroms)
     # MzMLFile().store("chrom.filter.mzML", chroms)
 

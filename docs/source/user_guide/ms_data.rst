@@ -20,9 +20,9 @@ First we create a mass spectrum and insert peaks with descending mass-to-charge 
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
+    import pyopenms as oms
 
-    spectrum = MSSpectrum()
+    spectrum = oms.MSSpectrum()
     mz = range(500, 1500, 100)
     i = [1 for mass in mz]
     spectrum.set_peaks([mz, i])
@@ -92,7 +92,7 @@ information attached to the mass spectrum including retention time, the MS level
 .. code-block:: python
     :linenos:
 
-    help(MSSpectrum)
+    help(oms.MSSpectrum)
 
 We now set several of these properties in a current :py:class:`~.MSSpectrum`:
 
@@ -100,7 +100,7 @@ We now set several of these properties in a current :py:class:`~.MSSpectrum`:
     :linenos:
 
     # create spectrum and set properties
-    spectrum = MSSpectrum()
+    spectrum = oms.MSSpectrum()
     spectrum.setDriftTime(25)  # 25 ms
     spectrum.setRT(205.2)  # 205.2 s
     spectrum.setMSLevel(3)  # MS3
@@ -109,7 +109,7 @@ We now set several of these properties in a current :py:class:`~.MSSpectrum`:
     spectrum.set_peaks(([401.5], [900]))
 
     # create precursor information
-    p = Precursor()
+    p = oms.Precursor()
     p.setMZ(600)  # isolation at 600 +/- 1.5 Th
     p.setIsolationWindowLowerOffset(1.5)
     p.setIsolationWindowUpperOffset(1.5)
@@ -120,38 +120,38 @@ We now set several of these properties in a current :py:class:`~.MSSpectrum`:
     spectrum.setPrecursors([p])
 
     # set additional instrument settings (e.g. scan polarity)
-    IS = InstrumentSettings()
-    IS.setPolarity(IonSource.Polarity.POSITIVE)
+    IS = oms.InstrumentSettings()
+    IS.setPolarity(oms.IonSource.Polarity.POSITIVE)
     spectrum.setInstrumentSettings(IS)
 
     # get and check scan polarity
     polarity = spectrum.getInstrumentSettings().getPolarity()
-    if polarity == IonSource.Polarity.POSITIVE:
+    if polarity == oms.IonSource.Polarity.POSITIVE:
         print("scan polarity: positive")
-    elif polarity == IonSource.Polarity.NEGATIVE:
+    elif polarity == oms.IonSource.Polarity.NEGATIVE:
         print("scan polarity: negative")
 
     # Optional: additional data arrays / peak annotations
-    fda = FloatDataArray()
+    fda = oms.FloatDataArray()
     fda.setName("Signal to Noise Array")
     fda.push_back(15)
-    sda = StringDataArray()
+    sda = oms.StringDataArray()
     sda.setName("Peak annotation")
     sda.push_back("y15++")
     spectrum.setFloatDataArrays([fda])
     spectrum.setStringDataArrays([sda])
 
     # Add spectrum to MSExperiment
-    exp = MSExperiment()
+    exp = oms.MSExperiment()
     exp.addSpectrum(spectrum)
 
     # Add second spectrum to the MSExperiment
-    spectrum2 = MSSpectrum()
+    spectrum2 = oms.MSSpectrum()
     spectrum2.set_peaks(([1, 2], [1, 2]))
     exp.addSpectrum(spectrum2)
 
     # store spectra in mzML file
-    MzMLFile().store("testfile.mzML", exp)
+    oms.MzMLFile().store("testfile.mzML", exp)
 
 
 .. code-block:: output
@@ -215,7 +215,7 @@ is highly analogous to the :py:class:`~.MSSpectrum` container, but contains an a
 
 
     # Create new chromatogram
-    chromatogram = MSChromatogram()
+    chromatogram = oms.MSChromatogram()
 
     # Set raw data (RT and intensity)
     rt = range(1500, 500, -100)
@@ -240,7 +240,7 @@ is highly analogous to the :py:class:`~.MSSpectrum` container, but contains an a
     chromatogram.setNativeID("Trace XIC@405.2")
 
     # Store a precursor ion for the chromatogram
-    p = Precursor()
+    p = oms.Precursor()
     p.setIsolationWindowLowerOffset(1.5)
     p.setIsolationWindowUpperOffset(1.5)
     p.setMZ(405.2)  # isolation at 405.2 +/- 1.5 Th
@@ -251,14 +251,14 @@ is highly analogous to the :py:class:`~.MSSpectrum` container, but contains an a
     chromatogram.setPrecursor(p)
 
     # Also store a product ion for the chromatogram (e.g. for SRM)
-    p = Product()
+    p = oms.Product()
     p.setMZ(603.4)  # transition from 405.2 -> 603.4
     chromatogram.setProduct(p)
 
     # Store as mzML
-    exp = MSExperiment()
+    exp = oms.MSExperiment()
     exp.addChromatogram(chromatogram)
-    MzMLFile().store("testfile3.mzML", exp)
+    oms.MzMLFile().store("testfile3.mzML", exp)
 
     # Visualize the resulting data using matplotlib
     import matplotlib.pyplot as plt
@@ -336,13 +336,13 @@ several mass spectra:
 
     # The following examples creates an MSExperiment which holds six
     # MSSpectrum instances.
-    exp = MSExperiment()
+    exp = oms.MSExperiment()
     for i in range(6):
-        spectrum = MSSpectrum()
+        spectrum = oms.MSSpectrum()
         spectrum.setRT(i)
         spectrum.setMSLevel(1)
         for mz in range(500, 900, 100):
-            peak = Peak1D()
+            peak = oms.Peak1D()
             peak.setMZ(mz + i)
             peak.setIntensity(100 - 25 * abs(i - 2.5))
             spectrum.push_back(peak)
@@ -423,7 +423,7 @@ using the :py:class:`~.MzMLFile` object:
     :linenos:
 
     # Store as mzML
-    MzMLFile().store("testfile2.mzML", exp)
+    oms.MzMLFile().store("testfile2.mzML", exp)
 
 Again we can visualize the resulting data using :term:`TOPPView` using its 3D
 viewer capability, which shows the six scans over retention time where the
@@ -476,8 +476,8 @@ provided by OpenMS.
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/FeatureFinderMetaboIdent_1_input.mzML", "test.mzML")
 
-    exp = MSExperiment()
-    MzMLFile().load("test.mzML", exp)
+    exp = oms.MSExperiment()
+    oms.MzMLFile().load("test.mzML", exp)
 
     plot_spectra_2D(exp)
 
@@ -502,7 +502,7 @@ This can be useful for a brief visual inspection of your sample in quality contr
         cols = 200.0
         exp.updateRanges()
 
-        bilip = BilinearInterpolation()
+        bilip = oms.BilinearInterpolation()
         tmp = bilip.getData()
         tmp.resize(int(rows), int(cols), float())
         bilip.setData(tmp)
@@ -564,8 +564,8 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
         gh + "/src/data/PrecursorPurity_input.mzML", "PrecursorPurity_input.mzML"
     )
 
-    exp = MSExperiment()
-    MzMLFile().load("PrecursorPurity_input.mzML", exp)
+    exp = oms.MSExperiment()
+    oms.MzMLFile().load("PrecursorPurity_input.mzML", exp)
 
     # for this example, we check which are MS2 spectra and choose one of them
     for i, element in enumerate(exp):
@@ -586,7 +586,7 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
     ms1_spectrum = exp[i]
 
     # calculate the precursor purity in a 10 ppm precursor isolation window
-    purity_score = PrecursorPurity().computePrecursorPurity(
+    purity_score = oms.PrecursorPurity().computePrecursorPurity(
         ms1_spectrum, ms2_precursor, 10, True
     )
 
@@ -635,8 +635,8 @@ But first, we will load some test data:
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/tiny.mzML", "test.mzML")
 
-    inp = MSExperiment()
-    MzMLFile().load("test.mzML", inp)
+    inp = oms.MSExperiment()
+    oms.MzMLFile().load("test.mzML", inp)
 
 
 Filtering Mass Spectra by :term`MS` Level
@@ -649,7 +649,7 @@ mass spectra that are not :term:`MS1` spectra
 .. code-block:: python
     :linenos:
 
-    filtered = MSExperiment()
+    filtered = oms.MSExperiment()
     for s in inp:
         if s.getMSLevel() > 1:
             filtered.addSpectrum(s)
@@ -668,7 +668,7 @@ to only retain a list of MS scans we are interested in:
 
     scan_nrs = [0, 2, 5, 7]
 
-    filtered = MSExperiment()
+    filtered = oms.MSExperiment()
     for k, s in enumerate(inp):
         if k in scan_nrs:
             filtered.addSpectrum(s)
@@ -685,7 +685,7 @@ We can easily filter our data accordingly:
 
     mz_start = 6.0
     mz_end = 12.0
-    filtered = MSExperiment()
+    filtered = oms.MSExperiment()
     for s in inp:
         if s.getMSLevel() > 1:
             filtered_mz = []

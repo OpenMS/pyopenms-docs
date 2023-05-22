@@ -25,7 +25,7 @@ Download Example Data
 
 .. code-block:: python
 
-    from pyopenms import *
+    import pyopenms as oms
     from urllib.request import urlretrieve
 
     base_url = (
@@ -43,8 +43,8 @@ Download Example Data
     # download the feature files and store feature maps in list (feature_maps)
     for feature_file in feature_files:
         urlretrieve(base_url + feature_file, feature_file)
-        feature_map = FeatureMap()
-        FeatureXMLFile().load(feature_file, feature_map)
+        feature_map = oms.FeatureMap()
+        oms.FeatureXMLFile().load(feature_file, feature_map)
         feature_maps.append(feature_map)
 
 features Linking Algorithm
@@ -54,15 +54,15 @@ All :py:class:`~.FeatureMap` objects will be combined in a :py:class:`~.Consensu
 
 .. code-block:: python
 
-    feature_grouper = FeatureGroupingAlgorithmQT()
+    feature_grouper = oms.FeatureGroupingAlgorithmQT()
 
-    consensus_map = ConsensusMap()
+    consensus_map = oms.ConsensusMap()
 
     file_descriptions = consensus_map.getColumnHeaders()
 
     # collect information about input maps
     for i, feature_map in enumerate(feature_maps):
-        file_description = file_descriptions.get(i, ColumnHeader())
+        file_description = file_descriptions.get(i, oms.ColumnHeader())
         file_description.filename = feature_map.getDataProcessing()[0].getMetaValue(
             "parameter: in"
         )[:-5]

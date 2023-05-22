@@ -8,16 +8,16 @@ OpenMS has classes for proteolytic digestion which can be used as follows:
 
 .. code-block:: python
 
-    from pyopenms import *
+    import pyopenms as oms
     from urllib.request import urlretrieve
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/P02769.fasta", "bsa.fasta")
 
-    dig = ProteaseDigestion()
+    dig = oms.ProteaseDigestion()
     dig.getEnzymeName()  # Trypsin
     bsa = "".join([l.strip() for l in open("bsa.fasta").readlines()[1:]])
-    bsa = AASequence.fromString(bsa)
+    bsa = oms.AASequence.fromString(bsa)
     # create all digestion products
     result = []
     dig.digest(bsa, result)
@@ -57,9 +57,9 @@ file and can be accessed using the :py:class:`~.EnzymesDB` object
 .. code-block:: python
 
     names = []
-    ProteaseDB().getAllNames(names)
+    oms.ProteaseDB().getAllNames(names)
     len(names)  # at least 25 by default
-    e = ProteaseDB().getEnzyme("Lys-C")
+    e = oms.ProteaseDB().getEnzyme("Lys-C")
     e.getRegExDescription()
     e.getRegEx()
 
@@ -74,10 +74,10 @@ cut our protein of interest:
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/P02769.fasta", "bsa.fasta")
 
-    dig = ProteaseDigestion()
+    dig = oms.ProteaseDigestion()
     dig.setEnzyme("Lys-C")
     bsa = "".join([l.strip() for l in open("bsa.fasta").readlines()[1:]])
-    bsa = AASequence.fromString(bsa)
+    bsa = oms.AASequence.fromString(bsa)
     result = []
     dig.digest(bsa, result)
     print(result[4].toString())
@@ -94,7 +94,7 @@ file and can be accessed using the :py:class:`~.RNaseDB` object
 
 .. code-block:: python
 
-    db = RNaseDB()
+    db = oms.RNaseDB()
     names = []
     db.getAllNames(names)
     names
@@ -108,9 +108,9 @@ We can now use it to cut an oligo:
 
 .. code-block:: python
 
-    oligo = NASequence.fromString("pAUGUCGCAG")
+    oligo = oms.NASequence.fromString("pAUGUCGCAG")
 
-    dig = RNaseDigestion()
+    dig = oms.RNaseDigestion()
     dig.setEnzyme("RNase_T1")
 
     result = []

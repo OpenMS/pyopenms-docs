@@ -14,13 +14,13 @@ First, we will generate a simple mass spectrum that only contains y-ions
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
+    import pyopenms as oms
 
-    tsg = TheoreticalSpectrumGenerator()
-    spec1 = MSSpectrum()
-    peptide = AASequence.fromString("DFPIANGER")
+    tsg = oms.TheoreticalSpectrumGenerator()
+    spec1 = oms.MSSpectrum()
+    peptide = oms.AASequence.fromString("DFPIANGER")
     # standard behavior is adding b- and y-ions of charge 1
-    p = Param()
+    p = oms.Param()
     p.setValue("add_b_ions", "false")
     p.setValue("add_metainfo", "true")
     tsg.setParameters(p)
@@ -70,9 +70,9 @@ losses:
 .. code-block:: python
     :linenos:
 
-    spec2 = MSSpectrum()
+    spec2 = oms.MSSpectrum()
     # standard behavior is adding b- and y-ions
-    p2 = Param()
+    p2 = oms.Param()
     p2.setValue("add_a_ions", "true")
     # adding n-term ion (in this case, a1 and b1)
     p2.setValue("add_first_prefix_ion", "true")
@@ -89,10 +89,10 @@ losses:
     for ion, peak in zip(spec2.getStringDataArrays()[0], spec2):
         print(ion.decode(), "is generated at m/z", peak.getMZ())
 
-    exp = MSExperiment()
+    exp = oms.MSExperiment()
     exp.addSpectrum(spec1)
     exp.addSpectrum(spec2)
-    MzMLFile().store("DFPIANGER.mzML", exp)
+    oms.MzMLFile().store("DFPIANGER.mzML", exp)
 
 which outputs all 160 peaks that are generated (this is without isotopic
 peaks), here we will just show the first few peaks:

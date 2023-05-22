@@ -11,7 +11,7 @@ interactively zoomed-in if you execute the code in a notebook
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
+    import pyopenms as oms
     import pandas as pd
     import numpy as np
     import datashader as ds
@@ -23,13 +23,13 @@ interactively zoomed-in if you execute the code in a notebook
 
     hv.extension("bokeh")
 
-    exp = MSExperiment()  # type: PeakMap
-    loader = MzMLFile()
+    exp = oms.MSExperiment()  # type: PeakMap
+    loader = oms.MzMLFile()
     loadopts = loader.getOptions()  # type: PeakFileOptions
     loadopts.setMSLevels([1])
     loadopts.setSkipXMLChecks(True)
     loadopts.setIntensity32Bit(True)
-    loadopts.setIntensityRange(DRange1(DPosition1(5000), DPosition1(sys.maxsize)))
+    loadopts.setIntensityRange(oms.DRange1(oms.DPosition1(5000), oms.DPosition1(sys.maxsize)))
     loader.setOptions(loadopts)
     loader.load("../../../src/data/BSA1.mzML", exp)
     exp.updateRanges()

@@ -23,10 +23,10 @@ You can check if importing pyOpenMS works and print your pyOpenMS version with:
 .. code-block:: python
     :linenos:
 
-    from pyopenms import *
+    import pyopenms as oms
 
-    print("Version: " + VersionInfo.getVersion())
-    print("OpenMP: " + str(OpenMSBuildInfo.isOpenMPEnabled()))
-    print("Build type: " + OpenMSBuildInfo.getBuildType())
-    print("Architecture: " + OpenMSOSInfo.getBinaryArchitecture())
+    print("Version: " + oms.VersionInfo.getVersion())
+    print("OpenMP: " + str(oms.OpenMSBuildInfo.isOpenMPEnabled()))
+    print("Build type: " + oms.OpenMSBuildInfo.getBuildType())
+    print("Architecture: " + oms.OpenMSOSInfo.getBinaryArchitecture())
 

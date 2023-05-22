@@ -11,16 +11,16 @@ interpretations within a narrow mass band of :math:`0.05\ Th`:
 
 .. code-block:: python
 
-    from pyopenms import *
+    import pyopenms as oms
 
     print(
-        AASequence.fromString("MM").getMonoWeight(Residue.ResidueType.Internal, 0)
+        oms.AASequence.fromString("MM").getMonoWeight(oms.Residue.ResidueType.Internal, 0)
     )
     print(
-        AASequence.fromString("VY").getMonoWeight(Residue.ResidueType.Internal, 0)
+        oms.AASequence.fromString("VY").getMonoWeight(oms.Residue.ResidueType.Internal, 0)
     )
     print(
-        AASequence.fromString("DF").getMonoWeight(Residue.ResidueType.Internal, 0)
+        oms.AASequence.fromString("DF").getMonoWeight(oms.Residue.ResidueType.Internal, 0)
     )
 
 .. code-block:: output
@@ -37,7 +37,7 @@ potential amino acid combinations that explain a certain mass in the
 
 .. code-block:: python
 
-    md_alg = MassDecompositionAlgorithm()
+    md_alg = oms.MassDecompositionAlgorithm()
     param = md_alg.getParameters()
     param.setValue("tolerance", 0.05)
     param.setValue("residue_set", b"Natural19WithoutI")
@@ -62,14 +62,14 @@ residues equals the target mass:
 .. code-block:: python
 
     mass = 262.0953584466
-    residues = ResidueDB().getResidues(b"Natural19WithoutI")
+    residues = oms.ResidueDB().getResidues(b"Natural19WithoutI")
 
 
     def recursive_mass_decomposition(mass_sum, peptide):
         if abs(mass_sum - mass) < 0.05:
             print(peptide + "\t" + str(mass_sum))
         for r in residues:
-            new_mass = mass_sum + r.getMonoWeight(Residue.ResidueType.Internal)
+            new_mass = mass_sum + r.getMonoWeight(oms.Residue.ResidueType.Internal)
             if new_mass < mass + 0.05:
                 recursive_mass_decomposition(
                     new_mass, peptide + r.getOneLetterCode()
@@ -101,7 +101,7 @@ possible amino acid combinations for that mass within a given tolerance:
     mass = float(sys.argv[1])
     tol = float(sys.argv[2])
 
-    md_alg = MassDecompositionAlgorithm()
+    md_alg = oms.MassDecompositionAlgorithm()
     param = md_alg.getParameters()
     param.setValue("tolerance", tol)
     param.setValue("residue_set", b"Natural19WithoutI")
@@ -132,7 +132,7 @@ Spectrum Tagger
 .. code-block:: python
     :linenos:
 
-    tsg = TheoreticalSpectrumGenerator()
+    tsg = oms.TheoreticalSpectrumGenerator()
     param = tsg.getParameters()
     param.setValue("add_metainfo", "false")
     param.setValue("add_first_prefix_ion", "true")
@@ -142,15 +142,15 @@ Spectrum Tagger
     tsg.setParameters(param)
 
     # spectrum with charges +1 and +2
-    test_sequence = AASequence.fromString("PEPTIDETESTTHISTAGGER")
-    spec = MSSpectrum()
+    test_sequence = oms.AASequence.fromString("PEPTIDETESTTHISTAGGER")
+    spec = oms.MSSpectrum()
     tsg.getSpectrum(spec, test_sequence, 1, 2)
 
     print(spec.size())  # should be 357
 
     # tagger searching only for charge +1
     tags = []
-    tagger = Tagger(2, 10.0, 5, 1, 1, [], [])
+    tagger = oms.Tagger(2, 10.0, 5, 1, 1, [], [])
     tagger.getTag(spec, tags)
 
     print(len(tags))  # should be 890
