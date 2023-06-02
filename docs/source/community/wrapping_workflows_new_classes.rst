@@ -68,12 +68,10 @@ Open it and add your new function *with the correct indentation*:
   - Note: The space between the hash and wrap-doc (# wrap-doc) is not necessary, but used for consistency.
   - Note: Please start the comment with a capital letter.
   
-See the next section for a SimpleExample_ and a more AdvancedExample_ of a wrapped class with several functions.
+See the next section for a `simple example <#A-Simple-Example>`_ and a more `advanced example <#A-Further-Example>`_ of a wrapped class with several functions.
 
 How to Wrap New Classes
 ^^^^^^^^^^^^^^^^^^^^^^^
-
-.. _SimpleExample:
 
 A Simple Example
 ----------------
@@ -132,9 +130,7 @@ to get you started. Start with the following structure:
   <https://github.com/OpenMS/OpenMS/blob/develop/src/pyOpenMS/pxds/PepXMLFile.pxd>`_)
 - you can add documentation that will show up in the interactive Python documentation (using ``help()``) using the ``wrap-doc`` qualifier
 
-.. _AdvancedExample:
-
-A further example
+A Further Example
 -----------------
 
 A slightly more complicated class could look like this, where we demonstrate

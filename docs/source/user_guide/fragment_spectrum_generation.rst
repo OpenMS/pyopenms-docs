@@ -2,7 +2,7 @@ Fragment Spectrum Generation
 ============================
 
 Generating theoretical fragment spectra is central to many identification tasks in computational mass spectrometry.
-:py:class`~.TheoreticalSpectrumGenerator` can be configured to generate :term:`MS2` spectra from
+:py:class:`~.TheoreticalSpectrumGenerator` can be configured to generate :term:`MS2` spectra from
 a given peptide charge combination. There are various parameters which influence
 the generated ions e.g. simulating different fragmentation techniques.
 
@@ -45,7 +45,7 @@ which produces all y single charged ions:
     y7+ is generated at m/z 756.3998821574709
     y8+ is generated at m/z 903.4682964445709
 
-which you could plot with :py:func:`~.plot_spectrum`, automatically showing annotated ions.:
+which you could plot with :py:meth:`pyopenms.plotting.plot_spectrum`, automatically showing annotated ions.:
 
 .. code-block:: python
     :linenos:
