@@ -4,19 +4,23 @@
 Pandoc filter to convert links to relative html pages
 (originally for readthedocs) to point to ipynbs now.
 """
-import pandocfilters
-from pandocfilters import Str, Link, toJSONFilter, CodeBlock, Para, Code
-
+import re
+from pandocfilters import Str, Link, toJSONFilter
 
 def transformReferences(key, value, _, meta):
     if key == 'Code':
-        attr, content = value
-        if content.startswith('~.'):
-            text = content[2:]
+        attr, code = value
+        if re.search('[a-zA-Z]+(?=\.)|(?<=\.)[a-zA-Z]+', code) is not None:
+            text = code.strip('()')
+            if re.search('(pyopenms\.)[a-z]+\.', code) is not None:
+                url = f'https://pyopenms.readthedocs.io/en/latest/apidocs/_autosummary/pyopenmssubmodules/{text}.html'
+            else:
+                text = text.strip('~.')
+                url = f'https://pyopenms.readthedocs.io/en/latest/apidocs/_autosummary/pyopenms/pyopenms.{text}.html'
             return Link(
                         ['ref-link', ['external-link'], [('rel', 'nofollow')]],
                         [Str(text)],
-                        [f'https://pyopenms.readthedocs.io/en/latest/apidocs/_autosummary/pyopenms/pyopenms.{text.strip("()")}.html', text]
+                        [url, text]
                     )
 
 
