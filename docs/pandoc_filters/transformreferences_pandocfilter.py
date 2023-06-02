@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Pandoc filter to convert links to relative html pages
-(originally for readthedocs) to point to ipynbs now.
+Pandoc filter to convert API references to html links
 """
 import re
 from pandocfilters import Str, Link, toJSONFilter
