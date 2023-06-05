@@ -4,24 +4,27 @@
 Pandoc filter to convert API references to html links
 """
 import re
+import sys
 from pandocfilters import Str, Link, toJSONFilter
 
-def transformReferences(key, value, _, meta):
+def transformReferences(key, value, fmt, meta):
     if key == 'Code':
-        attr, code = value
-        if re.search('[a-zA-Z]+(?=\.)|(?<=\.)[a-zA-Z]+', code) is not None:
-            text = code.strip('()')
+        [[ident, classes, kvs], code] = value
+        kvs = {key: value for key, value in kvs}
+        role = kvs.get("role", "")
+        if role[0:3] == "py:":
+            sys.stderr.write(code)
             if re.search('(pyopenms\.)[a-z]+\.', code) is not None:
-                url = f'https://pyopenms.readthedocs.io/en/latest/apidocs/_autosummary/pyopenmssubmodules/{text}.html'
+                url = f'https://pyopenms.readthedocs.io/en/latest/apidocs/_autosummary/pyopenmssubmodules/{code}.html'
             else:
-                text = text.strip('~.')
-                url = f'https://pyopenms.readthedocs.io/en/latest/apidocs/_autosummary/pyopenms/pyopenms.{text}.html'
+                code = code.strip('~.')
+                url = f'https://pyopenms.readthedocs.io/en/latest/apidocs/_autosummary/pyopenms/pyopenms.{code}.html'
             return Link(
                         ['ref-link', ['external-link'], [('rel', 'nofollow')]],
-                        [Str(text)],
-                        [url, text]
+                        [Str(code)],
+                        [url, code]
                     )
-
+        return None
 
 if __name__ == "__main__":
     toJSONFilter(transformReferences)
