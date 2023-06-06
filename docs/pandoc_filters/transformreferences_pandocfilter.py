@@ -4,18 +4,19 @@
 Pandoc filter to convert API references to html links
 """
 import re
-import sys
-from pandocfilters import Str, Link, toJSONFilter
+from pandocfilters import toJSONFilter, RawInline
+
+
+# Note: use stderr for debugging
+# sys.stderr.write(code)
 
 def transformReferences(key, value, fmt, meta):
     if key == 'Code':
         [[ident, classes, kvs], code] = value
         kvs = {key: value for key, value in kvs}
         role = kvs.get("role", "")
-        if role[0:3] == "py:":
-            # Note: use stderr for debugging
-            #sys.stderr.write(code)
 
+        if role[0:3] == "py:":
             # remove ~. which is only used by sphinx to only display the last component of the listed class/function name
             # i.e., get for pyopenms.MSSpectrum.get
             # TODO think about replicating this behaviour
@@ -32,12 +33,15 @@ def transformReferences(key, value, fmt, meta):
                 url = f'https://pyopenms.readthedocs.io/en/latest/apidocs/_autosummary/pyopenmssubmodules/{code}.html'
             else:
                 url = f'https://pyopenms.readthedocs.io/en/latest/apidocs/_autosummary/pyopenms/pyopenms.{code}.html'
-            return Link(
-                        ['ref-link', ['external-link'], [('rel', 'nofollow')]],
-                        [Str(code)],
-                        [url, code]
-                    )
-        return None
+            return RawInline('markdown', f'[{code}]({url})')
+        elif role == 'term':
+            if code.find('<') != -1:
+                code, text = code.strip('>').split('<')
+            else:
+                text = code
+            url = f'https://pyopenms.readthedocs.io/en/latest/user_guide/glossary.html#term-{text.replace(" ", "-")}'
+            return RawInline('markdown', f'[{code}]({url})')
+
 
 if __name__ == "__main__":
     toJSONFilter(transformReferences)
