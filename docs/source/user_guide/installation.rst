@@ -31,7 +31,7 @@ can type
 We have binary packages for OSX, Linux and Windows (64 bit only) available from
 `PyPI <https://pypi.org/project/pyopenms>`_. Make sure to download
 the 64bit Python release for Windows. Currently we only support
-Python 3.7, 3.8 and 3.9, if you are using 3.10 or 3.11 please use our nightly builds.
+Python 3.7, 3.8 and 3.9, if you are using 3.10 or 3.11 please use our nightly builds (see below).
 
 You can install Python first from `here <https://www.python.org/downloads/>`_,
 again make sure to download the 64bit release. You can then open a shell and
@@ -45,7 +45,7 @@ If you want the newest features you can also install nightly builds of pyOpenMS 
 
 .. code-block:: bash
 
-  pip install --index-url https://pypi.cs.uni-tuebingen.de/simple/ pyopenms-nightly
+  pip install --index-url https://pypi.cs.uni-tuebingen.de/simple/ pyopenms
 
 Source (advanced users)
 -----------------------
