@@ -64,6 +64,7 @@ headings and structure.
    :maxdepth: 2
    :caption: Advanced Topics
 
+   logging
    reading_raw_ms_data
    other_ms_data_formats
    mzml_files
