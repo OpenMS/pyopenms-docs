@@ -11,7 +11,8 @@ Logging in the wrapped C extension part can be controlled by the following:
 
 .. code-block:: python
 
-    pyopenms.LogConfigHandler().setLogLevel("ERROR")
+   import pyopenms as pyoms
+   pyoms.LogConfigHandler().setLogLevel("ERROR")
 
 Unfortunately, there are still some limitations: `OpenMS issue 6827 <https://github.com/OpenMS/OpenMS/issues/6827>`_
 Controlling logging inside the C extension is only supported globally per process. That means, once you change the log level,
