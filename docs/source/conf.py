@@ -88,7 +88,7 @@ release = version
 rtd_branch = os.environ.get('READTHEDOCS_GIT_IDENTIFIER', '')
 
 # if the variable is not set (e.g., when building locally and not on RTD)
-if not rtd_branch: 
+if not rtd_branch:
     release += 'local'
 
 # if not built from release branch or tag
