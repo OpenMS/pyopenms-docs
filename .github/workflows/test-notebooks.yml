@@ -2,7 +2,7 @@ name: Test code in notebooks
 
 on:
   push:
-    branches: [ 'master+ipynb' ]
+    branches: [ 'master\+ipynb' ]
   workflow_dispatch:
     inputs:
       tags:
