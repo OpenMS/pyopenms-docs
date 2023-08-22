@@ -2,8 +2,8 @@ name: Test code in notebooks
 
 on:
   push:
-    branches:
-      - 'master+ipynb'
+    branches: [ 'master\+ipynb' ]
+    types: [created, edited, deleted, renamed, forced] # for force pushes from our actions
   workflow_dispatch:
     inputs:
       tags:
