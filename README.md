@@ -10,7 +10,7 @@ LC-MS data management and analyses. The Python bindings cover a large part of
 the OpenMS API to enable rapid algorithm development and workflow development.
 pyOpenMS supports the Proteomics Standard Initiative (PSI) formats for MS data. 
 
-This repository contains documentation, installation instructions and example code
+This repository contains documentation, installation instructions, and example code
 that show different functions of pyOpenMS.
 
 Installation
