@@ -5,7 +5,7 @@ Spectrum
 ********
 
 The most important container for raw data and peaks is :py:class:`~.MSSpectrum` which we
-have already worked with in the `Getting Started <getting_started.html>`_
+have already worked with in the `Getting Started <first_steps.html#iteration>`_
 tutorial. :py:class:`~.MSSpectrum` is a container for 1-dimensional peak data (a
 container of :py:class:`~.Peak1D`). You can access these objects directly, by using an iterator or indexing.
 Meta-data is accessible through inheritance of the :py:class:`~.SpectrumSettings`
