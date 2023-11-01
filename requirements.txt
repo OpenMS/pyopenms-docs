@@ -13,5 +13,4 @@ jupyter-server-proxy
 massql
 sphinx-hoverxref
 
---extra-index-url https://pypi.cs.uni-tuebingen.de/simple/
 pyopenms
