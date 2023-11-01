@@ -1,123 +1,64 @@
-.. pyOpenMS documentation master file, created by
-   sphinx-quickstart on Fri Jun  1 15:50:55 2018.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Summary
 =======
 
-pyOpenMS is an open-source Python library for mass spectrometry, specifically for the analysis of proteomics and metabolomics data in Python. pyOpenMS implements a set of Python bindings to the OpenMS library for computational mass spectrometry and is available for Windows, Linux and OSX.
+pyOpenMS is an open-source Python library for :term:`mass spectrometry<Mass spectrometry>`, specifically for the analysis of proteomics
+and metabolomics data in Python. pyOpenMS implements a set of Python bindings to the OpenMS library for computational
+:term:`mass spectrometry<Mass spectrometry>` and is available for Windows, Linux and macOS.
 
-PyOpenMS provides functionality that is commonly used in computational mass
-spectrometry.  The pyOpenMS package contains Python bindings for a large part of the OpenMS
-library (http://www.openms.de) for mass spectrometry based proteomics. It thus
-provides facile access to a feature-rich, open-source algorithm
-library for mass-spectrometry based proteomics analysis. 
+pyOpenMS provides functionality that is commonly used in computational mass
+spectrometry. The pyOpenMS package contains Python bindings for a large part of the `OpenMS <openms.de>`_
+library for :term:`mass spectrometry<Mass spectrometry>` based proteomics. It thus provides easy access to
+a feature-rich, open-source algorithm library for mass-spectrometry based proteomics analysis.
 
-pyOpenMS facilitates the execution of common tasks in proteomics (and other mass spectrometric fields) such as 
+pyOpenMS facilitates the execution of common tasks in proteomics (and other fields of mass spectrometry) such as
 
-- file handling (mzXML, mzML, TraML, mzTab, fasta, pepxml, protxml, mzIdentML among others)
-- chemistry (mass calculation, peptide fragmentation, isotopic abundances)
-- signal processing (smoothing, filtering, de-isotoping, retention time correction and peak-picking) 
-- identification analysis (including peptide search, PTM analysis, Cross-linked analytes, FDR control, RNA oligonucleotide search and small molecule search tools)
-- quantitative analysis (including label-free, metabolomics, SILAC, iTRAQ and SWATH/DIA analysis tools)
-- chromatogram analysis (chromatographic peak picking, smoothing, elution profiles and peak scoring for SRM/MRM/PRM/SWATH/DIA data)
-- interaction with common tools in proteomics and metabolomics 
+- File handling (:term:`mzXML`, :term:`mzML`, TraML, mzTab, :term:`FASTA`, pepxml, protxml, mzIdentML among others)
+- Chemistry (mass calculation, peptide fragmentation, isotopic abundances)
+- Signal processing (smoothing, filtering, de-isotoping, retention time correction and peak-picking)
+- Identification analysis (including peptide search, PTM analysis, cross-linked analytes, FDR control, RNA oligonucleotide search and small molecule search tools)
+- Quantitative analysis (including label-free, metabolomics, :term:`SILAC`, :term:`iTRAQ` and :term:`SWATH`/DIA analysis tools)
+- Chromatogram analysis (chromatographic peak picking, smoothing, elution profiles and peak scoring for :term:`SRM`/MRM/PRM/:term:`SWATH`/DIA data)
+- Interaction with common tools in proteomics and metabolomics:
 
-  - search engines such as Comet, Crux, Mascot, MSGFPlus, MSFragger, Myrimatch, OMSSA, Sequest, SpectraST, XTandem
-  - post-processing tools such as percolator, MSStats, Fido
-  - metabolomics tools such as SIRIUS, CSI:FingerId
+  - Search engines such as Comet, Mascot, MSGF+, MSFragger, SpectraST, XTandem
+  - Post-processing tools such as Percolator, MSstats, Fido
+  - Metabolomics tools such as SIRIUS, CSI:FingerId
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Introduction
 
-   introduction
+User Guide
+==========
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Getting started
-
-   installation
-   first_steps
+Information about installing and using pyopenms.
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Mass Spectrometry Concepts
+    :maxdepth: 2
 
-   datastructures_peak
-   chemistry
-   aasequences
-   nasequences
-   theoreticalspectrumgenerator
-   spectrumalignment
-   digestion
-   datastructures_id
-   datastructures_quant
+    user_guide/index
+
+
+API documentation
+=================
+
+Documentation on modules, functions, classes of this package.
 
 .. toctree::
-   :maxdepth: 2
-   :caption: OpenMS Algorithms
-
-   parameter_handling
-   algorithms
-   smoothing
-   centroiding
-   normalization
-   deisotoping
-   feature_detection
-   map_alignment
-   feature_linking
-   peptide_search
-   chromatographic_analysis
-   mzqc_export
-   mass_decomposition
-   GNPS_export
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Example Workflows
-
-   id_by_mz
-   metabolomics_preprocessing
-
-.. toctree::
-   :maxdepth: 2
-   :caption: How to contribute
-
-   contribute
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Advanced Topics
-
-   file_handling
-   other_file_handling   
-   mzMLFileFormat
-   pandas_df_conversion
-   massql
-   memory_management
-   pyopenms_in_r
-   build_from_source
-   wrap_classes
-   interactive_plots
-   ML_tutorial
+    :maxdepth: 2
    
+    apidocs/index
+
+
+Community and contribution guide
+================================
+
+Information about the community behind this package and how you can contribute.
+
 .. toctree::
-   :maxdepth: 2
-   :caption: Full API documentation
+    :maxdepth: 2
+   
+    community/index
 
-   apidoc   
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Support
+    :hidden:
 
-   support
-   faq
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
+    C++ library <https://openms.de/documentation/html/index.html>

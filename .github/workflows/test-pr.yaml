@@ -19,15 +19,17 @@ jobs:
 
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v10.1
+      uses: tj-actions/changed-files@v35
       with:
-          path: docs/source
+          dir_names_max_depth: 0
           files: |
-            \.rst$
+            docs/source/*.rst
+            docs/source/**/*.rst
+            !docs/source/**/_templates
       
     - uses: r-lib/actions/setup-pandoc@v2
       with:
-        pandoc-version: '2.19.2'
+        pandoc-version: '3.1.2'
 
 #    - uses: actions/setup-python@v4
 #      with:
@@ -35,17 +37,10 @@ jobs:
         
     - name: Installing Dependencies
       run: |
-        wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed
-        mv Linux-wheels.zip\?status=completed Linux-wheels.zip
-        unzip Linux-wheels.zip
-        python3 -m pip install pyopenms_nightly-*-cp310-cp310*x86_64.whl
         python3 -m pip install --upgrade pip
         python3 -m pip install --upgrade pandocfilters jupyter
-        if [ -f requirements.txt ]; then
-          grep -v "pyopenms" requirements.txt > reqs_nopyoms.txt
-          python3 -m pip install --upgrade -r reqs_nopyoms.txt
-          rm reqs_nopyoms.txt
-        fi
+        python3 -m pip install --upgrade -r requirements.txt
+
     
     - name: Generating notebooks
       run: |
