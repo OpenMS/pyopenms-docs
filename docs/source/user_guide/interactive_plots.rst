@@ -94,7 +94,7 @@ Result:
 
 
 With this you can also easily create whole dashboards like the one
-hosted `here <https://mybinder.org/v2/gh/OpenMS/pyopenms-docs/master+ipynb?urlpath=msbokehapps>`_ on a Binder instance.
+hosted `here <https://notebooks.gesis.org/binder/v2/gh/OpenMS/pyopenms-docs/master+ipynb?urlpath=msbokehapps>`_ on a Binder instance.
 If you are reading/executing this on Binder already, execute the next cell to get a link to your current instance.
 
 .. code-block:: python
