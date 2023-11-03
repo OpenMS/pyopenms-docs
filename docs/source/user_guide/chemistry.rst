@@ -137,7 +137,7 @@ The isotope distribution of oxygen and sulfur can be displayed with the followin
     from matplotlib import pyplot as plt
 
 
-    # very simple overlappping correction of annotations
+    # very simple overlapping correction of annotations
     def adjustText(x1, y1, x2, y2):
         if y1 > y2:
             plt.annotate(
