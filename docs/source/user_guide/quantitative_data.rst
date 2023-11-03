@@ -5,8 +5,7 @@ features
 **************************
 
 In OpenMS, information about quantitative data is stored in a so-called
-:py:class:`~.Feature` which we have previously discussed `here
-<other_file_handling.html#quantiative-data-featurexml-consensusxml>`_.  Each
+:py:class:`~.Feature`.  Each
 :py:class:`~.Feature` represents a region in RT and m/z space use for quantitative
 analysis.
 
