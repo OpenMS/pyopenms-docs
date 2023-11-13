@@ -46,6 +46,7 @@ headings and structure.
    charge_isotope_deconvolution
    feature_detection
    map_alignment
+   adduct_detection
    feature_linking
    peptide_search
    chromatographic_analysis
