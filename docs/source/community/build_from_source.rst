@@ -35,20 +35,33 @@ Depending on your systems setup, it may make sense to do this inside a virtual e
     virtualenv pyopenms_venv
     source pyopenms_venv/bin/activate
 
-Next, configure OpenMS with pyOpenMS as target. 
+Next, we will configure the CMake-based OpenMS build system
+to enable the pyOpenMS target with the configuration option ``-DPYOPENMS=ON``.
 If your are using virtualenv or a specific Python version,
 add ``-DPYTHON_EXECUTABLE:FILEPATH=/path/to/python`` to ensure
 that the correct Python executable is used. Compiling pyOpenMS can use a lot of
 memory and take some time, however you can reduce the memory consumption by
 breaking up the compilation into multiple units and compiling in parallel, for
 example ``-DPY_NUM_THREADS=2 -DPY_NUM_MODULES=4`` will build 4 modules with 2
-threads. You can then configure pyOpenMS:
+threads. You can now configure pyOpenMS (inside your build folder) with:
 
 .. code-block:: bash
 
-    cmake --build YOURBUILDFOLDER --target pyopenms --config Release
+    cmake -DPYOPENMS=ON
+    
 
-Build pyOpenMS (now there should be pyOpenMS specific build targets).
+Remember, that you can pass the other options as described above to the first
+command by adding ``-DOPTION=VALUE`` statements if you need them.
+
+Now build pyOpenMS (now there should be pyOpenMS specific build targets).
+If you are still inside your build folder, you can use "." as the build
+folder parameter.
+
+.. code-block:: bash
+
+    cmake --build $YOURBUILDFOLDER --target pyopenms --config Release
+    
+
 Afterwards, test that all went well by running the tests:
 
 .. code-block:: bash
