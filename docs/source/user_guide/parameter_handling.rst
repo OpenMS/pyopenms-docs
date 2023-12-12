@@ -52,13 +52,13 @@ The param object can be copy and merge in to other param object as
 .. code-block:: python
     :linenos:
 
-    # print the key and values pairs stored in a Param object
+    # print the key and value pairs stored in a Param object
     def printParamKeyAndValues(p):
         if p.size():
             for i in p.keys():
                 print("Key:", i, "Value:", p[i])
         else:
-            print("no data availabe")
+            print("no data available")
 
 
     new_p = oms.Param()
@@ -100,3 +100,29 @@ In param object the keys values can be remove by key_name or prefix as
 
     print("Keys and values after deleting all entries.")
     printParamKeyAndValues(new_p)  # All keys of new_p deleted
+
+For the algorithms that inherit :py:class:`~.DefaultParamHandler`, the users can list all parameters along with their descriptions by using, for instance, the following simple function.
+
+.. code-block:: python
+    :linenos:
+
+    # print all parameters
+    def printParams(p):
+        if p.size():
+            for i in p.keys():
+                print("Param:", i, "Value:", p[i], "Description:", p.getDescription(i))
+        else:
+            print("no data available")
+
+    # print all parameters in GaussFilter class
+    gf = oms.GaussFilter()
+    printParams(gf.getParameters())
+
+.. code-block:: output
+
+    Param: b'gaussian_width' Value: 0.2 Description: Use a gaussian filter width which has approximately the same width as your mass peaks (FWHM in m/z).
+    Param: b'ppm_tolerance' Value: 10.0 Description: Gaussian width, depending on the m/z position.
+    The higher the value, the wider the peak and therefore the wider the gaussian.
+    Param: b'use_ppm_tolerance' Value: false Description: If true, instead of the gaussian_width value, the ppm_tolerance is used. The gaussian is calculated in each step anew, so this is much slower.
+    Param: b'write_log_messages' Value: false Description: true: Warn if no signal was found by the Gauss filter algorithm.
+
