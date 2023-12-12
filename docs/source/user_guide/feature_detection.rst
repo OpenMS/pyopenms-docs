@@ -13,7 +13,6 @@ FeatureFinders are available in pyOpenMS:
   - :py:class:`~.FeatureFinderMultiplexAlgorithm` (e.g., :term:`SILAC`, Dimethyl labeling, (and label-free), identification free feature detection of peptides)
   - :py:class:`~.FeatureFinderAlgorithmPicked` (Label-free, identification free feature detection of peptides)
   - :py:class:`~.FeatureFinderIdentificationAlgorithm` (Label-free identification-guided feature detection of peptides)
-  - :py:class:`~.FeatureFinderAlgorithmIsotopeWavelet` (old instruments)
   - :py:class:`~.FeatureFindingMetabo` (Label-free, identification free feature detection of metabolites)
   - :py:class:`~.FeatureFinderAlgorithmMetaboIdent` (Label-free, identification guided feature detection of metabolites)
 
