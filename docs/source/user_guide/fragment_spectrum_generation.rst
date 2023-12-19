@@ -52,7 +52,6 @@ which you could plot with :py:meth:`pyopenms.plotting.plot_spectrum`, automatica
 
     import matplotlib.pyplot as plt
     from pyopenms.plotting import plot_spectrum
-    import matplotlib.pyplot as plt
 
     plot_spectrum(spec1)
     plt.show()
@@ -124,7 +123,6 @@ which you can again visualize with:
 
     import matplotlib.pyplot as plt
     from pyopenms.plotting import plot_spectrum
-    import matplotlib.pyplot as plt
 
     plot_spectrum(spec2, annotate_ions=False)
     plt.show()
