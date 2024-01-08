@@ -733,10 +733,6 @@ We can also use predefined TOPP tools to filter our data. First we need to load 
     spectra = exp.getSpectra()
     observed_spectrum = spectra[0]
 
-    # Plot spectrum
-    plot_spectrum(observed_spectrum)
-    plt.show()
-
 The :py:class:`~.WindowMower` tool can be used to remove peaks in a sliding or jumping window. The window size,
 number of highest peaks to keep and move type can be set with a :py:class:`~.Param` object
 
