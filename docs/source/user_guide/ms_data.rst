@@ -706,7 +706,7 @@ Similarly we could only retain peaks above a certain
 intensity or keep only the top N peaks in each mass spectrum.
 
 For more advanced filtering tasks pyOpenMS provides special algorithm classes.
-We will take a closer look at some of them in the algorithm section.
+We will take a closer look at some of them in the next section.
 
 
 Filtering Mass Spectra with TOPP Tools

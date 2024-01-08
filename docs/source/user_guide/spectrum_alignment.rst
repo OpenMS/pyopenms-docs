@@ -122,9 +122,6 @@ The mirror plot can also be used to visualize the aligned mass spectrum:
 .. code-block:: python
     :linenos:
 
-    import matplotlib.pyplot as plt
-    from pyopenms.plotting import mirror_plot_spectrum
-
     match_peaks_observed, match_peaks_theoretical = list(zip(*alignment))
     mirror_plot_spectrum(
         observed_spectrum,

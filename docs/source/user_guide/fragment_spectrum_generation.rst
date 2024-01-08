@@ -121,9 +121,6 @@ which you can again visualize with:
 .. code-block:: python
     :linenos:
 
-    import matplotlib.pyplot as plt
-    from pyopenms.plotting import plot_spectrum
-
     plot_spectrum(spec2, annotate_ions=False)
     plt.show()
 

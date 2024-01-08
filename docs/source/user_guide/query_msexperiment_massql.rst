@@ -1,5 +1,5 @@
-Query :py:class:`~.MSExperiment` with MassQL
-============================================
+Query MSExperiment with MassQL
+==============================
 
 MassQL is a powerful, SQL-like query language for mass spectrometry data.
 For further information visit the `MassQL documentation
