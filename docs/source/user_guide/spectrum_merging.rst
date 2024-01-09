@@ -49,6 +49,7 @@ Our first example merges MS1 spectra block wise.
 
   spectra = exp.getSpectra()
 
+  # Collecting only MS1 spectra
   spectra_ms1 = [s for s in spectra if s.getMSLevel() == 1]
   print(f'Number of MS1 spectra before merge are {len(spectra_ms1)}')
 
@@ -56,12 +57,14 @@ Our first example merges MS1 spectra block wise.
   merger = oms.SpectraMerger()
   merger.mergeSpectraBlockWise(exp)
 
+  # Get spectra from the updated (merged) experiment
   spectraMerged = exp.getSpectra()
   spectraMerged_ms1 = [s for s in spectraMerged if s.getMSLevel() == 1]
   print(f'Number of MS1 spectra after merge are {len(spectraMerged_ms1)}')
   # store merged spectra in the disk
   oms.MzMLFile().store("blockwiseMerged.mzML", exp)
 
+  # Setting up subplots for five original spectra and merged spectrum
   fig, axs = plt.subplots(6)
   fig.set_figheight(8)
   plt.subplots_adjust(hspace=1)
@@ -250,7 +253,6 @@ We can confirm that scans 2077 and 2099 have been merged. In addition, we had a 
 .. code-block:: python
   :linenos:
 
-
   # plot the merged and merging MS2 spectra
 
   fig, axs = plt.subplots(3, min(4, len(merged_spectra)))
@@ -292,7 +294,6 @@ On the other hand, the ``tophat`` method, as the name implies, performs a simple
 .. code-block:: python 
   :linenos:
 
-
   # load MS data and store as MSExperiment object
   exp = oms.MSExperiment()
   oms.MzMLFile().load('test.mzML', exp)
@@ -301,7 +302,6 @@ On the other hand, the ``tophat`` method, as the name implies, performs a simple
   # number of MS1 spectra before averaging
   spectra_ms1 = [s for s in spectra if s.getMSLevel() == 1]
   print(f'Number of MS1 spectra before averaging are {len(spectra_ms1)}')
-
 
   # average spectra with gaussian
   merger = oms.SpectraMerger()
@@ -332,7 +332,6 @@ On the other hand, the ``tophat`` method, as the name implies, performs a simple
 
   Number of MS1 spectra before averaging are 183
   Number of MS1 spectra after averaging are 183
-
 
 .. image:: img/spec_averaging.png
    :align: center
