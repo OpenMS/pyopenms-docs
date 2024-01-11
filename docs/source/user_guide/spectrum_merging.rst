@@ -106,11 +106,11 @@ The block size could be adjusted by using ``block_method:rt_block_size`` paramet
 
   # again load MS data and store as MSExperiment object
   exp = oms.MSExperiment()
-  oms.MzMLFile().load('test.mzML', exp)
+  oms.MzMLFile().load("test.mzML", exp)
 
   # again load MS data and store as MSExperiment object
   exp = oms.MSExperiment()
-  oms.MzMLFile().load('test.mzML', exp)
+  oms.MzMLFile().load("test.mzML", exp)
 
   # adjust block size to 10 spectra and merge
   merger = oms.SpectraMerger()
@@ -136,9 +136,9 @@ The block size could be adjusted by using ``block_method:rt_block_size`` paramet
       axs[i].set_ylim(1e3, 1e7)
       axs[i].set_xlim(360, 1000)
       axs[i].title.set_text(
-          "Merged MS1 spectrum with 10 scans'
+          "Merged MS1 spectrum with 10 scans"
           if i == 0
-          else 'Merged MS1 spectrum with 5 scans"
+          else "Merged MS1 spectrum with 5 scans"
       )
   plt.show()
 
@@ -170,13 +170,13 @@ Next we perform MS2 spectra merging with precursor method by using the ``mergeSp
 
   # load MS data and store as MSExperiment object
   exp = oms.MSExperiment()
-  oms.MzMLFile().load('test.mzML', exp)
+  oms.MzMLFile().load("test.mzML", exp)
 
   spectra = exp.getSpectra()
 
   # spectra with ms_level = 2
   spectra_ms2 = [s for s in spectra if s.getMSLevel() == 2]
-  print(f'Number of MS2 spectra before merge are {len(spectra_ms2)}')
+  print(f"Number of MS2 spectra before merge are {len(spectra_ms2)}")
 
   # merge spectra with similar precursors
   merger = oms.SpectraMerger()
@@ -184,7 +184,7 @@ Next we perform MS2 spectra merging with precursor method by using the ``mergeSp
 
   spectraMerged = exp.getSpectra()
   spectraMerged_ms2 = [s for s in spectraMerged if s.getMSLevel() == 2]
-  print(f'Number of MS2 spectra after merge are {len(spectraMerged_ms2)}')
+  print(f"Number of MS2 spectra after merge are {len(spectraMerged_ms2)}")
 
 
 .. code-block:: output
@@ -304,12 +304,12 @@ On the other hand, the ``tophat`` method, as the name implies, performs a simple
 
   # load MS data and store as MSExperiment object
   exp = oms.MSExperiment()
-  oms.MzMLFile().load('test.mzML', exp)
+  oms.MzMLFile().load("test.mzML", exp)
   spectra = exp.getSpectra()
 
   # number of MS1 spectra before averaging
   spectra_ms1 = [s for s in spectra if s.getMSLevel() == 1]
-  print(f'Number of MS1 spectra before averaging are {len(spectra_ms1)}')
+  print(f"Number of MS1 spectra before averaging are {len(spectra_ms1)}")
 
   # average spectra with gaussian
   merger = oms.SpectraMerger()
@@ -318,7 +318,7 @@ On the other hand, the ``tophat`` method, as the name implies, performs a simple
 
   # number of MS1 spectra after averaging
   spectraAveraged_ms1 = [s for s in spectraAveraged if s.getMSLevel() == 1]
-  print(f'Number of MS1 spectra after averaging are {len(spectraAveraged_ms1)}')
+  print(f"Number of MS1 spectra after averaging are {len(spectraAveraged_ms1)}")
 
   fig, axs = plt.subplots(2)
   fig.set_figheight(4)
@@ -330,7 +330,7 @@ On the other hand, the ``tophat`` method, as the name implies, performs a simple
       axs[i].set_yscale("log")
       axs[i].set_ylim(5e2, 1e6)
       axs[i].set_xlim(360, 600)
-      axs[i].title.set_text('Before averaging' if i == 0 else 'After averaging')
+      axs[i].title.set_text("Before averaging" if i == 0 else "After averaging")
   plt.show()
 
   # store modified data
