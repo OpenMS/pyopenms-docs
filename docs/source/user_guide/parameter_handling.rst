@@ -109,7 +109,9 @@ For the algorithms that inherit :py:class:`~.DefaultParamHandler`, the users can
     def printParams(p):
         if p.size():
             for i in p.keys():
-                print("Param:", i, "Value:", p[i], "Description:", p.getDescription(i))
+                print(
+                    "Param:", i, "Value:", p[i], "Description:", p.getDescription(i)
+                )
         else:
             print("no data available")
 
@@ -124,4 +126,3 @@ For the algorithms that inherit :py:class:`~.DefaultParamHandler`, the users can
     The higher the value, the wider the peak and therefore the wider the gaussian.
     Param: b'use_ppm_tolerance' Value: false Description: If true, instead of the gaussian_width value, the ppm_tolerance is used. The gaussian is calculated in each step anew, so this is much slower.
     Param: b'write_log_messages' Value: false Description: true: Warn if no signal was found by the Gauss filter algorithm.
-

@@ -36,12 +36,12 @@ Let's take a look at the different algorithms in the examples below. First we do
 
   # load MS data and store as MSExperiment object
   exp = oms.MSExperiment()
-  oms.MzMLFile().load('test.mzML', exp)
+  oms.MzMLFile().load("test.mzML", exp)
 
 
 
 Block wise spectra merging
------------------------
+--------------------------
 Our first example merges MS1 spectra block wise.
 
 .. code-block:: python
@@ -51,7 +51,7 @@ Our first example merges MS1 spectra block wise.
 
   # Collecting only MS1 spectra
   spectra_ms1 = [s for s in spectra if s.getMSLevel() == 1]
-  print(f'Number of MS1 spectra before merge are {len(spectra_ms1)}')
+  print(f"Number of MS1 spectra before merge are {len(spectra_ms1)}")
 
   # merges blocks of MS1
   merger = oms.SpectraMerger()
@@ -60,7 +60,7 @@ Our first example merges MS1 spectra block wise.
   # Get spectra from the updated (merged) experiment
   spectraMerged = exp.getSpectra()
   spectraMerged_ms1 = [s for s in spectraMerged if s.getMSLevel() == 1]
-  print(f'Number of MS1 spectra after merge are {len(spectraMerged_ms1)}')
+  print(f"Number of MS1 spectra after merge are {len(spectraMerged_ms1)}")
   # store merged spectra in the disk
   oms.MzMLFile().store("blockwiseMerged.mzML", exp)
 
@@ -71,11 +71,13 @@ Our first example merges MS1 spectra block wise.
 
   for i in range(0, 6):
       s = spectra_ms1[i] if i < 5 else spectraMerged_ms1[0]
-      axs[i].plot(s.get_peaks()[0], s.get_peaks()[1], linewidth=.2)
+      axs[i].plot(s.get_peaks()[0], s.get_peaks()[1], linewidth=0.2)
       axs[i].set_yscale("log")
       axs[i].set_ylim(1e3, 1e7)
       axs[i].set_xlim(360, 1000)
-      axs[i].title.set_text('Input MS1 spectrum ' + str(i + 1) if i < 5 else 'Merged MS1 spectrum')
+      axs[i].title.set_text(
+          "Input MS1 spectrum " + str(i + 1) if i < 5 else "Merged MS1 spectrum"
+      )
   plt.show()
 
 
@@ -129,11 +131,15 @@ The block size could be adjusted by using ``block_method:rt_block_size`` paramet
 
   for i in range(0, 2):
       s = spectraMerged_ms1_10scans[0] if i == 0 else spectraMerged_ms1[0]
-      axs[i].plot(s.get_peaks()[0], s.get_peaks()[1], linewidth=.2)
+      axs[i].plot(s.get_peaks()[0], s.get_peaks()[1], linewidth=0.2)
       axs[i].set_yscale("log")
       axs[i].set_ylim(1e3, 1e7)
       axs[i].set_xlim(360, 1000)
-      axs[i].title.set_text('Merged MS1 spectrum with 10 scans' if i == 0 else 'Merged MS1 spectrum with 5 scans')
+      axs[i].title.set_text(
+          "Merged MS1 spectrum with 10 scans'
+          if i == 0
+          else 'Merged MS1 spectrum with 5 scans"
+      )
   plt.show()
 
 
@@ -155,7 +161,7 @@ As shown in the above figure, clearer signal peaks are obtained with 10 MS1 scan
 spectra containing too different sets of molecules would be merged, yielding a poor quality spectrum. The users may want to try a few different parameters to produce spectra of optimal quality.
 
 MS2 spectra merging with precursor method
------------------------
+-----------------------------------------
 Next we perform MS2 spectra merging with precursor method by using the ``mergeSpectraPrecursors`` method. With this method, the MS2 spectra from the same precursor m/z (subject to tolerance) are merged.
 
 .. code-block:: python 
@@ -205,7 +211,7 @@ have quite close precursor m/z values (both have precursor m/z of 432.902Th), bu
   # now rerun precursor method merging of MS2 spectra
   spectraMerged = exp.getSpectra()
   spectraMerged_ms2 = [s for s in spectraMerged if s.getMSLevel() == 2]
-  print(f'Number of MS2 spectra after merge are {len(spectraMerged_ms2)}')
+  print(f"Number of MS2 spectra after merge are {len(spectraMerged_ms2)}")
 
   # store modified data
   oms.MzMLFile().store("precursorMethodMerged.mzML", exp)
@@ -270,7 +276,9 @@ We can confirm that scans 2077 and 2099 have been merged. In addition, we had a 
           axs[i, index].set_yscale("log")
           axs[i, index].set_ylim(1e3, 1e5)
           axs[i, index].set_xlim(0, 1200)
-          axs[i, index].title.set_text('Input MS2 spectrum' if i < 2 else 'Merged MS2 spectrum')
+          axs[i, index].title.set_text(
+              "Input MS2 spectrum" if i < 2 else "Merged MS2 spectrum"
+          )
   plt.show()
 
 
@@ -282,7 +290,7 @@ Four examples of MS2 spectra before and after merging are provided above. Each c
 Moreover, as in the above block wise merging, we can check that a merged MS2 spectrum has more peaks than input spectra, possibly containing more complete fragmentation ion masses.
 
 Spectra averaging : gaussian and top hat methods
------------------------
+------------------------------------------------
 
 :py:class:`~.SpectraMerger` presents a method ``average`` to average peak intensities over neighbouring spectra for a given spectrum.
 As mentioned above, apart from spectra merging, the number of spectra after averaging does not change since it is carried out for each individual input spectrum.
