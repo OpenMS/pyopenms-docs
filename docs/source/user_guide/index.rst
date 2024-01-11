@@ -43,6 +43,7 @@ headings and structure.
    smoothing
    centroiding
    spectrum_normalization
+   spectrum_merging
    charge_isotope_deconvolution
    feature_detection
    map_alignment
