@@ -188,7 +188,6 @@ We can also visualize our mass spectrum from before using the :py:func:`~.plot_s
 
     import matplotlib.pyplot as plt
     from pyopenms.plotting import plot_spectrum
-    import matplotlib.pyplot as plt
 
     plot_spectrum(spectrum)
     plt.show()
@@ -639,8 +638,8 @@ But first, we will load some test data:
     oms.MzMLFile().load("test.mzML", inp)
 
 
-Filtering Mass Spectra by :term`MS` Level
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Filtering Mass Spectra by MS Level
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 We will filter the data from ``test.mzML`` file by only retaining
 mass spectra that are not :term:`MS1` spectra
@@ -707,4 +706,111 @@ Similarly we could only retain peaks above a certain
 intensity or keep only the top N peaks in each mass spectrum.
 
 For more advanced filtering tasks pyOpenMS provides special algorithm classes.
-We will take a closer look at some of them in the algorithm section.
+We will take a closer look at some of them in the next section.
+
+
+Filtering Mass Spectra with TOPP Tools
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We can also use predefined TOPP tools to filter our data. First we need to load in the data:
+
+.. code-block:: python
+    :linenos:
+
+    import matplotlib.pyplot as plt
+    from pyopenms.plotting import plot_spectrum, mirror_plot_spectrum
+
+    gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
+    urlretrieve(
+        gh + "/src/data/YIC(Carbamidomethyl)DNQDTISSK.mzML", "observed.mzML"
+    )
+
+    exp = oms.MSExperiment()
+    # Load mzML file and obtain spectrum for peptide YIC(Carbamidomethyl)DNQDTISSK
+    oms.MzMLFile().load("observed.mzML", exp)
+
+    # Get first spectrum
+    spectra = exp.getSpectra()
+    observed_spectrum = spectra[0]
+
+The :py:class:`~.WindowMower` tool can be used to remove peaks in a sliding or jumping window. The window size,
+number of highest peaks to keep and move type can be set with a :py:class:`~.Param` object
+
+.. code-block:: python
+    :linenos:
+
+    from copy import deepcopy
+
+    window_mower_filter = oms.WindowMower()
+
+    # Copy the original spectrum
+    mowed_spectrum = deepcopy(observed_spectrum)
+
+    # Set parameters
+    params = oms.Param()
+    # Defines the m/z range of the sliding window
+    params.setValue("windowsize", 100.0, "")
+    # Defines the number of highest peaks to keep in the sliding window
+    params.setValue("peakcount", 1, "")
+    # Defines the type of window movement: jump (window size steps) or slide (one peak steps)
+    params.setValue("movetype", "jump", "")
+
+    # Apply window mowing
+    window_mower_filter.setParameters(params)
+    window_mower_filter.filterPeakSpectrum(mowed_spectrum)
+
+    # Visualize the resulting data together with the original spectrum
+    mirror_plot_spectrum(observed_spectrum, mowed_spectrum)
+    plt.show()
+
+.. image:: img/window_mower.png
+
+
+Noise can be easily removed with :py:class:`~.ThresholdMower` by setting a threshold value for the intensity of peaks
+and cutting off everything below.
+
+.. code-block:: python
+    :linenos:
+
+    # Copy spectrum
+    threshold_mower_spectrum = deepcopy(observed_spectrum)
+
+    threshold_mower_filter = oms.ThresholdMower()
+
+    # Set parameters
+    params = oms.Param()
+    params.setValue("threshold", 20.0, "")
+
+    # Apply threshold mowing
+    threshold_mower_filter.setParameters(params)
+    threshold_mower_filter.filterPeakSpectrum(threshold_mower_spectrum)
+
+    mirror_plot_spectrum(observed_spectrum, threshold_mower_spectrum)
+    plt.show()
+
+.. image:: img/threshold_mower.png
+
+
+We can also use e.g. :py:class:`~.NLargest` to keep only the N highest peaks in a spectrum.
+
+.. code-block:: python
+    :linenos:
+
+    # Copy spectrum
+    nlargest_spectrum = deepcopy(observed_spectrum)
+
+    nlargest_filter = oms.NLargest()
+
+    # Set parameters
+    params = oms.Param()
+    params.setValue("n", 4, "")
+
+    # Apply N-Largest filter
+    nlargest_filter.setParameters(params)
+    nlargest_filter.filterPeakSpectrum(nlargest_spectrum)
+
+    mirror_plot_spectrum(observed_spectrum, nlargest_spectrum)
+    plt.show()
+    # Two peaks are overlapping, so only three peaks are really visible in the plot
+
+.. image:: img/nlargest.png
