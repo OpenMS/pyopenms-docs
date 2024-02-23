@@ -331,56 +331,80 @@ an influence on :py:meth:`~.AASequence.getMonoWeight` and :py:meth:`~.AASequence
 Applying Fixed or Variable Modifications to Sequences
 *****************************************************
 
-In this tutorial, we will cover a step-by-step guide on how to use the pyopenms library to generate modified peptides from a given amino acid sequence.
+In this tutorial, we will cover a step-by-step guide on how to use the `pyopenms` library to generate modified peptides from a given amino acid sequence.
 
 .. code-block:: python
-    :linenos:
-    import pyopenms as poms
 
-# Create an amino acid sequence using the fromString() method of the AASequence class.
-# In this example, we will use the amino acid sequence "TESTMTECSTMTESTR"
-sequence = poms.AASequence.fromString("TESTMTECSTMTESTR")
+   import pyopenms as poms
 
-# We use the names "Oxidation (M)" and "Carbamidomethyl (C)" for the variable and fixed modifications, respectively.
-variable_mod_names = [b"Oxidation (M)"]
-fixed_mod_names = [b"Carbamidomethyl (C)"]
+Create an amino acid sequence using the `fromString()` method of the `AASequence` class. In this example, we will use the amino acid sequence "TESTMTECSTMTESTR".
 
-# We then use the getModifications() method of the ModifiedPeptideGenerator class to get the modifications for these names.
-variable_modifications = poms.ModifiedPeptideGenerator.getModifications(variable_mod_names)
-fixed_modifications = poms.ModifiedPeptideGenerator.getModifications(fixed_mod_names)
+.. code-block:: python
 
-# Apply the fixed modifications to the amino acid sequence
-poms.ModifiedPeptideGenerator.applyFixedModifications(fixed_modifications, sequence)
+   sequence = poms.AASequence.fromString("TESTMTECSTMTESTR")
 
-# Define the maximum number of variable modifications allowed
-max_variable_mods = 1
+We use the names "Oxidation (M)" and "Carbamidomethyl (C)" for the variable and fixed modifications, respectively.
 
-# Generate the modified peptides
-peptides_with_variable_modifications = []
-keep_unmodified_in_result = False
-poms.ModifiedPeptideGenerator.applyVariableModifications(variable_modifications, sequence, max_variable_mods,
-                                                         peptides_with_variable_modifications,
-                                                         keep_unmodified_in_result)
+.. code-block:: python
 
-# Print the modified peptides generated using Fixed modifications and their mono-isotopic mass.
-print("Fixed:", sequence.toString())
-print("Mono-isotopic mass:", sequence.getMonoWeight())
+   variable_mod_names = [b"Oxidation (M)"]
+   fixed_mod_names = [b"Carbamidomethyl (C)"]
 
-# Print the modified peptides generated using variable modifications and their mono-isotopic mass.
-for peptide in peptides_with_variable_modifications:
-    print("Variable:", peptide.toString())
-    print("Mono-isotopic mass:", peptide.getMonoWeight())
-    
+We then use the `getModifications()` method of the `ModifiedPeptideGenerator` class to get the modifications for these names.
+
+.. code-block:: python
+
+   variable_modifications = poms.ModifiedPeptideGenerator.getModifications(variable_mod_names)
+   fixed_modifications = poms.ModifiedPeptideGenerator.getModifications(fixed_mod_names)
+
+Apply the fixed modifications to the amino acid sequence.
+
+.. code-block:: python
+
+   poms.ModifiedPeptideGenerator.applyFixedModifications(fixed_modifications, sequence)
+
+Define the maximum number of variable modifications allowed.
+
+.. code-block:: python
+
+   max_variable_mods = 1
+
+Generate the modified peptides.
+
+.. code-block:: python
+
+   peptides_with_variable_modifications = []
+   keep_unmodified_in_result = False
+   poms.ModifiedPeptideGenerator.applyVariableModifications(variable_modifications, sequence, max_variable_mods,
+                                                            peptides_with_variable_modifications,
+                                                            keep_unmodified_in_result)
+
+Print the modified peptides generated using Fixed modifications and their mono-isotopic mass.
+
+.. code-block:: python
+
+   print("Fixed:", sequence.toString())
+   print("Mono-isotopic mass:", sequence.getMonoWeight())
+
+Print the modified peptides generated using variable modifications and their mono-isotopic mass.
+
+.. code-block:: python
+
+   for peptide in peptides_with_variable_modifications:
+       print("Variable:", peptide.toString())
+       print("Mono-isotopic mass:", peptide.getMonoWeight())
+
 The above code outputs:
 
-.. code-block:: output
+.. code-block:: python
 
-     Fixed: TESTMTEC(Carbamidomethyl)STMTESTR
-     Mono-isotopic mass: 1850.7332409542007
-     Variable: TESTMTEC(Carbamidomethyl)STM(Oxidation)TESTR
-     Mono-isotopic mass: 1866.7281559542005
-     Variable: TESTM(Oxidation)TEC(Carbamidomethyl)STMTESTR
-     Mono-isotopic mass: 1866.7281559542005
+   Fixed: TESTMTEC(Carbamidomethyl)STMTESTR
+   Mono-isotopic mass: 1850.7332409542007
+   Variable: TESTMTEC(Carbamidomethyl)STM(Oxidation)TESTR
+   Mono-isotopic mass: 1866.7281559542005
+   Variable: TESTM(Oxidation)TEC(Carbamidomethyl)STMTESTR
+   Mono-isotopic mass: 1866.7281559542005
+
 
 
 Proteins and :term:`FASTA` Files
