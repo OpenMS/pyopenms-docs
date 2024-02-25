@@ -1,9 +1,9 @@
 name: Building latest jupyter Notebooks and push to master+ipynb
 
 on:
-  schedule:
+  #schedule:
     # Trigger 5:30 UTC
-    - cron:  '30 5 * * *'
+  #  - cron:  '30 5 * * *'
   push:
     branches: [ master, merge-workflows ]
   workflow_dispatch:

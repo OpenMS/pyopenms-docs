@@ -4,7 +4,7 @@ Charge and Isotope Deconvolution
 A single mass spectrum contains measurements of one or more analytes and the
 m/z values recorded for these analytes. Most analytes produce multiple signals
 in the mass spectrometer, due to the natural abundance of carbon :math:`13` (naturally
-occurring at ca. :math:`1%` frequency) and the large amount of carbon atoms in most
+occurring at ca. :math:`1\%` frequency) and the large amount of carbon atoms in most
 organic molecules, most analytes produce a so-called isotopic pattern with a
 monoisotopic peak (all carbon are :chem:`^{12}C`) and a first isotopic peak (exactly one
 carbon atom is a :chem:`^{13}C`), a second isotopic peak (exactly two atoms are :chem:`^{13}C`) etc.

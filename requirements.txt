@@ -1,0 +1,16 @@
+matplotlib
+plotly
+pandas
+adjustText
+scikit-learn
+tabulate
+requests
+bokeh
+datashader
+holoviews
+pyviz_comms
+jupyter-server-proxy
+massql
+sphinx-hoverxref
+
+pyopenms

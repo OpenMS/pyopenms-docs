@@ -43,9 +43,11 @@ headings and structure.
    smoothing
    centroiding
    spectrum_normalization
+   spectrum_merging
    charge_isotope_deconvolution
    feature_detection
    map_alignment
+   adduct_detection
    feature_linking
    peptide_search
    chromatographic_analysis
