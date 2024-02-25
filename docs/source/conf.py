@@ -133,7 +133,7 @@ html_theme_options = {
     "navbar_persistent": [], # default: ["search-button"] but we don't need it since we use the search bar in the sidebar
     "use_edit_page_button": True,
     "logo": {
-        "text": "pyOpenMS",
+        "alt_text": "pyOpenMS Documentation - Home",
     },
     "icon_links": [
         {
@@ -159,7 +159,7 @@ html_theme_options = {
         {
             "name": "OpenMS project",
             "url": "https://www.openms.de",
-            "icon": "_static/img/OpenMS.svg",
+            "icon": "_static/OpenMS.svg",
             "type": "local",
             "attributes": {"target": "_blank"},
         },
