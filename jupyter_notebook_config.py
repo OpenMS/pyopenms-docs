@@ -9,7 +9,7 @@ c.ServerProxy.servers = {
         'absolute_url': True,
         'launcher_entry': {
             'enabled': True,
-            'icon_path': '/home/jovyan/OpenMS.svg',
+            'icon_path': '/home/jovyan/docs/source/img/pyOpenMSlogo_color.svg',
             'title': 'pyOpenMS Apps and Dashboards',
         },
     },
