@@ -118,10 +118,9 @@ p.rubric+dl.py.function {
   100% {transform: rotate(-35deg) translate(0px, 0px);}
 }
 
-/* Shift our logo a little bit up to align with header text */
+/* Enlarge logo */
 .navbar-brand img {
-    margin-bottom: 13px;
-    margin-top: 5px;
+    scale: 2.0
 }
 
 /* In the right tocs:
