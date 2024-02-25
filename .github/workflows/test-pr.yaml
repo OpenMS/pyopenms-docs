@@ -11,37 +11,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10' # Version range or exact version of a Python version to use, using SemVer's version range syntax    
+
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v10.1
+      uses: tj-actions/changed-files@v41
       with:
-          path: docs/source
+          dir_names_max_depth: 0
           files: |
-            \.rst$
+            docs/source/*.rst
+            docs/source/**/*.rst
+            !docs/source/**/_templates
       
-    - uses: r-lib/actions/setup-pandoc@v1
+    - uses: r-lib/actions/setup-pandoc@v2
       with:
-        pandoc-version: '2.14.2'
+        pandoc-version: '3.1.2'
 
-    - uses: actions/setup-python@v2
-      with:
-        python-version: '3.7' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+#    - uses: actions/setup-python@v4
+#      with:
+#        python-version: '3.7' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         
-    - name: Installing Dependenies
+    - name: Installing Dependencies
       run: |
-        wget -q https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed
-        mv Linux-wheels.zip\?status=completed Linux-wheels.zip
-        unzip Linux-wheels.zip
-        python3 -m pip install pyopenms_nightly-*-cp37-cp37m-*_x86_64.whl
         python3 -m pip install --upgrade pip
         python3 -m pip install --upgrade pandocfilters jupyter
-        if [ -f requirements.txt ]; then
-          grep -v "pyopenms" requirements.txt > reqs_nopyoms.txt
-          python3 -m pip install --upgrade -r reqs_nopyoms.txt
-          rm reqs_nopyoms.txt
-        fi
+        python3 -m pip install --upgrade -r requirements.txt
+
     
     - name: Generating notebooks
       run: |
@@ -49,8 +48,13 @@ jobs:
           ./generate_ipynb.sh
         popd
 
-    - name: List all modified files
+    - name: Execute all notebooks generated from modified files
       run: |
         for file in ${{ steps.changed-files.outputs.all_modified_files }}; do
-          jupyter nbconvert --to notebook --inplace --execute ${file%.rst}.ipynb
+          jupyter nbconvert --to notebook --inplace --execute ${file%.rst}.ipynb || (echo "${file%.rst}" >> failed_nbs.txt)
         done
+        if [ -f "failed_nbs.txt" ]; then
+          echo "Some notebooks failed to run. Please check logs."
+          cat failed_nbs.txt
+          exit 1
+        fi

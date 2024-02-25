@@ -2,7 +2,8 @@ name: Test code in notebooks
 
 on:
   push:
-    branches: [ master\+ipynb ]
+    branches: [ 'master\+ipynb' ]
+    types: [created, edited, deleted, renamed, forced] # for force pushes from our actions
   workflow_dispatch:
     inputs:
       tags:
@@ -14,25 +15,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     
-    - uses: actions/setup-python@v2
+    - uses: actions/setup-python@v4
       with:
-        python-version: '3.7' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+        python-version: '3.10' # Version range or exact version of a Python version to use, using SemVer's version range syntax
         
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
         python3 -m pip install --upgrade jupyter
-        wget https://nightly.link/OpenMS/OpenMS/workflows/pyopenms-wheels/nightly/Linux-wheels.zip\?status\=completed
-        mv Linux-wheels.zip\?status=completed Linux-wheels.zip
-        unzip Linux-wheels.zip
-        python3 -m pip install pyopenms_nightly-*-cp37-cp37m-manylinux2014_x86_64.whl
-        if [ -f requirements.txt ]; then python3 -m pip install --upgrade -r requirements.txt; fi
+        python3 -m pip install --upgrade -r requirements.txt
 
     - name: Testing notebooks
       run: |
         for f in docs/source/*.ipynb
         do
-          jupyter nbconvert --to notebook --inplace --execute $f || echo "Executing $f failed!"
+          jupyter nbconvert --to notebook --inplace --execute $f || (echo "$f" >> failed_nbs.txt)
         done
+        if [ -f "failed_nbs.txt" ]; then
+          echo "Some notebooks failed to run. Please check logs."
+          cat failed_nbs.txt
+          exit 1
+        fi

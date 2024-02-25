@@ -13,7 +13,8 @@ admonition_types = ["attention", "caution", "danger", "error", "hint",
 # keywords in arbitrary admonition header
 admonition_subtypes = ["goal"]
 # colors and icons for admonition_types (without "admonition") and subtypes
-admonition_colors = {"attention": "#FFA07A",
+admonition_colors = {"notfound": "#FFA07A",
+                     "attention": "#FFA07A",
                      "caution": "#FFA07A",
                      "danger": "#CD5C5C",
                      "error": "#CD5C5C",
@@ -24,7 +25,8 @@ admonition_colors = {"attention": "#FFA07A",
                      "warning": "#FFA07A",
                      "goal": "#98FB98"}
 
-admonition_icons = {"attention": "fas fa-exclamation",
+admonition_icons = {"notfound": "fas fa-exclamation",
+                    "attention": "fas fa-exclamation",
                     "caution": "fas fa-exclamation-triangle",
                     "danger": "fas fa-exclamation-triangle",
                     "error": "fas fa-bomb",

@@ -1,0 +1,51 @@
+name: Building latest jupyter Notebooks and push to master+ipynb
+
+on:
+  #schedule:
+    # Trigger 5:30 UTC
+  #  - cron:  '30 5 * * *'
+  push:
+    branches: [ master, merge-workflows ]
+  workflow_dispatch:
+
+jobs:
+
+  build-lnx:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+    
+    - uses: r-lib/actions/setup-pandoc@v2
+      with:
+        pandoc-version: '3.1.2'
+
+    - name: Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        python3 -m pip install --upgrade jupyter
+        python3 -m pip install --upgrade -r requirements.txt
+
+
+    - name: Generating notebooks
+      run: |
+        cd docs/
+        make doc
+        
+    - name: Commit files
+      run: |
+        git config --local user.email "rahulagrawal799110@gmail.com"
+        git config --local user.name "rahul799"
+        git add docs/*
+        git commit -m "ipynb notebooks generated" -a
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: "master+ipynb"
+        force: true
