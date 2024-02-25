@@ -159,7 +159,7 @@ html_theme_options = {
         {
             "name": "OpenMS project",
             "url": "https://www.openms.de",
-            "icon": "_static/OpenMS.svg",
+            "icon": "_static/img/OpenMS.svg",
             "type": "local",
             "attributes": {"target": "_blank"},
         },
@@ -179,8 +179,8 @@ html_sidebars = {
     "**": ["search-field.html", "sidebar-nav-bs.html"]
 }
 
-html_favicon = 'img/OpenMS.svg'
-html_logo = 'img/OpenMS.svg'
+html_favicon = 'img/pyOpenMSlogo_color.svg'
+html_logo = 'img/pyOpenMSlogo_color.svg'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

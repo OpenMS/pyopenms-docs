@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="clip0">
+      <rect x="0" y="0" width="1280" height="720"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clip0)" transform="matrix(1, 0, 0, 1, -388.223431, 47.784692)">
+    <text fill="#C00000" font-family="Arial,Arial_MSFontService,sans-serif" font-weight="700" font-size="80" transform="translate(431.167 292)" style="white-space: pre;">py</text>
+    <text fill="#2F5597" font-family="Arial,Arial_MSFontService,sans-serif" font-weight="700" font-size="80" transform="translate(524.5 292)" style="white-space: pre;">OpenMS</text>
+    <rect x="495" y="130" width="17" height="97" fill="#C00000"/>
+    <rect x="548" y="85" width="16" height="142" fill="#C00000"/>
+    <rect x="598" y="151" width="17" height="76" fill="#C00000"/>
+    <rect x="649" y="197" width="17" height="30" fill="#C00000"/>
+  </g>
+</svg>
