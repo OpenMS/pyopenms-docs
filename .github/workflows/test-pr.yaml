@@ -37,9 +37,7 @@ jobs:
         
     - name: Installing Dependencies
       run: |
-        python3 -m pip install --upgrade pip
-        python3 -m pip install --upgrade pandocfilters jupyter
-        python3 -m pip install --upgrade -r requirements.txt
+        $CONDA/bin/conda env update --file environment.yml --name base
 
     
     - name: Generating notebooks
