@@ -349,10 +349,14 @@ In this tutorial, we will cover a step-by-step guide on how to use the pyopenms 
     # Generate the modified peptides
     peptides_with_variable_modifications = []
     keep_unmodified_in_result = False
-    poms.ModifiedPeptideGenerator.applyVariableModifications(variable_modifications, sequence, max_variable_mods,
-                                                             peptides_with_variable_modifications,
-                                                             keep_unmodified_in_result)
-    
+    poms.ModifiedPeptideGenerator.applyVariableModifications(
+        variable_modifications,
+        sequence,
+        max_variable_mods,
+        peptides_with_variable_modifications,
+        keep_unmodified_in_result,
+    )
+
     # Print the modified peptides generated using Fixed modifications and their mono-isotopic mass.
     print("Fixed:", sequence.toString())
     print("Mono-isotopic mass:", sequence.getMonoWeight())
