@@ -13,7 +13,6 @@ some commonly used operations like chemical formula, weight, and isotope distrib
 The example below shows how amino acid sequences can be created and how basic mass calculations are conducted.
 
 .. code-block:: python
-    :linenos:
 
     import pyopenms as oms
 
@@ -96,7 +95,6 @@ The N- and C-Terminus as well as the residues themself can be modified.
 The example below shows how to check for such modifications.
 
 .. code-block:: python
-    :linenos:
 
     seq = oms.AASequence.fromString("C[143]PKCK(Label:13C(6)15N(2))CR")
 
@@ -136,7 +134,6 @@ about :py:class:`~.EmpiricalFormula` to get accurate mass and isotope distributi
 the amino acid sequence. But first, let's get the formula of peptide:
 
 .. code-block:: python
-    :linenos:
 
     seq = oms.AASequence.fromString("DFPIANGER")
     seq_formula = seq.getFormula()
@@ -149,7 +146,6 @@ Isotope Patterns
 We now want to print the coarse (e.g., peaks only at nominal masses) distribution.
 
 .. code-block:: python
-    :linenos:
 
     # print coarse isotope distribution
     coarse_isotopes = seq_formula.getIsotopeDistribution(
@@ -165,7 +161,6 @@ But if we deal with very high resolution instruments, we still might want to cal
 We use the :py:class:`~.FineIsotopePatternGenerator` in OpenMS to reveal these additional peaks:
 
 .. code-block:: python
-    :linenos:
 
     # print fine structure of isotope distribution
     fine_isotopes = seq_formula.getIsotopeDistribution(
@@ -180,7 +175,6 @@ We use the :py:class:`~.FineIsotopePatternGenerator` in OpenMS to reveal these a
 And plot the very similar looking distributions using standard ``matplotlib`` functionality:
 
 .. code-block:: python
-    :linenos:
 
     import math
     from matplotlib import pyplot as plt
@@ -223,7 +217,6 @@ Fragment Ions
 We can easily calculate different ion types for amino acid sequences:
 
 .. code-block:: python
-    :linenos:
 
     suffix = seq.getSuffix(3)  # y3 ion "GER"
     print("=" * 35)
@@ -264,7 +257,6 @@ peptide "DFPIAMGER" with an oxidized methionine. There are multiple ways to spec
 
 
 .. code-block:: python
-    :linenos:
 
         seq = oms.AASequence.fromString("PEPTIDESEKUEM(Oxidation)CER")
         print(seq.toUnmodifiedString())
@@ -310,7 +302,6 @@ respectively, but ``".DFPIAMGER(Phospho)."`` will be interpreted as a
 phosphorylation of the last arginine at its side chain:
 
 .. code-block:: python
-    :linenos:
 
         s = oms.AASequence.fromString(".(Dimethyl)DFPIAMGER.")
         print(s, s.hasNTerminalModification())
@@ -334,43 +325,43 @@ Applying Fixed or Variable Modifications to Sequences
 In this tutorial, we will cover a step-by-step guide on how to use the pyopenms library to generate modified peptides from a given amino acid sequence.
 
 .. code-block:: python
-    :linenos:
+
     import pyopenms as poms
 
-# Create an amino acid sequence using the fromString() method of the AASequence class.
-# In this example, we will use the amino acid sequence "TESTMTECSTMTESTR"
-sequence = poms.AASequence.fromString("TESTMTECSTMTESTR")
-
-# We use the names "Oxidation (M)" and "Carbamidomethyl (C)" for the variable and fixed modifications, respectively.
-variable_mod_names = [b"Oxidation (M)"]
-fixed_mod_names = [b"Carbamidomethyl (C)"]
-
-# We then use the getModifications() method of the ModifiedPeptideGenerator class to get the modifications for these names.
-variable_modifications = poms.ModifiedPeptideGenerator.getModifications(variable_mod_names)
-fixed_modifications = poms.ModifiedPeptideGenerator.getModifications(fixed_mod_names)
-
-# Apply the fixed modifications to the amino acid sequence
-poms.ModifiedPeptideGenerator.applyFixedModifications(fixed_modifications, sequence)
-
-# Define the maximum number of variable modifications allowed
-max_variable_mods = 1
-
-# Generate the modified peptides
-peptides_with_variable_modifications = []
-keep_unmodified_in_result = False
-poms.ModifiedPeptideGenerator.applyVariableModifications(variable_modifications, sequence, max_variable_mods,
-                                                         peptides_with_variable_modifications,
-                                                         keep_unmodified_in_result)
-
-# Print the modified peptides generated using Fixed modifications and their mono-isotopic mass.
-print("Fixed:", sequence.toString())
-print("Mono-isotopic mass:", sequence.getMonoWeight())
-
-# Print the modified peptides generated using variable modifications and their mono-isotopic mass.
-for peptide in peptides_with_variable_modifications:
-    print("Variable:", peptide.toString())
-    print("Mono-isotopic mass:", peptide.getMonoWeight())
+    # Create an amino acid sequence using the fromString() method of the AASequence class.
+    # In this example, we will use the amino acid sequence "TESTMTECSTMTESTR"
+    sequence = poms.AASequence.fromString("TESTMTECSTMTESTR")
     
+    # We use the names "Oxidation (M)" and "Carbamidomethyl (C)" for the variable and fixed modifications, respectively.
+    variable_mod_names = [b"Oxidation (M)"]
+    fixed_mod_names = [b"Carbamidomethyl (C)"]
+    
+    # We then use the getModifications() method of the ModifiedPeptideGenerator class to get the modifications for these names.
+    variable_modifications = poms.ModifiedPeptideGenerator.getModifications(variable_mod_names)
+    fixed_modifications = poms.ModifiedPeptideGenerator.getModifications(fixed_mod_names)
+    
+    # Apply the fixed modifications to the amino acid sequence
+    poms.ModifiedPeptideGenerator.applyFixedModifications(fixed_modifications, sequence)
+    
+    # Define the maximum number of variable modifications allowed
+    max_variable_mods = 1
+    
+    # Generate the modified peptides
+    peptides_with_variable_modifications = []
+    keep_unmodified_in_result = False
+    poms.ModifiedPeptideGenerator.applyVariableModifications(variable_modifications, sequence, max_variable_mods,
+                                                             peptides_with_variable_modifications,
+                                                             keep_unmodified_in_result)
+    
+    # Print the modified peptides generated using Fixed modifications and their mono-isotopic mass.
+    print("Fixed:", sequence.toString())
+    print("Mono-isotopic mass:", sequence.getMonoWeight())
+    
+    # Print the modified peptides generated using variable modifications and their mono-isotopic mass.
+    for peptide in peptides_with_variable_modifications:
+        print("Variable:", peptide.toString())
+        print("Mono-isotopic mass:", peptide.getMonoWeight())
+        
 The above code outputs:
 
 .. code-block:: output
@@ -390,7 +381,6 @@ Protein sequences, can be loaded from and stored in :term:`FASTA` protein databa
 The example below shows how protein sequences can be stored in :term:`FASTA` files and loaded back in pyOpenMS:
 
 .. code-block:: python
-    :linenos:
 
         bsa = oms.FASTAEntry()  # one entry in a FASTA file
         bsa.sequence = "MKWVTFISLLLLFSSAYSRGVFRRDTHKSEIAHRFKDLGE"
@@ -409,7 +399,6 @@ The example below shows how protein sequences can be stored in :term:`FASTA` fil
 Afterwards, the ``example.fasta`` file can be read again from the disk:
 
 .. code-block:: python
-    :linenos:
 
         entries = []
         f = oms.FASTAFile()
