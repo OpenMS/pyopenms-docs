@@ -147,11 +147,6 @@ html_theme_options = {
             "type": "fontawesome",
         },
         {
-            "name": "Twitter",
-            "url": "https://twitter.com/OpenMSTeam",
-            "icon": "fa-brands fa-twitter",
-        },
-        {
             "name": "PyPI",
             "url": "https://pypi.org/project/pyopenms",
             "icon": "pypi", # defined in our custom.css
