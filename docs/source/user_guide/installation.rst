@@ -52,7 +52,7 @@ Source (advanced users)
 
 To install pyOpenMS from :index:`source`, you will first have to compile OpenMS
 successfully on your platform of choice and then follow the `building from
-source <build_from_source.html>`_ instructions. Note that this may be
+source <../community/build_from_source.html>`_ instructions. Note that this may be
 non-trivial and *is not recommended* for most users.
 
 Wrap Classes (advanced users)

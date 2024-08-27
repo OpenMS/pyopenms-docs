@@ -6,7 +6,7 @@ and metabolomics data in Python. pyOpenMS implements a set of Python bindings to
 :term:`mass spectrometry<Mass spectrometry>` and is available for Windows, Linux and macOS.
 
 pyOpenMS provides functionality that is commonly used in computational mass
-spectrometry. The pyOpenMS package contains Python bindings for a large part of the `OpenMS <openms.de>`_
+spectrometry. The pyOpenMS package contains Python bindings for a large part of the `OpenMS <https://openms.de>`_
 library for :term:`mass spectrometry<Mass spectrometry>` based proteomics. It thus provides easy access to
 a feature-rich, open-source algorithm library for mass-spectrometry based proteomics analysis.
 
