@@ -15,7 +15,7 @@ Troubleshooting
 
 If you encounter a problem running pyOpenMS feel free to contact
 us by opening a `GitHub issue <https://github.com/OpenMS/OpenMS/issues>`_
-or `via our Homepage <https://openms.de/communication/>` today.
+or `via our Homepage <https://openms.de/communication/>`_ today.
 
 Please provide information on what pyOpenMS version you have installed.
 You can check if importing pyOpenMS works and print your pyOpenMS version with:

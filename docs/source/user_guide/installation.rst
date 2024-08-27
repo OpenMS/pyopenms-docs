@@ -59,4 +59,4 @@ Wrap Classes (advanced users)
 -----------------------------
 
 In order to wrap new classes in pyOpenMS, read the following `guide
-<wrap_classes.html>`_.
+<../community/wrapping_workflows_new_classes.html>`_.

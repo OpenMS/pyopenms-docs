@@ -68,7 +68,7 @@ Open it and add your new function *with the correct indentation*:
   - Note: The space between the hash and wrap-doc (# wrap-doc) is not necessary, but used for consistency.
   - Note: Please start the comment with a capital letter.
   
-See the next section for a `simple example <#A-Simple-Example>`_ and a more `advanced example <#A-Further-Example>`_ of a wrapped class with several functions.
+See the next section for a `simple example <#a-simple-example>`_ and a more `advanced example <#a-further-example>`_ of a wrapped class with several functions.
 
 How to Wrap New Classes
 ^^^^^^^^^^^^^^^^^^^^^^^
