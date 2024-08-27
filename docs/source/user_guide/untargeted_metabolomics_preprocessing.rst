@@ -1,9 +1,9 @@
 Untargeted Metabolomics Pre-Processing
 ======================================
 
-The universal workflow for untargeted :terM:`metabolomics` always consists of :terM:`feature` detection in the individual MS sample
+The universal workflow for untargeted metabolomics always consists of :term:`feature` detection in the individual MS sample
 files and their linkage to :term:`consensus features` with common m/z and retention time values.
-In addition, there are optional steps such as adduct detection and annotation of :terM:`features` with associated :term:`MS2` spectra.
+In addition, there are optional steps such as adduct detection and annotation of :term:`features` with associated :term:`MS2` spectra.
 
 .. image:: img/metabolomics-preprocessing.png
 

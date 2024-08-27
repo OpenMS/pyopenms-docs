@@ -38,14 +38,22 @@ A glossary of common terms used throughout OpenMS documentation.
     TOF
     time-of-flight
         Time-of-flight (TOF) is the time taken by an object, particle or wave (be it acoustic, electromagnetic, e.t.c) to travel a distance through a medium.
+        TOF analyzers can obtain good, but not ultra-high resolution, such as :term:`orbitrap`s.
 
     quadrupole
-        A mass filter allowing one mass channel at a time to reach the detector as the mass range is scanned.
+        A mass filter allowing one mass channel at a time to reach the detector as the mass range is scanned. A low resolution MS analyzer.
 
     orbitrap
         In MS, an ion trap mass analyzer consisting of an outer barrel-like electrode and a coaxial inner
         spindle-like electrode that traps ions in an orbital motion around the spindle.
-        A high resolution MS analyzer.
+        An ultra-high resolution MS analyzer, capable of resolving fine-isotope structure.
+
+    Mass Spectrometry
+    MS
+        An analytical technique to measure the mass over charge (m/z) ratio of ions along with their abundance. This gives rise to a mass spectrum (with m/z on the x-axis and abundance on the y-axis).
+        
+    mass spectrum
+        A visual or numerical representation of a measurement from an MS instrument. A spectrum contains (usually many) pairs of mass-over-charge(m/z)+intensity values.
 
     MS1
         Mass spectra of a sample where only precursor ions (i.e. no fragment ions) can be observed.
@@ -150,9 +158,13 @@ A glossary of common terms used throughout OpenMS documentation.
     OpenMS API
         A C++ interface that allows developers to use OpenMS core library classes and methods.
 
+    feature
+    features
+        A feature, in the OpenMS terminology, subsumes all m/z signals originating from a single compound at a certain charge state. This includes the isotope pattern and usually spans multiple spectra in retention time (the elution profile).
+        
     feature maps
     feature map
-        A feature map is a collection of features (all signal originating from a single compound at a certain charge state) identified from a single experiment.
+        A feature map is a collection of :term:`feature`s identified from a single experiment.
         One feature map usually contains many features. OpenMS represents a feature map using the class `FeatureMap <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1FeatureMap.html>`_.
 
     consensus features

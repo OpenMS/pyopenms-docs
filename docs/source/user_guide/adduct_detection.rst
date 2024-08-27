@@ -16,7 +16,7 @@ In pyOpenMS, :py:class:`~.MetaboliteFeatureDeconvolution` takes a :term:`feature
 
 | **Suggested follow up step:**
 | The resulting feature map can be exported to a pandas DataFrame with adduct information from the *dc_charge_adducts* feature meta values.
-| Multiple feature maps can be `combined using the feature linking algorithms <feature_linking.html>`_. Each consensus feature will get a new meta value *best ion* based on the most common annotated adduct within the consensus feature group.
+| Multiple :term:`feature maps` can be `combined using the feature linking algorithms <feature_linking.html>`_. Each consensus feature will get a new meta value *best ion* based on the most common annotated adduct within the consensus feature group.
 
 .. code-block:: python
 
