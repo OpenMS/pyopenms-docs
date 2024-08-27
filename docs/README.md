@@ -1,23 +1,23 @@
 pyOpenMS Documentation
 ======================
+The source code for the pyOpenMS documentation lies here. We use sphinx to
+build documentation.
 
 Preparation
-install Sphinx (which is a pyton module) and some of its modules/plugins.
+
+Install Sphinx (which is a pyton module) and some of its modules/plugins.
 We recommend doing this in a [python venv](https://docs.python.org/3/library/venv.html).
 
-```
-  pip install -U sphinx
-  pip install sphinx-hoverxref
-  pip install sphinx_copybutton
-  pip install sphinx_remove_toctrees
-  pip install pydata_sphinx_theme
-  ## use the latest pyOpenMS (or build your own from source)
-  pip install --index-url https://pypi.cs.uni-tuebingen.de/simple/ pyopenms
-```
+    python -m venv c:\path\to\myenv
+    # activate it, e.g.
+    source <venv>/bin/activate
+
+Once the environment is active, you can install all required python packages using
+
+    pip install -r <pyOpenMS_dir>/docs/requirements.txt
 
 
-The source code for the pyOpenMS documentation lies here. We use sphinx to
-build documentation and to build you can run 
+To build the docs run
 
     sphinx-build <pyOpenMS_dir>/docs/source/ build/
 
