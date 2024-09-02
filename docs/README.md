@@ -17,13 +17,14 @@ Once the environment is active, you can install all required python packages usi
     pip install -r <pyOpenMS_dir>/docs/requirements.txt
 
 
-To build the docs run
-
-    sphinx-build <pyOpenMS_dir>/docs/source/ build/
-
-On a linux system, you can also use the provided Makefile and run 
+To build the docs run (works on all OS's)
 
     make html
+    
+and check validity of links using
+
+    make linkcheck
+    
 
 
 
