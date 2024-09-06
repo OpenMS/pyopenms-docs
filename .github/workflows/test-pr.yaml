@@ -19,7 +19,7 @@ jobs:
 
     - name: Get changed files
       id: changed-files
-      uses: tj-actions/changed-files@v41
+      uses: tj-actions/changed-files@v45
       with:
           dir_names_max_depth: 0
           files: |
@@ -50,7 +50,7 @@ jobs:
 
     - name: Execute all notebooks generated from modified files
       run: |
-        for file in ${{ steps.changed-files.outputs.all_modified_files }}; do
+        for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
           jupyter nbconvert --to notebook --inplace --execute ${file%.rst}.ipynb || (echo "${file%.rst}" >> failed_nbs.txt)
         done
         if [ -f "failed_nbs.txt" ]; then
