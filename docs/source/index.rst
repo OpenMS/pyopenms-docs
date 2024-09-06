@@ -1,13 +1,13 @@
 Summary
 =======
 
-pyOpenMS is an open-source Python library for :term:`mass spectrometry<Mass spectrometry>`, specifically for the analysis of proteomics
+pyOpenMS is an open-source Python library for :term:`mass spectrometry<Mass Spectrometry>`, specifically for the analysis of proteomics
 and metabolomics data in Python. pyOpenMS implements a set of Python bindings to the OpenMS library for computational
-:term:`mass spectrometry<Mass spectrometry>` and is available for Windows, Linux and macOS.
+:term:`mass spectrometry<Mass Spectrometry>` and is available for Windows, Linux and macOS.
 
 pyOpenMS provides functionality that is commonly used in computational mass
-spectrometry. The pyOpenMS package contains Python bindings for a large part of the `OpenMS <openms.de>`_
-library for :term:`mass spectrometry<Mass spectrometry>` based proteomics. It thus provides easy access to
+spectrometry. The pyOpenMS package contains Python bindings for a large part of the `OpenMS <https://openms.de>`_
+library for :term:`mass spectrometry<Mass Spectrometry>` based proteomics. It thus provides easy access to
 a feature-rich, open-source algorithm library for mass-spectrometry based proteomics analysis.
 
 pyOpenMS facilitates the execution of common tasks in proteomics (and other fields of mass spectrometry) such as
@@ -20,8 +20,8 @@ pyOpenMS facilitates the execution of common tasks in proteomics (and other fiel
 - Chromatogram analysis (chromatographic peak picking, smoothing, elution profiles and peak scoring for :term:`SRM`/MRM/PRM/:term:`SWATH`/DIA data)
 - Interaction with common tools in proteomics and metabolomics:
 
-  - Search engines such as Comet, Mascot, MSGF+, MSFragger, SpectraST, XTandem
-  - Post-processing tools such as Percolator, MSstats, Fido
+  - Search engines such as Comet, Mascot, MSGF+, MSFragger, SpectraST, Sage
+  - Post-processing tools such as Percolator, MSstats, Epiphany
   - Metabolomics tools such as SIRIUS, CSI:FingerId
 
 
