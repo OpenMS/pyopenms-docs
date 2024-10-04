@@ -34,6 +34,8 @@ Let's zoom in on an isotopic pattern in profile mode and plot it.
         profile_spectra[0].get_peaks()[0], profile_spectra[0].get_peaks()[1]
     )  # plot the first spectrum
 
+    plt.show()
+  
 .. image:: img/profile_data.png
 
 Because of the limited resolution of MS instruments m/z measurements are not of unlimited precision.
@@ -55,6 +57,8 @@ by storing only centroided data. Thus, many algorithms and tools assume that cen
     plt.stem(
         centroided_spectra[0].get_peaks()[0], centroided_spectra[0].get_peaks()[1]
     )  # plot as vertical lines
+
+    plt.show()
 
 .. image:: img/centroided_data.png
 
