@@ -1,6 +1,21 @@
 Digestion
 =========
 
+In ``top-down proteomics``, whole proteins are measured in the mass spec.
+It is a hard problem to know the exact protein sequence, since proteins
+can be very large, i.e. have a very long sequence of constituing amino acids.
+
+However, in an orthogonal approach called ``bottom-up proteomics``,
+it is usually more beneficial to first cut proteins into smaller
+chunks at defined positions by using enzymatic digestion. The resulting peptides
+are lighter in mass, have less charge, and their sequence can be readily determined
+using MS/MS in many cases. In a subsequent step, one needs to infer which proteins
+were present in the sample, given a set of peptide sequences - a process called protein inference.
+The usual enzyme of choice for bottom-up proteomics is ``Trypsin`` (sometimes in combination with Lys-C).
+
+We will now learn how to do digestion of protein sequences in-silico, so you can predict which
+peptides you can expect to observe in the data and even generate theoretical spectra for them.
+
 Proteolytic Digestion with Trypsin
 **********************************
 
@@ -24,7 +39,7 @@ OpenMS has classes for proteolytic digestion which can be used as follows:
     print(result[4].toString())
     len(result)  # 82 peptides
 
-Very short peptides or even single amino acid digestion products are often discarded as they usually contain little information (e.g., can't be used to identify proteins).
+Very short peptides or even single amino acid digestion products are often discarded as they usually contain little information (e.g., are shared by many proteins making them useless to identify specific proteins or will not be detected in a real mass spectrum, since their peptide mass is below the usual minimal recorded mass).
 We now only generate digestion products with a length of :math:`7` to :math:`40`.
 
 .. code-block:: python
@@ -35,7 +50,7 @@ We now only generate digestion products with a length of :math:`7` to :math:`40`
     for s in result:
         print(s.toString())
 
-Enzymatic digestion is often not perfect and sometimes enzymes miss cutting a peptide.
+Enzymatic digestion is often not perfect and sometimes enzymes miss cutting position (aka cleavage site), resulting in some larger peptides. These are a sequence of two or even more consecutive peptides within the protein sequence.
 We now allow up to two missed cleavages.
 
 .. code-block:: python
@@ -51,6 +66,7 @@ We now allow up to two missed cleavages.
 Proteolytic Digestion with Lys-C
 ********************************
 
+In the previous example we used Trypsin as our enzyme of choice.
 We can of course also use different enzymes, these are defined in the ``Enzymes.xml``
 file and can be accessed using the :py:class:`~.EnzymesDB` object
 

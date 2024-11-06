@@ -38,7 +38,7 @@ A glossary of common terms used throughout OpenMS documentation.
     TOF
     time-of-flight
         Time-of-flight (TOF) is the time taken by an object, particle or wave (be it acoustic, electromagnetic, e.t.c) to travel a distance through a medium.
-        TOF analyzers can obtain good, but not ultra-high resolution, such as :term:`orbitrap`s.
+        TOF analyzers can obtain good, but not ultra-high resolution, such as an :term:`orbitrap`.
 
     quadrupole
         A mass filter allowing one mass channel at a time to reach the detector as the mass range is scanned. A low resolution MS analyzer.
@@ -164,7 +164,7 @@ A glossary of common terms used throughout OpenMS documentation.
         
     feature maps
     feature map
-        A feature map is a collection of :term:`feature`s identified from a single experiment.
+        A feature map is a collection of :term:`feature`\ s identified from a single experiment.
         One feature map usually contains many features. OpenMS represents a feature map using the class `FeatureMap <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1FeatureMap.html>`_.
 
     consensus features

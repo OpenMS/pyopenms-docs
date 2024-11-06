@@ -54,7 +54,7 @@ First we create a mass spectrum and insert peaks with descending mass-to-charge 
     First peak: 500.0 1.0
 
 
-Note how lines 11-12 (as well as line 19) use the direct access to the
+Note how lines 12-13 (as well as line 16) use the direct access to the
 :py:class:`~.Peak1D` objects (explicit iteration through the :py:class:`~.MSSpectrum` object, which
 is convenient but slow since a new :py:class:`~.Peak1D` object needs to be created each
 time).

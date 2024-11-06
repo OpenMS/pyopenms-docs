@@ -221,10 +221,8 @@ Refer to the image below for a diagrammatic representation of the :term:`quadrup
 
 .. image:: img/introduction/quadrupole-analyzer.png
 
-.. raw:: html
+.. admonition:: Video
 
-    <div class="admonition video">
-    <p class="admonition-title">Video</p>
     For more information on :term:`quadrupole` analyzers, <a href="https://timms.uni-tuebingen.de:/tp/UT_20141028_002_cpm_0001?t=1477.00">view this video</a>.
     </div>
 
