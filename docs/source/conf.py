@@ -74,7 +74,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'pyOpenMS'
-copyright = u'2023, OpenMS Team'
+copyright = u'2024, OpenMS Inc'
 author = u'OpenMS Team'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -82,7 +82,7 @@ author = u'OpenMS Team'
 # built documents.
 #
 # The short X.Y version.
-version = u'3.2.0'
+version = u'3.3.0'
 # The full version, including alpha/beta/rc tags.
 release = version
 rtd_branch = os.environ.get('READTHEDOCS_GIT_IDENTIFIER', '')
