@@ -1,8 +1,13 @@
 [
   {
       "name": "nightly",
-      "version": "3.1.0dev",
+      "version": "3.4.0dev",
       "url": "https://pyopenms.readthedocs.io/en/latest/"
+  },
+  {
+      "name": "3.3.0",
+      "version": "3.3.0",
+      "url": "https://pyopenms.readthedocs.io/en/release3.2.0/"
   },
   {
       "name": "3.2.0",
