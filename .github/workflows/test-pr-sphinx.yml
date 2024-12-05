@@ -4,6 +4,12 @@ on:
   pull_request:
     branches:
       - master
+  workflow_dispatch:
+    inputs:
+      pyopenms_wheel_url:
+        description: "URL of the PyOpenMS wheel to download and install"
+        required: false
+        default: ""
 
 jobs:
 
@@ -19,6 +25,14 @@ jobs:
 
     - name: Installing Dependencies
       run: pip install -r docs/requirements.txt
-    
+
+    - name: Install PyOpenMS if URL is provided
+      if: ${{ inputs.pyopenms_wheel_url != '' }}
+      run: |
+        pip uninstall pyopenms # remove version installed above
+        echo "Downloading and installing PyOpenMS wheel from ${{ inputs.pyopenms_wheel_url }}"
+        curl -o pyopenms.whl ${{ inputs.pyopenms_wheel_url }}
+        pip install pyopenms.whl
+        
     - name: Generate html
       run: cd docs && make html
