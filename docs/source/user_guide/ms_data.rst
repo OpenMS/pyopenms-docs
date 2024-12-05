@@ -503,7 +503,7 @@ This can be useful for a brief visual inspection of your sample in quality contr
 
         bilip = oms.BilinearInterpolation()
         tmp = bilip.getData()
-        tmp.resize(int(rows), int(cols), float())
+        tmp.resize(int(rows), int(cols))
         bilip.setData(tmp)
         bilip.setMapping_0(0.0, exp.getMinRT(), rows - 1, exp.getMaxRT())
         bilip.setMapping_1(0.0, exp.getMinMZ(), cols - 1, exp.getMaxMZ())
