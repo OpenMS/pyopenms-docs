@@ -592,11 +592,9 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
     print("\nPurity scores")
     print("total:", purity_score.total_intensity)  # 9098343.890625
     print("target:", purity_score.target_intensity)  # 7057944.0
-    print(
-        "signal proportion:", purity_score.signal_proportion
-    )  # 0.7757394186070014
+    print("signal proportion:", purity_score.signal_proportion)  # 0.7757394186070014
     print("target peak count:", purity_score.target_peak_count)  # 1
-    print("residual peak count:", purity_score.residual_peak_count)  # 4
+    print("interfering peak count:", purity_score.interfering_peak_count)  # 4
 
 
 .. code-block:: output
@@ -614,7 +612,7 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
     target: 7057944.0
     signal proportion: 0.7757394186070014
     target peak count: 1
-    residual peak count: 4
+    interfering peak count: 4
 
 We could assess that we have four other non-isotopic peaks apart from our precursor and its isotope peaks within our precursor isolation window.
 The signal of the isotopic peaks correspond to roughly 78% of all intensities in the precursor isolation window.
