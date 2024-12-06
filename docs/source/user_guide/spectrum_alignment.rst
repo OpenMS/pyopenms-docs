@@ -61,7 +61,7 @@ which produces
 
 .. image:: img/spec_alignment_1.png
 
-Now we want to find matching peaks between observed and theoretical mass spectrum.
+Now we want to find matching peaks (in m/z) between the observed and the theoretical spectrum (note: we ignore the peak intensity during the alignment).
 
 .. code-block:: python
     :linenos:
@@ -69,7 +69,7 @@ Now we want to find matching peaks between observed and theoretical mass spectru
     alignment = []
     spa = oms.SpectrumAlignment()
     p = spa.getParameters()
-    # use 0.5 Da tolerance (Note: for high-resolution data we could also use ppm by setting the is_relative_tolerance value to true)
+    # use 0.5 Da tolerance for m/z (Note: for high-resolution data we could also use ppm by setting the is_relative_tolerance value to true)
     p.setValue("tolerance", 0.5)
     p.setValue("is_relative_tolerance", "false")
     spa.setParameters(p)

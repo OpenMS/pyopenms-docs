@@ -100,6 +100,18 @@ Similarly to before for amino acid sequences, we can also generate internal frag
     print("RNA Oligo w4++ ion", suffix, "has mz", mz)
     print("RNA Oligo w4++ ion", suffix, "has molecular formula", w4_formula)
 
+Which will output
+
+.. code-block:: output
+
+    10
+    3206.4885302061
+    ===================================
+    RNA Oligo w4++ ion AUGG has mz 672.5989092135458
+    RNA Oligo w4++ ion AUGG has molecular formula C39H51N17O29P4
+
+
+
 Modified Oligonucleotides
 *************************
 
@@ -140,6 +152,21 @@ sequence as follows:
     for i in range(oligo_mod.size()):
         print(oligo_mod[i].isModified())
 
+Which will output
+
+.. code-block:: output
+
+
+    RNA Oligo A[m1A][Gm]A has molecular formula C42H53N20O23P3 and length 4
+    ===================================
+    RNA Oligo A[m1A][Gm]A has unmodified sequence AAGA
+    '1-methyladenosine'
+    '"'
+    'A'
+    False
+    True
+    True
+    False
 
 DNA, RNA and Protein
 ********************
