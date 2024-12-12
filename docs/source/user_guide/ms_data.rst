@@ -54,7 +54,7 @@ First we create a mass spectrum and insert peaks with descending mass-to-charge 
     First peak: 500.0 1.0
 
 
-Note how lines 11-12 (as well as line 19) use the direct access to the
+Note how lines 12-13 (as well as line 16) use the direct access to the
 :py:class:`~.Peak1D` objects (explicit iteration through the :py:class:`~.MSSpectrum` object, which
 is convenient but slow since a new :py:class:`~.Peak1D` object needs to be created each
 time).
@@ -503,7 +503,7 @@ This can be useful for a brief visual inspection of your sample in quality contr
 
         bilip = oms.BilinearInterpolation()
         tmp = bilip.getData()
-        tmp.resize(int(rows), int(cols), float())
+        tmp.resize(int(rows), int(cols))
         bilip.setData(tmp)
         bilip.setMapping_0(0.0, exp.getMinRT(), rows - 1, exp.getMaxRT())
         bilip.setMapping_1(0.0, exp.getMinMZ(), cols - 1, exp.getMaxMZ())
@@ -592,11 +592,9 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
     print("\nPurity scores")
     print("total:", purity_score.total_intensity)  # 9098343.890625
     print("target:", purity_score.target_intensity)  # 7057944.0
-    print(
-        "signal proportion:", purity_score.signal_proportion
-    )  # 0.7757394186070014
+    print("signal proportion:", purity_score.signal_proportion)  # 0.7757394186070014
     print("target peak count:", purity_score.target_peak_count)  # 1
-    print("residual peak count:", purity_score.residual_peak_count)  # 4
+    print("interfering peak count:", purity_score.interfering_peak_count)  # 4
 
 
 .. code-block:: output
@@ -614,7 +612,7 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
     target: 7057944.0
     signal proportion: 0.7757394186070014
     target peak count: 1
-    residual peak count: 4
+    interfering peak count: 4
 
 We could assess that we have four other non-isotopic peaks apart from our precursor and its isotope peaks within our precursor isolation window.
 The signal of the isotopic peaks correspond to roughly 78% of all intensities in the precursor isolation window.

@@ -260,7 +260,7 @@ the mass of the residue in square brackets. For example
 peptide "DFPIAMGER" with an oxidized methionine. There are multiple ways to specify modifications, and
 ``AASequence.fromString("DFPIAM(UniMod:35)GER")``,
 ``AASequence.fromString("DFPIAM[+16]GER")`` and
-``AASequence.fromString("DFPIAM[147]GER")`` are all equivalent). 
+``AASequence.fromString("DFPIAM[147]GER")`` are all equivalent.
 
 
 .. code-block:: python

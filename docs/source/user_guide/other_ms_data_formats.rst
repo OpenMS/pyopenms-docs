@@ -1,6 +1,8 @@
 Other MS Data Formats
 =============================
 
+.. _anchor-other-id-data:
+
 Identification Data (idXML, mzIdentML, pepXML, protXML)
 -------------------------------------------------------
 
