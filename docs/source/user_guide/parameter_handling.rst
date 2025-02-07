@@ -3,13 +3,17 @@ Parameter Handling
 
 Parameter handling in OpenMS and pyOpenMS is usually implemented through inheritance
 from :py:class:`~.DefaultParamHandler` and allow access to parameters through the :py:class:`~.Param` object. This
-means, the classes implement the methods ``getDefaults``, ``getParameters``, ``setParameters``
-which allows access to the default parameters, the current parameters and allows to set the
-parameters.
+means, the classes implement the methods ``getDefaults``, ``getParameters`` and ``setParameters``,
+to access to the default parameters, the current parameters and to set new parameters, respectively.
+The class :py:class:`~.TheoreticalSpectrumGenerator` is just one example of many which makes use of parameter handling via 
+:py:class:`~.DefaultParamHandler`.
 
-The :py:class:`~.Param` object that is returned can be manipulated through the :py:meth:`~.Param.setValue`
-and :py:meth:`~.Param.getValue` methods (the ``exists`` method can be used to check for existence of a key). Using the
-:py:meth:`~.Param.getDescription` method, it is possible to get a help-text for each parameter value in an
+The :py:class:`~.Param` object is the central data structure here. It can be manipulated through the :py:meth:`~.Param.setValue`
+and :py:meth:`~.Param.getValue` methods. The :py:meth:`~.Param.exists` method can be used to check for existence of a key and should
+always be used if a param value might be missing, since accessing a missing value via :py:meth:`~.Param.getValue` 
+will result in a RuntimeError exception.
+
+Using the :py:meth:`~.Param.getDescription` method, it is possible to get a descriptive help for each parameter value in an
 interactive session without consulting the documentation.
 
 .. code-block:: python
@@ -31,7 +35,7 @@ interactive session without consulting the documentation.
     print(p[b"param3"])
 
 
-The parameters can then be accessed as 
+The parameters can also be accessed as 
 
 .. code-block:: pycon
 
@@ -47,7 +51,7 @@ The parameters can then be accessed as
     True
 
 
-The param object can be copy and merge in to other param object as 
+The param object can be copied and merged into other param object:
  
 .. code-block:: python
     :linenos:
@@ -61,9 +65,7 @@ The param object can be copy and merge in to other param object as
             print("no data available")
 
 
-    new_p = oms.Param()
-    if p.empty() == False:  # check p is not empty
-        new_p = p  # new deep copy of p generate with name "new_p"
+    new_p = p  # new deep copy of p
 
     # we will add 4 more keys to the new_p
     new_p.setValue("param2", 9.0, "This is value 9")
@@ -73,17 +75,17 @@ The param object can be copy and merge in to other param object as
 
     # names "example1", "example2" , "example3" keys will added to p, but "param2" will update the value
     p.merge(new_p)
-    print(" print the key  and values pairs stored in a Param object p ")
+    print(" print the key and values pairs stored in a Param object p ")
     printParamKeyAndValues(p)
 
-In param object the keys values can be remove by key_name or prefix as
+In a param object, the keys can be removed by key name or prefix:
 
 .. code-block:: python
     :linenos:
 
-    # We now call the remove method with key of the entry we want to delete ("example3")
+    # We now call the remove method with the key of the entry we want to delete ("example3")
     new_p.remove("example3")
-    print("Key and values pairs after removing the entry with key: example3")
+    print("Key and value pairs after removing the entry with key: example3")
     printParamKeyAndValues(new_p)
 
     # We now want to delete all keys with prefix "exam"
@@ -100,12 +102,13 @@ In param object the keys values can be remove by key_name or prefix as
     print("Keys and values after deleting all entries.")
     printParamKeyAndValues(new_p)  # All keys of new_p deleted
 
-For the algorithms that inherit :py:class:`~.DefaultParamHandler`, the users can list all parameters along with their descriptions by using, for instance, the following simple function.
+For the algorithms that inherit from :py:class:`~.DefaultParamHandler`, you can list all parameters along with their 
+description by using, for instance, the following simple function.
 
 .. code-block:: python
     :linenos:
 
-    # print all parameters
+    # print all parameters with description
     def printParams(p):
         if p.size():
             for i in p.keys():
@@ -126,3 +129,66 @@ For the algorithms that inherit :py:class:`~.DefaultParamHandler`, the users can
     The higher the value, the wider the peak and therefore the wider the gaussian.
     Param: b'use_ppm_tolerance' Value: false Description: If true, instead of the gaussian_width value, the ppm_tolerance is used. The gaussian is calculated in each step anew, so this is much slower.
     Param: b'write_log_messages' Value: false Description: true: Warn if no signal was found by the Gauss filter algorithm.
+
+To print a simple key-value list, you can use ``asDict()``, as shown above:
+
+.. code-block:: python
+    :linenos:
+    
+    gf = oms.GaussFilter()
+    gf.getParameters().asDict()
+    
+    
+Types of Parameter Values
+************************************************
+
+A :py:class:`~.Param` object can hold many parameters of mixed value type. Above, we have seen floating point values, e.g.
+
+.. code-block:: python
+    :linenos:
+    
+    new_p.setValue("param2", 9.0, "This is value 9")
+    
+Other possible values include ``int``, ``float``, ``bytes``, ``str``, ``List[int]``, ``List[float]``, ``List[bytes]`` (aka StringList).
+E.g.
+
+.. code-block:: python
+    :linenos:
+    
+    p = oms.Param()
+    p.setValue("p_float", 4.0, "This is a float")
+    p.setValue("p_int", 5, "This is an integer")
+    p.setValue("p_string", "myvalue", "This is a string")
+    p.setValue("p_stringlist", [b"H:+:0.6", b"Na:+:0.2", b"K:+:0.2"], "This is a StringList")
+    p.setValue("p_floatlist", [1.0, 2.0, 3.0], "This is a list of floats")
+    p.setValue("p_intlist", [1, 2, 3], "This is a list of integers")
+    
+    
+Restrictions(=Validity) of Parameter Values
+******************************************************* 
+    
+For certain types of values, pyOpenMS supports restrictions,
+e.g. for single strings only a restricted set of values may be allowed.
+Also, for floats/ints only a restricted interval of numbers may be valid.
+
+Usually, these restrictions are set by the OpenMS algorithm/class which hands out the parameters.
+Then, if you provide invalid values via ``setParameters``, the algorithm will throw an exception.
+
+In theory, you can create your own restrictions. Usually this is done when defining the algorithm in C++ and is out of scope here.
+
+E.g.
+
+.. code-block:: python
+    :linenos:
+
+    gf = oms.GaussFilter()
+    gfp = gf.getParameters()
+    gfp.getValidStrings(b"use_ppm_tolerance")  ## yields [b'true', b'false']
+    
+    gfp.setValue(b"use_ppm_tolerance", "maybe") ## does not do anything ...
+    ##  ... until you actually set the parameters:
+    gf.setParameters(gfp)   ## --> throws a RuntimeError GaussFilter: Invalid string parameter value 'maybe' for parameter 'use_ppm_tolerance' given! Valid values are: 'true,false'.
+    
+ 
+
+
