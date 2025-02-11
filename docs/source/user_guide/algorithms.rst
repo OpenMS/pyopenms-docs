@@ -28,7 +28,10 @@ propagate the new parameters to the algorithm:
   algorithm.setParameters(param)
 
   exp = MSExperiment()
+
   # populate exp, for example load from file
+  # ...
+
   algorithm.filterExperiment(exp)
 
 Since they work on a single :py:class:`~.MSExperiment` object, little input is needed to

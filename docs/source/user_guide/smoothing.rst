@@ -28,7 +28,7 @@ further analysis
 
 We can now load our data into :term:`TOPPView` to observe the effect of the smoothing,
 which becomes apparent when we overlay the two files (drag onto each other) and
-then zoom into a given mass range using Ctrl-G and select :math:`4030` to :math:`4045`:
+then zoom into a given mass range using Ctrl-G and select `m/z` in the range :math:`4033` to :math:`4040`:
 
 
 .. image:: img/smoothing.png

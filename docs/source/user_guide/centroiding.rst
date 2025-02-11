@@ -33,11 +33,18 @@ Let's zoom in on an isotopic pattern in profile mode and plot it.
     plt.plot(
         profile_spectra[0].get_peaks()[0], profile_spectra[0].get_peaks()[1]
     )  # plot the first spectrum
-
+    plt.show()
+    
 .. image:: img/profile_data.png
 
-Because of the limited resolution of MS instruments m/z measurements are not of unlimited precision.
-Consequently, peak  shapes spreads in the m/z dimension and resemble a gaussian distribution.
+Due to the limited resolution of mass spectrometry (MS) instruments, m/z measurements exhibit a certain spread
+when multiple copies of a molecule are measured. Even with identical mass and charge, the copies are recorded with 
+slight deviations in the m/z dimension. Consequently, peak shapes in this dimension adopt a Gaussian-like distribution.
+The number of copies correlates with the peak height (or rather peak volume).
+
+A single peptide species, e.g. "DPFINAGER" at charge 2, typically consists of various molecular
+entities that differ in the number of neutrons, leading to an isotopic distribution and resulting in multiple peaks.
+
 Using the :py:class:`~.PeakPickerHiRes` algorithm, we can convert data from profile to centroided mode. Usually, not much information is lost
 by storing only centroided data. Thus, many algorithms and tools assume that centroided data is provided.
 
@@ -55,8 +62,9 @@ by storing only centroided data. Thus, many algorithms and tools assume that cen
     plt.stem(
         centroided_spectra[0].get_peaks()[0], centroided_spectra[0].get_peaks()[1]
     )  # plot as vertical lines
-
+    plt.show()
+    
 .. image:: img/centroided_data.png
 
 After centroiding, a single m/z value for every isotopic peak is retained. By plotting the centroided data as stem plot
-we discover that (in addition to the isotopic peaks) some low intensity peaks (intensity at approx. 4k) were present in the profile data.
+we discover that (in addition to the isotopic peaks) some low intensity peaks (intensity at approx. 4k units on the y-axis) were present in the profile data.

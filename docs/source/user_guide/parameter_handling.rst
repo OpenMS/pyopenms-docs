@@ -174,6 +174,9 @@ Also, for floats/ints only a restricted interval of numbers may be valid.
 Usually, these restrictions are set by the OpenMS algorithm/class which hands out the parameters.
 Then, if you provide invalid values via ``setParameters``, the algorithm will throw an exception.
 
+It is usually interesting to inspect the restrictions to know what methods a class supports, e.g. see below for an example
+using a GaussFilter and the Normalizer.
+
 In theory, you can create your own restrictions. Usually this is done when defining the algorithm in C++ and is out of scope here.
 
 E.g.
@@ -183,12 +186,18 @@ E.g.
 
     gf = oms.GaussFilter()
     gfp = gf.getParameters()
-    gfp.getValidStrings(b"use_ppm_tolerance")  ## yields [b'true', b'false']
+    gfp.getValidStrings("use_ppm_tolerance")  ## yields [b'true', b'false']
     
     gfp.setValue(b"use_ppm_tolerance", "maybe") ## does not do anything ...
     ##  ... until you actually set the parameters:
     gf.setParameters(gfp)   ## --> throws a RuntimeError GaussFilter: Invalid string parameter value 'maybe' for parameter 'use_ppm_tolerance' given! Valid values are: 'true,false'.
     
+    nor = oms.Normalizer()
+    norp = nor.getParameters()
+    norp.getValidStrings("method")  ## yields [b'to_one', b'to_TIC']
+    norp.setValue("method", "to_TIC") ## pick the 'to_TIC' method
+    nor.setParameters(norp)
+    # ... now run the Normalizer ...
  
 
 
