@@ -35,6 +35,8 @@ A glossary of common terms used throughout OpenMS documentation.
     electrospray ionization
     ESI
         Electrospray ionization (ESI) is a technique used in MS to produce ions.
+        ESI usually gives rise to peptides of charge 2 or higher.
+        ESI is usually coupled to Orbitrap and FTICR instruments.
 
     FASTA
         A text-based file format for representing nucleotide or amino acid sequences.
@@ -81,11 +83,17 @@ A glossary of common terms used throughout OpenMS documentation.
         spectrometry data. More information is available in the `OpenMS API reference documentation
         <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_LuciphorAdapter.html>`__.
 
+    MALDI
+        matrix-assisted laser desorption/ionization (MALDI) is an ionization technique that uses a laser energy-absorbing matrix to create ions.
+        ESI usually gives rise to peptides of charge 1.
+        MALDI is usually employed in combination with TOF instruments. 
+    
     Mass Spectrometry
     MS
         An analytical technique to measure the mass over charge (m/z) ratio of ions along with their abundance. 
         This gives rise to a mass spectrum (with m/z on the x-axis and abundance on the y-axis).
 
+    mass spectra
     mass spectrum
         A visual or numerical representation of a measurement from an MS instrument.
         A spectrum contains (usually many) pairs of mass-over-charge(m/z)+intensity values.
@@ -134,11 +142,16 @@ A glossary of common terms used throughout OpenMS documentation.
     OpenMS API
         A C++ interface that allows developers to use OpenMS core library classes and methods.
 
+    Orbitrap
     orbitrap
         In MS, an ion trap mass analyzer consisting of an outer barrel-like electrode and a coaxial inner
         spindle-like electrode that traps ions in an orbital motion around the spindle.
         An ultra-high resolution MS analyzer, capable of resolving fine-isotope structure.
 
+    peak maps
+    peak map
+        A collection of mass spectra (and/or chromatograms), usually sorted by retention time. Can contain spectra of one or more MS levels (usually level 1 and 2).
+  
     peptide-spectrum match
     PSM
         A method used in proteomics to identify proteins from a complex mixture. Involves comparing the
