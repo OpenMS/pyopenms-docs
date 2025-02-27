@@ -2,11 +2,11 @@ Parameter Handling
 ==================
 
 Parameter handling in OpenMS and pyOpenMS is usually implemented through inheritance
-from :py:class:`~.DefaultParamHandler` and allow access to parameters through the :py:class:`~.Param` object. This
+from ``DefaultParamHandler`` and allow access to parameters through the :py:class:`~.Param` object. This
 means, the classes implement the methods ``getDefaults``, ``getParameters`` and ``setParameters``,
 to access to the default parameters, the current parameters and to set new parameters, respectively.
 The class :py:class:`~.TheoreticalSpectrumGenerator` is just one example of many which makes use of parameter handling via 
-:py:class:`~.DefaultParamHandler`.
+``DefaultParamHandler``.
 
 The :py:class:`~.Param` object is the central data structure here. It can be manipulated through the :py:meth:`~.Param.setValue`
 and :py:meth:`~.Param.getValue` methods. The :py:meth:`~.Param.exists` method can be used to check for existence of a key and should
@@ -51,7 +51,7 @@ The parameters can also be accessed as
     True
 
 
-The param object can be copied and merged into other param object:
+The param object can be copied and merged into another param object:
  
 .. code-block:: python
     :linenos:
@@ -102,7 +102,7 @@ In a param object, the keys can be removed by key name or prefix:
     print("Keys and values after deleting all entries.")
     printParamKeyAndValues(new_p)  # All keys of new_p deleted
 
-For the algorithms that inherit from :py:class:`~.DefaultParamHandler`, you can list all parameters along with their 
+For the algorithms that inherit from ``DefaultParamHandler``, you can list all parameters along with their 
 description by using, for instance, the following simple function.
 
 .. code-block:: python
@@ -200,4 +200,37 @@ E.g.
     # ... now run the Normalizer ...
  
 
+Unfortunately, it is not possible to retrieve the valid ranges for floats and ints, if they have been set via the pyOpenMS API (yet).
+However, one can look at either the documentation of the class in pyOpenMS docs. There will be a link to the C++ version which contains the
+restrictions (if any) of all parameters of a class.
+Alternatively, you can simply write the parameters to an INI file (also called :py:class:`~.ParamXMLFile`), which is a special XML file format which OpenMS uses to store parameters.
 
+E.g.
+
+.. code-block:: python
+    :linenos:
+    
+    pphr = oms.PeakPickerHiRes()
+
+    px = oms.ParamXMLFile()
+    px.store("tmp.ini", pphr.getParameters())  ## store PeakPickerHiRes params (or any Param object you like)
+
+    ## either look at the file in Python, or open it in an Editor of your choice
+    print(open('tmp.ini').read())    
+
+The INI file looks something like this (shortened):
+
+.. code-block:: xml
+    :linenos:
+    
+    <?xml version="1.0" encoding="ISO-8859-1"?>
+    <PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.g.../Param_1_7_0.xsd" xmlns:xsi="...">
+      <ITEM name="signal_to_noise" value="0.0" type="double" description="Minimal signal... SNT estimation!)" required="false" advanced="false" restrictions="0.0:" />
+      <ITEM name="spacing_difference_gap" value="4.0" type="double" description="The extension ... chromatograms." required="false" advanced="true" restrictions="0.0:" />
+    ...
+
+Any parameter which has restrictions on its value (strings, ints and floats) will have a ``restrictions`` attribute.
+In the above example, the restriction on the ``signal_to_noise`` parameter are ``restrictions="0.0:"``, i.e. only the lower bound is restricted to 0.0. The upper bound can be any value larger than 0.
+
+    
+      
