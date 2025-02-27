@@ -188,9 +188,14 @@ E.g.
     gfp = gf.getParameters()
     gfp.getValidStrings("use_ppm_tolerance")  ## yields [b'true', b'false']
     
-    gfp.setValue(b"use_ppm_tolerance", "maybe") ## does not do anything ...
+    gfp.setValue(b"use_ppm_tolerance", "maybe") ## is invalid but setValue does not complain
     ##  ... until you actually set the parameters:
-    gf.setParameters(gfp)   ## --> throws a RuntimeError GaussFilter: Invalid string parameter value 'maybe' for parameter 'use_ppm_tolerance' given! Valid values are: 'true,false'.
+    try:
+      gf.setParameters(gfp)   ## --> throws a RuntimeError
+    except RuntimeError as e:
+      print(f"RuntimeError: {str(e)}")
+      ## prints `GaussFilter: Invalid string parameter value 'maybe' for parameter 'use_ppm_tolerance' given! Valid values are: 'true,false'.`
+         
     
     nor = oms.Normalizer()
     norp = nor.getParameters()
