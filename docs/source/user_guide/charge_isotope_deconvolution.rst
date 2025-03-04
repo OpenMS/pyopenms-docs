@@ -157,6 +157,7 @@ state:
     :linenos:
 
     from urllib.request import urlretrieve
+    import matplotlib.pyplot as plt
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/BSA1.mzML", "BSA1.mzML")
