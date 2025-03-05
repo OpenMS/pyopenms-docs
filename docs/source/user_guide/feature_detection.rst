@@ -3,37 +3,38 @@ Feature Detection
 
 One very common task in mass spectrometry is the detection of 2-dimensional
 patterns in m/z and time (RT) dimension from a series of :term:`MS1` scans. These
-patterns are called ``Features`` and they exhibit a chromatographic elution
+patterns are called a term:`Feature` and they exhibit a chromatographic elution
 profile in the time dimension and an isotopic pattern in the m/z dimension (see
-`previous section <deisotoping.html>`_ for the 1-dimensional problem).
+`previous section <charge_isotope_deconvolution.html>`_ for the 1-dimensional problem).
+
 OpenMS has multiple tools that can identify these features in 2-dimensional
-data, these tools are called :py:class:`~.FeatureFinder`.  Currently the following
+data, these tools are called ``FeatureFinder``.  Currently the following
 FeatureFinders are available in pyOpenMS:
 
-  - :py:class:`~.FeatureFinderMultiplexAlgorithm` (e.g., :term:`SILAC`, Dimethyl labeling, (and label-free), identification free feature detection of peptides)
   - :py:class:`~.FeatureFinderAlgorithmPicked` (Label-free, identification free feature detection of peptides)
   - :py:class:`~.FeatureFinderIdentificationAlgorithm` (Label-free identification-guided feature detection of peptides)
+  - :py:class:`~.FeatureFinderMultiplexAlgorithm` (e.g., :term:`SILAC`, Dimethyl labeling, (and label-free), identification free feature detection of peptides)
   - :py:class:`~.FeatureFindingMetabo` (Label-free, identification free feature detection of metabolites)
   - :py:class:`~.FeatureFinderAlgorithmMetaboIdent` (Label-free, identification guided feature detection of metabolites)
 
-All of the algorithms above are for proteomics data with the exception of :py:class:`~.FeatureFindingMetabo` and :py:class:`~.FeatureFinderMetaboIdentCompound` for metabolomics data and small molecules in general.
+All of the algorithms above are for proteomics data with the exception of :py:class:`~.FeatureFindingMetabo` and :py:class:`~.FeatureFinderAlgorithmMetaboIdent` for metabolomics data and small molecules in general.
 
 Proteomics
 ******************************
 
-Two of the most commonly used feature finders for proteomics in OpenMS are the :py:class:`~.FeatureFinder` and :py:class:`~.FeatureFinderIdentificationAlgorithm` which both work on (high
-resolution) centroided data. We can use the following code to find features in MS data:
+Two of the most commonly used feature finders for proteomics in OpenMS are the :py:class:`~.FeatureFinderAlgorithmPicked`, :py:class:`~.FeatureFinderMultiplexAlgorithm` and :py:class:`~.FeatureFinderIdentificationAlgorithm` which all work on (high
+resolution) centroided data (FeatureFinderMultiplexAlgorithm can also work on profile data). We can use the following code to find features in MS data:
 
 .. code-block:: python
 
   from urllib.request import urlretrieve
+  import pyopenms as oms
 
   gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
   urlretrieve(
       gh + "/src/data/FeatureFinderCentroided_1_input.mzML", "feature_test.mzML"
   )
 
-  import pyopenms as oms
 
   # Prepare data loading (save memory by only
   # loading MS1 spectra into memory)
@@ -47,32 +48,30 @@ resolution) centroided data. We can use the following code to find features in M
   fh.load("feature_test.mzML", input_map)
   input_map.updateRanges()
 
-  ff = oms.FeatureFinder()
-  ff.setLogType(oms.LogType.CMD)
+  ff = oms.FeatureFinderAlgorithmPicked()
 
   # Run the feature finder
-  name = "centroided"
-  features = oms.FeatureMap()
-  seeds = oms.FeatureMap()
-  params = oms.FeatureFinder().getParameters(name)
-  ff.run(name, input_map, features, params, seeds)
+  out_features = oms.FeatureMap()  ## our result
+  seeds = oms.FeatureMap()     ## optional: you can provide seeds where FF should take place -- not used here
+  params = ff.getParameters(); ## we do not modify params for now
+  ff.run(input_map, out_features, params, seeds)
 
-  features.setUniqueIds()
+  out_features.setUniqueIds()
   fh = oms.FeatureXMLFile()
-  fh.store("output.featureXML", features)
-  print("Found", features.size(), "features")
+  fh.store("output.featureXML", out_features)
+  print("Found", out_features.size(), "features")
 
 With a few lines of Python, we are able to run powerful algorithms available in
 OpenMS. The resulting data is held in memory (a :py:class:`~.FeatureMap` object) and can be
-inspected directly using the ``help(features)`` comment. It reveals that the
+inspected directly using the ``help(out_features)`` comment. It reveals that the
 object supports iteration (through the ``__iter__`` function) as well as direct
 access (through the ``__getitem__`` function). This means we write code that uses direct access and iteration in
 Python as follows:
 
 .. code-block:: python
 
-  f0 = features[0]
-  for f in features:
+  f0 = out_features[0]
+  for f in out_features:
       print(f.getRT(), f.getMZ())
 
 
@@ -82,7 +81,7 @@ inspecting ``help(f)`` or by consulting the manual.
 
 Note: the output file that we have written (``output.featureXML``) is an
 OpenMS-internal XML format for storing features. You can learn more about file
-formats in the `Reading MS data formats <other_file_handling.html>`_ section.
+formats in the `Reading MS data formats <other_ms_data_formats.html>`_ section.
 
 Metabolomics - Untargeted
 *************************
@@ -239,9 +238,9 @@ Now we can use the following code to detect features with :py:class:`~.FeatureFi
   # save FeatureMap to file
   oms.FeatureXMLFile().store("detected_features.featureXML", fm)
 
-Note: the output file that we have written (``output.featureXML``) is an
+Note: the output file that we have written (``detected_features.featureXML``) is an
 OpenMS-internal XML format for storing features. You can learn more about file
-formats in the `Reading MS data formats <other_file_handling.html>`_ section.
+formats in the `Reading MS data formats <other_ms_data_formats.html>`_ section.
 
 We can get a quick overview on the detected features by plotting them using the following function:
 
@@ -249,6 +248,8 @@ We can get a quick overview on the detected features by plotting them using the 
     :linenos:
 
     import matplotlib.pyplot as plt
+    import matplotlib.colors as mcolors
+    import itertools
 
     def plotDetectedFeatures3D(path_to_featureXML):
       fm = oms.FeatureMap()
@@ -258,8 +259,9 @@ We can get a quick overview on the detected features by plotting them using the 
       fig = plt.figure()
       ax = fig.add_subplot(111, projection="3d")
 
-      for feature in fm:
-          color = next(ax._get_lines.prop_cycler)["color"]
+      cycled_colors = itertools.cycle(['red', 'green', 'blue', 'orange', 'purple', 'yellow', 'cyan', 'magenta', 'black', 'gray'])
+      
+      for feature, color in zip(fm, cycled_colors):
           # chromatogram data is stored in the subordinates of the feature
           for i, sub in enumerate(feature.getSubordinates()):
               retention_times = [
@@ -268,7 +270,7 @@ We can get a quick overview on the detected features by plotting them using the 
               intensities = [
                   int(y[1]) for y in sub.getConvexHulls()[0].getHullPoints()
               ]
-              mz = sub.getMetaValue("MZ")
+              mz = sub.getMZ()
               ax.plot(retention_times, intensities, zs=mz, zdir="x", color=color)
               if i == 0:
                   ax.text(
@@ -283,5 +285,7 @@ We can get a quick overview on the detected features by plotting them using the 
       ax.set_xlabel("m/z")
       ax.set_zlabel("intensity (cps)")
       plt.show()
+
+    plotDetectedFeatures3D("detected_features.featureXML")
 
 .. image:: img/ffmid_graph.png

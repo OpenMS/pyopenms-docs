@@ -651,7 +651,25 @@ mass spectra that are not :term:`MS1` spectra
         if s.getMSLevel() > 1:
             filtered.addSpectrum(s)
 
-    # filtered now only contains spectra with MS level > 2
+    # 'filtered' now only contains spectra with MS level >= 2
+
+Alternatively, we can chose to load only spectra of a certain level using :py:class:`~.PeakFileOptions`, which is even more efficient.
+
+.. code-block:: python
+    :linenos:
+
+    # Create a PeakFileOptions object
+    options = oms.PeakFileOptions()
+    options.setMSLevels([2])  # Load only MS level 2
+    
+    # Load the mzML file with the specified options
+    mzml = oms.MzMLFile()
+    mzml.setOptions(options)  # Apply the options
+    mzml.load("test.mzML", filtered)
+    
+    # 'filtered' now only contains spectra with MS level == 2
+
+# Now exp contains only MS level 2 spectra
 
 
 Filtering by Scan Number
@@ -695,13 +713,30 @@ We can easily filter our data accordingly:
             filtered.addSpectrum(s)
 
     # filtered only contains only fragment spectra with peaks in range [mz_start, mz_end]
+    
+For this simple example, you can achieve the same thing using :py:class:`~.PeakFileOptions` when loading the data:
+
+.. code-block:: python
+    :linenos:
+
+    # Create a PeakFileOptions object
+    options = oms.PeakFileOptions()
+    options.setMSLevels([2])  # Load only MS level 2
+    options.setMZRange(oms.DRange1(oms.DPosition1(mz_start),oms.DPosition1(mz_end)))
+
+    # Load the mzML file with the specified options
+    mzml = oms.MzMLFile()
+    mzml.setOptions(options)  # Apply the options
+    mzml.load("test.mzML", filtered)
+
+    # 'filtered' now only contains spectra with MS level == 2, and each spectrum has peaks with m/z values between 6-12
 
 Note that in a real-world application, we would set the ``mz_start`` and
 ``mz_end`` parameter to an actual area of interest, for example the area
 between 125 and 132 which contains quantitative ions for a :term:`TMT` experiment.
 
-Similarly we could only retain peaks above a certain
-intensity or keep only the top N peaks in each mass spectrum.
+Similarly we could only retain spectra with a certain retention time or peaks with a certain intensity range.
+See :py:class:`~.PeakFileOptions` for details.
 
 For more advanced filtering tasks pyOpenMS provides special algorithm classes.
 We will take a closer look at some of them in the next section.

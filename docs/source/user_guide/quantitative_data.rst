@@ -1,7 +1,7 @@
 Quantitative Data
 =================
 
-features
+Features
 **************************
 
 In OpenMS, information about quantitative data is stored in a so-called
@@ -42,14 +42,15 @@ features can be stored in a :py:class:`~.FeatureMap` and written to disk.
     fm.push_back(feature)
     oms.FeatureXMLFile().store("test.featureXML", fm)
 
-Visualizing the resulting map in :term:`TOPPView` allows detection of the two
-features stored in the :py:class:`~.FeatureMap` with the visualization indicating charge
-state, m/z, RT and other properties:
+Opening the resulting feature map in :term:`TOPPView` allows to visualize the two
+features (each represented by a black dot in the top right and bottom left, respectively).
+Hovering over a feature displays m/z, RT and other properties:
 
 .. image:: img/feature.png
 
-Note that in this case only two features are present, but in a typical :term:`LC-MS/MS`
-experiments, thousands of features are present.
+In the above example, only two features are present. In a typical :term:`LC-MS/MS`
+experiment, you can expect thousands of features.
+
 
 
 :term:`Feature Maps<feature maps>`

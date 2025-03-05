@@ -31,7 +31,8 @@ To begin, we need to load the mass spectrometry data. The following Python code 
 Normalization Procedure
 -----------------------
 
-After loading the data, the next step is to apply normalization.
+After loading the data, the next step is to apply normalization. We use
+the :py:class:`~.Normalizer` class.
 
 .. code-block:: python
   :linenos:
@@ -48,6 +49,17 @@ After loading the data, the next step is to apply normalization.
 .. image:: img/after_normalization.png
    :align: center
    :alt: Spectrum after normalization
+
+To list all available normalization methods of the :py:class:`~.Normalizer`, either look into its documentation, or
+query the valid values of its `method` parameter:
+
+.. code-block:: python
+  :linenos:
+
+  normalizer = oms.Normalizer()
+  param = normalizer.getParameters()
+  print(param.getValidStrings("method"))  # [b'to_one', b'to_TIC']
+
 
 TIC Normalization
 -----------------

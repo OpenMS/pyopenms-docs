@@ -46,6 +46,10 @@ extensions = [
     'chemrole',
 ]
 
+## warn about invalid references (e.g. invalid class names)
+nitpicky = True              
+nitpick_ignore = []
+
 autosummary_generate = True
 autosummary_imported_members = True
 remove_from_toctrees = [
