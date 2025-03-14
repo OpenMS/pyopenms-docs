@@ -121,11 +121,14 @@ chromatograms as they are read from the disk. A simple implementation could look
 
 which can the be used as follows:
 
-.. code-block:: output
+.. code-block:: python
 
     filename = b"test.mzML"
     consumer = MSCallback()
     oms.MzMLFile().transform(filename, consumer)
+	
+.. code-block:: output
+	
     Read a spectrum
     Read a spectrum
     Read a spectrum
@@ -138,50 +141,61 @@ spectrum or chromatogram is read from disk, the function ``consumeSpectrum`` or
 ``consumeChromatogram`` is called and a specific action is performed. We can
 use this to implement a simple filtering function for mass spectra:
 
-.. code-block:: output
+.. code-block:: python
 
-    class FilteringConsumer:
-        """
-        Consumer that forwards all calls the internal consumer (after
-        filtering)
-        """
+	import os
+	import pyopenms as oms
+	from urllib.request import urlretrieve
 
-        def __init__(self, consumer, filter_string):
-            self._internal_consumer = consumer
-            self.filter_string = filter_string
+	gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
+	urlretrieve(gh + "/src/data/tiny.mzML", "test.mzML")
 
-        def setExperimentalSettings(self, s):
-            self._internal_consumer.setExperimentalSettings(s)
+	print("Current Working Directory where all files are stored:", os.getcwd())
 
-        def setExpectedSize(self, a, b):
-            self._internal_consumer.setExpectedSize(a, b)
+	class FilteringConsumer:
+		"""
+		Consumer that forwards all calls the internal consumer (after
+		filtering out spectra with less than 'min_spec_size' peaks)
+		"""
 
-        def consumeChromatogram(self, c):
-            if c.getNativeID().find(self.filter_string) != -1:
-                self._internal_consumer.consumeChromatogram(c)
+		def __init__(self, consumer, min_spec_size = 0):
+			self._internal_consumer = consumer
+			self._min_spec_size = min_spec_size
 
-        def consumeSpectrum(self, s):
-            if s.getNativeID().find(self.filter_string) != -1:
-                self._internal_consumer.consumeSpectrum(s)
+		def setExperimentalSettings(self, s):
+			self._internal_consumer.setExperimentalSettings(s)
 
-    ###################################
-    filter_string = "DECOY"
-    inputfile = "in.mzML"
-    outputfile = "out.mzML"
-    ###################################
+		def setExpectedSize(self, a, b):
+			self._internal_consumer.setExpectedSize(a, b)
 
-    consumer = oms.PlainMSDataWritingConsumer(outputfile)
-    consumer = FilteringConsumer(consumer, filter_string)
+		def consumeChromatogram(self, c):
+			# just forward; do nothing to chromatograms
+			self._internal_consumer.consumeChromatogram(c)
 
-    oms.MzMLFile().transform(inputfile, consumer)
+		def consumeSpectrum(self, s):
+			print("Spec has size: ", s.size())
+			if s.size() >= self._min_spec_size:
+				print(" --> keep it")
+				self._internal_consumer.consumeSpectrum(s)
+			else:
+				print(" --> discard it")
 
 
-where the spectra and chromatograms are filtered by their native ids. It is
+	min_spec_size = 11  ## we will keep spectra with 11 or more peaks and discard the others
+	inputfile = "test.mzML"
+	outputfile = "out.mzML"
+
+	consumer = oms.PlainMSDataWritingConsumer(outputfile)
+	consumer = FilteringConsumer(consumer, min_spec_size)
+
+	oms.MzMLFile().transform(inputfile, consumer)
+
+, where the spectra are filtered by their size. It is
 similarly trivial to implement filtering by other attributes. Note how the data
 are written to disk using the :py:class:`~.PlainMSDataWritingConsumer` which is one of
 multiple available consumer classes -- this specific class will simply take the
-spectrum ``s`` or chromatogram ``c`` and write it to disk (the location of the
-output file is given by the ``outfile`` variable).
+:py:class:`~.MSSpectrum` ``s`` or :py:class:`~.MSChromatogram` ``c`` and write it to disk (the location of the
+output file is given by the ``outputfile`` variable).
 
 Note that this approach is memory efficient in cases where computation should
 only occur on part of the data or the whole data may not fit into memory.

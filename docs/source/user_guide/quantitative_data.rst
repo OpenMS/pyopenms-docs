@@ -27,7 +27,7 @@ analysis.
         masstrace.push_back(p)
 
 Usually, the quantitative features would be produced by a so-called
-:py:class:`~.FeatureFinder` algorithm, which we will discuss in the `next chapter <feature_detection.html>`_. The
+`FeatureFinder` algorithm, which we will discuss in the `next chapter <feature_detection.html>`_. The
 features can be stored in a :py:class:`~.FeatureMap` and written to disk.
 
 .. code-block:: python
