@@ -14,6 +14,7 @@ How can I wrap a new class with pyOpenMS?
 
 Create a new file ``src/pyOpenMS/pxds/CLASS_NAME.pxd`` and use the `procedure outlined <https://pyopenms.readthedocs.io/en/release-3.2.0/community/wrapping_workflows_new_classes.html#how-to-wrap-new-classes>`_. 
 
+
 Can I use multiple output parameters?
 *************************************
 
