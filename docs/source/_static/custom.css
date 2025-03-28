@@ -118,11 +118,6 @@ p.rubric+dl.py.function {
   100% {transform: rotate(-35deg) translate(0px, 0px);}
 }
 
-/* Enlarge logo */
-.navbar-brand img {
-    scale: 1.0
-}
-
 /* In the right tocs:
  The edit pencil icon is a bit bigger than the show source file icon.
  Therefore pad it. */
