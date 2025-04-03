@@ -151,6 +151,11 @@ html_theme_options = {
             "type": "fontawesome",
         },
         {
+            "name": "Discord",
+            "url": "https://discord.com/invite/4TAGhqJ7s5",
+            "icon": "fa-brands fa-discord",
+        },
+        {
             "name": "PyPI",
             "url": "https://pypi.org/project/pyopenms",
             "icon": "pypi", # defined in our custom.css

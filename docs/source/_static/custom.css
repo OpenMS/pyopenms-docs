@@ -70,7 +70,7 @@ p.rubric+dl.py.function {
 /* Parameter names should look a bit different from types */
 .sig-param > span.n:nth-child(1) > .pre {
   font-weight: 500;
-  color: #16324F;
+  color: #3f87d3;
 }
 
 /* In desktop mode, when the top navbar is filled, make the padding to
@@ -116,11 +116,6 @@ p.rubric+dl.py.function {
   72% {transform: rotate(-35deg) translate(-10px, 5px);}
   73% {transform: rotate(-35deg) translate(-20px, 20px);}
   100% {transform: rotate(-35deg) translate(0px, 0px);}
-}
-
-/* Enlarge logo */
-.navbar-brand img {
-    scale: 2.0
 }
 
 /* In the right tocs:

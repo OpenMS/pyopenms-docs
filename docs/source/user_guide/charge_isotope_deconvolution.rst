@@ -124,6 +124,7 @@ Let's look at a very heavy peptide, whose isotopic distribution is dominated by 
         use_decreasing_model,
         start_intensity_check,
         False,
+        True
     )
     for p in s:
         print("Mono peaks:", p.getMZ(), p.getIntensity())
@@ -156,6 +157,7 @@ state:
     :linenos:
 
     from urllib.request import urlretrieve
+    import matplotlib.pyplot as plt
 
     gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/BSA1.mzML", "BSA1.mzML")
@@ -179,6 +181,7 @@ state:
         use_decreasing_model,
         start_intensity_check,
         False,
+        True
     )
 
     print(e[214].size())
