@@ -653,7 +653,8 @@ mass spectra that are not :term:`MS1` spectra
 
     # 'filtered' now only contains spectra with MS level >= 2
 
-Alternatively, we can chose to load only spectra of a certain level using :py:class:`~.PeakFileOptions`, which is even more efficient.
+Alternatively, we can choose to load only spectra of a certain level using :py:class:`~.PeakFileOptions`, which is even more efficient since 
+unwanted data is not even loaded into memory.
 
 .. code-block:: python
     :linenos:
@@ -669,7 +670,7 @@ Alternatively, we can chose to load only spectra of a certain level using :py:cl
     
     # 'filtered' now only contains spectra with MS level == 2
 
-# Now exp contains only MS level 2 spectra
+Now exp contains only MS level 2 spectra
 
 
 Filtering by Scan Number
@@ -687,6 +688,33 @@ to only retain a list of MS scans we are interested in:
     for k, s in enumerate(inp):
         if k in scan_nrs:
             filtered.addSpectrum(s)
+            
+Note: the scan numbers are the index of the respective spectra in the data file (mzML). This may not be identical to the vendor scan number, especially if the data has been sliced/filtered before.            
+            
+Advanced Filtering of NativeID via SpectrumLookup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To find a spectrum using their original scan number from their native ID we can use :py:class:`~.SpectrumLookup`:
+
+.. code-block:: python
+    :linenos:
+
+    lookup = oms.SpectrumLookup()
+
+    ## now, we need to define how to extract the vendor scan number from the 'id' attribute in mzML:
+    # Bruker may have:
+    # <spectrum index="0" id="scan=19" defaultArrayLength="15">
+    # thus we can use (this would also work for Thermo native IDs)
+    lookup.readSpectra(inp, "scan=(?<SCAN>\d+)")       ## required: creates an internal look-up table
+
+    vendor_scan_nrs = [19, 21]  ## our test.mzML contains 4 spectra, starting at scan=19
+
+    filtered = oms.MSExperiment()  ## our result, with all spectra we were looking for
+    for v_scan_nr in vendor_scan_nrs:
+      filtered.addSpectrum(inp[lookup.findByScanNumber(v_scan_nr)])
+
+    filtered.size()         ## prints '2'
+    filtered.updateRanges() ## make sure RT and m/z ranges are up to date
 
 
 Filtering Mass Spectra and Peaks
