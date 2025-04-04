@@ -653,7 +653,7 @@ mass spectra that are not :term:`MS1` spectra
 
     # 'filtered' now only contains spectra with MS level >= 2
 
-Alternatively, we can chose to load only spectra of a certain level using :py:class:`~.PeakFileOptions`, which is even more efficient since 
+Alternatively, we can choose to load only spectra of a certain level using :py:class:`~.PeakFileOptions`, which is even more efficient since 
 unwanted data is not even loaded into memory.
 
 .. code-block:: python
@@ -707,11 +707,11 @@ To find a spectrum using their original scan number from their native ID we can 
     # thus we can use (this would also work for Thermo native IDs)
     lookup.readSpectra(inp, "scan=(?<SCAN>\d+)")       ## required: creates an internal look-up table
 
-    vendor_scan_nrs = [19, 20]  ## our test.mzML contains 4 spectra, starting at scan=19
+    vendor_scan_nrs = [19, 21]  ## our test.mzML contains 4 spectra, starting at scan=19
 
     filtered = oms.MSExperiment()  ## our result, with all spectra we were looking for
-    for v_scan_nrs in vendor_scan_nrs:
-      filtered.addSpectrum(inp[lookup.findByScanNumber(v_scan_nrs)])
+    for v_scan_nr in vendor_scan_nrs:
+      filtered.addSpectrum(inp[lookup.findByScanNumber(v_scan_nr)])
 
     filtered.size()         ## prints '2'
     filtered.updateRanges() ## make sure RT and m/z ranges are up to date
