@@ -78,7 +78,7 @@ Download Example Data
     # we use featureXML files which already contain PSMs (as obtained by oms.IDMapper())
     # ... so we can use all aligners pyOpenMS has to offer
     feature_files = [
-        "BSA1_F1_idmapped.featureXML",
+        "BSA1_F1_idmapped.featureXML",
         "BSA2_F1_idmapped.featureXML",
         "BSA3_F1_idmapped.featureXML",
     ]
