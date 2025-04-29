@@ -54,8 +54,8 @@ Feature linking is the process which connects (links) features with similar RT a
 This enables comparisons of peptide signals across runs and is a prerequisite for downstream statistical analysis.
 Thus, all features across all :py:class:`~.FeatureMap` objects will be combined into a :py:class:`~.ConsensusMap`.
 Here we use :py:class:`~.FeatureGroupingAlgorithmQT` to find corresponding features with similar RT and m/z across feature maps.
-If everything goes well, we will have a lot of triplets in our test run (we have have three input maps; one feature from each feature map) within each consensus feature.
-Realistically, some features will remain unmatched, forming singletons or doublets (consensus features of size 1 or 2). These undersized consensus features can arise due to several factors. In some cases, the signal may be genuinely absent in the dataset, preventing feature detection. Alternatively, the feature-finding algorithm might fail to identify the feature in all available maps, leading to incomplete linkage. Additionally, suboptimal parameters for feature linking, such as excessive retention time (RT) variations across samples, can contribute to mismatches, further reducing the likelihood of forming larger consensus features. The latter can be corrected for using a process called map alignment, which we adressed in a `previous chapter <map_alignment.html>`_.
+If everything goes well, we will have a lot of triplets in our test run (we have three input maps; one feature from each feature map) within each consensus feature.
+Realistically, some features will remain unmatched, forming singletons or doublets (consensus features of size 1 or 2). These undersized consensus features can arise due to several factors. In some cases, the signal may be genuinely absent in the dataset, preventing feature detection. Alternatively, the feature-finding algorithm might fail to identify the feature in all available maps, leading to incomplete linkage. Additionally, suboptimal parameters for feature linking, such as excessive retention time (RT) variations across samples, can contribute to mismatches, further reducing the likelihood of forming larger consensus features. The latter can be corrected for using a process called map alignment, which we addressed in a `previous chapter <map_alignment.html>`_.
 
 
 .. code-block:: python
@@ -65,7 +65,7 @@ Realistically, some features will remain unmatched, forming singletons or double
 
     # populate the actual cmap using FeatureGroupingAlgorithmQT
     feature_grouper = oms.FeatureGroupingAlgorithmQT()
-    # this is where the work happens:
+    # execute feature linking:
     feature_grouper.group(feature_maps, consensus_map)
 
 That's it!
