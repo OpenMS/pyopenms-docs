@@ -74,7 +74,9 @@ quantitative data directly and it supports direct iteration in Python:
 
 Often :term:`LC-MS/MS` experiments are run to compare quantitative features across
 experiments. In OpenMS, linked features from individual experiments are
-represented by a :py:class:`~.ConsensusFeature`
+represented by a :py:class:`~.ConsensusFeature`.
+We will explore how :term:`Consensus Maps<consensus maps>` are created in a process called FeatureLinking in the `Feature Linking <feature_linking.html>`_ chapter.
+For now, we focus on how to build :term:`consensus feature`s and their container (consensus maps) manually.
 
 .. code-block:: python
     :linenos:

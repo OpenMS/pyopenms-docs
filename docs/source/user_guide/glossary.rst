@@ -28,6 +28,7 @@ A glossary of common terms used throughout OpenMS documentation.
         One consensus map usually contains many consensus features. OpenMS represents a consensus map using 
         the class `ConsensusMap <https://abibuilder.cs.uni-tuebingen.de/archive/openms/Documentation/nightly/html/classOpenMS_1_1ConsensusMap.html>`_.
 
+    de novo
     de novo peptide sequencing
         A peptide's amino acid sequence is inferred directly from the precursor peptide mass and tandem
         mass spectrum (:term:`MS2` or :term:`MS3`) fragment ions, without comparison to a reference proteome.
@@ -45,6 +46,10 @@ A glossary of common terms used throughout OpenMS documentation.
     features
         A feature, in the OpenMS terminology, subsumes all m/z signals originating from a single compound at a 
         certain charge state. This includes the isotope pattern and usually spans multiple spectra in retention time (the elution profile).
+  
+    feature finder
+    FeatureFinder
+        A FeatureFinder in pyOpenMS creates a :term:`feature map` using the MS1 spectra from a :term:`peak map` (e.g. from an mzML file) as input.
 
     feature maps
     feature map
@@ -154,9 +159,10 @@ A glossary of common terms used throughout OpenMS documentation.
   
     peptide-spectrum match
     PSM
-        A method used in proteomics to identify proteins from a complex mixture. Involves comparing the
-        mass spectra of peptide fragments generated from a protein sample with a database of predicted
-        spectra, in order to identify the protein that produced the observed peptides.
+    PSMs
+        A peptide-spectrum match associates a peptide sequence (possibly including modifications) to an MS/MS spectrum.
+        This usually involves comparing the mass spectra of peptide fragments generated from a digested protein sample with a database of predicted
+        spectra. Alternatively, this can be done using :term:`de novo` techniques (without a database, just using observed spectra).
 
     PepNovo
         PepNovo is a de :term:`de novo peptide sequencing` algorithm for :term:`MS2` spectra.

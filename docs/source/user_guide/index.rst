@@ -46,6 +46,7 @@ headings and structure.
    spectrum_merging
    charge_isotope_deconvolution
    feature_detection
+   PSM_to_features
    map_alignment
    adduct_detection
    feature_linking
