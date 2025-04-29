@@ -2,10 +2,9 @@ Map Alignment
 ===============
 
 The pyOpenMS map alignment algorithms transform different maps (:term:`peak maps`, :term:`feature maps`) to a common retention time axis.
-This is useful, since chromatographic columns are usually less stable, i.e. the RT of identical compounds will vary when repeating the 
-experiment or running another sample.
-We want to correct for this, usually by finding common landmarks across runs and adjusting the RT of all features to minimize the distance
-of landmarks across feature maps.
+Because chromatographic columns are less stable, retention times of identical compounds can vary across runs.
+To correct for RT drift, map alignment attempts to find common landmarks across runs and adjusts the RT of all features to minimize the distance
+of landmarks across feature maps (runs).
 
 
 .. image:: img/map_alignment_illustration.png
@@ -276,6 +275,6 @@ We can also inspect the underlying transformation and the landmarks it is based 
     # Example usage:
     plot_transformed_rt_with_trafo(feature_maps, trafos)
 
-While we do not know the underlying features using just this information, we can see that features in corresponding maps are now nicely aligned  horizontally (the new RT). Also, it seems a linear model nicely fits all the data points in each feature map. Using a more flexible model like LOWESS will likely result in a worse alignment (try and see for yourself).
+While we do not know the underlying features using just this information, we can see that features in corresponding maps are now nicely aligned  horizontally (the new RT). Also, it seems a linear model nicely fits all the data points in each feature map. More flexible models (e.g., LOWESS) may overfit and degrade performance—feel; free to experiment.
     
 .. image:: img/map_alignment_trafos.png
