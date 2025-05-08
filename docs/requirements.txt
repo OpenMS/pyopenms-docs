@@ -8,6 +8,8 @@ sphinx-remove-toctrees
 ## for pygment coloring of code snippets using ipython syntax
 ipython
 pygments-lexer-pseudocode
+# Dependency of Sphinx, the 3.0 release breaks it (currently)
+snowballstemmer<3
 
 --extra-index-url https://pypi.cs.uni-tuebingen.de/simple/
 pyopenms

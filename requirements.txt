@@ -1,5 +1,3 @@
-# Dependency of Sphinx, the 3.0 release breaks it (currently)
-snowballstemmer<3
 matplotlib
 plotly
 pandas
