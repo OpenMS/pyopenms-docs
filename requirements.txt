@@ -12,5 +12,7 @@ pyviz_comms
 jupyter-server-proxy
 massql
 sphinx-hoverxref
+# Dependency of Sphinx, the 3.0 release breaks it (currently)
+snowballstemmer<3
 
 pyopenms
