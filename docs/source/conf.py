@@ -86,7 +86,7 @@ author = u'OpenMS Team'
 # built documents.
 #
 # The short X.Y version.
-version = u'3.3.0'
+version = u'3.4.0'
 # The full version, including alpha/beta/rc tags.
 release = version
 rtd_branch = os.environ.get('READTHEDOCS_GIT_IDENTIFIER', '')
