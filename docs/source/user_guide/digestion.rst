@@ -16,6 +16,35 @@ The usual enzyme of choice for bottom-up proteomics is ``Trypsin`` (sometimes in
 We will now learn how to do digestion of protein sequences in-silico, so you can predict which
 peptides you can expect to observe in the data and even generate theoretical spectra for them.
 
+Overview of the tool
+********************
+
+Proteolytic digestion can be performed through class ``ProteaseDigestion`` and its method ``.digest``.
+This method has two variants.
+Simple variant:
+
+.. code-block:: cython
+
+    digest(protein : pyopenms.AASequence, output : list) -> int:
+    #   protein - Sequence of the protein to be digested. (pyopenms.AASequence)
+    #   output - Empty list. This is where produced peptides will be stored. Warning: if the list is not empty, all its contents will be deleted! (list)
+    #
+    #   -> returns number of peptides which did not meet length restrictions and were discarded. (int)
+
+The other variant allows you to specify minimum and maximum length of peptides produced:
+
+.. code-block:: cython
+
+    Size digest(protein : pyopenms.AASequence, output : list, min_length : int, max_length : int) -> int:
+    #   protein - Sequence of the protein to be digested. (pyopenms.AASequence)
+    #   output - Empty list. This is where produced peptides will be stored. Warning: if the list is not empty, all its contents will be deleted! (list)
+    #   min_length - Minimum length of produced peptide. Shorter products will be discarded. (int)
+    #   max_length - Maximum length of produced peptide. Longer products will be discarded. (int)
+    #
+    #   -> returns number of peptides which did not meet length restrictions and were discarded. (int)
+
+.. @todo : Overview of RNaseDigestion.digest()
+
 Proteolytic Digestion with Trypsin
 **********************************
 
