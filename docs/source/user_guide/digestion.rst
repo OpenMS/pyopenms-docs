@@ -63,10 +63,35 @@ We now allow up to two missed cleavages.
     for s in result:
         print(s.toString())
 
+Semi-specific Digestion
+***********************
+
+Sometimes digestion is only specific to a cleavage site on one end of resulting peptide, while the other end is cut unspecifically.
+It is possible to generate a range of peptides that could be produced as a result of such semi-specific digestion:
+
+.. code-block:: python
+
+    # Check current specificity
+    dig.getSpecificity() # 2
+    # Set specificity parameter to semi-specific
+    # dig.setSpecificity(1) is also supported (1 specific end)
+    dig.setSpecificity(oms.EnzymaticDigestion.Specificity.SPEC_SEMI)
+
+    # Short sample sequence
+    seq = oms.AASequence.fromString("MCRTLH")
+
+    dig.digest(seq, result)
+    len(result) # 10
+    # Discard single-aa results
+    dig.digest(seq, result, 2, len(seq.toString()) )
+    for pep in result:
+        print(pep.toString())
+        # MCR, TLH, CR, TL, LH, MC
+
 Proteolytic Digestion with Lys-C
 ********************************
 
-In the previous example we used Trypsin as our enzyme of choice.
+In the previous examples we used Trypsin as our enzyme of choice.
 We can of course also use different enzymes, these are defined in the ``Enzymes.xml``
 file and can be accessed using the :py:class:`~.EnzymesDB` object
 
