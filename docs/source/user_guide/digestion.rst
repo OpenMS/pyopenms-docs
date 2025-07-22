@@ -35,7 +35,7 @@ The other variant allows you to specify minimum and maximum length of peptides p
 
 .. code-block:: cython
 
-    Size digest(protein : pyopenms.AASequence, output : list, min_length : int, max_length : int) -> int
+    digest(protein : pyopenms.AASequence, output : list, min_length : int, max_length : int) -> int
     #   protein - Sequence of the protein to be digested. (pyopenms.AASequence)
     #   output - Empty list. This is where produced peptides will be stored. Warning: if the list is not empty, all its contents will be deleted! (list)
     #   min_length - Minimum length of produced peptide. Shorter products will be discarded. (int)
