@@ -69,7 +69,8 @@ Use the configured `IDMapper` to link peptide IDs to the FeatureMap:
 
 .. code-block:: python
 
-   id_mapper.annotate(feature_map, peptide_ids, protein_ids, use_centroid_rt=True, use_centroid_mz=True, spectra=None)
+   spectra = oms.MSExperiment()
+   id_mapper.annotate(feature_map, peptide_ids, protein_ids, True, True, spectra)
 
 Step 5: Save the Annotated FeatureMap
 --------------------------------------
