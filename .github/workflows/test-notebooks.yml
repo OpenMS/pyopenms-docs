@@ -11,7 +11,7 @@ on:
 
 jobs:
 
-  test-lnx-py37:
+  test-lnx:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,7 +29,7 @@ jobs:
 
     - name: Testing notebooks
       run: |
-        for f in docs/source/*.ipynb
+        for f in docs/source/user_guide/*.ipynb
         do
           jupyter nbconvert --to notebook --inplace --execute $f || (echo "$f" >> failed_nbs.txt)
         done
