@@ -11,7 +11,6 @@ that show different functions of pyOpenMS.
 
 ## Table of Contents
 
-- [Installation](#installation)
 - [Documentation Architecture](#documentation-architecture)
 - [Build System](#build-system)
 - [Notebook Pipeline](#notebook-pipeline)
