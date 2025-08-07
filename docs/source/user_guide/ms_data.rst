@@ -54,7 +54,7 @@ First we create a mass spectrum and insert peaks with descending mass-to-charge 
     First peak: 500.0 1.0
 
 
-Note how lines 11-12 (as well as line 19) use the direct access to the
+Note how lines 12-13 (as well as line 16) use the direct access to the
 :py:class:`~.Peak1D` objects (explicit iteration through the :py:class:`~.MSSpectrum` object, which
 is convenient but slow since a new :py:class:`~.Peak1D` object needs to be created each
 time).
@@ -503,7 +503,7 @@ This can be useful for a brief visual inspection of your sample in quality contr
 
         bilip = oms.BilinearInterpolation()
         tmp = bilip.getData()
-        tmp.resize(int(rows), int(cols), float())
+        tmp.resize(int(rows), int(cols))
         bilip.setData(tmp)
         bilip.setMapping_0(0.0, exp.getMinRT(), rows - 1, exp.getMaxRT())
         bilip.setMapping_1(0.0, exp.getMinMZ(), cols - 1, exp.getMaxMZ())
@@ -592,11 +592,9 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
     print("\nPurity scores")
     print("total:", purity_score.total_intensity)  # 9098343.890625
     print("target:", purity_score.target_intensity)  # 7057944.0
-    print(
-        "signal proportion:", purity_score.signal_proportion
-    )  # 0.7757394186070014
+    print("signal proportion:", purity_score.signal_proportion)  # 0.7757394186070014
     print("target peak count:", purity_score.target_peak_count)  # 1
-    print("residual peak count:", purity_score.residual_peak_count)  # 4
+    print("interfering peak count:", purity_score.interfering_peak_count)  # 4
 
 
 .. code-block:: output
@@ -614,7 +612,7 @@ Here, we can assess the purity of the precursor to filter spectra with a score b
     target: 7057944.0
     signal proportion: 0.7757394186070014
     target peak count: 1
-    residual peak count: 4
+    interfering peak count: 4
 
 We could assess that we have four other non-isotopic peaks apart from our precursor and its isotope peaks within our precursor isolation window.
 The signal of the isotopic peaks correspond to roughly 78% of all intensities in the precursor isolation window.
@@ -653,7 +651,26 @@ mass spectra that are not :term:`MS1` spectra
         if s.getMSLevel() > 1:
             filtered.addSpectrum(s)
 
-    # filtered now only contains spectra with MS level > 2
+    # 'filtered' now only contains spectra with MS level >= 2
+
+Alternatively, we can choose to load only spectra of a certain level using :py:class:`~.PeakFileOptions`, which is even more efficient since 
+unwanted data is not even loaded into memory.
+
+.. code-block:: python
+    :linenos:
+
+    # Create a PeakFileOptions object
+    options = oms.PeakFileOptions()
+    options.setMSLevels([2])  # Load only MS level 2
+    
+    # Load the mzML file with the specified options
+    mzml = oms.MzMLFile()
+    mzml.setOptions(options)  # Apply the options
+    mzml.load("test.mzML", filtered)
+    
+    # 'filtered' now only contains spectra with MS level == 2
+
+Now exp contains only MS level 2 spectra
 
 
 Filtering by Scan Number
@@ -671,6 +688,33 @@ to only retain a list of MS scans we are interested in:
     for k, s in enumerate(inp):
         if k in scan_nrs:
             filtered.addSpectrum(s)
+            
+Note: the scan numbers are the index of the respective spectra in the data file (mzML). This may not be identical to the vendor scan number, especially if the data has been sliced/filtered before.            
+            
+Advanced Filtering of NativeID via SpectrumLookup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To find a spectrum using their original scan number from their native ID we can use :py:class:`~.SpectrumLookup`:
+
+.. code-block:: python
+    :linenos:
+
+    lookup = oms.SpectrumLookup()
+
+    ## now, we need to define how to extract the vendor scan number from the 'id' attribute in mzML:
+    # Bruker may have:
+    # <spectrum index="0" id="scan=19" defaultArrayLength="15">
+    # thus we can use (this would also work for Thermo native IDs)
+    lookup.readSpectra(inp, "scan=(?<SCAN>\d+)")       ## required: creates an internal look-up table
+
+    vendor_scan_nrs = [19, 21]  ## our test.mzML contains 4 spectra, starting at scan=19
+
+    filtered = oms.MSExperiment()  ## our result, with all spectra we were looking for
+    for v_scan_nr in vendor_scan_nrs:
+      filtered.addSpectrum(inp[lookup.findByScanNumber(v_scan_nr)])
+
+    filtered.size()         ## prints '2'
+    filtered.updateRanges() ## make sure RT and m/z ranges are up to date
 
 
 Filtering Mass Spectra and Peaks
@@ -697,13 +741,30 @@ We can easily filter our data accordingly:
             filtered.addSpectrum(s)
 
     # filtered only contains only fragment spectra with peaks in range [mz_start, mz_end]
+    
+For this simple example, you can achieve the same thing using :py:class:`~.PeakFileOptions` when loading the data:
+
+.. code-block:: python
+    :linenos:
+
+    # Create a PeakFileOptions object
+    options = oms.PeakFileOptions()
+    options.setMSLevels([2])  # Load only MS level 2
+    options.setMZRange(oms.DRange1(oms.DPosition1(mz_start),oms.DPosition1(mz_end)))
+
+    # Load the mzML file with the specified options
+    mzml = oms.MzMLFile()
+    mzml.setOptions(options)  # Apply the options
+    mzml.load("test.mzML", filtered)
+
+    # 'filtered' now only contains spectra with MS level == 2, and each spectrum has peaks with m/z values between 6-12
 
 Note that in a real-world application, we would set the ``mz_start`` and
 ``mz_end`` parameter to an actual area of interest, for example the area
 between 125 and 132 which contains quantitative ions for a :term:`TMT` experiment.
 
-Similarly we could only retain peaks above a certain
-intensity or keep only the top N peaks in each mass spectrum.
+Similarly we could only retain spectra with a certain retention time or peaks with a certain intensity range.
+See :py:class:`~.PeakFileOptions` for details.
 
 For more advanced filtering tasks pyOpenMS provides special algorithm classes.
 We will take a closer look at some of them in the next section.

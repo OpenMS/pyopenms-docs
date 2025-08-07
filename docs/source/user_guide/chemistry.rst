@@ -5,6 +5,8 @@ OpenMS has representations for various chemical concepts including molecular
 formulas, isotopes, ribonucleotide and amino acid sequences as well as common
 modifications of amino acids or ribonucleotides.
 
+For an introduction to isotope patterns, see `Charge and Isotope Deconvolution <charge_isotope_deconvolution.html>`_.
+
 Constants
 ---------
 
@@ -315,7 +317,7 @@ which produces
     Ethanol has 6 hydrogen atoms
 
 
-Note how in line 5 we were able to make a new molecule by adding existing
+Note how in line 3 we were able to make a new molecule by adding existing
 molecules (for example by adding two :py:class:`~.EmpiricalFormula` objects). In this
 case, we illustrated how to make ethanol by adding a :chem:`CH2` methyl group to an
 existing methanol molecule. Note that OpenMS describes sum formulas with the

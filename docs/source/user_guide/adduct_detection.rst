@@ -3,9 +3,10 @@ Adduct Detection
 
 In mass spectrometry it is crucial to ionize analytes prior to detection, because they are accelerated and manipulated in electric fields, allowing their separation based on mass-to-charge ratio.
 This happens by addition of protons in positive mode or loss of protons in negative mode. Other ions present in the buffer solution can ionize the analyte as well, e.g. sodium, potassium or formic acid.
-Depending on the size and chemical compsition, multiple adducts can bind leading to multiple charges on the analyte. In metabolomics with smaller analytes the number of charges is typically low with one or two, whereas in proteomics the number of charges is much higher.
+Depending on the size and chemical compsition, multiple adducts can bind leading to multiple charges on the analyte. In metabolomics with smaller analytes the number of charges is typically low with one or two, whereas in proteomics the number of charges is potentially higher.
+
 Furthermore, analytes can loose functional groups during ionization, e.g. a neutral water loss.
-Since the ionization happens after liquid chromatography, different adducts for an analyte have similar retention times.
+Since the ionization happens after liquid chromatography, different adducts for an analyte have almost identical retention times.
 
 .. image:: img/adduct_detection.png
 

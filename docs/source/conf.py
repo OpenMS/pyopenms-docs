@@ -47,6 +47,10 @@ extensions = [
     'chemrole',
 ]
 
+## warn about invalid references (e.g. invalid class names)
+nitpicky = True              
+nitpick_ignore = []
+
 autosummary_generate = True
 autosummary_imported_members = True
 remove_from_toctrees = [
@@ -75,7 +79,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'pyOpenMS'
-copyright = f'{datetime.now().year}, OpenMS Team'
+copyright = u'{datetime.now().year}, OpenMS Inc'
 author = u'OpenMS Team'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -83,7 +87,7 @@ author = u'OpenMS Team'
 # built documents.
 #
 # The short X.Y version.
-version = u'3.2.0'
+version = u'3.4.0'
 # The full version, including alpha/beta/rc tags.
 release = version
 rtd_branch = os.environ.get('READTHEDOCS_GIT_IDENTIFIER', '')
@@ -146,6 +150,11 @@ html_theme_options = {
             "icon": "fa-brands fa-github",
             # The type of image to be used (see below for details)
             "type": "fontawesome",
+        },
+        {
+            "name": "Discord",
+            "url": "https://discord.com/invite/4TAGhqJ7s5",
+            "icon": "fa-brands fa-discord",
         },
         {
             "name": "PyPI",

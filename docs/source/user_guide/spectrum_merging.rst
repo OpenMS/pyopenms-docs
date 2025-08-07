@@ -2,7 +2,7 @@ Spectra Merge Algorithm
 *************************
 
 OpenMS provides spectra merging and averaging algorithms in :py:class:`~.SpectraMerger` class. Spectra merging is to merge multiple related spectra into a single one - thus, often we end up with a reduced number of spectra.
-For instance, MS1 spectra within a pre-defined retention time window or MS2 spectra from the same precursor ion. On the other hand, spectra averaging averages neighbouring spectra for each spectrum.
+For instance, MS1 spectra within a pre-defined retention time window or MS2 spectra from the same precursor ion. On the other hand, spectra averaging incorporates the signal from neighbouring spectra for each spectrum.
 Thus, the number of spectra remains the same after spectra averaging. Both merging and averaging attempt to increase the quality of spectrum by increasing its signal to noise ratio. 
 
 Spectra merging and averaging are implemented in SpectraMerger in pyOpenMS, which provides two merging (block wise and precursor method - see below) and two averaging methods (gaussian and tophat - see below).
@@ -98,7 +98,7 @@ Our first example merges MS1 spectra block wise.
 Above example clearly demonstrates the benefit of spectra merging.  The upper rows show the input spectra and the bottom the merged one. The merged spectrum (bottom) has far more signal peaks of higher intensities than the input spectra.
 
 By default, the method ``mergeSpectraBlockWise`` of :py:class:`~.SpectraMerger` merges 5 consecutive MS1 spectra into a block.
-The block size could be adjusted by using ``block_method:rt_block_size`` parameter as follow:
+The block size could be adjusted by using ``block_method:rt_block_size`` parameter as follows:
 
 .. code-block:: python
   :linenos:
@@ -157,7 +157,7 @@ The block size could be adjusted by using ``block_method:rt_block_size`` paramet
    :align: center
    :alt: Blockwise merging 10 scans vs. 5 scans
 
-As shown in the above figure, clearer signal peaks are obtained with 10 MS1 scans being merged than 5 MS1 scans. Note that the y-axis is in log scale. But if too many scans are merged,
+As shown in the above figure, clearer signal peaks are obtained with 10 MS1 scans being merged, compared to 5 MS1 scans we used before. Note that the y-axis is in log scale. But if too many scans are merged,
 spectra containing too different sets of molecules would be merged, yielding a poor quality spectrum. The users may want to try a few different parameters to produce spectra of optimal quality.
 
 MS2 spectra merging with precursor method
@@ -195,8 +195,8 @@ Next we perform MS2 spectra merging with precursor method by using the ``mergeSp
   Number of merged peaks: 0/0 (nan %) of blocked spectra
 
 In the above example, no MS2 spectra have been merged because no MS2 spectra had the same precursor m/z values (subject to tolerance) within retention time window.
-By default, the retention time window size is 5.0 seconds and the precursor m/z tolerance is 1e-4Th. If you opens the test.mzML file, you can see a few MS2 spectra (e.g., scan numbers 2077 and 2099)
-have quite close precursor m/z values (both have precursor m/z of 432.902Th), but they are apart from each other by about 10 seconds. We adjust both m/z tolerance and retention time so such MS2 spectra are merged together with ``precursor_method:mz_tolerance`` and ``precursor_method:rt_tolerance`` parameters.
+By default, the retention time window size is 5.0 seconds and the precursor m/z tolerance is 1e-4Th. If you open the test.mzML file, you can see a few MS2 spectra (e.g., scan numbers 2077 and 2099)
+have quite close precursor m/z values (both have precursor m/z of 432.902Th), but they are apart from each other by about 10 seconds. We adjust both m/z tolerance and retention time such that MS2 spectra are merged together with ``precursor_method:mz_tolerance`` and ``precursor_method:rt_tolerance`` parameters.
 
 .. code-block:: python
   :linenos:
@@ -292,11 +292,11 @@ Moreover, as in the above block wise merging, we can check that a merged MS2 spe
 Spectra averaging : gaussian and top hat methods
 ------------------------------------------------
 
-:py:class:`~.SpectraMerger` presents a method ``average`` to average peak intensities over neighbouring spectra for a given spectrum.
-As mentioned above, apart from spectra merging, the number of spectra after averaging does not change since it is carried out for each individual input spectrum.
+:py:class:`~.SpectraMerger` offers the method ``average`` to average peak intensities over neighbouring spectra for a given spectrum.
+As mentioned above, in contrast to spectra merging, the number of spectra after averaging does not change since it is carried out for each individual input spectrum.
 The two averaging methods (``gaussian`` or ``tophat``) determine how neighbouring spectra are collected and how weights for the averaging are determined.
 The ``gaussian`` method performs weighted average over the neighbouring spectra with weights having the shape of gaussian shape (i.e., sharply decreasing from the center).
-On the other hand, the ``tophat`` method, as the name implies, performs a simple averaging over the neighbouring spectra. Below we perform ``gaussian`` averaging method.
+On the other hand, the ``tophat`` method, as the name implies, performs a simple averaging over the neighbouring spectra (all weights are identical). Below, we perform ``gaussian`` averaging method.
 
 
 .. code-block:: python 
