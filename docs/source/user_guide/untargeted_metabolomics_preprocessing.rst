@@ -164,7 +164,7 @@ Map :term:`MS2` spectra to features as :py:class:`~.PeptideIdentification` objec
                     pep_ids = oms.PeptideIdentificationList()
                     for pep_id in feature.getPeptideIdentifications():
                         pep_id.setIdentifier(f"Identifier_{i}")
-                        pep_ids.append(pep_id)
+                        pep_ids.push_back(pep_id)
                     feature.setPeptideIdentifications(pep_ids)
                     fm_new.push_back(feature)
                 feature_maps_mapped.append(fm_new)

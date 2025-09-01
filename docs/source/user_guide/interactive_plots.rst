@@ -35,7 +35,7 @@ interactively zoomed-in if you execute the code in a notebook
     exp.updateRanges()
     expandcols = ["RT", "mz", "inty"]
     spectraarrs2d = exp.get2DPeakDataLong(
-        exp.getMinRT(), exp.getMaxRT(), exp.getMinMZ(), exp.getMaxMZ()
+        exp.getMinRT(), exp.getMaxRT(), exp.getMinMZ(), exp.getMaxMZ(), 1
     )
     spectradf = pd.DataFrame(dict(zip(expandcols, spectraarrs2d)))
     spectradf = spectradf.set_index(["RT", "mz"])
