@@ -47,7 +47,7 @@ from your :py:class:`~.ConsensusMap` that have no :term:`MS2` spectra annotated.
     filtered_map = oms.ConsensusMap(consensus_map)
     filtered_map.clear(False)
     for feature in consensus_map:
-        if feature.getPeptideIdentifications():
+        if feature.getPeptideIdentifications().size() > 0:
             filtered_map.push_back(feature)
 
     consensusXML_file = "filtered.consensusXML"

@@ -45,7 +45,7 @@ Next, load the PeptideIdentifications from an `.idXML` file:
 
 .. code-block:: python
 
-   peptide_ids = []
+   peptide_ids = oms.PeptideIdentificationList()
    protein_ids = []
    oms.IdXMLFile().load(idxml_file, protein_ids, peptide_ids)
 

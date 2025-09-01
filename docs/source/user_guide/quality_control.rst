@@ -43,7 +43,7 @@ proteomics and metabolomics quality metrics.
     oms.FeatureXMLFile().load("features.featureXML", feature_map)
 
     prot_ids = []  # list of ProteinIdentification()
-    pep_ids = []  # list of PeptideIdentification()
+    pep_ids = oms.PeptideIdentificationList()  # list of PeptideIdentification()
     # OPTIONAL: get protein and peptide identifications from idXML file
     urlretrieve(gh + "/src/data/OpenPepXL_output.idXML", "ids.idXML")
     oms.IdXMLFile().load("ids.idXML", prot_ids, pep_ids)

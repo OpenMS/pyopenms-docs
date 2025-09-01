@@ -17,7 +17,7 @@ You can store and load identification data from an `idXML` file as follows:
     gh = gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/IdXMLFile_whole.idXML", "test.idXML")
     protein_ids = []
-    peptide_ids = []
+    peptide_ids = oms.PeptideIdentificationList()
     oms.IdXMLFile().load("test.idXML", protein_ids, peptide_ids)
     oms.IdXMLFile().store("test.out.idXML", protein_ids, peptide_ids)
 
@@ -31,7 +31,7 @@ You can store and load identification data from an `mzIdentML` file as follows:
     gh = gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/MzIdentML_3runs.mzid", "test.mzid")
     protein_ids = []
-    peptide_ids = []
+    peptide_ids = oms.PeptideIdentificationList()
     oms.MzIdentMLFile().load("test.mzid", protein_ids, peptide_ids)
     oms.MzIdentMLFile().store("test.out.mzid", protein_ids, peptide_ids)
 ..  # alternatively: -- dont do this, doesnt work
@@ -48,7 +48,7 @@ You can store and load identification data from a TPP `pepXML` file as follows:
     gh = gh = "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master"
     urlretrieve(gh + "/src/data/PepXMLFile_test.pepxml", "test.pepxml")
     protein_ids = []
-    peptide_ids = []
+    peptide_ids = oms.PeptideIdentificationList()
     oms.PepXMLFile().load("test.pepxml", protein_ids, peptide_ids)
     oms.PepXMLFile().store("test.out.pepxml", protein_ids, peptide_ids)
 

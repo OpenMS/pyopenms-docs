@@ -161,7 +161,8 @@ We can now display the peptides we just stored:
   :linenos:
 
   # Iterate over PeptideIdentification
-  peptide_ids = [peptide_id]
+  peptide_ids = oms.PeptideIdentificationList()
+  peptide_ids.push_back(peptide_id)
   for peptide_id in peptide_ids:
       # Peptide identification values
       print("Peptide ID m/z:", peptide_id.getMZ())
@@ -193,7 +194,7 @@ discussed :ref:`anchor-other-id-data`) which we would do as follows:
   oms.IdXMLFile().store("out.idXML", [protein_id], peptide_ids)
   # and load it back into memory
   prot_ids = []
-  pep_ids = []
+  pep_ids = oms.PeptideIdentificationList()
   oms.IdXMLFile().load("out.idXML", prot_ids, pep_ids)
 
   # Iterate over all protein hits

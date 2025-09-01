@@ -31,7 +31,7 @@ a fasta database of protein sequences:
     urlretrieve(gh + "/src/data/SimpleSearchEngine_1.mzML", "searchfile.mzML")
     urlretrieve(gh + "/src/data/SimpleSearchEngine_1.fasta", "search.fasta")
     protein_ids = []
-    peptide_ids = []
+    peptide_ids = oms.PeptideIdentificationList()
     oms.SimpleSearchEngineAlgorithm().search(
         "searchfile.mzML", "search.fasta", protein_ids, peptide_ids
     )
@@ -143,9 +143,9 @@ ppm\ (\pm 2\ ppm)`, we expect that we will not find the hit at :math:`775.38` m/
     salgo.setParameters(p)
 
     protein_ids = []
-    peptide_ids = []
+    peptide_ids = oms.PeptideIdentificationList()
     salgo.search("searchfile.mzML", "search.fasta", protein_ids, peptide_ids)
-    print("Found", len(peptide_ids), "peptides")
+    print("Found", peptide_ids.size(), "peptides")
 
 As we can see, using a smaller precursor mass tolerance leads the algorithm to
 find only one hit instead of two. Similarly, if we use the wrong enzyme for
@@ -189,7 +189,7 @@ Now include some additional decoy database generation step as well as subsequent
 
     # Run SimpleSearchAlgorithm, store protein and peptide ids
     protein_ids = []
-    peptide_ids = []
+    peptide_ids = oms.PeptideIdentificationList()
 
     # set some custom search parameters
     simplesearch = oms.SimpleSearchEngineAlgorithm()
@@ -224,7 +224,7 @@ This is done by applying one of the available protein inference algorithms on th
     :linenos:
 
     protein_ids = []
-    peptide_ids = []
+    peptide_ids = oms.PeptideIdentificationList()
 
     # Re-run search since we need to keep decoy hits for inference
     simplesearch.search(searchfile, target_decoy_database, protein_ids, peptide_ids)
