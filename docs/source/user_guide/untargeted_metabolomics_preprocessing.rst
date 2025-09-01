@@ -141,7 +141,7 @@ Map :term:`MS2` spectra to features as :py:class:`~.PeptideIdentification` objec
             if feature_map.getMetaValue("spectra_data")[
                 0
             ].decode() == exp.getMetaValue("mzML_path"):
-                peptide_ids = []
+                peptide_ids = oms.PeptideIdentificationList()
                 protein_ids = []
                 mapper.annotate(
                     feature_map,
@@ -161,7 +161,7 @@ Map :term:`MS2` spectra to features as :py:class:`~.PeptideIdentification` objec
                     prot_ids.append(prot_id)
                 fm_new.setProteinIdentifications(prot_ids)
                 for feature in feature_map:
-                    pep_ids = []
+                    pep_ids = oms.PeptideIdentificationList()
                     for pep_id in feature.getPeptideIdentifications():
                         pep_id.setIdentifier(f"Identifier_{i}")
                         pep_ids.append(pep_id)

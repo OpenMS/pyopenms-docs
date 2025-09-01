@@ -75,17 +75,14 @@ interactively zoomed-in if you execute the code in a notebook
             min_alpha=0,
         )
         .opts(active_tools=["box_zoom"], tools=["hover"], hooks=[new_bounds_hook])
-        .opts(  # weird.. I have no idea why one has to do this. But with one opts you will get an error
-            plot=dict(
-                width=800,
-                height=800,
-                xlabel="Retention time (s)",
-                ylabel="mass/charge (Da)",
-            )
-        )
     )
 
-    hd.dynspread(raster, threshold=0.7, how="add", shape="square")
+hd.dynspread(raster, threshold=0.7, how="add", shape="square").opts(
+    width=800,
+    height=800,
+    xlabel="Retention time (s)",
+    ylabel="mass/charge (Da)",
+)
 
 
 Result:
