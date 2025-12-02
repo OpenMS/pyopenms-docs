@@ -23,6 +23,7 @@ import shutil
 import urllib.request
 import contextlib
 import sys
+import datetime
 
 sys.path.append(os.path.abspath("./_ext"))
 
@@ -78,7 +79,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'pyOpenMS'
-copyright = '%Y, OpenMS Inc'
+copyright = u'{date.today().year}, OpenMS Inc'
 author = u'OpenMS Team'
 
 # The version info for the project you're documenting, acts as replacement for
