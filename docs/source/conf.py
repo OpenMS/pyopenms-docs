@@ -23,7 +23,7 @@ import shutil
 import urllib.request
 import contextlib
 import sys
-import datetime
+from datetime import date
 
 sys.path.append(os.path.abspath("./_ext"))
 
