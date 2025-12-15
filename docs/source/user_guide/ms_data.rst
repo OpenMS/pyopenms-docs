@@ -689,7 +689,87 @@ to only retain a list of MS scans we are interested in:
         if k in scan_nrs:
             filtered.addSpectrum(s)
             
-Note: the scan numbers are the index of the respective spectra in the data file (mzML). This may not be identical to the vendor scan number, especially if the data has been sliced/filtered before.            
+Note: the scan numbers are the index of the respective spectra in the data file (mzML). This may not be identical to the vendor scan number, especially if the data has been sliced/filtered before.
+
+
+Filtering by Native ID Pattern
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Each spectrum and chromatogram in an mzML file has a native ID that provides information about the scan. 
+We can filter spectra by matching patterns in their native IDs.
+
+For example, to filter spectra whose native ID contains a specific string:
+
+.. code-block:: python
+    :linenos:
+
+    # Filter spectra by native ID pattern
+    filter_string = "scan=20"  # Keep only spectra with "scan=20" in their native ID
+    
+    filtered = oms.MSExperiment()
+    for s in inp:
+        if filter_string in s.getNativeID():
+            filtered.addSpectrum(s)
+    
+    # Print the native IDs of filtered spectra
+    for s in filtered:
+        print(s.getNativeID())
+
+For more advanced pattern matching (e.g., regular expressions), you can use Python's ``re`` module:
+
+.. code-block:: python
+    :linenos:
+
+    import re
+    
+    # Filter spectra using a regular expression pattern
+    pattern = re.compile(r"scan=(19|21)")  # Match scan=19 or scan=21
+    
+    filtered = oms.MSExperiment()
+    for s in inp:
+        if pattern.search(s.getNativeID()):
+            filtered.addSpectrum(s)
+    
+    print(f"Filtered {filtered.size()} spectra")
+
+For memory-efficient filtering of large files, you can use a consumer-based approach as shown in the 
+`Reading Raw MS Data <reading_raw_ms_data.html#mzml-files-as-streams>`_ section. Here's an example:
+
+.. code-block:: python
+    :linenos:
+
+    class FilteringConsumer:
+        """
+        Consumer that filters spectra and chromatograms by native ID pattern
+        """
+        
+        def __init__(self, consumer, filter_string):
+            self._internal_consumer = consumer
+            self._filter_string = filter_string
+        
+        def setExperimentalSettings(self, s):
+            self._internal_consumer.setExperimentalSettings(s)
+        
+        def setExpectedSize(self, a, b):
+            self._internal_consumer.setExpectedSize(a, b)
+        
+        def consumeChromatogram(self, c):
+            if self._filter_string in c.getNativeID():
+                self._internal_consumer.consumeChromatogram(c)
+        
+        def consumeSpectrum(self, s):
+            if self._filter_string in s.getNativeID():
+                self._internal_consumer.consumeSpectrum(s)
+    
+    # Use the filtering consumer
+    consumer = oms.PlainMSDataWritingConsumer("filtered_output.mzML")
+    consumer = FilteringConsumer(consumer, "scan=2")
+    
+    oms.MzMLFile().transform("test.mzML", consumer)
+
+This consumer-based approach is particularly useful when working with large files that don't fit in memory,
+as it processes spectra one at a time without loading the entire file.
+            
             
 Advanced Filtering of NativeID via SpectrumLookup
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
