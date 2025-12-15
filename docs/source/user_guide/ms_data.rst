@@ -697,7 +697,7 @@ Filtering by Native ID Pattern
 
 Each spectrum and chromatogram in an mzML file has a native ID that provides information about the scan. 
 Native IDs typically look like ``scan=12345`` (Bruker/Thermo) or ``controllerType=0 controllerNumber=1 scan=12345`` 
-(depending on the instrument vendor). We can filter spectra by matching patterns in their native IDs.
+(depending on the instrument vendor and acquisition settings). We can filter spectra by matching patterns in their native IDs.
 
 For example, to filter spectra whose native ID contains a specific string:
 
@@ -705,7 +705,8 @@ For example, to filter spectra whose native ID contains a specific string:
     :linenos:
 
     # Filter spectra by native ID pattern (using substring matching)
-    filter_string = "scan=20"  # Keep spectra with "scan=20" anywhere in native ID (e.g., "scan=20", "scan=200", "scan=2000")
+    # Note: This uses substring matching, so "scan=20" will match "scan=20", "scan=200", "scan=2000", etc.
+    filter_string = "scan=20"
     
     filtered = oms.MSExperiment()
     for s in inp:
@@ -723,8 +724,9 @@ For more advanced pattern matching (e.g., regular expressions), you can use Pyth
 
     import re
     
-    # Filter spectra using a regular expression pattern
-    pattern = re.compile(r"scan=(19|21)")  # Match scan=19 or scan=21
+    # Filter spectra using a regular expression pattern for exact scan number matching
+    # The \b word boundary ensures exact matches (e.g., matches "scan=19" but not "scan=190")
+    pattern = re.compile(r"scan=(19|21)\b")  # Match exactly scan=19 or scan=21
     
     filtered = oms.MSExperiment()
     for s in inp:
