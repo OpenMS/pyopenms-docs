@@ -3,7 +3,6 @@ sphinx==9.0.4
 pydata-sphinx-theme
 readthedocs-sphinx-search
 sphinx-copybutton
-sphinx-hoverxref
 sphinx-remove-toctrees
 ## for pygment coloring of code snippets using ipython syntax
 ipython
