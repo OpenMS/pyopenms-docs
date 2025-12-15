@@ -19,7 +19,6 @@ interactively zoomed-in if you execute the code in a notebook
     import holoviews.operation.datashader as hd
     from holoviews.plotting.util import process_cmap
     from holoviews import opts, dim
-    import sys
 
     hv.extension("bokeh")
 
@@ -29,9 +28,16 @@ interactively zoomed-in if you execute the code in a notebook
     loadopts.setMSLevels([1])
     loadopts.setSkipXMLChecks(True)
     loadopts.setIntensity32Bit(True)
-    loadopts.setIntensityRange(oms.DRange1(oms.DPosition1(5000), oms.DPosition1(sys.maxsize)))
     loader.setOptions(loadopts)
     loader.load("../../../src/data/BSA1.mzML", exp)
+
+    # Filter out low-intensity peaks using ThresholdMower
+    threshold_filter = oms.ThresholdMower()
+    params = threshold_filter.getDefaults()
+    params.setValue(b"threshold", 5000.0)
+    threshold_filter.setParameters(params)
+    threshold_filter.filterPeakMap(exp)
+
     exp.updateRanges()
     expandcols = ["RT", "mz", "inty"]
     spectraarrs2d = exp.get2DPeakDataLong(
@@ -77,12 +83,12 @@ interactively zoomed-in if you execute the code in a notebook
         .opts(active_tools=["box_zoom"], tools=["hover"], hooks=[new_bounds_hook])
     )
 
-hd.dynspread(raster, threshold=0.7, how="add", shape="square").opts(
-    width=800,
-    height=800,
-    xlabel="Retention time (s)",
-    ylabel="mass/charge (Da)",
-)
+    hd.dynspread(raster, threshold=0.7, how="add", shape="square").opts(
+        width=800,
+        height=800,
+        xlabel="Retention time (s)",
+        ylabel="mass/charge (Da)",
+    )
 
 
 Result:
