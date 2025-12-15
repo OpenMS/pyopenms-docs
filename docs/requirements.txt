@@ -1,15 +1,12 @@
-# Defining the exact version will make sure things don't break
-sphinx==6.1.0
-pydata_sphinx_theme
-readthedocs-sphinx-search==0.3.2
-sphinx-copybutton==0.5.1
-sphinx-hoverxref
+# Updated to use latest compatible versions as of December 2025.
+sphinx==9.0.4
+pydata-sphinx-theme
+readthedocs-sphinx-search
+sphinx-copybutton
 sphinx-remove-toctrees
 ## for pygment coloring of code snippets using ipython syntax
 ipython
 pygments-lexer-pseudocode
-# Dependency of Sphinx, the 3.0 release breaks it (currently)
-snowballstemmer<3
 
 --extra-index-url https://pypi.cs.uni-tuebingen.de/simple/
 pyopenms

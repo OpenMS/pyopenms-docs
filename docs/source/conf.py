@@ -23,6 +23,7 @@ import shutil
 import urllib.request
 import contextlib
 import sys
+from datetime import date
 
 sys.path.append(os.path.abspath("./_ext"))
 
@@ -39,7 +40,7 @@ from sys import platform
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'glossary_warnings', 'hoverxref.extension',
+    'glossary_warnings',
     'sphinx_copybutton', 'sphinx.ext.autodoc',
     'sphinx.ext.autosummary', 'sphinx.ext.mathjax',
     'sphinx_remove_toctrees',
@@ -58,12 +59,6 @@ remove_from_toctrees = [
     "apidocs/_autosummary/pyopenmssubmodules/pyopenms.plotting.*.rst"]
 autodoc_docstring_signature = True
 
-# configure tooltips
-hoverxref_roles = ['term', ]
-hoverxref_role_types = {'term': 'tooltip', }
-# specific for pyopenms documentation
-hoverxref_tooltip_lazy = True
-
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
@@ -78,7 +73,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'pyOpenMS'
-copyright = u'2024, OpenMS Inc'
+copyright = f'{date.today().year}, OpenMS Inc'
 author = u'OpenMS Team'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -86,7 +81,7 @@ author = u'OpenMS Team'
 # built documents.
 #
 # The short X.Y version.
-version = u'3.4.0'
+version = u'3.5.0'
 # The full version, including alpha/beta/rc tags.
 release = version
 rtd_branch = os.environ.get('READTHEDOCS_GIT_IDENTIFIER', '')
