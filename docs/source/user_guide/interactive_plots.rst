@@ -19,7 +19,6 @@ interactively zoomed-in if you execute the code in a notebook
     import holoviews.operation.datashader as hd
     from holoviews.plotting.util import process_cmap
     from holoviews import opts, dim
-    import sys
 
     hv.extension("bokeh")
 
@@ -29,7 +28,6 @@ interactively zoomed-in if you execute the code in a notebook
     loadopts.setMSLevels([1])
     loadopts.setSkipXMLChecks(True)
     loadopts.setIntensity32Bit(True)
-    loadopts.setIntensityRange(oms.DRange1(oms.DPosition1(5000), oms.DPosition1(sys.maxsize)))
     loader.setOptions(loadopts)
     loader.load("../../../src/data/BSA1.mzML", exp)
     exp.updateRanges()
