@@ -30,6 +30,14 @@ interactively zoomed-in if you execute the code in a notebook
     loadopts.setIntensity32Bit(True)
     loader.setOptions(loadopts)
     loader.load("../../../src/data/BSA1.mzML", exp)
+
+    # Filter out low-intensity peaks using ThresholdMower
+    threshold_filter = oms.ThresholdMower()
+    params = threshold_filter.getDefaults()
+    params.setValue(b"threshold", 5000.0)
+    threshold_filter.setParameters(params)
+    threshold_filter.filterPeakMap(exp)
+
     exp.updateRanges()
     expandcols = ["RT", "mz", "inty"]
     spectraarrs2d = exp.get2DPeakDataLong(
