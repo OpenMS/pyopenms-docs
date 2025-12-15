@@ -696,15 +696,16 @@ Filtering by Native ID Pattern
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Each spectrum and chromatogram in an mzML file has a native ID that provides information about the scan. 
-We can filter spectra by matching patterns in their native IDs.
+Native IDs typically look like ``scan=12345`` (Bruker/Thermo) or ``controllerType=0 controllerNumber=1 scan=12345`` 
+(depending on the instrument vendor). We can filter spectra by matching patterns in their native IDs.
 
 For example, to filter spectra whose native ID contains a specific string:
 
 .. code-block:: python
     :linenos:
 
-    # Filter spectra by native ID pattern
-    filter_string = "scan=20"  # Keep only spectra with "scan=20" in their native ID
+    # Filter spectra by native ID pattern (using substring matching)
+    filter_string = "scan=20"  # Keep spectra with "scan=20" anywhere in native ID (e.g., "scan=20", "scan=200", "scan=2000")
     
     filtered = oms.MSExperiment()
     for s in inp:
@@ -763,7 +764,7 @@ For memory-efficient filtering of large files, you can use a consumer-based appr
     
     # Use the filtering consumer
     consumer = oms.PlainMSDataWritingConsumer("filtered_output.mzML")
-    consumer = FilteringConsumer(consumer, "scan=2")
+    consumer = FilteringConsumer(consumer, "scan=200")  # Filters spectra with "scan=200" in native ID
     
     oms.MzMLFile().transform("test.mzML", consumer)
 
