@@ -6,6 +6,7 @@ scikit-learn
 tabulate
 requests
 bokeh
+jupyter_bokeh
 datashader
 holoviews
 pyviz_comms

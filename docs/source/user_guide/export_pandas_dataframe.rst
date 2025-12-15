@@ -110,7 +110,7 @@ PeptideIdentification
 
     urlretrieve(url + "small.idXML", "small.idXML")
     prot_ids = []
-    pep_ids = []
+    pep_ids = oms.PeptideIdentificationList()
     oms.IdXMLFile().load("small.idXML", prot_ids, pep_ids)
 
     df = oms.peptide_identifications_to_df(pep_ids)
