@@ -19,9 +19,4 @@ This folder contains example scripts using pyOpenMS:
 - `pymol_example.py`
     * An example of mapping identified peptide sequences from an MS/MS
       experiment onto a 3D crystal strucutre of a protein using Python with
-      `pymol`. 
-- `runPhosphoScoring.py`
-    * An implementation of a phospho-site scoring algorithm completely in
-      Python using the available OpenMS data structures. It compares its result
-      with the search-engine provided result and the one of the AScore
-      algorithm as implemented in OpenMS.
+      `pymol`.
