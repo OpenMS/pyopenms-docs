@@ -10,13 +10,13 @@ from pathlib import Path
 
 def get_version_from_conf():
     """Extract version from docs/source/conf.py"""
-    conf_path = Path(__file__).parent / "source" / "conf.py"
+    conf_path = Path(__file__).parent.resolve() / "source" / "conf.py"
     
-    with open(conf_path, 'r') as f:
+    with open(conf_path, 'r', encoding='utf-8') as f:
         content = f.read()
     
-    # Look for version = u'X.Y.Z' pattern
-    match = re.search(r"version\s*=\s*u?['\"]([^'\"]+)['\"]", content)
+    # Look for version = u'X.Y.Z' pattern (with word boundary to be more specific)
+    match = re.search(r"\bversion\s*=\s*u?['\"]([^'\"]+)['\"]", content)
     
     if match:
         version = match.group(1)
