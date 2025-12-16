@@ -23,6 +23,7 @@ Once the environment is active, you can install all required python packages usi
 
     cd <pyOpenMS_dir>/docs
     pip install -r requirements.txt
+    python install_pyopenms.py
 
 
 To build the docs run the line below (works on all operating systems), but make sure that your working dir is `<pyOpenMS_dir>/docs` (see above):
