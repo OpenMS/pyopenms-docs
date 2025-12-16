@@ -40,7 +40,7 @@ from sys import platform
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'glossary_warnings',
+    'glossary_warnings', 'hoverxref.extension',
     'sphinx_copybutton', 'sphinx.ext.autodoc',
     'sphinx.ext.autosummary', 'sphinx.ext.mathjax',
     'sphinx_remove_toctrees',
@@ -58,6 +58,12 @@ remove_from_toctrees = [
     "apidocs/_autosummary/pyopenmssubmodules/pyopenms.Constants.*.rst",
     "apidocs/_autosummary/pyopenmssubmodules/pyopenms.plotting.*.rst"]
 autodoc_docstring_signature = True
+
+# configure tooltips
+hoverxref_roles = ['term', ]
+hoverxref_role_types = {'term': 'tooltip', }
+# specific for pyopenms documentation
+hoverxref_tooltip_lazy = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

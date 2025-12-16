@@ -40,6 +40,20 @@ div.admonition-video > p.admonition-title::after {
   content: "\f008";
 }
 
+/*terms with tooltips*/
+
+a.hxr-hoverxref {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--color-link-underline);
+  border-bottom: none;
+}
+
+a.hxr-hoverxref:hover {
+  text-decoration-color: var(--color-link-underline--hover);
+}
+
 /* second column of API autosummaries should break more and be a bit smaller */
 table.autosummary td:nth-child(2) {
   FONT-WEIGHT: 300;
