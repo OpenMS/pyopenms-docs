@@ -56,12 +56,12 @@ def install_pyopenms(version):
     # Build pip install command
     cmd = [
         sys.executable, "-m", "pip", "install",
-        "--extra-index-url", "https://pypi.cs.uni-tuebingen.de/simple/",
-        "--pre"  # Allow pre-release versions
+        "--extra-index-url", "https://pypi.cs.uni-tuebingen.de/simple/"
     ]
     
     if version == 'latest':
-        print("Installing latest version of pyopenms")
+        print("Installing latest version of pyopenms (including pre-releases)")
+        cmd.append("--pre")  # Allow pre-release versions only for latest
         cmd.append("pyopenms")
     else:
         print(f"Installing pyopenms=={version}")
