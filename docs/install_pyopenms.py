@@ -1,46 +1,72 @@
 #!/usr/bin/env python
 """
-Script to install pyopenms with the version specified in conf.py
+Script to install pyopenms with the version from ReadTheDocs environment variable.
 This is used by ReadTheDocs build process to ensure the correct version is installed.
 """
 import subprocess
 import sys
+import os
 import re
-from pathlib import Path
 
-def get_version_from_conf():
-    """Extract version from docs/source/conf.py"""
-    conf_path = Path(__file__).parent.resolve() / "source" / "conf.py"
+def get_version_from_rtd():
+    """
+    Extract version from READTHEDOCS_VERSION_NAME environment variable.
     
-    with open(conf_path, 'r', encoding='utf-8') as f:
-        content = f.read()
+    The variable will be:
+    - "latest" for latest builds
+    - "release/X.Y.Z" for release branches
+    - Tag names for tag builds
     
-    # Look for version = u'X.Y.Z' pattern (with word boundary to be more specific)
-    match = re.search(r"\bversion\s*=\s*u?['\"]([^'\"]+)['\"]", content)
+    Returns the version to install (e.g., "3.5.0" or "latest")
+    """
+    rtd_version = os.environ.get('READTHEDOCS_VERSION_NAME', '')
     
-    if match:
-        version = match.group(1)
-        print(f"Found version in conf.py: {version}")
+    if not rtd_version:
+        print("Warning: READTHEDOCS_VERSION_NAME not set, defaulting to 'latest'")
+        return 'latest'
+    
+    print(f"READTHEDOCS_VERSION_NAME: {rtd_version}")
+    
+    # If it's "latest", install latest version
+    if rtd_version == "latest":
+        return 'latest'
+    
+    # If it's a release branch like "release/3.5.0" or "Release/3.5.0", extract the version
+    if rtd_version.lower().startswith('release/'):
+        version = rtd_version.split('/', 1)[1]
+        print(f"Extracted version from release branch: {version}")
         return version
-    else:
-        raise ValueError("Could not find version in conf.py")
+    
+    # If it looks like a version tag (e.g., "v3.5.0", "3.5.0"), use it directly
+    # Strip leading 'v' if present
+    version = rtd_version.lstrip('v')
+    print(f"Using version from tag: {version}")
+    return version
 
 def install_pyopenms(version):
-    """Install pyopenms with specific version"""
-    print(f"Installing pyopenms=={version}")
+    """Install pyopenms with specific version or latest"""
     
-    # Use the extra index URL for pyopenms
-    subprocess.check_call([
+    # Build pip install command
+    cmd = [
         sys.executable, "-m", "pip", "install",
         "--extra-index-url", "https://pypi.cs.uni-tuebingen.de/simple/",
-        f"pyopenms=={version}"
-    ])
+        "--pre"  # Allow pre-release versions
+    ]
     
-    print(f"Successfully installed pyopenms=={version}")
+    if version == 'latest':
+        print("Installing latest version of pyopenms")
+        cmd.append("pyopenms")
+    else:
+        print(f"Installing pyopenms=={version}")
+        cmd.append(f"pyopenms=={version}")
+    
+    subprocess.check_call(cmd)
+    
+    print(f"Successfully installed pyopenms")
 
 if __name__ == "__main__":
     try:
-        version = get_version_from_conf()
+        version = get_version_from_rtd()
         install_pyopenms(version)
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
