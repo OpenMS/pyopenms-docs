@@ -1,5 +1,5 @@
 # Updated to use latest compatible versions as of December 2025.
-sphinx==8.2.4
+sphinx==8.2.3
 pydata-sphinx-theme
 readthedocs-sphinx-search
 sphinx-copybutton
