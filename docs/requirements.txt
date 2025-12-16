@@ -8,5 +8,5 @@ sphinx-remove-toctrees
 ipython
 pygments-lexer-pseudocode
 
---extra-index-url https://pypi.cs.uni-tuebingen.de/simple/
-pyopenms
+# Note: pyopenms is installed via docs/install_pyopenms.py script
+# which reads the version from docs/source/conf.py to ensure version consistency
