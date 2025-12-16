@@ -39,7 +39,14 @@ def get_version_from_rtd():
     
     # If it looks like a version tag (e.g., "v3.5.0", "3.5.0"), use it directly
     # Strip leading 'v' if present
-    version = rtd_version.lstrip('v')
+    version = rtd_version[1:] if rtd_version.startswith('v') else rtd_version
+    
+    # Validate that it looks like a version number (basic check)
+    # Accept versions like "3.5.0", "3.5.0rc1", "3.5.0.dev1", etc.
+    if not re.match(r'^\d+\.\d+', version):
+        print(f"Warning: '{version}' does not look like a valid version, using 'latest'")
+        return 'latest'
+    
     print(f"Using version from tag: {version}")
     return version
 
