@@ -1,3 +1,4 @@
+// script below is used by Matomo web analytics for web site usage statistics
 <script>
   var _paq = window._paq = window._paq || [];
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
