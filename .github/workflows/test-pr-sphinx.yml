@@ -24,7 +24,9 @@ jobs:
         python-version: '3.11' # Version range or exact version of a Python version to use, using SemVer's version range syntax    
 
     - name: Installing Dependencies
-      run: pip install -r docs/requirements.txt
+      run: |
+        pip install -r docs/requirements.txt
+        python install_pyopenms.py
 
     - name: Install PyOpenMS if URL is provided
       if: ${{ inputs.pyopenms_wheel_url != '' }}
