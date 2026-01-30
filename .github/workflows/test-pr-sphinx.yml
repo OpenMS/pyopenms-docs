@@ -26,7 +26,7 @@ jobs:
     - name: Installing Dependencies
       run: |
         pip install -r docs/requirements.txt
-        python install_pyopenms.py
+        python docs/install_pyopenms.py
 
     - name: Install PyOpenMS if URL is provided
       if: ${{ inputs.pyopenms_wheel_url != '' }}
