@@ -187,7 +187,7 @@ html_logo = 'img/pyOpenMSlogo_color.svg'
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
 # adding custom icons probably only possible with newest pydata theme version
-html_js_files = ["piwik.js", "custom.js"] #, "custom_icon.js"]
+html_js_files = ["piwik.js", "matomo.js", "custom.js"]
 
 # -- Options for HTMLHelp output ------------------------------------------
 
