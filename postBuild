@@ -1,9 +1,0 @@
-#!/bin/bash
-
-python3 -m pip install --index-url https://pypi.cs.uni-tuebingen.de/simple/ pyopenms
-
-# Those should be enabled by default on binder. For serving
-#jupyter serverextension enable --sys-prefix jupyter_server_proxy
-#jupyter labextension install @jupyterlab/server-proxy
-
-mkdir -p  ~/.jupyter/ && cp jupyter_notebook_config.py ~/.jupyter/

@@ -134,7 +134,7 @@ html_theme_options = {
         "json_url": "https://raw.githubusercontent.com/OpenMS/pyopenms-docs/master/docs/source/_static/switcher.json",
         "version_match": release
     },
-    "navbar_end": ["navbar-run-binder", "navbar-icon-links", "version-switcher"],
+    "navbar_end": ["navbar-icon-links", "version-switcher"],
     "navbar_persistent": [], # default: ["search-button"] but we don't need it since we use the search bar in the sidebar
     "use_edit_page_button": True,
     "logo": {

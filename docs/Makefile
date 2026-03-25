@@ -12,9 +12,6 @@ BUILDDIR      = build
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 	
-doc:
-	cd source ;bash generate_ipynb.sh
-
 .PHONY: help Makefile
 
 # Catch-all target: route all unknown targets to Sphinx using the new

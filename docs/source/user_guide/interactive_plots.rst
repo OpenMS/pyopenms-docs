@@ -5,8 +5,7 @@ With special plotting libraries like ``holoviews`` and ``datashader`` for big
 data visualization as well as ``bokeh`` for interactiveness, we can use the
 functionality of pyOpenMS to quickly create fully interactive views of
 mass spectrometry data. Here we plot a full map of :term:`MS1` that can be
-interactively zoomed-in if you execute the code in a notebook
-(e.g. on Binder, see the button on top of the page).
+interactively zoomed-in if you execute the code in a notebook.
 
 .. code-block:: python
     :linenos:
@@ -96,19 +95,5 @@ Result:
 .. image:: img/bokehms1.png
 
 
-With this you can also easily create whole dashboards like the one
-hosted `here <https://notebooks.gesis.org/binder/v2/gh/OpenMS/pyopenms-docs/master+ipynb?urlpath=msbokehapps>`_ on a Binder instance.
-If you are reading/executing this on Binder already, execute the next cell to get a link to your current instance.
-
-.. code-block:: python
-    :linenos:
-
-    import os
-    from IPython.display import Markdown as md
-
-    md(
-        "When you are in binder already, you can quickly open the app [here]({}/msbokehapps).".format(
-            os.getenv("JUPYTERHUB_SERVICE_PREFIX")
-        )
-    )
+With this you can also easily create whole dashboards.
 
