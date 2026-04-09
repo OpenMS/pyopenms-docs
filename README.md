@@ -1,4 +1,5 @@
-[![Documentation Status](https://readthedocs.org/projects/pyopenms/badge/?version=latest)](https://pyopenms.readthedocs.io/en/latest/?badge=latest)
+
+NOTE: !!! This repo has been merged into the OpenMS/OpenMS repo as a subtree !!!
 
 pyOpenMS Documentation
 ======================
